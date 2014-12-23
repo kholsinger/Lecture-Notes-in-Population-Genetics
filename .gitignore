@@ -9,3 +9,8 @@
 ## Don’t sync PDFs since they will be available elsewhere
 ##
 *.pdf
+
+## Don't sync local Perl scripts
+##
+*.pl
+
