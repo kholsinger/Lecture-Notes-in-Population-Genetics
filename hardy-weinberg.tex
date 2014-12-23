@@ -4,7 +4,7 @@
 \usepackage{graphicx}
 \usepackage{epstopdf}
 
-\newcommand{\copyrightYears}{2001-2012}
+\newcommand{\copyrightYears}{2001-2015}
 
 \title{The Hardy-Weinberg Principle and estimating allele frequencies}
 
@@ -87,11 +87,11 @@ Mating                 & Frequency     & $A_1A_1$ & $A_1A_2$ & $A_2A_2$ \\
 $A_1A_1 \times A_1A_1$ & $x_{11}^2$     &        1 &        0 &        0 \\
               $A_1A_2$ & $x_{11}x_{12}$ &    $\half$ &    $\half$ &        0 \\
               $A_2A_2$ & $x_{11}x_{22}$ &        0 &        1 &        0 \\
-$A_1A_2 \times A_1A_1$ & $x_{12}x_{11}$ &    $\half$ &    $\half$ &        0 \\ 
+$A_1A_2 \times A_1A_1$ & $x_{12}x_{11}$ &    $\half$ &    $\half$ &        0 \\
               $A_1A_2$ & $x_{12}^2$     &  $\fourth$ &    $\half$ &  $\fourth$ \\
               $A_2A_2$ & $x_{12}x_{22}$ &        0 &    $\half$ &    $\half$ \\
 $A_2A_2 \times A_1A_1$ & $x_{22}x_{11}$ &        0 &        1 &        0 \\
-              $A_1A_2$ & $x_{22}x_{12}$ &        0 &    $\half$ &    $\half$ \\   
+              $A_1A_2$ & $x_{22}x_{12}$ &        0 &    $\half$ &    $\half$ \\
               $A_2A_2$ & $x_{22}^2$     &        0 &         0 &
                        1 \\
 \hline
@@ -123,8 +123,8 @@ generation to the next:\index{Hardy-Weinberg assumptions}
   some organisms that subvert the Mendelian rules, e.g., the $t$
   allele in house mice, segregation distorter in {\it Drosophila
     melanogaster}, and spore killer in {\it Neurospora crassa\/}. A
-  pair of paper describing the most recent work in {\it Neurospora\/}
-  just appeared in July~\cite{Hammond-etal-2012,Saupe-2012}.
+  pair of papers describing work in {\it Neurospora\/} just appeared a
+  couple of years ago~\cite{Hammond-etal-2012,Saupe-2012}.
 
 \end{description}
 Now that we have this table we can use it to calculate the frequency
@@ -145,7 +145,7 @@ the actual frequency of offspring from each mating is equal to the
 Mendelian expectations.
 
 \item[Assumption \#6] All matings produce the same number of
-offspring, on average. 
+offspring, on average.
 
 \end{description}
 Taking these three assumptions together allows us to conclude that the
@@ -190,7 +190,7 @@ assumptions are satisfied
 \begin{eqnarray}
 \hbox{freq.}(A_1A_1\hbox{ in zygotes}) &=& p^2 \label{eq:hw-p2} \\
 \hbox{freq.}(A_1A_2\hbox{ in zygotes}) &=& 2pq \label{eq:hw-2pq} \\
-\hbox{freq.}(A_2A_2\hbox{ in zygotes}) &=& q^2 \label{eq:hw-q2} 
+\hbox{freq.}(A_2A_2\hbox{ in zygotes}) &=& q^2 \label{eq:hw-q2}
 \end{eqnarray}
 
 \noindent It's vital to understand the logic here.
@@ -198,17 +198,17 @@ assumptions are satisfied
 \begin{enumerate}
 
 \item If Assumptions \#1--\#8 are true, then equations
-  \ref{eq:p2}--\ref{eq:q2} {\bf must} be true.
+  \ref{eq:hw-p2}--\ref{eq:hw-q2} {\bf must} be true.
 
 \item If genotypes are in Hardy-Weinberg proportions, one or more of
-  Assumptions \#1--\#8 may still be violated. 
+  Assumptions \#1--\#8 may still be violated.
 
 \item If genotypes are {\it not\/} in Hardy-Weinberg proportions, one
   or more of Assumptions \#1--\#8 {\bf must} be false.
 
 \item Assumptions \#1--\#8 are {\it sufficient\/} for Hardy-Weinberg
   to hold, but they are not {\it necessary\/} for Hardy-Weinberg to
-  hold. 
+  hold.
 
 \end{enumerate}
 
@@ -378,20 +378,20 @@ $p$.\footnote{You'll be relieved to know that in this case, $\hat p =
 In the case of the ABO blood group that we just talked about, the
 likelihood is a bit more complicated
 \begin{equation}
-{N \choose N_A N_{AB} N_B N_O} 
-\left(p_a^2 + 2p_ap_o\right)^{N_A} 
-2p_ap_b^{N_{AB}} 
-\left(p_b^2 + 2p_bp_o\right)^{N_B} 
+{N \choose N_A N_{AB} N_B N_O}
+\left(p_a^2 + 2p_ap_o\right)^{N_A}
+2p_ap_b^{N_{AB}}
+\left(p_b^2 + 2p_bp_o\right)^{N_B}
 \left(p_o^2\right)^{N_O}
 \end{equation}
 This is a {\it multinomial probability
 distribution}. It turns out that one way to find the values of $p_a$,
 $p_b$, and $p_o$ is to use the EM algorithm I just
 described.\footnote{There's another way I'd be happy to describe if
-  you're interested, but it's a lot more complicated.} 
+  you're interested, but it's a lot more complicated.}
 
 \section*{An introduction to Bayesian inference}\index{Bayesian
-  inference} 
+  inference}
 
 Maximum-likelihood estimates have a lot of nice features, but
 likelihood is a slightly backwards way of looking at the world. The
@@ -423,20 +423,21 @@ inference.\footnote{If you'd like a little more information on why a
 
 \subsection*{Estimating allele frequencies with two alleles}
 
-Let's suppose we've collected data from a population of {\it Desmodium
-  cuspidatum}\footnote{A few of you may recognize that I didn't choose
-  that species entirely at random, even though the ``data'' are
-  entirely fanciful.} and have found 7 alleles coding for the {\it
-  fast\/} allele at a enzyme locus encoding glucose-phosphate
-isomerase in a sample of 20 alleles. We want to estimate the frequency
-of the {\it fast\/} allele. The maximum-likelihood estimate is $7/20 =
-0.35$, which we got by finding the value of $p$ that maximizes
+Let's suppose we've collected data from a population of {\it Protea
+  repens}\footnote{A few of you may recognize that I didn't choose
+  that species entirely at random, even though the ``data'' I'm
+  presenting here are entirely fanciful.} and have found 7 alleles
+coding for the {\it fast\/} allele at a enzyme locus encoding
+glucose-phosphate isomerase in a sample of 20 alleles. We want to
+estimate the frequency of the {\it fast\/} allele. The
+maximum-likelihood estimate is $7/20 = 0.35$, which we got by finding
+the value of $p$ that maximizes
 \begin{eqnarray*}
 \mbox{P}(p|N,k) &=& {N \choose k} p^k (1-p)^{N-k} \quad ,
 \end{eqnarray*}
 where $N=20$ and $k=7$. A Bayesian uses the same likelihood, but has
 to specify a prior distribution for $p$. If we didn't know anything
-about the allele frequency at this locus in {\it D. cuspidatum} before
+about the allele frequency at this locus in {\it P. repens} before
 starting the study, it makes sense to express that ignorance by
 choosing $\mbox{P}(p)$ to be a uniform random variable on the interval
 $[0,1]$. That means we regarded all values of $p$ as equally likely
@@ -445,18 +446,20 @@ prior to collecting the data.\footnote{If we had prior information
   distribution to reflect our prior information. See the Summer
   Institute notes for more information, if you're interested.}
 
-Until a little over fifteen years ago it was necessary to do a bunch
-of complicated calculus to combine the prior with the likelihood to
-get a posterior. Since the early 1990s statisticians have used a
+Until about 25 years ago\footnote{OK, I realize that 25 years ago was
+  before most of you were born, but I was already teaching population
+  genetics then. Cut me a little slack.} it was necessary to do a
+bunch of complicated calculus to combine the prior with the likelihood
+to get a posterior. Since the early 1990s statisticians have used a
 simulation approach, Monte Carlo Markov Chain sampling, to construct
 numerical samples from the posterior. For the problems encountered in
 this course, we'll mostly be using the freely available software
-package {\tt WinBUGS} to implement Bayesian analyses. For the problem
+package {\tt JAGS} to implement Bayesian analyses. For the problem
 we just encountered, here's the code that's needed to get our
-results:\footnote{This code and other {\tt WinBUGS} code used in the
+results:\footnote{This code and other {\tt JAGS} code used in the
   course can be found on the course web site by following the links
   associated with the corresponding
-  lecture.}\index{WinBUGS@\texttt{WinBUGS}}\index{MCMC sampling}
+  lecture.}\index{JAGS@\texttt{JAGS}}\index{MCMC sampling}
 \begin{verbatim}
 model {
 
@@ -467,44 +470,61 @@ model {
    p ~ dunif(0,1)
 
 }
-
-list(k = 7, n = 20)
 \end{verbatim}
-Running this in {\tt WinBUGS} produces the results in
-Figure~\ref{fig:binomial-results}.
+Running this in {\tt JAGS} with $k=7$ and $n=20$ produces these
+results:\footnote{Nora will show you how to run JAGS through {\tt R}
+  in lab.}
+\begin{verbatim}
+> source("binomial.R")
+Compiling model graph
+   Resolving undeclared variables
+   Allocating nodes
+   Graph Size: 5
 
-\begin{figure}
-\begin{center}
-  \resizebox{\textwidth}{!}{\includegraphics{binomial-results.eps}}
-\end{center}
-\caption{Results of a {\tt WinBUGS} analysis with the made up allele
-  count data from {\it Desmodium cuspidatum}.}
-\label{fig:binomial-results}
-\end{figure}
+Initializing model
 
-The column headings in Figure~\ref{fig:binomial-results} should be
-fairly self-explanatory, except for the one labeled {\tt MC
-  error}.\footnote{If you're interested in what {\tt MC error} means,
-  ask. Otherwise, I don't plan to say anything about it.} {\tt mean}
-is the posterior mean. It's our best guess of the value for the
-frequency of the {\it fast\/} allele. {\tt s.d.} is the posterior
-standard deviation. It's our best guess of the uncertainty associated
-with our estimate of the frequency of the {\it fast\/} allele. The
-2.5\%, 50\%, and 97.5\% columns are the percentiles of the posterior
-distribution. The [2.5\%, 97.5\%] interval is the 95\% credible
-interval, which is analogous to the 95\% confidence interval in
-classical statistics, except that we can say that there's a 95\%
-chance that the frequency of the {\it fast\/} allele lies within this
-interval.\footnote{If you don't understand why that's different from a
-  standard confidence interval, ask me about it.} Since the results
-are from a simulation, different runs will produce slightly different
-results. In this case, we have a posterior mean of about 0.36 (as
-opposed to the maximum-likelihood estimate of 0.35), and there is a
-95\% chance that $p$ lies in the interval [0.18, 0.57].\footnote{See
-  the Summer Institute notes for more details on why the Bayesian
-  estimate of $p$ is different from the maximum-likelihood
-  estimate. Suffice it to say that when you have a reasonable amount
-  of data, the estimates are barely distinguishable.}
+  |**************************************************| 100%
+Inference for Bugs model at "binomial.txt", fit using jags,
+ 5 chains, each with 2000 iterations (first 1000 discarded)
+ n.sims = 5000 iterations saved
+         mu.vect sd.vect  2.5%   25%   50%   75% 97.5%  Rhat n.eff
+p          0.363   0.099 0.187 0.290 0.358 0.431 0.567 1.001  3800
+deviance   4.289   1.264 3.382 3.487 3.817 4.579 7.909 1.001  3100
+
+For each parameter, n.eff is a crude measure of effective sample size,
+and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
+
+DIC info (using the rule, pD = var(deviance)/2)
+pD = 0.8 and DIC = 5.1
+DIC is an estimate of expected predictive error (lower deviance is better).
+>
+\end{verbatim}
+
+
+The column headings should be fairly self-explanatory, except for the
+one labeled {\tt MC error}.\footnote{If you're interested in what {\tt
+    MC error} means, ask. Otherwise, I don't plan to say anything
+  about it.} {\tt mean} is the posterior mean. It's our best guess of
+the value for the frequency of the {\it fast\/} allele. {\tt s.d.} is
+the posterior standard deviation. It's our best guess of the
+uncertainty associated with our estimate of the frequency of the {\it
+  fast\/} allele. The 2.5\%, 50\%, and 97.5\% columns are the
+percentiles of the posterior distribution. The [2.5\%, 97.5\%]
+interval is the 95\% credible interval, which is analogous to the 95\%
+confidence interval in classical statistics, except that we can say
+that there's a 95\% chance that the frequency of the {\it fast\/}
+allele lies within this interval.\footnote{If you don't understand why
+  that's different from a standard confidence interval, ask me about
+  it.} Since the results are from a simulation, different runs will
+produce slightly different results. In this case, we have a posterior
+mean of about 0.36 (as opposed to the maximum-likelihood estimate of
+0.35), and there is a 95\% chance that $p$ lies in the interval [0.19,
+0.57].\footnote{See the Summer Institute notes for more details on why
+  the Bayesian estimate of $p$ is different from the
+  maximum-likelihood estimate. Suffice it to say that when you have a
+  reasonable amount of data, the estimates are barely
+  distinguishable. Also, don't worry about what {\tt deviance\/} is or
+what {\tt DIC\/} means for the moment. We'll get to that later.}
 
 \section*{Returning to the ABO example}
 
@@ -528,11 +548,11 @@ frequencies:\footnote{Assuming genotypes are in Hardy-Weinberg
 \hbox{Freq}(B) &=& p_B^2 + 2p_Bp_O \\
 \hbox{Freq}(O) &=& p_O^2 \quad .
 \end{eqnarray*}
-Hers's the {\tt WinBUGS} code we use to estimate the allele
+Hers's the {\tt JAGS} code we use to estimate the allele
 frequencies:
 \begin{verbatim}
 model {
-   # likelihood 
+   # likelihood
    pi[1] <- p.a*p.a + 2*p.a*p.o
    pi[2] <- 2*p.a*p.b
    pi[3] <- p.b*p.b + 2*p.b*p.o
@@ -549,8 +569,6 @@ model {
 
    n <- sum(x[])
 }
-
-list(x=c(862, 131, 365, 702))
 \end{verbatim}
 The {\tt dmulti()} is a multinomial probability, a simple
 generalization of the binomial probability to samples when there are
@@ -561,20 +579,40 @@ two alleles.\footnote{It produces a Dirichlet(1,1,1), if you really
 trouble of calculating the sample size and ensures that the n in {\tt
   dmulti()} is consistent with the individual sample components. The
 {\tt x=c()} produces a vector of counts arranged in the same order as
-the frequencies in {\tt pi[]}. The results are in Figure~\ref{fig:abo}.
+the frequencies in {\tt pi[]}. Here are the results:
+\begin{verbatim}
+> source("multinomial.R")
+Compiling model graph
+   Resolving undeclared variables
+   Allocating nodes
+   Graph Size: 20
+
+Initializing model
+
+  |++++++++++++++++++++++++++++++++++++++++++++++++++| 100%
+  |**************************************************| 100%
+Inference for Bugs model at "multinomial.txt", fit using jags,
+ 5 chains, each with 2000 iterations (first 1000 discarded)
+ n.sims = 5000 iterations saved
+         mu.vect sd.vect   2.5%    25%    50%    75%  97.5%  Rhat n.eff
+p.a        0.282   0.008  0.266  0.276  0.282  0.287  0.297 1.001  5000
+p.b        0.129   0.005  0.118  0.125  0.129  0.133  0.140 1.001  5000
+p.o        0.589   0.008  0.573  0.584  0.589  0.595  0.606 1.001  5000
+deviance  27.811   2.007 25.830 26.363 27.229 28.577 33.245 1.001  4400
+
+For each parameter, n.eff is a crude measure of effective sample size,
+and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
+
+DIC info (using the rule, pD = var(deviance)/2)
+pD = 2.0 and DIC = 29.8
+DIC is an estimate of expected predictive error (lower deviance is better).
+>
+\end{verbatim}
 Notice that the posterior means are very close to the
 maximum-likelihood estimates, but that we also have 95\% credible
 intervals so that we have an assessment of how reliable the Bayesian
 estimates are. Getting them from a likelihood analysis is possible,
 but it takes a fair amount of additional work.
-
-\begin{figure}
-\begin{center}
-  \resizebox{\textwidth}{!}{\includegraphics{multinomial-results.eps}}
-\end{center}
-\caption{Results of a {\tt WinBUGS} analysis of the ABO data.}
-\label{fig:abo}
-\end{figure}
 
 \bibliography{popgen}
 \bibliographystyle{plain}

@@ -1,0 +1,11 @@
+## LaTeX files to ignore
+##
+*.aux
+*.bbl
+*.blg
+*.log
+*.synctex.gz
+
+## Don’t sync PDFs since they will be available elsewhere
+##
+*.pdf
