@@ -1,0 +1,646 @@
+\chapter{Genetic Drift}
+
+So far in this course we've talked about changes in genotype and
+allele frequencies as if they were completely deterministic. Given the
+current allele frequencies and viabilities, for example, we wrote down
+an equation describing how they will change from one generation to the
+next:
+\[
+p' = \frac{p^2w_{11} + pqw_{12}}{\bar w} \quad .
+\]
+Notice that in writing this equation, we're claiming that we can
+predict the allele frequency in the next generation {\it without
+error}. But suppose the population is small, say 10 diploid
+individuals, and our prediction is that $p' = 0.5$. Then just as we
+wouldn't be surprised if we flipped a coin 20 times and got 12 heads,
+we shouldn't be surprised if we found that $p' = 0.6$. The difference
+between what we expect ($p' = 0.5$) and what we observe ($p' = 0.6$)
+can be chalked up to statistical sampling error. That sampling error
+is the cause of~(or just another name for) {\it genetic
+drift}{\dash}the tendency for allele frequencies to change from one
+generation to the next in a finite population even if there is no
+selection.\index{genetic drift}
+
+\section*{A simple example}
+
+To understand in more detail what happens when there is genetic drift,
+let's consider the simplest possible example: a haploid population
+consisting of 2 individuals.\footnote{Notice that once we start
+talking about genetic drift, we have to specify the size of the
+population.} Suppose that there are initially two alleles in this
+population $A_1$ and $A_2$. This implies that $p = q = 0.5$, but we'll
+ignore that numerical fact and simply imagine that the frequency of
+the $A_1$ allele is $p$.
+
+We imagine the following scenario:
+
+\begin{itemize}
+
+\item Each individual in the population produces a very large number
+  of offspring.
+
+\item Each offspring is an identical copy of its parent, i.e., $A_1$
+  begets $A_1$ and $A_2$ begets $A_2$. In other words, there's no
+  mutation.
+
+\item The next generation is constructed by picking two offspring at
+  random from the very large number of offspring produced by these two
+  individuals.
+
+\end{itemize}
+
+\noindent Then it's not too hard to see that
+\begin{eqnarray*}
+\mbox{Probability that both offspring are $A_1$} &=& p^2 \\
+\mbox{Probability that one offspring is $A_1$ and one is $A_2$} &=& 2pq \\
+\mbox{Probability that both offspring are $A_2$} &=& q^2
+\end{eqnarray*}
+Of course $p = 1$ if both offspring sampled are $A_1$, $p = 1/2$ if
+one is $A_1$ and one is $A_2$, and $p = 0$ if both are $A_2$, so that
+set of equations is equivalent to this one:
+\begin{eqnarray}
+P(p=1) &=& p^2  \label{eq:p-1} \\
+P(p=1/2) &=& 2pq \\
+P(p=0) &=& q^2  \label{eq:p-2}
+\end{eqnarray}
+In other words, we can no longer predict with certainty what allele
+frequencies in the next generation will be. We can only assign
+probabilities to each of the three possible outcomes. Of course, in a
+larger population the amount of uncertainty about the allele
+frequencies will be smaller,\footnote{More about that later.} but
+there will be {\it some\/} uncertainty associated with the predicted
+allele frequencies unless the population is infinite.\index{genetic drift!uncertainty in allele frequencies}
+
+The probability of ending up in any of the three possible states
+obviously depends on the current allele frequency. In probability
+theory we express this dependence by writing equations
+(\ref{eq:p-1})--(\ref{eq:p-2}) as conditional
+probabilities:
+\begin{eqnarray}
+P(p_1=1|p_0) &=& p_0^2  \label{eq:p-1-1} \\
+P(p_1=1/2|p_0) &=& 2p_0q_0 \\
+P(p_1=0|p_0) &=& q_0^2  \label{eq:p-1-2}
+\end{eqnarray}
+I've introduced the subscripts so that we can distinguish among
+various generations in the process. Why? Because if we can write
+equations (\ref{eq:p-1-1})--(\ref{eq:p-1-2}), we can also write the
+following equations:\footnote{I know. I'm weird. I actually get a kick
+  out of writing equations!}
+\begin{eqnarray*}
+P(p_2=1|p_1) &=& p_1^2 \\
+P(p_2=1/2|p_1) &=& 2p_1q_1 \\
+P(p_2=0|p_1) &=& q_1^2 
+\end{eqnarray*}
+
+Now if we stare at those a little while, we\footnote{Or at least the
+weird ones among us} begin to see some interesting
+possibilities. Namely,
+
+\begin{eqnarray*}
+P(p_2=1|p_0) &=& P(p_2=1|p_1=1)P(p_1=1|p_0) + P(p_2=1|p_1=1/2)P(p_1=1/2|p_0) \\
+             &=& (1)(p_0^2) + (1/4)(2p_0q_0) \\
+             &=& p_0^2 + (1/2)p_0q_0 \\
+P(p_2=1/2|p_0) &=& P(p_2=1/2|p_1=1/2)P(p_1=1/2|p_0) \\
+               &=& (1/2)(2p_0q_0) \\
+               &=& p_0q_0 \\
+P(p_2=0|p_0) &=& P(p_2=0|p_1=0)P(p_1=0|p_0) + P(p_2=0|p_1=1/2)P(p_1=1/2|p_0) \\
+             &=& (1)(q_0^2) + (1/4)(2p_0q_0) \\
+             &=& q_0^2 + (1/2)p_0q_0 
+\end{eqnarray*}
+It takes more algebra than I care to show,\footnote{Ask me, if you're
+  really interested.} but these equations can be extended to an
+arbitrary number of generations.
+\begin{eqnarray*}
+P(p_t=1|p_0) &=& p_0^2 + \left(1 - (1/2)^{t-1}\right)p_0q_0 \\
+P(p_t=1/2|p_0) &=& p_0q_0(1/2)^{t-2} \\
+P(p_t=0|p_0) &=& q_0^2 + \left(1 - (1/2)^{t-1}\right)p_0q_0
+\end{eqnarray*}
+
+Why do I bother to show you these equations?\footnote{It's not just
+that I'm crazy.} Because you can see pretty quickly that as $t$ gets
+big, i.e., the longer our population evolves, the smaller the
+probability that $p_t = 1/2$ becomes. In fact, it's not hard to verify
+two facts about genetic drift in this simple situation:\index{genetic drift!properties}
+
+\begin{enumerate}
+
+\item One of the two alleles originally present in the population is
+certain to be lost eventually.
+
+\item The probability that $A_1$ is fixed is equal to its initial
+frequency, $p_0$, and the probability that $A_2$ is fixed is equal to
+its initial frequency, $q_0$.
+
+\end{enumerate}
+
+Both of these properties are true in general for {\it any\/} finite
+population and {\it any\/} number of alleles.
+
+\begin{enumerate}
+
+\item Genetic drift will eventually lead to loss of all alleles in the
+population except one.\footnote{You obviously can't lose all of them
+unless the population becomes extinct.}
+
+\item The probability that any allele will eventually become fixed in
+the population is equal to its current frequency.
+
+\end{enumerate}
+
+\section*{General properties of genetic drift}
+
+What I've shown you so far applies only to a haploid population with
+two individuals. Even I will admit that it isn't a very interesting
+situation. Suppose, however, we now consider a populaton with $N$
+diploid individuals. We can treat it as if it were a population of
+$2N$ haploid individuals using a direct analogy to the process I
+described earlier, and then things start to get a little more
+interesting.
+
+\begin{itemize}
+
+\item Each individual in the population produces a large number of
+gametes. 
+
+\item Each gamete is an identical copy of its parent, i.e., $A_1$
+begets $A_1$ and $A_2$ begets $A_2$.
+
+\item The next generation is constructed by picking $2N$ gametes at
+random from the large number originally produced.
+
+\end{itemize}
+
+We can then write a general expression for how allele frequencies will
+change between generations. Specifically, the distribution
+describing the probability that there will be $j$ copies of $A_1$ in
+the next generation given that there are $i$ copies in this generation
+is  
+\[
+P(\hbox{$j$ $A_1$ in offspring $|$ $i$ $A_1$ in parents}) =
+{2N \choose j}\left(\frac{i}{2N}\right)\left(1 - \frac{i}{2N}\right)
+\quad ,
+\]
+i.e., a binomial distribution.\index{genetic drift!binomial distribution} I'll be astonished if any of what I'm about to say is
+apparent to any of you, but this equation implies three really
+important things. We've encountered two already:\index{genetic drift!properties}
+
+\begin{itemize}
+
+\item Allele frequencies will tend to change from one generation to
+the next purely as a result of sampling error. As a consequence,
+genetic drift will eventually lead to loss of all alleles in the
+population except one.
+
+\item The probability that any allele will eventually become fixed in
+the population is equal to its current frequency.
+
+\item The population has no memory.\footnote{Technically, we've
+described a Markov chain with a finite state space, but I doubt that
+you really care about that.} The probability that the offspring
+generation will have a particular allele frequency depends {\it
+only\/} on the allele frequency in the parental generation. It does
+not depend on how the parental generation came to have that allele
+frequency. This is exactly analogous to coin-tossing. The probability
+that you get a heads on the next toss of a fair coin is 1/2. It
+doesn't matter whether you've never tossed it before or if you've just
+tossed 25 heads in a row.\footnote{Of course, if you've just tossed 25
+heads in a row, you could be forgiven for having your doubts about
+whether the coin is actually fair.}
+
+\end{itemize}
+
+\subsection*{Variance of allele frequencies between
+  generations}\index{genetic drift!allele frequency variance}
+
+For a binomial distribution
+\begin{latexonly}
+\begin{eqnarray*}
+P(K=k) &=& {{N \choose k}p^k(1-p)^{N-k}} \\
+\hbox{Var}(K) &=& Np(1-p) \\
+\hbox{Var}(p) &=& \hbox{Var}(K/N) \\
+              &=& \frac{1}{N^2}\hbox{Var}(K) \\
+              &=& \frac{p(1-p)}{N}
+\end{eqnarray*}
+\end{latexonly}
+\begin{htmlonly}
+\[
+P(K=k) = {{N \choose k}p^k(1-p)^{N-k}}
+\]
+\[
+\hbox{Var}(K) = Np(1-p)
+\]
+\[
+\hbox{Var}(p) = \hbox{Var}(K/N)
+\]
+\[
+              = \frac{1}{N^2}\hbox{Var}(K)
+\]
+\[
+              = \frac{p(1-p)}{N}
+\]
+\end{htmlonly}
+Applying this to our situation, 
+\[
+\hbox{Var}(p_{t+1}) = \frac{p_t(1-p_t)}{2N}
+\]
+Var$(p_{t+1})$ measures the amount of uncertainty about allele
+frequencies in the next generation, given the current allele
+frequency. As you probably guessed long ago, the amount of uncertainty
+is inversely proportional to population size. The larger the
+population, the smaller the uncertainty.
+
+If you think about this a bit, you might expect that a smaller
+variance would ``slow down'' the process of genetic drift{\dash}and
+you'd be right. It takes some pretty advanced mathematics to say how
+much the process slows down as a function of population
+size,\footnote{Actually, we'll encounter a way that isn't quite so
+  hard in a few lectures when we get to the coalescent.} but we can
+summarize the result in the following equation:\index{genetic drift!fixation time}
+\[
+\bar t \approx -4N\left(p\log p + (1-p)\log(1-p)\right) \quad ,
+\]
+where $\bar t$ is the average time to fixation of one allele or the
+other and $p$ is the current allele frequency.\footnote{Notice that
+  this equation only applies to the case of one-locus with two
+  alleles, although the principle applies to any number of alleles.}
+So the average time to fixation of one allele or the other increases
+approximately linearly with increases in the population size.
+
+\subsection*{Analogy to inbreeding}\index{genetic drift!inbreeding analogy}
+
+You may have noticed some similarities between drift and
+inbreeding. Specifically, both processes lead to a loss of
+heterozygosity and an increase in homozygosity. This analogy leads to
+a useful heuristic for helping us to understand the dynamics of
+genetic drift.
+
+Remember our old friend $f$, the inbreeding coefficient? I'm going to
+re-introduce you to it in the form of the population inbreeding
+coefficient, the probability that two alleles chosen at random from a
+population are identical by descent. We're going to study how the
+population inbreeding coefficient changes from one generation to the
+next as a result of reproduction in a finite
+population.\footnote{Remember that I use the abbreviation ibd to mean
+identical by descent.}
+
+\begin{eqnarray*}
+f_{t+1} &=& \mbox{Prob. ibd from preceding generation} \\
+        &&  + (\mbox{Prob. not ibd from prec. gen.}) \times (\mbox{Prob. ibd from
+          earlier gen.}) \\
+   &=& \frac{1}{2N} + \left(1 - \frac{1}{2N}\right)f_t
+\end{eqnarray*}
+or, in general,
+\[
+f_{t+1} = 1 - \left(1 - \frac{1}{2N}\right)^t(1-f_0) \quad .
+\]
+
+\subsection*{Summary}
+
+There are four characteristics of genetic drift that I think are
+particularly important for you to remember:\index{genetic drift!properties}
+
+\begin{enumerate}
+
+\item Allele frequencies tend to change from one generation to the
+next simply as a result of sampling error. We can specify a
+probability distribution for the allele frequency in the next
+generation, but we cannot predict the actual frequency with certainty.
+
+\item There is no systematic bias to changes in allele frequency. The
+allele frequency is as likely to increase from one generation to the
+next as it is to decrease.
+
+\item If the process is allowed to continue long enough without input
+of new genetic material through migration or mutation, the population
+will eventually become fixed for only one of the alleles originally
+present.\footnote{This will hold true even if there is strong
+selection for keeping alleles in the population. Selection can't
+prevent loss of diversity, only slow it down.}
+
+\item The time to fixation on a single allele is directly proportional
+to population size, and the amount of uncertainty associated with
+allele frequencies from one generation to the next is inversely
+related to population size.
+
+\end{enumerate}
+
+\section*{Effective population size}
+
+I didn't make a big point of it, but in our discussion of genetic
+drift so far we've assumed everything about populations that we
+assumed to derive the Hardy-Weinberg principle, {\it and\/} we've
+assumed that:\index{genetic drift!ideal population}
+
+\begin{itemize}
+
+\item We can model drift in a finite population as a result of
+sampling among haploid gametes rather than as a result of sampling
+among diploid genotypes. Since we're dealing with a finite population,
+this effectively means that the two gametes incorporated into an
+individual could have come from the same parent, i.e.,
+self-fertilization occurs when there's random union of gametes in a
+finite, diploid population.
+
+\item Since we're sampling gametes rather than individuals, we're also
+  implictly assuming that there aren't separate sexes.\footnote{How
+    could there be separate sexes if there can be self-fertilization?}
+
+\item The number of gametes any individual has represented in the next
+  generation is a binomial random variable.\footnote{More about this
+    later.}
+
+\item The population size is constant.
+
+\end{itemize}
+
+How do we deal with the fact that one or more of these conditions will
+be violated in just about any case we're interested in?\footnote{OK,
+  OK. They will probably be violated in {\it every\/} case we're
+  interested in.} One way would be to develop all the probability
+models that incorporate that complexity and try to solve them. That's
+nearly impossible, except through computer simulations. Another, and
+by far the most common approach, is to come up with a conversion
+formula that makes our actual population seem like the ``ideal''
+population that we've been studying. That's exactly what {\it
+  effective population size\/} is.\index{genetic drift!effective population size}
+\begin{quote}
+The effective size of a population is the size of an ideal population
+that has the same properties with respect to genetic drift as our
+actual population does.
+\end{quote}
+What does that phrase ``same properties with respect to genetic
+drift'' mean? Well there are two ways it can be
+defined.\footnote{There are actually more than two ways, but we're
+  only going to talk about two.}
+
+\subsection*{Variance effective size}\index{genetic drift!variance effective size}
+
+You may remember\footnote{You probably won't, so I'll remind you} that
+the variance in allele frequency in an ideal population is
+\[
+Var(p_{t+1}) = \frac{p_t(1-p_t)}{2N} \quad.
+\]
+So one way we can make our actual population equivalent to an ideal
+population to make their allele frequency variances the same. We do
+this by calculating the variance in allele frequency for our actual
+population, figuring out what size of ideal population would produce
+the same variance, and pretending that our actual population is the
+same as an ideal population of the same size. To put that into an
+equation,\footnote{As if that will make it any clearer. Does anyone
+  actually read these footnotes?} let $\widehat{Var}(p)$ be the
+variance we calculate for our actual population. Then
+\[
+N_e^{(v)} = \frac{p(1-p)}{2\widehat{Var}(p)}
+\]
+is the {\it variance effective population size}, i.e., the size of an
+ideal population that has the same properties with respect to allele
+frequency variance as our actual population.
+
+\subsection*{Inbreeding effective size}\index{genetic drift!inbreeding effective size}
+
+You may also remember that we can think of genetic drift as analogous
+to inbreeding. The probability of identity by descent within
+populations changes in a predictable way in relation to population
+size, namely
+\[
+f_{t+1}
+   = \frac{1}{2N} + \left(1 - \frac{1}{2N}\right)f_t \quad.
+\]
+So another way we can make our actual population equivalent to an
+ideal population is to make them equivalent with respect to how $f$
+changes from generation to generation. We do this by calculating how
+the inbreeding coefficient changes from one generation to the next in
+our actual population, figuring out what size an ideal population
+would have to be to show the same change between generations, and
+pretending that our actual population is the same size at the ideal
+one. So suppose $\hat f_t$ and $\hat f_{t+1}$ are the actual
+inbreeding coefficients we'd have in our population at generation $t$
+and $t+1$, respectively. Then
+\begin{eqnarray*}
+\hat f_{t+1} &=& \frac{1}{2N_e^{(f)}} + \left(1 -
+        \frac{1}{2N_e^{(f)}}\right)\hat f_t \\
+        &=& \left(\frac{1}{2N_e^{(f)}}\right)(1 - \hat f_t) + \hat f_t \\
+\hat f_{t+1} - \hat f_t &=& \left(\frac{1}{2N_e^{(f)}}\right)(1 - \hat
+        f_t) \\
+N_e^{(f)} &=& \frac{1 - \hat f_t}{2(\hat f_{t+1} - \hat f_t)} \quad .
+\end{eqnarray*}
+In many applications it's convenient to assume that $\hat f_t = 0$. In
+that case the calculation gets a lot simpler:
+\[
+N_e^{(f)} = \frac{1}{2\hat f_{t+1}} \quad .
+\]
+We also don't lose anything by doing so, because $N_e^{(f)}$ depends
+only on how much $f$ {\it changes\/} from one generation to the next,
+not on its actual magnitude.
+
+\subsection*{Comments on effective population sizes}\index{genetic drift!effective population size, limitations}
+
+Those are nice tricks, but there are some limitations. The biggest is
+that $N_e^{(v)} \ne N_e^{(f)}$ if the population size is changing from
+one generation to the next.\footnote{It's even worse than that. When
+  the population size is changing, it's not clear that any of the
+  available adjustments to produce an effective population size are
+  entirely satisfactory. Well, that's not entirely true either. Fu et
+  al.~\cite{Fu-etal-2003} show that there is a reasonable definition
+  in one simple case when the population size varies, and it happens
+  to correspond to the solution presented below.} So you have to
+decide which of these two measures is more appropriate for the
+question you're studying.
+
+\begin{itemize}
+
+\item $N_e^{(f)}$ is naturally related to the number of individuals in
+the parental populations. It tells you something about how the
+probability of identity by descent within a single population will
+change over time.
+
+\item $N_e^{(v)}$ is naturally related to the number of individuals in
+the offspring generation. It tells you something about how much allele
+frequencies in isolated populations will diverge from one another.
+
+\end{itemize}
+
+\subsection*{Examples}
+
+This is all pretty abstract. Let's work through some examples to see
+how this all plays out.\footnote{If you're interested in a
+  comprehensive list of formulas relating various demographic
+  parameters to effective population size, take a look
+  at~\cite[p. 362]{Crow-Kimura-1970}. They provide a pretty
+  comprehensive summary and a number of derivations.} In the case of
+separate sexes and variable population size, I'll provide a derivation
+of $N_e^{(f)}$. In the case of differences in the number of offspring
+left by individuals, I'll just give you the formula and we'll discuss
+some of the implications.
+
+\subsubsection*{Separate sexes}\index{genetic drift!effective population size, separate sexes}
+
+We'll start by assuming that $\hat f_t = 0$ to make the calculations
+simple. So we know that
+\[
+N_e^{(f)} = \frac{1}{2\hat f_{t+1}} \quad .
+\]
+The first thing to do is to calculate $\hat f_{t+1}$. To do this we
+have to break the problem down into pieces.\footnote{Remembering, of
+course, that $\hat f_{t+1}$ is the probability that two alleles drawn
+at random are identical by descent.}
+
+\begin{itemize}
+
+\item We assumed that $\hat f_t = 0$, so the only way for two alleles
+to be identical by descent is if they are identical copies of the {\it
+same\/} allele in the immediately preceding generation.
+
+\item Even if the numbers of reproductive males and reproductive
+females are different, every new offspring has exactly one father and
+one mother. Thus, the probability that the first gamete selected at
+random is female is just 1/2, and the probability that the second
+gamete selected is male is just 1/2.
+
+\item The probability that the second gamete selected is female given
+that the first one we selected was female is $(N-1)/(2N-1)$, because
+$N$ out of the $2N$ alleles represented among offspring came from
+females, and there are only $N-1$ out of $2N-1$ left after we've
+already picked one. The same logic applies for male gametes.
+
+\item Finally, the probability that one particular female gamete was
+chosen is $1/2N_f$, where $N_f$ is the number of females in the
+population. Similarly the probability that one particular male gamete
+was chosen is $1/2N_m$, where $N_m$ is the number of males in the
+population.
+
+\end{itemize}
+
+\noindent With those facts in hand, we're ready to calculate $\hat
+f_{t+1}$. 
+
+\begin{eqnarray*}
+f_{t+1} &=& \left(\half\right) \left(\frac{N-1}{2N-1}\right)
+            \left(\frac{1}{2N_f}\right) +
+            \left(\half\right) \left(\frac{N-1}{2N-1}\right)
+            \left(\frac{1}{2N_m}\right) \\
+        &=& \left(\half\right) \left(\frac{N-1}{2N-1}\right)
+            \left(\frac{1}{2N_f} + \frac{1}{2N_m}\right) \\
+        &\approx& \left(\fourth\right)
+            \left(\frac{1}{2N_f} + \frac{1}{2N_m}\right)
+\end{eqnarray*}
+So,
+\[
+N_e^{(f)} \approx \frac{4N_fN_m}{N_f + N_m} \quad .
+\]
+
+What does this all mean? Well, consider a couple of important
+examples. Suppose the numbers of females and males in a population are
+equal, $N_f = N_m = N/2$. Then
+\begin{eqnarray*}
+N_e^{(f)} &=& \frac{4(N/2)(N/2)}{N/2 + N/2} \\
+          &=& \frac{4N^2/4}{N} \\
+          &=& N \quad .
+\end{eqnarray*}
+The effective population size is equal to the actual population size
+if the sex ratio is 50:50. If it departs from 50:50, the effective
+population size will be smaller than the actual population
+size. Consider the extreme case where there's only one reproductive
+male in the population. Then
+\begin{equation}
+N_e^{(f)} = \frac{4N_f}{N_f + 1} \quad . \label{eq:ne-harem}
+\end{equation}
+Notice what this equation implies: The effective size of a population
+with only one reproductive male (or female) can {\it never\/} be
+bigger than 4, no matter how many mates that individual has and no
+matter how many offspring are produced.
+
+\subsubsection*{Variable population size}\index{genetic drift!effective population size, variable population size}
+     
+The notation for this one gets a little more complicated, but the
+ideas are simpler than those you just survived. Since the population
+size is changing we need to specify the population size at each time
+step. Let $N_t$ be the population size in generation $t$. Then
+\begin{eqnarray*}
+f_{t+1} &=& \left(1-\frac{1}{2N_t}\right)f_t + \frac{1}{2N_t} \\
+1 - f_{t+1} &=& \left(1-\frac{1}{2N_t}\right)(1-f_t) \\
+1 - f_{t+K} &=&
+\left(\prod_{i=1}^K\left(1-\frac{1}{2N_{t+i}}\right)\right)(1-f_t) \quad .
+\end{eqnarray*}
+Now if the population size were constant
+\[
+\left(\prod_{i=1}^K\left(1-\frac{1}{2N_{t+i}}\right)\right) = 
+\left(1 - \frac{1}{2N_e^{(f)}}\right)^K \quad .
+\]
+Dealing with products and powers is inconvenient, but if we take the
+logarithm of both sides of the equation we get something simpler:
+\[
+\sum_{i=1}^K\log\left(1-\frac{1}{2N_{t+i}}\right) =
+K\log\left(1 - \frac{1}{2N_e^{(f)}}\right) \quad .
+\]
+It's a well-known fact\footnote{Well known to some of us at least.}
+that $\log(1-x) \approx -x$ when $x$ is small. So if we assume that
+$N_e$ and all of the $N_{t}$ are large,\footnote{So that there
+  reciprocals are small} then
+\begin{eqnarray*}
+K\left(-\frac{1}{2N_e^{(f)}}\right) 
+  &=& \sum_{i=1}^K-\frac{1}{2N_{t+i}} \\
+\frac{K}{N_e^{(f)}} &=& \sum_{i=1}^K\frac{1}{N_{t+i}} \\
+N_e^{(f)} &=& \left(\left(\frac{1}{K}\right)
+                    \sum_{i=1}^K\frac{1}{N_{t+i}}\right)^{-1}
+\end{eqnarray*}
+
+The quantity on the right side of that last equation is a well-known
+quantity. It's the {\it harmonic mean} of the $N_{t}$. It's another
+well-known fact\footnote{Are we ever going to run out of well-known
+  facts? Probably not.} that the harmonic mean of a series of numbers
+is always less than its arithmetic mean. This means that genetic drift
+may play a much more imporant role than we might have imagined, since
+the effective size of a population will be more influenced by times
+when it is small than by times when it is large.
+
+Consider, for example, a population in which $N_1$ through $N_9$ are
+1000, and $N_{10}$ is 10. 
+\begin{eqnarray*}
+N_e &=& \left(\left(\frac{1}{10}\right)
+            \left(9\left(\frac{1}{1000}\right) +
+                   \left(\frac{1}{10}\right)\right)\right)^{-1} \\
+    &\approx& 92
+\end{eqnarray*}
+{\it versus\/} an arithmetic average of 901. So the population will
+behave with respect to the inbreeding associated with drift like a
+population a tenth of its arithmetic average size.
+
+\subsection*{Variation in offspring number}\index{genetic drift!effective population size, variation in offspring number}
+
+I'm just going to give you this formula. I'm not going to derive it
+for you.\footnote{The details are in~\cite{Crow-Kimura-1970}, if
+  you're interested.}
+\[
+N_e^{(f)} = \frac{2N - 1}{1 + \frac{V_k}{2}} \quad ,
+\]
+where $V_k$ is the variance in number of offspring among individuals
+in the population.  Remember I told you that the number of gametes any
+individual has represented in the next generation is a binomial random
+variable in an ideal population? Well, if the population size isn't
+changing, that means that $V_k = 2(1 - 1/N)$ in an ideal
+population.\footnote{The calculation is really easy, and I'd be happy
+  to show it to you if you're interested.} A little algebra should
+convince you that in this case $N_e^{(f)} = N$. It can also be shown
+(with more algebra) that
+
+\begin{itemize}
+
+\item $N_e^{(f)} < N$ if $V_k > 2(1 - 1/N)$ and
+
+\item $N_e^{(f)} > N$ if $V_k < 2(1 - 1/N)$.
+
+\end{itemize}
+
+\noindent That last fact is pretty remarkable. Conservation biologists
+try to take advantage of it to decrease the loss of genetic variation
+in small populations, especially those that are captive bred. If you
+can reduce the variance in reproductive success, you can substantially
+increase the effective size of the population. In fact, if you could
+reduce $V_k$ to zero, then 
+\[
+N_e^{(f)} = 2N - 1 \quad .
+\]
+The effective size of the population would then be almost twice its
+actual size.
+

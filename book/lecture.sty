@@ -1,0 +1,59 @@
+\oddsidemargin=0.0in
+\evensidemargin=0.0in
+\textwidth=6.5in
+
+\tolerance = 10000
+
+% 14 Sep 1999 KEH - Cribbed directly from article.cls
+% Deleted author and date
+\def\@maketitle{%
+  \newpage
+  \null
+  \vskip 2em%
+  \begin{center}%
+  \let \footnote \thanks
+    {\LARGE\sc \@title \par}%
+    \vskip 1.5em%
+  \end{center}%
+  \par
+  \vskip 1.5em}
+\newcommand{\myfigure}[4]{%
+   \begin{figure}[ht]\begin{center}%
+   \resizebox{!}{#1}{\includegraphics{#2}}%
+   \end{center}\caption{#3}\label{#4}\end{figure}}
+\newcommand{\doubletablerule}{\hline\hline}
+\newcommand{\tablerule}{\hline}
+\newcommand{\dash}{\nobreak\thinspace{---}\thinspace}
+\newcommand{\note}[1]{\noindent {\bf Note:} #1}
+\newcommand{\myurl}[1]{\htmladdnormallink{#1}{#1}}
+
+\newcommand{\oneminus}{$\frac{1-r}{2}$}
+\newcommand{\rhalf}{$\frac{r}{2}$}
+\newcommand{\half}{\frac{1}{2}}
+\newcommand{\quarter}{\frac{1}{4}}
+\newcommand{\fourth}{\frac{1}{4}}
+\newcommand{\frack}{\frac{1}{k}}
+\newcommand{\Var}{\mbox{Var}}
+\newcommand{\Cov}{\mbox{Cov}}
+\newcommand{\E}{\mbox{E}}
+
+
+% new pagestyle for first page with copyright
+% 30 Aug 2001 KH - Cribbed directly from latex.ltx
+% added copyright information to footer
+\def\ps@first{\let\@mkboth\@gobbletwo%
+     \let\@oddhead\@empty\def\@oddfoot{\reset@font{\copyright
+     \ \copyrightYears\ Kent E. Holsinger\hfil}} 
+     \let\@evenhead\@empty\let\@evenfoot\@oddfoot}%
+\pagestyle{plain}
+
+% 14 Aug 2003 - To make it clear that the notes can be shared, copied, 
+% and modified, provided that I receive attribution
+\newcommand{\ccLicense}{
+\section*{Creative Commons License}
+\raggedright These notes are licensed under the Creative Commons
+Attribution License. To view a copy of this license, visit
+\myurl{http://creativecommons.org/licenses/by/3.0/} or send a
+letter to Creative Commons, 559 Nathan Abbott Way, Stanford,
+California 94305, USA.}
+

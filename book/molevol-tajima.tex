@@ -1,0 +1,297 @@
+\chapter{Tajima's $D$, Fu's $F_S$, Fay and Wu's $H$, and Zeng et al.'s $E$}
+
+So far we've been comparing rates of synonymous and non-synonymous
+substitution to detect the effects of natural selection on molecular
+polymorphisms. Tajima~\cite{Tajima89} proposed a method that builds on
+the foundation of the neutral theory of molecular evolution in a
+different way. I've already mentioned the infinite alleles model of
+mutation several times. When thinking about DNA sequences a closely
+related approximation is to imagine that every time a mutation occurs,
+it occurs at a different site.\footnote{Of course, we know this isn't
+  true. Multiple substitutions {\it can\/} occur at any site. That's
+  why the percent difference between two sequences isn't equal to the
+  number of substitutions that have happened at any particular
+  site. We're simply assuming that the sequences we're comparing are
+  closely enough related that nearly all mutations have occurred at
+  different positions.} If we do that, we have an {\it infinite
+  sites\/} model of mutation.\index{mutation!infinite sites model}
+
+\section*{Tajima's $D$}\index{Tajima's $D$}
+
+When dealing with nucleotide sequences in a population context there
+are two statistics of potential interest:
+
+\begin{itemize}
+
+\item The {\it number\/} of nucleotide positions at which a
+  polymorphism is found or, equivalently, the number of segregating
+  sites, $k$.\index{segregating sites}
+
+\item The average per nucleotide diversity, $\pi$, where $\pi$ is
+  estimated as\index{nucleotide diversity}
+\[
+\pi = \sum x_ix_j\delta_{ij}/N \quad .
+\]
+In this expression, $x_i$ is the frequency of the $i$th haplotype,
+$\delta_{ij}$ is the number of nucleotide sequence differences between
+haplotypes $i$ and $j$, and $N$ is the total length of the
+sequence.\footnote{I lied, but you must be getting used to that by
+  now. This isn't quite the way you estimate it. To get an unbiased
+  estimate of pi, you have to multiply this equation by $n/(n-1)$,
+  where $n$ is the number of haplotypes in your sample. And, of
+  course, if you're Bayesian you'll be even a little more
+  careful. You'll estimate $x_i$ using an appropriate prior on
+  haplotype frequencies and you'll estimate the probability that
+  haplotypes $i$ and $j$ are different at a randomly chosen position
+  given the observed number of differences and the sequence
+  length. That probability will be close to $\delta_{ij}/N$, but it
+  won't be identical.}
+
+\end{itemize}
+
+The quantity $4N_e\mu$ comes up a lot in mathematical analyses of
+molecular evolution. Population geneticists, being a lazy bunch, get
+tired of writing that down all the time, so they invented the
+parameter $\theta = 4N_e\mu$ to save themselves a little
+time.\footnote{This is {\it not\/} the same $\theta$ we encountered
+  when discussing $F$-statistics. Weir and Cockerham's $\theta$ is a
+  different beast. I know it's confusing, but that's the way it
+  is. When reading a paper, the context should make it clear which
+  conception of $\theta$ is being used. Another thing to be careful of
+  is that sometimes authors think of $\theta$ in terms of a haploid
+  population. When they do, it's $2N_e\mu$. Usually the context makes
+  it clear which definition is being used, but you have to remember to
+  pay attention to be sure.} Under the infinite-sites model of DNA
+sequence evolution, it can be shown that
+\begin{eqnarray*}
+\E(\pi) &=& \theta \\
+\E(k) &=& \theta\sum_i^{n-1} \frac{1}{i} \quad ,
+\end{eqnarray*}
+where $n$ is the number of haplotypes in your sample.\footnote{The
+  ``E'' refers to expectation. It is the average value of a random
+  variable. $\mbox{E}(\pi)$ is read as ``the expectation of $\pi$>}
+This suggests that there are two ways to estimate $\theta$, namely
+\begin{eqnarray*}
+\hat \theta_\pi &=& \hat \pi \\
+\hat \theta_k   &=& \frac{k}{\sum_i^{n-1}\frac{1}{i}} \quad ,
+\end{eqnarray*}
+where $\hat\pi$ is the average heterozygosity at nucleotide sites in
+our sample and $k$ is the observed number of segregating sites in our
+sample.\footnote{If your memory is really good, you may recognize that
+  those estimates are method of moments estimates, i.e., parameter
+  estimates obtained by equating sample statistics with their expected
+  values.} If the nucleotide sequence variation among our haplotypes
+is neutral and the population from which we sampled is in equilibrium
+with respect to drift and mutation, then $\hat\theta_\pi$ and
+$\hat\theta_k$ should be statistically indistinguishable from one
+another. In other words, 
+\[
+\hat D = \hat\theta_\pi - \hat\theta_k 
+\]
+should be indistinguishable from zero. If it is either negative or
+positive, we can infer that there's some departure from the
+assumptions of neutrality and/or equilibrium. Thus, $\hat D$ can be
+used as a test statistic to assess whether the data are consistent
+with the population being at a neutral mutation-drift
+equilibrium. Consider the value of $D$ under following
+scenarios:\index{Tajima's $D$!interpretation}
+
+\begin{description}
+
+\item[Neutral variation] If the variation is neutral and the
+  population is at a drift-mutation equilibrium, then $\hat D$ will be
+  statistically indistinguishable from zero.
+
+\item[Overdominant selection] Overdominance will allow alleles
+  beloning to the different classes to become quite divergent from one
+  another. $\delta_{ij}$ within each class will be small, but
+  $\delta_{ij}$ between classes will be large and both classes will be
+  in intermediate frequency, leading to large values of
+  $\theta_\pi$. There won't be a similar tendency for the {\it
+  number\/} of segregating sites to increase, so $\theta_k$ will be
+  relatively unaffected. As a result, $\hat D$ will be positive.
+
+\item[Population bottleneck] If the population has recently undergone
+  a bottleneck, then $\pi$ will be little affected unless the
+  bottleneck was prolonged and severe.\footnote{Why? Because most of
+    the heterozygosity is due to alleles of moderate to high
+    frequency, and those are not the ones likely to be lost in a
+    bottleneck. See the Appendix\ref{sect:appendix} for more details.}
+  $k$, however, may be substantially reduced. Thus, $\hat D$ should be
+  positive.
+
+\item[Purifying selection] If there is purifying selection, mutations
+  will occur and accumulate at silent sites, but they aren't likely
+  ever to become very common. Thus, there are likely to be lots of
+  segregating sites, but not much heterozygosity, meaning that
+  $\hat\theta_k$ will be large, $\hat\theta_\pi$ will be small, and
+  $\hat D$ will be negative.
+
+\item[Population expansion] Similarly, if the population has recently
+  begun to expand, mutations that occur are unlikely to be lost,
+  increasing $\hat\theta_k$, but it will take a long time before they
+  contribute to heterozygosity, $\hat\theta_\pi$. Thus, $\hat D$ will
+  be negative.
+
+\end{description}
+
+In short, $\hat D$ provides a different avenue for insight into the
+evolutionary history of a particular nucleotide sequence. But
+interpreting it can be a little tricky. 
+
+\begin{description}
+
+\item[$\hat D = 0$:] We have no evidence for changes in population
+  size or for any particular pattern of selection at the
+  locus.\footnote{Please remember that the failure to detect a difference
+    from 0 could mean that your sample size is too small to detect an
+    important effect. If you can't detect a difference, you should try
+    to assess what values of $D$ are consistent with your data and be
+    appropriately circumspect in your conclusions.}
+
+\item[$\hat D < 0$:] The population size may be increasing or we may
+  have evidence for purifying selection at this locus.
+
+\item[$\hat D > 0$:] The population may have suffered a recent
+  bottleneck (or be decreaing) or we may have evidence for
+  overdominant selection at this locus.
+
+\end{description}
+
+\noindent If we have data available for more than one locus, we may be
+able to distinguish changes in population size from selection at any
+particular locus. After all, all loci will experience the same
+demographic effects, but we might expect selection to act differently
+at different loci, especially if we choose to analyze loci with
+different physiological function.
+
+A quick search in Google Scholar reveals that the paper in which
+Tajima described this approach~\cite{Tajima89} has been cited over
+5300 times. Clearly it has been widely used for interpreting patterns
+of nucleotide sequence variation. Although it is a very useful
+statistic, Zeng et al.~\cite{Zeng-etal-2006} point out that there are
+important aspects of the data that Tajima's $D$ does not consider. As
+a result, it may be less powerful, i.e., less able to detect
+departures from neutrality, than some alternatives.
+
+\section*{Fu's $F_S$}\index{Fu's $F_S$}
+
+Fu~\cite{Fu-1997} proposes a different statistic based on the infinite
+sites model of mutation. He suggests estimating the probability of
+observing a random sample with a number of alleles equal to or smaller
+than the observed value under given the observed level of diversity
+and the assumption that all of the alleles are selectively neutral. If
+we call this probability $\hat S$, then
+\[
+F_S = \ln\left(\frac{\hat S}{1 - \hat S}\right) \quad .
+\]
+A negative value of $F_S$ is evidence for an excess number of alleles,
+as would be expected from a recent population expansion or from
+genetic hitchhiking. A positive value of $F_S$ is evidence for an
+deficiency of alleles, as would be expect from a recent population
+bottleneck or from overdominant selection. Fu's simulations suggest
+that $F_S$ is a more sensitive indicator of population expansion and
+genetic hitchhiking than Tajima’s $D$. Those simulations also suggest
+that the conventional P-value of 0.05 corresponds to a P-value from
+the coalescent simulation of 0.02. In other words, $F_S$ should be
+regarded as significant if $P < 0.02$.
+
+\section*{Fay and Wu's $H$}\index{Fay and Wu's $H$}
+
+Let $\xi_i$ be the number of sites at which a sequence occurring $i$
+times in the sample differs from the sequence of the most recent
+common ancestor for all the sequences. Fu~\cite{Fu-1995} showed that
+\[
+\mbox{E}(\xi_i) = \frac{\theta}{i} \quad .
+\]
+Remember that $i$ is the number of times this haplotype occurs in the
+sample. Using this result, we can rewrite $\hat\theta_\pi$ and
+$\hat\theta_k$ as
+\begin{eqnarray*}
+\hat\theta_\pi &=& {n \choose 2}^{-1}\sum_{i=1}^{n-1}i(n-i)\hat\xi_i \\
+\hat\theta_k  &=& \frac{1}{a_n}\sum_{i=1}^{n-1}\hat\xi_i
+\end{eqnarray*}
+There are also at least two other statistics that could be used to
+estimate $\theta$ from these data:
+\begin{eqnarray*}
+\theta_H &=& {n \choose 2}^{-1}\sum_{i=1}^{n-1}i^2\hat\xi_i \\
+\theta_L &=& \frac{1}{n-1}\sum_{i=1}^{n-1}i\hat\xi_i \quad .
+\end{eqnarray*}
+Notice that to estimate $\theta_H$ or $\theta_L$, you'll
+need information on the sequence of an ancestral haplotype. To get
+this you'll need an outgroup. As we've already seen, we can get
+estimates of $\theta_\pi$ and $\theta_k$ without an outgroup.
+
+Fay and Wu~\cite{Fay-Wu-2000} suggest using the statistic
+\[
+H = \hat\theta_\pi - \theta_H 
+\]
+to detect departures from neutrality. So what's the difference between
+Fay and Wu's $H$ and Tajima's $D$?  Well, notice that there's an $i^2$
+term in $\theta_H$. The largest contributions to this estimate of
+$\theta$ are coming from alleles in relatively high frequency, i.e.,
+those with lots of copies in our sample. In contrast,
+intermediate-frequency alleles contribute most to estiamtes of
+$\theta_\pi$. Thus, $H$ measures departures from neutrality that are
+reflected in the difference between high-frequency and
+intermediate-frequency alleles. In contrast, $D$ measures departures
+from neutrality that are reflected in the difference between
+low-frequency and intermediate frequency alleles.  Thus, while $D$ is
+sensitive to population expansion (because the number of segregating
+sites responds more rapidly to changes in population size than the
+nucleotide heterozygosity), $H$ will not be. As a result, combining
+both tests may allow you to distinguish populaion expansion from
+purifying selection.
+
+\section*{Zeng et al.'s $E$}\index{Zeng et al.'s $E$}
+
+So if we can use $D$ to compare estimates of $\theta$ from
+intermediate- and low-frequency variants and $H$ to compare estimates
+from intermediate- and high-frequency variatnts, what about comparing
+estimates from high-frequency and low-frequency variants? Funny you
+should ask, Zeng et al.~\cite{Zeng-etal-2006} suggest looking at
+\[
+E = \theta_L - \theta_k \quad . 
+\]
+$E$ doesn't put quite as much weight on high frequency variants as
+$H$,\footnote{Because it has an $i$ rather than an $i^2$ in its
+  formula} but it still provides a useful contrast between estimates
+of $\theta$ dertived from high-frequency variants and low-frequency
+variants. For example, suppose a new favorable mutation occurs and
+sweeps to fixation. All alleles other than those carrying the new
+allele will be eliminated from the population. Once the new variant is
+established, neutral variaton will begin to accumulate. The return to
+neutral expectations after such an event, however, happens much more
+rapidly in low frequency variants than in high-frequency ones. Thus, a
+negative $E$ may provide evicence of a recent selective sweep at the
+locus being studied. For similar reasons, it will be a sensitive
+indicator of recent population expansion.
+
+\section*{Appendix}\label{sect:appendix}
+
+I noted earlier that $\pi$ will be little affected by a population
+bottleneck unless it is prolonged and severe. Here's one way of
+thinking about it that might make that counterintuitive assertion a
+little clearer.
+
+Remember that $\pi$ is defined as $\pi = \sum
+x_ix_j\delta_{ij}/N$. Unless one haplotype in the population happens
+to be very divergent from all other haplotypes in the population, the
+magnitude of $\pi$ will be approximately equal to the average
+difference between any two nucleotide sequences times the probability
+that two randomly chosen sequences represent different
+haplotypes. Thus, we can treat haplotypes as alleles and ask what
+happens to heterozygosity as a result of a bottleneck. Here we recall
+the relationship between identity by descent and drift, and we pretend
+that homozygosity is the same thing as identity by descent. If we do,
+then the heterozygosity after a bottleneck is
+\[
+H_t = \left(1 - \frac{1}{2N_e}\right)^tH_{0} \quad.
+\]
+So consider a {\it really\/} extreme case: a population reduced to one
+male and one female for 5 generations. $N_e=2$, so $H_5 \approx
+0.24H_0$, so the population would retain roughly 24\% of its original
+diversity even after such a bottleneck. Suppose it were less severe,
+say, five males and five females for 10 generations, then $N_e=10$ and
+$H_{10} \approx 0.6$.
+

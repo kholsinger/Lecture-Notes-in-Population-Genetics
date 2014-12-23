@@ -1,0 +1,6219 @@
+%!PS-Adobe-3.0 EPSF-3.0
+%%BoundingBox: 41 110 468 719
+%%Title: C:\Documents and Settings\Kent Holsinger\My Documents\EEB-348\TeX-Notes\beta-globin.ps
+%%Creator: GSview from C:\Documents and Settings\Kent Holsinger\My Documents\EEB-348\TeX-Notes\beta-globin.ps
+%%CreationDate: Tue Nov 28 20:57:17 2006
+%%Pages: 1
+%%EndComments
+%%Page: 1 1
+%%BeginDocument: C:\Documents and Settings\Kent Holsinger\My Documents\EEB-348\TeX-Notes\beta-globin.ps
+%!
+gsave
+/language_level  /languagelevel where {pop languagelevel} {1} ifelse def
+/picture-xforms where { pop } { /picture-xforms [] def } ifelse
+1023 dict begin
+  /default-options {
+    /inverted-dotplot false def /inverted-features false def
+    /inverted-numbers false def /clip-features true def
+    /noauto true def
+    /banner-line true def /description () def /date (Sat Feb 22 16:04:50 EST 1997) def
+    /current-directory (/export/home/groucho/webb/alignments/beta.c.newest.d) def
+    /override-width 0 def /override-height 0 def /override-scale 0 def
+    /want-htic true def /want-vtic true def
+    /htic-step 0 def /vtic-step 0 def
+    /hlab-step 0 def /vlab-step 0 def
+    /tlab-mod 1 def
+    /y-scale-fudge 1 def
+    /x-offset 0 def /y-offset 0 def
+    /page-orientation 0 def
+    /tic-font /Helvetica def
+    /tic-font-size 10 def
+  } def
+  /user-options {
+           
+           
+           
+           
+           
+	   
+ 	   
+ 	  /override-scale 2200 def 
+ 	   
+ 	   
+ 	  /banner-line false def 
+ 	  /htic-step 1000 def 
+ 	   
+ 	  /tlab-mod 2000 def 
+ 	   
+ 	  /vtic-step 25 y-scale-fudge mul def 
+ 	   
+ 	   
+ 	  /y-offset 6.0 inch def 
+  	  /page-orientation 1 def 
+          /x0 3000 def /x1 20000 def /y0 1200 def /y1 2400 def 
+       } def
+% ------------------------------------------------------------------------
+% definitions of various things start here
+
+% statusdict begin manualfeed true store end
+/units-per-inch 72 def
+/scalefactor 1 def
+
+/inch { units-per-inch mul } bind def
+/point { scalefactor div } bind def
+
+/margin { 0.7 inch } bind def
+/edgewidth { 1.25 inch } bind def
+/min { 2 copy ge {exch pop} {pop} ifelse } bind def
+/max { 2 copy le {exch pop} {pop} ifelse } bind def
+/i2s { 20 string cvs } bind def
+
+/Line { % x0 y0 x1 y1 t c -
+  unsetpattern 
+  setgray 
+  point setlinewidth 
+  newpath 4 2 roll moveto lineto closepath stroke
+  0 setlinewidth
+} bind def
+
+/$local 32 dict def
+
+/Rect { % x0 y0 x1 y1 h t c -
+  unsetpattern
+  setgray
+  point setlinewidth
+  $local begin
+    /h exch def /y1 exch def /x1 exch def /y0 exch def /x0 exch def
+    /dx x1 x0 sub def
+    /dy y1 y0 sub def
+    /dd dx dx mul dy dy mul add sqrt def
+    gsave
+      x0 y0 translate
+      dx 0 ne { dy dx atan } {45} ifelse rotate
+        newpath
+         0 0 moveto dd 0 rlineto 0 h rlineto dd neg 0 rlineto 0 h neg rlineto
+        stroke
+    grestore
+  end
+  0 setlinewidth
+} bind def
+
+/Circle { % x y r t c -
+  unsetpattern
+  setgray
+  point setlinewidth
+  newpath 0 360 arc closepath stroke
+  0 setlinewidth
+} bind def
+
+/Frame { % x0 y0 x1 y1 t c - 
+  unsetpattern
+  setgray point setlinewidth newpath
+  % x0 y0 x1 y1	
+  1 index 3 index % x0 y0 x1 y1 x1 y0
+  1 index 3 index % x0 y0 x1 y1 x1 y0 x1 y1
+  7 index 1 index % x0 y0 x1 y1 x1 y0 x1 y1 x0 y1
+  1 index 5 index % x0 y0 x1 y1 x1 y0 x1 y1 x0 y1 x0 y0
+  moveto lineto lineto lineto closepath stroke
+  pop pop pop pop
+  0 setlinewidth
+} def
+
+% --------------------------------------
+
+% On lots of things we want the top to parameters to
+% be ``/dir [[stringlist]] '', but for backwards compatability
+% we sometimes have them in the reverse order.  So this checks
+% to see of top is an array, and if not assumes things need to
+% be reversed.
+/parameter-type-kludge { % /dir [[stringlist]]
+  dup type
+  /arraytype ne { exch } if
+} def
+
+
+% This renders a string in a given font.  Uses global Fontsize.
+/show-in-font { % [ str font size sup/sub ]
+  aload length 
+  2 eq { Fontsize 0 } if  % backwards compatability
+  /_script_offset exch def
+  /_font_size exch def
+  /_font_name exch def
+  /_string exch def
+
+  _font_name findfont _font_size scalefont setfont 
+  /_script_offset _script_offset _font_size 2 3 div mul mul def
+  0 _script_offset rmoveto
+   _string show
+  0 _script_offset neg rmoveto
+} def
+
+% This computes the width of a string in a given font.
+/stringwidth-in-font { % [ str font .. ]
+   aload length 2 eq { Fontsize 0 } if  % backwards compatability
+   pop exch findfont exch scalefont setfont stringwidth pop
+} def
+
+% This computes the with of a list of (string * font)s.
+/string-width { % [[str font .. ] ...]
+  /_sum 0 def
+  {stringwidth-in-font _sum add /_sum exch def } forall
+  _sum
+} def
+
+% General parameters for laying out annotations.
+/box_height { 0.15 inch } bind def		% the height of an annotation
+/row_gap { box_height dup -0.2 mul add } bind def	% space between rows of boxes
+/H_row_base {_y1} bind def			% starting place for rows
+/V_row_base {_x0} bind def
+/current_row_base 0 def				% height of nth row above base
+/box_adjustment 0 def
+
+% Parts of various shapes
+/basic_box_top { current_row_base box_height add } def
+/basic_box_bottom { current_row_base } def
+/box_top { basic_box_top box_adjustment sub } def
+/box_bottom { basic_box_bottom box_adjustment add } def
+/text_bottom { box_top row_gap 5 div add } def
+/triangle_tip { current_row_base box_height 2 div add } def
+/arrow_gap { box_height 3 div } def
+/arrow_bottom { current_row_base arrow_gap add } def
+/arrow_top { current_row_base arrow_gap dup add add } def
+
+
+% This draws a horizontal banner in the current row.
+/Hbanner { % [[...]]  -
+ gsave 
+   Black /Fontsize 13 def
+   _x0 box_bottom moveto 
+   savedmatrix setmatrix 
+     Hadjust { show-in-font } forall 
+ grestore
+} def
+
+% These record if anything stuck off the edges of the dotplot.
+/Hundershoot false def
+/Hovershoot false def
+
+% This adjusts the coordinates so they don't overshoot the plot.
+/Hnormalize { % x0 x1 - x0' x1'
+  /Hn_x1 exch def
+  /Hn_x0 exch def
+  Hn_x0 _x0 lt { /Hn_x0 _x0 def /Hundershoot true def } if
+  Hn_x1 _x1 gt { /Hn_x1 _x1 def /Hovershoot true def } if
+  Hn_x0 Hn_x1
+} def
+
+/H_render_label {
+   Black savedmatrix setmatrix Hadjust
+   { show-in-font } forall
+} def
+
+/H_render_other_label {
+   Black savedmatrix setmatrix Hotheradjust
+   { show-in-font } forall
+} def
+
+% This renders a label above the current row.
+/Hlabel {
+ % x0 x1 /dir [[str font] ...] - x0 x1 /dir
+ /Hl_strlist exch def
+ /Hl_dir exch def
+ /Hl_x1 exch def
+ /Hl_x0 exch def
+ Hl_x0 Hl_x1 Hnormalize add
+   Hl_strlist string-width scalefactor div sub 2 div
+   text_bottom moveto
+ gsave
+   /Fontsize 10 def
+   Hl_strlist H_render_label
+ grestore
+ Hl_x0 Hl_x1 Hl_dir
+} def
+
+/Hotherlabel {
+ % x0 x1 /dir [[str font] ...] - x0 x1 /dir
+ /Hl_strlist exch def
+ /Hl_dir exch def
+ /Hl_x1 exch def
+ /Hl_x0 exch def
+ /Fontsize 11 def
+ gsave
+   Hl_x1 Hl_x0 add 2 div text_bottom moveto
+   Hl_strlist H_render_other_label
+ grestore
+ Hl_x0 Hl_x1 Hl_dir
+} def
+
+
+% Vertical versions of the above.
+/Vundershoot false def
+/Vovershoot false def
+
+/Vnormalize {
+  /Vn_y1 exch def
+  /Vn_y0 exch def
+  Vn_y0 _y0 lt { /Vn_y0 _y0 def /Vundershoot true def } if
+  Vn_y1 _y1 gt { /Vn_y1 _y1 def /Vovershoot true def } if
+  Vn_y0 Vn_y1
+} def
+
+/Vbanner {
+ % strlist -
+ gsave 
+   Black /Fontsize 13 def
+   box_bottom inverted-features {_y1}{_y0} ifelse moveto
+   savedmatrix setmatrix 
+     Vadjust { show-in-font } forall 
+ grestore
+} def
+
+/V_render_label {
+   Black savedmatrix setmatrix Vadjust 
+   { show-in-font } forall 
+} def
+
+/V_render_other_label {
+   Black savedmatrix setmatrix Votheradjust
+   { show-in-font } forall 
+} def
+
+/Vlabel {
+ % y0 y1 /foo str - y0 y1 /foo
+ /Vl_strlist exch def
+ /Vl_dir exch def
+ /Vl_y1 exch def
+ /Vl_y0 exch def
+ text_bottom 
+ Vl_y0 Vl_y1 Vnormalize add			% (v0+v1
+   Vl_strlist string-width scalefactor div 
+   inverted-features {add} {sub} ifelse		% +- width)
+   2 div 					% /2
+ moveto
+ gsave 
+   /Fontsize 11 def
+   Vl_strlist V_render_label
+ grestore
+ Vl_y0 Vl_y1 Vl_dir
+} def
+
+/Votherlabel {
+ % y0 y1 /foo str - y0 y1 /foo
+ /Vl_strlist exch def
+ /Vl_dir exch def
+ /Vl_y1 exch def
+ /Vl_y0 exch def
+ /Fontsize 11 def
+ gsave text_bottom Vl_y0 Vl_y1 add 2 div 
+        Fontsize 4 div scalefactor div inverted-features {add}{sub} ifelse 
+        moveto 
+	Vl_strlist dup 
+	string-width scalefactor div 0 rmoveto
+	V_render_other_label grestore
+ Vl_y0 Vl_y1 Vl_dir
+} def
+
+% Various shape annotations
+/Htriangle { % x0 x1 /dir str
+  Hlabel
+  % x0 x1 /dir
+  /right eq {
+    newpath 
+    exch dup current_row_base moveto box_top lineto triangle_tip lineto
+    closepath
+  } {
+    newpath
+    dup current_row_base moveto box_top lineto triangle_tip lineto
+    closepath
+  } ifelse
+  gsave fill grestore
+  gsave Black stroke grestore
+} def
+
+/Vtriangle { 
+  % y0 y1 /dir str
+  Vlabel
+  /right eq {
+    newpath 
+    exch dup 
+    current_row_base exch moveto box_top exch lineto triangle_tip exch lineto
+    closepath
+  } {
+    newpath 
+    dup 
+    current_row_base exch moveto box_top exch lineto triangle_tip exch lineto
+    closepath
+  } ifelse
+  gsave fill grestore
+  gsave Black stroke grestore
+} def
+
+/Harrow_basic {
+  gsave
+    Black
+    % x0 x1 /dir
+    /right eq { 1 index arrow_gap translate }
+	      { 0 index arrow_gap translate -1 1 scale } ifelse
+    /_arrowhead_len { 1 16 div inch } def  
+    exch sub /_arrowbody_len exch def
+
+%%    _arrowbody_len _arrowhead_len ge {
+      newpath
+        _arrowbody_len triangle_tip moveto
+        _arrowhead_len neg box_height 6 div rlineto
+        0 box_height 3 div neg rlineto
+      closepath fill
+%%    } if
+    0 triangle_tip moveto _arrowbody_len triangle_tip lineto stroke    
+  grestore
+} def
+
+/Harrow { % x0 x1 /dir str
+  Hotherlabel
+  Harrow_basic
+} def
+
+/Hthinarrow {
+  Hlabel
+  Harrow_basic
+} def
+
+/Hthickarrow { % x0 x1 dir str
+  Hlabel
+  /right eq {
+    newpath
+    exch
+    dup arrow_bottom moveto arrow_top lineto 
+    dup 
+      box_height sub dup dup
+	arrow_top lineto 
+	box_top lineto
+	exch
+      triangle_tip lineto
+    dup
+      box_bottom lineto
+      arrow_bottom lineto
+    closepath
+  } {
+    newpath
+    dup arrow_bottom moveto arrow_top lineto
+    dup 
+      box_height add dup dup
+   	arrow_top lineto 
+	box_top lineto
+	exch
+      triangle_tip lineto
+    dup
+      box_bottom lineto
+      arrow_bottom lineto
+    closepath
+  } ifelse
+  gsave fill grestore
+  gsave Black stroke grestore
+} def
+
+/Varrow_basic {
+  gsave
+    Black
+    % y0 y1
+    /right eq { box_bottom 2 index translate }
+	      { box_bottom 1 index translate 1 -1 scale } ifelse
+    /_arrowhead_len { 1 16 div inch } def  
+    exch sub /_arrowbody_len exch def
+
+%%    _arrowbody_len _arrowhead_len ge {
+      newpath
+        triangle_tip _arrowbody_len moveto
+        box_height 6 div _arrowhead_len neg rlineto
+        box_height 3 div neg 0 rlineto
+      closepath fill
+%%    } if
+    triangle_tip 0 moveto triangle_tip _arrowbody_len lineto stroke    
+  grestore
+} def
+
+/Varrow {  % y0 y1 /dir str 
+  Votherlabel
+  Varrow_basic
+} def
+
+/Vthinarrow {
+  Vlabel
+  Varrow_basic
+} def
+
+/Vthickarrow { % y0 y1 /dir str
+  Vlabel
+  /right eq {
+    newpath
+    exch % y1 y0
+    dup 
+      arrow_bottom exch moveto	% a_b y0 moveto
+      arrow_top exch lineto   	% a_t y0 lineto
+    dup 
+      box_height sub dup dup  	% y1 y1-b_h y1-b_h y1-b_h 
+	arrow_top exch lineto 	% a_t (y1-b_h) lineto
+	box_top exch lineto	% b_t (y1-b_h) lineto
+	exch                  	% y1-b_h y1
+      triangle_tip exch lineto 	% d_t y1 lineto
+    dup                       	% y1-b_h y1-b_h 
+      box_bottom exch lineto  	% b_b y1-b_h lineto
+      arrow_bottom exch lineto	% a_b y1-b_h lineto
+    closepath
+  } {
+    newpath
+    dup 
+      arrow_bottom exch moveto	% a_b y0 moveto
+      arrow_top exch lineto   	% a_t y0 lineto
+    dup 
+      box_height add dup dup  	% y1 y1-b_h y1-b_h y1-b_h 
+	arrow_top exch lineto 	% a_t (y1-b_h) lineto
+	box_top exch lineto	% b_t (y1-b_h) lineto
+	exch                  	% y1-b_h y1
+      triangle_tip exch lineto 	% d_t y1 lineto
+    dup                       	% y1-b_h y1-b_h 
+      box_bottom exch lineto  	% b_b y1-b_h lineto
+      arrow_bottom exch lineto	% a_b y1-b_h lineto
+    closepath
+  } ifelse
+  gsave fill grestore
+  gsave Black stroke grestore
+} def
+
+/Hvoid { % x0 x1 str
+  /foo exch Hlabel pop
+  pop pop
+} def
+
+/Vvoid { % x0 x1 str
+  /foo exch Vlabel pop
+  pop pop
+} def
+
+/Hbox { % x0 x1 str
+  /foo exch Hlabel pop
+  % x0 x1
+  newpath
+  exch 
+  dup current_row_base moveto box_top lineto 
+  dup box_top lineto current_row_base lineto
+  closepath
+  gsave fill grestore
+  gsave Black stroke grestore
+} def
+
+/Vbox {
+  /foo exch Vlabel pop
+  % x0 x1
+  newpath
+  exch 
+  dup current_row_base exch moveto box_top exch lineto 
+  dup box_top exch lineto current_row_base exch lineto
+  closepath
+  gsave fill grestore
+  gsave Black stroke grestore
+} def
+
+/Harrowbox {
+  Hlabel
+  /right eq {
+    newpath
+    /Harrowbox_1 exch def
+    /Harrowbox_0 exch def
+    Harrowbox_0 dup box_bottom moveto box_top lineto 
+    Harrowbox_1 dup 
+      box_height 4 div sub Harrowbox_0 max
+      dup 
+	box_top lineto 
+	exch triangle_tip lineto
+      box_bottom lineto
+    closepath
+  } {
+    newpath
+    /Harrowbox_0 exch def
+    /Harrowbox_1 exch def
+    Harrowbox_0 dup box_bottom moveto box_top lineto
+    Harrowbox_1 dup 
+      box_height 4 div add Harrowbox_0 min
+      dup
+	box_top lineto
+	exch triangle_tip lineto
+      box_bottom lineto
+    closepath
+  } ifelse
+  gsave fill grestore
+  gsave 0 setlinewidth Black stroke grestore
+} def
+
+/Varrowbox { % y0 y1 /dir str
+  Vlabel
+  /right eq {
+    newpath
+    /Varrowbox_1 exch def
+    /Varrowbox_0 exch def
+    Varrowbox_0 dup 
+      box_bottom exch moveto
+      box_top exch lineto   	
+    Varrowbox_1 dup 
+      box_height 4 div sub Varrowbox_0 max dup box_top exch lineto exch
+      triangle_tip exch lineto 	
+      box_bottom exch lineto  	
+    closepath
+  } {
+    newpath
+    /Varrowbox_0 exch def
+    /Varrowbox_1 exch def
+    Varrowbox_0 dup 
+      box_bottom exch moveto	
+      box_top exch lineto   	
+    Varrowbox_1 dup 
+      box_height 4 div add Varrowbox_0 min dup box_top exch lineto exch
+      triangle_tip exch lineto 	
+      box_bottom exch lineto  	
+    closepath
+  } ifelse
+  gsave fill grestore
+  gsave 0 setlinewidth Black stroke grestore
+} def
+
+
+%  Mode switching commands.  Horizontal puts you in horizontal
+%  mode, ready to lay out the horizontal annotations.  Similarly
+%  for vertical.
+
+/setrow { box_height row_gap add mul /current_row_base exch def } def
+/setsize { 1.0 exch sub box_height mul 2 div /box_adjustment exch def } def
+
+/setup-bars { % ishorizontal --
+  __landscape xor not {
+    /Bars { <CCCCCCCCCCCCCCCC> 8 1 dpi 16 div setpattern } def
+    /Bars0 { <CCCCCCCCCCCCCCCC> 8 1 dpi 16 div setpattern } def
+    /Bars1 { <FFFF0000FFFF0000> 8 1 dpi 16 div setpattern } def
+    /Bars2 { <8142241818244281> 8 1 dpi 16 div setpattern } def
+  } { 
+    /Bars { <FFFF0000FFFF0000> 8 1 dpi 16 div setpattern } def
+    /Bars0 { <FFFF0000FFFF0000> 8 1 dpi 16 div setpattern } def
+    /Bars1 { <CCCCCCCCCCCCCCCC> 8 1 dpi 16 div setpattern } def
+    /Bars2 { <8142241818244281> 8 1 dpi 16 div setpattern } def
+  } ifelse
+} def
+
+/horizontal { 
+  main
+  initclip
+  bordermatrix setmatrix
+  0 H_row_base translate
+  /horizontalmatrix matrix currentmatrix def
+
+  clip-features {
+	_x0 -1 inch moveto 
+	_x0 4 inch lineto 
+	_x1 4 inch lineto 
+	_x1 -1 inch lineto closepath clip
+  } if
+
+  /Arrow { parameter-type-kludge Harrow } def
+  /ArrowBox { parameter-type-kludge Harrowbox 1 setsize } def
+  /Triangle { parameter-type-kludge Htriangle } def
+  /ThickArrow { parameter-type-kludge Hthickarrow } def
+  /ThinArrow { parameter-type-kludge Hthinarrow } def
+  /Banner { Hbanner } def
+  /Box { Hbox } def
+  /Void { Hvoid } def
+  true setup-bars
+  0 setrow
+} def
+
+/vertical { 
+  main
+  initclip
+  bordermatrix setmatrix
+  inverted-features {
+	  _x0 _y0 translate 1 -1 scale 0 height neg translate
+	  _x0 neg _y0 neg translate } if
+  
+  V_row_base 0 translate -1 1 scale
+  /verticalmatrix matrix currentmatrix def
+
+  clip-features {
+  	4 inch _y0 moveto 
+  	4 inch _y1 lineto 
+  	-1 inch _y1 lineto 
+  	-1 inch _y0 lineto closepath clip
+  } if
+
+  /ArrowBox { parameter-type-kludge Varrowbox 1 setsize } def
+  /Arrow { parameter-type-kludge Varrow } def
+  /Triangle { parameter-type-kludge Vtriangle } def
+  /ThickArrow { parameter-type-kludge Vthickarrow } def
+  /ThinArrow { parameter-type-kludge Vthinarrow } def
+  /Banner { Vbanner } def
+  /Box { Vbox } def
+  /Void { Vvoid } def
+  false setup-bars
+  0 setrow
+} def
+
+% Switch to data plotting mode.
+/plotdata {
+  main
+  bordermatrix setmatrix
+  inverted-dotplot {
+	  _x0 _y0 translate 1 -1 scale 0 height neg translate
+	  _x0 neg _y0 neg translate } if
+  report-plot-once
+  clip-to-selection
+} def
+
+/do-report-plot { 
+	/picture-xforms	
+		picture-xforms aload length  % m1 m2 ... mi i
+		matrix currentmatrix matrix defaultmatrix
+		matrix invertmatrix matrix concatmatrix 
+		dup /my-xform exch def
+		exch 1 add array astore 
+	store
+	(xform )print my-xform ==
+	_x1 _y1 my-xform transform _x0 _y0 my-xform transform 
+        (bbox )print % x0 y0 x1 y1
+	exch i2s print ( )print i2s print ( )print 
+	exch i2s print ( )print i2s print (\n)print
+} def
+
+/report-plot-once { 
+	do-report-plot
+	/do-report-plot {} def
+} def
+
+%  Utility variables
+/Fontsize 11 def
+/Null [[() /Courier]] def  % empty label
+/Black { unsetpattern 0 setgray } def
+/White { unsetpattern 1 setgray } def
+/Gray  { unsetpattern 0.5 setgray } def
+/LightGray  { unsetpattern 0.9 setgray } def
+/DarkGray  { unsetpattern 0.5 setgray } def
+
+%
+% dpi, bitison, setpattern are adapted from code in the
+% Postscript Tutorial and Cookbook, copr Adobe, 1985.
+%
+/resmatrix matrix def
+/dpi 
+  72 0 resmatrix defaultmatrix dtransform /yres exch def /xres exch def
+  xres dup mul yres dup mul add sqrt
+def
+
+/bitison {
+  /ybit exch def /xbit exch def
+  bstring ybit bwidth mul xbit 8 idiv add get
+  1 7 xbit 8 mod sub bitshift and 0 ne
+} def
+
+/setpattern {
+   /freq exch def /bwidth exch def /bpside exch def /bstring exch def
+   /onbits 0 def /offbits 0 def
+   freq 0
+     {/y exch def /x exch def
+      /xindex x 1 add 2 div
+         bpside mul cvi def
+      /yindex y 1 add 2 div
+         bpside mul cvi def
+      xindex yindex bitison
+        {/onbits onbits 1 add def 1}
+        {/offbits offbits 1 add def
+         0}
+        ifelse
+      }  setscreen
+   {} settransfer
+   offbits offbits onbits add div
+     setgray
+   /custom-pattern true def
+} def
+
+% Put back default pattern function.
+/unsetpattern {
+  custom-pattern {
+    /custom-pattern false def
+    saved-screen aload pop
+    dup type /dicttype eq
+      { sethalftone pop pop }
+      { setscreen }
+    ifelse
+  } if
+} def
+
+% Clip to the box around the plot.
+/clip-to-selection { 
+  initclip newpath _x0 _y0 moveto 0 height rlineto 
+  width 0 rlineto 0 height neg rlineto closepath clip
+} def
+
+/set-tic-font {
+  tic-font findfont tic-font-size scalefont setfont
+} def
+
+% -------------------------------------------------------------------------
+% entry point here
+
+/main { _main /_main {} def } def  % do main just once
+/_main { __main } def
+/__main {
+  user-options
+  /_x0 x0 def /_y0 y0 def /_x1 x1 def /_y1 y1 def
+  (plot )print
+  x0 i2s print ( )print
+  y0 i2s print ( )print
+  x1 i2s print ( )print
+  y1 i2s print (\n)print
+
+  % -- savedmatrix is the initial coordinate system
+  %    we use it to render text
+  /savedmatrix matrix currentmatrix def
+  /custom-pattern false def
+
+  /saved-screen [ currentscreen ] def
+
+  /Times-Roman findfont Fontsize scalefont setfont 
+
+  /width _x1 _x0 sub def /height _y1 _y0 sub def
+
+  % Decide on landscape or portrait mode based on width/height.
+  page-orientation 0 eq {
+    width height ge 
+      { /page-orientation 1 def } 
+      { /page-orientation 2 def } 
+    ifelse
+  } if
+
+  noauto {
+    /_page_y1  11 inch def
+    /_page_y0  0 def
+    /_page_x1  8.5 inch def
+    /_page_x0  0 def
+  } {
+    clippath pathbbox
+    /_page_y1 exch def
+    /_page_x1 exch def
+    /_page_y0 exch def
+    /_page_x0 exch def
+  } ifelse
+
+  /_page_dy _page_y1 _page_y0 sub def
+  /_page_dx _page_x1 _page_x0 sub def
+
+  page-orientation 1 eq {
+    % Landscape mode
+    /__landscape true def
+    _page_dx 0 translate 90 rotate
+    /pagewidth  _page_dy edgewidth sub margin 2 mul sub def 
+    /pageheight _page_dx edgewidth sub margin 2 mul sub def 
+    /Hadjust { 90 rotate } def
+    /Hotheradjust { 180 rotate 0 Fontsize 4 div neg rmoveto } def
+    /Vadjust { 180 rotate } def
+    /Votheradjust { 90 rotate } def
+    /HP { gsave savedmatrix setmatrix 90 rotate set-tic-font show grestore } def
+  } {
+    % Portrait mode
+    /__landscape false def
+    /pagewidth  _page_dx edgewidth sub margin 2 mul sub def 
+    /pageheight _page_dy edgewidth sub margin 2 mul sub def 
+    /Hadjust { 0 rotate } def
+    /Vadjust { 90 rotate } def
+    /Hotheradjust { 90 rotate 0 Fontsize 4 div neg rmoveto } def
+    /Votheradjust { 0 rotate } def
+    /HP { gsave savedmatrix setmatrix set-tic-font show grestore } def
+  } ifelse
+
+  % Offset to avoid margins and such
+  %edgewidth margin add dup neg translate
+  margin dup edgewidth add exch translate
+  (margin )print 
+  margin edgewidth add i2s print ( )print margin i2s print (\n)print
+
+  % Offset for page location
+  x-offset y-offset translate
+  (offset )print x-offset i2s print ( )print y-offset i2s print (\n)print
+
+  % Print title
+  banner-line {
+    0 pageheight moveto edgewidth dup neg exch rmoveto 
+       current-directory show
+    0 pageheight moveto edgewidth dup neg exch rmoveto 0 Fontsize neg rmoveto
+       description show (   ) show date show 
+  } if
+
+  % Scale to dot-plot sizes
+  /tmpwidth override-width 0 ne {override-width} {width} ifelse def
+  /tmpheight override-height 0 ne {override-height} {height} ifelse def
+  /scalefactor 
+    override-scale 0 ne 
+	{72 override-scale div} 
+	{pagewidth tmpwidth div pageheight tmpheight div min}
+    ifelse 
+  def
+  scalefactor dup scale
+  (scale )print scalefactor =
+
+  /units-per-inch 72 scalefactor div def
+
+  % Move origin to upper left of selected region
+  _x0 neg _y0 neg translate
+
+  % -- bordermatrix is erect, but scaled to fit the data
+  %    we use it to render horizontal annotations and tickmarks
+  /bordermatrix matrix currentmatrix def
+
+  % Draw box for axis
+  _x0 _y0 _x1 _y1 1 72 div 0 Frame
+
+  % Draw ticks
+  /ticklen { 1 16 div inch } def
+  /basicticstep { % x - x'
+	  % log round 1 sub 10 exch exp cvi 
+	  log 1 sub truncate 10 exch exp
+	  1 max cvi
+  } def
+
+  /xtic { % x y -
+	  2 copy	% x y x y
+	  ticklen sub cvi % x y x y'
+	  0 0 Line
+  } def
+
+  /ytic { % y x -
+	  2 copy	% y x y x
+	  ticklen add cvi	% y x y x'
+	  4 -1 roll	% x y x' y
+	  0 0 Line 
+  } def
+
+  /xlabel { % x y
+	  2 copy moveto				% x y 
+	  1 index cvi i2s 
+	    stringwidth pop 
+	    2 div scalefactor div neg	% x y -xlen
+	  ticklen -3 mul 				% x y -xlen -3ylen
+	  rmoveto					% x y
+	  pop cvi i2s 
+	  HP	
+  } def
+
+  /ylabel { % y x
+	  exch 2 copy moveto			% x y
+	  ticklen 0 rmoveto exch			% y x
+	  pop y-scale-fudge div cvi i2s 
+	  0 Fontsize 4 div scalefactor div inverted-dotplot not { neg } if
+	  rmoveto
+	  HP
+  } def
+
+  /x-tic-step {
+    htic-step 0 eq { width basicticstep } { htic-step } ifelse
+  } def
+
+  /x-label-step {
+    hlab-step 0 eq { xstep } { hlab-step } ifelse
+  } def
+
+  /y-tic-step {
+    vtic-step 0 eq { height basicticstep } { vtic-step } ifelse
+  } def
+
+  /y-label-step {
+    vlab-step 0 eq { ystep } {h lab-step } ifelse
+  } def
+
+  /xstep x-tic-step cvi def
+  /ystep y-tic-step cvi def
+  /xlabstep x-label-step cvi def
+  /ylabstep y-label-step cvi def
+  /xstart _x0 dup xstep mod sub xstep add def
+  /ystart _y0 dup ystep mod sub ystep add def
+  /xend _x1 dup xstep mod sub xstep sub def
+  /yend _y1 dup ystep mod sub ystep sub def
+
+  /goodxtic { % x - isgood
+	  dup 
+	  _x0 sub abs xstep 10 div gt exch	% b x
+	  _x1 sub abs xstep 10 div gt 	% b b
+	  and				% b
+  } def
+
+  /goodxlabel { % x - isgood
+	  dup _x0 sub abs xstep 10 div gt exch	% b x
+	  dup _x1 sub abs xstep 10 div gt exch	% b b x
+
+	  dup 					% b b x x
+		  _x1 sub abs 			% b b x d
+		  exch				% b b d x
+		  dup cvi i2s stringwidth pop scalefactor div	
+						  % b b d x s
+		  3 -1 roll			% b b x s d
+		  lt 				% b b x b
+		  exch				% b b b x
+	  dup xstep 10 mul mod 0 eq exch		% b b b b x
+	  pop
+	  and and	and 				% b
+  } def
+
+  /goodytic { % y - isgood
+	  dup 
+	  _y0 sub abs ystep 10 div gt exch	% b x
+	  _y1 sub abs ystep 10 div gt 	% b b
+	  and				% b
+  } def
+
+  /goodylabel { % y - isgood
+	% 2 was 10 below
+	  dup _y0 sub abs ystep 2 div gt exch	% b x
+	  dup _y1 sub abs ystep 2 div gt exch	% b b
+	  ystep 5 mul mod 0 eq	
+	  and and
+  } def
+
+  want-htic {
+    bordermatrix setmatrix % X-tics made in border matrix
+    _x0 _y0 2 copy xtic xlabel
+    _x1 _y0 2 copy xtic xlabel
+    htic-step 0 eq {
+      xstart xstep _x1 { 
+	  dup
+	  dup goodxtic { _y0 xtic } { pop } ifelse 
+	  dup goodxlabel { _y0 xlabel } { pop } ifelse
+      } for
+    } {
+      xstart xstep xend { _y0 xtic } for
+      xstart xlabstep xend { 
+		dup tlab-mod mod 0 eq { _y0 xlabel } if 
+      } for
+    } ifelse
+  } if
+
+  want-vtic {
+    bordermatrix setmatrix % Y-tics need new matrix
+    inverted-numbers {
+          _x0 _y0 translate 1 -1 scale 0 height neg translate
+          _x0 neg _y0 neg translate } if
+    _y0 _x1 2 copy ytic ylabel
+    _y1 _x1 2 copy ytic ylabel
+    vtic-step 0 eq {
+      ystart ystep _y1 { 
+	  dup
+	  dup goodytic { _x1 ytic } { pop } ifelse
+	  dup goodylabel { _x1 ylabel } { pop } ifelse
+      } for
+    } {
+      ystart ystep yend { _x1 ytic } for
+      ystart ylabstep yend { _x1 ylabel } for
+    } ifelse
+  } if
+
+  bordermatrix setmatrix
+} def
+
+% ------------------------------------------------------------------------
+% Tag file abbreviations
+
+/Left /left def
+/Right /right def
+/Sub -1 def
+/Sup 1 def
+/Plain 0 def
+
+% extra kludges
+
+/extra-labels { plotdata initclip  /Fontsize 8 def } def
+
+/right-label { % y str
+  _x1 0.2 inch add 
+  3 2 roll % str x y
+  moveto
+  ticklen 0 rmoveto
+  0 Fontsize 4 div scalefactor div inverted-dotplot not { neg } if rmoveto
+  gsave
+    savedmatrix setmatrix Hadjust show-in-font
+  grestore
+} def
+
+/bottom-label { % x str
+  _y0 0.25 inch sub 
+  3 -1 roll exch % str x y
+  moveto
+  ticklen 0 rmoveto
+  0 Fontsize 4 div scalefactor div inverted-dotplot not { neg } if rmoveto
+  gsave
+    savedmatrix setmatrix Hadjust show-in-font
+  grestore
+} def
+
+/bottom-label-rotated { % x str
+  _y0 0.25 inch sub 
+  3 -1 roll exch % str x y
+  moveto
+  ticklen 0 rmoveto
+  0 Fontsize 4 div scalefactor div inverted-dotplot not { neg } if rmoveto
+  gsave   
+    savedmatrix setmatrix Hadjust 90 rotate show-in-font
+  grestore
+} def
+
+/bottom-label-reverse-rotated { % x str
+  _y0 0.25 inch sub 
+  3 -1 roll exch % str x y
+  moveto
+  ticklen 0 rmoveto
+  0 Fontsize 4 div scalefactor div inverted-dotplot not { neg } if rmoveto
+  gsave   
+    savedmatrix setmatrix Hadjust -90 rotate show-in-font
+  grestore
+} def
+
+% ------------------------------------------------------------------------
+% Plot data...
+default-options
+% align: 'percents'
+% W 1
+% Y 2400
+% X  
+/description (
+"npercents nlax.out "
+) def
+/x0 1 def
+/x1 75995 def
+/y0 0 def
+/y1 2400 def
+/vtic-step 240 def
+/y-scale-fudge 24 def
+plotdata
+64050 1536 64094 1536 1 0 Line
+64096 1680 64112 1680 1 0 Line
+64115 1512 64144 1512 1 0 Line
+64145 1464 64178 1464 1 0 Line
+64179 1416 64227 1416 1 0 Line
+64228 1440 64295 1440 1 0 Line
+64304 1392 64407 1392 1 0 Line
+64408 1320 64461 1320 1 0 Line
+64462 1632 64528 1632 1 0 Line
+64548 1992 64553 1992 1 0 Line
+64554 1536 64567 1536 1 0 Line
+64569 1872 64587 1872 1 0 Line
+64589 1152 64627 1152 1 0 Line
+64631 1944 64641 1944 1 0 Line
+64642 2400 64647 2400 1 0 Line
+64661 2232 64676 2232 1 0 Line
+64677 1560 64766 1560 1 0 Line
+64767 1776 64863 1776 1 0 Line
+64864 1992 64998 1992 1 0 Line
+65006 1752 65031 1752 1 0 Line
+65038 1368 65075 1368 1 0 Line
+65077 1968 65326 1968 1 0 Line
+65327 1296 65399 1296 1 0 Line
+65400 1584 65414 1584 1 0 Line
+65435 1704 65448 1704 1 0 Line
+65449 1392 65460 1392 1 0 Line
+65462 1704 65475 1704 1 0 Line
+65476 1368 65536 1368 1 0 Line
+65541 1680 65550 1680 1 0 Line
+65551 1488 65582 1488 1 0 Line
+65630 1512 65640 1512 1 0 Line
+65641 1536 65654 1536 1 0 Line
+65681 1440 65708 1440 1 0 Line
+65821 1536 65834 1536 1 0 Line
+65835 1680 65851 1680 1 0 Line
+65852 2064 65866 2064 1 0 Line
+65871 1392 65911 1392 1 0 Line
+65916 1344 65952 1344 1 0 Line
+65954 2040 65960 2040 1 0 Line
+65961 1344 66010 1344 1 0 Line
+66030 1920 66039 1920 1 0 Line
+66065 1392 66093 1392 1 0 Line
+66094 1464 66114 1464 1 0 Line
+66128 2400 66134 2400 1 0 Line
+66135 1560 66154 1560 1 0 Line
+66156 1800 66325 1800 1 0 Line
+66327 1344 66356 1344 1 0 Line
+66358 1608 66437 1608 1 0 Line
+66439 1632 66463 1632 1 0 Line
+66468 1464 66485 1464 1 0 Line
+66492 1656 66540 1656 1 0 Line
+66548 1296 66582 1296 1 0 Line
+66593 1488 66621 1488 1 0 Line
+66625 1512 66670 1512 1 0 Line
+66672 1464 66707 1464 1 0 Line
+66708 1752 66730 1752 1 0 Line
+66734 1392 66807 1392 1 0 Line
+66809 1704 66829 1704 1 0 Line
+67316 1488 67379 1488 1 0 Line
+67390 1584 67445 1584 1 0 Line
+6006 1512 6057 1512 1 0 Line
+6066 1368 6084 1368 1 0 Line
+6088 1368 6134 1368 1 0 Line
+6135 1560 6175 1560 1 0 Line
+6176 2040 6182 2040 1 0 Line
+6192 1584 6206 1584 1 0 Line
+6210 1584 6290 1584 1 0 Line
+7067 1632 7088 1632 1 0 Line
+7092 1560 7176 1560 1 0 Line
+7194 1800 7225 1800 1 0 Line
+7227 1728 7237 1728 1 0 Line
+7238 1488 7291 1488 1 0 Line
+7298 2016 7310 2016 1 0 Line
+7317 1488 7397 1488 1 0 Line
+7405 1536 7429 1536 1 0 Line
+7431 1704 7458 1704 1 0 Line
+7980 1728 8016 1728 1 0 Line
+8022 2160 8032 2160 1 0 Line
+8040 1680 8073 1680 1 0 Line
+8075 1752 8097 1752 1 0 Line
+8110 1536 8126 1536 1 0 Line
+8127 1680 8153 1680 1 0 Line
+9135 1800 9166 1800 1 0 Line
+9167 1488 9193 1488 1 0 Line
+9194 2088 9209 2088 1 0 Line
+9211 1632 9271 1632 1 0 Line
+9512 1440 9552 1440 1 0 Line
+9554 1776 9584 1776 1 0 Line
+9585 1584 9634 1584 1 0 Line
+9877 1632 9945 1632 1 0 Line
+10143 1872 10165 1872 1 0 Line
+10167 1920 10186 1920 1 0 Line
+10187 1824 10225 1824 1 0 Line
+10276 1632 10366 1632 1 0 Line
+10368 1704 10388 1704 1 0 Line
+10397 1560 10469 1560 1 0 Line
+10470 1584 10481 1584 1 0 Line
+10483 1608 10510 1608 1 0 Line
+10512 1608 10542 1608 1 0 Line
+10548 1728 10569 1728 1 0 Line
+10976 1968 11004 1968 1 0 Line
+11007 1512 11069 1512 1 0 Line
+11071 1512 11141 1512 1 0 Line
+11142 1752 11156 1752 1 0 Line
+11159 2016 11171 2016 1 0 Line
+11172 1560 11200 1560 1 0 Line
+11203 1440 11245 1440 1 0 Line
+11246 1512 11256 1512 1 0 Line
+11259 1608 11286 1608 1 0 Line
+11287 1584 11325 1584 1 0 Line
+11327 1944 11464 1944 1 0 Line
+11469 1560 11566 1560 1 0 Line
+13096 1560 13144 1560 1 0 Line
+13147 1800 13179 1800 1 0 Line
+13181 1992 13192 1992 1 0 Line
+13642 1752 13664 1752 1 0 Line
+13670 1560 13692 1560 1 0 Line
+13694 1800 13713 1800 1 0 Line
+13715 1584 13729 1584 1 0 Line
+13731 1824 13751 1824 1 0 Line
+13752 1728 13806 1728 1 0 Line
+13794 1968 13816 1968 1 0 Line
+13818 1584 13823 1584 1 0 Line
+13835 1440 13987 1440 1 0 Line
+15760 1632 15794 1632 1 0 Line
+15795 2016 15826 2016 1 0 Line
+15827 1200 15850 1200 1 0 Line
+15851 1248 15875 1248 1 0 Line
+15876 1392 15911 1392 1 0 Line
+15927 1848 15944 1848 1 0 Line
+15965 1728 15997 1728 1 0 Line
+16011 1488 16069 1488 1 0 Line
+16072 1560 16106 1560 1 0 Line
+16107 2040 16113 2040 1 0 Line
+16123 1560 16174 1560 1 0 Line
+16179 1824 16217 1824 1 0 Line
+16218 1272 16256 1272 1 0 Line
+16259 1632 16296 1632 1 0 Line
+16297 1872 16310 1872 1 0 Line
+16312 1512 16341 1512 1 0 Line
+16342 1800 16353 1800 1 0 Line
+16354 1368 16393 1368 1 0 Line
+16395 1464 16415 1464 1 0 Line
+16416 1536 16490 1536 1 0 Line
+16492 1248 16512 1248 1 0 Line
+16533 1392 16605 1392 1 0 Line
+16609 1272 16647 1272 1 0 Line
+16648 1392 16681 1392 1 0 Line
+16682 1920 16696 1920 1 0 Line
+16701 1488 16756 1488 1 0 Line
+16759 1392 16782 1392 1 0 Line
+16784 1464 16809 1464 1 0 Line
+16819 1752 16844 1752 1 0 Line
+16847 1992 16858 1992 1 0 Line
+17017 1344 17071 1344 1 0 Line
+17073 1776 17119 1776 1 0 Line
+17127 2040 17147 2040 1 0 Line
+17146 1680 17210 1680 1 0 Line
+17211 1584 17231 1584 1 0 Line
+17267 1752 17311 1752 1 0 Line
+17313 1584 17324 1584 1 0 Line
+17326 1440 17360 1440 1 0 Line
+17368 1968 17390 1968 1 0 Line
+17875 1992 17904 1992 1 0 Line
+17917 1488 18032 1488 1 0 Line
+18041 1392 18095 1392 1 0 Line
+18099 1920 18108 1920 1 0 Line
+18119 1752 18137 1752 1 0 Line
+18140 2160 18149 2160 1 0 Line
+18155 1704 18175 1704 1 0 Line
+18178 1224 18204 1224 1 0 Line
+18206 1680 18259 1680 1 0 Line
+20077 2208 20089 2208 1 0 Line
+20111 1560 20130 1560 1 0 Line
+20131 1752 20160 1752 1 0 Line
+20161 1584 20169 1584 1 0 Line
+20184 1728 20216 1728 1 0 Line
+20218 1632 20246 1632 1 0 Line
+20251 1680 20301 1680 1 0 Line
+20303 1680 20333 1680 1 0 Line
+20334 1920 20343 1920 1 0 Line
+20347 1536 20371 1536 1 0 Line
+20388 1512 20423 1512 1 0 Line
+20424 1752 20438 1752 1 0 Line
+20443 1920 20462 1920 1 0 Line
+20472 2400 20476 2400 1 0 Line
+20484 1584 20548 1584 1 0 Line
+20549 1584 20584 1584 1 0 Line
+20585 1704 20629 1704 1 0 Line
+21031 1536 21061 1536 1 0 Line
+21063 1608 21090 1608 1 0 Line
+21094 1440 21134 1440 1 0 Line
+21135 1584 21158 1584 1 0 Line
+21160 1848 21194 1848 1 0 Line
+21196 1440 21223 1440 1 0 Line
+21224 1392 21254 1392 1 0 Line
+21264 1752 21286 1752 1 0 Line
+21287 1320 21315 1320 1 0 Line
+21316 1584 21357 1584 1 0 Line
+21359 1512 21380 1512 1 0 Line
+21396 1224 21428 1224 1 0 Line
+21434 1512 21482 1512 1 0 Line
+21497 1272 21541 1272 1 0 Line
+21542 1440 21713 1440 1 0 Line
+21714 1392 21737 1392 1 0 Line
+21738 1368 21887 1368 1 0 Line
+21889 1536 21919 1536 1 0 Line
+21920 1488 21943 1488 1 0 Line
+21944 1632 21962 1632 1 0 Line
+21969 1608 22033 1608 1 0 Line
+22037 2064 22074 2064 1 0 Line
+22075 1992 22086 1992 1 0 Line
+22088 1776 22341 1776 1 0 Line
+22370 1632 22385 1632 1 0 Line
+22390 1800 22401 1800 1 0 Line
+22402 1536 22418 1536 1 0 Line
+22420 1968 22675 1968 1 0 Line
+22681 1320 22689 1320 1 0 Line
+22690 1488 22718 1488 1 0 Line
+22719 1248 22758 1248 1 0 Line
+22815 1656 22827 1656 1 0 Line
+22828 1536 22877 1536 1 0 Line
+22878 1824 22890 1824 1 0 Line
+22894 1920 22903 1920 1 0 Line
+22918 1584 22938 1584 1 0 Line
+22939 1824 22955 1824 1 0 Line
+22956 1992 22961 1992 1 0 Line
+22992 1536 23019 1536 1 0 Line
+23020 1560 23045 1560 1 0 Line
+23047 1416 23068 1416 1 0 Line
+23069 1800 23084 1800 1 0 Line
+23100 1584 23120 1584 1 0 Line
+23121 1656 23133 1656 1 0 Line
+23135 2064 23149 2064 1 0 Line
+23151 1392 23243 1392 1 0 Line
+23262 1752 23276 1752 1 0 Line
+23298 1200 23329 1200 1 0 Line
+23344 1728 23361 1728 1 0 Line
+23378 1536 23391 1536 1 0 Line
+23396 1272 23410 1272 1 0 Line
+23411 1584 23425 1584 1 0 Line
+23438 1608 23468 1608 1 0 Line
+23471 1392 23499 1392 1 0 Line
+23500 1968 23655 1968 1 0 Line
+25042 1704 25069 1704 1 0 Line
+25071 1728 25081 1728 1 0 Line
+25082 1728 25092 1728 1 0 Line
+25102 1440 25161 1440 1 0 Line
+25166 1824 25220 1824 1 0 Line
+25223 1800 25242 1800 1 0 Line
+25244 2400 25251 2400 1 0 Line
+34403 1728 34424 1728 1 0 Line
+34425 1488 34483 1488 1 0 Line
+34486 1848 34512 1848 1 0 Line
+34725 1752 34747 1752 1 0 Line
+34748 1560 34790 1560 1 0 Line
+34815 1488 34857 1488 1 0 Line
+34873 1560 34898 1560 1 0 Line
+34903 1440 34952 1440 1 0 Line
+34953 1824 34973 1824 1 0 Line
+36959 1560 36996 1560 1 0 Line
+37000 1488 37044 1488 1 0 Line
+37073 1560 37110 1560 1 0 Line
+37114 1368 37179 1368 1 0 Line
+37181 1776 37315 1776 1 0 Line
+37331 1632 37346 1632 1 0 Line
+37349 1752 37367 1752 1 0 Line
+37368 1560 37396 1560 1 0 Line
+37399 1512 37420 1512 1 0 Line
+37421 1920 37660 1920 1 0 Line
+38537 1872 38673 1872 1 0 Line
+41895 1560 41932 1560 1 0 Line
+41936 1488 41980 1488 1 0 Line
+42009 1560 42046 1560 1 0 Line
+42050 1368 42115 1368 1 0 Line
+42117 1800 42251 1800 1 0 Line
+42267 1632 42282 1632 1 0 Line
+42285 1752 42303 1752 1 0 Line
+42304 1560 42332 1560 1 0 Line
+42335 1512 42356 1512 1 0 Line
+42357 1920 42596 1920 1 0 Line
+43453 1896 43581 1896 1 0 Line
+57218 1824 57234 1824 1 0 Line
+57239 1488 57292 1488 1 0 Line
+57294 1584 57305 1584 1 0 Line
+57308 1632 57326 1632 1 0 Line
+57327 1680 57370 1680 1 0 Line
+57372 1632 57393 1632 1 0 Line
+57394 1872 57421 1872 1 0 Line
+57423 1824 57469 1824 1 0 Line
+57470 1728 57578 1728 1 0 Line
+57588 1800 57595 1800 1 0 Line
+57597 1416 57618 1416 1 0 Line
+57620 1800 57635 1800 1 0 Line
+57682 1872 57695 1872 1 0 Line
+57696 1512 57769 1512 1 0 Line
+57773 1872 57936 1872 1 0 Line
+57951 1320 57979 1320 1 0 Line
+57983 1464 58008 1464 1 0 Line
+58009 1608 58036 1608 1 0 Line
+58038 1584 58070 1584 1 0 Line
+58082 1872 58100 1872 1 0 Line
+58102 1440 58111 1440 1 0 Line
+58112 1896 58145 1896 1 0 Line
+58146 1824 58162 1824 1 0 Line
+58163 1416 58245 1416 1 0 Line
+58247 2088 58254 2088 1 0 Line
+58255 1416 58306 1416 1 0 Line
+58316 1560 58344 1560 1 0 Line
+58348 1656 58370 1656 1 0 Line
+58375 1152 58409 1152 1 0 Line
+58410 1512 58428 1512 1 0 Line
+58432 2016 58450 2016 1 0 Line
+58455 2088 58470 2088 1 0 Line
+58478 2040 58484 2040 1 0 Line
+58515 1728 58532 1728 1 0 Line
+58554 2400 58558 2400 1 0 Line
+58570 1968 58603 1968 1 0 Line
+58662 1824 58674 1824 1 0 Line
+58696 1536 58779 1536 1 0 Line
+58784 2400 58794 2400 1 0 Line
+58797 1752 58951 1752 1 0 Line
+58956 1560 58984 1560 1 0 Line
+58988 2160 58998 2160 1 0 Line
+58999 1632 59014 1632 1 0 Line
+59027 1320 59044 1320 1 0 Line
+59045 2112 59061 2112 1 0 Line
+59074 1872 59096 1872 1 0 Line
+59320 1872 59333 1872 1 0 Line
+59337 1536 59378 1536 1 0 Line
+59380 1512 59420 1512 1 0 Line
+59433 1800 59456 1800 1 0 Line
+59460 1296 59492 1296 1 0 Line
+59493 1632 59537 1632 1 0 Line
+59539 1488 59554 1488 1 0 Line
+59555 1680 59571 1680 1 0 Line
+59572 1512 59604 1512 1 0 Line
+59940 1680 59973 1680 1 0 Line
+59975 1944 59985 1944 1 0 Line
+59998 2016 60010 2016 1 0 Line
+60011 1632 60039 1632 1 0 Line
+60040 2064 60068 2064 1 0 Line
+60070 1464 60100 1464 1 0 Line
+60107 1512 60139 1512 1 0 Line
+/description (
+"percents nlax.hs4.out "
+) def
+/x0 1 def
+/x1 75995 def
+/y0 0 def
+/y1 2400 def
+/vtic-step 240 def
+/y-scale-fudge 24 def
+plotdata
+3690 1440 3715 1440 1 0 Line
+3716 1392 3771 1392 1 0 Line
+3772 1200 3781 1200 1 0 Line
+3782 1464 3844 1464 1 0 Line
+3845 1560 3885 1560 1 0 Line
+3886 792 3900 792 1 0 Line
+3901 1440 3919 1440 1 0 Line
+3920 1392 3930 1392 1 0 Line
+3931 1680 3984 1680 1 0 Line
+3985 1704 4035 1704 1 0 Line
+% tagfiles: ' tag.style'
+%
+%  icon style for beta-globin gene cluster
+%
+
+/Gene { White Box } def
+/Exon { Null Black Box } def
+/Xon { Black Box } def
+/Alu { Null LightGray Triangle } def
+
+/HS { White Box } def
+/L1  { Null White ArrowBox } def
+/InnerL1 { 0.8 setsize Null White ArrowBox } def
+% htags: ' human.tag'
+horizontal
+%
+%  human beta-like globin gene cluster; with entries 16595-19324 of GenBank
+%  entry HUMHBB replaced with PvuII to Bam from Li et al., and 2687 bp added
+%  to the 5' end.  75995 bp, 2/6/96
+%
+
+0 setrow
+
+700 800 [[(HS5) /Times-Roman]] HS
+3638 3921 [[(HS4) /Times-Roman]] HS
+7237 7462 [[(HS3) /Times-Roman]] HS
+11173 11547 [[(HS2) /Times-Roman]] HS
+15439 16456 [[(HS1) /Times-Roman]] HS
+
+2810 3122 Right Alu
+4653 4946 Left Alu
+8285 8603 Right Alu
+10694 10975 Right Alu
+13299 13611 Right Alu
+15599 15753 Left L1
+17523 17755 Right L1
+19605 19905 Left Alu
+20627 20918 Right Alu
+
+22173 23767 [[(e) /Symbol]] Gene
+22173 22319 Exon
+22442 22664 Exon
+23520 23767 Exon
+
+25805 33823 Left L1
+28572 30674 Left InnerL1
+35094 35398 Right Alu
+35673 35788 Left L1
+
+37165 38756 [[(G) /Times-Roman 8 Sup] [(g) /Symbol]] Gene
+37165 37309 Exon
+37432 37654 Exon
+38541 38756 Exon
+
+40608 40726 Left L1
+
+42101 43672 [[(A) /Times-Roman 8 Sup] [(g) /Symbol]] Gene
+42101 42245 Exon
+42368 42590 Exon
+43457 43672 Exon
+
+45382 45961 Left L1
+47475 47795 Right Alu
+
+48345 49959 [[(yh) /Symbol]] Gene
+48345 48487 Exon
+48609 48831 Exon
+49684 49959 Exon
+
+53582 53885 Left Alu
+54663 54963 Right Alu
+55909 56227 Left L1
+
+57427 59076 [[(d) /Symbol]] Gene
+57427 57568 Exon
+57697 57919 Exon
+58818 59076 Exon
+
+64824 66429 [[(b) /Symbol]] Gene
+64824 64965 Exon
+65096 65318 Exon
+66169 66481 Exon
+
+68190 68454 Left Alu
+69448 69757 Right Alu
+69758 75897 Right L1
+
+2 setrow
+  [[(Human ) /Times-Roman] [(b) /Symbol]
+  [(-like globin gene cluster:) /Times-Roman]] Banner
+% vtags: ' percent.tag'
+vertical
+%
+%  tag file for %-match plots
+%
+
+1 setrow
+  [[(\% ident.) /Times-Roman]] Banner
+/x-axis-label where { pop horizontal 1 setrow x-axis-label Hbanner } if
+/y-axis-label where { pop vertical 1 setrow y-axis-label Vbanner } if
+end grestore
+%!
+gsave
+/language_level  /languagelevel where {pop languagelevel} {1} ifelse def
+/picture-xforms where { pop } { /picture-xforms [] def } ifelse
+1023 dict begin
+  /default-options {
+    /inverted-dotplot false def /inverted-features false def
+    /inverted-numbers false def /clip-features true def
+    /noauto true def
+    /banner-line true def /description () def /date (Sat Feb 22 16:04:52 EST 1997) def
+    /current-directory (/export/home/groucho/webb/alignments/beta.c.newest.d) def
+    /override-width 0 def /override-height 0 def /override-scale 0 def
+    /want-htic true def /want-vtic true def
+    /htic-step 0 def /vtic-step 0 def
+    /hlab-step 0 def /vlab-step 0 def
+    /tlab-mod 1 def
+    /y-scale-fudge 1 def
+    /x-offset 0 def /y-offset 0 def
+    /page-orientation 0 def
+    /tic-font /Helvetica def
+    /tic-font-size 10 def
+  } def
+  /user-options {
+           
+           
+           
+           
+           
+	   
+ 	   
+ 	  /override-scale 2200 def 
+ 	   
+ 	   
+ 	  /banner-line false def 
+ 	  /htic-step 1000 def 
+ 	   
+ 	  /tlab-mod 2000 def 
+ 	   
+ 	  /vtic-step 25 y-scale-fudge mul def 
+ 	   
+ 	   
+ 	  /y-offset 4.5 inch def 
+  	  /page-orientation 1 def 
+          /x0 20000 def /x1 37000 def /y0 1200 def /y1 2400 def 
+       } def
+% ------------------------------------------------------------------------
+% definitions of various things start here
+
+% statusdict begin manualfeed true store end
+/units-per-inch 72 def
+/scalefactor 1 def
+
+/inch { units-per-inch mul } bind def
+/point { scalefactor div } bind def
+
+/margin { 0.7 inch } bind def
+/edgewidth { 1.25 inch } bind def
+/min { 2 copy ge {exch pop} {pop} ifelse } bind def
+/max { 2 copy le {exch pop} {pop} ifelse } bind def
+/i2s { 20 string cvs } bind def
+
+/Line { % x0 y0 x1 y1 t c -
+  unsetpattern 
+  setgray 
+  point setlinewidth 
+  newpath 4 2 roll moveto lineto closepath stroke
+  0 setlinewidth
+} bind def
+
+/$local 32 dict def
+
+/Rect { % x0 y0 x1 y1 h t c -
+  unsetpattern
+  setgray
+  point setlinewidth
+  $local begin
+    /h exch def /y1 exch def /x1 exch def /y0 exch def /x0 exch def
+    /dx x1 x0 sub def
+    /dy y1 y0 sub def
+    /dd dx dx mul dy dy mul add sqrt def
+    gsave
+      x0 y0 translate
+      dx 0 ne { dy dx atan } {45} ifelse rotate
+        newpath
+         0 0 moveto dd 0 rlineto 0 h rlineto dd neg 0 rlineto 0 h neg rlineto
+        stroke
+    grestore
+  end
+  0 setlinewidth
+} bind def
+
+/Circle { % x y r t c -
+  unsetpattern
+  setgray
+  point setlinewidth
+  newpath 0 360 arc closepath stroke
+  0 setlinewidth
+} bind def
+
+/Frame { % x0 y0 x1 y1 t c - 
+  unsetpattern
+  setgray point setlinewidth newpath
+  % x0 y0 x1 y1	
+  1 index 3 index % x0 y0 x1 y1 x1 y0
+  1 index 3 index % x0 y0 x1 y1 x1 y0 x1 y1
+  7 index 1 index % x0 y0 x1 y1 x1 y0 x1 y1 x0 y1
+  1 index 5 index % x0 y0 x1 y1 x1 y0 x1 y1 x0 y1 x0 y0
+  moveto lineto lineto lineto closepath stroke
+  pop pop pop pop
+  0 setlinewidth
+} def
+
+% --------------------------------------
+
+% On lots of things we want the top to parameters to
+% be ``/dir [[stringlist]] '', but for backwards compatability
+% we sometimes have them in the reverse order.  So this checks
+% to see of top is an array, and if not assumes things need to
+% be reversed.
+/parameter-type-kludge { % /dir [[stringlist]]
+  dup type
+  /arraytype ne { exch } if
+} def
+
+
+% This renders a string in a given font.  Uses global Fontsize.
+/show-in-font { % [ str font size sup/sub ]
+  aload length 
+  2 eq { Fontsize 0 } if  % backwards compatability
+  /_script_offset exch def
+  /_font_size exch def
+  /_font_name exch def
+  /_string exch def
+
+  _font_name findfont _font_size scalefont setfont 
+  /_script_offset _script_offset _font_size 2 3 div mul mul def
+  0 _script_offset rmoveto
+   _string show
+  0 _script_offset neg rmoveto
+} def
+
+% This computes the width of a string in a given font.
+/stringwidth-in-font { % [ str font .. ]
+   aload length 2 eq { Fontsize 0 } if  % backwards compatability
+   pop exch findfont exch scalefont setfont stringwidth pop
+} def
+
+% This computes the with of a list of (string * font)s.
+/string-width { % [[str font .. ] ...]
+  /_sum 0 def
+  {stringwidth-in-font _sum add /_sum exch def } forall
+  _sum
+} def
+
+% General parameters for laying out annotations.
+/box_height { 0.15 inch } bind def		% the height of an annotation
+/row_gap { box_height dup -0.2 mul add } bind def	% space between rows of boxes
+/H_row_base {_y1} bind def			% starting place for rows
+/V_row_base {_x0} bind def
+/current_row_base 0 def				% height of nth row above base
+/box_adjustment 0 def
+
+% Parts of various shapes
+/basic_box_top { current_row_base box_height add } def
+/basic_box_bottom { current_row_base } def
+/box_top { basic_box_top box_adjustment sub } def
+/box_bottom { basic_box_bottom box_adjustment add } def
+/text_bottom { box_top row_gap 5 div add } def
+/triangle_tip { current_row_base box_height 2 div add } def
+/arrow_gap { box_height 3 div } def
+/arrow_bottom { current_row_base arrow_gap add } def
+/arrow_top { current_row_base arrow_gap dup add add } def
+
+
+% This draws a horizontal banner in the current row.
+/Hbanner { % [[...]]  -
+ gsave 
+   Black /Fontsize 13 def
+   _x0 box_bottom moveto 
+   savedmatrix setmatrix 
+     Hadjust { show-in-font } forall 
+ grestore
+} def
+
+% These record if anything stuck off the edges of the dotplot.
+/Hundershoot false def
+/Hovershoot false def
+
+% This adjusts the coordinates so they don't overshoot the plot.
+/Hnormalize { % x0 x1 - x0' x1'
+  /Hn_x1 exch def
+  /Hn_x0 exch def
+  Hn_x0 _x0 lt { /Hn_x0 _x0 def /Hundershoot true def } if
+  Hn_x1 _x1 gt { /Hn_x1 _x1 def /Hovershoot true def } if
+  Hn_x0 Hn_x1
+} def
+
+/H_render_label {
+   Black savedmatrix setmatrix Hadjust
+   { show-in-font } forall
+} def
+
+/H_render_other_label {
+   Black savedmatrix setmatrix Hotheradjust
+   { show-in-font } forall
+} def
+
+% This renders a label above the current row.
+/Hlabel {
+ % x0 x1 /dir [[str font] ...] - x0 x1 /dir
+ /Hl_strlist exch def
+ /Hl_dir exch def
+ /Hl_x1 exch def
+ /Hl_x0 exch def
+ Hl_x0 Hl_x1 Hnormalize add
+   Hl_strlist string-width scalefactor div sub 2 div
+   text_bottom moveto
+ gsave
+   /Fontsize 10 def
+   Hl_strlist H_render_label
+ grestore
+ Hl_x0 Hl_x1 Hl_dir
+} def
+
+/Hotherlabel {
+ % x0 x1 /dir [[str font] ...] - x0 x1 /dir
+ /Hl_strlist exch def
+ /Hl_dir exch def
+ /Hl_x1 exch def
+ /Hl_x0 exch def
+ /Fontsize 11 def
+ gsave
+   Hl_x1 Hl_x0 add 2 div text_bottom moveto
+   Hl_strlist H_render_other_label
+ grestore
+ Hl_x0 Hl_x1 Hl_dir
+} def
+
+
+% Vertical versions of the above.
+/Vundershoot false def
+/Vovershoot false def
+
+/Vnormalize {
+  /Vn_y1 exch def
+  /Vn_y0 exch def
+  Vn_y0 _y0 lt { /Vn_y0 _y0 def /Vundershoot true def } if
+  Vn_y1 _y1 gt { /Vn_y1 _y1 def /Vovershoot true def } if
+  Vn_y0 Vn_y1
+} def
+
+/Vbanner {
+ % strlist -
+ gsave 
+   Black /Fontsize 13 def
+   box_bottom inverted-features {_y1}{_y0} ifelse moveto
+   savedmatrix setmatrix 
+     Vadjust { show-in-font } forall 
+ grestore
+} def
+
+/V_render_label {
+   Black savedmatrix setmatrix Vadjust 
+   { show-in-font } forall 
+} def
+
+/V_render_other_label {
+   Black savedmatrix setmatrix Votheradjust
+   { show-in-font } forall 
+} def
+
+/Vlabel {
+ % y0 y1 /foo str - y0 y1 /foo
+ /Vl_strlist exch def
+ /Vl_dir exch def
+ /Vl_y1 exch def
+ /Vl_y0 exch def
+ text_bottom 
+ Vl_y0 Vl_y1 Vnormalize add			% (v0+v1
+   Vl_strlist string-width scalefactor div 
+   inverted-features {add} {sub} ifelse		% +- width)
+   2 div 					% /2
+ moveto
+ gsave 
+   /Fontsize 11 def
+   Vl_strlist V_render_label
+ grestore
+ Vl_y0 Vl_y1 Vl_dir
+} def
+
+/Votherlabel {
+ % y0 y1 /foo str - y0 y1 /foo
+ /Vl_strlist exch def
+ /Vl_dir exch def
+ /Vl_y1 exch def
+ /Vl_y0 exch def
+ /Fontsize 11 def
+ gsave text_bottom Vl_y0 Vl_y1 add 2 div 
+        Fontsize 4 div scalefactor div inverted-features {add}{sub} ifelse 
+        moveto 
+	Vl_strlist dup 
+	string-width scalefactor div 0 rmoveto
+	V_render_other_label grestore
+ Vl_y0 Vl_y1 Vl_dir
+} def
+
+% Various shape annotations
+/Htriangle { % x0 x1 /dir str
+  Hlabel
+  % x0 x1 /dir
+  /right eq {
+    newpath 
+    exch dup current_row_base moveto box_top lineto triangle_tip lineto
+    closepath
+  } {
+    newpath
+    dup current_row_base moveto box_top lineto triangle_tip lineto
+    closepath
+  } ifelse
+  gsave fill grestore
+  gsave Black stroke grestore
+} def
+
+/Vtriangle { 
+  % y0 y1 /dir str
+  Vlabel
+  /right eq {
+    newpath 
+    exch dup 
+    current_row_base exch moveto box_top exch lineto triangle_tip exch lineto
+    closepath
+  } {
+    newpath 
+    dup 
+    current_row_base exch moveto box_top exch lineto triangle_tip exch lineto
+    closepath
+  } ifelse
+  gsave fill grestore
+  gsave Black stroke grestore
+} def
+
+/Harrow_basic {
+  gsave
+    Black
+    % x0 x1 /dir
+    /right eq { 1 index arrow_gap translate }
+	      { 0 index arrow_gap translate -1 1 scale } ifelse
+    /_arrowhead_len { 1 16 div inch } def  
+    exch sub /_arrowbody_len exch def
+
+%%    _arrowbody_len _arrowhead_len ge {
+      newpath
+        _arrowbody_len triangle_tip moveto
+        _arrowhead_len neg box_height 6 div rlineto
+        0 box_height 3 div neg rlineto
+      closepath fill
+%%    } if
+    0 triangle_tip moveto _arrowbody_len triangle_tip lineto stroke    
+  grestore
+} def
+
+/Harrow { % x0 x1 /dir str
+  Hotherlabel
+  Harrow_basic
+} def
+
+/Hthinarrow {
+  Hlabel
+  Harrow_basic
+} def
+
+/Hthickarrow { % x0 x1 dir str
+  Hlabel
+  /right eq {
+    newpath
+    exch
+    dup arrow_bottom moveto arrow_top lineto 
+    dup 
+      box_height sub dup dup
+	arrow_top lineto 
+	box_top lineto
+	exch
+      triangle_tip lineto
+    dup
+      box_bottom lineto
+      arrow_bottom lineto
+    closepath
+  } {
+    newpath
+    dup arrow_bottom moveto arrow_top lineto
+    dup 
+      box_height add dup dup
+   	arrow_top lineto 
+	box_top lineto
+	exch
+      triangle_tip lineto
+    dup
+      box_bottom lineto
+      arrow_bottom lineto
+    closepath
+  } ifelse
+  gsave fill grestore
+  gsave Black stroke grestore
+} def
+
+/Varrow_basic {
+  gsave
+    Black
+    % y0 y1
+    /right eq { box_bottom 2 index translate }
+	      { box_bottom 1 index translate 1 -1 scale } ifelse
+    /_arrowhead_len { 1 16 div inch } def  
+    exch sub /_arrowbody_len exch def
+
+%%    _arrowbody_len _arrowhead_len ge {
+      newpath
+        triangle_tip _arrowbody_len moveto
+        box_height 6 div _arrowhead_len neg rlineto
+        box_height 3 div neg 0 rlineto
+      closepath fill
+%%    } if
+    triangle_tip 0 moveto triangle_tip _arrowbody_len lineto stroke    
+  grestore
+} def
+
+/Varrow {  % y0 y1 /dir str 
+  Votherlabel
+  Varrow_basic
+} def
+
+/Vthinarrow {
+  Vlabel
+  Varrow_basic
+} def
+
+/Vthickarrow { % y0 y1 /dir str
+  Vlabel
+  /right eq {
+    newpath
+    exch % y1 y0
+    dup 
+      arrow_bottom exch moveto	% a_b y0 moveto
+      arrow_top exch lineto   	% a_t y0 lineto
+    dup 
+      box_height sub dup dup  	% y1 y1-b_h y1-b_h y1-b_h 
+	arrow_top exch lineto 	% a_t (y1-b_h) lineto
+	box_top exch lineto	% b_t (y1-b_h) lineto
+	exch                  	% y1-b_h y1
+      triangle_tip exch lineto 	% d_t y1 lineto
+    dup                       	% y1-b_h y1-b_h 
+      box_bottom exch lineto  	% b_b y1-b_h lineto
+      arrow_bottom exch lineto	% a_b y1-b_h lineto
+    closepath
+  } {
+    newpath
+    dup 
+      arrow_bottom exch moveto	% a_b y0 moveto
+      arrow_top exch lineto   	% a_t y0 lineto
+    dup 
+      box_height add dup dup  	% y1 y1-b_h y1-b_h y1-b_h 
+	arrow_top exch lineto 	% a_t (y1-b_h) lineto
+	box_top exch lineto	% b_t (y1-b_h) lineto
+	exch                  	% y1-b_h y1
+      triangle_tip exch lineto 	% d_t y1 lineto
+    dup                       	% y1-b_h y1-b_h 
+      box_bottom exch lineto  	% b_b y1-b_h lineto
+      arrow_bottom exch lineto	% a_b y1-b_h lineto
+    closepath
+  } ifelse
+  gsave fill grestore
+  gsave Black stroke grestore
+} def
+
+/Hvoid { % x0 x1 str
+  /foo exch Hlabel pop
+  pop pop
+} def
+
+/Vvoid { % x0 x1 str
+  /foo exch Vlabel pop
+  pop pop
+} def
+
+/Hbox { % x0 x1 str
+  /foo exch Hlabel pop
+  % x0 x1
+  newpath
+  exch 
+  dup current_row_base moveto box_top lineto 
+  dup box_top lineto current_row_base lineto
+  closepath
+  gsave fill grestore
+  gsave Black stroke grestore
+} def
+
+/Vbox {
+  /foo exch Vlabel pop
+  % x0 x1
+  newpath
+  exch 
+  dup current_row_base exch moveto box_top exch lineto 
+  dup box_top exch lineto current_row_base exch lineto
+  closepath
+  gsave fill grestore
+  gsave Black stroke grestore
+} def
+
+/Harrowbox {
+  Hlabel
+  /right eq {
+    newpath
+    /Harrowbox_1 exch def
+    /Harrowbox_0 exch def
+    Harrowbox_0 dup box_bottom moveto box_top lineto 
+    Harrowbox_1 dup 
+      box_height 4 div sub Harrowbox_0 max
+      dup 
+	box_top lineto 
+	exch triangle_tip lineto
+      box_bottom lineto
+    closepath
+  } {
+    newpath
+    /Harrowbox_0 exch def
+    /Harrowbox_1 exch def
+    Harrowbox_0 dup box_bottom moveto box_top lineto
+    Harrowbox_1 dup 
+      box_height 4 div add Harrowbox_0 min
+      dup
+	box_top lineto
+	exch triangle_tip lineto
+      box_bottom lineto
+    closepath
+  } ifelse
+  gsave fill grestore
+  gsave 0 setlinewidth Black stroke grestore
+} def
+
+/Varrowbox { % y0 y1 /dir str
+  Vlabel
+  /right eq {
+    newpath
+    /Varrowbox_1 exch def
+    /Varrowbox_0 exch def
+    Varrowbox_0 dup 
+      box_bottom exch moveto
+      box_top exch lineto   	
+    Varrowbox_1 dup 
+      box_height 4 div sub Varrowbox_0 max dup box_top exch lineto exch
+      triangle_tip exch lineto 	
+      box_bottom exch lineto  	
+    closepath
+  } {
+    newpath
+    /Varrowbox_0 exch def
+    /Varrowbox_1 exch def
+    Varrowbox_0 dup 
+      box_bottom exch moveto	
+      box_top exch lineto   	
+    Varrowbox_1 dup 
+      box_height 4 div add Varrowbox_0 min dup box_top exch lineto exch
+      triangle_tip exch lineto 	
+      box_bottom exch lineto  	
+    closepath
+  } ifelse
+  gsave fill grestore
+  gsave 0 setlinewidth Black stroke grestore
+} def
+
+
+%  Mode switching commands.  Horizontal puts you in horizontal
+%  mode, ready to lay out the horizontal annotations.  Similarly
+%  for vertical.
+
+/setrow { box_height row_gap add mul /current_row_base exch def } def
+/setsize { 1.0 exch sub box_height mul 2 div /box_adjustment exch def } def
+
+/setup-bars { % ishorizontal --
+  __landscape xor not {
+    /Bars { <CCCCCCCCCCCCCCCC> 8 1 dpi 16 div setpattern } def
+    /Bars0 { <CCCCCCCCCCCCCCCC> 8 1 dpi 16 div setpattern } def
+    /Bars1 { <FFFF0000FFFF0000> 8 1 dpi 16 div setpattern } def
+    /Bars2 { <8142241818244281> 8 1 dpi 16 div setpattern } def
+  } { 
+    /Bars { <FFFF0000FFFF0000> 8 1 dpi 16 div setpattern } def
+    /Bars0 { <FFFF0000FFFF0000> 8 1 dpi 16 div setpattern } def
+    /Bars1 { <CCCCCCCCCCCCCCCC> 8 1 dpi 16 div setpattern } def
+    /Bars2 { <8142241818244281> 8 1 dpi 16 div setpattern } def
+  } ifelse
+} def
+
+/horizontal { 
+  main
+  initclip
+  bordermatrix setmatrix
+  0 H_row_base translate
+  /horizontalmatrix matrix currentmatrix def
+
+  clip-features {
+	_x0 -1 inch moveto 
+	_x0 4 inch lineto 
+	_x1 4 inch lineto 
+	_x1 -1 inch lineto closepath clip
+  } if
+
+  /Arrow { parameter-type-kludge Harrow } def
+  /ArrowBox { parameter-type-kludge Harrowbox 1 setsize } def
+  /Triangle { parameter-type-kludge Htriangle } def
+  /ThickArrow { parameter-type-kludge Hthickarrow } def
+  /ThinArrow { parameter-type-kludge Hthinarrow } def
+  /Banner { Hbanner } def
+  /Box { Hbox } def
+  /Void { Hvoid } def
+  true setup-bars
+  0 setrow
+} def
+
+/vertical { 
+  main
+  initclip
+  bordermatrix setmatrix
+  inverted-features {
+	  _x0 _y0 translate 1 -1 scale 0 height neg translate
+	  _x0 neg _y0 neg translate } if
+  
+  V_row_base 0 translate -1 1 scale
+  /verticalmatrix matrix currentmatrix def
+
+  clip-features {
+  	4 inch _y0 moveto 
+  	4 inch _y1 lineto 
+  	-1 inch _y1 lineto 
+  	-1 inch _y0 lineto closepath clip
+  } if
+
+  /ArrowBox { parameter-type-kludge Varrowbox 1 setsize } def
+  /Arrow { parameter-type-kludge Varrow } def
+  /Triangle { parameter-type-kludge Vtriangle } def
+  /ThickArrow { parameter-type-kludge Vthickarrow } def
+  /ThinArrow { parameter-type-kludge Vthinarrow } def
+  /Banner { Vbanner } def
+  /Box { Vbox } def
+  /Void { Vvoid } def
+  false setup-bars
+  0 setrow
+} def
+
+% Switch to data plotting mode.
+/plotdata {
+  main
+  bordermatrix setmatrix
+  inverted-dotplot {
+	  _x0 _y0 translate 1 -1 scale 0 height neg translate
+	  _x0 neg _y0 neg translate } if
+  report-plot-once
+  clip-to-selection
+} def
+
+/do-report-plot { 
+	/picture-xforms	
+		picture-xforms aload length  % m1 m2 ... mi i
+		matrix currentmatrix matrix defaultmatrix
+		matrix invertmatrix matrix concatmatrix 
+		dup /my-xform exch def
+		exch 1 add array astore 
+	store
+	(xform )print my-xform ==
+	_x1 _y1 my-xform transform _x0 _y0 my-xform transform 
+        (bbox )print % x0 y0 x1 y1
+	exch i2s print ( )print i2s print ( )print 
+	exch i2s print ( )print i2s print (\n)print
+} def
+
+/report-plot-once { 
+	do-report-plot
+	/do-report-plot {} def
+} def
+
+%  Utility variables
+/Fontsize 11 def
+/Null [[() /Courier]] def  % empty label
+/Black { unsetpattern 0 setgray } def
+/White { unsetpattern 1 setgray } def
+/Gray  { unsetpattern 0.5 setgray } def
+/LightGray  { unsetpattern 0.9 setgray } def
+/DarkGray  { unsetpattern 0.5 setgray } def
+
+%
+% dpi, bitison, setpattern are adapted from code in the
+% Postscript Tutorial and Cookbook, copr Adobe, 1985.
+%
+/resmatrix matrix def
+/dpi 
+  72 0 resmatrix defaultmatrix dtransform /yres exch def /xres exch def
+  xres dup mul yres dup mul add sqrt
+def
+
+/bitison {
+  /ybit exch def /xbit exch def
+  bstring ybit bwidth mul xbit 8 idiv add get
+  1 7 xbit 8 mod sub bitshift and 0 ne
+} def
+
+/setpattern {
+   /freq exch def /bwidth exch def /bpside exch def /bstring exch def
+   /onbits 0 def /offbits 0 def
+   freq 0
+     {/y exch def /x exch def
+      /xindex x 1 add 2 div
+         bpside mul cvi def
+      /yindex y 1 add 2 div
+         bpside mul cvi def
+      xindex yindex bitison
+        {/onbits onbits 1 add def 1}
+        {/offbits offbits 1 add def
+         0}
+        ifelse
+      }  setscreen
+   {} settransfer
+   offbits offbits onbits add div
+     setgray
+   /custom-pattern true def
+} def
+
+% Put back default pattern function.
+/unsetpattern {
+  custom-pattern {
+    /custom-pattern false def
+    saved-screen aload pop
+    dup type /dicttype eq
+      { sethalftone pop pop }
+      { setscreen }
+    ifelse
+  } if
+} def
+
+% Clip to the box around the plot.
+/clip-to-selection { 
+  initclip newpath _x0 _y0 moveto 0 height rlineto 
+  width 0 rlineto 0 height neg rlineto closepath clip
+} def
+
+/set-tic-font {
+  tic-font findfont tic-font-size scalefont setfont
+} def
+
+% -------------------------------------------------------------------------
+% entry point here
+
+/main { _main /_main {} def } def  % do main just once
+/_main { __main } def
+/__main {
+  user-options
+  /_x0 x0 def /_y0 y0 def /_x1 x1 def /_y1 y1 def
+  (plot )print
+  x0 i2s print ( )print
+  y0 i2s print ( )print
+  x1 i2s print ( )print
+  y1 i2s print (\n)print
+
+  % -- savedmatrix is the initial coordinate system
+  %    we use it to render text
+  /savedmatrix matrix currentmatrix def
+  /custom-pattern false def
+
+  /saved-screen [ currentscreen ] def
+
+  /Times-Roman findfont Fontsize scalefont setfont 
+
+  /width _x1 _x0 sub def /height _y1 _y0 sub def
+
+  % Decide on landscape or portrait mode based on width/height.
+  page-orientation 0 eq {
+    width height ge 
+      { /page-orientation 1 def } 
+      { /page-orientation 2 def } 
+    ifelse
+  } if
+
+  noauto {
+    /_page_y1  11 inch def
+    /_page_y0  0 def
+    /_page_x1  8.5 inch def
+    /_page_x0  0 def
+  } {
+    clippath pathbbox
+    /_page_y1 exch def
+    /_page_x1 exch def
+    /_page_y0 exch def
+    /_page_x0 exch def
+  } ifelse
+
+  /_page_dy _page_y1 _page_y0 sub def
+  /_page_dx _page_x1 _page_x0 sub def
+
+  page-orientation 1 eq {
+    % Landscape mode
+    /__landscape true def
+    _page_dx 0 translate 90 rotate
+    /pagewidth  _page_dy edgewidth sub margin 2 mul sub def 
+    /pageheight _page_dx edgewidth sub margin 2 mul sub def 
+    /Hadjust { 90 rotate } def
+    /Hotheradjust { 180 rotate 0 Fontsize 4 div neg rmoveto } def
+    /Vadjust { 180 rotate } def
+    /Votheradjust { 90 rotate } def
+    /HP { gsave savedmatrix setmatrix 90 rotate set-tic-font show grestore } def
+  } {
+    % Portrait mode
+    /__landscape false def
+    /pagewidth  _page_dx edgewidth sub margin 2 mul sub def 
+    /pageheight _page_dy edgewidth sub margin 2 mul sub def 
+    /Hadjust { 0 rotate } def
+    /Vadjust { 90 rotate } def
+    /Hotheradjust { 90 rotate 0 Fontsize 4 div neg rmoveto } def
+    /Votheradjust { 0 rotate } def
+    /HP { gsave savedmatrix setmatrix set-tic-font show grestore } def
+  } ifelse
+
+  % Offset to avoid margins and such
+  %edgewidth margin add dup neg translate
+  margin dup edgewidth add exch translate
+  (margin )print 
+  margin edgewidth add i2s print ( )print margin i2s print (\n)print
+
+  % Offset for page location
+  x-offset y-offset translate
+  (offset )print x-offset i2s print ( )print y-offset i2s print (\n)print
+
+  % Print title
+  banner-line {
+    0 pageheight moveto edgewidth dup neg exch rmoveto 
+       current-directory show
+    0 pageheight moveto edgewidth dup neg exch rmoveto 0 Fontsize neg rmoveto
+       description show (   ) show date show 
+  } if
+
+  % Scale to dot-plot sizes
+  /tmpwidth override-width 0 ne {override-width} {width} ifelse def
+  /tmpheight override-height 0 ne {override-height} {height} ifelse def
+  /scalefactor 
+    override-scale 0 ne 
+	{72 override-scale div} 
+	{pagewidth tmpwidth div pageheight tmpheight div min}
+    ifelse 
+  def
+  scalefactor dup scale
+  (scale )print scalefactor =
+
+  /units-per-inch 72 scalefactor div def
+
+  % Move origin to upper left of selected region
+  _x0 neg _y0 neg translate
+
+  % -- bordermatrix is erect, but scaled to fit the data
+  %    we use it to render horizontal annotations and tickmarks
+  /bordermatrix matrix currentmatrix def
+
+  % Draw box for axis
+  _x0 _y0 _x1 _y1 1 72 div 0 Frame
+
+  % Draw ticks
+  /ticklen { 1 16 div inch } def
+  /basicticstep { % x - x'
+	  % log round 1 sub 10 exch exp cvi 
+	  log 1 sub truncate 10 exch exp
+	  1 max cvi
+  } def
+
+  /xtic { % x y -
+	  2 copy	% x y x y
+	  ticklen sub cvi % x y x y'
+	  0 0 Line
+  } def
+
+  /ytic { % y x -
+	  2 copy	% y x y x
+	  ticklen add cvi	% y x y x'
+	  4 -1 roll	% x y x' y
+	  0 0 Line 
+  } def
+
+  /xlabel { % x y
+	  2 copy moveto				% x y 
+	  1 index cvi i2s 
+	    stringwidth pop 
+	    2 div scalefactor div neg	% x y -xlen
+	  ticklen -3 mul 				% x y -xlen -3ylen
+	  rmoveto					% x y
+	  pop cvi i2s 
+	  HP	
+  } def
+
+  /ylabel { % y x
+	  exch 2 copy moveto			% x y
+	  ticklen 0 rmoveto exch			% y x
+	  pop y-scale-fudge div cvi i2s 
+	  0 Fontsize 4 div scalefactor div inverted-dotplot not { neg } if
+	  rmoveto
+	  HP
+  } def
+
+  /x-tic-step {
+    htic-step 0 eq { width basicticstep } { htic-step } ifelse
+  } def
+
+  /x-label-step {
+    hlab-step 0 eq { xstep } { hlab-step } ifelse
+  } def
+
+  /y-tic-step {
+    vtic-step 0 eq { height basicticstep } { vtic-step } ifelse
+  } def
+
+  /y-label-step {
+    vlab-step 0 eq { ystep } {h lab-step } ifelse
+  } def
+
+  /xstep x-tic-step cvi def
+  /ystep y-tic-step cvi def
+  /xlabstep x-label-step cvi def
+  /ylabstep y-label-step cvi def
+  /xstart _x0 dup xstep mod sub xstep add def
+  /ystart _y0 dup ystep mod sub ystep add def
+  /xend _x1 dup xstep mod sub xstep sub def
+  /yend _y1 dup ystep mod sub ystep sub def
+
+  /goodxtic { % x - isgood
+	  dup 
+	  _x0 sub abs xstep 10 div gt exch	% b x
+	  _x1 sub abs xstep 10 div gt 	% b b
+	  and				% b
+  } def
+
+  /goodxlabel { % x - isgood
+	  dup _x0 sub abs xstep 10 div gt exch	% b x
+	  dup _x1 sub abs xstep 10 div gt exch	% b b x
+
+	  dup 					% b b x x
+		  _x1 sub abs 			% b b x d
+		  exch				% b b d x
+		  dup cvi i2s stringwidth pop scalefactor div	
+						  % b b d x s
+		  3 -1 roll			% b b x s d
+		  lt 				% b b x b
+		  exch				% b b b x
+	  dup xstep 10 mul mod 0 eq exch		% b b b b x
+	  pop
+	  and and	and 				% b
+  } def
+
+  /goodytic { % y - isgood
+	  dup 
+	  _y0 sub abs ystep 10 div gt exch	% b x
+	  _y1 sub abs ystep 10 div gt 	% b b
+	  and				% b
+  } def
+
+  /goodylabel { % y - isgood
+	% 2 was 10 below
+	  dup _y0 sub abs ystep 2 div gt exch	% b x
+	  dup _y1 sub abs ystep 2 div gt exch	% b b
+	  ystep 5 mul mod 0 eq	
+	  and and
+  } def
+
+  want-htic {
+    bordermatrix setmatrix % X-tics made in border matrix
+    _x0 _y0 2 copy xtic xlabel
+    _x1 _y0 2 copy xtic xlabel
+    htic-step 0 eq {
+      xstart xstep _x1 { 
+	  dup
+	  dup goodxtic { _y0 xtic } { pop } ifelse 
+	  dup goodxlabel { _y0 xlabel } { pop } ifelse
+      } for
+    } {
+      xstart xstep xend { _y0 xtic } for
+      xstart xlabstep xend { 
+		dup tlab-mod mod 0 eq { _y0 xlabel } if 
+      } for
+    } ifelse
+  } if
+
+  want-vtic {
+    bordermatrix setmatrix % Y-tics need new matrix
+    inverted-numbers {
+          _x0 _y0 translate 1 -1 scale 0 height neg translate
+          _x0 neg _y0 neg translate } if
+    _y0 _x1 2 copy ytic ylabel
+    _y1 _x1 2 copy ytic ylabel
+    vtic-step 0 eq {
+      ystart ystep _y1 { 
+	  dup
+	  dup goodytic { _x1 ytic } { pop } ifelse
+	  dup goodylabel { _x1 ylabel } { pop } ifelse
+      } for
+    } {
+      ystart ystep yend { _x1 ytic } for
+      ystart ylabstep yend { _x1 ylabel } for
+    } ifelse
+  } if
+
+  bordermatrix setmatrix
+} def
+
+% ------------------------------------------------------------------------
+% Tag file abbreviations
+
+/Left /left def
+/Right /right def
+/Sub -1 def
+/Sup 1 def
+/Plain 0 def
+
+% extra kludges
+
+/extra-labels { plotdata initclip  /Fontsize 8 def } def
+
+/right-label { % y str
+  _x1 0.2 inch add 
+  3 2 roll % str x y
+  moveto
+  ticklen 0 rmoveto
+  0 Fontsize 4 div scalefactor div inverted-dotplot not { neg } if rmoveto
+  gsave
+    savedmatrix setmatrix Hadjust show-in-font
+  grestore
+} def
+
+/bottom-label { % x str
+  _y0 0.25 inch sub 
+  3 -1 roll exch % str x y
+  moveto
+  ticklen 0 rmoveto
+  0 Fontsize 4 div scalefactor div inverted-dotplot not { neg } if rmoveto
+  gsave
+    savedmatrix setmatrix Hadjust show-in-font
+  grestore
+} def
+
+/bottom-label-rotated { % x str
+  _y0 0.25 inch sub 
+  3 -1 roll exch % str x y
+  moveto
+  ticklen 0 rmoveto
+  0 Fontsize 4 div scalefactor div inverted-dotplot not { neg } if rmoveto
+  gsave   
+    savedmatrix setmatrix Hadjust 90 rotate show-in-font
+  grestore
+} def
+
+/bottom-label-reverse-rotated { % x str
+  _y0 0.25 inch sub 
+  3 -1 roll exch % str x y
+  moveto
+  ticklen 0 rmoveto
+  0 Fontsize 4 div scalefactor div inverted-dotplot not { neg } if rmoveto
+  gsave   
+    savedmatrix setmatrix Hadjust -90 rotate show-in-font
+  grestore
+} def
+
+% ------------------------------------------------------------------------
+% Plot data...
+default-options
+% align: 'percents'
+% W 1
+% Y 2400
+% X  
+/description (
+"npercents nlax.out "
+) def
+/x0 1 def
+/x1 75995 def
+/y0 0 def
+/y1 2400 def
+/vtic-step 240 def
+/y-scale-fudge 24 def
+plotdata
+64050 1536 64094 1536 1 0 Line
+64096 1680 64112 1680 1 0 Line
+64115 1512 64144 1512 1 0 Line
+64145 1464 64178 1464 1 0 Line
+64179 1416 64227 1416 1 0 Line
+64228 1440 64295 1440 1 0 Line
+64304 1392 64407 1392 1 0 Line
+64408 1320 64461 1320 1 0 Line
+64462 1632 64528 1632 1 0 Line
+64548 1992 64553 1992 1 0 Line
+64554 1536 64567 1536 1 0 Line
+64569 1872 64587 1872 1 0 Line
+64589 1152 64627 1152 1 0 Line
+64631 1944 64641 1944 1 0 Line
+64642 2400 64647 2400 1 0 Line
+64661 2232 64676 2232 1 0 Line
+64677 1560 64766 1560 1 0 Line
+64767 1776 64863 1776 1 0 Line
+64864 1992 64998 1992 1 0 Line
+65006 1752 65031 1752 1 0 Line
+65038 1368 65075 1368 1 0 Line
+65077 1968 65326 1968 1 0 Line
+65327 1296 65399 1296 1 0 Line
+65400 1584 65414 1584 1 0 Line
+65435 1704 65448 1704 1 0 Line
+65449 1392 65460 1392 1 0 Line
+65462 1704 65475 1704 1 0 Line
+65476 1368 65536 1368 1 0 Line
+65541 1680 65550 1680 1 0 Line
+65551 1488 65582 1488 1 0 Line
+65630 1512 65640 1512 1 0 Line
+65641 1536 65654 1536 1 0 Line
+65681 1440 65708 1440 1 0 Line
+65821 1536 65834 1536 1 0 Line
+65835 1680 65851 1680 1 0 Line
+65852 2064 65866 2064 1 0 Line
+65871 1392 65911 1392 1 0 Line
+65916 1344 65952 1344 1 0 Line
+65954 2040 65960 2040 1 0 Line
+65961 1344 66010 1344 1 0 Line
+66030 1920 66039 1920 1 0 Line
+66065 1392 66093 1392 1 0 Line
+66094 1464 66114 1464 1 0 Line
+66128 2400 66134 2400 1 0 Line
+66135 1560 66154 1560 1 0 Line
+66156 1800 66325 1800 1 0 Line
+66327 1344 66356 1344 1 0 Line
+66358 1608 66437 1608 1 0 Line
+66439 1632 66463 1632 1 0 Line
+66468 1464 66485 1464 1 0 Line
+66492 1656 66540 1656 1 0 Line
+66548 1296 66582 1296 1 0 Line
+66593 1488 66621 1488 1 0 Line
+66625 1512 66670 1512 1 0 Line
+66672 1464 66707 1464 1 0 Line
+66708 1752 66730 1752 1 0 Line
+66734 1392 66807 1392 1 0 Line
+66809 1704 66829 1704 1 0 Line
+67316 1488 67379 1488 1 0 Line
+67390 1584 67445 1584 1 0 Line
+6006 1512 6057 1512 1 0 Line
+6066 1368 6084 1368 1 0 Line
+6088 1368 6134 1368 1 0 Line
+6135 1560 6175 1560 1 0 Line
+6176 2040 6182 2040 1 0 Line
+6192 1584 6206 1584 1 0 Line
+6210 1584 6290 1584 1 0 Line
+7067 1632 7088 1632 1 0 Line
+7092 1560 7176 1560 1 0 Line
+7194 1800 7225 1800 1 0 Line
+7227 1728 7237 1728 1 0 Line
+7238 1488 7291 1488 1 0 Line
+7298 2016 7310 2016 1 0 Line
+7317 1488 7397 1488 1 0 Line
+7405 1536 7429 1536 1 0 Line
+7431 1704 7458 1704 1 0 Line
+7980 1728 8016 1728 1 0 Line
+8022 2160 8032 2160 1 0 Line
+8040 1680 8073 1680 1 0 Line
+8075 1752 8097 1752 1 0 Line
+8110 1536 8126 1536 1 0 Line
+8127 1680 8153 1680 1 0 Line
+9135 1800 9166 1800 1 0 Line
+9167 1488 9193 1488 1 0 Line
+9194 2088 9209 2088 1 0 Line
+9211 1632 9271 1632 1 0 Line
+9512 1440 9552 1440 1 0 Line
+9554 1776 9584 1776 1 0 Line
+9585 1584 9634 1584 1 0 Line
+9877 1632 9945 1632 1 0 Line
+10143 1872 10165 1872 1 0 Line
+10167 1920 10186 1920 1 0 Line
+10187 1824 10225 1824 1 0 Line
+10276 1632 10366 1632 1 0 Line
+10368 1704 10388 1704 1 0 Line
+10397 1560 10469 1560 1 0 Line
+10470 1584 10481 1584 1 0 Line
+10483 1608 10510 1608 1 0 Line
+10512 1608 10542 1608 1 0 Line
+10548 1728 10569 1728 1 0 Line
+10976 1968 11004 1968 1 0 Line
+11007 1512 11069 1512 1 0 Line
+11071 1512 11141 1512 1 0 Line
+11142 1752 11156 1752 1 0 Line
+11159 2016 11171 2016 1 0 Line
+11172 1560 11200 1560 1 0 Line
+11203 1440 11245 1440 1 0 Line
+11246 1512 11256 1512 1 0 Line
+11259 1608 11286 1608 1 0 Line
+11287 1584 11325 1584 1 0 Line
+11327 1944 11464 1944 1 0 Line
+11469 1560 11566 1560 1 0 Line
+13096 1560 13144 1560 1 0 Line
+13147 1800 13179 1800 1 0 Line
+13181 1992 13192 1992 1 0 Line
+13642 1752 13664 1752 1 0 Line
+13670 1560 13692 1560 1 0 Line
+13694 1800 13713 1800 1 0 Line
+13715 1584 13729 1584 1 0 Line
+13731 1824 13751 1824 1 0 Line
+13752 1728 13806 1728 1 0 Line
+13794 1968 13816 1968 1 0 Line
+13818 1584 13823 1584 1 0 Line
+13835 1440 13987 1440 1 0 Line
+15760 1632 15794 1632 1 0 Line
+15795 2016 15826 2016 1 0 Line
+15827 1200 15850 1200 1 0 Line
+15851 1248 15875 1248 1 0 Line
+15876 1392 15911 1392 1 0 Line
+15927 1848 15944 1848 1 0 Line
+15965 1728 15997 1728 1 0 Line
+16011 1488 16069 1488 1 0 Line
+16072 1560 16106 1560 1 0 Line
+16107 2040 16113 2040 1 0 Line
+16123 1560 16174 1560 1 0 Line
+16179 1824 16217 1824 1 0 Line
+16218 1272 16256 1272 1 0 Line
+16259 1632 16296 1632 1 0 Line
+16297 1872 16310 1872 1 0 Line
+16312 1512 16341 1512 1 0 Line
+16342 1800 16353 1800 1 0 Line
+16354 1368 16393 1368 1 0 Line
+16395 1464 16415 1464 1 0 Line
+16416 1536 16490 1536 1 0 Line
+16492 1248 16512 1248 1 0 Line
+16533 1392 16605 1392 1 0 Line
+16609 1272 16647 1272 1 0 Line
+16648 1392 16681 1392 1 0 Line
+16682 1920 16696 1920 1 0 Line
+16701 1488 16756 1488 1 0 Line
+16759 1392 16782 1392 1 0 Line
+16784 1464 16809 1464 1 0 Line
+16819 1752 16844 1752 1 0 Line
+16847 1992 16858 1992 1 0 Line
+17017 1344 17071 1344 1 0 Line
+17073 1776 17119 1776 1 0 Line
+17127 2040 17147 2040 1 0 Line
+17146 1680 17210 1680 1 0 Line
+17211 1584 17231 1584 1 0 Line
+17267 1752 17311 1752 1 0 Line
+17313 1584 17324 1584 1 0 Line
+17326 1440 17360 1440 1 0 Line
+17368 1968 17390 1968 1 0 Line
+17875 1992 17904 1992 1 0 Line
+17917 1488 18032 1488 1 0 Line
+18041 1392 18095 1392 1 0 Line
+18099 1920 18108 1920 1 0 Line
+18119 1752 18137 1752 1 0 Line
+18140 2160 18149 2160 1 0 Line
+18155 1704 18175 1704 1 0 Line
+18178 1224 18204 1224 1 0 Line
+18206 1680 18259 1680 1 0 Line
+20077 2208 20089 2208 1 0 Line
+20111 1560 20130 1560 1 0 Line
+20131 1752 20160 1752 1 0 Line
+20161 1584 20169 1584 1 0 Line
+20184 1728 20216 1728 1 0 Line
+20218 1632 20246 1632 1 0 Line
+20251 1680 20301 1680 1 0 Line
+20303 1680 20333 1680 1 0 Line
+20334 1920 20343 1920 1 0 Line
+20347 1536 20371 1536 1 0 Line
+20388 1512 20423 1512 1 0 Line
+20424 1752 20438 1752 1 0 Line
+20443 1920 20462 1920 1 0 Line
+20472 2400 20476 2400 1 0 Line
+20484 1584 20548 1584 1 0 Line
+20549 1584 20584 1584 1 0 Line
+20585 1704 20629 1704 1 0 Line
+21031 1536 21061 1536 1 0 Line
+21063 1608 21090 1608 1 0 Line
+21094 1440 21134 1440 1 0 Line
+21135 1584 21158 1584 1 0 Line
+21160 1848 21194 1848 1 0 Line
+21196 1440 21223 1440 1 0 Line
+21224 1392 21254 1392 1 0 Line
+21264 1752 21286 1752 1 0 Line
+21287 1320 21315 1320 1 0 Line
+21316 1584 21357 1584 1 0 Line
+21359 1512 21380 1512 1 0 Line
+21396 1224 21428 1224 1 0 Line
+21434 1512 21482 1512 1 0 Line
+21497 1272 21541 1272 1 0 Line
+21542 1440 21713 1440 1 0 Line
+21714 1392 21737 1392 1 0 Line
+21738 1368 21887 1368 1 0 Line
+21889 1536 21919 1536 1 0 Line
+21920 1488 21943 1488 1 0 Line
+21944 1632 21962 1632 1 0 Line
+21969 1608 22033 1608 1 0 Line
+22037 2064 22074 2064 1 0 Line
+22075 1992 22086 1992 1 0 Line
+22088 1776 22341 1776 1 0 Line
+22370 1632 22385 1632 1 0 Line
+22390 1800 22401 1800 1 0 Line
+22402 1536 22418 1536 1 0 Line
+22420 1968 22675 1968 1 0 Line
+22681 1320 22689 1320 1 0 Line
+22690 1488 22718 1488 1 0 Line
+22719 1248 22758 1248 1 0 Line
+22815 1656 22827 1656 1 0 Line
+22828 1536 22877 1536 1 0 Line
+22878 1824 22890 1824 1 0 Line
+22894 1920 22903 1920 1 0 Line
+22918 1584 22938 1584 1 0 Line
+22939 1824 22955 1824 1 0 Line
+22956 1992 22961 1992 1 0 Line
+22992 1536 23019 1536 1 0 Line
+23020 1560 23045 1560 1 0 Line
+23047 1416 23068 1416 1 0 Line
+23069 1800 23084 1800 1 0 Line
+23100 1584 23120 1584 1 0 Line
+23121 1656 23133 1656 1 0 Line
+23135 2064 23149 2064 1 0 Line
+23151 1392 23243 1392 1 0 Line
+23262 1752 23276 1752 1 0 Line
+23298 1200 23329 1200 1 0 Line
+23344 1728 23361 1728 1 0 Line
+23378 1536 23391 1536 1 0 Line
+23396 1272 23410 1272 1 0 Line
+23411 1584 23425 1584 1 0 Line
+23438 1608 23468 1608 1 0 Line
+23471 1392 23499 1392 1 0 Line
+23500 1968 23655 1968 1 0 Line
+25042 1704 25069 1704 1 0 Line
+25071 1728 25081 1728 1 0 Line
+25082 1728 25092 1728 1 0 Line
+25102 1440 25161 1440 1 0 Line
+25166 1824 25220 1824 1 0 Line
+25223 1800 25242 1800 1 0 Line
+25244 2400 25251 2400 1 0 Line
+34403 1728 34424 1728 1 0 Line
+34425 1488 34483 1488 1 0 Line
+34486 1848 34512 1848 1 0 Line
+34725 1752 34747 1752 1 0 Line
+34748 1560 34790 1560 1 0 Line
+34815 1488 34857 1488 1 0 Line
+34873 1560 34898 1560 1 0 Line
+34903 1440 34952 1440 1 0 Line
+34953 1824 34973 1824 1 0 Line
+36959 1560 36996 1560 1 0 Line
+37000 1488 37044 1488 1 0 Line
+37073 1560 37110 1560 1 0 Line
+37114 1368 37179 1368 1 0 Line
+37181 1776 37315 1776 1 0 Line
+37331 1632 37346 1632 1 0 Line
+37349 1752 37367 1752 1 0 Line
+37368 1560 37396 1560 1 0 Line
+37399 1512 37420 1512 1 0 Line
+37421 1920 37660 1920 1 0 Line
+38537 1872 38673 1872 1 0 Line
+41895 1560 41932 1560 1 0 Line
+41936 1488 41980 1488 1 0 Line
+42009 1560 42046 1560 1 0 Line
+42050 1368 42115 1368 1 0 Line
+42117 1800 42251 1800 1 0 Line
+42267 1632 42282 1632 1 0 Line
+42285 1752 42303 1752 1 0 Line
+42304 1560 42332 1560 1 0 Line
+42335 1512 42356 1512 1 0 Line
+42357 1920 42596 1920 1 0 Line
+43453 1896 43581 1896 1 0 Line
+57218 1824 57234 1824 1 0 Line
+57239 1488 57292 1488 1 0 Line
+57294 1584 57305 1584 1 0 Line
+57308 1632 57326 1632 1 0 Line
+57327 1680 57370 1680 1 0 Line
+57372 1632 57393 1632 1 0 Line
+57394 1872 57421 1872 1 0 Line
+57423 1824 57469 1824 1 0 Line
+57470 1728 57578 1728 1 0 Line
+57588 1800 57595 1800 1 0 Line
+57597 1416 57618 1416 1 0 Line
+57620 1800 57635 1800 1 0 Line
+57682 1872 57695 1872 1 0 Line
+57696 1512 57769 1512 1 0 Line
+57773 1872 57936 1872 1 0 Line
+57951 1320 57979 1320 1 0 Line
+57983 1464 58008 1464 1 0 Line
+58009 1608 58036 1608 1 0 Line
+58038 1584 58070 1584 1 0 Line
+58082 1872 58100 1872 1 0 Line
+58102 1440 58111 1440 1 0 Line
+58112 1896 58145 1896 1 0 Line
+58146 1824 58162 1824 1 0 Line
+58163 1416 58245 1416 1 0 Line
+58247 2088 58254 2088 1 0 Line
+58255 1416 58306 1416 1 0 Line
+58316 1560 58344 1560 1 0 Line
+58348 1656 58370 1656 1 0 Line
+58375 1152 58409 1152 1 0 Line
+58410 1512 58428 1512 1 0 Line
+58432 2016 58450 2016 1 0 Line
+58455 2088 58470 2088 1 0 Line
+58478 2040 58484 2040 1 0 Line
+58515 1728 58532 1728 1 0 Line
+58554 2400 58558 2400 1 0 Line
+58570 1968 58603 1968 1 0 Line
+58662 1824 58674 1824 1 0 Line
+58696 1536 58779 1536 1 0 Line
+58784 2400 58794 2400 1 0 Line
+58797 1752 58951 1752 1 0 Line
+58956 1560 58984 1560 1 0 Line
+58988 2160 58998 2160 1 0 Line
+58999 1632 59014 1632 1 0 Line
+59027 1320 59044 1320 1 0 Line
+59045 2112 59061 2112 1 0 Line
+59074 1872 59096 1872 1 0 Line
+59320 1872 59333 1872 1 0 Line
+59337 1536 59378 1536 1 0 Line
+59380 1512 59420 1512 1 0 Line
+59433 1800 59456 1800 1 0 Line
+59460 1296 59492 1296 1 0 Line
+59493 1632 59537 1632 1 0 Line
+59539 1488 59554 1488 1 0 Line
+59555 1680 59571 1680 1 0 Line
+59572 1512 59604 1512 1 0 Line
+59940 1680 59973 1680 1 0 Line
+59975 1944 59985 1944 1 0 Line
+59998 2016 60010 2016 1 0 Line
+60011 1632 60039 1632 1 0 Line
+60040 2064 60068 2064 1 0 Line
+60070 1464 60100 1464 1 0 Line
+60107 1512 60139 1512 1 0 Line
+/description (
+"percents nlax.hs4.out "
+) def
+/x0 1 def
+/x1 75995 def
+/y0 0 def
+/y1 2400 def
+/vtic-step 240 def
+/y-scale-fudge 24 def
+plotdata
+3690 1440 3715 1440 1 0 Line
+3716 1392 3771 1392 1 0 Line
+3772 1200 3781 1200 1 0 Line
+3782 1464 3844 1464 1 0 Line
+3845 1560 3885 1560 1 0 Line
+3886 792 3900 792 1 0 Line
+3901 1440 3919 1440 1 0 Line
+3920 1392 3930 1392 1 0 Line
+3931 1680 3984 1680 1 0 Line
+3985 1704 4035 1704 1 0 Line
+% tagfiles: ' tag.style'
+%
+%  icon style for beta-globin gene cluster
+%
+
+/Gene { White Box } def
+/Exon { Null Black Box } def
+/Xon { Black Box } def
+/Alu { Null LightGray Triangle } def
+
+/HS { White Box } def
+/L1  { Null White ArrowBox } def
+/InnerL1 { 0.8 setsize Null White ArrowBox } def
+% htags: ' newhuman.tag2'
+horizontal
+%
+%  human beta-like globin gene cluster; with entries 16595-19324 of GenBank
+%  entry HUMHBB replaced with PvuII to Bam from Li et al., and 2687 bp added
+%  to the 5' end.  75995 bp, 2/6/96
+%
+
+0 setrow
+
+700 800 [[(HS5) /Times-Roman]] HS
+3638 3921 [[(HS4) /Times-Roman]] HS
+7237 7462 [[(HS3) /Times-Roman]] HS
+11173 11547 [[(HS2) /Times-Roman]] HS
+15439 16456 [[(HS1) /Times-Roman]] HS
+
+2810 3122 Right Alu
+4653 4946 Left Alu
+8285 8603 Right Alu
+10694 10975 Right Alu
+13299 13611 Right Alu
+15599 15753 Left L1
+17523 17755 Right L1
+19605 19905 Left Alu
+20627 20918 Right Alu
+
+1 setrow
+22173 23767 [[(e) /Symbol]] Right ThinArrow
+0 setrow
+
+22173 22319 Exon
+22442 22664 Exon
+23520 23767 Exon
+
+25805 33823 Left L1
+28572 30674 Left InnerL1
+35094 35398 Right Alu
+35673 35788 Left L1
+
+
+37165 37309 Exon
+37432 37654 Exon
+38541 38756 Exon
+
+40608 40726 Left L1
+
+1 setrow
+42101 43672 [[(A) /Times-Roman 8 Sup] [(g) /Symbol]] Right ThinArrow
+0 setrow
+
+42101 42245 Exon
+42368 42590 Exon
+43457 43672 Exon
+
+45382 45961 Left L1
+47475 47795 Right Alu
+
+48345 49959 [[(yh) /Symbol]] Gene
+48345 48487 Exon
+48609 48831 Exon
+49684 49959 Exon
+
+53582 53885 Left Alu
+54663 54963 Right Alu
+55909 56227 Left L1
+
+1 setrow
+57427 59076 [[(d) /Symbol]] Right ThinArrow
+0 setrow
+
+57427 57568 Exon
+57697 57919 Exon
+58818 59076 Exon
+
+1 setrow
+64824 66429 [[(b) /Symbol]] Right ThinArrow
+0 setrow
+
+64824 64965 Exon
+65096 65318 Exon
+66169 66481 Exon
+
+68190 68454 Left Alu
+69448 69757 Right Alu
+69758 75897 Right L1
+% vtags: ' percent.tag'
+vertical
+%
+%  tag file for %-match plots
+%
+
+1 setrow
+  [[(\% ident.) /Times-Roman]] Banner
+/x-axis-label where { pop horizontal 1 setrow x-axis-label Hbanner } if
+/y-axis-label where { pop vertical 1 setrow y-axis-label Vbanner } if
+end grestore
+%!
+gsave
+/language_level  /languagelevel where {pop languagelevel} {1} ifelse def
+/picture-xforms where { pop } { /picture-xforms [] def } ifelse
+1023 dict begin
+  /default-options {
+    /inverted-dotplot false def /inverted-features false def
+    /inverted-numbers false def /clip-features true def
+    /noauto true def
+    /banner-line true def /description () def /date (Sat Feb 22 16:04:54 EST 1997) def
+    /current-directory (/export/home/groucho/webb/alignments/beta.c.newest.d) def
+    /override-width 0 def /override-height 0 def /override-scale 0 def
+    /want-htic true def /want-vtic true def
+    /htic-step 0 def /vtic-step 0 def
+    /hlab-step 0 def /vlab-step 0 def
+    /tlab-mod 1 def
+    /y-scale-fudge 1 def
+    /x-offset 0 def /y-offset 0 def
+    /page-orientation 0 def
+    /tic-font /Helvetica def
+    /tic-font-size 10 def
+  } def
+  /user-options {
+           
+           
+           
+           
+           
+	   
+ 	   
+ 	  /override-scale 2200 def 
+ 	   
+ 	   
+ 	  /banner-line false def 
+ 	  /htic-step 1000 def 
+ 	   
+ 	  /tlab-mod 2000 def 
+ 	   
+ 	  /vtic-step 25 y-scale-fudge mul def 
+ 	   
+ 	   
+ 	  /y-offset 3.0 inch def 
+  	  /page-orientation 1 def 
+          /x0 37000 def /x1 54000 def /y0 1200 def /y1 2400 def 
+       } def
+% ------------------------------------------------------------------------
+% definitions of various things start here
+
+% statusdict begin manualfeed true store end
+/units-per-inch 72 def
+/scalefactor 1 def
+
+/inch { units-per-inch mul } bind def
+/point { scalefactor div } bind def
+
+/margin { 0.7 inch } bind def
+/edgewidth { 1.25 inch } bind def
+/min { 2 copy ge {exch pop} {pop} ifelse } bind def
+/max { 2 copy le {exch pop} {pop} ifelse } bind def
+/i2s { 20 string cvs } bind def
+
+/Line { % x0 y0 x1 y1 t c -
+  unsetpattern 
+  setgray 
+  point setlinewidth 
+  newpath 4 2 roll moveto lineto closepath stroke
+  0 setlinewidth
+} bind def
+
+/$local 32 dict def
+
+/Rect { % x0 y0 x1 y1 h t c -
+  unsetpattern
+  setgray
+  point setlinewidth
+  $local begin
+    /h exch def /y1 exch def /x1 exch def /y0 exch def /x0 exch def
+    /dx x1 x0 sub def
+    /dy y1 y0 sub def
+    /dd dx dx mul dy dy mul add sqrt def
+    gsave
+      x0 y0 translate
+      dx 0 ne { dy dx atan } {45} ifelse rotate
+        newpath
+         0 0 moveto dd 0 rlineto 0 h rlineto dd neg 0 rlineto 0 h neg rlineto
+        stroke
+    grestore
+  end
+  0 setlinewidth
+} bind def
+
+/Circle { % x y r t c -
+  unsetpattern
+  setgray
+  point setlinewidth
+  newpath 0 360 arc closepath stroke
+  0 setlinewidth
+} bind def
+
+/Frame { % x0 y0 x1 y1 t c - 
+  unsetpattern
+  setgray point setlinewidth newpath
+  % x0 y0 x1 y1	
+  1 index 3 index % x0 y0 x1 y1 x1 y0
+  1 index 3 index % x0 y0 x1 y1 x1 y0 x1 y1
+  7 index 1 index % x0 y0 x1 y1 x1 y0 x1 y1 x0 y1
+  1 index 5 index % x0 y0 x1 y1 x1 y0 x1 y1 x0 y1 x0 y0
+  moveto lineto lineto lineto closepath stroke
+  pop pop pop pop
+  0 setlinewidth
+} def
+
+% --------------------------------------
+
+% On lots of things we want the top to parameters to
+% be ``/dir [[stringlist]] '', but for backwards compatability
+% we sometimes have them in the reverse order.  So this checks
+% to see of top is an array, and if not assumes things need to
+% be reversed.
+/parameter-type-kludge { % /dir [[stringlist]]
+  dup type
+  /arraytype ne { exch } if
+} def
+
+
+% This renders a string in a given font.  Uses global Fontsize.
+/show-in-font { % [ str font size sup/sub ]
+  aload length 
+  2 eq { Fontsize 0 } if  % backwards compatability
+  /_script_offset exch def
+  /_font_size exch def
+  /_font_name exch def
+  /_string exch def
+
+  _font_name findfont _font_size scalefont setfont 
+  /_script_offset _script_offset _font_size 2 3 div mul mul def
+  0 _script_offset rmoveto
+   _string show
+  0 _script_offset neg rmoveto
+} def
+
+% This computes the width of a string in a given font.
+/stringwidth-in-font { % [ str font .. ]
+   aload length 2 eq { Fontsize 0 } if  % backwards compatability
+   pop exch findfont exch scalefont setfont stringwidth pop
+} def
+
+% This computes the with of a list of (string * font)s.
+/string-width { % [[str font .. ] ...]
+  /_sum 0 def
+  {stringwidth-in-font _sum add /_sum exch def } forall
+  _sum
+} def
+
+% General parameters for laying out annotations.
+/box_height { 0.15 inch } bind def		% the height of an annotation
+/row_gap { box_height dup -0.2 mul add } bind def	% space between rows of boxes
+/H_row_base {_y1} bind def			% starting place for rows
+/V_row_base {_x0} bind def
+/current_row_base 0 def				% height of nth row above base
+/box_adjustment 0 def
+
+% Parts of various shapes
+/basic_box_top { current_row_base box_height add } def
+/basic_box_bottom { current_row_base } def
+/box_top { basic_box_top box_adjustment sub } def
+/box_bottom { basic_box_bottom box_adjustment add } def
+/text_bottom { box_top row_gap 5 div add } def
+/triangle_tip { current_row_base box_height 2 div add } def
+/arrow_gap { box_height 3 div } def
+/arrow_bottom { current_row_base arrow_gap add } def
+/arrow_top { current_row_base arrow_gap dup add add } def
+
+
+% This draws a horizontal banner in the current row.
+/Hbanner { % [[...]]  -
+ gsave 
+   Black /Fontsize 13 def
+   _x0 box_bottom moveto 
+   savedmatrix setmatrix 
+     Hadjust { show-in-font } forall 
+ grestore
+} def
+
+% These record if anything stuck off the edges of the dotplot.
+/Hundershoot false def
+/Hovershoot false def
+
+% This adjusts the coordinates so they don't overshoot the plot.
+/Hnormalize { % x0 x1 - x0' x1'
+  /Hn_x1 exch def
+  /Hn_x0 exch def
+  Hn_x0 _x0 lt { /Hn_x0 _x0 def /Hundershoot true def } if
+  Hn_x1 _x1 gt { /Hn_x1 _x1 def /Hovershoot true def } if
+  Hn_x0 Hn_x1
+} def
+
+/H_render_label {
+   Black savedmatrix setmatrix Hadjust
+   { show-in-font } forall
+} def
+
+/H_render_other_label {
+   Black savedmatrix setmatrix Hotheradjust
+   { show-in-font } forall
+} def
+
+% This renders a label above the current row.
+/Hlabel {
+ % x0 x1 /dir [[str font] ...] - x0 x1 /dir
+ /Hl_strlist exch def
+ /Hl_dir exch def
+ /Hl_x1 exch def
+ /Hl_x0 exch def
+ Hl_x0 Hl_x1 Hnormalize add
+   Hl_strlist string-width scalefactor div sub 2 div
+   text_bottom moveto
+ gsave
+   /Fontsize 10 def
+   Hl_strlist H_render_label
+ grestore
+ Hl_x0 Hl_x1 Hl_dir
+} def
+
+/Hotherlabel {
+ % x0 x1 /dir [[str font] ...] - x0 x1 /dir
+ /Hl_strlist exch def
+ /Hl_dir exch def
+ /Hl_x1 exch def
+ /Hl_x0 exch def
+ /Fontsize 11 def
+ gsave
+   Hl_x1 Hl_x0 add 2 div text_bottom moveto
+   Hl_strlist H_render_other_label
+ grestore
+ Hl_x0 Hl_x1 Hl_dir
+} def
+
+
+% Vertical versions of the above.
+/Vundershoot false def
+/Vovershoot false def
+
+/Vnormalize {
+  /Vn_y1 exch def
+  /Vn_y0 exch def
+  Vn_y0 _y0 lt { /Vn_y0 _y0 def /Vundershoot true def } if
+  Vn_y1 _y1 gt { /Vn_y1 _y1 def /Vovershoot true def } if
+  Vn_y0 Vn_y1
+} def
+
+/Vbanner {
+ % strlist -
+ gsave 
+   Black /Fontsize 13 def
+   box_bottom inverted-features {_y1}{_y0} ifelse moveto
+   savedmatrix setmatrix 
+     Vadjust { show-in-font } forall 
+ grestore
+} def
+
+/V_render_label {
+   Black savedmatrix setmatrix Vadjust 
+   { show-in-font } forall 
+} def
+
+/V_render_other_label {
+   Black savedmatrix setmatrix Votheradjust
+   { show-in-font } forall 
+} def
+
+/Vlabel {
+ % y0 y1 /foo str - y0 y1 /foo
+ /Vl_strlist exch def
+ /Vl_dir exch def
+ /Vl_y1 exch def
+ /Vl_y0 exch def
+ text_bottom 
+ Vl_y0 Vl_y1 Vnormalize add			% (v0+v1
+   Vl_strlist string-width scalefactor div 
+   inverted-features {add} {sub} ifelse		% +- width)
+   2 div 					% /2
+ moveto
+ gsave 
+   /Fontsize 11 def
+   Vl_strlist V_render_label
+ grestore
+ Vl_y0 Vl_y1 Vl_dir
+} def
+
+/Votherlabel {
+ % y0 y1 /foo str - y0 y1 /foo
+ /Vl_strlist exch def
+ /Vl_dir exch def
+ /Vl_y1 exch def
+ /Vl_y0 exch def
+ /Fontsize 11 def
+ gsave text_bottom Vl_y0 Vl_y1 add 2 div 
+        Fontsize 4 div scalefactor div inverted-features {add}{sub} ifelse 
+        moveto 
+	Vl_strlist dup 
+	string-width scalefactor div 0 rmoveto
+	V_render_other_label grestore
+ Vl_y0 Vl_y1 Vl_dir
+} def
+
+% Various shape annotations
+/Htriangle { % x0 x1 /dir str
+  Hlabel
+  % x0 x1 /dir
+  /right eq {
+    newpath 
+    exch dup current_row_base moveto box_top lineto triangle_tip lineto
+    closepath
+  } {
+    newpath
+    dup current_row_base moveto box_top lineto triangle_tip lineto
+    closepath
+  } ifelse
+  gsave fill grestore
+  gsave Black stroke grestore
+} def
+
+/Vtriangle { 
+  % y0 y1 /dir str
+  Vlabel
+  /right eq {
+    newpath 
+    exch dup 
+    current_row_base exch moveto box_top exch lineto triangle_tip exch lineto
+    closepath
+  } {
+    newpath 
+    dup 
+    current_row_base exch moveto box_top exch lineto triangle_tip exch lineto
+    closepath
+  } ifelse
+  gsave fill grestore
+  gsave Black stroke grestore
+} def
+
+/Harrow_basic {
+  gsave
+    Black
+    % x0 x1 /dir
+    /right eq { 1 index arrow_gap translate }
+	      { 0 index arrow_gap translate -1 1 scale } ifelse
+    /_arrowhead_len { 1 16 div inch } def  
+    exch sub /_arrowbody_len exch def
+
+%%    _arrowbody_len _arrowhead_len ge {
+      newpath
+        _arrowbody_len triangle_tip moveto
+        _arrowhead_len neg box_height 6 div rlineto
+        0 box_height 3 div neg rlineto
+      closepath fill
+%%    } if
+    0 triangle_tip moveto _arrowbody_len triangle_tip lineto stroke    
+  grestore
+} def
+
+/Harrow { % x0 x1 /dir str
+  Hotherlabel
+  Harrow_basic
+} def
+
+/Hthinarrow {
+  Hlabel
+  Harrow_basic
+} def
+
+/Hthickarrow { % x0 x1 dir str
+  Hlabel
+  /right eq {
+    newpath
+    exch
+    dup arrow_bottom moveto arrow_top lineto 
+    dup 
+      box_height sub dup dup
+	arrow_top lineto 
+	box_top lineto
+	exch
+      triangle_tip lineto
+    dup
+      box_bottom lineto
+      arrow_bottom lineto
+    closepath
+  } {
+    newpath
+    dup arrow_bottom moveto arrow_top lineto
+    dup 
+      box_height add dup dup
+   	arrow_top lineto 
+	box_top lineto
+	exch
+      triangle_tip lineto
+    dup
+      box_bottom lineto
+      arrow_bottom lineto
+    closepath
+  } ifelse
+  gsave fill grestore
+  gsave Black stroke grestore
+} def
+
+/Varrow_basic {
+  gsave
+    Black
+    % y0 y1
+    /right eq { box_bottom 2 index translate }
+	      { box_bottom 1 index translate 1 -1 scale } ifelse
+    /_arrowhead_len { 1 16 div inch } def  
+    exch sub /_arrowbody_len exch def
+
+%%    _arrowbody_len _arrowhead_len ge {
+      newpath
+        triangle_tip _arrowbody_len moveto
+        box_height 6 div _arrowhead_len neg rlineto
+        box_height 3 div neg 0 rlineto
+      closepath fill
+%%    } if
+    triangle_tip 0 moveto triangle_tip _arrowbody_len lineto stroke    
+  grestore
+} def
+
+/Varrow {  % y0 y1 /dir str 
+  Votherlabel
+  Varrow_basic
+} def
+
+/Vthinarrow {
+  Vlabel
+  Varrow_basic
+} def
+
+/Vthickarrow { % y0 y1 /dir str
+  Vlabel
+  /right eq {
+    newpath
+    exch % y1 y0
+    dup 
+      arrow_bottom exch moveto	% a_b y0 moveto
+      arrow_top exch lineto   	% a_t y0 lineto
+    dup 
+      box_height sub dup dup  	% y1 y1-b_h y1-b_h y1-b_h 
+	arrow_top exch lineto 	% a_t (y1-b_h) lineto
+	box_top exch lineto	% b_t (y1-b_h) lineto
+	exch                  	% y1-b_h y1
+      triangle_tip exch lineto 	% d_t y1 lineto
+    dup                       	% y1-b_h y1-b_h 
+      box_bottom exch lineto  	% b_b y1-b_h lineto
+      arrow_bottom exch lineto	% a_b y1-b_h lineto
+    closepath
+  } {
+    newpath
+    dup 
+      arrow_bottom exch moveto	% a_b y0 moveto
+      arrow_top exch lineto   	% a_t y0 lineto
+    dup 
+      box_height add dup dup  	% y1 y1-b_h y1-b_h y1-b_h 
+	arrow_top exch lineto 	% a_t (y1-b_h) lineto
+	box_top exch lineto	% b_t (y1-b_h) lineto
+	exch                  	% y1-b_h y1
+      triangle_tip exch lineto 	% d_t y1 lineto
+    dup                       	% y1-b_h y1-b_h 
+      box_bottom exch lineto  	% b_b y1-b_h lineto
+      arrow_bottom exch lineto	% a_b y1-b_h lineto
+    closepath
+  } ifelse
+  gsave fill grestore
+  gsave Black stroke grestore
+} def
+
+/Hvoid { % x0 x1 str
+  /foo exch Hlabel pop
+  pop pop
+} def
+
+/Vvoid { % x0 x1 str
+  /foo exch Vlabel pop
+  pop pop
+} def
+
+/Hbox { % x0 x1 str
+  /foo exch Hlabel pop
+  % x0 x1
+  newpath
+  exch 
+  dup current_row_base moveto box_top lineto 
+  dup box_top lineto current_row_base lineto
+  closepath
+  gsave fill grestore
+  gsave Black stroke grestore
+} def
+
+/Vbox {
+  /foo exch Vlabel pop
+  % x0 x1
+  newpath
+  exch 
+  dup current_row_base exch moveto box_top exch lineto 
+  dup box_top exch lineto current_row_base exch lineto
+  closepath
+  gsave fill grestore
+  gsave Black stroke grestore
+} def
+
+/Harrowbox {
+  Hlabel
+  /right eq {
+    newpath
+    /Harrowbox_1 exch def
+    /Harrowbox_0 exch def
+    Harrowbox_0 dup box_bottom moveto box_top lineto 
+    Harrowbox_1 dup 
+      box_height 4 div sub Harrowbox_0 max
+      dup 
+	box_top lineto 
+	exch triangle_tip lineto
+      box_bottom lineto
+    closepath
+  } {
+    newpath
+    /Harrowbox_0 exch def
+    /Harrowbox_1 exch def
+    Harrowbox_0 dup box_bottom moveto box_top lineto
+    Harrowbox_1 dup 
+      box_height 4 div add Harrowbox_0 min
+      dup
+	box_top lineto
+	exch triangle_tip lineto
+      box_bottom lineto
+    closepath
+  } ifelse
+  gsave fill grestore
+  gsave 0 setlinewidth Black stroke grestore
+} def
+
+/Varrowbox { % y0 y1 /dir str
+  Vlabel
+  /right eq {
+    newpath
+    /Varrowbox_1 exch def
+    /Varrowbox_0 exch def
+    Varrowbox_0 dup 
+      box_bottom exch moveto
+      box_top exch lineto   	
+    Varrowbox_1 dup 
+      box_height 4 div sub Varrowbox_0 max dup box_top exch lineto exch
+      triangle_tip exch lineto 	
+      box_bottom exch lineto  	
+    closepath
+  } {
+    newpath
+    /Varrowbox_0 exch def
+    /Varrowbox_1 exch def
+    Varrowbox_0 dup 
+      box_bottom exch moveto	
+      box_top exch lineto   	
+    Varrowbox_1 dup 
+      box_height 4 div add Varrowbox_0 min dup box_top exch lineto exch
+      triangle_tip exch lineto 	
+      box_bottom exch lineto  	
+    closepath
+  } ifelse
+  gsave fill grestore
+  gsave 0 setlinewidth Black stroke grestore
+} def
+
+
+%  Mode switching commands.  Horizontal puts you in horizontal
+%  mode, ready to lay out the horizontal annotations.  Similarly
+%  for vertical.
+
+/setrow { box_height row_gap add mul /current_row_base exch def } def
+/setsize { 1.0 exch sub box_height mul 2 div /box_adjustment exch def } def
+
+/setup-bars { % ishorizontal --
+  __landscape xor not {
+    /Bars { <CCCCCCCCCCCCCCCC> 8 1 dpi 16 div setpattern } def
+    /Bars0 { <CCCCCCCCCCCCCCCC> 8 1 dpi 16 div setpattern } def
+    /Bars1 { <FFFF0000FFFF0000> 8 1 dpi 16 div setpattern } def
+    /Bars2 { <8142241818244281> 8 1 dpi 16 div setpattern } def
+  } { 
+    /Bars { <FFFF0000FFFF0000> 8 1 dpi 16 div setpattern } def
+    /Bars0 { <FFFF0000FFFF0000> 8 1 dpi 16 div setpattern } def
+    /Bars1 { <CCCCCCCCCCCCCCCC> 8 1 dpi 16 div setpattern } def
+    /Bars2 { <8142241818244281> 8 1 dpi 16 div setpattern } def
+  } ifelse
+} def
+
+/horizontal { 
+  main
+  initclip
+  bordermatrix setmatrix
+  0 H_row_base translate
+  /horizontalmatrix matrix currentmatrix def
+
+  clip-features {
+	_x0 -1 inch moveto 
+	_x0 4 inch lineto 
+	_x1 4 inch lineto 
+	_x1 -1 inch lineto closepath clip
+  } if
+
+  /Arrow { parameter-type-kludge Harrow } def
+  /ArrowBox { parameter-type-kludge Harrowbox 1 setsize } def
+  /Triangle { parameter-type-kludge Htriangle } def
+  /ThickArrow { parameter-type-kludge Hthickarrow } def
+  /ThinArrow { parameter-type-kludge Hthinarrow } def
+  /Banner { Hbanner } def
+  /Box { Hbox } def
+  /Void { Hvoid } def
+  true setup-bars
+  0 setrow
+} def
+
+/vertical { 
+  main
+  initclip
+  bordermatrix setmatrix
+  inverted-features {
+	  _x0 _y0 translate 1 -1 scale 0 height neg translate
+	  _x0 neg _y0 neg translate } if
+  
+  V_row_base 0 translate -1 1 scale
+  /verticalmatrix matrix currentmatrix def
+
+  clip-features {
+  	4 inch _y0 moveto 
+  	4 inch _y1 lineto 
+  	-1 inch _y1 lineto 
+  	-1 inch _y0 lineto closepath clip
+  } if
+
+  /ArrowBox { parameter-type-kludge Varrowbox 1 setsize } def
+  /Arrow { parameter-type-kludge Varrow } def
+  /Triangle { parameter-type-kludge Vtriangle } def
+  /ThickArrow { parameter-type-kludge Vthickarrow } def
+  /ThinArrow { parameter-type-kludge Vthinarrow } def
+  /Banner { Vbanner } def
+  /Box { Vbox } def
+  /Void { Vvoid } def
+  false setup-bars
+  0 setrow
+} def
+
+% Switch to data plotting mode.
+/plotdata {
+  main
+  bordermatrix setmatrix
+  inverted-dotplot {
+	  _x0 _y0 translate 1 -1 scale 0 height neg translate
+	  _x0 neg _y0 neg translate } if
+  report-plot-once
+  clip-to-selection
+} def
+
+/do-report-plot { 
+	/picture-xforms	
+		picture-xforms aload length  % m1 m2 ... mi i
+		matrix currentmatrix matrix defaultmatrix
+		matrix invertmatrix matrix concatmatrix 
+		dup /my-xform exch def
+		exch 1 add array astore 
+	store
+	(xform )print my-xform ==
+	_x1 _y1 my-xform transform _x0 _y0 my-xform transform 
+        (bbox )print % x0 y0 x1 y1
+	exch i2s print ( )print i2s print ( )print 
+	exch i2s print ( )print i2s print (\n)print
+} def
+
+/report-plot-once { 
+	do-report-plot
+	/do-report-plot {} def
+} def
+
+%  Utility variables
+/Fontsize 11 def
+/Null [[() /Courier]] def  % empty label
+/Black { unsetpattern 0 setgray } def
+/White { unsetpattern 1 setgray } def
+/Gray  { unsetpattern 0.5 setgray } def
+/LightGray  { unsetpattern 0.9 setgray } def
+/DarkGray  { unsetpattern 0.5 setgray } def
+
+%
+% dpi, bitison, setpattern are adapted from code in the
+% Postscript Tutorial and Cookbook, copr Adobe, 1985.
+%
+/resmatrix matrix def
+/dpi 
+  72 0 resmatrix defaultmatrix dtransform /yres exch def /xres exch def
+  xres dup mul yres dup mul add sqrt
+def
+
+/bitison {
+  /ybit exch def /xbit exch def
+  bstring ybit bwidth mul xbit 8 idiv add get
+  1 7 xbit 8 mod sub bitshift and 0 ne
+} def
+
+/setpattern {
+   /freq exch def /bwidth exch def /bpside exch def /bstring exch def
+   /onbits 0 def /offbits 0 def
+   freq 0
+     {/y exch def /x exch def
+      /xindex x 1 add 2 div
+         bpside mul cvi def
+      /yindex y 1 add 2 div
+         bpside mul cvi def
+      xindex yindex bitison
+        {/onbits onbits 1 add def 1}
+        {/offbits offbits 1 add def
+         0}
+        ifelse
+      }  setscreen
+   {} settransfer
+   offbits offbits onbits add div
+     setgray
+   /custom-pattern true def
+} def
+
+% Put back default pattern function.
+/unsetpattern {
+  custom-pattern {
+    /custom-pattern false def
+    saved-screen aload pop
+    dup type /dicttype eq
+      { sethalftone pop pop }
+      { setscreen }
+    ifelse
+  } if
+} def
+
+% Clip to the box around the plot.
+/clip-to-selection { 
+  initclip newpath _x0 _y0 moveto 0 height rlineto 
+  width 0 rlineto 0 height neg rlineto closepath clip
+} def
+
+/set-tic-font {
+  tic-font findfont tic-font-size scalefont setfont
+} def
+
+% -------------------------------------------------------------------------
+% entry point here
+
+/main { _main /_main {} def } def  % do main just once
+/_main { __main } def
+/__main {
+  user-options
+  /_x0 x0 def /_y0 y0 def /_x1 x1 def /_y1 y1 def
+  (plot )print
+  x0 i2s print ( )print
+  y0 i2s print ( )print
+  x1 i2s print ( )print
+  y1 i2s print (\n)print
+
+  % -- savedmatrix is the initial coordinate system
+  %    we use it to render text
+  /savedmatrix matrix currentmatrix def
+  /custom-pattern false def
+
+  /saved-screen [ currentscreen ] def
+
+  /Times-Roman findfont Fontsize scalefont setfont 
+
+  /width _x1 _x0 sub def /height _y1 _y0 sub def
+
+  % Decide on landscape or portrait mode based on width/height.
+  page-orientation 0 eq {
+    width height ge 
+      { /page-orientation 1 def } 
+      { /page-orientation 2 def } 
+    ifelse
+  } if
+
+  noauto {
+    /_page_y1  11 inch def
+    /_page_y0  0 def
+    /_page_x1  8.5 inch def
+    /_page_x0  0 def
+  } {
+    clippath pathbbox
+    /_page_y1 exch def
+    /_page_x1 exch def
+    /_page_y0 exch def
+    /_page_x0 exch def
+  } ifelse
+
+  /_page_dy _page_y1 _page_y0 sub def
+  /_page_dx _page_x1 _page_x0 sub def
+
+  page-orientation 1 eq {
+    % Landscape mode
+    /__landscape true def
+    _page_dx 0 translate 90 rotate
+    /pagewidth  _page_dy edgewidth sub margin 2 mul sub def 
+    /pageheight _page_dx edgewidth sub margin 2 mul sub def 
+    /Hadjust { 90 rotate } def
+    /Hotheradjust { 180 rotate 0 Fontsize 4 div neg rmoveto } def
+    /Vadjust { 180 rotate } def
+    /Votheradjust { 90 rotate } def
+    /HP { gsave savedmatrix setmatrix 90 rotate set-tic-font show grestore } def
+  } {
+    % Portrait mode
+    /__landscape false def
+    /pagewidth  _page_dx edgewidth sub margin 2 mul sub def 
+    /pageheight _page_dy edgewidth sub margin 2 mul sub def 
+    /Hadjust { 0 rotate } def
+    /Vadjust { 90 rotate } def
+    /Hotheradjust { 90 rotate 0 Fontsize 4 div neg rmoveto } def
+    /Votheradjust { 0 rotate } def
+    /HP { gsave savedmatrix setmatrix set-tic-font show grestore } def
+  } ifelse
+
+  % Offset to avoid margins and such
+  %edgewidth margin add dup neg translate
+  margin dup edgewidth add exch translate
+  (margin )print 
+  margin edgewidth add i2s print ( )print margin i2s print (\n)print
+
+  % Offset for page location
+  x-offset y-offset translate
+  (offset )print x-offset i2s print ( )print y-offset i2s print (\n)print
+
+  % Print title
+  banner-line {
+    0 pageheight moveto edgewidth dup neg exch rmoveto 
+       current-directory show
+    0 pageheight moveto edgewidth dup neg exch rmoveto 0 Fontsize neg rmoveto
+       description show (   ) show date show 
+  } if
+
+  % Scale to dot-plot sizes
+  /tmpwidth override-width 0 ne {override-width} {width} ifelse def
+  /tmpheight override-height 0 ne {override-height} {height} ifelse def
+  /scalefactor 
+    override-scale 0 ne 
+	{72 override-scale div} 
+	{pagewidth tmpwidth div pageheight tmpheight div min}
+    ifelse 
+  def
+  scalefactor dup scale
+  (scale )print scalefactor =
+
+  /units-per-inch 72 scalefactor div def
+
+  % Move origin to upper left of selected region
+  _x0 neg _y0 neg translate
+
+  % -- bordermatrix is erect, but scaled to fit the data
+  %    we use it to render horizontal annotations and tickmarks
+  /bordermatrix matrix currentmatrix def
+
+  % Draw box for axis
+  _x0 _y0 _x1 _y1 1 72 div 0 Frame
+
+  % Draw ticks
+  /ticklen { 1 16 div inch } def
+  /basicticstep { % x - x'
+	  % log round 1 sub 10 exch exp cvi 
+	  log 1 sub truncate 10 exch exp
+	  1 max cvi
+  } def
+
+  /xtic { % x y -
+	  2 copy	% x y x y
+	  ticklen sub cvi % x y x y'
+	  0 0 Line
+  } def
+
+  /ytic { % y x -
+	  2 copy	% y x y x
+	  ticklen add cvi	% y x y x'
+	  4 -1 roll	% x y x' y
+	  0 0 Line 
+  } def
+
+  /xlabel { % x y
+	  2 copy moveto				% x y 
+	  1 index cvi i2s 
+	    stringwidth pop 
+	    2 div scalefactor div neg	% x y -xlen
+	  ticklen -3 mul 				% x y -xlen -3ylen
+	  rmoveto					% x y
+	  pop cvi i2s 
+	  HP	
+  } def
+
+  /ylabel { % y x
+	  exch 2 copy moveto			% x y
+	  ticklen 0 rmoveto exch			% y x
+	  pop y-scale-fudge div cvi i2s 
+	  0 Fontsize 4 div scalefactor div inverted-dotplot not { neg } if
+	  rmoveto
+	  HP
+  } def
+
+  /x-tic-step {
+    htic-step 0 eq { width basicticstep } { htic-step } ifelse
+  } def
+
+  /x-label-step {
+    hlab-step 0 eq { xstep } { hlab-step } ifelse
+  } def
+
+  /y-tic-step {
+    vtic-step 0 eq { height basicticstep } { vtic-step } ifelse
+  } def
+
+  /y-label-step {
+    vlab-step 0 eq { ystep } {h lab-step } ifelse
+  } def
+
+  /xstep x-tic-step cvi def
+  /ystep y-tic-step cvi def
+  /xlabstep x-label-step cvi def
+  /ylabstep y-label-step cvi def
+  /xstart _x0 dup xstep mod sub xstep add def
+  /ystart _y0 dup ystep mod sub ystep add def
+  /xend _x1 dup xstep mod sub xstep sub def
+  /yend _y1 dup ystep mod sub ystep sub def
+
+  /goodxtic { % x - isgood
+	  dup 
+	  _x0 sub abs xstep 10 div gt exch	% b x
+	  _x1 sub abs xstep 10 div gt 	% b b
+	  and				% b
+  } def
+
+  /goodxlabel { % x - isgood
+	  dup _x0 sub abs xstep 10 div gt exch	% b x
+	  dup _x1 sub abs xstep 10 div gt exch	% b b x
+
+	  dup 					% b b x x
+		  _x1 sub abs 			% b b x d
+		  exch				% b b d x
+		  dup cvi i2s stringwidth pop scalefactor div	
+						  % b b d x s
+		  3 -1 roll			% b b x s d
+		  lt 				% b b x b
+		  exch				% b b b x
+	  dup xstep 10 mul mod 0 eq exch		% b b b b x
+	  pop
+	  and and	and 				% b
+  } def
+
+  /goodytic { % y - isgood
+	  dup 
+	  _y0 sub abs ystep 10 div gt exch	% b x
+	  _y1 sub abs ystep 10 div gt 	% b b
+	  and				% b
+  } def
+
+  /goodylabel { % y - isgood
+	% 2 was 10 below
+	  dup _y0 sub abs ystep 2 div gt exch	% b x
+	  dup _y1 sub abs ystep 2 div gt exch	% b b
+	  ystep 5 mul mod 0 eq	
+	  and and
+  } def
+
+  want-htic {
+    bordermatrix setmatrix % X-tics made in border matrix
+    _x0 _y0 2 copy xtic xlabel
+    _x1 _y0 2 copy xtic xlabel
+    htic-step 0 eq {
+      xstart xstep _x1 { 
+	  dup
+	  dup goodxtic { _y0 xtic } { pop } ifelse 
+	  dup goodxlabel { _y0 xlabel } { pop } ifelse
+      } for
+    } {
+      xstart xstep xend { _y0 xtic } for
+      xstart xlabstep xend { 
+		dup tlab-mod mod 0 eq { _y0 xlabel } if 
+      } for
+    } ifelse
+  } if
+
+  want-vtic {
+    bordermatrix setmatrix % Y-tics need new matrix
+    inverted-numbers {
+          _x0 _y0 translate 1 -1 scale 0 height neg translate
+          _x0 neg _y0 neg translate } if
+    _y0 _x1 2 copy ytic ylabel
+    _y1 _x1 2 copy ytic ylabel
+    vtic-step 0 eq {
+      ystart ystep _y1 { 
+	  dup
+	  dup goodytic { _x1 ytic } { pop } ifelse
+	  dup goodylabel { _x1 ylabel } { pop } ifelse
+      } for
+    } {
+      ystart ystep yend { _x1 ytic } for
+      ystart ylabstep yend { _x1 ylabel } for
+    } ifelse
+  } if
+
+  bordermatrix setmatrix
+} def
+
+% ------------------------------------------------------------------------
+% Tag file abbreviations
+
+/Left /left def
+/Right /right def
+/Sub -1 def
+/Sup 1 def
+/Plain 0 def
+
+% extra kludges
+
+/extra-labels { plotdata initclip  /Fontsize 8 def } def
+
+/right-label { % y str
+  _x1 0.2 inch add 
+  3 2 roll % str x y
+  moveto
+  ticklen 0 rmoveto
+  0 Fontsize 4 div scalefactor div inverted-dotplot not { neg } if rmoveto
+  gsave
+    savedmatrix setmatrix Hadjust show-in-font
+  grestore
+} def
+
+/bottom-label { % x str
+  _y0 0.25 inch sub 
+  3 -1 roll exch % str x y
+  moveto
+  ticklen 0 rmoveto
+  0 Fontsize 4 div scalefactor div inverted-dotplot not { neg } if rmoveto
+  gsave
+    savedmatrix setmatrix Hadjust show-in-font
+  grestore
+} def
+
+/bottom-label-rotated { % x str
+  _y0 0.25 inch sub 
+  3 -1 roll exch % str x y
+  moveto
+  ticklen 0 rmoveto
+  0 Fontsize 4 div scalefactor div inverted-dotplot not { neg } if rmoveto
+  gsave   
+    savedmatrix setmatrix Hadjust 90 rotate show-in-font
+  grestore
+} def
+
+/bottom-label-reverse-rotated { % x str
+  _y0 0.25 inch sub 
+  3 -1 roll exch % str x y
+  moveto
+  ticklen 0 rmoveto
+  0 Fontsize 4 div scalefactor div inverted-dotplot not { neg } if rmoveto
+  gsave   
+    savedmatrix setmatrix Hadjust -90 rotate show-in-font
+  grestore
+} def
+
+% ------------------------------------------------------------------------
+% Plot data...
+default-options
+% align: 'percents'
+% W 1
+% Y 2400
+% X  
+/description (
+"npercents nlax.out "
+) def
+/x0 1 def
+/x1 75995 def
+/y0 0 def
+/y1 2400 def
+/vtic-step 240 def
+/y-scale-fudge 24 def
+plotdata
+64050 1536 64094 1536 1 0 Line
+64096 1680 64112 1680 1 0 Line
+64115 1512 64144 1512 1 0 Line
+64145 1464 64178 1464 1 0 Line
+64179 1416 64227 1416 1 0 Line
+64228 1440 64295 1440 1 0 Line
+64304 1392 64407 1392 1 0 Line
+64408 1320 64461 1320 1 0 Line
+64462 1632 64528 1632 1 0 Line
+64548 1992 64553 1992 1 0 Line
+64554 1536 64567 1536 1 0 Line
+64569 1872 64587 1872 1 0 Line
+64589 1152 64627 1152 1 0 Line
+64631 1944 64641 1944 1 0 Line
+64642 2400 64647 2400 1 0 Line
+64661 2232 64676 2232 1 0 Line
+64677 1560 64766 1560 1 0 Line
+64767 1776 64863 1776 1 0 Line
+64864 1992 64998 1992 1 0 Line
+65006 1752 65031 1752 1 0 Line
+65038 1368 65075 1368 1 0 Line
+65077 1968 65326 1968 1 0 Line
+65327 1296 65399 1296 1 0 Line
+65400 1584 65414 1584 1 0 Line
+65435 1704 65448 1704 1 0 Line
+65449 1392 65460 1392 1 0 Line
+65462 1704 65475 1704 1 0 Line
+65476 1368 65536 1368 1 0 Line
+65541 1680 65550 1680 1 0 Line
+65551 1488 65582 1488 1 0 Line
+65630 1512 65640 1512 1 0 Line
+65641 1536 65654 1536 1 0 Line
+65681 1440 65708 1440 1 0 Line
+65821 1536 65834 1536 1 0 Line
+65835 1680 65851 1680 1 0 Line
+65852 2064 65866 2064 1 0 Line
+65871 1392 65911 1392 1 0 Line
+65916 1344 65952 1344 1 0 Line
+65954 2040 65960 2040 1 0 Line
+65961 1344 66010 1344 1 0 Line
+66030 1920 66039 1920 1 0 Line
+66065 1392 66093 1392 1 0 Line
+66094 1464 66114 1464 1 0 Line
+66128 2400 66134 2400 1 0 Line
+66135 1560 66154 1560 1 0 Line
+66156 1800 66325 1800 1 0 Line
+66327 1344 66356 1344 1 0 Line
+66358 1608 66437 1608 1 0 Line
+66439 1632 66463 1632 1 0 Line
+66468 1464 66485 1464 1 0 Line
+66492 1656 66540 1656 1 0 Line
+66548 1296 66582 1296 1 0 Line
+66593 1488 66621 1488 1 0 Line
+66625 1512 66670 1512 1 0 Line
+66672 1464 66707 1464 1 0 Line
+66708 1752 66730 1752 1 0 Line
+66734 1392 66807 1392 1 0 Line
+66809 1704 66829 1704 1 0 Line
+67316 1488 67379 1488 1 0 Line
+67390 1584 67445 1584 1 0 Line
+6006 1512 6057 1512 1 0 Line
+6066 1368 6084 1368 1 0 Line
+6088 1368 6134 1368 1 0 Line
+6135 1560 6175 1560 1 0 Line
+6176 2040 6182 2040 1 0 Line
+6192 1584 6206 1584 1 0 Line
+6210 1584 6290 1584 1 0 Line
+7067 1632 7088 1632 1 0 Line
+7092 1560 7176 1560 1 0 Line
+7194 1800 7225 1800 1 0 Line
+7227 1728 7237 1728 1 0 Line
+7238 1488 7291 1488 1 0 Line
+7298 2016 7310 2016 1 0 Line
+7317 1488 7397 1488 1 0 Line
+7405 1536 7429 1536 1 0 Line
+7431 1704 7458 1704 1 0 Line
+7980 1728 8016 1728 1 0 Line
+8022 2160 8032 2160 1 0 Line
+8040 1680 8073 1680 1 0 Line
+8075 1752 8097 1752 1 0 Line
+8110 1536 8126 1536 1 0 Line
+8127 1680 8153 1680 1 0 Line
+9135 1800 9166 1800 1 0 Line
+9167 1488 9193 1488 1 0 Line
+9194 2088 9209 2088 1 0 Line
+9211 1632 9271 1632 1 0 Line
+9512 1440 9552 1440 1 0 Line
+9554 1776 9584 1776 1 0 Line
+9585 1584 9634 1584 1 0 Line
+9877 1632 9945 1632 1 0 Line
+10143 1872 10165 1872 1 0 Line
+10167 1920 10186 1920 1 0 Line
+10187 1824 10225 1824 1 0 Line
+10276 1632 10366 1632 1 0 Line
+10368 1704 10388 1704 1 0 Line
+10397 1560 10469 1560 1 0 Line
+10470 1584 10481 1584 1 0 Line
+10483 1608 10510 1608 1 0 Line
+10512 1608 10542 1608 1 0 Line
+10548 1728 10569 1728 1 0 Line
+10976 1968 11004 1968 1 0 Line
+11007 1512 11069 1512 1 0 Line
+11071 1512 11141 1512 1 0 Line
+11142 1752 11156 1752 1 0 Line
+11159 2016 11171 2016 1 0 Line
+11172 1560 11200 1560 1 0 Line
+11203 1440 11245 1440 1 0 Line
+11246 1512 11256 1512 1 0 Line
+11259 1608 11286 1608 1 0 Line
+11287 1584 11325 1584 1 0 Line
+11327 1944 11464 1944 1 0 Line
+11469 1560 11566 1560 1 0 Line
+13096 1560 13144 1560 1 0 Line
+13147 1800 13179 1800 1 0 Line
+13181 1992 13192 1992 1 0 Line
+13642 1752 13664 1752 1 0 Line
+13670 1560 13692 1560 1 0 Line
+13694 1800 13713 1800 1 0 Line
+13715 1584 13729 1584 1 0 Line
+13731 1824 13751 1824 1 0 Line
+13752 1728 13806 1728 1 0 Line
+13794 1968 13816 1968 1 0 Line
+13818 1584 13823 1584 1 0 Line
+13835 1440 13987 1440 1 0 Line
+15760 1632 15794 1632 1 0 Line
+15795 2016 15826 2016 1 0 Line
+15827 1200 15850 1200 1 0 Line
+15851 1248 15875 1248 1 0 Line
+15876 1392 15911 1392 1 0 Line
+15927 1848 15944 1848 1 0 Line
+15965 1728 15997 1728 1 0 Line
+16011 1488 16069 1488 1 0 Line
+16072 1560 16106 1560 1 0 Line
+16107 2040 16113 2040 1 0 Line
+16123 1560 16174 1560 1 0 Line
+16179 1824 16217 1824 1 0 Line
+16218 1272 16256 1272 1 0 Line
+16259 1632 16296 1632 1 0 Line
+16297 1872 16310 1872 1 0 Line
+16312 1512 16341 1512 1 0 Line
+16342 1800 16353 1800 1 0 Line
+16354 1368 16393 1368 1 0 Line
+16395 1464 16415 1464 1 0 Line
+16416 1536 16490 1536 1 0 Line
+16492 1248 16512 1248 1 0 Line
+16533 1392 16605 1392 1 0 Line
+16609 1272 16647 1272 1 0 Line
+16648 1392 16681 1392 1 0 Line
+16682 1920 16696 1920 1 0 Line
+16701 1488 16756 1488 1 0 Line
+16759 1392 16782 1392 1 0 Line
+16784 1464 16809 1464 1 0 Line
+16819 1752 16844 1752 1 0 Line
+16847 1992 16858 1992 1 0 Line
+17017 1344 17071 1344 1 0 Line
+17073 1776 17119 1776 1 0 Line
+17127 2040 17147 2040 1 0 Line
+17146 1680 17210 1680 1 0 Line
+17211 1584 17231 1584 1 0 Line
+17267 1752 17311 1752 1 0 Line
+17313 1584 17324 1584 1 0 Line
+17326 1440 17360 1440 1 0 Line
+17368 1968 17390 1968 1 0 Line
+17875 1992 17904 1992 1 0 Line
+17917 1488 18032 1488 1 0 Line
+18041 1392 18095 1392 1 0 Line
+18099 1920 18108 1920 1 0 Line
+18119 1752 18137 1752 1 0 Line
+18140 2160 18149 2160 1 0 Line
+18155 1704 18175 1704 1 0 Line
+18178 1224 18204 1224 1 0 Line
+18206 1680 18259 1680 1 0 Line
+20077 2208 20089 2208 1 0 Line
+20111 1560 20130 1560 1 0 Line
+20131 1752 20160 1752 1 0 Line
+20161 1584 20169 1584 1 0 Line
+20184 1728 20216 1728 1 0 Line
+20218 1632 20246 1632 1 0 Line
+20251 1680 20301 1680 1 0 Line
+20303 1680 20333 1680 1 0 Line
+20334 1920 20343 1920 1 0 Line
+20347 1536 20371 1536 1 0 Line
+20388 1512 20423 1512 1 0 Line
+20424 1752 20438 1752 1 0 Line
+20443 1920 20462 1920 1 0 Line
+20472 2400 20476 2400 1 0 Line
+20484 1584 20548 1584 1 0 Line
+20549 1584 20584 1584 1 0 Line
+20585 1704 20629 1704 1 0 Line
+21031 1536 21061 1536 1 0 Line
+21063 1608 21090 1608 1 0 Line
+21094 1440 21134 1440 1 0 Line
+21135 1584 21158 1584 1 0 Line
+21160 1848 21194 1848 1 0 Line
+21196 1440 21223 1440 1 0 Line
+21224 1392 21254 1392 1 0 Line
+21264 1752 21286 1752 1 0 Line
+21287 1320 21315 1320 1 0 Line
+21316 1584 21357 1584 1 0 Line
+21359 1512 21380 1512 1 0 Line
+21396 1224 21428 1224 1 0 Line
+21434 1512 21482 1512 1 0 Line
+21497 1272 21541 1272 1 0 Line
+21542 1440 21713 1440 1 0 Line
+21714 1392 21737 1392 1 0 Line
+21738 1368 21887 1368 1 0 Line
+21889 1536 21919 1536 1 0 Line
+21920 1488 21943 1488 1 0 Line
+21944 1632 21962 1632 1 0 Line
+21969 1608 22033 1608 1 0 Line
+22037 2064 22074 2064 1 0 Line
+22075 1992 22086 1992 1 0 Line
+22088 1776 22341 1776 1 0 Line
+22370 1632 22385 1632 1 0 Line
+22390 1800 22401 1800 1 0 Line
+22402 1536 22418 1536 1 0 Line
+22420 1968 22675 1968 1 0 Line
+22681 1320 22689 1320 1 0 Line
+22690 1488 22718 1488 1 0 Line
+22719 1248 22758 1248 1 0 Line
+22815 1656 22827 1656 1 0 Line
+22828 1536 22877 1536 1 0 Line
+22878 1824 22890 1824 1 0 Line
+22894 1920 22903 1920 1 0 Line
+22918 1584 22938 1584 1 0 Line
+22939 1824 22955 1824 1 0 Line
+22956 1992 22961 1992 1 0 Line
+22992 1536 23019 1536 1 0 Line
+23020 1560 23045 1560 1 0 Line
+23047 1416 23068 1416 1 0 Line
+23069 1800 23084 1800 1 0 Line
+23100 1584 23120 1584 1 0 Line
+23121 1656 23133 1656 1 0 Line
+23135 2064 23149 2064 1 0 Line
+23151 1392 23243 1392 1 0 Line
+23262 1752 23276 1752 1 0 Line
+23298 1200 23329 1200 1 0 Line
+23344 1728 23361 1728 1 0 Line
+23378 1536 23391 1536 1 0 Line
+23396 1272 23410 1272 1 0 Line
+23411 1584 23425 1584 1 0 Line
+23438 1608 23468 1608 1 0 Line
+23471 1392 23499 1392 1 0 Line
+23500 1968 23655 1968 1 0 Line
+25042 1704 25069 1704 1 0 Line
+25071 1728 25081 1728 1 0 Line
+25082 1728 25092 1728 1 0 Line
+25102 1440 25161 1440 1 0 Line
+25166 1824 25220 1824 1 0 Line
+25223 1800 25242 1800 1 0 Line
+25244 2400 25251 2400 1 0 Line
+34403 1728 34424 1728 1 0 Line
+34425 1488 34483 1488 1 0 Line
+34486 1848 34512 1848 1 0 Line
+34725 1752 34747 1752 1 0 Line
+34748 1560 34790 1560 1 0 Line
+34815 1488 34857 1488 1 0 Line
+34873 1560 34898 1560 1 0 Line
+34903 1440 34952 1440 1 0 Line
+34953 1824 34973 1824 1 0 Line
+36959 1560 36996 1560 1 0 Line
+37000 1488 37044 1488 1 0 Line
+37073 1560 37110 1560 1 0 Line
+37114 1368 37179 1368 1 0 Line
+37181 1776 37315 1776 1 0 Line
+37331 1632 37346 1632 1 0 Line
+37349 1752 37367 1752 1 0 Line
+37368 1560 37396 1560 1 0 Line
+37399 1512 37420 1512 1 0 Line
+37421 1920 37660 1920 1 0 Line
+38537 1872 38673 1872 1 0 Line
+41895 1560 41932 1560 1 0 Line
+41936 1488 41980 1488 1 0 Line
+42009 1560 42046 1560 1 0 Line
+42050 1368 42115 1368 1 0 Line
+42117 1800 42251 1800 1 0 Line
+42267 1632 42282 1632 1 0 Line
+42285 1752 42303 1752 1 0 Line
+42304 1560 42332 1560 1 0 Line
+42335 1512 42356 1512 1 0 Line
+42357 1920 42596 1920 1 0 Line
+43453 1896 43581 1896 1 0 Line
+57218 1824 57234 1824 1 0 Line
+57239 1488 57292 1488 1 0 Line
+57294 1584 57305 1584 1 0 Line
+57308 1632 57326 1632 1 0 Line
+57327 1680 57370 1680 1 0 Line
+57372 1632 57393 1632 1 0 Line
+57394 1872 57421 1872 1 0 Line
+57423 1824 57469 1824 1 0 Line
+57470 1728 57578 1728 1 0 Line
+57588 1800 57595 1800 1 0 Line
+57597 1416 57618 1416 1 0 Line
+57620 1800 57635 1800 1 0 Line
+57682 1872 57695 1872 1 0 Line
+57696 1512 57769 1512 1 0 Line
+57773 1872 57936 1872 1 0 Line
+57951 1320 57979 1320 1 0 Line
+57983 1464 58008 1464 1 0 Line
+58009 1608 58036 1608 1 0 Line
+58038 1584 58070 1584 1 0 Line
+58082 1872 58100 1872 1 0 Line
+58102 1440 58111 1440 1 0 Line
+58112 1896 58145 1896 1 0 Line
+58146 1824 58162 1824 1 0 Line
+58163 1416 58245 1416 1 0 Line
+58247 2088 58254 2088 1 0 Line
+58255 1416 58306 1416 1 0 Line
+58316 1560 58344 1560 1 0 Line
+58348 1656 58370 1656 1 0 Line
+58375 1152 58409 1152 1 0 Line
+58410 1512 58428 1512 1 0 Line
+58432 2016 58450 2016 1 0 Line
+58455 2088 58470 2088 1 0 Line
+58478 2040 58484 2040 1 0 Line
+58515 1728 58532 1728 1 0 Line
+58554 2400 58558 2400 1 0 Line
+58570 1968 58603 1968 1 0 Line
+58662 1824 58674 1824 1 0 Line
+58696 1536 58779 1536 1 0 Line
+58784 2400 58794 2400 1 0 Line
+58797 1752 58951 1752 1 0 Line
+58956 1560 58984 1560 1 0 Line
+58988 2160 58998 2160 1 0 Line
+58999 1632 59014 1632 1 0 Line
+59027 1320 59044 1320 1 0 Line
+59045 2112 59061 2112 1 0 Line
+59074 1872 59096 1872 1 0 Line
+59320 1872 59333 1872 1 0 Line
+59337 1536 59378 1536 1 0 Line
+59380 1512 59420 1512 1 0 Line
+59433 1800 59456 1800 1 0 Line
+59460 1296 59492 1296 1 0 Line
+59493 1632 59537 1632 1 0 Line
+59539 1488 59554 1488 1 0 Line
+59555 1680 59571 1680 1 0 Line
+59572 1512 59604 1512 1 0 Line
+59940 1680 59973 1680 1 0 Line
+59975 1944 59985 1944 1 0 Line
+59998 2016 60010 2016 1 0 Line
+60011 1632 60039 1632 1 0 Line
+60040 2064 60068 2064 1 0 Line
+60070 1464 60100 1464 1 0 Line
+60107 1512 60139 1512 1 0 Line
+/description (
+"percents nlax.hs4.out "
+) def
+/x0 1 def
+/x1 75995 def
+/y0 0 def
+/y1 2400 def
+/vtic-step 240 def
+/y-scale-fudge 24 def
+plotdata
+3690 1440 3715 1440 1 0 Line
+3716 1392 3771 1392 1 0 Line
+3772 1200 3781 1200 1 0 Line
+3782 1464 3844 1464 1 0 Line
+3845 1560 3885 1560 1 0 Line
+3886 792 3900 792 1 0 Line
+3901 1440 3919 1440 1 0 Line
+3920 1392 3930 1392 1 0 Line
+3931 1680 3984 1680 1 0 Line
+3985 1704 4035 1704 1 0 Line
+% tagfiles: ' tag.style'
+%
+%  icon style for beta-globin gene cluster
+%
+
+/Gene { White Box } def
+/Exon { Null Black Box } def
+/Xon { Black Box } def
+/Alu { Null LightGray Triangle } def
+
+/HS { White Box } def
+/L1  { Null White ArrowBox } def
+/InnerL1 { 0.8 setsize Null White ArrowBox } def
+% htags: ' newhuman.tag'
+horizontal
+%
+%  human beta-like globin gene cluster; with entries 16595-19324 of GenBank
+%  entry HUMHBB replaced with PvuII to Bam from Li et al., and 2687 bp added
+%  to the 5' end.  75995 bp, 2/6/96
+%
+
+0 setrow
+
+700 800 [[(HS5) /Times-Roman]] HS
+3638 3921 [[(HS4) /Times-Roman]] HS
+7237 7462 [[(HS3) /Times-Roman]] HS
+11173 11547 [[(HS2) /Times-Roman]] HS
+15439 16456 [[(HS1) /Times-Roman]] HS
+
+2810 3122 Right Alu
+4653 4946 Left Alu
+8285 8603 Right Alu
+10694 10975 Right Alu
+13299 13611 Right Alu
+15599 15753 Left L1
+17523 17755 Right L1
+19605 19905 Left Alu
+20627 20918 Right Alu
+
+1 setrow
+22173 23767 [[(e) /Symbol]] Right ThinArrow
+0 setrow
+
+22173 22319 Exon
+22442 22664 Exon
+23520 23767 Exon
+
+25805 33823 Left L1
+28572 30674 Left InnerL1
+35094 35398 Right Alu
+35673 35788 Left L1
+
+1 setrow
+37165 38756 [[(G) /Times-Roman 8 Sup] [(g) /Symbol]] Right ThinArrow
+0 setrow
+
+37165 37309 Exon
+37432 37654 Exon
+38541 38756 Exon
+
+40608 40726 Left L1
+
+1 setrow
+42101 43672 [[(A) /Times-Roman 8 Sup] [(g) /Symbol]] Right ThinArrow
+0 setrow
+
+42101 42245 Exon
+42368 42590 Exon
+43457 43672 Exon
+
+45382 45961 Left L1
+47475 47795 Right Alu
+
+48345 49959 [[(yh) /Symbol]] Gene
+48345 48487 Exon
+48609 48831 Exon
+49684 49959 Exon
+
+53582 53885 Left Alu
+54663 54963 Right Alu
+55909 56227 Left L1
+
+1 setrow
+57427 59076 [[(d) /Symbol]] Right ThinArrow
+0 setrow
+
+57427 57568 Exon
+57697 57919 Exon
+58818 59076 Exon
+
+1 setrow
+64824 66429 [[(b) /Symbol]] Right ThinArrow
+0 setrow
+
+64824 64965 Exon
+65096 65318 Exon
+66169 66481 Exon
+
+68190 68454 Left Alu
+69448 69757 Right Alu
+69758 75897 Right L1
+% vtags: ' percent.tag'
+vertical
+%
+%  tag file for %-match plots
+%
+
+1 setrow
+  [[(\% ident.) /Times-Roman]] Banner
+/x-axis-label where { pop horizontal 1 setrow x-axis-label Hbanner } if
+/y-axis-label where { pop vertical 1 setrow y-axis-label Vbanner } if
+end grestore
+%!
+gsave
+/language_level  /languagelevel where {pop languagelevel} {1} ifelse def
+/picture-xforms where { pop } { /picture-xforms [] def } ifelse
+1023 dict begin
+  /default-options {
+    /inverted-dotplot false def /inverted-features false def
+    /inverted-numbers false def /clip-features true def
+    /noauto true def
+    /banner-line true def /description () def /date (Sat Feb 22 16:04:57 EST 1997) def
+    /current-directory (/export/home/groucho/webb/alignments/beta.c.newest.d) def
+    /override-width 0 def /override-height 0 def /override-scale 0 def
+    /want-htic true def /want-vtic true def
+    /htic-step 0 def /vtic-step 0 def
+    /hlab-step 0 def /vlab-step 0 def
+    /tlab-mod 1 def
+    /y-scale-fudge 1 def
+    /x-offset 0 def /y-offset 0 def
+    /page-orientation 0 def
+    /tic-font /Helvetica def
+    /tic-font-size 10 def
+  } def
+  /user-options {
+           
+           
+           
+           
+           
+	   
+ 	   
+ 	  /override-scale 2200 def 
+ 	   
+ 	   
+ 	  /banner-line false def 
+ 	  /htic-step 1000 def 
+ 	   
+ 	  /tlab-mod 2000 def 
+ 	   
+ 	  /vtic-step 25 y-scale-fudge mul def 
+ 	   
+ 	   
+ 	  /y-offset 1.5 inch def 
+  	  /page-orientation 1 def 
+          /x0 54000 def /x1 68000 def /y0 1200 def /y1 2400 def 
+       } def
+% ------------------------------------------------------------------------
+% definitions of various things start here
+
+% statusdict begin manualfeed true store end
+/units-per-inch 72 def
+/scalefactor 1 def
+
+/inch { units-per-inch mul } bind def
+/point { scalefactor div } bind def
+
+/margin { 0.7 inch } bind def
+/edgewidth { 1.25 inch } bind def
+/min { 2 copy ge {exch pop} {pop} ifelse } bind def
+/max { 2 copy le {exch pop} {pop} ifelse } bind def
+/i2s { 20 string cvs } bind def
+
+/Line { % x0 y0 x1 y1 t c -
+  unsetpattern 
+  setgray 
+  point setlinewidth 
+  newpath 4 2 roll moveto lineto closepath stroke
+  0 setlinewidth
+} bind def
+
+/$local 32 dict def
+
+/Rect { % x0 y0 x1 y1 h t c -
+  unsetpattern
+  setgray
+  point setlinewidth
+  $local begin
+    /h exch def /y1 exch def /x1 exch def /y0 exch def /x0 exch def
+    /dx x1 x0 sub def
+    /dy y1 y0 sub def
+    /dd dx dx mul dy dy mul add sqrt def
+    gsave
+      x0 y0 translate
+      dx 0 ne { dy dx atan } {45} ifelse rotate
+        newpath
+         0 0 moveto dd 0 rlineto 0 h rlineto dd neg 0 rlineto 0 h neg rlineto
+        stroke
+    grestore
+  end
+  0 setlinewidth
+} bind def
+
+/Circle { % x y r t c -
+  unsetpattern
+  setgray
+  point setlinewidth
+  newpath 0 360 arc closepath stroke
+  0 setlinewidth
+} bind def
+
+/Frame { % x0 y0 x1 y1 t c - 
+  unsetpattern
+  setgray point setlinewidth newpath
+  % x0 y0 x1 y1	
+  1 index 3 index % x0 y0 x1 y1 x1 y0
+  1 index 3 index % x0 y0 x1 y1 x1 y0 x1 y1
+  7 index 1 index % x0 y0 x1 y1 x1 y0 x1 y1 x0 y1
+  1 index 5 index % x0 y0 x1 y1 x1 y0 x1 y1 x0 y1 x0 y0
+  moveto lineto lineto lineto closepath stroke
+  pop pop pop pop
+  0 setlinewidth
+} def
+
+% --------------------------------------
+
+% On lots of things we want the top to parameters to
+% be ``/dir [[stringlist]] '', but for backwards compatability
+% we sometimes have them in the reverse order.  So this checks
+% to see of top is an array, and if not assumes things need to
+% be reversed.
+/parameter-type-kludge { % /dir [[stringlist]]
+  dup type
+  /arraytype ne { exch } if
+} def
+
+
+% This renders a string in a given font.  Uses global Fontsize.
+/show-in-font { % [ str font size sup/sub ]
+  aload length 
+  2 eq { Fontsize 0 } if  % backwards compatability
+  /_script_offset exch def
+  /_font_size exch def
+  /_font_name exch def
+  /_string exch def
+
+  _font_name findfont _font_size scalefont setfont 
+  /_script_offset _script_offset _font_size 2 3 div mul mul def
+  0 _script_offset rmoveto
+   _string show
+  0 _script_offset neg rmoveto
+} def
+
+% This computes the width of a string in a given font.
+/stringwidth-in-font { % [ str font .. ]
+   aload length 2 eq { Fontsize 0 } if  % backwards compatability
+   pop exch findfont exch scalefont setfont stringwidth pop
+} def
+
+% This computes the with of a list of (string * font)s.
+/string-width { % [[str font .. ] ...]
+  /_sum 0 def
+  {stringwidth-in-font _sum add /_sum exch def } forall
+  _sum
+} def
+
+% General parameters for laying out annotations.
+/box_height { 0.15 inch } bind def		% the height of an annotation
+/row_gap { box_height dup -0.2 mul add } bind def	% space between rows of boxes
+/H_row_base {_y1} bind def			% starting place for rows
+/V_row_base {_x0} bind def
+/current_row_base 0 def				% height of nth row above base
+/box_adjustment 0 def
+
+% Parts of various shapes
+/basic_box_top { current_row_base box_height add } def
+/basic_box_bottom { current_row_base } def
+/box_top { basic_box_top box_adjustment sub } def
+/box_bottom { basic_box_bottom box_adjustment add } def
+/text_bottom { box_top row_gap 5 div add } def
+/triangle_tip { current_row_base box_height 2 div add } def
+/arrow_gap { box_height 3 div } def
+/arrow_bottom { current_row_base arrow_gap add } def
+/arrow_top { current_row_base arrow_gap dup add add } def
+
+
+% This draws a horizontal banner in the current row.
+/Hbanner { % [[...]]  -
+ gsave 
+   Black /Fontsize 13 def
+   _x0 box_bottom moveto 
+   savedmatrix setmatrix 
+     Hadjust { show-in-font } forall 
+ grestore
+} def
+
+% These record if anything stuck off the edges of the dotplot.
+/Hundershoot false def
+/Hovershoot false def
+
+% This adjusts the coordinates so they don't overshoot the plot.
+/Hnormalize { % x0 x1 - x0' x1'
+  /Hn_x1 exch def
+  /Hn_x0 exch def
+  Hn_x0 _x0 lt { /Hn_x0 _x0 def /Hundershoot true def } if
+  Hn_x1 _x1 gt { /Hn_x1 _x1 def /Hovershoot true def } if
+  Hn_x0 Hn_x1
+} def
+
+/H_render_label {
+   Black savedmatrix setmatrix Hadjust
+   { show-in-font } forall
+} def
+
+/H_render_other_label {
+   Black savedmatrix setmatrix Hotheradjust
+   { show-in-font } forall
+} def
+
+% This renders a label above the current row.
+/Hlabel {
+ % x0 x1 /dir [[str font] ...] - x0 x1 /dir
+ /Hl_strlist exch def
+ /Hl_dir exch def
+ /Hl_x1 exch def
+ /Hl_x0 exch def
+ Hl_x0 Hl_x1 Hnormalize add
+   Hl_strlist string-width scalefactor div sub 2 div
+   text_bottom moveto
+ gsave
+   /Fontsize 10 def
+   Hl_strlist H_render_label
+ grestore
+ Hl_x0 Hl_x1 Hl_dir
+} def
+
+/Hotherlabel {
+ % x0 x1 /dir [[str font] ...] - x0 x1 /dir
+ /Hl_strlist exch def
+ /Hl_dir exch def
+ /Hl_x1 exch def
+ /Hl_x0 exch def
+ /Fontsize 11 def
+ gsave
+   Hl_x1 Hl_x0 add 2 div text_bottom moveto
+   Hl_strlist H_render_other_label
+ grestore
+ Hl_x0 Hl_x1 Hl_dir
+} def
+
+
+% Vertical versions of the above.
+/Vundershoot false def
+/Vovershoot false def
+
+/Vnormalize {
+  /Vn_y1 exch def
+  /Vn_y0 exch def
+  Vn_y0 _y0 lt { /Vn_y0 _y0 def /Vundershoot true def } if
+  Vn_y1 _y1 gt { /Vn_y1 _y1 def /Vovershoot true def } if
+  Vn_y0 Vn_y1
+} def
+
+/Vbanner {
+ % strlist -
+ gsave 
+   Black /Fontsize 13 def
+   box_bottom inverted-features {_y1}{_y0} ifelse moveto
+   savedmatrix setmatrix 
+     Vadjust { show-in-font } forall 
+ grestore
+} def
+
+/V_render_label {
+   Black savedmatrix setmatrix Vadjust 
+   { show-in-font } forall 
+} def
+
+/V_render_other_label {
+   Black savedmatrix setmatrix Votheradjust
+   { show-in-font } forall 
+} def
+
+/Vlabel {
+ % y0 y1 /foo str - y0 y1 /foo
+ /Vl_strlist exch def
+ /Vl_dir exch def
+ /Vl_y1 exch def
+ /Vl_y0 exch def
+ text_bottom 
+ Vl_y0 Vl_y1 Vnormalize add			% (v0+v1
+   Vl_strlist string-width scalefactor div 
+   inverted-features {add} {sub} ifelse		% +- width)
+   2 div 					% /2
+ moveto
+ gsave 
+   /Fontsize 11 def
+   Vl_strlist V_render_label
+ grestore
+ Vl_y0 Vl_y1 Vl_dir
+} def
+
+/Votherlabel {
+ % y0 y1 /foo str - y0 y1 /foo
+ /Vl_strlist exch def
+ /Vl_dir exch def
+ /Vl_y1 exch def
+ /Vl_y0 exch def
+ /Fontsize 11 def
+ gsave text_bottom Vl_y0 Vl_y1 add 2 div 
+        Fontsize 4 div scalefactor div inverted-features {add}{sub} ifelse 
+        moveto 
+	Vl_strlist dup 
+	string-width scalefactor div 0 rmoveto
+	V_render_other_label grestore
+ Vl_y0 Vl_y1 Vl_dir
+} def
+
+% Various shape annotations
+/Htriangle { % x0 x1 /dir str
+  Hlabel
+  % x0 x1 /dir
+  /right eq {
+    newpath 
+    exch dup current_row_base moveto box_top lineto triangle_tip lineto
+    closepath
+  } {
+    newpath
+    dup current_row_base moveto box_top lineto triangle_tip lineto
+    closepath
+  } ifelse
+  gsave fill grestore
+  gsave Black stroke grestore
+} def
+
+/Vtriangle { 
+  % y0 y1 /dir str
+  Vlabel
+  /right eq {
+    newpath 
+    exch dup 
+    current_row_base exch moveto box_top exch lineto triangle_tip exch lineto
+    closepath
+  } {
+    newpath 
+    dup 
+    current_row_base exch moveto box_top exch lineto triangle_tip exch lineto
+    closepath
+  } ifelse
+  gsave fill grestore
+  gsave Black stroke grestore
+} def
+
+/Harrow_basic {
+  gsave
+    Black
+    % x0 x1 /dir
+    /right eq { 1 index arrow_gap translate }
+	      { 0 index arrow_gap translate -1 1 scale } ifelse
+    /_arrowhead_len { 1 16 div inch } def  
+    exch sub /_arrowbody_len exch def
+
+%%    _arrowbody_len _arrowhead_len ge {
+      newpath
+        _arrowbody_len triangle_tip moveto
+        _arrowhead_len neg box_height 6 div rlineto
+        0 box_height 3 div neg rlineto
+      closepath fill
+%%    } if
+    0 triangle_tip moveto _arrowbody_len triangle_tip lineto stroke    
+  grestore
+} def
+
+/Harrow { % x0 x1 /dir str
+  Hotherlabel
+  Harrow_basic
+} def
+
+/Hthinarrow {
+  Hlabel
+  Harrow_basic
+} def
+
+/Hthickarrow { % x0 x1 dir str
+  Hlabel
+  /right eq {
+    newpath
+    exch
+    dup arrow_bottom moveto arrow_top lineto 
+    dup 
+      box_height sub dup dup
+	arrow_top lineto 
+	box_top lineto
+	exch
+      triangle_tip lineto
+    dup
+      box_bottom lineto
+      arrow_bottom lineto
+    closepath
+  } {
+    newpath
+    dup arrow_bottom moveto arrow_top lineto
+    dup 
+      box_height add dup dup
+   	arrow_top lineto 
+	box_top lineto
+	exch
+      triangle_tip lineto
+    dup
+      box_bottom lineto
+      arrow_bottom lineto
+    closepath
+  } ifelse
+  gsave fill grestore
+  gsave Black stroke grestore
+} def
+
+/Varrow_basic {
+  gsave
+    Black
+    % y0 y1
+    /right eq { box_bottom 2 index translate }
+	      { box_bottom 1 index translate 1 -1 scale } ifelse
+    /_arrowhead_len { 1 16 div inch } def  
+    exch sub /_arrowbody_len exch def
+
+%%    _arrowbody_len _arrowhead_len ge {
+      newpath
+        triangle_tip _arrowbody_len moveto
+        box_height 6 div _arrowhead_len neg rlineto
+        box_height 3 div neg 0 rlineto
+      closepath fill
+%%    } if
+    triangle_tip 0 moveto triangle_tip _arrowbody_len lineto stroke    
+  grestore
+} def
+
+/Varrow {  % y0 y1 /dir str 
+  Votherlabel
+  Varrow_basic
+} def
+
+/Vthinarrow {
+  Vlabel
+  Varrow_basic
+} def
+
+/Vthickarrow { % y0 y1 /dir str
+  Vlabel
+  /right eq {
+    newpath
+    exch % y1 y0
+    dup 
+      arrow_bottom exch moveto	% a_b y0 moveto
+      arrow_top exch lineto   	% a_t y0 lineto
+    dup 
+      box_height sub dup dup  	% y1 y1-b_h y1-b_h y1-b_h 
+	arrow_top exch lineto 	% a_t (y1-b_h) lineto
+	box_top exch lineto	% b_t (y1-b_h) lineto
+	exch                  	% y1-b_h y1
+      triangle_tip exch lineto 	% d_t y1 lineto
+    dup                       	% y1-b_h y1-b_h 
+      box_bottom exch lineto  	% b_b y1-b_h lineto
+      arrow_bottom exch lineto	% a_b y1-b_h lineto
+    closepath
+  } {
+    newpath
+    dup 
+      arrow_bottom exch moveto	% a_b y0 moveto
+      arrow_top exch lineto   	% a_t y0 lineto
+    dup 
+      box_height add dup dup  	% y1 y1-b_h y1-b_h y1-b_h 
+	arrow_top exch lineto 	% a_t (y1-b_h) lineto
+	box_top exch lineto	% b_t (y1-b_h) lineto
+	exch                  	% y1-b_h y1
+      triangle_tip exch lineto 	% d_t y1 lineto
+    dup                       	% y1-b_h y1-b_h 
+      box_bottom exch lineto  	% b_b y1-b_h lineto
+      arrow_bottom exch lineto	% a_b y1-b_h lineto
+    closepath
+  } ifelse
+  gsave fill grestore
+  gsave Black stroke grestore
+} def
+
+/Hvoid { % x0 x1 str
+  /foo exch Hlabel pop
+  pop pop
+} def
+
+/Vvoid { % x0 x1 str
+  /foo exch Vlabel pop
+  pop pop
+} def
+
+/Hbox { % x0 x1 str
+  /foo exch Hlabel pop
+  % x0 x1
+  newpath
+  exch 
+  dup current_row_base moveto box_top lineto 
+  dup box_top lineto current_row_base lineto
+  closepath
+  gsave fill grestore
+  gsave Black stroke grestore
+} def
+
+/Vbox {
+  /foo exch Vlabel pop
+  % x0 x1
+  newpath
+  exch 
+  dup current_row_base exch moveto box_top exch lineto 
+  dup box_top exch lineto current_row_base exch lineto
+  closepath
+  gsave fill grestore
+  gsave Black stroke grestore
+} def
+
+/Harrowbox {
+  Hlabel
+  /right eq {
+    newpath
+    /Harrowbox_1 exch def
+    /Harrowbox_0 exch def
+    Harrowbox_0 dup box_bottom moveto box_top lineto 
+    Harrowbox_1 dup 
+      box_height 4 div sub Harrowbox_0 max
+      dup 
+	box_top lineto 
+	exch triangle_tip lineto
+      box_bottom lineto
+    closepath
+  } {
+    newpath
+    /Harrowbox_0 exch def
+    /Harrowbox_1 exch def
+    Harrowbox_0 dup box_bottom moveto box_top lineto
+    Harrowbox_1 dup 
+      box_height 4 div add Harrowbox_0 min
+      dup
+	box_top lineto
+	exch triangle_tip lineto
+      box_bottom lineto
+    closepath
+  } ifelse
+  gsave fill grestore
+  gsave 0 setlinewidth Black stroke grestore
+} def
+
+/Varrowbox { % y0 y1 /dir str
+  Vlabel
+  /right eq {
+    newpath
+    /Varrowbox_1 exch def
+    /Varrowbox_0 exch def
+    Varrowbox_0 dup 
+      box_bottom exch moveto
+      box_top exch lineto   	
+    Varrowbox_1 dup 
+      box_height 4 div sub Varrowbox_0 max dup box_top exch lineto exch
+      triangle_tip exch lineto 	
+      box_bottom exch lineto  	
+    closepath
+  } {
+    newpath
+    /Varrowbox_0 exch def
+    /Varrowbox_1 exch def
+    Varrowbox_0 dup 
+      box_bottom exch moveto	
+      box_top exch lineto   	
+    Varrowbox_1 dup 
+      box_height 4 div add Varrowbox_0 min dup box_top exch lineto exch
+      triangle_tip exch lineto 	
+      box_bottom exch lineto  	
+    closepath
+  } ifelse
+  gsave fill grestore
+  gsave 0 setlinewidth Black stroke grestore
+} def
+
+
+%  Mode switching commands.  Horizontal puts you in horizontal
+%  mode, ready to lay out the horizontal annotations.  Similarly
+%  for vertical.
+
+/setrow { box_height row_gap add mul /current_row_base exch def } def
+/setsize { 1.0 exch sub box_height mul 2 div /box_adjustment exch def } def
+
+/setup-bars { % ishorizontal --
+  __landscape xor not {
+    /Bars { <CCCCCCCCCCCCCCCC> 8 1 dpi 16 div setpattern } def
+    /Bars0 { <CCCCCCCCCCCCCCCC> 8 1 dpi 16 div setpattern } def
+    /Bars1 { <FFFF0000FFFF0000> 8 1 dpi 16 div setpattern } def
+    /Bars2 { <8142241818244281> 8 1 dpi 16 div setpattern } def
+  } { 
+    /Bars { <FFFF0000FFFF0000> 8 1 dpi 16 div setpattern } def
+    /Bars0 { <FFFF0000FFFF0000> 8 1 dpi 16 div setpattern } def
+    /Bars1 { <CCCCCCCCCCCCCCCC> 8 1 dpi 16 div setpattern } def
+    /Bars2 { <8142241818244281> 8 1 dpi 16 div setpattern } def
+  } ifelse
+} def
+
+/horizontal { 
+  main
+  initclip
+  bordermatrix setmatrix
+  0 H_row_base translate
+  /horizontalmatrix matrix currentmatrix def
+
+  clip-features {
+	_x0 -1 inch moveto 
+	_x0 4 inch lineto 
+	_x1 4 inch lineto 
+	_x1 -1 inch lineto closepath clip
+  } if
+
+  /Arrow { parameter-type-kludge Harrow } def
+  /ArrowBox { parameter-type-kludge Harrowbox 1 setsize } def
+  /Triangle { parameter-type-kludge Htriangle } def
+  /ThickArrow { parameter-type-kludge Hthickarrow } def
+  /ThinArrow { parameter-type-kludge Hthinarrow } def
+  /Banner { Hbanner } def
+  /Box { Hbox } def
+  /Void { Hvoid } def
+  true setup-bars
+  0 setrow
+} def
+
+/vertical { 
+  main
+  initclip
+  bordermatrix setmatrix
+  inverted-features {
+	  _x0 _y0 translate 1 -1 scale 0 height neg translate
+	  _x0 neg _y0 neg translate } if
+  
+  V_row_base 0 translate -1 1 scale
+  /verticalmatrix matrix currentmatrix def
+
+  clip-features {
+  	4 inch _y0 moveto 
+  	4 inch _y1 lineto 
+  	-1 inch _y1 lineto 
+  	-1 inch _y0 lineto closepath clip
+  } if
+
+  /ArrowBox { parameter-type-kludge Varrowbox 1 setsize } def
+  /Arrow { parameter-type-kludge Varrow } def
+  /Triangle { parameter-type-kludge Vtriangle } def
+  /ThickArrow { parameter-type-kludge Vthickarrow } def
+  /ThinArrow { parameter-type-kludge Vthinarrow } def
+  /Banner { Vbanner } def
+  /Box { Vbox } def
+  /Void { Vvoid } def
+  false setup-bars
+  0 setrow
+} def
+
+% Switch to data plotting mode.
+/plotdata {
+  main
+  bordermatrix setmatrix
+  inverted-dotplot {
+	  _x0 _y0 translate 1 -1 scale 0 height neg translate
+	  _x0 neg _y0 neg translate } if
+  report-plot-once
+  clip-to-selection
+} def
+
+/do-report-plot { 
+	/picture-xforms	
+		picture-xforms aload length  % m1 m2 ... mi i
+		matrix currentmatrix matrix defaultmatrix
+		matrix invertmatrix matrix concatmatrix 
+		dup /my-xform exch def
+		exch 1 add array astore 
+	store
+	(xform )print my-xform ==
+	_x1 _y1 my-xform transform _x0 _y0 my-xform transform 
+        (bbox )print % x0 y0 x1 y1
+	exch i2s print ( )print i2s print ( )print 
+	exch i2s print ( )print i2s print (\n)print
+} def
+
+/report-plot-once { 
+	do-report-plot
+	/do-report-plot {} def
+} def
+
+%  Utility variables
+/Fontsize 11 def
+/Null [[() /Courier]] def  % empty label
+/Black { unsetpattern 0 setgray } def
+/White { unsetpattern 1 setgray } def
+/Gray  { unsetpattern 0.5 setgray } def
+/LightGray  { unsetpattern 0.9 setgray } def
+/DarkGray  { unsetpattern 0.5 setgray } def
+
+%
+% dpi, bitison, setpattern are adapted from code in the
+% Postscript Tutorial and Cookbook, copr Adobe, 1985.
+%
+/resmatrix matrix def
+/dpi 
+  72 0 resmatrix defaultmatrix dtransform /yres exch def /xres exch def
+  xres dup mul yres dup mul add sqrt
+def
+
+/bitison {
+  /ybit exch def /xbit exch def
+  bstring ybit bwidth mul xbit 8 idiv add get
+  1 7 xbit 8 mod sub bitshift and 0 ne
+} def
+
+/setpattern {
+   /freq exch def /bwidth exch def /bpside exch def /bstring exch def
+   /onbits 0 def /offbits 0 def
+   freq 0
+     {/y exch def /x exch def
+      /xindex x 1 add 2 div
+         bpside mul cvi def
+      /yindex y 1 add 2 div
+         bpside mul cvi def
+      xindex yindex bitison
+        {/onbits onbits 1 add def 1}
+        {/offbits offbits 1 add def
+         0}
+        ifelse
+      }  setscreen
+   {} settransfer
+   offbits offbits onbits add div
+     setgray
+   /custom-pattern true def
+} def
+
+% Put back default pattern function.
+/unsetpattern {
+  custom-pattern {
+    /custom-pattern false def
+    saved-screen aload pop
+    dup type /dicttype eq
+      { sethalftone pop pop }
+      { setscreen }
+    ifelse
+  } if
+} def
+
+% Clip to the box around the plot.
+/clip-to-selection { 
+  initclip newpath _x0 _y0 moveto 0 height rlineto 
+  width 0 rlineto 0 height neg rlineto closepath clip
+} def
+
+/set-tic-font {
+  tic-font findfont tic-font-size scalefont setfont
+} def
+
+% -------------------------------------------------------------------------
+% entry point here
+
+/main { _main /_main {} def } def  % do main just once
+/_main { __main } def
+/__main {
+  user-options
+  /_x0 x0 def /_y0 y0 def /_x1 x1 def /_y1 y1 def
+  (plot )print
+  x0 i2s print ( )print
+  y0 i2s print ( )print
+  x1 i2s print ( )print
+  y1 i2s print (\n)print
+
+  % -- savedmatrix is the initial coordinate system
+  %    we use it to render text
+  /savedmatrix matrix currentmatrix def
+  /custom-pattern false def
+
+  /saved-screen [ currentscreen ] def
+
+  /Times-Roman findfont Fontsize scalefont setfont 
+
+  /width _x1 _x0 sub def /height _y1 _y0 sub def
+
+  % Decide on landscape or portrait mode based on width/height.
+  page-orientation 0 eq {
+    width height ge 
+      { /page-orientation 1 def } 
+      { /page-orientation 2 def } 
+    ifelse
+  } if
+
+  noauto {
+    /_page_y1  11 inch def
+    /_page_y0  0 def
+    /_page_x1  8.5 inch def
+    /_page_x0  0 def
+  } {
+    clippath pathbbox
+    /_page_y1 exch def
+    /_page_x1 exch def
+    /_page_y0 exch def
+    /_page_x0 exch def
+  } ifelse
+
+  /_page_dy _page_y1 _page_y0 sub def
+  /_page_dx _page_x1 _page_x0 sub def
+
+  page-orientation 1 eq {
+    % Landscape mode
+    /__landscape true def
+    _page_dx 0 translate 90 rotate
+    /pagewidth  _page_dy edgewidth sub margin 2 mul sub def 
+    /pageheight _page_dx edgewidth sub margin 2 mul sub def 
+    /Hadjust { 90 rotate } def
+    /Hotheradjust { 180 rotate 0 Fontsize 4 div neg rmoveto } def
+    /Vadjust { 180 rotate } def
+    /Votheradjust { 90 rotate } def
+    /HP { gsave savedmatrix setmatrix 90 rotate set-tic-font show grestore } def
+  } {
+    % Portrait mode
+    /__landscape false def
+    /pagewidth  _page_dx edgewidth sub margin 2 mul sub def 
+    /pageheight _page_dy edgewidth sub margin 2 mul sub def 
+    /Hadjust { 0 rotate } def
+    /Vadjust { 90 rotate } def
+    /Hotheradjust { 90 rotate 0 Fontsize 4 div neg rmoveto } def
+    /Votheradjust { 0 rotate } def
+    /HP { gsave savedmatrix setmatrix set-tic-font show grestore } def
+  } ifelse
+
+  % Offset to avoid margins and such
+  %edgewidth margin add dup neg translate
+  margin dup edgewidth add exch translate
+  (margin )print 
+  margin edgewidth add i2s print ( )print margin i2s print (\n)print
+
+  % Offset for page location
+  x-offset y-offset translate
+  (offset )print x-offset i2s print ( )print y-offset i2s print (\n)print
+
+  % Print title
+  banner-line {
+    0 pageheight moveto edgewidth dup neg exch rmoveto 
+       current-directory show
+    0 pageheight moveto edgewidth dup neg exch rmoveto 0 Fontsize neg rmoveto
+       description show (   ) show date show 
+  } if
+
+  % Scale to dot-plot sizes
+  /tmpwidth override-width 0 ne {override-width} {width} ifelse def
+  /tmpheight override-height 0 ne {override-height} {height} ifelse def
+  /scalefactor 
+    override-scale 0 ne 
+	{72 override-scale div} 
+	{pagewidth tmpwidth div pageheight tmpheight div min}
+    ifelse 
+  def
+  scalefactor dup scale
+  (scale )print scalefactor =
+
+  /units-per-inch 72 scalefactor div def
+
+  % Move origin to upper left of selected region
+  _x0 neg _y0 neg translate
+
+  % -- bordermatrix is erect, but scaled to fit the data
+  %    we use it to render horizontal annotations and tickmarks
+  /bordermatrix matrix currentmatrix def
+
+  % Draw box for axis
+  _x0 _y0 _x1 _y1 1 72 div 0 Frame
+
+  % Draw ticks
+  /ticklen { 1 16 div inch } def
+  /basicticstep { % x - x'
+	  % log round 1 sub 10 exch exp cvi 
+	  log 1 sub truncate 10 exch exp
+	  1 max cvi
+  } def
+
+  /xtic { % x y -
+	  2 copy	% x y x y
+	  ticklen sub cvi % x y x y'
+	  0 0 Line
+  } def
+
+  /ytic { % y x -
+	  2 copy	% y x y x
+	  ticklen add cvi	% y x y x'
+	  4 -1 roll	% x y x' y
+	  0 0 Line 
+  } def
+
+  /xlabel { % x y
+	  2 copy moveto				% x y 
+	  1 index cvi i2s 
+	    stringwidth pop 
+	    2 div scalefactor div neg	% x y -xlen
+	  ticklen -3 mul 				% x y -xlen -3ylen
+	  rmoveto					% x y
+	  pop cvi i2s 
+	  HP	
+  } def
+
+  /ylabel { % y x
+	  exch 2 copy moveto			% x y
+	  ticklen 0 rmoveto exch			% y x
+	  pop y-scale-fudge div cvi i2s 
+	  0 Fontsize 4 div scalefactor div inverted-dotplot not { neg } if
+	  rmoveto
+	  HP
+  } def
+
+  /x-tic-step {
+    htic-step 0 eq { width basicticstep } { htic-step } ifelse
+  } def
+
+  /x-label-step {
+    hlab-step 0 eq { xstep } { hlab-step } ifelse
+  } def
+
+  /y-tic-step {
+    vtic-step 0 eq { height basicticstep } { vtic-step } ifelse
+  } def
+
+  /y-label-step {
+    vlab-step 0 eq { ystep } {h lab-step } ifelse
+  } def
+
+  /xstep x-tic-step cvi def
+  /ystep y-tic-step cvi def
+  /xlabstep x-label-step cvi def
+  /ylabstep y-label-step cvi def
+  /xstart _x0 dup xstep mod sub xstep add def
+  /ystart _y0 dup ystep mod sub ystep add def
+  /xend _x1 dup xstep mod sub xstep sub def
+  /yend _y1 dup ystep mod sub ystep sub def
+
+  /goodxtic { % x - isgood
+	  dup 
+	  _x0 sub abs xstep 10 div gt exch	% b x
+	  _x1 sub abs xstep 10 div gt 	% b b
+	  and				% b
+  } def
+
+  /goodxlabel { % x - isgood
+	  dup _x0 sub abs xstep 10 div gt exch	% b x
+	  dup _x1 sub abs xstep 10 div gt exch	% b b x
+
+	  dup 					% b b x x
+		  _x1 sub abs 			% b b x d
+		  exch				% b b d x
+		  dup cvi i2s stringwidth pop scalefactor div	
+						  % b b d x s
+		  3 -1 roll			% b b x s d
+		  lt 				% b b x b
+		  exch				% b b b x
+	  dup xstep 10 mul mod 0 eq exch		% b b b b x
+	  pop
+	  and and	and 				% b
+  } def
+
+  /goodytic { % y - isgood
+	  dup 
+	  _y0 sub abs ystep 10 div gt exch	% b x
+	  _y1 sub abs ystep 10 div gt 	% b b
+	  and				% b
+  } def
+
+  /goodylabel { % y - isgood
+	% 2 was 10 below
+	  dup _y0 sub abs ystep 2 div gt exch	% b x
+	  dup _y1 sub abs ystep 2 div gt exch	% b b
+	  ystep 5 mul mod 0 eq	
+	  and and
+  } def
+
+  want-htic {
+    bordermatrix setmatrix % X-tics made in border matrix
+    _x0 _y0 2 copy xtic xlabel
+    _x1 _y0 2 copy xtic xlabel
+    htic-step 0 eq {
+      xstart xstep _x1 { 
+	  dup
+	  dup goodxtic { _y0 xtic } { pop } ifelse 
+	  dup goodxlabel { _y0 xlabel } { pop } ifelse
+      } for
+    } {
+      xstart xstep xend { _y0 xtic } for
+      xstart xlabstep xend { 
+		dup tlab-mod mod 0 eq { _y0 xlabel } if 
+      } for
+    } ifelse
+  } if
+
+  want-vtic {
+    bordermatrix setmatrix % Y-tics need new matrix
+    inverted-numbers {
+          _x0 _y0 translate 1 -1 scale 0 height neg translate
+          _x0 neg _y0 neg translate } if
+    _y0 _x1 2 copy ytic ylabel
+    _y1 _x1 2 copy ytic ylabel
+    vtic-step 0 eq {
+      ystart ystep _y1 { 
+	  dup
+	  dup goodytic { _x1 ytic } { pop } ifelse
+	  dup goodylabel { _x1 ylabel } { pop } ifelse
+      } for
+    } {
+      ystart ystep yend { _x1 ytic } for
+      ystart ylabstep yend { _x1 ylabel } for
+    } ifelse
+  } if
+
+  bordermatrix setmatrix
+} def
+
+% ------------------------------------------------------------------------
+% Tag file abbreviations
+
+/Left /left def
+/Right /right def
+/Sub -1 def
+/Sup 1 def
+/Plain 0 def
+
+% extra kludges
+
+/extra-labels { plotdata initclip  /Fontsize 8 def } def
+
+/right-label { % y str
+  _x1 0.2 inch add 
+  3 2 roll % str x y
+  moveto
+  ticklen 0 rmoveto
+  0 Fontsize 4 div scalefactor div inverted-dotplot not { neg } if rmoveto
+  gsave
+    savedmatrix setmatrix Hadjust show-in-font
+  grestore
+} def
+
+/bottom-label { % x str
+  _y0 0.25 inch sub 
+  3 -1 roll exch % str x y
+  moveto
+  ticklen 0 rmoveto
+  0 Fontsize 4 div scalefactor div inverted-dotplot not { neg } if rmoveto
+  gsave
+    savedmatrix setmatrix Hadjust show-in-font
+  grestore
+} def
+
+/bottom-label-rotated { % x str
+  _y0 0.25 inch sub 
+  3 -1 roll exch % str x y
+  moveto
+  ticklen 0 rmoveto
+  0 Fontsize 4 div scalefactor div inverted-dotplot not { neg } if rmoveto
+  gsave   
+    savedmatrix setmatrix Hadjust 90 rotate show-in-font
+  grestore
+} def
+
+/bottom-label-reverse-rotated { % x str
+  _y0 0.25 inch sub 
+  3 -1 roll exch % str x y
+  moveto
+  ticklen 0 rmoveto
+  0 Fontsize 4 div scalefactor div inverted-dotplot not { neg } if rmoveto
+  gsave   
+    savedmatrix setmatrix Hadjust -90 rotate show-in-font
+  grestore
+} def
+
+% ------------------------------------------------------------------------
+% Plot data...
+default-options
+% align: 'percents'
+% W 1
+% Y 2400
+% X  
+/description (
+"npercents nlax.out "
+) def
+/x0 1 def
+/x1 75995 def
+/y0 0 def
+/y1 2400 def
+/vtic-step 240 def
+/y-scale-fudge 24 def
+plotdata
+64050 1536 64094 1536 1 0 Line
+64096 1680 64112 1680 1 0 Line
+64115 1512 64144 1512 1 0 Line
+64145 1464 64178 1464 1 0 Line
+64179 1416 64227 1416 1 0 Line
+64228 1440 64295 1440 1 0 Line
+64304 1392 64407 1392 1 0 Line
+64408 1320 64461 1320 1 0 Line
+64462 1632 64528 1632 1 0 Line
+64548 1992 64553 1992 1 0 Line
+64554 1536 64567 1536 1 0 Line
+64569 1872 64587 1872 1 0 Line
+64589 1152 64627 1152 1 0 Line
+64631 1944 64641 1944 1 0 Line
+64642 2400 64647 2400 1 0 Line
+64661 2232 64676 2232 1 0 Line
+64677 1560 64766 1560 1 0 Line
+64767 1776 64863 1776 1 0 Line
+64864 1992 64998 1992 1 0 Line
+65006 1752 65031 1752 1 0 Line
+65038 1368 65075 1368 1 0 Line
+65077 1968 65326 1968 1 0 Line
+65327 1296 65399 1296 1 0 Line
+65400 1584 65414 1584 1 0 Line
+65435 1704 65448 1704 1 0 Line
+65449 1392 65460 1392 1 0 Line
+65462 1704 65475 1704 1 0 Line
+65476 1368 65536 1368 1 0 Line
+65541 1680 65550 1680 1 0 Line
+65551 1488 65582 1488 1 0 Line
+65630 1512 65640 1512 1 0 Line
+65641 1536 65654 1536 1 0 Line
+65681 1440 65708 1440 1 0 Line
+65821 1536 65834 1536 1 0 Line
+65835 1680 65851 1680 1 0 Line
+65852 2064 65866 2064 1 0 Line
+65871 1392 65911 1392 1 0 Line
+65916 1344 65952 1344 1 0 Line
+65954 2040 65960 2040 1 0 Line
+65961 1344 66010 1344 1 0 Line
+66030 1920 66039 1920 1 0 Line
+66065 1392 66093 1392 1 0 Line
+66094 1464 66114 1464 1 0 Line
+66128 2400 66134 2400 1 0 Line
+66135 1560 66154 1560 1 0 Line
+66156 1800 66325 1800 1 0 Line
+66327 1344 66356 1344 1 0 Line
+66358 1608 66437 1608 1 0 Line
+66439 1632 66463 1632 1 0 Line
+66468 1464 66485 1464 1 0 Line
+66492 1656 66540 1656 1 0 Line
+66548 1296 66582 1296 1 0 Line
+66593 1488 66621 1488 1 0 Line
+66625 1512 66670 1512 1 0 Line
+66672 1464 66707 1464 1 0 Line
+66708 1752 66730 1752 1 0 Line
+66734 1392 66807 1392 1 0 Line
+66809 1704 66829 1704 1 0 Line
+67316 1488 67379 1488 1 0 Line
+67390 1584 67445 1584 1 0 Line
+6006 1512 6057 1512 1 0 Line
+6066 1368 6084 1368 1 0 Line
+6088 1368 6134 1368 1 0 Line
+6135 1560 6175 1560 1 0 Line
+6176 2040 6182 2040 1 0 Line
+6192 1584 6206 1584 1 0 Line
+6210 1584 6290 1584 1 0 Line
+7067 1632 7088 1632 1 0 Line
+7092 1560 7176 1560 1 0 Line
+7194 1800 7225 1800 1 0 Line
+7227 1728 7237 1728 1 0 Line
+7238 1488 7291 1488 1 0 Line
+7298 2016 7310 2016 1 0 Line
+7317 1488 7397 1488 1 0 Line
+7405 1536 7429 1536 1 0 Line
+7431 1704 7458 1704 1 0 Line
+7980 1728 8016 1728 1 0 Line
+8022 2160 8032 2160 1 0 Line
+8040 1680 8073 1680 1 0 Line
+8075 1752 8097 1752 1 0 Line
+8110 1536 8126 1536 1 0 Line
+8127 1680 8153 1680 1 0 Line
+9135 1800 9166 1800 1 0 Line
+9167 1488 9193 1488 1 0 Line
+9194 2088 9209 2088 1 0 Line
+9211 1632 9271 1632 1 0 Line
+9512 1440 9552 1440 1 0 Line
+9554 1776 9584 1776 1 0 Line
+9585 1584 9634 1584 1 0 Line
+9877 1632 9945 1632 1 0 Line
+10143 1872 10165 1872 1 0 Line
+10167 1920 10186 1920 1 0 Line
+10187 1824 10225 1824 1 0 Line
+10276 1632 10366 1632 1 0 Line
+10368 1704 10388 1704 1 0 Line
+10397 1560 10469 1560 1 0 Line
+10470 1584 10481 1584 1 0 Line
+10483 1608 10510 1608 1 0 Line
+10512 1608 10542 1608 1 0 Line
+10548 1728 10569 1728 1 0 Line
+10976 1968 11004 1968 1 0 Line
+11007 1512 11069 1512 1 0 Line
+11071 1512 11141 1512 1 0 Line
+11142 1752 11156 1752 1 0 Line
+11159 2016 11171 2016 1 0 Line
+11172 1560 11200 1560 1 0 Line
+11203 1440 11245 1440 1 0 Line
+11246 1512 11256 1512 1 0 Line
+11259 1608 11286 1608 1 0 Line
+11287 1584 11325 1584 1 0 Line
+11327 1944 11464 1944 1 0 Line
+11469 1560 11566 1560 1 0 Line
+13096 1560 13144 1560 1 0 Line
+13147 1800 13179 1800 1 0 Line
+13181 1992 13192 1992 1 0 Line
+13642 1752 13664 1752 1 0 Line
+13670 1560 13692 1560 1 0 Line
+13694 1800 13713 1800 1 0 Line
+13715 1584 13729 1584 1 0 Line
+13731 1824 13751 1824 1 0 Line
+13752 1728 13806 1728 1 0 Line
+13794 1968 13816 1968 1 0 Line
+13818 1584 13823 1584 1 0 Line
+13835 1440 13987 1440 1 0 Line
+15760 1632 15794 1632 1 0 Line
+15795 2016 15826 2016 1 0 Line
+15827 1200 15850 1200 1 0 Line
+15851 1248 15875 1248 1 0 Line
+15876 1392 15911 1392 1 0 Line
+15927 1848 15944 1848 1 0 Line
+15965 1728 15997 1728 1 0 Line
+16011 1488 16069 1488 1 0 Line
+16072 1560 16106 1560 1 0 Line
+16107 2040 16113 2040 1 0 Line
+16123 1560 16174 1560 1 0 Line
+16179 1824 16217 1824 1 0 Line
+16218 1272 16256 1272 1 0 Line
+16259 1632 16296 1632 1 0 Line
+16297 1872 16310 1872 1 0 Line
+16312 1512 16341 1512 1 0 Line
+16342 1800 16353 1800 1 0 Line
+16354 1368 16393 1368 1 0 Line
+16395 1464 16415 1464 1 0 Line
+16416 1536 16490 1536 1 0 Line
+16492 1248 16512 1248 1 0 Line
+16533 1392 16605 1392 1 0 Line
+16609 1272 16647 1272 1 0 Line
+16648 1392 16681 1392 1 0 Line
+16682 1920 16696 1920 1 0 Line
+16701 1488 16756 1488 1 0 Line
+16759 1392 16782 1392 1 0 Line
+16784 1464 16809 1464 1 0 Line
+16819 1752 16844 1752 1 0 Line
+16847 1992 16858 1992 1 0 Line
+17017 1344 17071 1344 1 0 Line
+17073 1776 17119 1776 1 0 Line
+17127 2040 17147 2040 1 0 Line
+17146 1680 17210 1680 1 0 Line
+17211 1584 17231 1584 1 0 Line
+17267 1752 17311 1752 1 0 Line
+17313 1584 17324 1584 1 0 Line
+17326 1440 17360 1440 1 0 Line
+17368 1968 17390 1968 1 0 Line
+17875 1992 17904 1992 1 0 Line
+17917 1488 18032 1488 1 0 Line
+18041 1392 18095 1392 1 0 Line
+18099 1920 18108 1920 1 0 Line
+18119 1752 18137 1752 1 0 Line
+18140 2160 18149 2160 1 0 Line
+18155 1704 18175 1704 1 0 Line
+18178 1224 18204 1224 1 0 Line
+18206 1680 18259 1680 1 0 Line
+20077 2208 20089 2208 1 0 Line
+20111 1560 20130 1560 1 0 Line
+20131 1752 20160 1752 1 0 Line
+20161 1584 20169 1584 1 0 Line
+20184 1728 20216 1728 1 0 Line
+20218 1632 20246 1632 1 0 Line
+20251 1680 20301 1680 1 0 Line
+20303 1680 20333 1680 1 0 Line
+20334 1920 20343 1920 1 0 Line
+20347 1536 20371 1536 1 0 Line
+20388 1512 20423 1512 1 0 Line
+20424 1752 20438 1752 1 0 Line
+20443 1920 20462 1920 1 0 Line
+20472 2400 20476 2400 1 0 Line
+20484 1584 20548 1584 1 0 Line
+20549 1584 20584 1584 1 0 Line
+20585 1704 20629 1704 1 0 Line
+21031 1536 21061 1536 1 0 Line
+21063 1608 21090 1608 1 0 Line
+21094 1440 21134 1440 1 0 Line
+21135 1584 21158 1584 1 0 Line
+21160 1848 21194 1848 1 0 Line
+21196 1440 21223 1440 1 0 Line
+21224 1392 21254 1392 1 0 Line
+21264 1752 21286 1752 1 0 Line
+21287 1320 21315 1320 1 0 Line
+21316 1584 21357 1584 1 0 Line
+21359 1512 21380 1512 1 0 Line
+21396 1224 21428 1224 1 0 Line
+21434 1512 21482 1512 1 0 Line
+21497 1272 21541 1272 1 0 Line
+21542 1440 21713 1440 1 0 Line
+21714 1392 21737 1392 1 0 Line
+21738 1368 21887 1368 1 0 Line
+21889 1536 21919 1536 1 0 Line
+21920 1488 21943 1488 1 0 Line
+21944 1632 21962 1632 1 0 Line
+21969 1608 22033 1608 1 0 Line
+22037 2064 22074 2064 1 0 Line
+22075 1992 22086 1992 1 0 Line
+22088 1776 22341 1776 1 0 Line
+22370 1632 22385 1632 1 0 Line
+22390 1800 22401 1800 1 0 Line
+22402 1536 22418 1536 1 0 Line
+22420 1968 22675 1968 1 0 Line
+22681 1320 22689 1320 1 0 Line
+22690 1488 22718 1488 1 0 Line
+22719 1248 22758 1248 1 0 Line
+22815 1656 22827 1656 1 0 Line
+22828 1536 22877 1536 1 0 Line
+22878 1824 22890 1824 1 0 Line
+22894 1920 22903 1920 1 0 Line
+22918 1584 22938 1584 1 0 Line
+22939 1824 22955 1824 1 0 Line
+22956 1992 22961 1992 1 0 Line
+22992 1536 23019 1536 1 0 Line
+23020 1560 23045 1560 1 0 Line
+23047 1416 23068 1416 1 0 Line
+23069 1800 23084 1800 1 0 Line
+23100 1584 23120 1584 1 0 Line
+23121 1656 23133 1656 1 0 Line
+23135 2064 23149 2064 1 0 Line
+23151 1392 23243 1392 1 0 Line
+23262 1752 23276 1752 1 0 Line
+23298 1200 23329 1200 1 0 Line
+23344 1728 23361 1728 1 0 Line
+23378 1536 23391 1536 1 0 Line
+23396 1272 23410 1272 1 0 Line
+23411 1584 23425 1584 1 0 Line
+23438 1608 23468 1608 1 0 Line
+23471 1392 23499 1392 1 0 Line
+23500 1968 23655 1968 1 0 Line
+25042 1704 25069 1704 1 0 Line
+25071 1728 25081 1728 1 0 Line
+25082 1728 25092 1728 1 0 Line
+25102 1440 25161 1440 1 0 Line
+25166 1824 25220 1824 1 0 Line
+25223 1800 25242 1800 1 0 Line
+25244 2400 25251 2400 1 0 Line
+34403 1728 34424 1728 1 0 Line
+34425 1488 34483 1488 1 0 Line
+34486 1848 34512 1848 1 0 Line
+34725 1752 34747 1752 1 0 Line
+34748 1560 34790 1560 1 0 Line
+34815 1488 34857 1488 1 0 Line
+34873 1560 34898 1560 1 0 Line
+34903 1440 34952 1440 1 0 Line
+34953 1824 34973 1824 1 0 Line
+36959 1560 36996 1560 1 0 Line
+37000 1488 37044 1488 1 0 Line
+37073 1560 37110 1560 1 0 Line
+37114 1368 37179 1368 1 0 Line
+37181 1776 37315 1776 1 0 Line
+37331 1632 37346 1632 1 0 Line
+37349 1752 37367 1752 1 0 Line
+37368 1560 37396 1560 1 0 Line
+37399 1512 37420 1512 1 0 Line
+37421 1920 37660 1920 1 0 Line
+38537 1872 38673 1872 1 0 Line
+41895 1560 41932 1560 1 0 Line
+41936 1488 41980 1488 1 0 Line
+42009 1560 42046 1560 1 0 Line
+42050 1368 42115 1368 1 0 Line
+42117 1800 42251 1800 1 0 Line
+42267 1632 42282 1632 1 0 Line
+42285 1752 42303 1752 1 0 Line
+42304 1560 42332 1560 1 0 Line
+42335 1512 42356 1512 1 0 Line
+42357 1920 42596 1920 1 0 Line
+43453 1896 43581 1896 1 0 Line
+57218 1824 57234 1824 1 0 Line
+57239 1488 57292 1488 1 0 Line
+57294 1584 57305 1584 1 0 Line
+57308 1632 57326 1632 1 0 Line
+57327 1680 57370 1680 1 0 Line
+57372 1632 57393 1632 1 0 Line
+57394 1872 57421 1872 1 0 Line
+57423 1824 57469 1824 1 0 Line
+57470 1728 57578 1728 1 0 Line
+57588 1800 57595 1800 1 0 Line
+57597 1416 57618 1416 1 0 Line
+57620 1800 57635 1800 1 0 Line
+57682 1872 57695 1872 1 0 Line
+57696 1512 57769 1512 1 0 Line
+57773 1872 57936 1872 1 0 Line
+57951 1320 57979 1320 1 0 Line
+57983 1464 58008 1464 1 0 Line
+58009 1608 58036 1608 1 0 Line
+58038 1584 58070 1584 1 0 Line
+58082 1872 58100 1872 1 0 Line
+58102 1440 58111 1440 1 0 Line
+58112 1896 58145 1896 1 0 Line
+58146 1824 58162 1824 1 0 Line
+58163 1416 58245 1416 1 0 Line
+58247 2088 58254 2088 1 0 Line
+58255 1416 58306 1416 1 0 Line
+58316 1560 58344 1560 1 0 Line
+58348 1656 58370 1656 1 0 Line
+58375 1152 58409 1152 1 0 Line
+58410 1512 58428 1512 1 0 Line
+58432 2016 58450 2016 1 0 Line
+58455 2088 58470 2088 1 0 Line
+58478 2040 58484 2040 1 0 Line
+58515 1728 58532 1728 1 0 Line
+58554 2400 58558 2400 1 0 Line
+58570 1968 58603 1968 1 0 Line
+58662 1824 58674 1824 1 0 Line
+58696 1536 58779 1536 1 0 Line
+58784 2400 58794 2400 1 0 Line
+58797 1752 58951 1752 1 0 Line
+58956 1560 58984 1560 1 0 Line
+58988 2160 58998 2160 1 0 Line
+58999 1632 59014 1632 1 0 Line
+59027 1320 59044 1320 1 0 Line
+59045 2112 59061 2112 1 0 Line
+59074 1872 59096 1872 1 0 Line
+59320 1872 59333 1872 1 0 Line
+59337 1536 59378 1536 1 0 Line
+59380 1512 59420 1512 1 0 Line
+59433 1800 59456 1800 1 0 Line
+59460 1296 59492 1296 1 0 Line
+59493 1632 59537 1632 1 0 Line
+59539 1488 59554 1488 1 0 Line
+59555 1680 59571 1680 1 0 Line
+59572 1512 59604 1512 1 0 Line
+59940 1680 59973 1680 1 0 Line
+59975 1944 59985 1944 1 0 Line
+59998 2016 60010 2016 1 0 Line
+60011 1632 60039 1632 1 0 Line
+60040 2064 60068 2064 1 0 Line
+60070 1464 60100 1464 1 0 Line
+60107 1512 60139 1512 1 0 Line
+/description (
+"percents nlax.hs4.out "
+) def
+/x0 1 def
+/x1 75995 def
+/y0 0 def
+/y1 2400 def
+/vtic-step 240 def
+/y-scale-fudge 24 def
+plotdata
+3690 1440 3715 1440 1 0 Line
+3716 1392 3771 1392 1 0 Line
+3772 1200 3781 1200 1 0 Line
+3782 1464 3844 1464 1 0 Line
+3845 1560 3885 1560 1 0 Line
+3886 792 3900 792 1 0 Line
+3901 1440 3919 1440 1 0 Line
+3920 1392 3930 1392 1 0 Line
+3931 1680 3984 1680 1 0 Line
+3985 1704 4035 1704 1 0 Line
+% tagfiles: ' tag.style'
+%
+%  icon style for beta-globin gene cluster
+%
+
+/Gene { White Box } def
+/Exon { Null Black Box } def
+/Xon { Black Box } def
+/Alu { Null LightGray Triangle } def
+
+/HS { White Box } def
+/L1  { Null White ArrowBox } def
+/InnerL1 { 0.8 setsize Null White ArrowBox } def
+% htags: ' newhuman.tag'
+horizontal
+%
+%  human beta-like globin gene cluster; with entries 16595-19324 of GenBank
+%  entry HUMHBB replaced with PvuII to Bam from Li et al., and 2687 bp added
+%  to the 5' end.  75995 bp, 2/6/96
+%
+
+0 setrow
+
+700 800 [[(HS5) /Times-Roman]] HS
+3638 3921 [[(HS4) /Times-Roman]] HS
+7237 7462 [[(HS3) /Times-Roman]] HS
+11173 11547 [[(HS2) /Times-Roman]] HS
+15439 16456 [[(HS1) /Times-Roman]] HS
+
+2810 3122 Right Alu
+4653 4946 Left Alu
+8285 8603 Right Alu
+10694 10975 Right Alu
+13299 13611 Right Alu
+15599 15753 Left L1
+17523 17755 Right L1
+19605 19905 Left Alu
+20627 20918 Right Alu
+
+1 setrow
+22173 23767 [[(e) /Symbol]] Right ThinArrow
+0 setrow
+
+22173 22319 Exon
+22442 22664 Exon
+23520 23767 Exon
+
+25805 33823 Left L1
+28572 30674 Left InnerL1
+35094 35398 Right Alu
+35673 35788 Left L1
+
+1 setrow
+37165 38756 [[(G) /Times-Roman 8 Sup] [(g) /Symbol]] Right ThinArrow
+0 setrow
+
+37165 37309 Exon
+37432 37654 Exon
+38541 38756 Exon
+
+40608 40726 Left L1
+
+1 setrow
+42101 43672 [[(A) /Times-Roman 8 Sup] [(g) /Symbol]] Right ThinArrow
+0 setrow
+
+42101 42245 Exon
+42368 42590 Exon
+43457 43672 Exon
+
+45382 45961 Left L1
+47475 47795 Right Alu
+
+48345 49959 [[(yh) /Symbol]] Gene
+48345 48487 Exon
+48609 48831 Exon
+49684 49959 Exon
+
+53582 53885 Left Alu
+54663 54963 Right Alu
+55909 56227 Left L1
+
+1 setrow
+57427 59076 [[(d) /Symbol]] Right ThinArrow
+0 setrow
+
+57427 57568 Exon
+57697 57919 Exon
+58818 59076 Exon
+
+1 setrow
+64824 66429 [[(b) /Symbol]] Right ThinArrow
+0 setrow
+
+64824 64965 Exon
+65096 65318 Exon
+66169 66481 Exon
+
+68190 68454 Left Alu
+69448 69757 Right Alu
+69758 75897 Right L1
+% vtags: ' percent.tag'
+vertical
+%
+%  tag file for %-match plots
+%
+
+1 setrow
+  [[(\% ident.) /Times-Roman]] Banner
+/x-axis-label where { pop horizontal 1 setrow x-axis-label Hbanner } if
+/y-axis-label where { pop vertical 1 setrow y-axis-label Vbanner } if
+end grestore
+showpage
+
+%%EndDocument
+%%Trailer

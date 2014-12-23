@@ -1,0 +1,140 @@
+\chapter{Patterns of selection on nucleotide polymorphisms}
+
+We've now seen one good example of natural selection acting to
+maintain diversity at the molecular level, but that example involves
+only a pair of alleles. Let's examine how selection operates on a more
+complex polymorphism involving many alleles and several loci,
+specifically the polymorphsims at the major histocompatibility complex
+(MHC) loci of vertebrates.
+
+MHC molecules are responsible for cellular immune responses in
+vertebrates. They are expressed on all nucleated cells in vertebrates,
+and they present intracellularly processed ``foreign'' antigens to T
+cell receptor lymphocytes. When the MHC $+$ antigen complex is
+recognized, a cytotoxic reaction is triggered killing cells presenting
+the antigen. It's been known for many years that the genes are highly
+polymorphic.\footnote{They were discovered as a result of
+  investigations into rejection of transplanted organs and
+  tissues. They are the loci governing acceptance/rejection of
+  transplants in vertebrates.} Although plausible adaptive scenarios
+for that variation existed, a competing hypothesis had been that MHC
+loci were ``hypervariable'' not because of selection for diversity,
+but because of an unusually high mutation rate.
+
+\section*{Patterns of amino acid substitution at MHC loci}\index{MHC polymorphism}
+
+Hughes and Nei~\cite{Hughes-Nei88} recognized that these hypotheses
+could be distinguished by comparing rates of synonymous and
+non-synonymous substitution at MHC loci. The results are summarized
+in Table~\ref{table:hughes-nei}. Notice that they distinguished among
+three functional regions within the protein and calculated statistics
+separately for each one:
+
+\begin{itemize}
+
+\item codons in the {\it antigen recognition site},
+
+\item the remaining codons in the extracellular domain involved in
+  presenting the antigen on the cell surface~(the $\alpha_1$ and
+  $\alpha_2$ domains), and
+
+\item codons in the extracellular domain that are not directly
+  involved in presenting the antigen on the cell surface~(the
+  $\alpha_3$ domain).
+
+\end{itemize}
+Hughes and Nei argue that the unusually low value of $K_s$ in the
+$\alpha_3$ domain of H2-L in mice is due to interlocus genetic
+exchange. If we discount that set of data as unreliable, a clear
+pattern emerges.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{lcccccc}
+\hline\hline
+      & \multicolumn{2}{c}{ARS} 
+      & \multicolumn{2}{c}{$\alpha_1$ and $\alpha_2$}
+      & \multicolumn{2}{c}{$\alpha_3$} \\
+Locus & $K_s$ & $K_a$ & $K_s$ & $K_a$ & $K_s$ & $K_a$ \\
+\hline
+Human \\
+\quad HLA-A & 3.5 & 13.3*** &  2.5 & 1.6 & 9.5 & 1.6** \\
+\quad HLA-B & 7.1 & 18.1**  &  6.9 & 2.4 & 1.5 & 0.5 \\
+\quad HLA-C & 3.8 &  8.8    & 10.4 & 4.8 & 2.1 & 1.0 \\
+Mean        & 4.7 & 14.1*** &  5.1 & 2.4 & 5.8 & 1.1** \\
+\\
+Mouse \\
+\quad H2-K  & 15.0 & 22.9   &  8.7 & 5.8 & 2.3 & 4.0 \\
+\quad H2-L  & 11.4 & 19.5   &  8.8 & 6.8 & 0.0 & 2.5** \\
+Mean        & 13.2 & 21.2*  &  8.8 & 6.3 & 1.2 & 3.6** \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Rates of synonymous and non-synonymous substitution for loci
+  in the MHC complex of humans and mice~(modified from~\cite{Li97} and
+  based on~\cite{Hughes-Nei88}). ARS refers to the antigen recognition
+  site. Significant differences between $K_s$ and $K_a$ are denoted
+  as: * ($P < 0.05$), ** ($P < 0.01$), and *** ($P <
+  0.001$).}\label{table:hughes-nei}
+\end{table}\index{MHC!synonymous and non-synonymous substitutions}
+
+\begin{itemize}
+
+\item In the part of the MHC molecule that is not directly involved in
+  presenting antigen, $\alpha_3$ in humans, the rate of non-synonymous
+  substitution is significantly lower than the rate of synonymous
+  substitution, i.e., there is selection {\it against\/} amino acid
+  substitutions.\footnote{No surprise there. That's the ``sledgehammer
+    principle in operation.}\index{sledgehammer principle}
+
+\item In the parts of the MHC molecule that presents antigens,
+  $\alpha_1$ and $\alpha_2$, the rate of synonymous and non-synonymous
+  substitution is indistinguishable, except within the antigen
+  recognition site where there are {\it more\/} non-synonymous than
+  synonymous substitutions, i.e., there is selection {\it for\/} amino
+  acid substitutions.
+
+\end{itemize}
+
+\noindent It's worth spending a little time thinking about what I mean
+when I say that there is selection {\it for\/} or {\it against\/}
+amino acid substitutions.\index{nucleotide substitutions!selection against}\index{nucleotide substitutions!selection for}
+
+\begin{itemize}
+
+\item Everything we know about DNA replication and mutation tells us
+  that mutations arise independently of any fitness effect they
+  have.
+
+\item Since the substitution rate is the product of the mutation rate
+  and the probability of fixation, if some substitutions occur at a
+  slower rate than neutral substitutions, they must have a lower
+  probability of fixation, and the only way that can happen is if
+  there is natural selection {\it against\/} those substitutions.
+
+\item Similarly, if some substitutions occur at a higher rate than
+  neutral substitutions, they must have a higher probability of
+  fixation, i.e., there is natural selection {\it for\/} those
+  substitutions. 
+
+\end{itemize}
+
+In a later paper Hughes et al.~\cite{Hughes-etal90} took these
+observations even further. They subdivided the antigen recognition
+site into the binding cleft, the T-cell-receptor-directed residues,
+and the outward-directed residues. They found that the rate of
+non-synonymous substitution is much higher in the binding cleft than
+in other parts of the antigen recognition site and that nucleotide 
+substitutions that change the charge of the associated amino acid
+residue are even more likely to be incorporated than those that are
+charge-conservative. In short, we have very strong evidence that
+natural selection is promoting diversity in the antigen binding
+capacity of MHC molecules.\index{MHC!conservative and non-conservative substitutions}
+
+Notice, however, that this selection for diversity is combined with
+overall conservatism in amino acid substitutions. Across the protein
+as a whole, most non-synonymous substitutions are selected {\it
+against}. Of course, it is that small subset of amino acids where
+non-synonymous substitutions are selected {\it for} that are
+responsible for adaptive responses to new pathogens.
+

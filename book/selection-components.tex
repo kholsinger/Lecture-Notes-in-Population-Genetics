@@ -1,0 +1,283 @@
+\chapter{Selection Components Analysis}
+
+Consider the steps in a transition from one generation to the next,
+starting with a newly formed zygote:
+
+\begin{itemize}
+
+\item Zygote
+
+\item Adult{\dash}Survival from zygote to adult may differ between the
+sexes.
+
+\item Breeding population{\dash}Adult genotypes may differ in their
+probability of mating, and the differences may be different in males
+and females
+
+\item Newly formed zygotes
+
+\end{itemize}
+
+\noindent When the transition from one stage to the next depends on
+genotype, then selection has occurred at that stage. Thus, to
+determine whether selection is occurring we construct expectations of
+genotype or allele frequencies at one stage based on the frequencies
+at the immediately preceding stage assuming that no selection has
+occurred. Then we compare observed frequencies to those expected
+without selection. If they match, we have no evidence for
+selection. If they don't match, we do have evidence for selection. 
+
+As we've already seen, it's conceptually easy (if often experimentall
+difficult) to detect and measure selection if we can assay genotypes
+non-destructively at appropriate stages in the life-cycle. What if we
+can't? Well, there's a very nice approach known as {\it selection
+  components analysis\/} that generalizes the approach to estimating
+relative viabilities that we've already
+seen~\cite{Christiansen-Frydenberg-1973}.
+
+\section*{The Data}
+
+Pregnant mothers are collected.  One offspring from each mother is
+randomly selected and its genotype determined.  In addition, the
+genotypes of a random sample of non-reproductive (``sterile'') females
+and adult males are determined. The data can be summarized as~follows:
+
+\begin{center}
+\begin{tabular}{c|ccc|c|cc}
+\multicolumn{1}{c}{} & \multicolumn{3}{c}{Offspring} \\
+Mother & $A_{1}A_{1}$ & $A_{1}A_{2}$ & $A_{2}A_{2}$ & $\sum$ 
+       & ``Sterile'' Females & Males\\
+\hline
+$A_{1}A_{1}$ & $C_{11}$ & $C_{12}$ & ---      & $F_{1}$ & $S_{1}$ & $M_{1}$\\
+$A_{1}A_{2}$ & $C_{21}$ & $C_{22}$ & $C_{23}$ & $F_{2}$ & $S_{2}$ & $M_{2}$\\
+$A_{2}A_{2}$ & ---      & $C_{32}$ & $C_{33}$ & $F_{3}$ & $S_{3}$ & $M_{3}$\\
+\hline
+Total        &          &          &          & $F_{0}$ & $S_{0}$ & $M_{0}$\\
+\end{tabular}
+\end{center}
+
+\noindent Given the total sample size for mother-offspring pairs,
+``sterile'' females, and males, how many free parameters are there?
+How many frequencies would we need to know to reproduce the~data?
+
+\begin{center}
+\begin{tabular}{rl}
+6 & for mother-offspring pairs \\
+2 & for ``sterile'' females \\
+2 & for males \\
+\hline 
+10 & total \\
+\end{tabular}
+\end{center}
+
+\section*{The Analysis}
+
+\begin{tabular}{@{}lp{6.0in}}
+$H_{1}$: & {\bf Half of the offspring from heterozygous mothers
+                 are also~heterozygous.} \\
+& Under $H_1$ \\
+& \begin{eqnarray*}
+  \gamma_{21} &=& (1/2)(F_{2}/F_{0})(C_{21}/(C_{21}+C_{23})) \\
+  \gamma_{22} &=& (1/2)(F_{2}/F_{0}) \\
+  \gamma_{23} &=& (1/2)(F_{2}/F_{0})(C_{23}/(C_{21}+C_{23}))
+  \end{eqnarray*} \\
+& Under $H_1$, $\gamma_{22}$ can be predicted just from the
+frequency of heterozygous mothers in the sample.  Thus, only 9
+parameters are needed to describe the data under $H_1$.  Since 10 are
+required if we reject $H_1$ we can use a likelihood ratio test with one 
+degree of freedom to see whether the above estimates provide an adequate 
+description of the~data.\\
+\end{tabular}
+
+\noindent If $H_1$ is rejected, we can conclude that there is either
+gametic selection or segregation distortion in $A_{1}A_{2}$~females.
+
+\medskip
+
+\noindent\begin{tabular}{@{}lp{6.0in}}
+$H_{2}$: & \bf The frequency of transmitted male gametes is
+independent of the mother's genotype.\\
+& Under $H_2$ \\
+& \begin{eqnarray*}
+  p_{m} &=& (C_{11} + C_{21} + C_{32})/(F_{0} - C_{22}) \\
+  q_{m} &=& (C_{12} + C_{23} + C_{33})/(F_{0} - C_{22}) 
+  \end{eqnarray*} \\
+& The expected frequency of the various mother-offspring
+combinations~is\\
+& 
+\begin{center}
+\begin{tabular}{c|ccc}
+             & $A_{1}A_{1}$         & $A_{1}A_{2}$    & $A_{2}A_{2}$\\
+\hline 
+$A_{1}A_{1}$ & $\phi_{1}p_{m}$      & $\phi_{1}q_{m}$ & --- \\
+$A_{1}A_{2}$ & $(1/2)\phi_{2}p_{m}$ & $(1/2)\phi_{2}$ & $(1/2)\phi_{2}q_{m}$ \\
+$A_{2}A_{2}$ & ---                  & $\phi_{3}p_{m}$ & $\phi_{3}q_{m}$ \\
+\end{tabular}
+\end{center}\\
+
+& where $\phi_{i} = F_{i}/F_{0}$.  Under $H_2$ only the female genotype frequencies and the male
+gamete frequencies are needed to describe the mother-offspring data. 
+That's a total of $2+1+2+2=7$ frequencies needed to describe {\it
+all\/} of the data.  Since $H_1$ needed 9, that gives us 2 degrees of
+freedom for our likelihood ratio test of $H_2$ given~$H_1$.
+\end{tabular}
+
+\noindent If $H_2$ is rejected, we can conclude that there is some
+form of non-random mating in the breeding population or
+female-specific selection of male~gametes.
+
+\medskip
+
+\noindent\begin{tabular}{@{}lp{6.0in}}
+$H_{3}$: & \bf The frequency of the transmitted male gametes is
+equal to the allele frequency in adult~males.\\
+& Under $H_3$ the maximum likelihood estimates for $p_m$ and
+$q_m$ cannot be found explicitly, they are a complicated function of
+$p_m$ and $q_m$ as defined under $H_{2}$ and of $M_{1}$, $M_{2}$, and
+$M_{3}$.  Under $H_3$, however, we no longer need to account
+separately for the gamete frequency in males, so a total of $2+2+2=6$
+frequencies is needed to describe the data.  Since $H_2$ needed 7,
+that gives us 1 degree of freedom for our likelihood ratio test of
+$H_3$ given~$H_2$.\\
+\end{tabular}
+
+\noindent If $H_3$ is rejected, we can conclude either that males
+differ in their ability to attract mates (i.e., there is sexual
+selection) or that male gametes differ in their ability to accomplish
+fertilization (e.g., sperm competition), or that there is segregation
+distortion in $A_{1}A_{2}$~males.
+
+\medskip
+
+\noindent\begin{tabular}{@{}lp{6.0in}}
+$H_{4}$: & \bf The genotype frequencies of reproductive females are
+the same as those of ``sterile''~females.\\
+& Under $H_4$ the maximum likelihood estimates for the
+genotype frequencies in females are \\
+& $$\phi_{i} = (F_{i}+S_{i})/(F_{0}+S_{0})$$ \\
+& Under $H_4$ we no longer need to account separately for the genotype
+frequencies in ``sterile'' females, so a total of $2+2=4$ frequencies
+is needed to describe the data.  Since $H_3$ needed 6, that gives us
+2 degrees of freedom for our likelihood ratio test of $H_4$
+given~$H_3$.\\
+\end{tabular}
+
+\noindent If $H_4$ is rejected, we can conclude that females differ in
+their ability to reproduce~successfully.
+
+\medskip
+
+\noindent\begin{tabular}{@{}lp{6.0in}}
+$H_{5}$: & \bf The genotype frequencies of adult females and adult
+males are equal.\\
+& Under $H_5$ the maximum likelihood estimates for the adult
+genotype frequencies can not be found explicitly.  Instead, they are
+a complicated function of almost every piece of information that we
+have.  Under $H_5$, however, we no longer need to account separately
+for the genotype frequencies in females and males, so a total of $2$ 
+frequencies is needed to describe the data.  Since $H_4$ needed 4,
+that gives us 2 degrees of freedom for our likelihood ratio test of
+$H_5$ given~$H_4$.\\
+\end{tabular}
+
+\noindent If $H_5$ is rejected we can conclude that the relative
+viabilities of the genotypes are different in the two sexes.  (We have
+assumed implicitly throughout that the locus under study is an
+autosomal locus.  Notice that rejection of $H_5$ is consistent with
+{\it no\/} selection in one~sex.)
+
+\medskip
+
+\noindent\begin{tabular}{@{}lp{6.0in}}
+$H_{6}$: & \bf The genotype frequencies in the adult population are
+equal to those of the zygote~population.\\
+& Under $H_6$ the maximum-likelihood estimator for the allele
+frequency in the population~is \\
+& $$p =
+{((C_{11}+C_{21}+C_{32})+2(F_{1}+S_{1}+M_{1})+(F_{2}+S_{2}+M_{2})) \over
+((F_{0}-C_{21})+F_{0}+S_{0}+M_{0})}$$ \\
+& Under $H_6$ the genotype frequencies in our original table can be
+summarized as~follows:\\
+& 
+\begin{center}
+\begin{tabular}{c|ccc|c|cc}
+Mother & $A_{1}A_{1}$ & $A_{1}A_{2}$ & $A_{2}A_{2}$ & $\sum$ & 
+``Sterile'' Females & Males\\
+\hline 
+$A_{1}A_{1}$ & $p^3$    & $p^{2}q$ & 0      & $p^2$ & $p^2$ & $p^2$\\  
+$A_{1}A_{2}$ & $p^{2}q$ & $pq$     & $pq^2$ & $2pq$ & $2pq$ & $2pq$\\
+$A_{2}A_{2}$ & 0        & $pq^2$   & $q^3$  & $q^2$ & $q^2$ & $q^2$\\
+\hline 
+\end{tabular}
+\end{center}\\
+
+& In short, under $H_6$ only one parameter, the allele frequency, is
+required to describe the entire data set.  Since under $H_5$ needed
+two parameters, our likelihood ratio test of $H_6$ given $H_5$ will 
+have one degree of~freedom.\\
+\end{tabular}
+
+\noindent If $H_6$ is rejected, we can conclude that genotypes differ
+in their probability of survival from zygote to adult, i.e., that
+there is viability selection.  If $H_1$--$H_6$ are accepted, we have
+no evidence that selection is happening at any stage of the life cycle
+at this locus and no evidence of non-random mating with respect to
+genotype at this~locus.
+
+\section*{An example}
+
+This data is from a 2-allelic esterase polymorphism in our old friend
+{\it Zoarces viviparus}, the eelpout.  The observations are in roman
+type in the table below.  The numbers in italics are those expected if
+hypotheses $H_1$--$H_6$ are~accepted.
+
+\begin{center}
+\begin{tabular}{c|ccc|c|cc}
+Mother & $A_{1}A_{1}$ & $A_{1}A_{2}$ & $A_{2}A_{2}$ & $\sum$ & 
+``Sterile'' Females & Males\\
+\hline 
+             & 41          & 70          & ---         & 111   
+& 8          &  54\\
+$A_{1}A_{1}$ & {\it 39.0}  & {\it 67.0}  & {\it ---}   & {\it 106.0} 
+& {\it 9.3}  & {\it 58.4}\\
+             & 65          & 173         & 119         & 357
+& 32         & 200\\
+$A_{1}A_{2}$ & {\it 67.0}  & {\it 181.9} & {\it 114.9} & {\it 363.8} 
+& {\it 32.1} & {\it 200.5}\\
+             & ---         & 127         & 187         & 314
+& 29         & 177\\
+$A_{2}A_{2}$ & {\it ---}   & {\it 114.9} & {\it 197.3} & {\it 312.2} 
+& {\it 27.6} & {\it 172.1}\\
+\hline 
+             & 106         & 370         & 306         & 782
+& 69         & 431\\
+Sum          &  {\it 106.0} & {\it 363.8} & {\it 312.2} & {\it ---}
+& {\it ---}  & {\it ---}\\
+\end{tabular}
+\end{center}
+
+\noindent The results of the series of hypothesis tests is as~follows:
+
+\begin{center}
+\begin{tabular}{c|cc|c|r}
+Hypothesis & Degrees of freedom & $\chi^2$ & $P$   & 50\% power point \\
+\hline 
+$H_1$      & 1                  & 0.34     & $>$0.50 & 0.05 \\
+$H_2$      & 2                  & 1.37     & $>$0.50 & $\leq$ 0.09 \\
+$H_3$      & 1                  & 0.98     & $>$0.30 & $\leq$ 0.05 \\
+$H_4$      & 2                  & 0.37     & $>$0.50 & $\leq$ 0.10 \\
+$H_5$      & 2                  & 0.22     & $>$0.80 & $\leq$ 0.05 \\
+$H_6$      & 1                  & 0.09     & $>$0.70 & 0.03 \\
+\end{tabular}
+\end{center}
+
+\medskip
+
+We conclude from this analysis that there is no evidence of selection
+on the genetic variation at the esterase locus in {\it Zoarces
+viviparus\/} and that there is no evidence of non-random mating with
+respect to genotype at this locus.  The power calculations increase
+our confidence that if there is selection happening, the differences
+among genotypes are on the order of just a few~percent.
+
+

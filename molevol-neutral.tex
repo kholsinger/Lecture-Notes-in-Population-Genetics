@@ -1,0 +1,261 @@
+\documentclass[12pt]{article}
+\usepackage{lecture}
+\usepackage{graphics}
+\usepackage{html}
+\usepackage{url}
+
+\newcommand{\copyrightYears}{2001-2012}
+
+\title{The neutral theory of molecular evolution}
+
+\begin{document}
+
+\maketitle
+
+\thispagestyle{first}
+
+\section*{Introduction}
+
+I didn't make a big deal of it in what we just went over, but in
+deriving the Jukes-Cantor equation I used the phrase ``substitution
+rate'' instead of the phrase ``mutation rate.'' As a preface to what
+is about to follow, let me explain the difference.
+
+\begin{itemize}
+
+\item {\it Mutation rate\/} refers to the rate at which changes are
+  incorporated into a nucleotide sequence during the process of
+  replication, i.e., the probability that an allele differs from the
+  copy of that in its parent from which it was derived. {\it Mutation
+    rate\/} refers to the rate at which mutations
+  arise.\index{mutation rate}
+
+\item An allele substitution occurs when a newly arisen allele is
+  incorporated into a population, e.g., when a newly arisen allele
+  becomes fixed in a population. {\it Substitution rate\/} refers to
+  the rate at which allele substitutions occur.\index{substitution rate} 
+
+\end{itemize}
+
+\noindent Mutation rates and substitution rates are obviously related
+related{\dash}substitutions can't happen unless mutations occur, after
+all{\dash}, but it's important to remember that they refer to
+different processes.
+
+\section*{Early empirical observations}
+
+By the early 1960s amino acid sequences of hemoglobins and cytochrome
+{\it c\/} for many mammals had been determined. When the sequences
+were compared, investigators began to notice that the number of amino
+acid differences between different pairs of mammals seemed to be
+roughly proportional to the time since they had diverged from one
+another, as inferred from the fossil record. Zuckerkandl and
+Pauling~\cite{Zuckerkandl-Pauling65} proposed the {\it molecular clock
+hypothesis\/} to explain these results. Specifically, they proposed
+that there was a constant rate of amino acid substitution over
+time. Sarich and Wilson~\cite{Sarich-Wilson67,Wilson-Sarich69} used
+the molecular clock hypothesis to propose that humans and apes
+diverged approximately 5 million years ago. While that proposal may
+not seem particularly controversial now, it generated enormous
+controversy at the time, because at the time many paleoanthropologists
+interpreted the evidence to indicate humans diverged from apes as much
+as 30 million years ago.\index{molecular clock}
+
+One year after Zuckerkandl and Pauling's paper, Harris~\cite{Harris66}
+and Hubby and Lewontin~\cite{Hubby-Lewontin66,Lewontin-Hubby66} showed
+that protein electrophoresis could be used to reveal surprising
+amounts of genetic variability within populations. Harris studied
+10 loci in human populations, found three of them to be polymorphic,
+and identified one locus with three alleles. Hubby and Lewontin
+studied 18 loci in {\it Drosophila pseudoobscura\/}, found seven to be
+polymorphic, and five that had three or more alleles.
+
+Both sets of observations posed real challenges for evolutionary
+geneticists. It was difficult to imagine an evolutionary mechanism
+that could produce a constant rate of substitution. It was similarly
+difficult to imagine that natural selection could maintain so much
+polymorphism within populations. The ``cost of selection,'' as Haldane
+called it would simply be too high.
+
+\section*{Neutral substitutions and neutral variation}
+
+Kimura~\cite{Kimura68} and King and Jukes~\cite{King-Jukes69} proposed
+a way to solve both empirical problems. If the vast majority of amino
+acid substitutions are selectively neutral, then substitutions will
+occur at approximately a constant rate~(assuming that mutation rates
+don't vary over time) and it will be easy to maintain lots of
+polymorphism within populations because there will be no cost of
+selection. I'll develop both of those points in a bit more detail in
+just a moment, but let me first be precise about what the neutral
+theory of molecular evolution actually proposes. More specifically,
+let me first be precise about what it does {\it not\/} propose. I'll
+do so specifically in the context of protein evolution for now,
+although we'll broaden the scope later.
+
+\begin{itemize}
+
+\item {\it The neutral theory asserts that alternative alleles at
+    variable protein loci are selectively neutral.} This does {\it
+    not\/} mean that the locus is unimportant, only that the
+  alternative alleles found at this locus are selectively
+  neutral.\index{neutral alleles}
+
+\begin{itemize}
+
+\item Glucose-phosphate isomerase is an esssential enzyme. It
+  catalyzes the first step of glycolysis, the conversion of
+  glucose-6-phosphate into fructose-6-phosphate. 
+
+\item Natural populations of many, perhaps most, populations of plants
+  and animals are polymorphic at this locus, i.e., they have two or
+  more alleles with different amino acid sequences.
+
+\item The neutral theory asserts that the alternative alleles are
+  selectively neutral.
+
+\end{itemize}
+
+\item By {\it selectively neutral\/} we do {\it not\/} mean that the
+  alternative alleles have no effect on physiology or fitness. We mean
+  that the selection among different genotypes at this locus is
+  sufficiently weak that the pattern of variation is determined by the
+  interaction of mutation, drift, mating system, and migration. This
+  is roughly equivalent to saying that $N_es < 1$, where $N_e$ is the
+  effective population size and $s$ is the selection coefficient on
+  alleles at this locus.
+
+\begin{itemize}
+
+\item Experiments in {\it Colias\/} butterflies, and other organisms
+  have shown that different electrophoretic variants of GPI have
+  different enzymatic capabilities and different thermal
+  stabilities. In some cases, these differences have been related to
+  differences in individual performance.
+
+\item If populations of {\it Colias\/} are large and the differences
+  in fitness associated with differences in genotype are large, i.e.,
+  if $N_es > 1$, then selection plays a predominant role in
+  determining patterns of diversity at this locus, i.e., the neutral
+  theory of molecular evolution would not apply.
+
+\item If populations of {\it Colias\/} are small or the differences in
+  fitness associated with differences in genotype are small, or both,
+  then drift plays a predominant role in determining patterns of
+  diversity at this locus, i.e., the neutral theory of molecular
+  evolution applies.
+
+\end{itemize}
+
+\end{itemize}
+
+\noindent In short, the neutral theory of molecular really asserts
+only that observed amino acid substitutions and polymorphisms are {\it
+effectively\/} neutral, not that the loci involved are unimportant or
+that allelic differences at those loci have no effect on
+fitness.\index{neutral theory!effective neutrality}\index{effective neutrality}
+
+\subsection*{The rate of molecular evolution}
+
+We're now going to calculate the rate of molecular evolution, i.e.,
+the rate of allelic substitution, under the hypothesis that mutations
+are selectively neutral. To get that rate we need two things: the rate
+at which new mutations occur and the probability with which new
+mutations are fixed. In a word equation\index{molecular clock!derivation}
+\begin{eqnarray*}
+\mbox{\# of substitutions/generation} &=& (\mbox{\# of mutations/generation})\times(\mbox{probability
+  of fixation}) \\
+\lambda &=& \mu_0p_0 \quad .
+\end{eqnarray*}
+Surprisingly,\footnote{Or perhaps not.} it's pretty easy to calculate
+both $\mu_0$ and $p_0$ from first principles.
+
+In a diploid population of size $N$, there are $2N$ gametes. The
+probability that any one of them mutates is just the mutation rate,
+$\mu$, so
+\begin{equation}
+\mu_0 = 2N\mu \quad . \label{eq:mu-0}
+\end{equation}
+To calculate the probability of fixation, we have to say something
+about the dynamics of alleles in populations. Let's suppose that we're
+dealing with a single population, to keep things simple. Now, you have
+to remember a little of what you learned about the properties of
+genetic drift. If the current frequency of an allele is $p_0$, what's
+the probability that is eventually fixed?  $p_0$. When a new mutation
+occurs there's only one copy of it,\footnote{By definition. It's new.}
+so the frequency of a newly arisen mutation is $1/2N$ and
+\begin{equation}
+p_0 = \frac{1}{2N} \quad . \label{eq:p-0}
+\end{equation}
+Putting~(\ref{eq:mu-0}) and~(\ref{eq:p-0}) together we find
+\begin{eqnarray*}
+\lambda &=& \mu_0p_0 \\
+        &=& (2N\mu)\left(\frac{1}{2N}\right) \\
+        &=& \mu \quad .
+\end{eqnarray*}
+In other words, if mutations are selectively neutral, the substitution
+rate is equal to the mutation rate. Since mutation rates are (mostly)
+governed by physical factors that remain relatively constant, mutation
+rates should remain constant, implying that substitution rates should
+remain constant if substitutions are selectively neutral. In short, if
+mutations are selectively neutral, we expect a molecular clock.
+
+\subsection*{Diversity in populations}
+
+Protein-coding genes consist of hundreds or thousands of nucleotides,
+each of which could mutate to one of three other
+nucleotides.\footnote{Why three when there are four nucleotides?
+  Because if the nucleotide at a certain position is an A, for
+  example, it can only {\it change\/} to a C, G, or T.} That's not an
+infinite number of possibilities, but it's pretty large.\footnote{If a
+  protein consists of 400 amino acids, that's 1200 nucleotides. There
+  are $4^{1200} \approx 10^{720}$ different sequences that are 1200
+  nucleotides long.} It suggests that we could treat every mutation
+that occurs as if it were completely new, a mutation that has never
+been seen before and will never be seen again. Does that description
+ring any bells? Does the infinite alleles model sound familiar? It
+should, because it exactly fits the situation I've just
+described.\index{mutation!infinite alleles model}
+
+Having remembered that this situation is well described by the
+infinite alleles model, I'm sure you'll also remember that we can
+calculate the equilibrium inbreeding coefficient for the infinite
+alleles model, i.e.,
+\[
+f = \frac{1}{4N_e\mu + 1} \quad .
+\]
+What's important about this for our purposes, is that to the extent
+that the infinite alleles model is appropriate for molecular data,
+then $f$ is the frequency of homozygotes we should see in populations
+and $1-f$ is the frequency of heterozygotes. So in large populations
+we should find more diversity than in small ones, which is roughly
+what we do find. Notice, however, that here we're talking about
+heterozygosity at individual nucleotide positions,\footnote{Since the
+  mutation rate we're talking about applies to individual nucleotide
+  positions.} not heterozygosity of halpotypes.
+
+\section*{Conclusions}
+
+In broad outline then, the neutral theory does a pretty good job of
+dealing with at least some types of molecular data. I'm sure that some
+of you are already thinking, ``But what about third codon positions
+{\it versus\/} first and second?'' or ``What about the observation
+that histone loci evolve much more slowly than interferons or MHC
+loci?''  Those are good questions, and those are where we're going
+next. As we'll see, molecular evolutionists have elaborated the
+framework extensively\footnote{That mean's they've made it more
+  complicated.} in the last thirty years, but these basic principles
+underlie every investigation that's conducted. That's why I wanted to
+spend a fair amount of time going over the logic and
+consequences. Besides, it's a rare case in population genetics where
+the fundamental mathematics that lies behind some important
+predictions are easy to understand.\footnote{It's the concepts that
+  get tricky, not the algebra, or at least that's what I think.}
+
+\bibliography{popgen}
+\bibliographystyle{plain}
+
+\ccLicense
+
+\end{document}
+
+

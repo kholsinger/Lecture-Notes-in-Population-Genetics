@@ -1,0 +1,309 @@
+\documentclass[12pt]{article}
+%standard packages
+\usepackage{html}
+\usepackage{url}
+\usepackage{graphics}
+%local package
+\usepackage{lecture}
+
+\newcommand{\oneminus}{$\frac{1-r}{2}$}
+\newcommand{\rhalf}{$\frac{r}{2}$}
+\newcommand{\half}{\frac{1}{2}}
+\newcommand{\quarter}{\frac{1}{4}}
+
+\newcommand{\copyrightYears}{2001-2008}
+
+\title{Two-locus population genetics}
+
+\begin{document}
+
+\maketitle
+
+\thispagestyle{first}
+
+\section*{Introduction}
+
+So far in this course we've dealt only with variation at a single
+locus. There are obviously many traits that are governed by more than
+a single locus in whose evolution we might be interested. And for
+those who are concerned with the use of genetic data for forensic
+purposes, you'll know that forensic use of genetic data involves
+genotype information from multiple loci. I won't be discussing
+quantitative genetic variation for a few weeks, and I'm not going to
+say anything about how population genetics gets applied to forensic
+analyses, but I do want to introduce some basic principles of
+multilocus population genetics that are relevant to our discussions of
+the genetic structure of populations before moving on to the next
+topic. To keep things relatively simple {\it multilocus\/} population
+genetics will, for purposes of this lecture, mean {\it two-locus\/}
+population genetics.
+
+\section*{Gametic disequilibrium}
+
+One of the most important properties of a two-locus system is that it
+is no longer sufficient to talk about allele frequencies alone, even
+in a population that satisfies all of the assumptions necessary for
+genotypes to be in Hardy-Weinberg proportions at each locus. To see
+why consider this. With two loci and two alleles there are four
+possible gametes:\footnote{Think of drawing the Punnett square for a
+dihybrid cross, if you want.}
+
+\begin{center}
+\begin{tabular}{lcccc}
+Gamete    & $A_1B_1$ & $A_1B_2$ & $A_2B_1$ & $A_2B_2$ \\
+Frequency & $x_{11}$ & $x_{12}$ & $x_{21}$ & $x_{22}$
+\end{tabular}
+\end{center}
+
+If alleles are arranged randomly into gametes then,
+\begin{eqnarray*}
+x_{11} &=& p_1p_2 \\
+x_{12} &=& p_1q_2 \\
+x_{21} &=& q_1p_2 \\
+x_{22} &=& q_1q_2 \quad ,
+\end{eqnarray*}
+where $p_1 = \hbox{freq}(A_1)$ and $p_2 = \hbox{freq}(A_2)$. But
+alleles need not be arranged randomly into gametes. They may covary so
+that when a gamete contains $A_1$ it is more likely to contain $B_1$
+than a randomly chosen gamete, or they may covary so that a gamete
+containing $A_1$ is less likely to contain $B_1$ than a randomly
+chosen gamete. This covariance could be the result of the two loci
+being in close physical association, but it doesn't have to
+be. Whenever the alleles covary within gametes
+\begin{eqnarray*}
+x_{11} &=& p_1p_2 + D \\
+x_{12} &=& p_1q_2 - D \\
+x_{21} &=& q_1p_2 - D \\
+x_{22} &=& q_1q_2 + D \quad ,
+\end{eqnarray*}
+where $D = x_{11}x_{22} - x_{12}x_{22}$ is known as the {\it gametic
+  disequilibrium}.\footnote{You will sometimes see $D$ referred to as
+  the linkage disequilibrium, but that's misleading. Alleles at
+  different loci may be non-randomly associated even when they are not
+  linked.} When $D \ne 0$ the alleles within gametes covary, and $D$
+measures {\it statistical\/} association between them. It does not
+(directly) measure the {\it physical\/} association. Similarly, $D =
+0$ does not imply that the loci are unlinked, only that the alleles at
+the two loci are arranged into gametes independently of one another.
+
+\subsection*{A little diversion}
+
+It probably isn't obvious why we can get away with only one $D$ for
+all of the gamete frequencies. The short answer is:
+\begin{quote}There are four gametes. That means we need three
+  parameters to describe the four frequencies. $p_1$ and $p_2$ are
+  two. $D$ is the third.
+\end{quote}
+Another way is to do a little algebra to verify that the definition is
+self-consistent.
+\begin{eqnarray*}
+D &=& x_{11}x_{22} - x_{12}x_{21} \\
+  &=& (p_1p_2 + D)(q_1q_2 + D) - (p_1q_2 - D)(q_1p_2 - D) \\
+  &=& \left(p_1q_1p_2q_2 + D(p_1p_2 + q_1q_2) + D^2\right) \\
+  && \quad - \left(p_1q_1p_2q_2 - D(p_1q_2 + q_1p_2) + D^2\right) \\
+  &=& D(p_1p_2 + q_1q_2 + p_1q_2 + q_1p_2) \\
+  &=& D\left(p_1(p_2 + q_2) + q_1(q_2 + p_2)\right) \\
+  &=& D(p_1 + q_1) \\
+  &=& D \quad. 
+\end{eqnarray*}
+
+\section*{Transmission genetics with two loci}
+
+I'm going to construct a reduced version of a mating table to see how
+gamete frequencies change from one generation to the next. There are
+ten different two-locus genotypes (if we distinguish coupling,
+$A_1B_1/A_2B_2$, from repulsion, $A_1B_2/A_2B_1$, heterozygotes as we
+must for these purposes). So a full mating table would have 100
+rows. If we assume all the conditions necessary for genotypes to be in
+Hardy-Weinberg proportions apply, however, we can get away with just
+calculating the frequency with which any one genotype will produce a
+particular gamete.\footnote{We're assuming random union of {\it
+    gametes\/} rather than random mating of {\it genotypes}.}
+
+\begin{center}
+\begin{tabular}{lccccc}
+         &           & \multicolumn{4}{c}{Gametes} \\
+Genotype & Frequency & $A_1B_1$ & $A_1B_2$ & $A_2B_1$ & $A_2B_2$ \\
+\hline
+$A_1B_1/A_1B_1$ & $x_{11}^2$ & 1 & 0 & 0 & 0 \\
+$A_1B_1/A_1B_2$ & $2x_{11}x_{12}$ & $\half$ & $\half$ & 0 & 0 \\
+$A_1B_1/A_2B_1$ & $2x_{11}x_{21}$ & $\half$ & 0 $\half$ & 0 \\
+$A_1B_1/A_2B_2$ & $2x_{11}x_{22}$ & \oneminus & \rhalf & \rhalf & \oneminus \\
+$A_1B_2/A_1B_2$ & $x_{12}^2$ & 0 & 1 & 0 & 0 \\
+$A_1B_2/A_2B_1$ & $2x_{12}x_{21}$ & \rhalf & \oneminus & \oneminus & \rhalf \\
+$A_1B_2/A_2B_2$ & $2x_{12}x_{22}$ & 0 & $\half$ & 0 & $\half$ \\
+$A_2B_1/A_2B_1$ & $x_{21}^2$ & 0 & 0 & 1 & 0 \\
+$A_2B_1/A_2B_2$ & $2x_{21}x_{22}$ & 0 & 0 & $\half$ & $\half$ \\
+$A_2B_2/A_2B_2$ & $x_{22}^2$ & 0 & 0 & 0 & 1
+\end{tabular}
+\end{center}
+
+\subsection*{Where do $\frac{1-r}{2}$ and $\frac{r}{2}$ come from?}
+
+Consider the coupling double heterozygote, $A_1B_1/A_2B_2$. When
+recombination doesn't happen, $A_1B_1$ and $A_2B_2$ occur in equal
+frequency ($1/2$), and $A_1B_2$ and $A_2B_1$ don't occur at all. When
+recombination happens, the four possible gametes occur in equal
+frequency ($1/4$). So the recombination frequency,\footnote{The
+frequency of recombinant gametes in double heterozygotes.} $r$, is
+half the crossover frequency,\footnote{The frequency of cytological
+crossover during meiosis.} $c$, i.e., $r = c/2$. Now the results of
+crossing over can be expressed in this table:
+
+\begin{center}
+\begin{tabular}{c|cccc}
+\hline\hline
+Frequency & $A_1B_1$ & $A_1B_2$ & $A_2B_1$ & $A_2B_2$ \\
+\hline
+$1-c$     & $\half$  & 0        & 0        & $\half$ \\
+$c$       & $\quarter$ & $\quarter$ & $\quarter$ & $\quarter$ \\
+\hline
+Total     & $\frac{2-c}{4}$ & $\frac{c}{4}$ & $\frac{c}{4}$
+          & $\frac{2-c}{4}$ \\
+          & $\frac{1-r}{2}$ & $\frac{r}{2}$ & $\frac{r}{2}$
+          & $\frac{1-r}{2}$ \\          
+\hline
+\end{tabular}
+\end{center}
+
+\subsection*{Changes in gamete frequency}
+
+We can use this table as we did earlier to calculate the frequency of
+each gamete in the next generation. Specifically,
+\begin{eqnarray*}
+x_{11}' &=& x_{11}^2 + x_{11}x_{12} + x_{11}x_{21} + (1-r)x_{11}x_{22}
+            + rx_{12}x_{21} \\
+        &=& x_{11}(x_{11} + x_{12} + x_{21} + x_{22})
+            - r(x_{11}x_{22} - x_{12}x_{21}) \\
+        &=& x_{11} - rD \\
+x_{12}' &=& x_{12} + rD \\
+x_{21}' &=& x_{21} + rD \\
+x_{22}' &=& x_{22} - rD \quad .
+\end{eqnarray*}
+
+\subsection*{No changes in allele frequency}
+
+We can also calculate the frequencies of $A_1$ and $B_1$ after this
+whole process:
+\begin{eqnarray*}
+p_1' &=& x_{11}' + x_{12}' \\
+     &=& x_{11} - rD + x_{12} + rD \\
+     &=& x_{11} + x_{12} \\
+     &=& p_1 \\
+p_2' &=& p_2 \quad .
+\end{eqnarray*}
+Since each locus is subject to all of the conditions necessary for
+Hardy-Weinberg to apply at a single locus, allele frequencies don't
+change at either locus. Furthermore, genotype frequencies at each
+locus will be in Hardy-Weinberg proportions. But the two-locus gamete
+frequencies change from one generation to the next.
+
+\subsection*{Changes in $D$}
+
+You can probably figure out that $D$ will eventually become zero, and
+you can probably even guess that how quickly it becomes zero depends
+on how frequent recombination is. But I'd be astonished if you could
+guess exactly how rapidly $D$ decays as a function of $r$.  It takes a
+little more algebra, but we can say precisely how rapid the decay will
+be.
+\begin{eqnarray*}
+D' &=& x_{11}'x_{22}' - x_{12}'x_{21}' \\
+   &=& (x_{11} - rD)(x_{22} - rD) - (x_{12} + rD)(x_{21} + rD) \\
+   &=& x_{11}x_{22} - rD(x_{11} + x_{12}) + r^2D^2
+       - (x_{12}x_{21} + rD(x_{12} + x_{21}) + r^2D^2) \\
+   &=& x_{11}x_{22} - x_{12}x_{21} - rD(x_{11} + x_{12} + x_{21} + x_{22}) \\
+   &=& D - rD \\
+   &=& D(1-r)
+\end{eqnarray*}
+Notice that even if loci are unlinked, meaning that $r = 1/2$, $D$
+does not reach 0 immediately. That state is reached only
+asymptotically. The two-locus analogue of Hardy-Weinberg is that
+gamete frequencies will {\it eventually\/} be equal to the product of
+their constituent allele frequencies.
+
+\section*{Population structure with two loci}
+
+You can probably guess where this is going. With one locus I showed
+you that there's a deficiency of heterozygotes in a combined sample
+even if there's random mating within all populations of which the
+sample is composed. The two-locus analog is that you can have gametic
+disequilibrium in your combined sample even if the gametic
+disequilibrium is zero in all of your constituent
+populations. Table~\ref{table:d-structure} provides a simple numerical
+example involving just two populations in which the combined sample
+has equal proportions from each population.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{c|cccc|cc|c}
+\hline\hline
+           & \multicolumn{4}{c|}{Gamete frequencies} 
+           & \multicolumn{2}{c|}{Allele frequencies} \\
+Population & $A_1B_1$ & $A_1B_2$ & $A_2B_1$ & $A_2B_2$ 
+           & $p_{i1}$ & $p_{i2}$ & $D$ \\
+\hline
+1          & 0.24     & 0.36     & 0.16    & 0.24
+           & 0.60     & 0.40     & 0.00 \\
+2          & 0.14     & 0.56     & 0.06    & 0.24
+           & 0.70     & 0.20     & 0.00 \\
+Combined   & 0.19     & 0.46     & 0.11    & 0.24
+           & 0.65     & 0.30     & -0.005 \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Gametic disequilibrium in a combined population
+  sample.}\label{table:d-structure}
+\end{table}
+
+\subsection*{The gory details}
+
+You knew that I wouldn't be satisfied with a numerical example, didn't
+you? You knew there had to be some algebra coming, right? Well, here
+it is. Let
+\begin{eqnarray*}
+D_i &=& x_{11,i} - p_{1i}p_{2i} \\
+D_t &=& \bar x_{11} - \bar p_1\bar p_2 \quad ,
+\end{eqnarray*}
+where $\bar x_{11} = \frac{1}{K} \sum_{k=1}^K x_{11,k}$, $\bar p_1 =
+\frac{1}{K} \sum_{k=1}^K p_{1k}$, and $\bar p_2 = \frac{1}{K}
+\sum_{k=1}^K p_{2k}$. Given these definitions, we can now caclculate
+$D_t$. 
+\begin{eqnarray*}
+D_t &=& \bar x_{11} - \bar p_1\bar p_2 \\
+    &=& \frac{1}{K} \sum_{k=1}^K x_{11,k} - \bar p_1\bar p_2 \\
+    &=& \frac{1}{K} \sum_{k=1}^K (p_{1k}p_{2k} + D_k) - \bar p_1\bar p_2 \\
+    &=& \frac{1}{K} \sum_{k=1}^K (p_{1k}p_{2k} - \bar p_1\bar p_2) + \bar D \\
+    &=& \mbox{Cov}(p_1, p_2) + \bar D \quad ,
+\end{eqnarray*}
+where $\mbox{Cov}(p_1, p_2)$ is the covariance in allele frequencies
+across populations and $\bar D$ is the mean within-population gametic
+disequilibrium. Suppose $D_i = 0$ for all subpopulations. Then $\bar D
+= 0$, too (obviously). But that means that
+\begin{eqnarray*}
+D_t &=& \hbox{Cov}(p_1, p_2) \quad .
+\end{eqnarray*}
+So if allele frequencies covary across populations, i.e.,
+$\mbox{Cov}(p_1, p_2) \ne 0$, then there will be non-random
+association of alleles into gametes in the sample, i.e., $D_t \ne 0$,
+even if there is random association alleles into gametes within each
+population.\footnote{Well, duh! Covariation of allele frequencies
+  across populations means that alleles are non-randomly associated
+  across populations. What other result could you possibly expect?}
+
+Returning to the example in Table~\ref{table:d-structure}
+\begin{eqnarray*}
+\mbox{Cov}(p_1, p_2) &=& 0.5(0.6-0.65)(0.4-0.3) + 0.5(0.7-0.65)(0.2-0.3) \\
+                     &=& -0.005 \\
+\bar x_{11}          &=& (0.65)(0.30) - 0.005 \\
+                     &=& 0.19 \\
+\bar x_{12}          &=& (0.65)(0.7) + 0.005 \\
+                     &=& 0.46 \\
+\bar x_{21}          &=& (0.35)(0.30) + 0.005 \\
+                     &=& 0.11 \\
+\bar x_{22}          &=& (0.35)(0.70) - 0.005 \\
+                     &=& 0.24 \quad .
+\end{eqnarray*}
+
+\ccLicense
+
+\end{document}

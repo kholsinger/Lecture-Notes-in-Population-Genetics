@@ -1,0 +1,188 @@
+\documentclass[12pt]{article}
+\usepackage{lecture}
+\usepackage{html}
+\usepackage{url}
+\usepackage{graphics}
+
+\title{Selection and genetic drift}
+
+\newcommand{\copyrightYears}{2001-2012}
+
+\begin{document}
+
+\maketitle
+
+\thispagestyle{first}
+
+\section*{Introduction}
+
+There are three basic facts about genetic drift that I really want you
+to remember, even if you forget everything else I've told you about
+it:
+
+\begin{enumerate}
+
+\item Allele frequencies tend to change from one generation to the
+next purely as a result of random sampling error. We can specify a
+probability distribution for the allele frequency in the next
+generation, but we cannot specify the numerical value exactly.
+
+\item There is no systematic bias to the change in allele frequency,
+i.e., allele frequencies are as likely to increase from one generation
+to the next as to decrease.
+
+\item Populations will eventually fix for one of the alleles that is
+initially present unless mutation or migration introduces new
+alleles. 
+
+\end{enumerate}
+
+Natural selection introduces a systematic bias in allele frequency
+changes. Alleles favored by natural selection {\it tend\/} to increase
+in frequency. Notice that word ``tend.'' It's critical. Because there
+is a random component to allele frequency change when genetic drift is
+involved, we can't say for sure that a selectively favored allele will
+increase in frequency. In fact, we can say that there's a chance that
+a selectively favored allele {\it won't\/} increase in
+frequency. There's also a chance that a selectively {\it dis\/}favored
+allele will increase in frequency in spite of natural selection.
+
+\section*{Loss of beneficial alleles}\index{genetic drift!loss of beneficial alleles}
+
+We're going to confine our studies to our usual simple case: one
+locus, two alleles. We're also going to consider a very simple form of
+directional viability selection in which the heterozygous genotype is
+exactly intermediate in fitness.
+
+\begin{center}
+\begin{tabular}{ccc}
+$A_1A_1$ & $A_1A_2$      & $A_2A_2$ \\
+1 + s    & $1 + \half s$ & 1
+\end{tabular}
+\end{center}
+
+After solving a reasonably complex partial differential equation, it
+can be shown that\footnote{Remember, I told you that ``it can be shown
+that'' hides a {\it lot\/} of work.} the probability that allele
+$A_1$\footnote{The beneficial allele.}  is fixed, given that its
+current frequency is $p$ is
+\begin{equation}
+P_1(p) = \frac{1 - e^{-2N_esp}}{1 - e^{-2N_es}} \quad .
+\label{eq:beneficial}
+\end{equation}
+Now it won't be immediately evident to you, but this equation actually
+confirms our intuition that even selectively favored alleles may
+sometimes be lost as a result of genetic drift. How does it do that?
+Well, it's not too hard to verify that $P_1(p) < 1$.\footnote{Unless
+  $p=1$.} The probability that the beneficial allele is fixed is less
+than one meaning that the probability it is lost is greater than zero,
+i.e., there's some chance it will be lost.
+
+How big is the chance that a favorable allele will be
+lost?\index{genetic drift!fixation probability} Well, consider the
+case of a newly arisen allele with a beneficial effect. If it's newly
+arisen, there is only one copy by definition. In a diploid population
+of $N$ individuals that means that the frequency of this allele is
+$1/2N$. Plugging this into equation (\ref{eq:beneficial}) above we
+find
+\begin{eqnarray*}
+P_1(p) &=& \frac{1 - e^{-2N_es(1/2N)}}{1 - e^{-2N_es}} \\
+       &\approx& 1 - e^{-N_es(1/N)} \hbox{ if $2N_es$ is ``large''} \\
+       &\approx& s\left(\frac{N_e}{N}\right)
+                 \hbox{ if $s$ is ``small.''}
+\end{eqnarray*}
+In other words, most beneficial mutations are lost from populations
+unless they are {\it very\/} beneficial. If $s=0.2$ in an ideal
+population, for example, a beneficial mutation will be lost about 80\%
+of the time.\footnote{The exact calculation from equation
+  (\ref{eq:beneficial}) gives 82\% for this probability.} Remember
+that in a strict harem breeding system with a single male $N_e \approx
+4$ if the number of females with which the male breeds is large
+enough. Suppose that there are 99 females in the population. Then
+$N_e/N = 0.04$ and the probability that this beneficial mutation will
+be fixed is only 0.8\%.
+
+Notice that unlike what we saw with natural selection when we were
+ignoring genetic drift, the strength of selection\footnote{i.e., the
+  magnitude of differences in relative viabilities} affects the
+outcome of the interaction. The stronger selection is the more likely
+it is that the favored allele will be fixed. But it's also the case
+that the larger the population is, the more likely the favored allele
+will be fixed.\footnote{Because the larger the population, the smaller
+  the effect of drift.} Size {\it does\/} matter.
+
+\section*{Fixation of detrimental alleles}\index{genetic drift!fixation of deleterious alleles}
+
+If drift can lead to the loss of beneficial alleles, it should come as
+no surprise that it can also lead to fixation of deleterious ones. In
+fact, we can use the same formula we've been using (equation
+(\ref{eq:beneficial})) if we simply remember that for an allele to be
+deleterious $s$ will be negative. So we end up with
+\begin{equation}
+P_1(p) = \frac{1 - e^{2N_esp}}{1 - e^{2N_es}} \quad .
+\label{eq:deleterious}
+\end{equation}
+One implication of equation (\ref{eq:deleterious}) that should not be
+surprising by now is that evan a deleterious allele can become
+fixed. Consider our two example populations again, an ideal population
+of size 100 ($N_e = 100$) and a population with 1 male and 99 females
+($N_e = 4$). Remember, the probability of fixation for a newly arisen
+allele allele with no effect on fitness is $1/2N = 5 \times
+10^{-3}$~(Table~\ref{table:fixation}).\footnote{Because it's
+  probabliity of fixation is equal to its current frequency, i.e.,
+  $1/2N$. We'll return to this observation in a few weeks when we talk
+  about the neutral theory of molecular evolution.}
+
+\begin{table}
+\begin{center}
+\begin{tabular}{l|cc}
+\hline\hline
+      & \multicolumn{2}{c}{$N_e$} \\
+$s$   & 4                  & 100 \\
+\hline
+0.001 & $1 \times 10^{-2}$ & $9 \times 10^{-3}$ \\
+0.01  & $1 \times 10^{-2}$ & $3 \times 10^{-3}$ \\
+0.1   & $7 \times 10^{-3}$ & $5 \times 10^{-10}$ \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Fixation probabilities for a deleterious mutation as a
+function of effective population size and selection coefficient for a
+newly arisen mutant ($p=0.01$).}\label{table:fixation}
+\end{table}
+
+\section*{Conclusions}
+
+I'm not going to try to show you the formulas, but it shouldn't
+surprise you to learn that heterozygote advantage won't maintain a
+polymorphism indefinitely in a finite population. At best what it will
+do is to retard its loss.\footnote{In some cases it can actually
+  accelerate its loss, but we won't discuss that unless you are really
+  interested.}  There are four properties of the interaction of drift
+and selection that I think you should take away from this brief
+discussion:\index{genetic drift!properties with selection}
+
+\begin{enumerate}
+
+\item Most mutations, whether beneficial, deleterious, or neutral, are
+  lost from the population in which they occurred.
+
+\item If selection against a deleterious mutation is weak or $N_e$ is
+  small,\footnote{As with mutation and migration, what counts as large
+    or small is determined by the product of $N_e$ and $s$. If it's
+    bigger than one the population is regarded as large, because
+    selective forces predominate. If it's smaller than one, it's
+    regarded as small, because drift predominates.} a deleterious
+  mutation is almost as likely to be fixed as neutral mutants. They
+  are ``effectively neutral.''\index{effectively neutral}\index{genetic drift!effectively neutral}
+
+\item If $N_e$ is large, deleterious mutations are much less likely to
+  be fixed than neutral mutations.
+
+\item Even if $N_e$ is large, most favorable mutations are lost.
+
+\end{enumerate}
+
+\ccLicense
+
+\end{document}

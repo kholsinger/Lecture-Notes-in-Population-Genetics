@@ -1,0 +1,152 @@
+\documentclass[12pt,titlepage,openright]{book}
+\usepackage{lecture}
+\usepackage{html}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage[
+  bookmarks=true,
+  bookmarksopen=true,
+  pdftitle={Lecture Notes in Population Genetics},
+  pdfauthor={Kent E. Holsinger}]{hyperref}
+\usepackage{multicol}
+\usepackage{makeidx}
+
+\makeindex
+
+\newcommand{\qtl}{{\tt QTL Cartographer}}
+\renewcommand{\myurl}[1]{\htmladdnormallink{#1}{#1}}
+\renewcommand\bibname{Literature cited}
+
+% number to subsubsections
+\setcounter{secnumdepth}{3}
+% and display in Table of Contents
+\setcounter{tocdepth}{3}
+
+\begin{document}
+
+\begin{titlepage}
+
+{\Large\bf \noindent Lecture Notes
+
+\noindent in
+
+\noindent Population Genetics
+
+}
+
+\vfill
+
+{\noindent Kent E. Holsinger
+
+\noindent Department of Ecology \& Evolutionary Biology, U-3043
+
+\noindent University of Connecticut
+
+\noindent Storrs, CT  06269-3043}
+
+\vfill
+
+\end{titlepage}
+
+\pagenumbering{roman}
+
+{\small\noindent \copyright{} 2001-2012 Kent E. Holsinger
+
+\ccLicense}
+
+\tableofcontents
+
+\chapter*{Preface}
+\addcontentsline{toc}{chapter}{Preface}
+
+\section*{Acknowledgments}
+
+I've used various versions of these notes in my graduate course on
+population genetics
+\htmladdnormallink{http://darwin.eeb.uconn.edu/eeb348}{http://darwin.eeb.uconn.edu/eeb348}
+since 2001. Some of them date back even earlier than that. Several
+generations of students and teaching assistants have found errors and
+helped me to find better ways of explaining arcane concepts. In
+addition, the following people have found various errors and helped me
+to correct them.
+
+\begin{multicols}{2}
+\noindent Brian Cady \\
+Rachel Prunier \\
+Uzay Sezen \\
+Robynn Shannon \\
+Jennifer Steinbachs \\
+Kathryn Theiss \\
+Yufeng Wu \\
+\end{multicols}
+
+I am indebted to everyone who has found errors or suggested better
+ways of explaining concepts, but don't blame them for any errors that
+are left. Those are all mine.
+
+\newpage 
+\pagenumbering{arabic}
+\part{The genetic structure of populations}
+
+\input{genetic-transmission}
+\input{hardy-weinberg}
+\input{inbreeding}
+\input{testing-hardy-weinberg}
+\input{wahlund}
+\input{genetic-structure}
+\input{genetic-structure-bayes}
+\input{genetic-structure-assignment}
+\input{two-locus}
+
+\part{The genetics of natural selection}
+
+\input{selection}  % continue indexing from here
+\input{selection-estimate}
+\input{selection-multiallele}
+\input{selection-components}
+
+\part{Genetic drift}
+
+\input{drift}
+\input{mutation-drift}
+\input{selection-drift}
+\input{coalescent}
+
+\part{Quantitative genetics}
+
+\input{quant-intro}
+\input{quant-resemblance}
+\input{winbugs-partitioning}
+\input{quant-evolution}
+\input{quant-multiple}
+\input{qtl-intro}
+\input{qtl-rqtl}
+\input{association-intro}
+\input{association-bamd}
+
+\part{Molecular evolution}
+
+\input{molevol-intro}
+\input{molevol-neutral}
+\input{molevol-patterns}
+\input{molevol-selection}
+\input{molevol-polymorphism}
+\input{molevol-tajima}
+\input{molevol-multigene}
+\input{mismatch-analysis}
+
+\part{Phylogeography}
+
+\input{molevol-amova}
+\input{nca}
+\input{statistical-phylogeography}
+\input{migrate-ima}
+\input{abc}
+\input{population-genomics}
+
+\bibliography{popgen}
+\bibliographystyle{plain}
+
+\printindex
+
+\end{document}

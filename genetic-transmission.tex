@@ -1,0 +1,207 @@
+\documentclass[12pt]{article}
+\usepackage{lecture}
+\usepackage{html}
+
+\newcommand{\copyrightYears}{2001-2012}
+
+\title{Genetic transmission in populations}
+
+\begin{document}
+
+\maketitle
+
+\thispagestyle{first}
+
+\section*{Introduction}
+
+Mendel's rules describe how genetic transmission happens between
+parents and offspring. Consider a monohybrid cross:
+
+\begin{center}
+\begin{tabular}{ccc}
+\multicolumn{3}{c}{$A_1A_2$ $\times$ $A_1A_2$} \\
+ & $\downarrow$ & \\
+$\frac{1}{4}A_1A_1$ & $\frac{1}{2}A_1A_2$ & $\frac{1}{4}A_2A_2$ \\
+\end{tabular}
+\end{center}
+
+\noindent Population genetics describes how genetic transmission
+happens between a {\it population\/} of parents and a population of
+offspring.  Consider the following data from the {\it
+  Est\/}-3 locus of {\it Zoarces
+  viviparus}:\footnote{from~\cite{Christiansen-1980}}\index{Zoarces
+  viviparus@\textit{Zoarces viviparus}}
+
+\begin{center}
+\begin{tabular}{lrrr}
+                  & \multicolumn{3}{c}{Genotype of offspring} \\
+Maternal genotype & $A_1A_1$ & $A_1A_2$ & $A_2A_2$ \\
+\hline
+$A_1A_1$          &      305 &      516 & \\
+$A_1A_2$          &      459 &     1360 & 877 \\
+$A_2A_2$          &          &      877 & 1541 \\
+\end{tabular}
+\end{center}
+
+\noindent This table describes, empirically, the relationship between
+the genotypes of mothers and the genotypes of their offspring. We can
+also make some inferences about the genotypes of the fathers in this
+population, even though we didn't see them.
+
+\begin{enumerate}
+
+\item 305 out of 821 male gametes that fertilized eggs from $A_1A_1$
+mothers carried the $A_1$ allele (37\%).
+
+\item 877 out of 2418 male gametes that fertilized eggs from $A_2A_2$
+mothers carried the $A_1$ allele (36\%).
+
+\end{enumerate}
+
+\begin{description}
+
+\item[Question] How many of the 2,696 male gametes that fertilized
+eggs from $A_1A_2$ mothers carried the $A_1$ allele?
+
+\item[Recall] We don't know the paternal genotypes or we wouldn't be
+asking this question.
+
+\begin{itemize}
+
+\item There is no way to tell which of the 1360 $A_1A_2$ offspring
+  received $A_1$ from their mother and which from their father.
+
+\item Regardless of what the genotype of the father is, half of the
+  offspring of a heterozygous mother will be
+  heterozygous.\footnote{Assuming we're looking at data from a locus
+    that has only two alleles. If there were four alleles at a locus,
+    for example, {\it all\/} of the offspring might be heterozygous.}
+
+\item Heterozygous offspring of heterozygous mothers contain no
+information about the frequency of $A_1$ among fathers, so we don't
+bother to include them in our calculations.
+
+\end{itemize}
+
+\item[Rephrase] How many of the 1336 homozygous progeny of
+heterozygous mothers received an $A_1$ allele from their father?
+
+\item[Answer] 459 out of 1336 (34\%)
+
+\item[New question] How many of the offspring where the paternal
+contribution can be identified received an $A_1$ allele from their
+father?
+
+\item[Answer] (305 + 459 + 877) out of (305 + 459 + 877 + 516 + 877 +
+1541) or 1641 out of 4575 (36\%)
+
+\end{description}
+
+\section*{An algebraic formulation of the problem}
+
+The above calculations tell us what's happening for this particular
+data set, but those of you who know me know that there has to be a
+little math coming to describe the situation more generally. Here it
+is: 
+
+\begin{center}
+\begin{tabular}{ccr}
+\hline\hline
+Genotype & Number & Sex \\
+\hline
+$A_1A_1$ & $F_{11}$ & female \\
+$A_1A_2$ & $F_{12}$ & female \\
+$A_2A_2$ & $F_{22}$ & female \\
+$A_1A_1$ & $M_{11}$ & male \\
+$A_1A_2$ & $M_{12}$ & male \\
+$A_2A_2$ & $M_{22}$ & male \\
+\hline
+\end{tabular}
+\end{center}
+
+\noindent then
+
+$$\begin{array}{cc}
+p_f = \frac{2F_{11}+F_{12}}{2F_{11}+2F_{12}+2F_{22}} &
+q_f = \frac{2F_{22}+F_{12}}{2F_{11}+2F_{12}+2F_{22}} \\
+ & \\
+p_m = \frac{2M_{11}+M_{12}}{2M_{11}+2M_{12}+2M_{22}} &
+q_m = \frac{2M_{22}+M_{12}}{2M_{11}+2M_{12}+2M_{22}} \quad ,
+\end{array}$$
+where $p_f$ is the frequency of $A_1$ in mothers and $p_m$ is the
+frequency of $A_1$ in fathers.\footnote{$q_f = 1 - p_f$ and $q_m = 1 -
+  p_m$ as usual.}
+
+Since every individual in the population must have one father and one
+mother, the frequency of $A_1$ among offspring is the same in both
+sexes, namely
+\[
+p = \frac{1}{2}(p_f + p_m) \quad ,
+\]
+assuming that all matings have the same average fecundity and that the
+locus we're studying is autosomal.\footnote{And that there are enough
+  offspring produced that we can ignore genetic drift. Have you
+  noticed that I have a fondness for footnotes? You'll see a lot more
+  before the semester is through, and you'll soon discover that most
+  of my weak attempts at humor are buried in them.}
+
+{\bf Question}: Why do those assumptions matter?
+
+{\bf Answer}: If $p_f = p_m$, then the allele frequency among offspring
+is equal to the allele frequency in their parents, i.e., the allele
+frequency doesn't change from one generation to the next. This might
+be considered the First Law of Population Genetics: If no forces act
+to change allele frequencies between zygote formation and breeding,
+allele frequencies will not change.
+
+\subsection*{Zero force laws}\index{zero force laws}
+
+This is an example of what philosophers call a {\bf zero force
+law}. Zero force laws play a very important role in scientific
+theories, because we can't begin to understand what a force does until
+we understand what would happen in the absence of any forces. Consider
+Newton's famous dictum: 
+\begin{quotation}
+\noindent An object in motion tends to remain in motion in a straight
+line. An object at rest tends to remain at rest.
+\end{quotation}
+or (as you may remember from introductory physics)\footnote{Don't
+  worry if you're not good at physics. I'm probably worse. What I'm
+  about to tell you is almost the only thing about physics I can
+  remember.} 
+\[
+F = ma \quad.
+\]
+\noindent If we observe an object accelerating, we can immediately
+infer that a force is acting on it, and we can infer something about
+the magnitude of that force.  {\bf However}, if an object is not
+accelerating we cannot conclude that no forces are acting. It might be
+that opposing forces act on the object in such a way that the
+resultant is no {\it net\/} force. Acceleration is a {\it sufficient\/}
+condition to infer that force is operating on an object, but it is not
+{\it necessary}.
+
+What we might call the ``First Law of Population Genetics'' is
+analogous to Newton's First Law of Motion:\index{First law of
+  population genetics}
+\begin{quotation}
+\noindent If all genotypes at a particular locus have the same average
+fecundity and the same average chance of being included in the breeding
+population, allele frequencies in the population will remain constant.
+\end{quotation}
+For the rest of the semester we'll be learning about the forces that
+cause allele frequencies to change and learning how to infer the
+properties of those forces from the changes that they induce. But you
+must always remember that while we can infer that some evolutionary
+force is present if allele frequencies change from one generation to
+the next, we {\it cannot\/} infer the absence of a force from a lack
+of allele frequency change.
+
+\bibliography{popgen}
+\bibliographystyle{plain}
+
+\ccLicense
+
+\end{document}
+
+

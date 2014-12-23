@@ -1,0 +1,423 @@
+\chapter{Analyzing the genetic structure of populations}
+
+We've now seen the principles underlying Wright's $F$-statistics. I
+should point out that Gustave Mal{\'e}cot developed very similar ideas
+at about the same time as Wright, but since Wright's notation
+stuck,\footnote{Probably because he published in English and
+  Mal{\'e}cot published in French.} population geneticists generally
+refer to statistics like those we've discussed as Wright's
+$F$-statistics.\footnote{The Hardy-Weinberg proportions should
+  probably be referred to as the Hardy-Weinberg-Castle proportions
+  too, since Castle pointed out the same principle. For some reason,
+  though, his demonstration didn't have the impact that Hardy's and
+  Weinberg's did. So we generally talk about the Hardy-Weinberg
+  principle.}
+
+Neither Wright nor Mal{\'e}cot worried too much about the problem of
+estimating $F$-statistics from data. Both realized that any inferences
+about population structure are based on a sample and that the
+characteristics of the sample may differ from those of the population
+from which it was drawn, but neither developed any explicit way of
+dealing with those differences. Wright develops some very {\it ad
+  hoc\/} approaches in his book~\cite{Wright69}, but they have been
+forgotten, which is good because they aren't very satisfactory and
+they shouldn't be used. There are now three reasonable approaches
+available:\index{F-statistics@$F$-statistics}\footnote{And as we'll
+  soon see, I'm not too crazy about one of these three. To my mind,
+  there are really only two approaches that anyone should consider.}
+
+\begin{enumerate}
+
+\item Nei's $G$-statistics,
+
+\item Weir and Cockerham's $\theta$-statistics, and
+
+\item A Bayesian analog of $\theta$.\footnote{These is, as you have
+  probably already guessed, my personal favorite. We'll talk about
+  it next time.}
+
+\end{enumerate}
+
+\section*{An example from {\it Isotoma petraea}}
+
+To make the differences in implementation and calculation clear, I'm
+going to use data from 12 populations of {\it Isotoma petraea\/} in
+southwestern Australia surveyed for genotype at {\it
+  GOT\/}--1~\cite{James-etal-1983} as an example throughout these
+discussions~(Table~\ref{table:isotoma}).
+\begin{table}
+\begin{center}
+\begin{tabular}{c|rrr|c}
+\hline\hline
+           & \multicolumn{3}{c|}{Genotype} & \\
+Population & $A_{1}A_{1}$ & $A_{1}A_{2}$ & $A_{2}A_{2}$ & $\hat p$ \\
+\hline
+Yackeyackine Soak     & 29 & 0 & 0 & 1.0000 \\
+Gnarlbine Rock        & 14 & 3 & 3 & 0.7750 \\
+Boorabbin             & 15 & 2 & 3 & 0.8000 \\
+Bullabulling          & 9  & 0 & 0 & 1.0000 \\
+Mt. Caudan            & 9  & 0 & 0 & 1.0000 \\
+Victoria Rock         & 23 & 5 & 2 & 0.8500 \\
+Yellowdine            & 23 & 3 & 4 & 0.8167 \\
+Wargangering          & 29 & 3 & 1 & 0.9242 \\
+Wagga Rock            & 5  & 0 & 0 & 1.0000 \\
+``Iron Knob Major''   & 1  & 0 & 0 & 1.0000 \\
+Rainy Rocks           & 0  & 1 & 0 & 0.5000 \\
+``Rainy Rocks Major'' & 1  & 0 & 0 & 1.0000 \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Genotype counts at the $GOT-1$ locus in {\it Isotoma
+    petraea}~(from~\cite{James-etal-1983}).}\label{table:isotoma}
+\end{table}
+
+Let's ignore the sampling problem for a moment and calculate the
+$F$-statistics as if we had observed the population allele frequencies
+without error. They'll serve as our baseline for comparison.
+\begin{eqnarray*}
+\bar p &=& 0.8888 \\
+\hbox{Var}(p) &=& 0.02118 \\
+F_{st} &=& 0.2143 \\
+\hbox{Individual heterozygosity} &=& (0.0000 + 0.1500 + 0.1000 +
+                                      0.0000 + 0.0000 + 0.1667 +
+                                      0.1000 \\ 
+                                 &&   + 0.0909 + 0.0000 + 
+                                      0.0000 + 1.0000 + 0.0000)/12 \\
+                           &=& 0.1340 \\
+\hbox{Expected heterozygosity} &=& 2(0.8888)(1 - 0.8888) \\
+                           &=& 0.1976 \\
+F_{it} &=& 1 - \frac{\hbox{Individual heterozygosity}}%
+                    {\hbox{Expected heterozygosity}} \\
+                  &=& 1 - \frac{0.1340}{0.1976} \\
+                  &=& 0.3221 \\
+       1 - F_{it} &=& (1 - F_{is})(1 - F_{st}) \\
+           F_{is} &=& \frac{F_{it} - F_{st}}{1 - F_{st}} \\
+                  &=& \frac{0.3221 - 0.2143}{1 - 0.2143} \\
+                  &=& 0.1372
+\end{eqnarray*}
+
+\subsection*{Summary}
+
+\begin{center}
+\begin{tabular}{lc}
+Correlation of gametes due to inbreeding within subpopulations ($F_{is}$):
+   & 0.1372 \\
+Correlation of gametes within subpopulations ($F_{st}$): & 0.2143 \\
+Correlation of gametes in sample ($F_{it}$): & 0.3221 \\
+\end{tabular}
+\end{center}
+
+Why do I refer to them as the ``correlation of gametes $\dots$''?
+There are two reasons:
+
+\begin{enumerate}
+
+\item That's the way Wright always referred to and interpreted them.
+
+\item We can define indicator variables $x_{ijk} = 1$ if the $i$th
+  allele in the $jth$ individual of population $k$ is $A_1$ and
+  $x_{ijk} = 0$ if that allele is not $A_1$. This may seem like a
+  strange thing to do, but the Weir and Cockerham approach to
+  $F$-statistics described below uses just such an approach. If we do
+  this, then the definitions for $F_{is}$, $F_{st}$, and $F_{it}$
+  follow directly.\footnote{See~\cite{Weir-1996} for details.}
+
+\end{enumerate}
+
+Notice that $F_{is}$ could be negative, i.e., there could be an {\it
+  excess\/} of heterozygotes within populations ($F_{is} < 0$). Notice
+also that we're implicitly assuming that the extent of departure from
+Hardy-Weinberg proportions is the same in all
+populations. Equivalently, we can regard $F_{is}$ as the {\it
+  average\/} departure from Hardy-Weinberg proportions across all
+populations.
+
+\section*{Statistical expectation and biased
+  estimates}\index{statistical expectation}
+
+The concept of statistical expectation is actually quite an easy
+one. It is an arithmetic average, just one calculated from
+probabilities instead of being calculated from samples. So, for
+example, if $\mbox{P}(k)$ is the probability that we find $k$ $A_1$ alleles
+in our sample, the {\it expected number\/} of $A_1$ alleles in
+our sample is just
+\begin{eqnarray*}
+\mbox{E}(k) &=& \sum k \mbox{P}(k) \\
+     &=& n p \quad , \\
+\end{eqnarray*}
+where $n$ is the total number of alleles in our sample and $p$ is the
+frequency of $A_1$ in our sample.\footnote{$\mbox{P}(k) = {N
+  \choose k}p^k(1-p)^{N-k}$. The algebra in getting from the first
+  line to the second is a little complicated, but feel free to ask me
+  about it if you're intersted.}
+
+Now consider the expected value of our sample estimate of the
+population allele frequency, $\hat p = k/n$, where $k$ now refers to
+the number of $A_1$ alleles we actually found.
+\begin{eqnarray*}
+\mbox{E}(\hat p) &=& \mbox{E}\left(\sum (k/n)\right) \\
+          &=& \sum (k/n) P(k) \\
+          &=& (1/n)\left(\sum k P(k)\right) \\
+          &=& (1/n)(n p) \\
+          &=& p \quad . \\
+\end{eqnarray*}
+Because $\mbox{E}(\hat p) = p$, $\hat p$ is said to be an {\it
+  unbiased estimate} of~$p$.\index{unbiased estimate} When an estimate
+is unbiased it means that if we were to repeat the sampling experiment
+an infinite number of times and to take the average of the estimates,
+the average of those values would be equal to the (unknown) parameter
+value.
+
+What about estimating the frequency of heterozygotes within a
+population? The obvious estimator is $\tilde H = 2\hat p (1 - \hat
+p)$. Well,
+\begin{eqnarray*}
+\mbox{E}(\tilde H) &=& \mbox{E}\left(2\hat p (1 - \hat p)\right) \\
+     &=& 2\left(\mbox{E}(\hat p) - \mbox{E}({\hat p}^2)\right) \\
+     &=& ((n-1)/n)2p(1-p) \quad . \\
+\end{eqnarray*}
+Because $\mbox{E}(\tilde H) \ne 2p(1-p)$, $\tilde H$ is a {\it biased
+estimate\/} of $2p(1-p)$. If we set $\hat H = (n/(n-1))\tilde H$,
+however, $\hat H$ is an unbiased estimator of $2p(1-p)$.\footnote{If
+  you're wondering how I got from the second equation for $\hat H$ to
+  the last one, ask me about it or read the gory details section that
+  follows.}
+
+If you've ever wondered why you typically divide the sum of squared
+deviations about the mean by $n-1$ instead of $n$ when estimating the
+variance of a sample, this is why. Dividing by $n$ gives you a
+(slightly) biased estimator.
+
+\subsection*{The gory details\footnote{Skip this part unless
+  you are {\it really, really\/} interested in how I got from the
+second equation to the third equation in the last paragraph. This is
+more likely to confuse you than help unless you know that the variance
+of a binomial sample is $np(1-p)$ and that $E(k^2) = \hbox{Var}(p) +
+p^2$.}}
+
+Starting where we left off above:
+\begin{eqnarray*}
+\mbox{E}(\tilde H) &=& 2\left((\mbox{E}\hat p) - \mbox{E}({\hat p}^2)\right) \\
+     &=& 2\left(p - \mbox{E}\left((k/n)^2\right)\right) \quad ,
+\end{eqnarray*}
+where $k$ is the number of $A_1$ alleles in our sample and $n$ is the
+sample size.
+\begin{eqnarray*}
+\mbox{E}\left((k/n)^2\right) &=& \sum (k/n)^2 \mbox{P}(k) \\
+                      &=& (1/n)^2 \sum k^2 \mbox{P}(k) \\
+                      &=& (1/n)^2 \left(\mbox{Var}(k) + \bar k^2\right) \\
+                      &=& (1/n)^2 \left(np(1-p) + n^2p^2\right) \\
+                      &=& p(1-p)/n + p^2 \quad .
+\end{eqnarray*}
+Substituting this back into the equation above yields the following:
+\begin{eqnarray*}
+\mbox{E}(\tilde H) &=& 2\left(p - \left(p(1-p)/n + p^2\right)\right) \\
+     &=& 2\left(p(1-p) - p(1-p)/n\right) \\
+     &=& \left(1 - 1/n\right)2p(1-p) \\
+     &=& ((n-1)/n)2p(1-p) \quad . \\
+\end{eqnarray*}
+
+\section*{Corrections for sampling error}
+
+There are two sources of allele frequency difference among
+subpopulations in our sample: (1) real differences in the allele
+frequencies among our sampled subpopulations and (2) differences that
+arise because allele frequencies in our samples differ from those in
+the subpopulations from which they were taken.\footnote{There's
+  actually a third source of error that we'll get to in a moment. The
+  populations we're sampling from are the product of an evolutionary
+  process, and since the populations aren't of infinite size, drift
+  has played a role in determining allele frequencies in them. As a
+  result, if we were to go back in time and re-run the evolutionary
+  process, we'd end up with a different set of real allele frequency
+  differences. We'll talk about this more in just a moment when we get
+  to Weir and Cockerham's statistics.}\index{sampling error}
+
+\subsection*{Nei's $G_{st}$}\index{F-statistics@$F$-statistics!$G_{st}$}
+
+Nei and Chesser~\cite{Nei-Chesser-1983} described one approach to
+accounting for sampling error. So far as I've been able to determine,
+there aren't any currently supported programs\footnote{{\tt Popgene}
+  estimates $G_{st}$, but I don't think it's been updated since
+  2000. {\tt FSTAT} also estimates gene diversities, but the most
+  recent version is from 2002.}
+that calculate the bias-corrected versions of
+$G_{st}$.\footnote{There's a reason for this that we'll get to in a
+  moment. It's alluded to in the last footnote.} I calculated the
+results in Table~\ref{table:fst-comparison} by hand.
+
+The calculations are tedious, which is why you'll want to find some
+way of automating the caluclations if you want to do them.\footnote{It
+  is also one big reason why most people use Weir and Cockerham's
+  $\theta$. There's readily available software that calculates it for
+  you.}
+\begin{eqnarray*}
+H_{i} &=& 1 - {1 \over N} \sum_{k=1}^{N} \sum_{i=1}^{m} {X_{kii}} \\
+H_{s} &=& {\tilde n \over {\tilde n - 1}}
+         \left[1 - \sum_{i=1}^{m} {\bar {\hat x_{i}^{2}}} 
+         - {H_{I} \over {2 \tilde n}}\right] \\
+H_{t} &=& 1 - \sum_{i=1}^{m} {\bar x_{i}^{2}} + {H_{S} \over {\tilde n}}
+         - {H_{I} \over {2 \tilde n N}} 
+\end{eqnarray*}
+where we have $N$ subpopulations, 
+${\bar {\hat x_{i}^{2}}} = \sum_{k=1}^{N} {x_{ki}^{2}}/N$, 
+${\bar x_{i}} = \sum_{k=1}^{N} x_{ki}/N$, $\tilde n$ 
+is the harmonic mean of the population sample sizes, i.e.,
+$ \tilde n = \frac{1}{\frac{1}{N} \sum_{k=1}^{N} \frac{1}{n_k}}$, 
+$X_{kii}$ is the frequency of genotype $A_{i}A_{i}$ in population $k$,  
+$x_{ki}$ is the frequency of allele $A_{i}$ in population $k$, and $n_k$ is
+the sample size from population $k$.  Recall that
+\begin{eqnarray*}
+F_{is} &=& 1 - {H_{i} \over H_{s}} \\
+F_{st} &=& 1 - {H_{s} \over H_{t}} \\
+F_{it} &=& 1 - {H_{i} \over H_{t}} \quad .
+\end{eqnarray*}
+
+\subsection*{Weir and Cockerham's $\theta$}\index{F-statistics@$F$-statistics!Weir
+  and Cockerham}
+
+Weir and Cockerham~\cite{WeirCockerham84} describe the fundamental
+ideas behind this approach. Weir and Hill~\cite{Weir-Hill-2002} bring
+things up to date. Holsinger and Weir~\cite{Holsinger-Weir-2009}
+provide a less technical overview.\footnote{We also talk a bit more
+  about how $F$-statistics can be used.} We'll be using the
+implementations from {\tt GDA} and {\tt WinARL} in this course. The
+most important difference between $\theta$ and $G_{st}$ and the reason
+why $G_{st}$ has fallen into disuse is that $G_{st}$ ignores an
+important source of sampling error that $\theta$ incorporates.
+
+In many applications, especially in evolutionary biology, the
+subpopulations included in our sample are not an exhasutive sample of
+all populations. Moreover, even if we have sampled from every
+population there is now, we may not have sampled from every population
+there ever was. And even if we've sampled from every population there
+ever was, we know that there are random elements in any evolutionary
+process. Thus, if we could run the clock back and start it over again,
+the genetic composition of the populations we have might be rather
+different from that of the populations we sampled. In other words, our
+populations are, in many cases, best regarded as a random sample from
+a much larger set of populations that could have been
+sampled.
+
+\subsubsection*{Even more gory details\footnote{This is even worse
+    than the last time. I include it for completeness only. I really
+    don't expect anyone (unless they happen to be a statistician) to
+    be able to understand these details.}}
+
+Let $x_{mn,i}$ be an indicator variable such that $x_{mn,i} = 1$ if
+allele $m$ from individual $n$ is of type $i$ and is 0
+otherwise. Clearly, the sample frequency $\hat p_i =
+\frac{1}{2N}\sum_{m=1}^2\sum_{n=1}^Nx_{mn,i}$, and $E(\hat p_i) =
+p_i$, $i=1\dots A$. Assuming that alleles are sampled independently
+from the population
+\begin{eqnarray*}
+E(x^2_{mn,i}) &=& p_i \\
+E(x_{mn,i}x_{mn',i}) = E(x_{mn,i}x_{m'n',i}) &=& p_i^2 + \sigma_{x_{mn,i}x_{m'n',i}} \\
+&=& p_i^2 + p_i(1-p_i)\theta
+\end{eqnarray*}
+where $\sigma_{x_{mn,i}x_{m'n',i}}$ is the intraclass covariance for
+the indicator variables and 
+\begin{equation}
+\theta = \frac{\sigma^2_{p_i}}{p_i(1-p_i)} \label{eq:theta-def}
+\end{equation}
+is the scaled among population variance in allele frequency in the
+populations from which this population was
+sampled. Using~(\ref{eq:theta-def}) we find after some algebra
+\[
+\sigma^2_{\hat p_i} = p_i(1-p_i)\theta +
+\frac{p_i(1-p_i)(1-\theta)}{2N} \quad .
+\]
+A natural estimate for $\theta$ emerges using the method of moments
+when an analysis of variance is applied to indicator variables derived
+from samples representing more than one
+population.
+
+\subsection*{Applying $G_{st}$ and $\theta$}
+
+If we return to the data that motivated this discussion, these are the
+results we get from analyses of the $GOT-1$ data from {\it Isotoma
+  petraea}~(Table~\ref{table:isotoma}). 
+\begin{table}
+\begin{center}
+  \begin{tabular}{c|ccc}
+\hline\hline
+Method & $F_{is}$ & $F_{st}$ & $F_{it}$ \\
+\hline
+Direct            & 0.1372 & 0.2143 & 0.3221 \\
+Nei               & 0.3092 & 0.2395 & 0.4746 \\
+Weir \& Cockerham & 0.5398 & 0.0387 & 0.5577 \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Comparison of Wright's $F$-statistics when ignoring sampling
+  effects with Nei's $G_{ST}$ and Weir and Cockerham's $\theta$.}\label{table:fst-comparison}
+\end{table}
+But first a note on how you'll see statistics like this reported in
+the literature. It can get a little confusing, because of the
+different symbols that are used. Sometimes you'll see $F_{is}$,
+$F_{st}$, and $F_{it}$. Sometimes you'll see $f$, $\theta$, and
+$F$. And it will seem as if they're referring to similar
+things. That's because they are. They're really just different symbols
+for the same thing~(see
+Table~\ref{table:fst-theta}).\index{F-statistics@$F$-statistics!notation}
+\begin{table}
+\begin{center}
+\begin{tabular}{cc}
+\hline\hline
+Notation \\
+\hline
+$F_{it}$ & $F$ \\
+$F_{is}$ & $f$ \\
+$F_{st}$ & $\theta$ \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Equivalent notations often encountered in descriptions of
+  population genetic structure.}\label{table:fst-theta}
+\end{table}
+Strictly speaking the symbols in Table~\ref{table:fst-theta} are the
+{\it parameters}, i.e., values in the population that we try to
+estimate. We should put hats over any values estimated from data to
+indicate that they are estimates of the parameters, not the parameters
+themselves. But we're usually a bit sloppy, and everyone knows that
+we're presenting estimates, so we usually leave off the hats.
+
+\section*{An example from Wright}
+
+Hierarchical analysis of variation in the frequency of the Standard
+chromosome arrangement of {\it Drosophila pseudoobscura\/} in the
+western United States (data from~\cite{Dobzhansky-Epling-1944},
+analysis from~\cite{Wright-1978}). Wright uses his rather peculiar method
+of accounting for sampling error. I haven't gone back to the original
+data and used a more modern method of analysis.\footnote{Sounds like
+  it might be a good project, doesn't it? We'll see.}
+
+66 populations (demes) studied.  Demes are grouped into eight regions.
+The regions are grouped into four primary subdivisions.
+
+\subsection*{Results}
+
+\begin{center}
+\begin{tabular}{lc}
+Correlation of gametes within individuals relative to regions ($F_{IR}$): & 0.0444 \\
+Correlation of gametes within regions relative to subdivisions ($F_{RS}$): & 0.0373 \\
+Correlation of gametes within subdivisions relative to total ($F_{ST}$): & 0.1478 \\
+Correlation of gametes in sample ($F_{IT}$): & 0.2160
+\end{tabular}
+\end{center}
+
+\[
+1 - F_{IT} = (1 - F_{IR})(1 - F_{RS})(1 - F_{ST})
+\]
+
+\subsection*{Interpretation}
+
+There is relatively little inbreeding within regions ($F_{IR}$ = 0.04)
+and relatively little genetic differentiation among regions within
+subdivisions ($F_{RS} = 0.04$). There is, however, substantial genetic
+differentiation among the subdivisions ($F_{ST} = 0.15$).
+
+Thus, an explanation for the chromosomal diversity that predicted
+great local differentiation and little or no differentiation at a
+large scale would be inconsistent with these observations.
+

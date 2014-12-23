@@ -1,0 +1,130 @@
+\chapter{Association mapping: BAMD}
+
+We've now seen that a na{\"i}ve, locus-by-locus approach to
+identifying associations between marker loci and SNPs could be
+misleading, both because we have to correct for multiple
+comparisons\footnote{Strictly speaking, we didn't see this in the
+  context of association mapping, but we encountered it in our
+  discussion of QTL mapping.} and, more importantly, because we need
+to account for the possibility that loci are statistically associated
+simply because there is genetic substructure within the
+sample. Stephens and Balding~\cite{Stephens-Balding-2009} outline one
+set of Bayesian approaches to dealing with both of these
+problems. We'll focus on the problem of accounting for population
+structure, using the approach implemented in {\tt BAMD}, an {\tt R}
+package similar to {\tt R/qtl}.
+
+\section*{The statistical model}\index{association mapping!linear mixed model}
+
+{\tt BAMD}\footnote{And a couple of other packages we won't discuss,
+  {\tt TASSEL} and {\tt EMMAX}.} uses a multiple regression approach
+to investigate the relationship between genotypes at a marker locus
+and phenotypes. Specifically, they use a ``mixed-model'' that allows
+the residual variances and covariances to be specified in ways that
+reflect the underlying population structure. Suppose $y_i$ is the
+phenotype of the $i$th individual in our sample and
+$\mbox{\boldmath$y$} = (y_1, \dots, y_I)$. Then the statistical model
+is:\footnote{Hang on. This looks pretty complicated, but it's really
+  not as bad as it looks.}
+\[
+\mbox{\boldmath$y$} = \mbox{\boldmath$X$}\beta +
+\mbox{\boldmath$Z$}\gamma + \epsilon \quad ,
+\]
+where $\mbox{\boldmath$X$}$ is a matrix describing how each individual
+is assigned to a particular genetic grouping,\footnote{For example,
+  you could use {\tt STRUCTURE} to identify genetic groupings in your
+  data. Then row $i$ of $\mbox{\boldmath$X$}$ would correspond to the
+  posterior probability that individual $i$ is assigned to each of the
+  groupings you identify.}, $\beta$ is a vector of coefficients
+describing the mean phenotype associated with individuals belonging to
+that grouping, $\mbox{\boldmath$Z$}$ is a matrix in which element $ij$
+is the genotype of individual $i$ at locus $j$,\footnote{{\tt BAMD} is
+  intended for the analysis of SNP data. Thus, the genotypes can be
+  scored as 1, 2, or 3. Which homozygote is associated with genotype 1
+  doesn't affect the results, only the sign of the associated
+  coefficient.} $\gamma$ is a vector of coefficients describing the
+effect of different genotypes at each locus,\footnote{These are the
+  coefficients we're really interested in. They tell us the magnitude
+  of the affect associated with a particular locus. In the
+  implementation we're using, the relationship between genotype and
+  phenotype is assumed to be strictly additive, since heterozygotes
+  are perfectly intermediate.} and $\epsilon$ is a vector of
+residuals.
+
+In a typical regression problem, we'd assume $\epsilon \sim
+\mbox{N}(0, \sigma^2\mbox{\boldmath$I$})$, where $\mbox{\boldmath$I$}$
+is the identity matrix. Translating that to English,\footnote{Or at
+  least translating it to something {\it closer\/} to English.} we'd
+typically assume that the errors are independently distributed with a
+mean of 0 and a variance of $\sigma^2$. In some applications, that's
+not a good assumption. Some of the individuals included in the
+analysis are related to one another. Fortunately, if you know (or can
+estimate) that degree of relationship, {\tt BAMD} can help you out. If
+$\mbox{\boldmath$R$}$ is a matrix in which element $ij$ indicates the
+degree of relationship between individual $i$ and
+$j$,\footnote{Individuals are perfectly related to themselves, so
+  $r_{ii}=1$. Unrelated individuals have $r_{ij}=0$.}, then we
+simply\footnote{It's simple because the authors of {\tt BAMD} included
+  this possibility in their code. All you have to do is to specify
+  $\mbox{\boldmath$R$}$. {\tt BAMD} will take care of the rest.} let
+$\epsilon \sim \mbox{N}(0, \sigma^2\mbox{\boldmath$R$})$. Now we allow
+the residual errors to be correlated when individuals are related and
+to be uncorrelated when they are not.\index{association mapping!relatedness} 
+
+There's only one more piece of the model that you need to understand
+in order to interpret the output. If I tell you that {\tt BAMD} is an
+acronym for {\bf B}ayesian {\bf A}ssociation with {\bf M}issing {\bf
+  D}ata, you can probably guess that the last piece has something to
+do with prior distributions. Here's what you need to know. We will,
+obviously, have to place prior distributions on $\beta$, $\gamma$, and
+$\sigma^2$. We don't need to talk much about the priors on $\beta$ or
+$\sigma^2$. We simply assume $\beta_j \sim \mbox{uniform}$, and we use
+a standard prior for variance paramters.\footnote{If you must know, we
+  use $1/\sigma^2 \sim \mbox{G}(a, b)$, where $\mbox{G}$ stands for
+  the Gamma distribution and $a$ and $b$ are its parameters.} The
+prior for $\gamma$ is, however, a bit more
+complicated.\index{association mapping!BAMD priors}
+
+The covariates in $\mbox{\boldmath$X$}$ reflect aspects of the
+experimental design, even if the elements of $\mbox{\boldmath$X$}$ are
+inferred from a {\tt STRUCTURE} analysis.\footnote{Some people like to
+  call these ``fixed'' effects.} They are, to some degree at least,
+imposed by how we collected our samples of individuals. In contrast,
+the covariates reflected in $\mbox{\boldmath$Z$}$ represent genotypes
+selected at random from within those groups. Moreover, the set of
+marker loci we chose isn't the only possible set we could have
+chosen. As a result we have to think of both the genotypes we chose
+and the coefficients associated with them as being samples from some
+underlying distribution.\footnote{People who like to refer to
+  $\mbox{\boldmath$X$}$ as fixed effects like to refer to these as
+  ``random'' effects.} Specifically, we assume $\gamma_k \sim
+\mbox{N}(0, \sigma^2\phi^2)$, where $\phi^2$ is simply a positive
+constant that ``adjusts'' the variance of $\gamma_k$ relative to the
+residual variance. Then we just put a standard prior on
+$\phi^2$.\footnote{You may be able to guess, if you've been reading
+  footnotes, that we use $1/\phi^2 \sim \mbox{G}(c,d)$.}
+
+The good news is that once you've got your data into the right format,
+{\tt BAMD} will take care of all of the calculations for you. It will
+give you samples from the posterior distribution of $\beta$, $\gamma$,
+$\sigma^2$, and $\phi^2$, from which you can derive the posterior
+mean, the posterior standard deviation, and the credible
+intervals.
+
+\subsection*{What about the ``Missing Data'' part of the name?}
+
+There's one more thing that {\tt BAMD} does for us behind the
+scenes. In any real association analysis data set, every individual is
+likely to be missing data at one or more loci. That's a problem. If
+we're doing a multiple regression, we can't include sample points
+where there are missing data, but if we dropped every individual for
+which we couldn't score one or more SNPs, we wouldn't have any data
+left. So what do we do? We ``impute'' the missing data, i.e., we use
+the data we do have to guess what the data would have been if we'd
+been able to observe it. {\tt BAMD} does this in a very sophisticated
+and reliable way. As a result, we're able to include every individual
+in our analysis and make use of all the data we've
+collected.\footnote{If you're interested in why we can get away with
+  what seems like making up data, stop by and talk to me. It involves
+  a lot more statistics than I want to get into here.}
+
