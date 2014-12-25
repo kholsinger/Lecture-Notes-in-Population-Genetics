@@ -3,7 +3,7 @@
 \usepackage{html}
 \usepackage{graphics}
 
-\newcommand{\copyrightYears}{2001-2012}
+\newcommand{\copyrightYears}{2001-2015}
 \newcommand{\htmladdlinktext}[1]{\htmladdnormallink{#1}{#1}}
 
 \title{Inbreeding and self-fertilization}
@@ -83,15 +83,19 @@ possible,\index{inbreeding!self-fertilization}\index{self-fertilization}
 and it is characteristic of many flowering plants and some
 hermaphroditic animals, including freshwater snails and that darling
 of developmental genetics, {\it Caenorhabditis elegans}.\footnote{It
-  may well be characteristic of many hermaphroditic animal
-  parasites. You should also know that I just lied. The form of
-  self-fertilization I'm going to describe actually isn't the most
-  extreme form of selfing possible. That honor belongs to gametophytic
-  self-fertilization in homosporous plants. The offspring of
-  gametophytic self-fertilization are uniformly homozygous at every
-  locus in the genome. For more information see~\cite{Holsinger-1990}}
-It's not too hard to figure out what the consequences of
-self-fertilization will be without doing any algebra.
+  could be that it is characteristic of {\it many\/} hermaphroditic
+  animal parasites, but I'm a plant biologist. I know next to nothing
+  about animal mating systems, so I don't have a good feel for how
+  extensively self-fertilization has been looked for in hermaphroditic
+  animals. You should also know that I ied when I wrote that
+  ``self-fertilization is the most extreme form of inbreeding.'' The
+  form of self-fertilization I'm going to describe actually isn't the
+  most extreme form of self-fertilization possible. That honor belongs
+  to gametophytic self-fertilization in homosporous plants. The
+  offspring of gametophytic self-fertilization are uniformly
+  homozygous at every locus in the genome. For more information
+  see~\cite{Holsinger-1990}} It's not too hard to figure out what the
+consequences of self-fertilization will be without doing any algebra.
 
 \begin{itemize}
 
@@ -172,17 +176,27 @@ Many plants reproduce by a mixture of outcrossing and
 self-fertilization.\index{inbreeding!partial
   self-fertilization}\index{self-fertilization!partial} To a
 population geneticist that means that they reproduce by a mixture of
-selfing and random mating. Now I'm going to pull a fast one and derive
-the equations that determine how allele frequencies change from one
-generation to the next without using a mating table. To do so, I'm
-going to imagine that our population consists of a mixture of two
-populations. In one part of the population all of the reproduction
-occurs through self-fertilization and in the other part all of the
-reproduction occurs through random mating. If you think about it for a
-while, you'll realize that this is equivalent to imagining that each
-plant reproduces some fraction of the time through self-fertilization
-and some fraction of the time through random mating. Let $\sigma$ be
-the fraction of progeny produced through self-fertilization, then
+selfing and random mating.\footnote{It would be more accurate to
+  write: ``Population geneticists usually model this mixture as a
+  mixture of self-fertilization and random mating. That simple model
+  ignores a lot of complexity in how self-fertilization happens, but
+  it's a useful approximation for most purposes.''} Now I'm going to
+pull a fast one and derive the equations that determine how allele
+frequencies change from one generation to the next without using a
+mating table. To do so, I'm going to imagine that our population
+consists of a mixture of two populations. In one part of the
+population all of the reproduction occurs through self-fertilization
+and in the other part all of the reproduction occurs through random
+mating. If you think about it for a while, you'll realize that this is
+equivalent to imagining that each plant reproduces some fraction of
+the time through self-fertilization and some fraction of the time
+through random mating.\footnote{Again, it would be more accurate to
+  write: ``If you tink about it for a while, you'll realize that for
+  purposes of understanding how genotype frequencies change through
+  time this is equivalent to assuming that each plant produces some
+  fraction of its progeny through self-fertilization and some fraction
+  through outcrossing.''} Let $\sigma$ be the fraction of progeny
+produced through self-fertilization, then
 \begin{eqnarray}
 x_{11}' &=& p^2(1-\sigma) + (x_{11} + x_{12}/4)\sigma \\
 x_{12}' &=& 2pq(1-\sigma) + (x_{12}/2)\sigma  \label{eq:het} \\
@@ -295,7 +309,12 @@ Hardy-Weinberg expectations.\footnote{$f$ can be negative if there are
   more heterozygotes than expected, as might be the case if
   cross-homozygote matings are more frequent than expected at random.}
 When $f$ is defined in this way, I refer to it as the {\it population
-  inbreeding coefficient}.\index{inbreeding coefficient!population}
+  inbreeding coefficient}.\index{inbreeding
+  coefficient!population}\footnote{To be honest, I'll {\it try\/} to
+  remember to refer to it this way. Chances are that I'll forget
+  sometimes and just call it the inbreeding coefficient. If I do,
+  you'll either have to figure out what I mean from the context or ask
+  me to be more explicit.}
 
 But $f$ can also be regarded as a function of a particular system of
 mating. With partial self-fertilization the population inbreeding
@@ -316,7 +335,8 @@ already seen that the consequences of inbreeding can be described in
 terms of the inbreeding coefficient, $f$ and I've introduced you to
 two ways in which $f$ can be defined.\footnote{See paragraphs above
 describing the population and equilibrium inbreeding coefficient.} I'm
-about to introduce you to one more.
+about to introduce you to one more, but first I have to tell you about
+identity by descent.
 
 \begin{quote}
 Two alleles at a single locus are {\it identical by descent\/} if the
@@ -373,7 +393,9 @@ we adopt this definition for $f$ it can only take on values between 0
 and 1. When used in the sense of a population or equilibrium
 inbreeding coefficient, however, $f$ can be negative.}  Of course,
 there are several aspects to this definition that need to be spelled
-out more explicitly.
+out more explicitly.\footnote{OK, maybe ``of course'' is overstating
+  it. It isn't really obvious that more clarity is needed until I
+  point out the ambiguities in the bullet points that follow.}
 
 \begin{itemize}
 
@@ -391,12 +413,19 @@ any mutations since they diverged from one another.
 \end{itemize}
 
 Let's imagine for a moment, however, that we've traced back the
-ancestry of all alleles in a particular population far enough to be
-able to say that if they're identical by type they're also identical
-by descent. Then we can write down the genotype frequencies in this
-population once we know $f$, where we define $f$ as the probability
-that two alleles chosen at random in this population are identical by
-descent:
+ancestry of all alleles in a particular population to what we call a
+{\it reference population\/}, i.e., a population in which we regard
+all alleles as unrelated.\index{reference
+  population}\index{inbreeding|reference population} That's equivalent
+to saying that alleles chosen at random from this population have zero
+probability of being identical by descent. Let's also make the further
+assumption that every allele in our reference population is
+distinguishable from every other allele. That means that in descendant
+populations two alleles that are are identical by type will also be
+identical by descent. Given all of these assumptions we can write down
+the genotype frequencies in a descendant population once we know $f$,
+where we define $f$ as the probability that two alleles chosen at
+random in the descendant population are identical by descent:
 
 \begin{eqnarray}
 x_{11} &=& p^2(1-f) + fp \\
