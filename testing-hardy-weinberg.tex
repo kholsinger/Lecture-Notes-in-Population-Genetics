@@ -4,7 +4,7 @@
 \usepackage{graphics}
 \usepackage{epstopdf}
 
-\newcommand{\copyrightYears}{2001-2012}
+\newcommand{\copyrightYears}{2001-2015}
 
 \title{Testing Hardy-Weinberg}
 
@@ -26,17 +26,33 @@ Hardy-Weinberg proportions, at least one of the assumptions underlying
 derivation of the principle has been violated, i.e., that there is
 some evolutionary force operating on the population, and we know that
 we can use the magnitude and direction of the departure to say
-something about what those forces might be.
+something about what those forces might be. In particular, we now know
+that inbreeding leads to a deficiency of heterozygotes, and we know
+that the extent of that deficiency can be measured by
+$f$.\footnote{Quiz question: Which definition of $f$ is relevant for
+  determining whether there is a deficiency of heterozygotes?}
 
-Of course we also know that the numbers in our sample may differ from
-expectation just because of random sampling error. For example,
-Table~\ref{table:MN-data} presents data from a sample of 1000 English
-blood donors scored for MN phenotype. M and N are co-dominant, so that
-heterozygotes can be distinguished from the two homozygotes. Clearly
-the observed and expected numbers don't look very different. The
-differences semm likely to be attributable purely to chance, but we
-need some way of assessing that ``likeliness.''\index{testing
-  Hardy-Weinberg}
+What we haven't talked about is (a) how to estimate $f$ from data and
+(b) how to tell whether we have good evidence that the estimate is
+positive (meaning that there's a deficiency of heterozygotes in the
+population) or negative. Both (a) and (b) pose more of a challenge
+than you might initially think. After all we also know that the
+numbers in our sample may differ from expectation just because of
+random sampling error. For example, Table~\ref{table:MN-data} presents
+data from a sample of 1000 English blood donors scored for MN
+phenotype. M and N are co-dominant, so that heterozygotes can be
+distinguished from the two homozygotes. Clearly the observed and
+expected numbers don't look very different.\footnote{For the time
+  being, I simply calculated the expected numbers in the way you'd
+  tell your students in introductory biology to do it: (1) Use the
+  sample frequency of M to estimate its population frequency. (This is
+  a maximum-likelihood estimate, by the way. (2) Calculate the
+  expected frequency of each genotype from the Hardy-Weinberg
+  proportions. (3) Calculated the expected numbers of each genotype by
+  multiplying the expected frequency of each by the total sample
+  size.} The differences semm likely to be attributable purely to
+chance, but we need some way of assessing that
+``likeliness.''\index{testing Hardy-Weinberg}
 
 \begin{table}
 \begin{center}
@@ -52,7 +68,7 @@ N         & nn       & 213      & 209.3 \\
 \end{tabular}
 \end{center}
 \caption{Adapted from Table 2.4 in~\cite{Hedrick-2000}
-  (from~\cite{Cleghorn-1960})}\label{table:MN-data} 
+  (from~\cite{Cleghorn-1960})}\label{table:MN-data}
 \end{table}
 
 \section*{Testing Hardy-Weinberg}
@@ -74,14 +90,16 @@ either of these tests we have to know how many degrees of freedom are
 associated with the test. How do we figure that out? In general, the
 formula is
 \begin{eqnarray*}
-\hbox{d.f.} = && (\hbox{\# of categories in the data -1 }) \\ 
-&-& (\hbox{\#
-              number of parameters estimated from the data})
+\hbox{d.f.} &=& (\hbox{\# of categories in the data -1 }) \\
+&&- (\hbox{\#
+              number of parameters estimated from the data}) \quad .
 \end{eqnarray*}
 For this problem we have
 \begin{eqnarray*}
-\hbox{d.f.} = && (\hbox{\# of phenotype categories in the data - 1}) \\
-&-& (\hbox{\# of allele frequencies estimated from the data})
+\hbox{d.f.} &=& (\hbox{\# of phenotype categories in the data - 1}) \\
+&&- (\hbox{\# of allele frequencies estimated from the data}) \\
+&=& (3-1) - 1 \\
+&=& 1 \quad .
 \end{eqnarray*}
 In the ABO blood group we have 4 phenotype categories, and 3
 allele frequencies. That means that a test of whether a particular
@@ -119,13 +137,12 @@ four phenotypes. $\chi^2_1 = 3.8$, $0.05 < p < 0.1$.
 
 \section*{A Bayesian approach}
 
-We saw last time how to use WinBUGS to provide allele frequency
+We've already seen how to use JAGS to provide allele frequency
 estimates from phenotypic data at the \htmladdnormallink{ABO
-  locus}{http://darwin.eeb.uconn.edu/eeb348/supplements-2004/multinomial-winbugs.txt}.\index{testing
-  Hardy-Weinberg!Bayesian approach}
+  locus}{http://darwin.eeb.uconn.edu/eeb348/supplements-2014/multinomial.txt}.\index{testing Hardy-Weinberg!Bayesian approach}
 \begin{verbatim}
 model {
-   # likelihood 
+   # likelihood
    pi[1] <- p.a*p.a + 2*p.a*p.o
    pi[2] <- 2*p.a*p.b
    pi[3] <- p.b*p.b + 2*p.b*p.o
@@ -142,25 +159,44 @@ model {
 
    n <- sum(x[])
 }
-
 list(x=c(862, 131, 365, 702))
 \end{verbatim}
-As you may recall, this produced the results in
-Figure~\ref{fig:multinomial-results}.
+As you may recall, this produced the following results:
+\begin{verbatim}
+> source("multinomial.R")
+Compiling model graph
+   Resolving undeclared variables
+   Allocating nodes
+   Graph Size: 20
 
-\begin{figure}
-\resizebox{\textwidth}{!}{\includegraphics{multinomial-results.eps}}
-\caption{Results from WinBUGS analysis of the ABO
-  data assuming genotypes are in Hardy-Weinberg proportions.}\label{fig:multinomial-results}
-\end{figure}
+Initializing model
 
-Now that we know about inbreeding coefficients and that the allow us
+  |++++++++++++++++++++++++++++++++++++++++++++++++++| 100%
+  |**************************************************| 100%
+Inference for Bugs model at "multinomial.txt", fit using jags,
+ 5 chains, each with 2000 iterations (first 1000 discarded)
+ n.sims = 5000 iterations saved
+         mu.vect sd.vect   2.5%    25%    50%    75%  97.5%  Rhat n.eff
+p.a        0.282   0.008  0.266  0.276  0.282  0.287  0.297 1.001  5000
+p.b        0.129   0.005  0.118  0.125  0.129  0.133  0.140 1.001  5000
+p.o        0.589   0.008  0.573  0.584  0.589  0.595  0.606 1.001  5000
+deviance  27.811   2.007 25.830 26.363 27.229 28.577 33.245 1.001  4400
+
+For each parameter, n.eff is a crude measure of effective sample size,
+and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
+
+DIC info (using the rule, pD = var(deviance)/2)
+pD = 2.0 and DIC = 29.8
+DIC is an estimate of expected predictive error (lower deviance is better).
+>
+\end{verbatim}
+Now that we know about inbreeding coefficients and that they allow us
 to measure the departure of genotype frequencies from Hardy-Weinberg
 proportions, we can modify this a bit and estimate allele frequencies
 without assuming that genotypes are in Hardy-Weinberg proportions.
 \begin{verbatim}
 model {
-   # likelihood 
+   # likelihood
    pi[1] <- p.a*p.a + f*p.a*(1-p.a) + 2*p.a*p.o*(1-f)
    pi[2] <- 2*p.a*p.b*(1-f)
    pi[3] <- p.b*p.b + f*p.b*(1-p.b) + 2*p.b*p.o*(1-f)
@@ -179,26 +215,46 @@ model {
 
    n <- sum(x[])
 }
-
-list(x=c(862, 131, 365, 702))
 \end{verbatim}
-This produces the results in Figure~\ref{fig:ABO-inbreeding}
+This simple change produces the following results:
+\begin{verbatim}
+> source("abo-inbreeding.R")
+Compiling model graph
+   Resolving undeclared variables
+   Allocating nodes
+   Graph Size: 30
 
-\begin{figure}
-\resizebox{\textwidth}{!}{\includegraphics{ABO-inbreeding.eps}}
-\caption{Results from WinBUGS analysis of the ABO
-  data relaxing the assumption that genotypes are in Hardy-Weinberg proportions.}\label{fig:ABO-inbreeding}
-\end{figure}
+Initializing model
 
+  |++++++++++++++++++++++++++++++++++++++++++++++++++| 100%
+  |**************************************************| 100%
+Inference for Bugs model at "abo-inbreeding.txt", fit using jags,
+ 5 chains, each with 2000 iterations (first 1000 discarded)
+ n.sims = 5000 iterations saved
+         mu.vect sd.vect   2.5%    25%    50%    75%  97.5%  Rhat n.eff
+f          0.403   0.139  0.059  0.326  0.429  0.505  0.599 1.013   550
+p.a        0.349   0.027  0.290  0.332  0.352  0.368  0.392 1.006   960
+p.b        0.161   0.014  0.132  0.152  0.162  0.171  0.186 1.006   840
+p.o        0.490   0.039  0.429  0.461  0.485  0.514  0.577 1.006  1000
+deviance  25.200   2.416 22.249 23.411 24.716 26.342 31.206 1.007   470
+
+For each parameter, n.eff is a crude measure of effective sample size,
+and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
+
+DIC info (using the rule, pD = var(deviance)/2)
+pD = 2.9 and DIC = 28.1
+DIC is an estimate of expected predictive error (lower deviance is better).
+>
+\end{verbatim}
 Notice that the allele frequency estimates have changed quite a bit
-and that the posterior mean of $f$ is about 0.41. On first appearance,
+and that the posterior mean of $f$ is about 0.40. On first appearance,
 that would seem to indicate that we have lots of inbreeding in this
 sample. {\bf BUT} it's a human population. It doesn't seem very
-likely that a human population is really that highly inbred. 
+likely that a human population is really that highly inbred.
 
 Indeed, take a closer look at {\it all\/} of the information we have
 about that estimate of $f$. The 95\% credible interval for $f$ is
-between 0.06 and 0.55. That suggests that we don't have much
+between 0.06 and 0.60. That suggests that we don't have much
 information at all about $f$ from these data.\footnote{That shouldn't
   be too surprising, since any information we have about $f$ comes
   indirectly through our allele frequency estimates.} How can we tell
@@ -209,41 +265,46 @@ genotypes are in Hardy-Weinberg proportions?
 
 A widely used statistic for comparing models in a Bayesian framework
 is the Deviance Information Criterion.\index{Deviance Information
-  Criterion} It can be calculated automatically in WinBUGS, just by
-clicking the right button. The results of the DIC calculations for our
-two models are summarized in Table~\ref{table:ABO-dic}.
+  Criterion} {\tt R2jags} calculates an estimate of it for us
+automatically, but you need to know that if you're serious about model
+comparison, yous shouldn't rely on the DIC calculation from {\tt
+  R2jags} unless you've verified it.\footnote{If you're interested in
+  learning more, feel free to ask, but I'm afraid both the explanation
+  and the solution are a little complicated.} Fortunately, in this
+case, the results are fairly reliable.\footnote{You'll just have to
+  trust me on this unless you asked the last question.} The
+results of the DIC calculations for our two models are summarized in
+Table~\ref{table:ABO-dic}.
 
 \begin{table}
 \begin{center}
-\begin{tabular}{c|cccc}
+\begin{tabular}{c|ccc}
 \hline\hline
-Model   & Dbar   & Dhat   & pD    & DIC \\
+Model   & deviance & pD    & DIC \\
 \hline
-$f > 0$ & 24.900 & 22.319 & 2.581 & 24.480 \\
-$f = 0$ & 27.827 & 25.786 & 2.041 & 29.869 \\
+$f > 0$ & 25.2 & 2.9 & 28.1 \\
+$f = 0$ & 27.8 & 2.0 & 29.9 \\
 \hline
 \end{tabular}
 \end{center}
 \caption{DIC calculations for the ABO example.}\label{table:ABO-dic}
 \end{table}
 
-Dbar and Dhat are measures of how well the model fits the data. Dbar
-is the posterior mean log likelihood, i.e., the average of the log
-likelihood values calculated from the parameters in each sample from
-the posterior. Dhat is the log likelihood at the posterior mean, i.e.,
-the log likelihood calcuated when all of the parameters are set to
-their posterior mean. pD is a measure of model complexity, roughly
-speaking the number of parameters in the model. DIC is a composite
-measure of how well the model does. It's a compromise between fit and
-complexity, and smaller DICs are preferred. A difference of more than
-7-10 units is regarded as strong evidence in favor of the model with
-the smaller DIC. 
+The {\tt deviance} is a measure of how well the model fits the data,
+specifically -2 times the average of the log likelihood values
+calculated from the parameters in each sample from the posterior. {\tt
+  pD} is a measure of model complexity, roughly speaking the number of
+parameters in the model.\footnote{Notice that we estimated 2
+  parameters in the $f=0$ model (2 allele frequencies) and 3
+  parameters in the $f>0$ model (2 allele frequencies plus the
+  inbreeding coefficient).} DIC is a composite measure of how well the
+model does. It's a compromise between fit and complexity, and smaller
+DICs are preferred. A difference of more than 7-10 units is regarded
+as strong evidence in favor of the model with the smaller DIC.
 
-In this case the difference in DIC values is about 5.5, so we have
-some evidence for $f > 0$ model for these data, even though they are
-from a human population. But the evidence is not very strong. This is
-consistent with the weak evidence for a departure from Hardy-Weinberg
-that was revealed in the $\chi^2$ analysis.
+In this case the difference in DIC values is only about 0.8, so we
+have very little evidence for $f > 0$ model for these data. This is consistent with the weak evidence for a departure from
+Hardy-Weinberg that was revealed in the $\chi^2$ analysis.
 
 \bibliography{popgen}
 \bibliographystyle{plain}
