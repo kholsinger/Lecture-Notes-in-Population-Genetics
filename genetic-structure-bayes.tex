@@ -4,7 +4,7 @@
 \usepackage{graphics}
 \usepackage{epstopdf}
 
-\newcommand{\copyrightYears}{2004-2012}
+\newcommand{\copyrightYears}{2004-2015}
 
 \title{Analyzing the genetic structure of populations: a Bayesian approach}
 
@@ -54,8 +54,10 @@ last summer.\footnote{Or you can read Holsinger and
   Wallace~\cite{Holsinger-Wallace-2004}, which I've linked to from the
   course web site.} In fact, I'm only going to describe two pieces of
 the model.\footnote{The good news is that to do the Bayesian analyses
-  in this case, you don't have to write any {\tt WinBUGS} code. You
-  just have to get your data into a format that {\tt Hickory}
+  in this case, you don't have to write any {\tt JAGS} code. I'll
+  provide the code, Alternatively, you can use a standalone program,
+  {\tt Hickory}, that will do the analysis for your, provided you're
+  willing to get your data into a format that {\tt Hickory}
   recognizes.} First, a little notation:
 \begin{eqnarray*}
 n_{11,i} &=& \hbox{\# of $A_1A_1$ genotypes} \\
@@ -102,7 +104,7 @@ shape of the Beta distribution for different choices of $\pi$ and
 $\theta$. To complete the Bayesian model we need only to specify
 priors on $\pi$, $f$, and $\theta$. In the absence of any prior
 knowledge about the parameters, a uniform prior on [0,1]\footnote{{\tt
-dunif(0,1)} in {\tt WinBUGS} notation} is a natural choice.
+dunif(0,1)} in {\tt JAGS} notation} is a natural choice.
 \begin{figure}
 \resizebox{\textwidth}{!}{\includegraphics{beta-distribution.eps}}
 \caption{Shapes of the Beta distribution for different choices of
@@ -112,113 +114,198 @@ dunif(0,1)} in {\tt WinBUGS} notation} is a natural choice.
 
 \subsection*{The {\it Isotoma petraea} example}
 
-If we put the data we've analyzed before into {\tt Hickory}, we get
-the results shown in Table~\ref{table:james} $f$ is the
-within-population inbreeding coefficient, $F_{is}$, $\theta^{(II)}$ is
-the Bayesian analog of Weir and Cockerham's $\theta$,\footnote{This
-  isn't quite true. If you're interested, ask me about it. If you're
-  really interested, take a look at~\cite{Song-etal-2006}.}  and
-$G_{st}^B$ is the Bayesian analog of Nei's $G_{st}$.
+Here's the {\tt JAGS} code to estimate $f$ and $\theta$:
+\begin{verbatim}
+model {
+   ## genotype frequencies
+   ##
+   for (i in 1:n.pops) {
+     for (j in 1:n.loci) {
+       x[i,j,1] <- p[i,j]*p[i,j] + f*p[i,j]*(1-p[i,j])
+       x[i,j,2] <- 2*(1-f)*p[i,j]*(1 - p[i,j])
+       x[i,j,3] <- (1-p[i,j])*(1-p[i,j]) + f*p[i,j]*(1-p[i,j])
+     }
+   }
 
-\begin{table}
-\begin{center}
-\begin{tabular}{cccc}
-\hline\hline
-           &             & \multicolumn{2}{c}{Credible Interval} \\
-Parameter  & Mean (s.d.)     & 2.5\% & 97.5\% \\
-\hline
-$f$            & 0.52 (0.10) & 0.32 & 0.70 \\
-$\theta^{(II)}$ & 0.19 (0.12) & 0.03 & 0.50 \\
-$G_{st}^B$      & 0.10 (0.07) & 0.02 & 0.30 \\
-\hline
-\end{tabular}
-\caption{Results from analyzing the {\it Isotoma petraea} data with
-  {\tt Hickory}.}\label{table:james}
-\end{center}
-\end{table}
+   ## likelihood
+   ##
+   for (i in 1:n.pops) {
+     for (j in 1:n.loci) {
+       n[i,j,1:3] ~ dmulti(x[i,j,], N[i,j])
+     }
+   }
 
-{\tt Hickory} allows you to select from three models when running the
-data with codominant markers:
+   ## priors
+   ##
+   ## allele frequencies within populations
+   ##
+   for (i in 1:n.pops) {
+     for (j in 1:n.loci) {
+       p[i,j] ~ dbeta(alpha, beta)
+     }
+   }
+   ## inbreeding coefficient within populations
+   ##
+   f ~ dunif(0, 1)
+
+   ## theta (Fst)
+   ##
+   theta ~ dunif(0,1)
+
+   ## pi
+   ##
+   for (i in 1:n.loci) {
+     pi[j] ~ dunif(0,1)
+   }
+
+   ## parameters of the beta distribution
+   ## the weird constraints are to ensure that both of them
+   ## lie in [1, 1.0e4]
+   ##
+   for (i in 1:n.loci) {
+     alpha[i] <- max(1, min(((1-theta)/theta)*pi[i], 1.0e4))
+     beta[i]  <- max(1, min(((1-theta)/theta)*(1-pi[i]), 1.0e4))
+   }
+}
+\end{verbatim}
+
+You'll also find an {\tt R} script that calls this code. The relevant
+function has the very creative name of {\tt analyze.data()}. It
+requires data in a very particular format, namely a list that consists
+of four named elements:
 
 \begin{enumerate}
 
-\item The {\tt full model} estimates both $f$ and $\theta^{(II)}$.
+\item {\tt n.pops}: The number of populations in the sample.
 
-\item The {\tt f $=$ 0 model} constrains $f=0$ and estimates
-  $\theta^{(II)}$. 
+\item {\tt n.loci}: The number of loci scored in the sample.
 
-\item The {\tt theta $=$ 0 model} constrains $\theta^{(II)} = 0$ and
-  estimates $f$.
+\item {\tt n}: A {\tt n.pops}$\times${\tt n.loci}$\times${\tt 3}
+  matrix of genotype counts where in the final dimension the first
+  entry corresponds to the number of $A1A1$ homozygotes, the second
+  entry corresponds to the number of $A1A2$ heterozygotes, and the
+  third entry corresponds to the number of $A2A2$ homozygotes.
+
+\item {\tt N}: An {\tt n.pops}$\times${\tt n.loci} matrix of sample
+  sizes at each locus. This could be calculated automatically by {\tt
+    analyze.data()}, but I haven't written that code yet.
 
 \end{enumerate}
 
-As a result, we can use DIC comparisons among the models to determine
-whether we have evidence for inbreeding within populations ($f=0$ {\it
-  versus} $f \ne 0$) or for genetic differentiation among populations
-($\theta^{(II)}=0$ {\it versus} $\theta^{(II)} \ne 0$). If we do that with these
-data we get the results shown in Table~\ref{table:dic}.\index{Deviance
-  Information Criterion}
+It's not too hard to get data into that format. {\tt f-statistics.R}
+also provides a set of functions to construct that list from a CSV
+file in which each line corresponds with an individual, the first
+column ({\tt pop}) is the population from which that individual was
+collected, and the remaining columns are the genotype (scored as 0, 1,
+2) of the individual at a particular locus.
+
+The {\it Isotoma petraea\/} data come to us in a somewhat different
+format, so there's also a script that constructs the necessary input
+list and calls {\tt analyze.data()}. If you look at the code, you'll
+see that I've specified {\tt n.chains=5}. That allows me to check
+convergence by looking at {\tt Rhat}. If you run the code, here's what
+you'll get (except for MCMC error):
+\begin{verbatim}
+> print(fit)
+Inference for Bugs model at "f-statistics.txt", fit using jags,
+ 5 chains, each with 30000 iterations (first 25000 discarded), n.thin = 5
+ n.sims = 5000 iterations saved
+         mu.vect sd.vect   2.5%    25%    50%    75%  97.5%  Rhat n.eff
+f          0.527   0.097  0.327  0.464  0.533  0.595  0.698 1.001  5000
+theta      0.112   0.051  0.024  0.076  0.108  0.143  0.223 1.003  3000
+deviance  46.679   4.848 38.924 43.096 46.095 49.594 57.610 1.001  3900
+
+For each parameter, n.eff is a crude measure of effective sample size,
+and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
+
+DIC info (using the rule, pD = var(deviance)/2)
+pD = 11.8 and DIC = 58.4
+DIC is an estimate of expected predictive error (lower deviance is better).
+\end{verbatim}
+
+It's easy to modify the code to consider two special cases:
+
+\begin{itemize}
+
+\item $f=0$: This corresponds to the case when genotypes within
+  populations are in Hardy-Weinberg proportions. Implemented in {\tt
+    f-statistics-f0.txt}.
+
+\item $\theta=0$: This corresponds to the case when population allele
+  frequencies are identical across populations, i.e., there is no
+  genetic differentiation. Implemented in {\tt f-statistics-t0.txt}
+
+\end{itemize}
+Before we go any further though and start comparing these models,
+remember when I said that you need to be careful about using the DIC
+reported from {\tt R2jags}? This is one of those cases where I don't
+trust it. Why? Because I calculated it from scratch and got a very
+different result:\footnote{Just include {\tt DIC=TRUE} in the
+  arguments to {\tt analyze.data()} and you'll get a printout of these
+  results.}
+\begin{verbatim}
+Dbar: 46.5
+Dhat: 40.7
+pD:   5.8
+DIC:  52.3
+\end{verbatim}
+If you compare these results to what's reported from {\tt R2jags},
+you'll see that {\tt Dbar} in my calculation corresponds to the
+average deviance in the {\tt R2jags} output.\footnote{Except for
+  rounding error.} That's because they're both calculated as -2.0
+times the log likelihood of the data, averaged across all posterior
+samples. The difference is in the estimates for {\tt pD}. My version
+calculates it according to the original
+definition~\cite{Spiegelhalter-etal-2002} as the difference between
+{\tt Dbar} and {\tt Dhat}, -2.0 times the log likelihood of the data
+at the posterior mean of the parameters. {\tt R2jags} calculates it
+differently. In both cases, {\tt DIC} is just $\mbox{\tt
+  Dbar}+\mbox{\tt pD}$, but since the estimates of {\tt pD} are
+different so are the estimates of {\tt DIC}.
+
+In any case, it's easy to compare {\tt DIC} from the three models
+simply by adding {\tt model="f0"} (for the $f=0$ model) or {\tt
+  model="t0"} (for the $\theta=0$ model) to the argument list of
+{\tt analyze.data()}. Table~\ref{table:isotoma-DIC} summarizes the
+results.
 
 \begin{table}
 \begin{center}
-\begin{tabular}{cc}
+\begin{tabular}{l|rrrr}
 \hline\hline
-Model & DIC \\
+Model & {\tt Dbar} & {\tt Dhat} & {\tt pD} & {\tt DIC} \\
 \hline
-Full             & 331.2 \\
-$f=0$            & 355.4 \\
-$\theta^{(II)}=0$ & 343.7 \\
+Full  & 46.5 & 40.7 & 5.8 & 52.3 \\
+$f=0$ & 73.0 & 67.6 & 5.3 & 73.8 \\
+$\theta=0$ & 61.6 & 59.8 & 1.8 & 63.5 \\
 \hline
 \end{tabular}
-\caption{DIC analysis of the {\it Isotoma petraea\/}
-    data.}\label{table:dic}
 \end{center}
+\caption{{\tt DIC} statistics for the {\it Isotoma petraea\/} data.}\label{table:isotoma-DIC}
 \end{table}
 
 The $f=0$ has a much larger DIC than the full model, a difference of
 more than 20 units. Thus, we have strong evidence for inbreeding in
 these populations of {\it Isotoma petraea}.\footnote{Much stronger
   than the evidence we had for inbreeding in the ABO blood group data,
-  by the way.} The $\theta^{(II)} = 0$ model also has a DIC
-substantially larger than the DIC for the full model, a difference of
-more than 10 units. Thus, we also have good evidence for genetic
-differentiation among these populations.\footnote{It's important to
-  remember that this conclusion applies {\it only\/} to the locus that
-  we analyzed. Strong differentiation at this locus need not imply
-  that there is strong differentiation at other loci.}
-
-If we ask {\tt Hickory} to keep log files of our analyses, we can also
-compare the estimates of $f$ for the full and $\theta^{(II)}=0$
-models. The posterior means are 0.52 and 0.55, respectively, so they
-seem pretty similar. But we can do better than that. Since we have the
-full posterior distribution for $f$ in both models, we can pick points
-at random from each, take their difference, and construct a 95\%
-credible interval. Doing that we find that the 95\% credible interval
-for $f_{full} - f_{\theta^{(II)}=0}$ is (-0.29, 0.24), meaning we have
-no evidence that the estimates are different. That may be a little
-surprising, since we strong evidence that $\theta^{(II)} \ne 0$ in
-these data, but it's also good news. It means that our estimate of
-within-population inbreeding is not much affected by the amount of
-differentiation among populations.\footnote{And when you say it that
-  way, it sort of makes sense, doesn't it?} What may be more
-surprising is that the estimates for $\theta^{(II)}$ with and without
-inbreeding are also very similar: 0.19 {\it versus\/} 0.22,
-respectively. Moreover, the 95\% credible interval for
-$\theta^{(II)}_{full} - \theta^{(II)}_{f=0}$ is (-0.38, 0.33). Thus,
-even though we have strong evidence that $f > 0$, our estimate of
-$\theta^{(II)}$ is not strongly affected by what we think about $f$ in
-these data.
+  by the way.} The $\theta = 0$ model also has a DIC substantially
+larger than the DIC for the full model, a difference of more than 10
+units. Thus, we also have good evidence for genetic differentiation
+among these populations.\footnote{It's important to remember that this
+  conclusion applies {\it only\/} to the locus that we
+  analyzed. Strong differentiation at this locus need not imply that
+  there is strong differentiation at other loci.}
 
 \begin{table}
 \begin{center}
 \begin{tabular}{c|ccc}
 \hline\hline
-Method & $F_{is}$ & $F_{st}$ \\
+Method & $F_{is}$ & $F_{st}$ & $F_{it}$ \\
 \hline
 Direct            & 0.14 & 0.21 & 0.32 \\
 Nei               & 0.31 & 0.24 & 0.47 \\
 Weir \& Cockerham & 0.54 & 0.04 & 0.56 \\
-Bayesian          & 0.52 (0.32, 0.70) & 0.19 (0.03, 0.50) \\
+Bayesian          & 0.53 (0.33, 0.70) & 0.11 (0.02, 0.22) \\
 \hline
 \end{tabular}
 \end{center}
@@ -226,26 +313,8 @@ Bayesian          & 0.52 (0.32, 0.70) & 0.19 (0.03, 0.50) \\
   different ways.}\label{table:compare}
 \end{table}
 
-One more thing we can do is to look at the posterior distribution of
-our parameter estimates and at the sample trace.\footnote{You may have
-  discovered that you can do this in {\tt WinBUGS}
-  too.}~(Figure~\ref{fig:james}). The result of an MCMC analysis, like
-the ones here or the ones in {\tt WinBUGS}, is a large number of
-individual points. We can either fit a distribution to those points
-and display the results (the black lines in the figures), or we can
-use a non-parametric, kernel density estimate (the blue lines in the
-figures). The sample traces below show the values the chain took on at
-each point in the sampling process, and you can see that the values
-bounced around, which is good.
-
-\begin{figure}
-\resizebox{\textwidth}{!}{\includegraphics{james.eps}}
-\caption{Posterior densities and traces for parameters of the full
-  model applied to the {\it Isotoma petraea} data.}\label{fig:james}
-\end{figure}
-
-It's also useful to look back and think about the different ways
-we've used the data from {\it Isotoma
+It's useful to look back and think about the different ways we've used
+the data from {\it Isotoma
   petraea}~(Table~\ref{table:compare}). Several things become apparent
 from looking at this table:
 
@@ -258,7 +327,7 @@ from looking at this table:
 
 \item By failing to account for genetic sampling, Nei's statistics
   significantly underestimate $F_{is}$, while Weir \& Cockerham's
-  estimate is quite close to the Bayesian estimates.
+  estimate is indistinguishable from the Bayesian estimates.
 
 \item It's not illustrated here, but when a reasonable number of loci
   are sampled, say more than 8-10, the Weir \& Cockerham estimates and
@@ -267,7 +336,8 @@ from looking at this table:
   the credible intervals don't depend either on asymptotic
   approximations or on bootstrapping across a limited collection of
   loci. The Bayesian approach can also be extended more easily to
-  complex situations.
+  complex situations. We'll see one example of this later in the
+  semester when we discuss $F_{ST}$ outliers.
 
 \end{itemize}
 
