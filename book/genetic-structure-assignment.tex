@@ -1,7 +1,7 @@
 \chapter{Analyzing the genetic structure of populations: individual assignment}
 
-In the last 10-12 years a different approach to the analysis of
-genetic structure has emerged: analysis of individual
+About 15 years ago a different approach to the analysis of genetic
+structure began to emerged: analysis of individual
 assignment.\index{individual assignment} Although the implementation
 details get a little hairy, the basic idea is fairly simple. Suppose
 we have genetic data on a series of individuals. Label the data we
@@ -84,4 +84,55 @@ cultivars are distinct from all but a few of the individuals in the
 long-established feral populations, suggesting that contemporary
 cultivars are doing relatively little to maintain the invasion in
 areas where it is already established.
+
+\section*{Genetic diversity in human populations}\index{humans}
+
+A much more interesting application of {\tt Structure} appeared a
+little over a decade ago. The Human Genome Diversity Cell Line Panel
+(HGDP-CEPH)\index{HGDP-CEPH} consisted at the time of data from 1056
+individuals in 52 geographic populations. Each individual was
+genotyped at 377 autosomal loci. If those populations are grouped into
+5 broad geographical regions~(Africa, [Europe, the Middle East, and
+Central/South Asia], East Asia, Oceania, and the Americas), we find
+that about 93\% of genetic variation is found within local populations
+and only about 4\% is a result of allele frequency differences between
+regions~\cite{Rosenberg-etal-2002}. You might wonder why Europe, the
+Middle East, and Central/South Asia were grouped together for that
+analysis. The reason becomes clearer when you look at a {\tt
+  Structure} analysis of the same data~(Figure~\ref{fig:HGDP-CEPH}).
+
+\begin{figure}
+\resizebox{\textwidth}{!}{\includegraphics{HGDP-CEPH.eps}}
+\caption{{\tt Structure} analysis of microsatellite diversity in the
+  Human Genome Diversity Cell Line
+  Panel~(from~\cite{Rosenberg-etal-2002}).}\label{fig:HGDP-CEPH} 
+\end{figure}
+
+\subsection*{A non-Bayesian look at individual-based analysis of
+  genetic structure}
+
+{\tt Structure} has a lot of nice features, but you'll discover a
+couple of things about it if you begin to use it seriously: (1) It
+often isn't obvious what the ``right'' {\tt K} is.\footnote{In fact,
+  it's not clear that there {\it is\/} such a thing as the ``right''
+  {\tt K}. If you're interested in hearing more about that. Feel free
+  to ask.} (2) It requires a {\it lot\/} of computational resources,
+especially with datasets that include a few thousand SNPs, as is
+becoming increasingly common. An alternative is to use principal
+component analysis directly on genotypes. There are technical details
+associated with estimating the principal components and interpreting
+them that we won't discuss,\footnote{See~\cite{Novembre-Stephens-2008}
+  for details}, but the results can be pretty
+striking. Figure~\ref{fig:human-PCA} shows the results of a PCA on
+data derived from 3192 Europeans at 500,568 SNP loci. The
+correspondence between the position of individuals in PCA space and
+geographical space is remarkable.
+
+\begin{figure}
+\resizebox{\textwidth}{!}{\includegraphics{human-PCA.eps}}
+\caption{Principal components analysis of genetic diversity in Europe
+  corresponds with
+  geography~(from~\cite{Novembre-etal-2008}). Panel b is a close-up
+  view of the area around Switzerland~(CH).}\label{fig:human-PCA}
+\end{figure}
 

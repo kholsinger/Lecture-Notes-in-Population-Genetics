@@ -1,5 +1,259 @@
 \chapter{Analyzing the genetic structure of populations}
 
+So far we've focused on inbreeding as one important way that
+populations may fail to mate at random, but there's another way in
+which virtually all populations and species fail to mate at
+random. Individuals tend to mate with those that are nearby. Even
+within a fairly small area, phenomena like nearest neighbor
+pollination in flowering plants or home-site fidelity in animals can
+cause mates to be selected in a geographically non-random way. What
+are the population genetic consequences of this form of non-random
+mating?\index{geographic structure}
+
+Well, if you think about it a little, you can probably figure it
+out. Since individuals that occur close to one another tend to be more
+genetically similar than those that occur far apart, the impacts of
+local mating will mimic those of inbreeding within a single,
+well-mixed population.
+
+\section*{A numerical example}
+
+For example, suppose we have two subpopulations of green lacewings,
+one of which occurs in forests the other of which occurs in adjacent
+meadows. Suppose further that within each subpopulation mating occurs
+completely at random, but that there is no mating between forest and
+meadow individuals. Suppose we've determined allele frequencies in
+each population at a locus coding for phosglucoisomerase ($PGI$),
+which conveniently has only two alleles. The frequency of $A_1$ in the
+forest is 0.4 and in the meadow in 0.7. We can easily calculate the
+expected genotype frequencies within each population,
+namely\index{Wahlund effect}
+
+\begin{center}
+\begin{tabular}{l|rrr}
+\hline\hline
+       & $A_1A_1$ & $A_1A_2$ & $A_2A_2$ \\
+\hline
+Forest &     0.16 &     0.48 &     0.36 \\
+Meadow &     0.49 &     0.42 &     0.09 \\
+\hline
+\end{tabular}
+\end{center}
+
+Suppose, however, we were to consider a combined population consisting
+of 100 individuals from the forest subpopulation and 100 individuals
+from the meadow subpopulation. Then we'd get the
+following:\footnote{If we ignore sampling error.}
+
+\begin{center}
+\begin{tabular}{l|rrr}
+\hline\hline
+       & $A_1A_1$ & $A_1A_2$ & $A_2A_2$ \\
+\hline
+From forest & 16  & 48       & 36 \\
+From meadow & 49  & 42       & 9 \\
+\hline
+Total       & 65  & 90       & 45 \\
+\hline
+\end{tabular}
+\end{center}
+So the frequency of $A_1$ is $(2(65) + 90)/(2(65 + 90 + 45)) =
+0.55$. Notice that this is just the average allele frequency in the
+two subpopulations, i.e., $(0.4 + 0.7)/2$. Since each subpopulation has
+genotypes in Hardy-Weinberg proportions, you might expect the combined
+population to have genotypes in Hardy-Weinberg proportions, but if you did
+you'd be wrong. Just look.
+
+\begin{center}
+\begin{tabular}{l|rrr}
+\hline\hline
+                            & $A_1A_1$ & $A_1A_2$ & $A_2A_2$ \\
+\hline
+Expected (from $p=0.55$)    & (0.3025)200 & (0.4950)200 & (0.2025)200 \\
+                            & 60.5     & 99.0     & 40.5 \\
+Observed (from table above) & 65       & 90       & 45 \\
+\hline
+\end{tabular}
+\end{center}
+The expected and observed don't match, even though there is random
+mating within both subpopulations. They don't match because there
+isn't random mating {\it in the combined population}. Forest lacewings
+choose mates at random from other forest lacewings, but they never
+mate with a meadow lacewing (and {\it vice versa\/}). Our sample
+includes two populations that don't mix. This is an example of what's
+know as the {\it Wahlund effect}~\cite{Wahlund-1928}.\index{Wahlund effect}
+
+\section*{The algebraic development}
+
+You should know by now that I'm not going to be satisfied with a
+numerical example. I now feel the need to do some algebra to describe
+this situation a little more generally.
+
+Suppose we know allele frequencies in $k$ subpopulations.\footnote{For
+  the time being, I'm going to assume that we know the allele
+  frequencies without error, i.e., that we didn't have to estimate
+  them from data. We'll deal with real life, i.e., how we can detect
+  the Wahlund effect when we have to {\it estimate\/} allele
+  freqeuncies from data, a little later.} Let $p_i$ be the frequency
+of $A_1$ in the $i$th subpopulation. Then if we assume that all
+subpopulations contribute equally to combined
+population,\footnote{We'd get the same result by relaxing this
+  assumption, but the algebra gets messier, so why bother?} we can
+calculate expected and observed genotype frequencies the way we did
+above:\index{Wahlund effect!theory}
+
+\begin{center}
+\begin{tabular}{l|rrr}
+\hline\hline
+         & $A_1A_1$       & $A_1A_2$         & $A_2A_2$ \\
+\hline
+Expected & $\bar p^2$     & $2\bar p\bar q$  & $\bar q^2$ \\
+Observed & $\frack\sum p_i^2$ & $\frack\sum 2p_iq_i$ & $\frack\sum q_i^2$ \\
+\hline
+\end{tabular}
+\end{center}
+where $\bar p = \sum p_i/k$ and $\bar q = 1 - \bar p$. Now
+\begin{eqnarray}
+\frack\sum p_i^2 &=& \frack\sum (p_i - \bar p + \bar p)^2 \\
+&=& \frack\sum \left((p_i - \bar p)^2 + 2\bar p(p_i - \bar p)
+                            + \bar p^2\right) \\
+             &=& \frack\sum (p_i - \bar p)^2 + \bar p^2 \\
+             &=& \hbox{Var}(p) + \bar p^2 \label{eq:p2}
+\end{eqnarray}
+Similarly,
+\begin{eqnarray}
+\frack\sum 2p_iq_i &=& 2\bar p\bar q - 2\hbox{Var}(p) \label{eq:2pq} \\
+\frack\sum q_i^2   &=& \bar q^2 + \hbox{Var}(p) \label{eq:q2}
+\end{eqnarray}
+
+Since $\hbox{Var}(p) \ge 0$ by definition, with equality holding only
+when all subpopulations have the same allele frequency, we can
+conclude that\index{Wahlund effect!properties}
+
+\begin{itemize}
+
+\item Homozygotes will be more frequent and heterozygotes will be less
+  frequent than expected based on the allele frequency in the combined
+  population.
+
+\item The magnitude of the departure from expectations is directly
+  related to the magnitude of the variance in allele frequencies
+  across populations, $\hbox{Var}(p)$.
+
+\item The effect will apply to {\it any\/} mixing of samples in which
+  the subpopulations combined have different allele
+  frequencies.\footnote{For example, if we combine samples from
+    different years or across age classes of long-lived organisms, we
+    may see a deficienty of heterozygotes in the sample purely as a
+    result of allele frequency differences across years.}
+
+\item The same general phenomenon will occur if there are multiple
+  alleles at a locus, although it is possible for one or a few
+  heterozygotes to be {\it more\/} frequent than expected if there is
+  positive covariance in the constituent allele frequencies across
+  populations.\footnote{If you're curious about this, feel free to
+    ask, but I'll have to dig out my copy of Li~\cite{Li-1976} to
+    answer. I don't carry those details around in my head.}
+
+\item The effect is analogous to inbreeding. Homozygotes are more
+  frequent and heterozygotes are less frequent than
+  expected.\footnote{And this is what we predicted when we started.}
+
+\end{itemize}
+
+To return to our earlier numerical example:
+
+\begin{eqnarray}
+\hbox{Var}(p) &=& \left((0.4 - 0.55)^2 + (0.7 - 0.55)^2\right) \\
+              &=& 0.0225
+\end{eqnarray}
+\begin{center}
+\begin{tabular}{l|rcrcr}
+\hline\hline
+         & Expected &   &           &   & Observed \\
+\hline
+$A_1A_1$ &   0.3025 & + &   0.0225  & = &   0.3250 \\
+$A_1A_2$ &   0.4950 & - & 2(0.0225) & = &   0.4500 \\
+$A_2A_2$ &   0.2025 & + &   0.0225  & = &   0.2250 \\
+\hline
+\end{tabular}
+\end{center}
+
+\section*{Wright's $F$-statistics}\index{F-statistics@$F$-statistics}
+
+One limitation of the way I've described things so far is that
+$\hbox{Var}(p)$ doesn't provide a convenient way to compare population
+structure from different samples. $\hbox{Var}(p)$ can be much larger
+if both alleles are about equally common in the whole sample than if
+one occurs at a mean frequency of 0.99 and the other at a frequency of
+0.01. Moreover, if you stare at equations (\ref{eq:p2})--(\ref{eq:q2})
+for a while, you begin to realize that they look a lot like some
+equations we've already
+\htmladdnormallink{encountered}{http://darwin.eeb.uconn.edu/eeb348/lecture-notes/inbreeding/node4.html}.
+Namely, if we were to define $F_{st}$\footnote{The reason for the
+  subscript will become apparent later. It's also {\it very\/}
+  important to notice that I'm defining $F_{ST}$ here in terms of the
+  population parameters $p$ and $\mbox{Var}(p)$. Again, we'll return
+  to the problem of how to {\it estimate\/} $F_{ST}$ from data a
+  little later.} as $\mbox{Var}(p)/\bar p\bar q$, then we could
+rewrite equations (\ref{eq:p2})--(\ref{eq:q2}) as
+\begin{eqnarray}
+\frack\sum p_i^2 &=& \bar p^2 + F_{st}\bar p \bar q \label{eq:p2-f} \\
+\frack\sum 2p_iq_i &=& 2\bar p\bar q(1 - F_{st}) \label{eq:2pq-f} \\
+\frack\sum q_i^2   &=& \bar q^2 + F_{st}\bar p \bar q \label{eq:q2-f}
+\end{eqnarray}
+And it's not even completely artificial to define $F_{st}$ the way I
+did. After all, the effect of geographic structure is to cause matings
+to occur among genetically similar individuals. It's rather like
+inbreeding. Moreover, the extent to which this local mating matters
+depends on the extent to which populations differ from one
+another. $\bar p\bar q$ is the maximum allele frequency variance
+possible, given the observed mean frequency. So one way of thinking
+about $F_{st}$ is that it measures the amount of allele frequency
+variance in a sample relative to the maximum possible.\footnote{I say
+  ``one way'', because there are several other ways to talk about
+  $F_{st}$, too. But we won't talk about them until later.}
+
+There may, of course, be inbreeding within populations, too. But it's
+easy to incorporate this into the framework, too.\footnote{At least
+  it's easy once you've been shown how.} Let $H_i$ be the actual
+heterozygosity in individuals within subpopulations, $H_s$ be the
+expected heterozygosity within subpopulations assuming Hardy-Weinberg
+within populations, and $H_t$ be the expected heterozygosity in the
+combined population assuming Hardy-Weinberg over the whole
+sample.\footnote{Please remember that we're assuming we know those
+  frequencies exactly. In real applications, of course, we'll {\it
+    estimate\/} those frequencies from data, so we'll have to account
+  for sampling error when we actually try to estimate these things. If
+  you're getting the impression that I think the distinction between
+  allele frequencies as {\it parameters\/}, i.e., the real allele
+  frequency in the population , and allele frequencies as {\it
+    estimates\/}, i.e., the sample frequencies from which we hope to
+  estimate the paramters, is really important, you're getting the
+  right impression.}  Then thinking of $f$ as a measure of departure
+from Hardy-Weinberg and assuming that all populations depart from
+Hardy-Weinberg to the same degree, i.e., that they all have the same
+$f$, we can define
+\[
+F_{it} = 1 - \frac{H_i}{H_t}
+\]
+Let's fiddle with that a bit.
+\begin{eqnarray*}
+1 - F_{it} &=& \frac{H_i}{H_t} \\
+           &=& \left(\frac{H_i}{H_s}\right)\left(\frac{H_s}{H_t}\right) \\
+           &=& (1 - F_{is})(1 - F_{st}) \quad ,
+\end{eqnarray*}
+where $F_{is}$ is the inbreeding coefficient within populations, i.e.,
+$f$, and $F_{st}$ has the same definition as before.\footnote{It takes
+  a fair amount of algebra to show that this definition of $F_{st}$ is
+  equivalent to the one I showed you before, so you'll just have to
+  take my word for it.} $H_t$ is often referred to as the genetic
+diversity in a population. So another way of thinking about $F_{st} =
+(H_t - H_s)/H_t$ is that it's the proportion of the diversity in the
+sample that's due to allele frequency differences among populations.
+
+\section*{F statistics}
+
 We've now seen the principles underlying Wright's $F$-statistics. I
 should point out that Gustave Mal{\'e}cot developed very similar ideas
 at about the same time as Wright, but since Wright's notation
@@ -80,8 +334,8 @@ without error. They'll serve as our baseline for comparison.
 F_{st} &=& 0.2143 \\
 \hbox{Individual heterozygosity} &=& (0.0000 + 0.1500 + 0.1000 +
                                       0.0000 + 0.0000 + 0.1667 +
-                                      0.1000 \\ 
-                                 &&   + 0.0909 + 0.0000 + 
+                                      0.1000 \\
+                                 &&   + 0.0909 + 0.0000 +
                                       0.0000 + 1.0000 + 0.0000)/12 \\
                            &=& 0.1340 \\
 \hbox{Expected heterozygosity} &=& 2(0.8888)(1 - 0.8888) \\
@@ -132,14 +386,25 @@ populations. Equivalently, we can regard $F_{is}$ as the {\it
   average\/} departure from Hardy-Weinberg proportions across all
 populations.
 
-\section*{Statistical expectation and biased
+\section*{Statistical expectation and unbiased
   estimates}\index{statistical expectation}
+
+So far I've assumed that we know the allele frequencies without error,
+but of course that's never the case unless we've created experimental
+populations. We are always taking a sample from a population and
+inferring{\dash}estimating{\dash}allele frequencies from our
+sample. Similarly, we are {\it estimating\/} $F_{ST}$ and our estimate
+of $F_{ST}$ needs to take account of the imprecision in the allele
+frequency estimates on which it was based. To understand one approach
+to dealing with this uncertainty I need to introduce two new concepts:
+statistical expectation\index{statistical expectation} and unbiased
+estimates.\index{unbiased estimates}
 
 The concept of statistical expectation is actually quite an easy
 one. It is an arithmetic average, just one calculated from
 probabilities instead of being calculated from samples. So, for
-example, if $\mbox{P}(k)$ is the probability that we find $k$ $A_1$ alleles
-in our sample, the {\it expected number\/} of $A_1$ alleles in
+example, if $\mbox{P}(k)$ is the probability that we find $k$ $A_1$
+alleles in our sample the {\it expected number\/} of $A_1$ alleles in
 our sample is just
 \begin{eqnarray*}
 \mbox{E}(k) &=& \sum k \mbox{P}(k) \\
@@ -162,7 +427,10 @@ the number of $A_1$ alleles we actually found.
           &=& p \quad . \\
 \end{eqnarray*}
 Because $\mbox{E}(\hat p) = p$, $\hat p$ is said to be an {\it
-  unbiased estimate} of~$p$.\index{unbiased estimate} When an estimate
+  unbiased estimate} of~$p$.\index{unbiased estimate}\footnote{Notice
+  that I'm using a hat here to refer to a statistical
+  estimate. Remember when I told you I'd be using hats for a couple of
+  different purposes? Well, this is the second one.} When an estimate
 is unbiased it means that if we were to repeat the sampling experiment
 an infinite number of times and to take the average of the estimates,
 the average of those values would be equal to the (unknown) parameter
@@ -254,17 +522,17 @@ way of automating the caluclations if you want to do them.\footnote{It
 \begin{eqnarray*}
 H_{i} &=& 1 - {1 \over N} \sum_{k=1}^{N} \sum_{i=1}^{m} {X_{kii}} \\
 H_{s} &=& {\tilde n \over {\tilde n - 1}}
-         \left[1 - \sum_{i=1}^{m} {\bar {\hat x_{i}^{2}}} 
+         \left[1 - \sum_{i=1}^{m} {\bar {\hat x_{i}^{2}}}
          - {H_{I} \over {2 \tilde n}}\right] \\
 H_{t} &=& 1 - \sum_{i=1}^{m} {\bar x_{i}^{2}} + {H_{S} \over {\tilde n}}
-         - {H_{I} \over {2 \tilde n N}} 
+         - {H_{I} \over {2 \tilde n N}}
 \end{eqnarray*}
-where we have $N$ subpopulations, 
-${\bar {\hat x_{i}^{2}}} = \sum_{k=1}^{N} {x_{ki}^{2}}/N$, 
-${\bar x_{i}} = \sum_{k=1}^{N} x_{ki}/N$, $\tilde n$ 
+where we have $N$ subpopulations,
+${\bar {\hat x_{i}^{2}}} = \sum_{k=1}^{N} {x_{ki}^{2}}/N$,
+${\bar x_{i}} = \sum_{k=1}^{N} x_{ki}/N$, $\tilde n$
 is the harmonic mean of the population sample sizes, i.e.,
-$ \tilde n = \frac{1}{\frac{1}{N} \sum_{k=1}^{N} \frac{1}{n_k}}$, 
-$X_{kii}$ is the frequency of genotype $A_{i}A_{i}$ in population $k$,  
+$ \tilde n = \frac{1}{\frac{1}{N} \sum_{k=1}^{N} \frac{1}{n_k}}$,
+$X_{kii}$ is the frequency of genotype $A_{i}A_{i}$ in population $k$,
 $x_{ki}$ is the frequency of allele $A_{i}$ in population $k$, and $n_k$ is
 the sample size from population $k$.  Recall that
 \begin{eqnarray*}
@@ -280,11 +548,15 @@ Weir and Cockerham~\cite{WeirCockerham84} describe the fundamental
 ideas behind this approach. Weir and Hill~\cite{Weir-Hill-2002} bring
 things up to date. Holsinger and Weir~\cite{Holsinger-Weir-2009}
 provide a less technical overview.\footnote{We also talk a bit more
-  about how $F$-statistics can be used.} We'll be using the
-implementations from {\tt GDA} and {\tt WinARL} in this course. The
-most important difference between $\theta$ and $G_{st}$ and the reason
-why $G_{st}$ has fallen into disuse is that $G_{st}$ ignores an
-important source of sampling error that $\theta$ incorporates.
+  about how $F$-statistics can be used. If you just can't get enough
+  of this, I suggest you take a look at Verity and
+  Nichols~\cite{Verity-Nichols-2014}. They provide a really solid
+  analysis of $F_{ST}$, $G_{ST}$, and some related statistics.} Most,
+if not all, packages available now that estimate $F_{ST}$ provide
+estimates of $\theta$. The most important difference between $\theta$
+and $G_{st}$ and the reason why $G_{st}$ has fallen into disuse is
+that $G_{st}$ ignores an important source of sampling error that
+$\theta$ incorporates.
 
 In many applications, especially in evolutionary biology, the
 subpopulations included in our sample are not an exhasutive sample of
@@ -316,7 +588,7 @@ E(x_{mn,i}x_{mn',i}) = E(x_{mn,i}x_{m'n',i}) &=& p_i^2 + \sigma_{x_{mn,i}x_{m'n'
 &=& p_i^2 + p_i(1-p_i)\theta
 \end{eqnarray*}
 where $\sigma_{x_{mn,i}x_{m'n',i}}$ is the intraclass covariance for
-the indicator variables and 
+the indicator variables and
 \begin{equation}
 \theta = \frac{\sigma^2_{p_i}}{p_i(1-p_i)} \label{eq:theta-def}
 \end{equation}
@@ -327,16 +599,17 @@ sampled. Using~(\ref{eq:theta-def}) we find after some algebra
 \sigma^2_{\hat p_i} = p_i(1-p_i)\theta +
 \frac{p_i(1-p_i)(1-\theta)}{2N} \quad .
 \]
-A natural estimate for $\theta$ emerges using the method of moments
-when an analysis of variance is applied to indicator variables derived
-from samples representing more than one
-population.
+The hat on $\sigma^2_{\hat p_i}$ indicates the {\it sample\/} variance
+of allele frequencies among popluations. A natural estimate for
+$\theta$ emerges using the method of moments when an analysis of
+variance is applied to indicator variables derived from samples
+representing more than one population.
 
 \subsection*{Applying $G_{st}$ and $\theta$}
 
 If we return to the data that motivated this discussion, these are the
 results we get from analyses of the $GOT-1$ data from {\it Isotoma
-  petraea}~(Table~\ref{table:isotoma}). 
+  petraea}~(Table~\ref{table:isotoma}).
 \begin{table}
 \begin{center}
   \begin{tabular}{c|ccc}
