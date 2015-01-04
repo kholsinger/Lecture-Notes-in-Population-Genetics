@@ -5,7 +5,7 @@
 \usepackage{graphics}
 \usepackage{epstopdf}
 
-\newcommand{\copyrightYears}{2001-2012}
+\newcommand{\copyrightYears}{2001-2015}
 
 \title{The Genetics of Natural Selection}
 
@@ -55,7 +55,7 @@ the actual frequency of offspring from each mating is equal to the
 Mendelian expectations.
 
 \item[Assumption \#6] All matings produce the same number of
-offspring, on average. 
+offspring, on average.
 
 \item[Assumption \#7] Generations do not overlap.
 
@@ -79,18 +79,19 @@ some form of natural selection going on.\footnote{As I alluded to when
 Depending on which of those three assumptions is violated and how it's
 violated we recognize that selection may happen in different ways and
 at different life-cycle stages.\footnote{To keep things {\it
-relatively\/} simple we're not even going to discuss differences in
-fitness that may be associated with different ages. We'll assume a
-really simple life-cycle in which there are non-overlapping
-generations. So we don't need to distinguish juveniles from
-adults.}\index{components of selection}\index{natural selection!components of selection}
+    relatively\/} simple we're not even going to discuss differences
+  in fitness that may be associated with different ages. We'll assume
+  a really simple life-cycle in which there are non-overlapping
+  generations. So we don't need to distinguish between fitness
+  components that differ among age categories.}\index{components of
+  selection}\index{natural selection!components of selection}
 
 \begin{description}
 
 \item[Assumption \#3:] {\it Meiosis is fair}. There are at least two
   ways in which this assumption may be violated.
 
-\begin{itemize} 
+\begin{itemize}
 
 \item {\it Segregation distortion\/}: The two alleles are not equally
   frequent in gametes produced by heterozygotes. The $t$-allele in
@@ -100,7 +101,12 @@ adults.}\index{components of selection}\index{natural selection!components of se
 \item {\it Gamete competition\/}: Gametes may be produced in equal
   frequency in heterozygotes, but there may be competition among them
   to produce fertilized zygotes, e.g., sperm competition in animals,
-  pollen competition in seed plants.\index{gamete competition}\index{natural selection!gamete competition}
+  pollen competition in seed plants.\index{gamete
+    competition}\index{natural selection!gamete competition}\footnote{Strictly speaking pollen competition isn't
+    gamete competition, although the evolutionary dynamics are the
+    same. I'll leave it to the botanists among you to explain to the
+    zoologists why pollen competition would be more properly called
+    {\it gametophytic\/} competition.}
 
 \end{itemize}
 
@@ -123,7 +129,7 @@ progeny.}
 \item {\it Viability selection\/}: The probability of survival from
   zygote to adult may depend on genotype, and it may differ between
   sexes.\index{viability selection}\index{natural selection!viability
-    selection} 
+    selection}
 
 \end{itemize}
 
@@ -164,8 +170,9 @@ natural selection just on viability selection, it's important to
 remember that any or all of the other forms of selection may be
 operating simultaneously on the genes or the traits that we're
 studying, and the direction of selection due to these other components
-may be the same or different. We're going to focus on viability
-selection for two reasons:\index{viability selection!genetics}
+may be the same or different as the direction of viability
+selection. We're going to focus on viability selection for two
+reasons:\index{viability selection!genetics}
 
 \begin{enumerate}
 
@@ -227,7 +234,7 @@ the viabilities were estimated.}
 Genotype         & $ST/ST$    & $ST/CH$    & $CH/CH$    \\
 \hline
 Number in eggs   & 41       & 82       & 27       \\
-                 & $Nx_{11}$  & $Nx_{12}$  & $Nx_{22}$  \\
+                 & $x_{11}N$  & $x_{12}N$  & $x_{22}N$  \\
 viability        & 0.6      & 0.9      & 0.45     \\
                  & $w_{11}$   & $w_{12}$   & $w_{22}$   \\
 Number in adults & 25       & 74       & 12       \\
@@ -246,10 +253,10 @@ frequencies in adults are the genotype frequencies {\it after
   selection}.
 
 \begin{eqnarray*}
-\mbox{freq($ST/ST$) before selection} 
+\mbox{freq($ST/ST$) before selection}
  &=& \frac{41}{41 + 82 + 27} \\
  &=& 0.27 \\
-\mbox{freq($ST/ST$) before selection} 
+\mbox{freq($ST/ST$) before selection}
  &=& \frac{Nx_{11}}{Nx_{11} + Nx_{12} + Nx_{22}} \\
  &=& x_{11} \\
  && \\
@@ -261,7 +268,8 @@ frequencies in adults are the genotype frequencies {\it after
  &=& \frac{w_{11}x_{11}}{w_{11}x_{11} + w_{12}x_{12} +
  w_{22}x_{22}} \\
  &=& \frac{w_{11}x_{11}}{\bar w} \\
- \bar w &=& w_{11}x_{11} + w_{12}x_{12} + w_{22}x_{22}
+ \bar w &=& \frac{w_{11}x_{11}N + w_{12}x_{12}N + w_{22}x_{22}N}{N} \\
+        &=& w_{11}x_{11} + w_{12}x_{12} + w_{22}x_{22} \quad ,
 \end{eqnarray*}
 where $\bar w$ is the mean fitness, i.e., the average probability of
 survival in the population.\index{mean fitness}
@@ -297,14 +305,15 @@ If you're still awake, you're probably wondering\footnote{Okay,
 for $x_{11}$, $x_{12}$, and $x_{22}$. Remember what I said earlier
 about what we're doing here. The {\it only\/} Hardy-Weinberg
 assumption we're violating is the one saying that all genotypes are
-equally likely to survive. Remember also that a single generation in
-which all of the conditions for Hardy-Weinberg is enough to establish
-the Hardy-Weinberg proportions. Putting those two observations
-together, it's not too hard to see that genotypes will be in
-Hardy-Weinberg proportions in newly formed zygotes. Viability
+equally likely to survive from zygote to adult. Remember also that a
+single generation in which all of the conditions for Hardy-Weinberg is
+enough to establish the Hardy-Weinberg proportions. Putting those two
+observations together, it's not too hard to see that genotypes will be
+in Hardy-Weinberg proportions in newly formed zygotes. Viability
 selection will change that later in the life-cycle, but we restart
 every generation with genotypes in the familiar Hardy-Weinberg
-proportions, $p^2$, $2pq$, and $q^2$.\index{selection equation}
+proportions, $p^2$, $2pq$, and $q^2$, where $p$ is the frequency of
+$ST$ in the {\it parental\/} generation.\index{selection equation}
 
 \subsection*{Selection acts on relative viability}
 
@@ -414,9 +423,9 @@ Pattern & Description & Figure \\
 Directional & $w_{11} > w_{12} > w_{22}$ & Figure~\ref{fig:directional} \\
             & or \\
             & $w_{11} < w_{12} < w_{22}$ & \\
-Disruptive  & $w_{11} > w_{12}$, $w_{22} > w_{12}$ 
+Disruptive  & $w_{11} > w_{12}$, $w_{22} > w_{12}$
                                          & Figure~\ref{fig:disruptive} \\
-Stabiliizing& $w_{11} < w_{12}$, $w_{22} < w_{12}$ 
+Stabiliizing& $w_{11} < w_{12}$, $w_{22} < w_{12}$
                                          & Figure~\ref{fig:stabilizing} \\
 \hline
 \end{tabular}
@@ -443,34 +452,46 @@ differences. Let's take each pattern in turn.\index{Fisher's Fundamental Theorem
 \subsection*{Directional selection}
 
 To use the Fundamental Theorem we plot $\bar w$ as a function of
-$p$~(Figure~\ref{fig:directional}). The Fundamental Theorem now tells
-us that allele frequencies have to change from one generation to the
-next in such a way that $\bar w' > \bar w$, which can only happen if
-$p' > p$. So viability selection will cause the frequency of the $A_1$
-allele to increase.\index{directional selection}\index{selection!directional selection} Ultimately, the
-population will be monomorphic for the homozygous genotype with the
-highest fitness.\footnote{A population is {\it monomorphic\/} at a
-  particular locus when only one allele is present. If a population is
-  monomorphic for allele $A_1$, I might also say that allele $A_1$ is
-  fixed in the population or that the population is fixed for allele
+$p$~(Figure~\ref{fig:wbar}(a) and~\ref{fig:wbar}(b)). The Fundamental
+Theorem now tells us that allele frequencies have to change from one
+generation to the next in such a way that $\bar w' > \bar w$, which
+can only happen if $p' > p$. So viability selection will cause the
+frequency of the $A_1$ allele to increase in panel (a) and decrease in
+panel (b).\index{directional selection}\index{selection!directional
+  selection} Ultimately, the population will be monomorphic for the
+homozygous genotype with the highest fitness.\footnote{A population is
+  {\it monomorphic\/} at a particular locus when only one allele is
+  present. If a population is monomorphic for allele $A_1$, I might
+  also say that allele $A_1$ is fixed in the population or that the
+  population is fixed for allele
   $A_1$.\index{monomorphic}\index{allele fixation}}
 
 \begin{figure}
 \begin{center}
-\resizebox{!}{2.25in}{\includegraphics{directional.eps}}
+\resizebox{!}{6in}{\includegraphics{wbar.eps}}
 \end{center}
-\caption{With {\it directional selection\/} (in this case $w_{11} > w_{12} >
-w_{22}$) viability selection leads to an ever increasing frequency of
+\caption{With {\it directional selection\/} (panel (a) $w_{11} > w_{12} >
+w_{22}$, panel (b) $w_{11} > w_{12} > w_{22}$) viability selection
+leads to an ever increasing frequency of
 the favored allele.  Ultimately, the population will be monomorphic
 for the homozygous genotype with the highest
-fitness.}\label{fig:directional}
+fitness. With {\it disruptive selection\/} (panel (c) $w_{11} >
+w_{12}$ and $w_{22} > w_{12}$) viability selection may lead either to
+an increasing   frequency of the $A$ allele or to a decreasing frequency.
+  Ultimately, the population will be monomorphic for one of the
+  homozygous genotypes.  Which homozygous genotype comes to
+  predominate, however, depends on the initial allele frequencies in
+  the population. With {\it stabilizing selection\/} (panel (d) $w_{11} < w_{12}
+  > w_{22}$; also called balancing selection or heterozygote
+  advantage) viability selection will lead to a stable polymorphism.
+  All three genotypes will be present at equilibrium.}\label{fig:wbar}
 \end{figure}
 
 \subsection*{Disruptive selection}
 
 If we plot $\bar w$ as a function of $p$ when $w_{11} > w_{12}$ and
 $w_{22} > w_{12}$, we wee a very different
-pattern~(Figure~\ref{fig:disruptive}). Since the Fundamental Theorem
+pattern~(Figure~\ref{fig:wbar}(c)). Since the Fundamental Theorem
 tells us that $\bar w' \ge \bar w$, we know that if the population
 starts with an allele on one side of the bowl $A_1$, will be lost. If
 it starts on the other side of the bowl, $A_2$ will be
@@ -479,25 +500,12 @@ lost.\footnote{Strictly speaking, we need to know more than $\bar w'
   case. Trust me. Have I ever lied to you? (Don't answer
   that.)}\index{disruptive selection}\index{selection!disruptive}
 
-\begin{figure}
-\begin{center}
-\resizebox{!}{2.25in}{\includegraphics{disruptive.eps}}
-\end{center}
-\caption{With {\it disruptive selection\/} ($w_{11} > w_{12} <
-  w_{22}$) viability selection may lead either to an increasing
-  frequency of the $A$ allele or to a decreasing frequency.
-  Ultimately, the population will be monomorphic for one of the
-  homozygous genotypes.  Which homozygous genotype comes to
-  predominate, however, depends on the initial allele frequencies in
-  the population.}\label{fig:disruptive}
-\end{figure}
-
 Let's explore this example a little further. To do so, I'm going to
 set $w_{11} = 1 + s_1$, $w_{12} = 1$, and $w_{22} = 1+
 s_2$.\footnote{Why can I get away with this? Hint: Think about
   relative fitnesses.} When fitnesses are written this way $s_1$ and
 $s_2$ are referred to as {\it selection coefficients}. Notice also
-with these definitions that the fitnesses of the homozygotes is
+with these definitions that the fitnesses of the homozygotes are
 greater than 1.\footnote{Which is why I gave you the relative fitness
   hint in the last footnote.} Using these definitions and plugging
 them into~(\ref{eq:absolute}),\index{selection coefficient}
@@ -555,23 +563,13 @@ are present at an equilibrium, we can call it a {\it polymorphic
 disruptive selection is to say that the monomorphic equilibria are
 stable, but the polymorphic equilibrium is not.\footnote{Notice that a
   polymorphic equilibrium doesn't even exist when selection is
-  directional.}\index{allele fixation}\index{equilibrium!monomorphic}\index{equilibrium!polymorphic} 
+  directional.}\index{allele fixation}\index{equilibrium!monomorphic}\index{equilibrium!polymorphic}
 
 \subsection*{Stabilizing selection}
 
 If we plot $\bar w$ as a function of $p$ when $w_{11} < w_{12}$ and
 $w_{22} < w_{12}$, we see a third pattern. The plot is shaped like an
-upside down bowl~(Figure~\ref{fig:stabilizing}).\index{stabilizing selection}\index{selection!stabilizing}
-
-\begin{figure}
-\begin{center}
-\resizebox{!}{2.25in}{\includegraphics{stabilizing.eps}}
-\end{center}
-\caption{With {\it stabilizing selection\/} ($w_{11} < w_{12} > w_{22}$; also
-called balancing selection or heterozygote advantage) viability
-selection will lead to a stable polymorphism.  All three genotypes
-will be present at equilibrium.}\label{fig:stabilizing}
-\end{figure}
+upside down bowl~(Figure~\ref{fig:wbar}).\index{stabilizing selection}\index{selection!stabilizing}
 
 In this case we can see that no matter what allele frequency the
 population starts with, the only way that $\bar w' \ge \bar w$ can
@@ -591,7 +589,5 @@ then the allele frequency at the polymorphic equilibrium is $\hat
 p=s_2/(s_1+s_2)$.\footnote{I'm not showing the algebra that justifies
   this conclusion on the off chance that you may want to test your
   understanding by verifying it yourself.}
-
-\ccLicense
 
 \end{document}
