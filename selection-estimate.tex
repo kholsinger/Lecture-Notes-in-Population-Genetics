@@ -5,7 +5,7 @@
 \usepackage{graphics}
 \usepackage{epstopdf}
 
-\newcommand{\copyrightYears}{2001-2012}
+\newcommand{\copyrightYears}{2001-2015}
 
 \title{Estimating viability}
 
@@ -19,10 +19,11 @@
 
 Being able to make predictions with known (or estimated) viabilities,
 doesn't do us a heck of a lot of good unless we can figure out what
-those viabilities are. Fortunately, figuring them out isn't too hard
-to do. If we know the number of individuals of each genotype before
-selection, it's really easy as a matter of fact. Consider that our
-data looks like this:
+those viabilities are. Fortunately, figuring them out isn't too
+hard.\footnote{I almost said that it was easy, but that would be going
+  a bit too far.} If we know the number of individuals of each
+genotype before selection, it's really easy as a matter of
+fact. Consider that our data looks like this:
 
 \begin{center}
 \begin{tabular}{l|ccc}
@@ -40,15 +41,15 @@ In other words, estimating the absolute viability simply consists of
 estimating the probability that an individuals of each genotype that
 survive from zygote to adult. The maximum-likelihood estimate is, of
 course, just what you would probably guess:\index{viability!estimating
-  absolute} 
+  absolute}
 \[
 w_{ij} = \frac{n_{ij}^{(a)}}{n_{ij}^{(z)}} \quad ,
 \]
 Since $w_{ij}$ is a probability and the outcome is binary (survive or
 die), you should be able to guess what kind of likelihood relates the
 observed data to the unseen parameter, namely, a binomial
-likelihood. In {\tt WinBUGS} notation:\footnote{You knew you were
-going to see this again, didn't you?}
+likelihood. In {\tt JAGS} notation:\footnote{You knew you were going
+  to see this again, didn't you?}
 \begin{verbatim}
    n.11.adult ~ dbin(w.11, n.11)
    n.12.adult ~ dbin(w.12, n.11)
@@ -58,16 +59,25 @@ going to see this again, didn't you?}
 \section*{Estimating relative viability}
 
 To estimate absolute viabilities, we have to be able to identify
-genotypes non-destructively. That's fine if we happen to be dealing
-with an experimental situation where we can do controlled crosses to
-establish known genotypes or if we happen to be studying an organism
-and a trait where we can identify the genotype from the phenotype of a
-zygote (or at least a very young individual) and from surviving
-adults.\footnote{How many organisms and traits can you think of that
-satisfy this criterion? Any?} What do we do when we can't follow the
-survival of individuals with known genotype? Give up?\footnote{Would I
-be asking the question if the answer were
-``Yes''?}\index{viability!estimating relative}
+genotypes non-destructively, because we have to know what their
+genotype was both before the selection event and after the selection
+event.That's fine if we happen to be dealing with an experimental
+situation where we can do controlled crosses to establish known
+genotypes or if we happen to be studying an organism and a trait where
+we can identify the genotype from the phenotype of a zygote (or at
+least a very young individual) and from surviving adults.\footnote{How
+  many organisms and traits can you think of that satisfy this
+  criterion? Any? There is one other possibility: If we can identify
+  an individual's genotype after it's dead {\it and\/} if we can
+  construct a random sample that includes both living and dead
+  individuals {\it and\/} if we the probability of including an
+  individual in the sample doesn't depend on whether that individual
+  is dead or alive, then we can sample a population after the
+  selection event and score genotypes both before and after the event
+  from one set of observations.} What do we do when we can't follow
+the survival of individuals with known genotype? Give
+up?\footnote{Would I be asking the question if the answer were
+  ``Yes''?}\index{viability!estimating relative}
 
 Remember that to make inferences about how selection will act, we only
 need to know {\it relative\/} viabilities, not absolute
@@ -107,7 +117,7 @@ or, rearranging a bit
 \frac{w_{11}}{w_{12}} &=& \left(\frac{x_{11}^{(a)}}{x_{12}^{(a)}}\right)
                           \left(\frac{x_{12}^{(z)}}{x_{11}^{(z)}}\right) \\
 \frac{w_{22}}{w_{12}} &=& \left(\frac{x_{22}^{(a)}}{x_{12}^{(a)}}\right)
-                          \left(\frac{x_{12}^{(z)}}{x_{22}^{(z)}}\right) 
+                          \left(\frac{x_{12}^{(z)}}{x_{22}^{(z)}}\right)
 \quad .
 \end{eqnarray*}
 This gives us a complete set of relative viabilities.
@@ -127,8 +137,8 @@ $\frac{w_{22}}{w_{12}}$ \\
 If we use the maximum-likelihood estimates for genotype frequencies
 before and after selection, we obtain maximum likelihood estimates for
 the relative viabilities.\footnote{If anyone cares, it's because of
-the invariance property of maximum-likelihod estimates. If you don't
-understand what that is, don't worry about it, just trust me.} If we
+  the invariance property of maximum-likelihod estimates. If you don't
+  understand what that is, don't worry about it, just trust me.} If we
 use Bayesian methods to estimate genotype frequencies (including the
 uncertainty around those estimates), we can use these formulas to get
 Bayesian estimates of the relative viabilities (and the uncertainty
@@ -159,18 +169,18 @@ genotyped as larvae. As a result, all we can do is to estimate the
 relative viabilities.
 \begin{eqnarray*}
 \frac{w_{11}}{w_{12}} &=& \left(\frac{x_{11}^{(a)}}{x_{12}^{(a)}}\right)
-                          \left(\frac{x_{12}^{(z)}}{x_{11}^{(z)}}\right) 
+                          \left(\frac{x_{12}^{(z)}}{x_{11}^{(z)}}\right)
 = \left(\frac{57/255}{169/255}\right)
   \left(\frac{82/150}{41/150}\right)
 = 0.67 \\
 \frac{w_{22}}{w_{12}} &=& \left(\frac{x_{22}^{(a)}}{x_{12}^{(a)}}\right)
-                          \left(\frac{x_{12}^{(z)}}{x_{22}^{(z)}}\right) 
+                          \left(\frac{x_{12}^{(z)}}{x_{22}^{(z)}}\right)
 = \left(\frac{29/255}{169/255}\right)
   \left(\frac{82/150}{27/150}\right)
 = 0.52 \quad .
 \end{eqnarray*}
 So it looks as if we have balancing selection, i.e., the fitness of
-the heterozygote exceeds that of either homozygote. 
+the heterozygote exceeds that of either homozygote.
 
 We can check to see whether this conclusion is statistically justified
 by comparing the observed number of individuals in each genotype
@@ -206,8 +216,9 @@ these estimates in a Bayesian context is relatively straightforward
 and the details will be left as an excerise.\footnote{In past years
   Problem \#3 has consisted of making Bayesian estimates of
   viabilities from data like these and predicting the outcome of
-  viability selection. That may or may not be part of Problem \#3 this
-  year. Stay tuend.} In outline we simply
+  viability selection. This year Nora will illustrate the
+  approach~(unless you'd rather have her spend more time helping you
+  with Problem \#2).} In outline we simply
 
 \begin{enumerate}
 
