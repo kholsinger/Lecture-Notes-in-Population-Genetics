@@ -3,7 +3,7 @@
 \usepackage{html}
 \usepackage{url}
 
-\newcommand{\copyrightYears}{2001-2012}
+\newcommand{\copyrightYears}{2001-2015}
 
 \title{Selection at one locus with many alleles, fertility selection, and sexual selection}
 
@@ -20,7 +20,7 @@ at a single locus. In fact, we already did this when we were
 discussing the ABO blood group polymorphism. Just to get some notation
 out of the way, though, let's define $x_{ij}$ as the frequency of
 genotype $A_iA_j$ and $p_i$ as the frequency of allele
-$A_i$. Then\index{Hardy-Weinberg principle!multiple alleles}
+$A_i$. Then\index{Hardy-Weinberg proportions!multiple alleles}
 \[
 x_{ij} = \left\{
 \begin{array}{ll}
@@ -66,7 +66,7 @@ a matrix
 \begin{array}{ccc}
     & A_1  & A_2 \\
 A_1 & w_{11} & w_{12} \\
-A_2 & w_{12} & w_{22} 
+A_2 & w_{12} & w_{22}
 \end{array}
 \]
 Clearly we can extend an array like this to as many rows and columns
@@ -88,8 +88,8 @@ frequencies change in response to viability selection:\footnote{If
 \[
 p_i' = \frac{p_iw_i}{\bar w} \quad ,
 \]
-where $p_i = \sum p_i w_{ij}$ is the marginal fitness of allele $i$ and
-$\bar w = \sum p_i^2 w_{ii} + \sum_i\sum_{j>i} 2p_ip_jw_{ij}$ is the
+where $p_i = \sum_j p_i w_{ij}$ is the marginal fitness of allele $i$ and
+$\bar w = \sum_i p_i^2 w_{ii} + \sum_i\sum_{j>i} 2p_ip_jw_{ij}$ is the
 mean fitness in the population.
 
 It's easy to see\footnote{At least it's easy to see if you've stared a
@@ -130,7 +130,10 @@ S &       & 0.192 & 0.407 \\
 C &       &       & 0.550
 \end{array}
 \]
-There is a stable, complete polymorphism with these allele frequencies:
+There is a stable, complete polymorphism with these allele
+frequencies:\footnote{If you're wondering how I know that, feel free
+  to ask. Otherwise, just take my word for it. Would I lie to you?
+  (Don't answer that.)}
 \begin{eqnarray*}
 p_A &=& 0.83 \\
 p_S &=& 0.07 \\
@@ -146,32 +149,31 @@ If allele $A$ were absent, however, the population would fix on allele
 $C$.\footnote{Can you explain why? Take a close look at the fitnesses,
   and it should be fairly obvious.}
 
-\begin{quote}
-The existence of a stable, complete polymorphism does not imply that
-all subsets of alleles could exist in stable polymorphisms. Loss of
-one allele as a result of random chance could result in a cascading
-loss of diversity.\footnote{The same thing can happen in ecological
-  commmunities. Loss of a single species from a stable community may
-  lead to a cascading loss of several more.}
+\begin{quote} {\bf Weird property \#1}: The existence of a stable,
+  complete polymorphism does not imply that all subsets of alleles
+  could exist in stable polymorphisms. Loss of one allele as a result
+  of random chance could result in a cascading loss of
+  diversity.\footnote{The same thing can happen in ecological
+    commmunities. Loss of a single species from a stable community may
+    lead to a cascading loss of several more.}
 \end{quote}
 
-\noindent If the fitness of $AS$ were 1.6 rather than 1.103, $C$ would
+\noindent If the fitness of $AS$ were 1.6 rather than 1.138, $C$ would
 be lost from the population, although the $A-S$ polymorphism would
 remain.
 
-\begin{quote}
-Increasing the selection in favor of a heterozygous genotype may cause
-selection to eliminate one or more of the alleles not in that
-heterozygous genotype. This also means that if a genotype with a very
-high fitness in heterozygous form is introduced into a population, the
-resulting selection may eliminate one or more of the alleles already
-present.
+\begin{quote} {\bf Weird property \#2}: Increasing the selection in
+  favor of a heterozygous genotype may cause selection to eliminate
+  one or more of the alleles not in that heterozygous genotype. This
+  also means that if a genotype with a very high fitness in
+  heterozygous form is introduced into a population, the resulting
+  selection may eliminate one or more of the alleles already present.
 \end{quote}
 
 \section*{Fertility selection}\index{natural selection!fertility selection}
 
 So far we've been talking about natural selection that occurs as a
-result of differences in the probability of survival, viability
+result of differences in the probability of survival, i.e., viability
 selection. There are, of course, other ways in which natural selection
 can occur:
 
@@ -179,7 +181,11 @@ can occur:
 
 \item Heterozygotes may produce gametes in unequal frequencies, {\it
   segregation distortion}, or gametes may differ in their ability to
-  participate in fertilization, {\it gametic selection}.
+  participate in fertilization, {\it gametic selection}.\footnote{For
+    the botanists in the room, I should point out that selection on
+    the gametophyte stage of the life cycle (in plants with
+    alternation of generations) is mathematically equivalent to
+    gametic selection.}
 
 \item Some genotypes may be more successful in finding mates than
   others, {\it sexual selection}.
@@ -232,7 +238,7 @@ x_{11}' = \frac{x_{11}^2F_{11,11} + x_{11}x_{12}(F_{11,12} +
 \end{equation}
 where $\bar F$ is the mean fecundity of all matings in the
 population.\footnote{As an exercise you might want to see if you can
-derive the corresponding equations for $x_{12}'$ and $x_{22}'$.} 
+derive the corresponding equations for $x_{12}'$ and $x_{22}'$.}
 
 It probably won't surprise you to learn that it's very difficult to
 say anything very general about how genotype frequenices will change
@@ -254,7 +260,7 @@ schemes to produce such a result.}
 
 \item A high fertility of heterozygote $\times$ heterozygote matings
 is not sufficient to guarantee that the population will remain
-polymorphic. 
+polymorphic.
 
 \item Selection may prevent loss of either allele, but there may be no
 stable equilibria.
@@ -284,7 +290,7 @@ Similarly, $A_2$ will become more frequent when it's very rare when
 \end{equation}
 If both equation (\ref{eq:a-1}) and (\ref{eq:a-2}) are satisfied,
 natural selection will tend to prevent either allele from being
-eliminated. We have what's known as a {\it protected polymorphism}. 
+eliminated. We have what's known as a {\it protected polymorphism}.
 
 Conditions~(\ref{eq:a-1}) and~(\ref{eq:a-2}) are fairly easy to
 interpret intuitively: There is a protected polymorphism if the
@@ -296,7 +302,7 @@ homozygote with itself.\footnote{A ``resident'' homozygote is the one
 
 {\bf NOTE:} It's entirely possible for neither inequality to be
 satisfied {\it and\/} for their to be a stable polymorphism. In other
-words, depending on where a population starts selection may eliminate
+words, depending on where a population starts, selection may eliminate
 one allele or the other or keep both segregating in the population in
 a stable polymorphism.\footnote{Can you guess what pattern of
   fertilities is consistent with both a stable polymorphism and the
@@ -304,14 +310,15 @@ a stable polymorphism.\footnote{Can you guess what pattern of
 
 \section*{Sexual selection}\index{natural selection!sexual selection}
 
-A classic example of sexual selection is the peacock's tail. The
-long, elaborate tail feathers do nothing to promote survival of male
-peacocks, but they are very important in determining which males
-attract mates and which don't. If you'll recall, when we originally
-derived the Hardy-Weinberg principle we said that the matings occurred
-randomly. Sexual selection is clearly an instance of non-random
-mating. Let's go back to our original mating table and see how we need
-to modify it to accomodate sexual selection.
+A classic example of sexual selection is the peacock's ``tail''
+feathers.\footnote{The brightly colored ``tail'' is actually the upper
+  tail covert.} The long, elaborate feathers do nothing to promote
+survival of male peacocks, but they are very important in determining
+which males attract mates and which don't. If you'll recall, when we
+originally derived the Hardy-Weinberg principle we said that the
+matings occurred randomly. Sexual selection is clearly an instance of
+non-random mating. Let's go back to our original mating table and see
+how we need to modify it to accomodate sexual selection.
 
 \begin{center}
 \begin{tabular}{rcccc}
@@ -321,11 +328,11 @@ Mating                 & Frequency     & $A_1A_1$ & $A_1A_2$ & $A_2A_2$ \\
 $A_1A_1 \times A_1A_1$ & $x_{11}^fx_{11}^m$     &        1 &        0 &        0 \\
               $A_1A_2$ & $x_{11}^fx_{12}^m$ &    $\half$ &    $\half$ &        0 \\
               $A_2A_2$ & $x_{11}^fx_{22}^m$ &        0 &        1 &        0 \\
-$A_1A_2 \times A_1A_1$ & $x_{12}^fx_{11}^m$ &    $\half$ &    $\half$ &        0 \\ 
+$A_1A_2 \times A_1A_1$ & $x_{12}^fx_{11}^m$ &    $\half$ &    $\half$ &        0 \\
               $A_1A_2$ & $x_{12}^fx_{12}^m$     &  $\fourth$ &    $\half$ &  $\fourth$ \\
               $A_1A_2$ & $x_{12}^fx_{22}^m$ &        0 &    $\half$ &    $\half$ \\
 $A_2A_2 \times A_1A_1$ & $x_{22}^fx_{11}^m$ &        0 &        1 &        0 \\
-              $A_1A_2$ & $x_{22}^fx_{12}^m$ &        0 &    $\half$ &    $\half$ \\   
+              $A_1A_2$ & $x_{22}^fx_{12}^m$ &        0 &    $\half$ &    $\half$ \\
               $A_2A_2$ & $x_{22}^fx_{22}^m$     &        0 &
 0 & 1 \\
 \end{tabular}

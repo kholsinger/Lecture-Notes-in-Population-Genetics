@@ -322,7 +322,7 @@ We'll start with the guess that $p_a = 0.33$, $p_b = 0.33$, and $p_o =
 + 2(0.33)(0.34))) = 8.168$ of the A phenotypes in the sample have
 genotype $aa$, and the remaining 16.832 have genotype $ao$. Similarly,
 we can calculate that 8.168 of the B phenotypes in the population
-sample have genotype $bb$, and the remaining 16.823 have genotype
+sample have genotype $bb$, and the remaining 16.832 have genotype
 $bo$. Now that we have a guess about how many individuals of each
 genotype we have,\footnote{Since we're making these genotype counts
   up, we can also pretend that it makes sense to have fractional
@@ -433,7 +433,7 @@ estimate the frequency of the {\it fast\/} allele. The
 maximum-likelihood estimate is $7/20 = 0.35$, which we got by finding
 the value of $p$ that maximizes
 \begin{eqnarray*}
-\mbox{P}(p|N,k) &=& {N \choose k} p^k (1-p)^{N-k} \quad ,
+\mbox{P}(k|N,p) &=& {N \choose k} p^k (1-p)^{N-k} \quad ,
 \end{eqnarray*}
 where $N=20$ and $k=7$. A Bayesian uses the same likelihood, but has
 to specify a prior distribution for $p$. If we didn't know anything

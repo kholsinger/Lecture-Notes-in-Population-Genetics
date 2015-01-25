@@ -3,7 +3,7 @@
 \usepackage{html}
 \usepackage{url}
 
-\newcommand{\copyrightYears}{2001-2012}
+\newcommand{\copyrightYears}{2001-2015}
 
 \title{Genetic Drift}
 
@@ -41,22 +41,22 @@ selection.\index{genetic drift}
 To understand in more detail what happens when there is genetic drift,
 let's consider the simplest possible example: a haploid population
 consisting of 2 individuals.\footnote{Notice that once we start
-talking about genetic drift, we have to specify the size of the
-population.} Suppose that there are initially two alleles in this
-population $A_1$ and $A_2$. This implies that $p = q = 0.5$, but we'll
-ignore that numerical fact and simply imagine that the frequency of
-the $A_1$ allele is $p$.
+  talking about genetic drift, we have to specify the size of the
+  population.} Suppose that we are studying a locus with only two
+alleles in this population $A_1$ and $A_2$. This implies that $p = q =
+0.5$, but we'll ignore that numerical fact for now and simply imagine
+that the frequency of the $A_1$ allele is $p$.
 
 We imagine the following scenario:
 
 \begin{itemize}
 
 \item Each individual in the population produces a very large number
-  of offspring.
+  of haploid gametes that develop directly into adult offspring.
 
-\item Each offspring is an identical copy of its parent, i.e., $A_1$
-  begets $A_1$ and $A_2$ begets $A_2$. In other words, there's no
-  mutation.
+\item The allele in each offspring is an identical copy of the allele
+  in its parent, i.e., $A_1$ begets $A_1$ and $A_2$ begets $A_2$. In
+  other words, there's no mutation.
 
 \item The next generation is constructed by picking two offspring at
   random from the very large number of offspring produced by these two
@@ -70,13 +70,13 @@ We imagine the following scenario:
 \mbox{Probability that one offspring is $A_1$ and one is $A_2$} &=& 2pq \\
 \mbox{Probability that both offspring are $A_2$} &=& q^2
 \end{eqnarray*}
-Of course $p = 1$ if both offspring sampled are $A_1$, $p = 1/2$ if
-one is $A_1$ and one is $A_2$, and $p = 0$ if both are $A_2$, so that
+Of course $p' = 1$ if both offspring sampled are $A_1$, $p' = 1/2$ if
+one is $A_1$ and one is $A_2$, and $p' = 0$ if both are $A_2$, so that
 set of equations is equivalent to this one:
 \begin{eqnarray}
-P(p=1) &=& p^2  \label{eq:p-1} \\
-P(p=1/2) &=& 2pq \\
-P(p=0) &=& q^2  \label{eq:p-2}
+P(p'=1) &=& p^2  \label{eq:p-1} \\
+P(p'=1/2) &=& 2pq \\
+P(p'=0) &=& q^2  \label{eq:p-2}
 \end{eqnarray}
 In other words, we can no longer predict with certainty what allele
 frequencies in the next generation will be. We can only assign
@@ -104,7 +104,7 @@ following equations:\footnote{I know. I'm weird. I actually get a kick
 \begin{eqnarray*}
 P(p_2=1|p_1) &=& p_1^2 \\
 P(p_2=1/2|p_1) &=& 2p_1q_1 \\
-P(p_2=0|p_1) &=& q_1^2 
+P(p_2=0|p_1) &=& q_1^2
 \end{eqnarray*}
 
 Now if we stare at those a little while, we\footnote{Or at least the
@@ -120,7 +120,7 @@ P(p_2=1/2|p_0) &=& P(p_2=1/2|p_1=1/2)P(p_1=1/2|p_0) \\
                &=& p_0q_0 \\
 P(p_2=0|p_0) &=& P(p_2=0|p_1=0)P(p_1=0|p_0) + P(p_2=0|p_1=1/2)P(p_1=1/2|p_0) \\
              &=& (1)(q_0^2) + (1/4)(2p_0q_0) \\
-             &=& q_0^2 + (1/2)p_0q_0 
+             &=& q_0^2 + (1/2)p_0q_0
 \end{eqnarray*}
 It takes more algebra than I care to show,\footnote{Ask me, if you're
   really interested.} but these equations can be extended to an
@@ -175,13 +175,14 @@ interesting.
 \begin{itemize}
 
 \item Each individual in the population produces a large number of
-gametes. 
+gametes.
 
-\item Each gamete is an identical copy of its parent, i.e., $A_1$
-begets $A_1$ and $A_2$ begets $A_2$.
+\item The allele in each gamete is an identical copy of the allele in
+  the individual that produced it, i.e., $A_1$ begets $A_1$ and $A_2$
+  begets $A_2$.
 
 \item The next generation is constructed by picking $2N$ gametes at
-random from the large number originally produced.
+  random from the large number originally produced.
 
 \end{itemize}
 
@@ -189,7 +190,7 @@ We can then write a general expression for how allele frequencies will
 change between generations. Specifically, the distribution
 describing the probability that there will be $j$ copies of $A_1$ in
 the next generation given that there are $i$ copies in this generation
-is  
+is
 \[
 P(\hbox{$j$ $A_1$ in offspring $|$ $i$ $A_1$ in parents}) =
 {2N \choose j}\left(\frac{i}{2N}\right)\left(1 - \frac{i}{2N}\right)
@@ -254,7 +255,7 @@ P(K=k) = {{N \choose k}p^k(1-p)^{N-k}}
               = \frac{p(1-p)}{N}
 \]
 \end{htmlonly}
-Applying this to our situation, 
+Applying this to our situation,
 \[
 \hbox{Var}(p_{t+1}) = \frac{p_t(1-p_t)}{2N}
 \]
@@ -507,27 +508,27 @@ to be identical by descent is if they are identical copies of the {\it
 same\/} allele in the immediately preceding generation.
 
 \item Even if the numbers of reproductive males and reproductive
-females are different, every new offspring has exactly one father and
-one mother. Thus, the probability that the first gamete selected at
-random is female is just 1/2, and the probability that the second
-gamete selected is male is just 1/2.
+  females are different, every new offspring has exactly one father
+  and one mother. Thus, the probability that the first gamete selected
+  at random is female is just 1/2, and the probability that the first
+  gamete selected is male is just 1/2.
 
 \item The probability that the second gamete selected is female given
-that the first one we selected was female is $(N-1)/(2N-1)$, because
-$N$ out of the $2N$ alleles represented among offspring came from
-females, and there are only $N-1$ out of $2N-1$ left after we've
-already picked one. The same logic applies for male gametes.
+  that the first one we selected was female is $(N-1)/(2N-1)$, because
+  $N$ out of the $2N$ alleles represented among offspring came from
+  females, and there are only $N-1$ out of $2N-1$ left after we've
+  already picked one. The same logic applies for male gametes.
 
-\item Finally, the probability that one particular female gamete was
-chosen is $1/2N_f$, where $N_f$ is the number of females in the
-population. Similarly the probability that one particular male gamete
-was chosen is $1/2N_m$, where $N_m$ is the number of males in the
-population.
+\item The probability that one particular female gamete was chosen is
+  $1/2N_f$, where $N_f$ is the number of females in the
+  population. Similarly the probability that one particular male
+  gamete was chosen is $1/2N_m$, where $N_m$ is the number of males in
+  the population.
 
 \end{itemize}
 
 \noindent With those facts in hand, we're ready to calculate $\hat
-f_{t+1}$. 
+f_{t+1}$.
 
 \begin{eqnarray*}
 f_{t+1} &=& \left(\half\right) \left(\frac{N-1}{2N-1}\right)
@@ -536,8 +537,10 @@ f_{t+1} &=& \left(\half\right) \left(\frac{N-1}{2N-1}\right)
             \left(\frac{1}{2N_m}\right) \\
         &=& \left(\half\right) \left(\frac{N-1}{2N-1}\right)
             \left(\frac{1}{2N_f} + \frac{1}{2N_m}\right) \\
-        &\approx& \left(\fourth\right)
-            \left(\frac{1}{2N_f} + \frac{1}{2N_m}\right)
+        &\approx& \left(\quarter\right)
+            \left(\frac{2N_m + 2N_f}{4N_fN_m}\right) \\
+        &=& \left(\half\right)
+            \left(\frac{N_m + N_f}{4N_fN_m}\right)
 \end{eqnarray*}
 So,
 \[
@@ -566,7 +569,7 @@ bigger than 4, no matter how many mates that individual has and no
 matter how many offspring are produced.
 
 \subsubsection*{Variable population size}\index{genetic drift!effective population size, variable population size}
-     
+
 The notation for this one gets a little more complicated, but the
 ideas are simpler than those you just survived. Since the population
 size is changing we need to specify the population size at each time
@@ -579,7 +582,7 @@ f_{t+1} &=& \left(1-\frac{1}{2N_t}\right)f_t + \frac{1}{2N_t} \\
 \end{eqnarray*}
 Now if the population size were constant
 \[
-\left(\prod_{i=1}^K\left(1-\frac{1}{2N_{t+i}}\right)\right) = 
+\left(\prod_{i=1}^K\left(1-\frac{1}{2N_{t+i}}\right)\right) =
 \left(1 - \frac{1}{2N_e^{(f)}}\right)^K \quad .
 \]
 Dealing with products and powers is inconvenient, but if we take the
@@ -593,7 +596,7 @@ that $\log(1-x) \approx -x$ when $x$ is small. So if we assume that
 $N_e$ and all of the $N_{t}$ are large,\footnote{So that there
   reciprocals are small} then
 \begin{eqnarray*}
-K\left(-\frac{1}{2N_e^{(f)}}\right) 
+K\left(-\frac{1}{2N_e^{(f)}}\right)
   &=& \sum_{i=1}^K-\frac{1}{2N_{t+i}} \\
 \frac{K}{N_e^{(f)}} &=& \sum_{i=1}^K\frac{1}{N_{t+i}} \\
 N_e^{(f)} &=& \left(\left(\frac{1}{K}\right)
@@ -610,7 +613,7 @@ the effective size of a population will be more influenced by times
 when it is small than by times when it is large.
 
 Consider, for example, a population in which $N_1$ through $N_9$ are
-1000, and $N_{10}$ is 10. 
+1000, and $N_{10}$ is 10.
 \begin{eqnarray*}
 N_e &=& \left(\left(\frac{1}{10}\right)
             \left(9\left(\frac{1}{1000}\right) +
@@ -652,7 +655,7 @@ try to take advantage of it to decrease the loss of genetic variation
 in small populations, especially those that are captive bred. If you
 can reduce the variance in reproductive success, you can substantially
 increase the effective size of the population. In fact, if you could
-reduce $V_k$ to zero, then 
+reduce $V_k$ to zero, then
 \[
 N_e^{(f)} = 2N - 1 \quad .
 \]
