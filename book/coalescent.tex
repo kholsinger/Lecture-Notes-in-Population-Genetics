@@ -1,11 +1,11 @@
 \chapter{The Coalescent}
 
-I've mentioned several times that population geneticists often look at
-the world backwards. Sometimes when they do, the result is very
-useful. Consider genetic drift, for example. So far we've been trying
-to predict what will happen in a population given a particular
+I've mentioned many times by now that population geneticists often
+look at the world backwards. Sometimes when they do, the result is
+very useful. Consider genetic drift, for example. So far we've been
+trying to predict what will happen in a population given a particular
 effective population size. But when we collect data we are often more
-interested in understanding the processes that produced any pattern we
+interested in understanding the processes that produced the pattern we
 find than in predicting what will happen in the future. So let's take
 a backward look at drift and see what we find.
 
@@ -160,8 +160,8 @@ So the mean time back to the first coalescent event is
 
 But this is, of course, only the first coalescent event. We were
 interested in how long we have to wait until {\it all\/} alleles are
-descended from a single common ancestor. Now is where Kingman's sneaky
-trick comes in. After the first coalescent event, we now have $m-1$
+descended from a single common ancestor. Now this is where Kingman's
+sneaky trick comes in. After the first coalescent event, we have $m-1$
 alleles in our sample, instead of $m$. So the whole process starts
 over again with $m-1$ alleles instead of $m$. Since the time to the
 first coalescence depends only on the number of alleles in the sample
@@ -171,6 +171,7 @@ as\index{coalescent!time to coalescence}
 \begin{eqnarray*}
 \bar t &=& \sum_{k=2}^m \bar t_k \\
        &=& \sum_{k=2}^m \frac{4N_e}{k(k-1)} \\
+       && \mbox{TAMO} \\
        &=& 4N_e\left(1 - \frac{1}{m}\right) \\
        &\approx& 4N_e
 \end{eqnarray*}
@@ -204,11 +205,11 @@ Given that a human generation is about 20 years, a coalescence time of
 al. sample have their most recent common ancestor about 10,000
 generations ago. If the effective number of females in the human
 populations is 5000, that's exactly what we'd expect. While 5000 may
-sound awfully small, given that there are about 3 billion women on the
-planet now, remember that until the recent historical past (no more
-than 500 generations ago) the human population was small and humans
-lived in small hunter-gatherer groups, so an effective number of
-females of 5000 and a total effective size of 10,000 may not be
+sound awfully small, given that there are more than 3 billion women on
+the planet now, remember that until the recent historical past (no
+more than 500 generations ago) the human population was small and
+humans lived in small hunter-gatherer groups, so an effective number
+of females of 5000 and a total effective size of 10,000 may not be
 unreasonable. If that's true, then the geographical location of
 mitochondrial Eve need not tell us anything about the origin of modern
 human populations, because there had to be a coalescence
@@ -242,14 +243,18 @@ populations. Given these definitions of $\bar t$ and $\bar t_0$,
 \[
 F_{st} = \frac{\bar t - \bar t_0}{\bar t} \quad .
 \]
-So $F_{st}$ measures the proportional increase in time to coalescence
-that is due to populations being separate from one another. One way to
-think about that relationship is this: the longer it has been, on
-average, since alleles in different populations diverged from a common
-ancestor, the greater the chances that they have become different. An
-implication of this relationship is that $F$-statistics, by
-themselves, can't tell us much of anything about patterns of migration
-among populations. 
+So another way to think about $F_{st}$ is as a measure of the
+proportional increase in coalescence time that is due to populations
+being separate from one another. One way to think about that
+relationship is this: the longer it has been, on average, since
+alleles in different populations diverged from a common ancestor, the
+greater the chances that they have become different. An implication of
+this relationship is that $F$-statistics, by themselves, can tell us
+something about how recently populations have been connected, relative
+to the within-population coalescence time, but they can't distinguish
+between recent common ancestry that is due to lots of migration among
+populations and recent common ancestry that is due to a recent split
+between populations.
 
 A given pattern of among-population relationships might reflect a
 migration-drift equilibrium, a sequence of population splits followed
@@ -260,5 +265,5 @@ $F_{st}$ may tell us something about migration. If we are willing to
 assume that there's been no gene exchange among our populations, we
 can infer something about how recently they've diverged from one
 another. But unless we're willing to make one of those assumptions, we
-can't make any further progress.
+can't really say anything.
 

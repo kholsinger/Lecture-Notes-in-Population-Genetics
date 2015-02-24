@@ -4,10 +4,7 @@
 \usepackage{html}
 \usepackage{url}
 
-\newcommand{\Var}{\mbox{Var}}
-\newcommand{\Cov}{\mbox{Cov}}
-
-\newcommand{\copyrightYears}{2001-2012}
+\newcommand{\copyrightYears}{2001-2015}
 
 \title{Resemblance among relatives}
 
@@ -27,7 +24,8 @@ have similar genotypes, because they developed in similar
 environments, or both. In an experimental situation, we may be able to
 randomize individuals across environments. Under those circumstances
 any tendency for relatives to resemble one another more than
-non-relatives must be due to similarities in their genotypes.
+non-relatives must be due to similarities in their
+genotypes.\index{resemblance between relatives}
 
 Using this insight, we can develop a statistical technique that allows
 us to determine how much of the variance among individuals in
@@ -77,7 +75,8 @@ phenotypes influenced by one locus with two alleles, and we'll do the
 calculations in detail only for half sib families. We start with
 something that may look vaguely familiar.\footnote{Remember our
   mother-offspring combinations with {\it Zoarces viviparus\/}?} Take
-a look at Table~\ref{table:half-sib}.\index{mother-offspring pairs}
+a look at Table~\ref{table:half-sib}.\index{mother-offspring
+  pairs}\index{half-sib analysis}
 
 \begin{table}
 \begin{center}
@@ -214,8 +213,8 @@ $A_2A_2$ & 0.36      & 0.0      & 0.4      & 0.6 \\
 \hline
 \end{tabular}
 \end{center}
-\caption{Mother-offspring combinations (half-sib) for the numerical
-  example in Table~\ref{table:example}.}\label{table:example-hs}
+\caption{Mother-offspring combinations (half-sib) when the frequency
+  of $A_1$ is 0.4.}\label{table:example-hs}
 \end{table}
 
 So now we can follow the same approach we did before and calculate the
@@ -231,7 +230,7 @@ numerical value of the covariance between half-sibs in this example:
          &=&\ \left({1 \over 4}\right)0.5192 \quad .
 \end{eqnarray*}
 
-\subsection*{Covariances among relatives}
+\subsection*{Covariances among relatives}\index{covariance!relatives}
 
 Well, if we can do this sort of calculation for half-sibs, you can
 probably guess that it's also possible to do it for other relatives. I
@@ -254,7 +253,7 @@ Half sibs ($\Cov_{HS}$) & $\left(\frac{1}{4}\right)V_a$ \\
 \caption{Genetic covariances among relatives.}\label{table:relatives}
 \end{table}
 
-\section*{Estimating heritability}
+\section*{Estimating heritability}\index{heritability}
 
 Galton introduced the term {\it regression\/} to describe the
 inheritance of height in humans. He noted that there is a tendency for
@@ -290,7 +289,7 @@ mid-parent value,
 \end{eqnarray*}
 Thus, $b_{MP \rightarrow O} = \frac{1}{2}V_a/\frac{1}{2}V_p = h^2_N$.
 In short, the slope of the regression line is equal to the narrow
-sense heritability.
+sense heritability.\index{heritability}
 
 \subsection*{Sib analysis}\index{full-sib analysis}
 
@@ -392,6 +391,10 @@ V_a &=& 4\sigma^2_S \\
 V_d &=& 4(\sigma^2_D - \sigma^2_S) \\
 V_e &=& \sigma^2_W - 3\sigma^2_D + \sigma^2_S \quad .
 \end{eqnarray*}
+Furthermore, the narrow-sense heritability is given by
+\[
+h^2_N = \frac{4\sigma^2_s}{\sigma^2_S + \sigma^2_D + \sigma^2_W} \quad .
+\]\index{heritability}
 
 \subsection*{An example: body weight in female mice}
 

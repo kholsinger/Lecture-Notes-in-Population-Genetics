@@ -5,9 +5,7 @@
 \usepackage{url}
 \usepackage{epstopdf}
 
-\newcommand{\Var}{\mbox{Var}}
-
-\newcommand{\copyrightYears}{2001-2012}
+\newcommand{\copyrightYears}{2001-2015}
 
 \title{Introduction to quantitative genetics}
 
@@ -17,16 +15,14 @@
 
 \thispagestyle{first}
 
-\section*{Introduction}
-
-So far in this course we have dealt almost entirely with the evolution
-of characters that are controlled by simple Mendelian inheritance at a
+So far in this course we have dealt entirely with the evolution of
+characters that are controlled by simple Mendelian inheritance at a
 single locus. There are notes on the course website about gametic
 disequilibrium and how allele frequencies change at two loci
-simultaneously, but we didn't discuss them. In every other example
-we've considered we've imagined that we could understand something
-about evolution by examining the evolution of a single gene. That's
-the domain of classical population genetics.
+simultaneously, but we didn't discuss them. In every example we've
+considered we've imagined that we could understand something about
+evolution by examining the evolution of a single gene. That's the
+domain of classical population genetics.
 
 For the next few weeks we're going to be exploring a field that's
 actually older than classical population genetics, although the
@@ -86,7 +82,7 @@ another. It was the first example of what's come to be known as {\it
 grew out of his undergraduate Honors thesis at Cambridge University,
 set forth the mathematical theory that describes how it all
 works. That's the theory of {\it quantitative genetics}, and it's what
-we're going to spend the next three weeks discussing.\index{polygenic inheritance}
+we're going to spend the next several weeks discussing.\index{polygenic inheritance}
 
 \section*{An overview of where we're headed}
 
@@ -120,7 +116,9 @@ the interaction between genotype and environment, but we'll ignore
 that for the time being.} As we'll see in just a moment, we can also
 partition the genetic variance into components, the {\it additive
 genetic variance\/}, $\Var(A)$, and the {\it dominance variance},
-$\Var(D)$.\index{phenotypic variance!partitioning}\index{genetic variance}\index{environmental variance}  
+$\Var(D)$.\footnote{We could even partition it further into additive
+  by additive, additive by dominance, and dominance by dominance
+  epistatic variance, but let's not go there.}\index{phenotypic variance!partitioning}\index{genetic variance}\index{environmental variance}  
 
 There's a surprisingly subtle and important insight buried in that
 very simple equation: Because the expression of a quantitative trait
@@ -138,18 +136,18 @@ have experienced.\footnote{When I put it this way, I hope it's obvious
 
 One important implication of this insight is that much of the ``nature
 vs.\ nurture'' debate concerning human intelligence or human
-personality characteristics. The intelligence and personality that you
-have is a product of both the genes you happen to carry and the
-environment that you experienced. Any differences between you and the
-person next to you probably reflect both differences in genes {\it
-  and\/} differences in environment. Moreover, just because you have a
-genetic pre-disposition for a particular condition doesn't mean you're
-stuck with it.
+personality characteristics is misguided. The intelligence and
+personality that you have is a product of {\it both} the genes you
+happened to inherit and the environment that you happened to
+experience. Any differences between you and the person next to you
+probably reflect both differences in genes {\it and\/} differences in
+environment. Moreover, just because you have a genetic pre-disposition
+for a particular condition doesn't mean you're stuck with it.
 
 Take phenylketonuria, for example. It's a condition in which
 individuals are homozygous for a deficiency that prevents them from
 metabolizing
-phenylalanine~(\url{http://www.ncbi.nlm.nih.gov/pubmedhealth/PMH0002150/}). If
+phenylalanine~(\url{http://www.nlm.nih.gov/medlineplus/phenylketonuria.html}). If
 individuals with phenylketonuria eat a normal diet, severe mental can
 result by the time an infant is one year old. But if they eat a diet
 that is very low in phenylalanine, their development is completely
@@ -195,7 +193,7 @@ behind these simple equations, including a lot of assumptions. But
 quantitative genetics is very useful. Its principles have been widely
 applied in plant and animal breeding for almost a century, and they
 have been increasingly applied in evolutionary investigations in the
-last thirty years. Nonetheless, it's useful to remember that
+last forty years. Nonetheless, it's useful to remember that
 quantitative genetics is a lot like a bikini. What it reveals is
 interesting, but what it conceals is crucial.
 
@@ -205,10 +203,12 @@ Before we worry about how to estimate any of those variance components
 I just mentioned, we first have to understand what they are. So let's
 start with some
 definitions~(Table~\ref{table:definitions}).\footnote{Warning! There's
-  a lot of algebra between here and the end. It's unavoidable. You
-  can't possibly understand what additive genetic variance is without
-  it. I'll try to focus on principles, but a lot of the algebra that
-  follows {\it is\/} necessary. Sorry about that.}
+  a {\it lot\/} of algebra between here and the end. It's
+  unavoidable. You can't possibly understand what additive genetic
+  variance is without it. I'll try to focus on principles, and I'll do
+  my best to keep reminding us all why we're slogging through the
+  algebra, but a lot of the algebra that follows {\it is\/}
+  necessary. Sorry about that.}
 
 \begin{table}
 \begin{center}
