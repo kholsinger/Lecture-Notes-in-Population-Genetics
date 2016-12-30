@@ -5,7 +5,7 @@
 \usepackage{epstopdf}
 \usepackage{url}
 
-\newcommand{\copyrightYears}{2012}
+\newcommand{\copyrightYears}{2012-2015}
 
 \title{Population genomics}
 
@@ -17,29 +17,29 @@
 
 \section*{Introduction}
 
-In the past few years, the development of high-throughput methods for
-genomic sequencing (next-generation sequencing: NGS) have drastically
-changed how many biologists work. It is now possible to produce so
-much data so rapidly that simply storing and processing the data poses
-great challenges, so great that {\it Nature Reviews Genetics\/}
-recently published an overview of approaches to analysis,
-interpretation, reproducibility, and accessbility of NGS
-data~\cite{Nekrutenko-Taylor-2012}. Their review didn't even discuss
-the new challenges that face population geneticists and evolutionary
-biologists as they start to take advantage of those tools, nor did it
-discuss the promise these data hold for providing new insight into
-long-standing, but the challenges and the promise are at least as
-great as those they do describe.\index{next-generation sequencing}
+In the past decade, the development of high-throughput methods for
+genomic sequencing (next-generation sequencing: NGS) have
+revolutionized how many geneticists collect data. It is now possible
+to produce so much data so rapidly that simply storing and processing
+the data poses great challenges~\cite{Nekrutenko-Taylor-2012}. The
+Nekrutenko and Taylor review~\cite{Nekrutenko-Taylor-2012} doesn't
+even discuss the new challenges that face population geneticists and
+evolutionary biologists as they start to take advantage of those
+tools, nor did it discuss the promise these data hold for providing
+new insight into long-standing questions, but the challenges and the
+promise are at least as great as those they do
+describe.\index{next-generation sequencing}
 
 To some extent the most important opportunity provided by NGS
 sequencing is simply that we now have a lot more data to answer the
 same questions. For example, using a technique like RAD
-sequencing~\cite{Baird-etal-2008}, it is now possible to identify
+sequencing~\cite{Baird-etal-2008} or genotyping-by-sequencing
+(GBS:~\cite{Elshire-etal-2011}), it is now possible to identify
 thousands of polymorphic SNP markers in non-model organisms, even if
-you don't have a reference sequence available. As we've seen several
+you don't have a reference genome available. As we've seen several
 times this semester, the variance associated with drift is
-enormous. Every SNP identified through RAD sequencing is likely to be
-independently inherited, thus the amount and pattern of variation at
+enormous. Many SNPs identified through RAD-Seq or GBS are likely to be
+independently inherited. Thus, the amount and pattern of variation at
 each locus will represent an independent sample from the underlying
 evolutionary process. As a result, we should be able to get much
 better estimates of fundamental parameters like $\theta=4N_e\mu$,
@@ -49,9 +49,82 @@ al.~\cite{Willing-etal-2012}, for example, present simulations
 suggesting that accurate estimates of $F_{ST}$ are possible with
 sample sizes as small as 4--6 individuals per population, so long as
 the number of markers used for inference is greater than
-1000.\index{RAD sequencing}\index{next-generation sequencing!estimating $F_{ST}$}
+1000.\index{RAD sequencing}\index{next-generation sequencing!estimating $F_{ST}$}\index{genotyping-by-sequencing}
 
-\subsection*{Next-generation phylogeography}\index{next-generation sequencing!phylogeography}
+\section*{A quick overview of NGS methods}
+
+I won't review the chemistry used for next-generation sequencing. It
+changes very rapidly, and I can't keep up with it. Suffice it to say
+that 454 Life Sciences, Illumina, PacBio, and probably other companies
+I don't know about each have different approaches to very high
+throughput DNA sequencing. What they all have in common is that the
+whole genome is broken into small fragments and sequnced and that a
+single run through the machine produces an enormous amount of data,
+900-1800 Gb from a HiSeq X for
+example~(\url{http://www.illumina.com/systems/sequencing.html};
+accessed 26 April 2015).\footnote{In NGS applications for phylogeny, a
+  strategy of targeted enrichment is often used. In this approach,
+  pre-identified parts of the genome are ``baited'' using primers and
+  those parts of the genome are enriched through PCR before the
+  sequencing library is constructed~\cite{Lemmon-etal-2012}.} 
+
+\subsection*{RAD sequencing}\index{RAD sequencing}
+
+Baird et al.~\cite{Baird-etal-2008} introduced RAD about 7 years
+ago. One of its great attraction for evolutionary geneticists is that
+RAD-seq can be used in any organism from which you can extract DNA and
+the laboratory manipulations are relatively straightforward.
+
+\begin{itemize}
+
+\item Digest genomic DNA from each individual with a restriction
+  enzyme, and ligate an adapter to the resulting fragments. The
+  adapter includes a forward amplification primer, a sequencing primer
+  and a ``barcode'' used to identify the individual from which the DNA
+  was extracted.
+
+\item Pool the individually barcoded samples~(``normalizing'' the
+  mixture so that roughly equal amounts of DNA from each individual
+  are present) shear them and select those of a size appropriate for
+  the sequencing platform you are using.
+
+\item Ligate a second adapter to the sample, where the second adapter
+  is the reverse complement of the reverse amplification primer. 
+
+\item PCR amplification will enrich only DNA fragments having both the
+  forward and reverse amplification primer.
+
+\end{itemize}
+
+The resulting library consists of sequences within a relatively small
+distance from restriction sites. 
+
+\subsection*{Genotyping-by-sequencing}\index{genotyping-by-sequencing}
+
+Genotyping-by-sequencing~(GBS) is a similar approach. 
+
+\begin{itemize}
+
+\item Digest genomic DNA with a restriction enzyme and ligate two
+  adapters to the genomic fragments. One adapter contains a barcode
+  and the other does not.
+
+\item Pool the samples.
+
+\item PCR amplify and sequence. Not all ligated fragments will be
+  sequenced because some will contain only one adapter and some
+  fragments will be too long for the NGS platform.
+
+\end{itemize}
+
+Once an investigator has her sequenced fragments back, she can either
+map the fragments back to a reference genome or she can assemble the
+fragments into orthologous sequences {\it de novo}. I'm not going to
+discuss either of those processes, but you can imagine that there's a
+lot of bioinformatic processing going on. What I want to focus on is
+what you do with the data and how you interpret it.
+
+\section*{Next-generation phylogeography}\index{next-generation sequencing!phylogeography}
 
 The American pitcher plant mosquito {\it Wyeomyia
   smithii\/} has been extensively studied for many years. It's a model
@@ -77,9 +150,9 @@ Using the same set of samples, the authors used RAD sequencing to
 identify 3741 SNPs. That's more than 20 times the number of variable
 sites found in {\it COI}, 167. Not surprisingly, the large number of
 additional sites allowed the authors to produce a much more highly
-resolved phylogeny~\ref{fig:wyeomyia-RAD}. With this phylogeny it's
-easy to see that southern populations are divided into two distinct
-groups, those from North Carolina and those from the Gulf
+resolved phylogeny~(Figure \ref{fig:wyeomyia-RAD}). With this
+phylogeny it's easy to see that southern populations are divided into
+two distinct groups, those from North Carolina and those from the Gulf
 Coast. Similarly, the northern group of populations is subdivided into
 those from the Appalachians in North Carolina, those from the
 mid-Atlantic coast, and those from further north. The glacial history
@@ -87,8 +160,8 @@ of North America means that both the mid-Atlantic the populations
 farther north must have been derived from one or more southern
 populations after the height of the last glaciation. Given the
 phylogenetic relationships recovered here, it seems clear that they
-were all derived from a population or populations the Appalachian of
-North Carolina.
+are most closely related to populations in the Appalachians of North
+Carolina.
 
 \begin{figure}
 \begin{center}
@@ -153,10 +226,21 @@ single, diploid individual:
 \item Let $\epsilon$ be the probability of a sequencing error at any
   site, and assume that all errors are equiprobable, e.g., there's no
   tendency for an A to be miscalled as a C rather than a T when it's
-  miscalled. 
+  miscalled.\footnote{It wouldn't be hard, conceptually, to allow
+    different nucleotides to have different error rates, e.g.,
+    $\epsilon_A$, $\epsilon_C$, $\epsilon_G$, $\epsilon_T$, but the
+    notation would get really complicated.} 
 
-\item If the site in question were homozygous, the probability of
-  getting our observed sequence profile is:\footnote{This expression
+\item If the site in question were homozygous A, the probability of
+  getting our observed sequence profile is:
+\[
+P(n_1,n_2,n_3,n_4|\mbox{homozygous A},\epsilon)
+=
+{n \choose n_1}(1-\epsilon)^{n_1}\epsilon^{n-n_1} \quad .
+\]
+A similar relationship holds if the site were homozygous C, G, or
+T. Thus, we can calculate the probability of our data if it were homozygous
+as\footnote{This expression
     looks a little different from the one in~\cite{Lynch-2008}, but
     I'm pretty sure it's equivalent.}
 \[
@@ -211,7 +295,7 @@ and with that in hand we can get
 \[
 P(n_1,n_2,n_3,n_4|\mbox{heterozygous},\epsilon)
 =
-\sum_{i=1}^4\sum_{j=1}^4
+\sum_{i=1}^4\sum_{j\ne i}
 \left(\frac{x_ix_j}{1-{\sum_{l=1}^4p_l^2}}\right) P(n_1,n_2,n_3,n_4|x_i,x_j) 
 \]
 
@@ -250,7 +334,7 @@ where the superscript $(s)$ is used to index each site in the data.
 
 Notice that this genome-wide estimate of nucleotide diversity is
 obtained from a sample derived from a single diploid
-individually. Lynch~\cite{Lynch-2008} develops similar methods for
+individual. Lynch~\cite{Lynch-2008} develops similar methods for
 estimating gametic disequilibrium as a function of genetic distance
 for a sample from a single diploid individual. He also extends that
 method to samples from a pair of individuals, and he describes how to
@@ -385,6 +469,43 @@ of the loci they detected as outlier had been previously identified as
 targets of selection. The loci they identified as candidates for
 balancing selection have not been suggested before as targets of such
 selection.  
+
+\section*{Estimating population structure}
+
+In addition to $F_{ST}$ we saw that a principal components analysis of
+genetic data might sometimes be useful. Fumagalli et
+al.~\cite{Fumagalli-etal-2013} develop a method for PCA that, like
+Lynch's~\cite{Lynch-2008} method for estimating nucleotide diversity,
+uses all of the information available in NGS data rather than imposing
+an artificial threshold for calling genotypes. They calculate the
+pairwise entries of the covariance matrix by integrating across the
+genotype probabiity at each site as part of the calculation and
+weighting the contribution of each site to the analysis by the
+probability that it is
+variable.\footnote{See~\cite{Fumagalli-etal-2013} for details.} As
+shown in Figure~\ref{fig:Fumagalli-PCA} this approach to PCA recovers
+the structure much better than approaches that simply call genotypes
+at each locus, whether or not outliers are excluded. The authors also
+describe approaches to estimating $F_{ST}$ that take account of the
+characteristics of NGS data. Their software ({\tt ANGSD}:
+\url{http://popgen.dk/wiki/index.php/ANGSD}) implements these and
+other useful statistical analysis tools for next-generation sequencing
+data, including Tajima's D. They also provide {\tt NgsAdmix} for {\tt
+  Structure}-like analyses of NGS
+data~(\url{http://www.popgen.dk/software/index.php/NgsAdmix}). 
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=10cm]{fumagalli-PCA.eps}
+\caption{The ``true genotypes'' PCA is based on the actual, simulated
+  genotypes (20 individuals in each population, 10,000 sites in the
+  sample with 10\% variable; $F_{ST}$ between the purple population
+  and either the red or the green population was 0.4 and between the
+  green and red populations was 0.15; and coverage was simulated at
+  $2\times$~(from~\cite{Fumagalli-etal-2013}).}\label{fig:Fumagalli-PCA}
+\end{center}
+
+\end{figure}
 
 \bibliography{popgen}
 \bibliographystyle{plain}

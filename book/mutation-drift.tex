@@ -29,7 +29,7 @@ have to multiply the expression on the right by the probability that
 neither allele mutated:
 \begin{equation}
 f_{t+1} = \left(\left(\frac{1}{2N}\right) +
-          \left(1 - \frac{1}{2N}\right)f_t\right)(1-\mu)^2 \quad 
+          \left(1 - \frac{1}{2N}\right)f_t\right)(1-\mu)^2 \quad
 \label{eq:f-mu} ,
 \end{equation}
 where $\mu$ is the mutation rate, i.e., the probability that an allele
@@ -60,18 +60,18 @@ introduction of diversity through mutation.\footnote{Technically what
   distribution. We often say that it's ``reached stationarity.'' This
   is an example of a place where the inbreeding analogy breaks down a
   little.}\index{genetic drift!mutation, stationary distribution} From the
-definition of an equilibrium, 
+definition of an equilibrium,
 \begin{eqnarray*}
 \hat f &=& \left(\left(\frac{1}{2N}\right) +
           \left(1 - \frac{1}{2N}\right)\hat f\right)(1-\mu)^2 \\
-\hat f\left(1 - 
+\hat f\left(1 -
 \left(1 - \frac{1}{2N}\right)(1-\mu)^2\right)
        &=& \left(\frac{1}{2N}\right)(1-\mu)^2 \\
 \hat f &=& \frac{\left(\frac{1}{2N}\right)(1-\mu)^2}
            {1 -\left(1 - \frac{1}{2N}\right)(1-\mu)^2} \\
        &\approx& \frac{1 - 2\mu}
            {2N\left(1 - \left(1 - \frac{1}{2N}\right)(1-2\mu)\right)} \\
-       &=& \frac{1 - 2\mu} 
+       &=& \frac{1 - 2\mu}
            {2N\left(1 - 1 + \frac{1}{2N} + 2\mu -
             \frac{2\mu}{2N}\right)} \\
        &=& \frac{1 - 2\mu}{1 + 4N\mu - 2\mu} \\
@@ -157,7 +157,7 @@ one. It imagines that every allele brought into a population is
 different from any of the resident alleles.\footnote{Sounds a lot like
   the infinite alleles model of mutation, doesn't it? Just you
   wait. The parallel gets even more striking.} It also imagines that
-all populations receive the fraction of migrants. Because any
+all populations receive the same fraction of migrants. Because any
 immigrant allele is different, by assumption, from any resident allele
 we don't even have to keep track of how far apart populations are from
 one another, since populations close by will be no more similar to one
@@ -165,7 +165,7 @@ another than populations far apart. This is Wright's island model of
 migration. Given these assumptions, we can write the following:
 \begin{equation}
 f_{t+1} = \left(\left(\frac{1}{2N}\right) +
-          \left(1 - \frac{1}{2N}\right)f_t\right)(1-m)^2 \quad 
+          \left(1 - \frac{1}{2N}\right)f_t\right)(1-m)^2 \quad
 \label{eq:f-m} .
 \end{equation}
 
@@ -216,7 +216,7 @@ one new immigrant every other generation, on average, they'll tend not
 to diverge in allele frequency from one another.\footnote{In the sense
   that the stationary distribution of allele frequencies is
   hump-shaped.} It doesn't make any difference if the populations have
-a million individuals a piece or ten. One new immigrant every other
+a million individuals apiece or ten. One new immigrant every other
 generation is enough to keep them from diverging.
 
 With a little more reflection, this result is less surprising than it

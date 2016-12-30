@@ -5,7 +5,7 @@
 \usepackage{html}
 \usepackage{url}
 
-\newcommand{\copyrightYears}{2010-2012}
+\newcommand{\copyrightYears}{2010-2015}
 
 \title{Association mapping: the background from two-locus genetics}
 
@@ -16,6 +16,54 @@
 \thispagestyle{first}
 
 \section*{Introduction}
+
+One approach to understanding more about the genetics of quantitative
+traits takes advantage of the increasing number of genetic markers
+available as a result of recent advances in molecular
+genetics. Suppose you have two inbred lines that differ in a trait
+that interests you, say body weight or leaf width. Call one of them
+the ``high'' line and the other the ``low''
+line.\footnote{Corresponding to whether the body weight or leaf width
+  is large or small.} Further suppose that you have a whole bunch of
+molecular markers that differ between the two lines, and designate the
+genotype in the ``high'' line $A_1A_1$ and the genotype in the low
+line $A_2A_2$.\footnote{Since these are inbred lines, I can assume
+  that they are homozygous at the marker loci I've chosen.} One last
+supposition: Suppose that at loci influencing the phenotype you're
+studying the genotype in the ``high'' line is $Q_1Q_1$ and the
+genotype in the ``low'' line is $Q_2Q_2$. Each of these loci is what
+we call a {\it quantitative trait locus\/} or QTL.\index{quantitative
+  trait locus}\index{QTL} Now do the following experiment:
+
+\begin{itemize}
+
+\item Cross the ``high'' line and the ``low'' line to construct an
+  $F_1$. 
+
+\item Intercross individuals in the $F_1$ generation to form an
+  $F_2$.\footnote{Note: You could also backcross to either or both of
+    the parental inbred lines. Producing an $F_2$, however, allows you
+    to estimate both the additive and dominance effects associated
+    with each QTL.}
+
+\item ``Walk'' through the genome\footnote{I forgot to mention another
+    supposition. I am supposing that you either have already
+    constructed a genetic map using your markers, or that you will
+    construct a genetic map using segregation in the $F_2$ before you
+    start looking for QTL loci.} calculating a likelihood score for a
+  QTL at a particular map position, using what we know about the
+  mathematics of recombination rates and Mendelian genetics. In
+  calculating the likelihood score we maximize the likelihood of the
+  data assuming that there is a QTL at this position and estimating
+  the corresponding additive and dominance effects of the allele. We
+  then identify QTLs as those loci where there are ``significant''
+  peaks in the map of likelihood scores.\footnote{See
+    \url{http://darwin.eeb.uconn.edu/eeb348/lecture-notes/qtl-intro.pdf}
+    for more details.}
+
+\end{itemize}
+The result is a genetic map showing where QTLs are in the genome and
+indicating the magnitude of their additive and dominance effects.
 
 QTL mapping is wonderful{\dash}provided that you're working with an
 organism where it's possible to design a breeding program and where
@@ -264,9 +312,131 @@ correct. If we can detect a statistical association between a marker
 locus and a phenotypic trait, it suggests that the marker locus and a
 locus influence expression of the trait are physically linked. So how
 do we detect such an association and why do I say that it {\it
-  suggests} the loci are physically linked?\footnote{Rather than
-  concluding definitely that they {\it are\/} physically linked.}
-Funny you should ask. That's the subject of the next set of notes.
+  suggests} the loci are physically linked?
+
+\section*{Population structure with two loci}
+
+You can probably guess where this is going. With one locus I showed
+you that there's a deficiency of heterozygotes in a combined sample
+even if there's random mating within all populations of which the
+sample is composed. The two-locus analog is that you can have gametic
+disequilibrium in your combined sample even if the gametic
+disequilibrium is zero in all of your constituent
+populations. Table~\ref{table:d-structure} provides a simple numerical
+example involving just two populations in which the combined sample
+has equal proportions from each population.\item{Wahlund effect!two loci}
+
+\begin{table}
+\begin{center}
+\begin{tabular}{c|cccc|cc|c}
+\hline\hline
+           & \multicolumn{4}{c|}{Gamete frequencies} 
+           & \multicolumn{2}{c|}{Allele frequencies} \\
+Population & $A_1B_1$ & $A_1B_2$ & $A_2B_1$ & $A_2B_2$ 
+           & $p_{i1}$ & $p_{i2}$ & $D$ \\
+\hline
+1          & 0.24     & 0.36     & 0.16    & 0.24
+           & 0.60     & 0.40     & 0.00 \\
+2          & 0.14     & 0.56     & 0.06    & 0.24
+           & 0.70     & 0.20     & 0.00 \\
+Combined   & 0.19     & 0.46     & 0.11    & 0.24
+           & 0.65     & 0.30     & -0.005 \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Gametic disequilibrium in a combined population
+  sample.}\label{table:d-structure}
+\end{table}
+
+\subsection*{The gory details}
+
+You knew that I wouldn't be satisfied with a numerical example, didn't
+you? You knew there had to be some algebra coming, right? Well, here
+it is. Let
+\begin{eqnarray*}
+D_i &=& x_{11,i} - p_{1i}p_{2i} \\
+D_t &=& \bar x_{11} - \bar p_1\bar p_2 \quad ,
+\end{eqnarray*}
+where $\bar x_{11} = \frac{1}{K} \sum_{k=1}^K x_{11,k}$, $\bar p_1 =
+\frac{1}{K} \sum_{k=1}^K p_{1k}$, and $\bar p_2 = \frac{1}{K}
+\sum_{k=1}^K p_{2k}$. Given these definitions, we can now caclculate
+$D_t$. 
+\begin{eqnarray*}
+D_t &=& \bar x_{11} - \bar p_1\bar p_2 \\
+    &=& \frac{1}{K} \sum_{k=1}^K x_{11,k} - \bar p_1\bar p_2 \\
+    &=& \frac{1}{K} \sum_{k=1}^K (p_{1k}p_{2k} + D_k) - \bar p_1\bar p_2 \\
+    &=& \frac{1}{K} \sum_{k=1}^K (p_{1k}p_{2k} - \bar p_1\bar p_2) + \bar D \\
+    &=& \mbox{Cov}(p_1, p_2) + \bar D \quad ,
+\end{eqnarray*}
+where $\mbox{Cov}(p_1, p_2)$ is the covariance in allele frequencies
+across populations and $\bar D$ is the mean within-population gametic
+disequilibrium. Suppose $D_i = 0$ for all subpopulations. Then $\bar D
+= 0$, too (obviously). But that means that
+\begin{eqnarray*}
+D_t &=& \hbox{Cov}(p_1, p_2) \quad .
+\end{eqnarray*}
+So if allele frequencies covary across populations, i.e.,
+$\mbox{Cov}(p_1, p_2) \ne 0$, then there will be non-random
+association of alleles into gametes in the sample, i.e., $D_t \ne 0$,
+even if there is random association alleles into gametes within each
+population.\footnote{Well, duh! Covariation of allele frequencies
+  across populations means that alleles are non-randomly associated
+  across populations. What other result could you possibly expect?}
+
+Returning to the example in Table~\ref{table:d-structure}
+\begin{eqnarray*}
+\mbox{Cov}(p_1, p_2) &=& 0.5(0.6-0.65)(0.4-0.3) + 0.5(0.7-0.65)(0.2-0.3) \\
+                     &=& -0.005 \\
+\bar x_{11}          &=& (0.65)(0.30) - 0.005 \\
+                     &=& 0.19 \\
+\bar x_{12}          &=& (0.65)(0.7) + 0.005 \\
+                     &=& 0.46 \\
+\bar x_{21}          &=& (0.35)(0.30) + 0.005 \\
+                     &=& 0.11 \\
+\bar x_{22}          &=& (0.35)(0.70) - 0.005 \\
+                     &=& 0.24 \quad .
+\end{eqnarray*}
+
+\section*{Association mapping}
+
+So what does any of this have to do with QTL mapping? Imagine that we
+have a well-mixed population segregating both for a lot of molecular
+markers spread throughout the genome and for loci influencing a trait
+we're interested in, like body weight or leaf width. Let's call our
+measurement of that trait $z_i$ in the $i$th individual. Let $x_{ij}$
+be the genotype of individual $i$ at the $j$th locus.\footnote{To keep
+  things simple I'm assuming that we're dealing with biallelic loci,
+  e.g., SNPs, and we can then order the genotypes as 0, 1, 2 depending
+  on how many copies of the most frequent allele they carry.} Then to
+do association mapping, we simply fit the following regression model:
+\[
+y_i = x_{ij}\beta_j + \epsilon_{ij} \quad ,
+\]
+where $\epsilon_{ij}$ is the residual error in our regression estimate
+and $\beta_j$ is our estimate of the effect of substituting one allele
+for another at locus $j$, i.e., the additive effect of an allele at
+locus $j$. If $\beta_j$ is significantly different from 0, we have
+evidence that there is a locus linked to this marker that influences
+the phenotype we're interested in.
+
+Notice that I claimed we have evidence that the locus is
+linked. That's a bit of sleight of hand. What we have evidence for
+directly is that the locus is {\it associated}. As we've just seen,
+though, that association could reflect population structure rather
+than physical linkage. So in practice the regression model we fit is a
+bit more complicated than the one I showed. The simplest case is when
+individuals fall into obvious groups, e.g., samples from different
+populations. Then $y_i^{(k)}$ is the trait value for individual
+$i$. The superscript $(k)$ indicates that this individual belongs to
+group $k$.
+\[
+y_i^{(k)} = x_{ij}\beta_j + \phi^{(k)} + \epsilon_{ij} \quad .
+\]
+The difference between this model and the one above is that we include
+a random effect of group, $\phi^{(k)}$, to account for the fact that
+individuals may have similar phenotypes not because of similarity in
+genotypes at loci close to those we've scored but because of their
+similarity at other loci that differ among groups.
 
 \bibliography{popgen}
 \bibliographystyle{plain}

@@ -5,7 +5,7 @@
 \usepackage{html}
 \usepackage{url}
 
-\newcommand{\copyrightYears}{2001-2012}
+\newcommand{\copyrightYears}{2001-2015}
 
 \title{Evolution of quantitative traits}
 
@@ -256,7 +256,7 @@ This equation is often referred to as the {\it breeders
 \subsection*{A Numerical Example}
 
 To illustrate how this works, let's examine the simple example in
-Table~\ref{table:example}. 
+Table~\ref{table:evolution-example}. 
 
 \begin{table}
 \begin{center}
@@ -268,7 +268,7 @@ Phenotype & 1.303  & 1.249  & 0.948 \\
 \end{tabular}
 \end{center}
 \caption{A simple example to illustrate response to selection in a
-quantitative trait.}\label{table:example}
+quantitative trait.}\label{table:evolution-example}
 \end{table}
 
 Given these phenotypes, $p = 0.25$, and $V_p = 0.16$, it follows that
@@ -372,7 +372,9 @@ Now we can plug these back into the equation for $\Delta\bar w$:
 where the last step follows from the observation that $V_a =
 2pq\alpha^2$.  The quantity ${{pq} \over {2{\bar w}}}(w_{11} - 2w_{12}
 + w_{22})$ is usually quite small, especially if selection is not too
-intense.  So we are left with
+intense.\footnote{Notice that it's exactly equal to 0 if the fitness
+  of the heterozygote is exactly intermediate. In that case, all of
+  the variance in fitness is additive.}  So we are left with
 \[
 \Delta {\bar w} \approx {V_a \over {\bar w}} \quad .
 \]

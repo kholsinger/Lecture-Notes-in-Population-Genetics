@@ -1,0 +1,86 @@
+\chapter{Supplementary notes on GDA}
+
+When I talked about how $F$-statistics could be partitioned into
+multiple levels, I imagined a situation in which we might have
+
+\begin{itemize}
+
+\item Inbreeding within local populations ($F_{IS}$).
+
+\item Differentiation among local populations within regions
+  ($F_{SR}$).
+
+\item Differentiation among regions ($F_{RT}$).
+
+\end{itemize}
+
+\noindent I also pointed out that we can relate these statistics to
+the overall departure from Hardy-Weinberg through the relation
+\[
+1-F_{IT} = (1-F_{IS})(1-F_{SR})(1-F_{RT}) \quad .
+\]
+
+\section*{An example}
+
+We have data from {\it Bulinus truncatus\/}, a freswater snail to
+illustrate this multilevel partitioning. When you make the estimates
+in {\tt GDA}, however, you may be a little confused because what
+you'll get is a table that reports $f$, $F$, $\theta_S$, and
+$\theta_P$. From what we've already seen, you can probably guess that
+$f$ is our estimate of $F_{IS}$ and the $F$ is our estimate of
+$F_{IT}$. That means that $\theta_s$ and $\theta_P$ are related to
+$F_{SR}$ and $F_{RT}$, but how? Well, $F_{RT}$ corresponds to
+$\theta_P$,\footnote{That's fairly easy.} and $F_{SR}$ corresponds to 
+\[
+\frac{\theta_S - \theta_P}{1 - \theta_P} \quad .
+\]
+So when we run {\tt GDA} on the {\it Bulinus\/} data we get the
+results in Table~\ref{table:bulinus-gda}. Translating those to
+$F_{IT}$, $F_{IS}$, $F_{SR}$, and $F_{RT}$ we get the results in
+Table~\ref{table:bulinus-fst}.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{cc}
+\hline\hline
+Parameter  & Value \\
+\hline
+$f$        & 0.83 \\
+$F$        & 0.87 \\
+$\theta_S$ & 0.24 \\
+$\theta_P$ & 0.04 \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Results from a {\tt GDA} analysis of data from {\it Bulinus
+    truncatus}, a freshwater snail.}\label{table:bulinus-gda}
+\end{table}
+
+\begin{table}
+\begin{center}
+\begin{tabular}{cc}
+\hline\hline
+Parameter  & Value \\
+\hline
+$F_{IS}$   & 0.83 \\
+$F_{IT}$   & 0.87 \\
+$F_{SR}$   & 0.21 \\
+$F_{RT}$   & 0.04 \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Results from a {\tt GDA} analysis of data from {\it Bulinus
+    truncatus}, a freshwater snail. Translated to equivalent
+  $F$-statistics.}\label{table:bulinus-gda} 
+\end{table}
+
+\subsection*{Interpretation}
+
+Recall that $F_{SR}$ can be interpreted as the amount of genetic
+differentiation among populations within geographical regions and that
+$F_{RT}$ can be interpreted as the amount of genetic differentiation
+among geographical regions. What these data show us is that there are
+much greater differences among populations within geographical regions
+($F_{SR}=0.21$) than there are among geographical regions
+($F_{RT}=0.04$).
+
