@@ -1,3 +1,7 @@
+## don't include Emacs backup files
+##
+*~
+
 ## LaTeX files to ignore
 ##
 *.aux
