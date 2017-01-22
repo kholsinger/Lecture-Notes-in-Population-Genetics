@@ -20,14 +20,16 @@ well-mixed population.
 
 For example, suppose we have two subpopulations of green lacewings,
 one of which occurs in forests the other of which occurs in adjacent
-meadows. Suppose further that within each subpopulation mating occurs
-completely at random, but that there is no mating between forest and
-meadow individuals. Suppose we've determined allele frequencies in
-each population at a locus coding for phosglucoisomerase ($PGI$),
-which conveniently has only two alleles. The frequency of $A_1$ in the
-forest is 0.4 and in the meadow in 0.7. We can easily calculate the
-expected genotype frequencies within each population,
-namely\index{Wahlund effect}
+meadows.\footnote{Those of you who've been in EEB for a while will
+  know that these are probably different species, but humor me, and
+  forget that you know that.} Suppose further that within each
+subpopulation mating occurs completely at random, but that there is no
+mating between forest and meadow individuals. Suppose we've determined
+allele frequencies in each population at a locus coding for
+phosglucoisomerase ($PGI$), which conveniently has only two
+alleles. The frequency of $A_1$ in the forest is 0.4 and in the meadow
+in 0.7. We can easily calculate the expected genotype frequencies
+within each population, namely\index{Wahlund effect}
 
 \begin{center}
 \begin{tabular}{l|rrr}
@@ -145,7 +147,10 @@ conclude that\index{Wahlund effect!properties}
   frequencies.\footnote{For example, if we combine samples from
     different years or across age classes of long-lived organisms, we
     may see a deficienty of heterozygotes in the sample purely as a
-    result of allele frequency differences across years.}
+    result of allele frequency differences across years. Remember that
+    I told you one of the assumptions underlying derivation of the
+    Hardy-Weinberg principle is that generations are
+    non-overlapping. This is why.}
 
 \item The same general phenomenon will occur if there are multiple
   alleles at a locus, although it is possible for one or a few
@@ -403,26 +408,26 @@ estimates.\index{unbiased estimates}
 The concept of statistical expectation is actually quite an easy
 one. It is an arithmetic average, just one calculated from
 probabilities instead of being calculated from samples. So, for
-example, if $\mbox{P}(k)$ is the probability that we find $k$ $A_1$
-alleles in our sample the {\it expected number\/} of $A_1$ alleles in
-our sample is just
+example, let $\mbox{P}(k|p)$ be the probability that we find $k$ $A_1$
+alleles in our sample given that the allele frequency in the
+population is $p$. Then the {\it expected number\/} of $A_1$ alleles
+in our sample is just
 \begin{eqnarray*}
-\mbox{E}(k) &=& \sum k \mbox{P}(k) \\
+\mbox{E}(k) &=& \sum_{k=1}^n k \mbox{P}(k) \\
      &=& n p \quad , \\
 \end{eqnarray*}
-where $n$ is the total number of alleles in our sample and $p$ is the
-frequency of $A_1$ in our sample.\footnote{$\mbox{P}(k) = {N
-  \choose k}p^k(1-p)^{N-k}$. The algebra in getting from the first
-  line to the second is a little complicated, but feel free to ask me
-  about it if you're intersted.}
+where $n$ is the total number of alleles in our
+sample.\footnote{$\mbox{P}(k) = {N \choose k}p^k(1-p)^{N-k}$. The
+  algebra in getting from the first line to the second is a little
+  complicated, but feel free to ask me about it if you're intersted.}
 
 Now consider the expected value of our sample estimate of the
 population allele frequency, $\hat p = k/n$, where $k$ now refers to
 the number of $A_1$ alleles we actually found.
 \begin{eqnarray*}
-\mbox{E}(\hat p) &=& \mbox{E}\left(\sum (k/n)\right) \\
-          &=& \sum (k/n) P(k) \\
-          &=& (1/n)\left(\sum k P(k)\right) \\
+\mbox{E}(\hat p) &=& \mbox{E}\left(\sum_{k=1}^n (k/n)\right) \\
+          &=& \sum_{k=1}^n (k/n) P(k) \\
+          &=& (1/n)\left(\sum_{k=1}^n k P(k)\right) \\
           &=& (1/n)(n p) \\
           &=& p \quad . \\
 \end{eqnarray*}
@@ -442,6 +447,7 @@ p)$. Well,
 \begin{eqnarray*}
 \mbox{E}(\tilde H) &=& \mbox{E}\left(2\hat p (1 - \hat p)\right) \\
      &=& 2\left(\mbox{E}(\hat p) - \mbox{E}({\hat p}^2)\right) \\
+     &=& \mbox{TAMO} \\
      &=& ((n-1)/n)2p(1-p) \quad . \\
 \end{eqnarray*}
 Because $\mbox{E}(\tilde H) \ne 2p(1-p)$, $\tilde H$ is a {\it biased
@@ -449,7 +455,8 @@ estimate\/} of $2p(1-p)$. If we set $\hat H = (n/(n-1))\tilde H$,
 however, $\hat H$ is an unbiased estimator of $2p(1-p)$.\footnote{If
   you're wondering how I got from the second equation for $\hat H$ to
   the last one, ask me about it or read the gory details section that
-  follows.}
+  follows. TAMO is short for ``Then a miracle occurs.'' You'll see
+  that repeatedly this semester.}
 
 If you've ever wondered why you typically divide the sum of squared
 deviations about the mean by $n-1$ instead of $n$ when estimating the

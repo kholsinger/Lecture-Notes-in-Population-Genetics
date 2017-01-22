@@ -1,10 +1,10 @@
 \chapter{Inbreeding and self-fertilization}
 
 Remember that long list of assumptions associated with derivation of
-the Hardy-Weinberg principle that I went over a couple of lectures
-ago? Well, we're about to begin violating assumptions to explore the
-consequences, but we're not going to violate them in order. We're
-first going to violate Assumption \#2:\index{inbreeding}
+the Hardy-Weinberg principle that we just finished? Well, we're about
+to begin violating assumptions to explore the consequences, but we're
+not going to violate them in order. We're first going to violate
+Assumption \#2:\index{inbreeding}
 
 \begin{quote}
 Genotypes mate at random with respect to their genotype at this
@@ -161,26 +161,27 @@ self-fertilization.\index{inbreeding!partial
   self-fertilization}\index{self-fertilization!partial} To a
 population geneticist that means that they reproduce by a mixture of
 selfing and random mating.\footnote{It would be more accurate to
-  write: ``Population geneticists usually model this mixture as a
-  mixture of self-fertilization and random mating. That simple model
-  ignores a lot of complexity in how self-fertilization happens, but
-  it's a useful approximation for most purposes.''} Now I'm going to
-pull a fast one and derive the equations that determine how allele
-frequencies change from one generation to the next without using a
-mating table. To do so, I'm going to imagine that our population
-consists of a mixture of two populations. In one part of the
-population all of the reproduction occurs through self-fertilization
-and in the other part all of the reproduction occurs through random
-mating. If you think about it for a while, you'll realize that this is
-equivalent to imagining that each plant reproduces some fraction of
-the time through self-fertilization and some fraction of the time
-through random mating.\footnote{Again, it would be more accurate to
-  write: ``If you tink about it for a while, you'll realize that for
-  purposes of understanding how genotype frequencies change through
-  time this is equivalent to assuming that each plant produces some
-  fraction of its progeny through self-fertilization and some fraction
-  through outcrossing.''} Let $\sigma$ be the fraction of progeny
-produced through self-fertilization, then
+  write: ``Population geneticists usually model partial
+  self-fertilization as a mixture of self-fertilization and random
+  mating. That simple model ignores a lot of complexity in how
+  self-fertilization happens, but it's a useful approximation for most
+  purposes.''} Now I'm going to pull a fast one and derive the
+equations that determine how allele frequencies change from one
+generation to the next without using a mating table. To do so, I'm
+going to imagine that our population consists of a mixture of two
+populations. In one part of the population all of the reproduction
+occurs through self-fertilization and in the other part all of the
+reproduction occurs through random mating. If you think about it for a
+while, you'll realize that this is equivalent to imagining that each
+plant reproduces some fraction of the time through self-fertilization
+and some fraction of the time through random mating.\footnote{Again,
+  it would be more accurate to write: ``If you tink about it for a
+  while, you'll realize that for purposes of understanding how
+  genotype frequencies change through time this is equivalent to
+  assuming that each plant produces some fraction of its progeny
+  through self-fertilization and some fraction through outcrossing.''}
+Let $\sigma$ be the fraction of progeny produced through
+self-fertilization, then
 \begin{eqnarray}
 x_{11}' &=& p^2(1-\sigma) + (x_{11} + x_{12}/4)\sigma \\
 x_{12}' &=& 2pq(1-\sigma) + (x_{12}/2)\sigma  \label{eq:het} \\
@@ -399,16 +400,13 @@ any mutations since they diverged from one another.
 Let's imagine for a moment, however, that we've traced back the
 ancestry of all alleles in a particular population to what we call a
 {\it reference population\/}, i.e., a population in which we regard
-all alleles as unrelated.\index{reference population}\index{inbreeding} That's equivalent
+all alleles as unrelated.\index{reference population}\index{inbreeding|reference population} That's equivalent
 to saying that alleles chosen at random from this population have zero
-probability of being identical by descent. Let's also make the further
-assumption that every allele in our reference population is
-distinguishable from every other allele. That means that in descendant
-populations two alleles that are are identical by type will also be
-identical by descent. Given all of these assumptions we can write down
-the genotype frequencies in a descendant population once we know $f$,
-where we define $f$ as the probability that two alleles chosen at
-random in the descendant population are identical by descent:
+probability of being identical by descent. Given this assumption we
+can write down the genotype frequencies in a descendant population
+once we know $f$, where we define $f$ as the probability that two
+alleles chosen at random in the descendant population are identical by
+descent:
 
 \begin{eqnarray}
 x_{11} &=& p^2(1-f) + fp \\

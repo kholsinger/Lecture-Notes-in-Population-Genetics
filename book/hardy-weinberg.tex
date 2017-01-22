@@ -3,19 +3,24 @@
 To keep things relatively simple, we'll spend much of our time in this
 course talking about variation at a single genetic locus, even though
 alleles at many different loci are involved in expression of most
-morphological or physiological traits. We'll spend about three weeks
-in mid-October studying the genetics of quantitative variation, but
-until then you can asssume that I'm talking about variation at a
-single locus unless I specifically say otherwise.
+morphological or physiological traits. We'll finish the course by
+studying the genetics of quantitative variation, but until then you
+can asssume that I'm talking about variation at a single locus unless
+I specifically say otherwise.\footnote{You'll see in a week or a week
+  and a half when we talk about analysis of population structure that
+  we start discussing variation at many loci. But you'll also see that
+  in spite of discussing variation at many loci simultaneously,
+  virtually all of the underlying mathematics is based on the
+  properties of those loci considered one at a time.}
 
 \section*{The genetic composition of populations}
 
 When I talk about the genetic composition of a population, I'm
-referring to three aspects of variation within that
+referring to three aspects of genetic variation within that
 population:\footnote{At each locus I'm talking about. Remember, I'm
   only talking about one locus at a time, unless I specifically say
   otherwise. We'll see why this matters when we get to two-locus
-  genetics in a few weeks.}\index{genetic composition of populations}
+  genetics towards the end of the course.}\index{genetic composition of populations} 
 \begin{enumerate}
 
 \item The number of alleles at a locus.
@@ -66,7 +71,7 @@ components:\index{mating table}
 \begin{tabular}{rcccc}
 \hline\hline
                        &           & \multicolumn{3}{c}{Offsrping genotype} \\
-Mating                 & Frequency     & $A_1A_1$ & $A_1A_2$ & $A_2A_2$ \\
+Female $\times$ Male   & Frequency     & $A_1A_1$ & $A_1A_2$ & $A_2A_2$ \\
 \hline
 $A_1A_1 \times A_1A_1$ & $x_{11}^2$     &        1 &        0 &        0 \\
               $A_1A_2$ & $x_{11}x_{12}$ &    $\half$ &    $\half$ &        0 \\
@@ -81,9 +86,15 @@ $A_2A_2 \times A_1A_1$ & $x_{22}x_{11}$ &        0 &        1 &        0 \\
 \hline
 \end{tabular}
 \end{center}
-Believe it or not, in constructing this table we've already made three
-assumptions about the transmission of genetic variation from one
-generation to the next:\index{Hardy-Weinberg assumptions}
+Notice that I've distinguished matings by both maternal and paternal
+genotype. While it's not necessary for this example, we will see
+examples later in the course where it's important to distinguish a
+mating in which the female is $A_1A_1$ and the male is $A_1A_2$ from
+ones in which the female is $A_1A_2$ and the male is $A_1A_1$. You are
+also likely to be surprised to lean that just in writing this table
+we've already made three assumptions about the transmission of genetic
+variation from one generation to the next:\index{Hardy-Weinberg
+  assumptions}
 
 \begin{description}
 
@@ -106,9 +117,9 @@ generation to the next:\index{Hardy-Weinberg assumptions}
   may come as a surprise to you, but there are alleles at some loci in
   some organisms that subvert the Mendelian rules, e.g., the $t$
   allele in house mice, segregation distorter in {\it Drosophila
-    melanogaster}, and spore killer in {\it Neurospora crassa\/}. A
-  pair of papers describing work in {\it Neurospora\/} just appeared a
-  couple of years ago~\cite{Hammond-etal-2012,Saupe-2012}.
+    melanogaster}, and spore killer in {\it Neurospora crassa\/}. If
+  you're interested, a pair of papers describing work in {\it
+    Neurospora\/} appeared in 2012~\cite{Hammond-etal-2012,Saupe-2012}.
 
 \end{description}
 Now that we have this table we can use it to calculate the frequency
@@ -159,7 +170,8 @@ more assumptions:
 
 \begin{description}
 
-\item[Assumption \#7] Generations do not overlap.
+\item[Assumption \#7] Generations do not overlap.\footnote{Or the
+    allele frequency is the same in generations that do overlap.}
 
 \item[Assumption \#8] There are no differences among genotypes in the
 probability of survival.
@@ -184,11 +196,11 @@ assumptions are satisfied
 \item If Assumptions \#1--\#8 are true, then equations
   \ref{eq:hw-p2}--\ref{eq:hw-q2} {\bf must} be true.
 
-\item If genotypes are in Hardy-Weinberg proportions, one or more of
-  Assumptions \#1--\#8 may still be violated.
-
 \item If genotypes are {\it not\/} in Hardy-Weinberg proportions, one
   or more of Assumptions \#1--\#8 {\bf must} be false.
+
+\item If genotypes are in Hardy-Weinberg proportions, one or more of
+  Assumptions \#1--\#8 may still be violated.
 
 \item Assumptions \#1--\#8 are {\it sufficient\/} for Hardy-Weinberg
   to hold, but they are not {\it necessary\/} for Hardy-Weinberg to
@@ -196,7 +208,7 @@ assumptions are satisfied
 
 \end{enumerate}
 
-Point (3) is why the Hardy-Weinberg principle is so important. There
+Point (2) is why the Hardy-Weinberg principle is so important. There
 isn't a population of any organism anywhere in the world that
 satisfies all 8 assumptions, even for a single
 generation.\footnote{There may be some that come reasonably close, but
@@ -290,9 +302,7 @@ estimates of the allele frequencies.\footnote{I should point out that
   this method {\it assumes\/} that genotypes are found in
   Hardy-Weinberg proportions.}
 
-Consider the following example:\footnote{This is the default example
-available in the Java applet at
-\htmladdnormallink{http://darwin.eeb.uconn.edu/simulations/em-abo.html}{http://darwin.eeb.uconn.edu/simulations/em-abo.html}.}
+Consider the following example:
 \begin{center}
 \begin{tabular}{l|rrrr}
 \hline\hline
@@ -322,10 +332,11 @@ and $p_o = 0.256$.
 
 I just told you that the method I described produces
 ``maximum-likelihood estimates'' for the allele frequencies, but I
-haven't told you what a maximum-likelihood estimate is. The good news
-is that you've been using maximum-likelihood estimates for as long as
-you've been estimating anything, without even knowing it. Although it
-will take me awhile to explain it, the idea is actually pretty simple.
+haven't told you what a maximum-likelihood estimate {\it is\/}. The
+good news is that you've been using maximum-likelihood estimates for
+as long as you've been estimating anything, without even knowing
+it. Although it will take me awhile to explain it, the idea is
+actually pretty simple.
 
 Suppose we had a sock drawer with two colors of socks, red and
 green. And suppose we were interested in estimating the proportion of
@@ -399,11 +410,7 @@ we use to learn about the world in everyday life. We start with some
 prior beliefs, $\mbox{P}(\phi)$, and modify them on the basis of data
 or experience, $\mbox{P}(x|\phi)$, to reach a conclusion,
 $\mbox{P}(\phi|x)$. That's the underlying logic of Bayesian
-inference.\footnote{If you'd like a little more information on why a
-  Bayesian approach makes sense, you might want to take a look at my
-  lecture notes from the \htmladdnormallink{Summer Institute in
-    Statistical
-    Genetics}{http://darwin.eeb.uconn.edu/summer-institute/summer-institute.html}.}
+inference.\index{Bayesian inference}
 
 \subsection*{Estimating allele frequencies with two alleles}
 
@@ -430,16 +437,16 @@ prior to collecting the data.\footnote{If we had prior information
   distribution to reflect our prior information. See the Summer
   Institute notes for more information, if you're interested.}
 
-Until about 25 years ago\footnote{OK, I realize that 25 years ago was
-  before most of you were born, but I was already teaching population
-  genetics then. Cut me a little slack.} it was necessary to do a
-bunch of complicated calculus to combine the prior with the likelihood
-to get a posterior. Since the early 1990s statisticians have used a
-simulation approach, Monte Carlo Markov Chain sampling, to construct
-numerical samples from the posterior. For the problems encountered in
-this course, we'll mostly be using the freely available software
-package {\tt JAGS} to implement Bayesian analyses. For the problem
-we just encountered, here's the code that's needed to get our
+Until a little over 25 years ago\footnote{OK, I realize that 25 years
+  ago was before most of you were born, but I was already teaching
+  population genetics then. Cut me a little slack.} it was necessary
+to do a bunch of complicated calculus to combine the prior with the
+likelihood to get a posterior. Since the early 1990s statisticians
+have used a simulation approach, Monte Carlo Markov Chain sampling, to
+construct numerical samples from the posterior. For the problems
+encountered in this course, we'll mostly be using the freely available
+software package {\tt JAGS} to implement Bayesian analyses. For the
+problem we just encountered, here's the code that's needed to get our
 results:\footnote{This code and other {\tt JAGS} code used in the
   course can be found on the course web site by following the links
   associated with the corresponding
@@ -486,10 +493,8 @@ DIC is an estimate of expected predictive error (lower deviance is better).
 
 
 The column headings should be fairly self-explanatory, except for the
-one labeled {\tt MC error}.\footnote{If you're interested in what {\tt
-    MC error} means, ask. Otherwise, I don't plan to say anything
-  about it.} {\tt mean} is the posterior mean. It's our best guess of
-the value for the frequency of the {\it fast\/} allele. {\tt s.d.} is
+one last two. {\tt mu.vect} is the posterior mean. It's our best guess of
+the value for the frequency of the {\it fast\/} allele. {\tt sd.vect} is
 the posterior standard deviation. It's our best guess of the
 uncertainty associated with our estimate of the frequency of the {\it
   fast\/} allele. The 2.5\%, 50\%, and 97.5\% columns are the
@@ -503,12 +508,7 @@ allele lies within this interval.\footnote{If you don't understand why
 produce slightly different results. In this case, we have a posterior
 mean of about 0.36 (as opposed to the maximum-likelihood estimate of
 0.35), and there is a 95\% chance that $p$ lies in the interval [0.19,
-0.57].\footnote{See the Summer Institute notes for more details on why
-  the Bayesian estimate of $p$ is different from the
-  maximum-likelihood estimate. Suffice it to say that when you have a
-  reasonable amount of data, the estimates are barely
-  distinguishable. Also, don't worry about what {\tt deviance\/} is or
-what {\tt DIC\/} means for the moment. We'll get to that later.}
+0.57].
 
 \section*{Returning to the ABO example}
 
