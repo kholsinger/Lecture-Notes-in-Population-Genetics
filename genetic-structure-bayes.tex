@@ -4,7 +4,7 @@
 \usepackage{graphics}
 \usepackage{epstopdf}
 
-\newcommand{\copyrightYears}{2004-2015}
+\newcommand{\copyrightYears}{2004-2017}
 
 \title{Analyzing the genetic structure of populations: a Bayesian approach}
 
@@ -47,18 +47,10 @@ are some real advantages associated with doing so.
 \section*{The Bayesian model}
 
 I'm not going to provide all of the gory details on the Bayesian
-model. If you're interested you can find most of them in my lecture
-notes from the \htmladdnormallink{Summer Institute in Statistical
-  Genetics}{http://darwin.eeb.uconn.edu/summer-institute/summer-institute.html}
-last summer.\footnote{Or you can read Holsinger and
-  Wallace~\cite{Holsinger-Wallace-2004}, which I've linked to from the
-  course web site.} In fact, I'm only going to describe two pieces of
-the model.\footnote{The good news is that to do the Bayesian analyses
-  in this case, you don't have to write any {\tt JAGS} code. I'll
-  provide the code, Alternatively, you can use a standalone program,
-  {\tt Hickory}, that will do the analysis for your, provided you're
-  willing to get your data into a format that {\tt Hickory}
-  recognizes.} First, a little notation:
+model. In fact, I'm only going to describe two pieces of the
+model.\footnote{The good news is that to do the Bayesian analyses in
+  this case, you don't have to write any {\tt JAGS} code. I'll provide
+  the code.} First, a little notation:
 \begin{eqnarray*}
 n_{11,i} &=& \hbox{\# of $A_1A_1$ genotypes} \\
 n_{12,i} &=& \hbox{\# of $A_1A_2$ genotypes} \\
@@ -79,6 +71,9 @@ multinomial probabilities
 P({\bf n}|{\bf p},f) \propto \prod_{i=1}^I x_{11,i}^{n_{11,i}}
 x_{12,i}^{n_{12,i}} x_{22,i}^{n_{22,i}} \quad .
 \]
+Notice that I am assuming here that we have the same $f$ in every
+population. It's easy enough to relax that assumption, but we won't
+worry about it here.
 
 To complete the Bayesian model, all we need are some appropriate
 priors. Specifically, we so far haven't done anything to describe the
@@ -108,7 +103,7 @@ dunif(0,1)} in {\tt JAGS} notation} is a natural choice.
 \begin{figure}
 \resizebox{\textwidth}{!}{\includegraphics{beta-distribution.eps}}
 \caption{Shapes of the Beta distribution for different choices of
-  $\pi$ and $\theta$. In the figure captions ``p'' corresponds to $\pi$,
+  $\pi$ and $\theta$. In the figure captions ``p.bar'' corresponds to $\pi$,
   and ``theta'' corresponds to $\theta$.}\label{fig:beta}
 \end{figure}
 
@@ -200,11 +195,11 @@ collected, and the remaining columns are the genotype (scored as 0, 1,
 2) of the individual at a particular locus.
 
 The {\it Isotoma petraea\/} data come to us in a somewhat different
-format, so there's also a script that constructs the necessary input
-list and calls {\tt analyze.data()}. If you look at the code, you'll
-see that I've specified {\tt n.chains=5}. That allows me to check
-convergence by looking at {\tt Rhat}. If you run the code, here's what
-you'll get (except for MCMC error):
+format, so there's also a script ({\tt isotoma.R}) that constructs the
+necessary input list and calls {\tt analyze.data()}. If you look at
+the code, you'll see that I've specified {\tt n.chains=5}. That allows
+me to check convergence by looking at {\tt Rhat}. If you run the code,
+here's what you'll get (except for MCMC error):
 \begin{verbatim}
 > print(fit)
 Inference for Bugs model at "f-statistics.txt", fit using jags,
@@ -229,25 +224,80 @@ It's easy to modify the code to consider two special cases:
 
 \item $f=0$: This corresponds to the case when genotypes within
   populations are in Hardy-Weinberg proportions. Implemented in {\tt
-    f-statistics-f0.txt}.
+    f-statistics-f0.jags}.
 
 \item $\theta=0$: This corresponds to the case when population allele
   frequencies are identical across populations, i.e., there is no
-  genetic differentiation. Implemented in {\tt f-statistics-t0.txt}
+  genetic differentiation. Implemented in {\tt f-statistics-t0.jags}
 
 \end{itemize}
 Before we go any further though and start comparing these models,
-remember when I said that you need to be careful about using the DIC
-reported from {\tt R2jags}? This is one of those cases where I don't
-trust it. Why? Because I calculated it from scratch and got a very
-different result:\footnote{Just include {\tt DIC=TRUE} in the
+I need to explain what that DIC number is.
+
+\subsection*{The Deviance Information Criterion}
+
+A widely used statistic for comparing models in a Bayesian framework
+is the Deviance Information Criterion.\index{Deviance Information
+  Criterion} {\tt R2jags} calculates an estimate of it for us
+automatically, but you need to know that if you're serious about model
+comparison, yous shouldn't rely on the DIC calculation from {\tt
+  R2jags} unless you've verified it.\footnote{If you're interested in
+  learning more, feel free to ask, but I'm afraid both the explanation
+  and the solution are a little complicated.} Let's pretend for a
+moment that I never wrote that last sentence and talk about why the
+DIC statistic may be useful
+
+\begin{table}
+\begin{center}
+\begin{tabular}{c|ccc}
+\hline\hline
+Model   & deviance & pD    & DIC \\
+\hline
+``Full'' model & 46.8 & 11.7 & 58.5 \\
+$f = 0$ model & 72.3 & 11.2 & 83.5 \\
+$\theta = 0$ model & 61.7 & 1.9 & 63.6 \\
+\hline
+\end{tabular}
+\end{center}
+\caption{DIC calculations for the {\it Isotoma petrae\/} example.}\label{table:isotoma-petraea-dic}
+\end{table}
+
+The {\tt deviance} is a measure of how well the model fits the data,
+specifically -2 times the average of the log likelihood values
+calculated from the parameters in each sample from the posterior. {\tt
+  pD} is a measure of model complexity. Roughly speaking it is the
+number of parameters in the model.\footnote{Notice that there we
+  estimated one more parameter in the full model than in the $f=0$
+  model, and that there are only two parameters ($\pi$ and $\theta$)
+  in the $\theta=0$ model. Notice also if we just count parameters in
+  the model, there are more than 12 parameters in the full model: 12
+  allele frequencies (one for each population), $\pi$, and
+  $\theta$. {\tt pD} is less than that for complicated reasons that
+  I'd be happy to explain if you're really interested. Otherwise, just
+  accept it as a well-known fact that counting the number of
+  parameters in a hierarchical model isn't as straightforward as you
+  might have guessed.} DIC is a composite measure of how well the
+model does. It's a compromise between fit and complexity, and smaller
+DICs are preferred. A difference of more than 7-10 units is regarded
+as strong evidence in favor of the model with the smaller DIC.
+
+In this case the minimum difference in DIC values is nearly 15 units,
+meaning that the full model is clearly preferred. We'll get to what
+that means biologically in just a moment. Why? I don't trust the DIC
+statistics I just reported here.
+
+\subsection*{Back to $F$-statistics}
+
+This is one of those cases where I don't trust the calculation of DIC
+in {\tt JAGS}. Why? Because I calculated it from scratch and got a
+very different result:\footnote{Just include {\tt DIC=TRUE} in the
   arguments to {\tt analyze.data()} and you'll get a printout of these
   results.}
 \begin{verbatim}
-Dbar: 46.5
+Dbar: 46.6
 Dhat: 40.7
-pD:   5.8
-DIC:  52.3
+pD:   5.9
+DIC:  52.4
 \end{verbatim}
 If you compare these results to what's reported from {\tt R2jags},
 you'll see that {\tt Dbar} in my calculation corresponds to the
@@ -275,9 +325,9 @@ results.
 \hline\hline
 Model & {\tt Dbar} & {\tt Dhat} & {\tt pD} & {\tt DIC} \\
 \hline
-Full  & 46.5 & 40.7 & 5.8 & 52.3 \\
-$f=0$ & 73.0 & 67.6 & 5.3 & 73.8 \\
-$\theta=0$ & 61.6 & 59.8 & 1.8 & 63.5 \\
+Full  & 46.6 & 40.7 & 5.9 & 52.4 \\
+$f=0$ & 72.3 & 67.1 & 5.2 & 77.6 \\
+$\theta=0$ & 61.8 & 59.8 & 2.0 & 63.8 \\
 \hline
 \end{tabular}
 \end{center}
@@ -305,7 +355,7 @@ Method & $F_{is}$ & $F_{st}$ & $F_{it}$ \\
 Direct            & 0.14 & 0.21 & 0.32 \\
 Nei               & 0.31 & 0.24 & 0.47 \\
 Weir \& Cockerham & 0.54 & 0.04 & 0.56 \\
-Bayesian          & 0.53 (0.33, 0.70) & 0.11 (0.02, 0.22) \\
+Bayesian          & 0.52 (0.34, 0.69) & 0.11 (0.02, 0.23) \\
 \hline
 \end{tabular}
 \end{center}
@@ -331,13 +381,13 @@ from looking at this table:
 
 \item It's not illustrated here, but when a reasonable number of loci
   are sampled, say more than 8-10, the Weir \& Cockerham estimates and
-  the Bayesian estimates are quite similar. But the Bayesian estimates
+  the Bayesian estimates are even more similar. But the Bayesian estimates
   allow for more convenient comparisons of different estimates, and
   the credible intervals don't depend either on asymptotic
   approximations or on bootstrapping across a limited collection of
   loci. The Bayesian approach can also be extended more easily to
-  complex situations. We'll see one example of this later in the
-  semester when we discuss $F_{ST}$ outliers.
+  complex situations. You'll see an example of this in Project \#2
+  when I ask you to identify $F_{ST}$ outliers.
 
 \end{itemize}
 
