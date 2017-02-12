@@ -6,28 +6,28 @@
 \contentsline {chapter}{\numberline {4}Analyzing the genetic structure of populations}{31}{chapter.4}
 \contentsline {chapter}{\numberline {5}Analyzing the genetic structure of populations: a Bayesian approach}{45}{chapter.5}
 \contentsline {chapter}{\numberline {6}Analyzing the genetic structure of populations: individual assignment}{55}{chapter.6}
-\contentsline {chapter}{\numberline {7}Two-locus population genetics}{61}{chapter.7}
-\contentsline {part}{II\hspace {1em}The genetics of natural selection}{69}{part.2}
-\contentsline {chapter}{\numberline {8}The Genetics of Natural Selection}{71}{chapter.8}
-\contentsline {chapter}{\numberline {9}Estimating viability}{83}{chapter.9}
-\contentsline {chapter}{\numberline {10}Selection at one locus with many alleles, fertility selection, and sexual selection}{89}{chapter.10}
-\contentsline {part}{III\hspace {1em}Genetic drift}{97}{part.3}
-\contentsline {chapter}{\numberline {11}Genetic Drift}{99}{chapter.11}
-\contentsline {chapter}{\numberline {12}Mutation, Migration, and Genetic Drift}{113}{chapter.12}
-\contentsline {chapter}{\numberline {13}Selection and genetic drift}{119}{chapter.13}
-\contentsline {chapter}{\numberline {14}The Coalescent}{123}{chapter.14}
-\contentsline {part}{IV\hspace {1em}Quantitative genetics}{129}{part.4}
-\contentsline {chapter}{\numberline {15}Introduction to quantitative genetics}{131}{chapter.15}
-\contentsline {chapter}{\numberline {16}Resemblance among relatives}{141}{chapter.16}
-\contentsline {chapter}{\numberline {17}Evolution of quantitative traits}{151}{chapter.17}
-\contentsline {chapter}{\numberline {18}Selection on multiple characters}{159}{chapter.18}
-\contentsline {chapter}{\numberline {19}Association mapping: the background from two-locus genetics}{167}{chapter.19}
-\contentsline {part}{V\hspace {1em}Molecular evolution}{177}{part.5}
-\contentsline {chapter}{\numberline {20}Introduction to molecular population genetics}{179}{chapter.20}
-\contentsline {chapter}{\numberline {21}Patterns of nucleotide and amino acid substitution}{193}{chapter.21}
-\contentsline {part}{VI\hspace {1em}Phylogeography}{211}{part.6}
-\contentsline {chapter}{\numberline {22}AMOVA and Statistical phylogeography}{213}{chapter.22}
-\contentsline {chapter}{\numberline {23}Population genomics}{235}{chapter.23}
-\contentsline {chapter}{\numberline {24}Genetic structure of human populations in Great Britain}{247}{chapter.24}
-\contentsline {part}{VII\hspace {1em}Old chapters, no longer updated}{251}{part.7}
-\contentsline {chapter}{\numberline {25}Testing Hardy-Weinberg}{253}{chapter.25}
+\contentsline {part}{II\hspace {1em}The genetics of natural selection}{61}{part.2}
+\contentsline {chapter}{\numberline {7}The Genetics of Natural Selection}{63}{chapter.7}
+\contentsline {chapter}{\numberline {8}Estimating viability}{75}{chapter.8}
+\contentsline {chapter}{\numberline {9}Selection at one locus with many alleles, fertility selection, and sexual selection}{81}{chapter.9}
+\contentsline {part}{III\hspace {1em}Genetic drift}{89}{part.3}
+\contentsline {chapter}{\numberline {10}Genetic Drift}{91}{chapter.10}
+\contentsline {chapter}{\numberline {11}Mutation, Migration, and Genetic Drift}{105}{chapter.11}
+\contentsline {chapter}{\numberline {12}Selection and genetic drift}{111}{chapter.12}
+\contentsline {chapter}{\numberline {13}The Coalescent}{115}{chapter.13}
+\contentsline {part}{IV\hspace {1em}Quantitative genetics}{121}{part.4}
+\contentsline {chapter}{\numberline {14}Introduction to quantitative genetics}{123}{chapter.14}
+\contentsline {chapter}{\numberline {15}Resemblance among relatives}{133}{chapter.15}
+\contentsline {chapter}{\numberline {16}Evolution of quantitative traits}{143}{chapter.16}
+\contentsline {chapter}{\numberline {17}Selection on multiple characters}{151}{chapter.17}
+\contentsline {chapter}{\numberline {18}Association mapping: the background from two-locus genetics}{159}{chapter.18}
+\contentsline {part}{V\hspace {1em}Molecular evolution}{169}{part.5}
+\contentsline {chapter}{\numberline {19}Introduction to molecular population genetics}{171}{chapter.19}
+\contentsline {chapter}{\numberline {20}Patterns of nucleotide and amino acid substitution}{185}{chapter.20}
+\contentsline {part}{VI\hspace {1em}Phylogeography}{203}{part.6}
+\contentsline {chapter}{\numberline {21}AMOVA and Statistical phylogeography}{205}{chapter.21}
+\contentsline {chapter}{\numberline {22}Population genomics}{227}{chapter.22}
+\contentsline {chapter}{\numberline {23}Genetic structure of human populations in Great Britain}{239}{chapter.23}
+\contentsline {part}{VII\hspace {1em}Old chapters, no longer updated}{243}{part.7}
+\contentsline {chapter}{\numberline {24}Testing Hardy-Weinberg}{245}{chapter.24}
+\contentsline {chapter}{\numberline {25}Two-locus population genetics}{253}{chapter.25}

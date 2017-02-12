@@ -5,7 +5,7 @@
 \usepackage{graphics}
 \usepackage{epstopdf}
 
-\newcommand{\copyrightYears}{2001-2015}
+\newcommand{\copyrightYears}{2001-2017}
 
 \title{Estimating viability}
 
@@ -40,8 +40,7 @@ Number in adults  & $n_{11}^{(a)} = w_{11}n_{11}^{(z)}$ & $n_{12}^{(a)} = w_{12}
 In other words, estimating the absolute viability simply consists of
 estimating the probability that an individuals of each genotype that
 survive from zygote to adult. The maximum-likelihood estimate is, of
-course, just what you would probably guess:\index{viability!estimating
-  absolute}
+course, just what you would probably guess:\index{viability!estimating absolute}
 \[
 w_{ij} = \frac{n_{ij}^{(a)}}{n_{ij}^{(z)}} \quad ,
 \]
@@ -51,9 +50,9 @@ observed data to the unseen parameter, namely, a binomial
 likelihood. In {\tt JAGS} notation:\footnote{You knew you were going
   to see this again, didn't you?}
 \begin{verbatim}
-   n.11.adult ~ dbin(w.11, n.11)
-   n.12.adult ~ dbin(w.12, n.11)
-   n.22.adult ~ dbin(w.22, n.11)
+   n.11.adult ~ dbin(w.11, n.11.zygote)
+   n.12.adult ~ dbin(w.12, n.12.zygote)
+   n.22.adult ~ dbin(w.22, n.22.zygote)
 \end{verbatim}
 
 \section*{Estimating relative viability}
@@ -144,7 +143,7 @@ uncertainty around those estimates), we can use these formulas to get
 Bayesian estimates of the relative viabilities (and the uncertainty
 around them).
 
-\section*{An example}
+\section*{An example}\index{viability!example of estimating}
 
 Let's see how this works with some real data from Dobzhansky's work on
 chromosome inversion polymorphisms in {\it Drosophila
@@ -214,11 +213,10 @@ of the $ST$ chromosome is $s_2/(s_1+s_2) = 0.59$.
 Now all of those estimates are maximum-likelihood estimates. Doing
 these estimates in a Bayesian context is relatively straightforward
 and the details will be left as an excerise.\footnote{In past years
-  Problem \#3 has consisted of making Bayesian estimates of
+  Project \#3 has consisted of making Bayesian estimates of
   viabilities from data like these and predicting the outcome of
-  viability selection. This year Nora will illustrate the
-  approach~(unless you'd rather have her spend more time helping you
-  with Problem \#2).} In outline we simply
+  viability selection. This year I anticipate that you'll see
+  something similar} In outline we simply
 
 \begin{enumerate}
 
@@ -234,8 +232,14 @@ and the details will be left as an excerise.\footnote{In past years
   to the heterozygote.}
 
 \item Calculate the equilibrium frequency from $s_2/(s_1+s_2)$, if
-  $s_1 > 0$ and $s_2 > 0$. Otherwise, determine which fixation state will be
-  approached.
+  $s_1 > 0$ and $s_2 > 0$.\footnote{In practice, this gets a little
+    complicated. What typically happens is that in some samples from
+    the posterior the heterozygote is intermediate in fitness, meaning
+    that one of the two homozygotes is unconditionally favored. That
+    makes calculating the posterior distribution for the equilibrium
+    frequency a bit complicated. We'll avoid those complications in
+    this year's projecct.} Otherwise, determine which fixation state
+  will be approached.
 
 \end{enumerate}
 

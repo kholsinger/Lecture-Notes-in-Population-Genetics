@@ -1,14 +1,26 @@
 \chapter{Analyzing the genetic structure of populations: individual assignment}
 
-About 15 years ago a different approach to the analysis of genetic
-structure began to emerged: analysis of individual
+Although $F$-statistics are widely used and very informative, they
+suffer from one fundamental limitation: We have to know what the
+populations are before we can estimate them. They are based on a
+conceptual model in which organisms occur in discrete populations,
+populations that are well mixed within themselves (so that we can
+regard our sample of individuals as a random sample from within each
+population) and clearly separate from others. What if we want to use
+the genetic data itself to help us figure out what the populations
+actually are? Can we do that?\footnote{Would I be asking this question
+  if the answer were ``No?''}
+
+A little over 15 years ago a different approach to the analysis of
+genetic structure began to emerge: analysis of individual
 assignment.\index{individual assignment} Although the implementation
-details get a little hairy, the basic idea is fairly simple. Suppose
-we have genetic data on a series of individuals. Label the data we
-have for each individual $x_i$. Suppose that all individuals belong to
-one of $K$ populations and let the genotype frequencies in population
-$k$ be represented by $\gamma_k$. Then the likelihood that individual
-$i$ comes from population $k$ is just
+details get a little hairy,\footnote{OK, to be fair. The get {\it
+    very\/} hairy.} the basic idea is fairly simple. Suppose we have
+genetic data on a series of individuals. Label the data we have for
+each individual $x_i$. Suppose that all individuals belong to one of
+$K$ populations and let the genotype frequencies in population $k$ be
+represented by $\gamma_k$. Then the likelihood that individual $i$
+comes from population $k$ is just
 \[
 \mbox{P}(i|k) = \frac{\mbox{P}(x_i|\gamma_k)}{\sum_k
   \mbox{P}(x_i|\gamma_k)} \quad .
@@ -17,13 +29,19 @@ So if we can specify prior probabilities for $\gamma_k$, we can use
 Bayesian methods to estimate the posterior probability that individual
 $i$ belongs to population $k$, and we can associate that assignment
 with some measure of its reliability.\footnote{You can find details
-  in~\cite{Pritchard-etal-2000}.}
+  in~\cite{Pritchard-etal-2000}. If you think about that equation a
+  bit, you can begin to see why the details get {\it very\/}
+  hairy. First, we're trying to get the data to tell us what the
+  populations are, so we don't even know how many populations there
+  are. Then we have to find a way of estimating allele frequencies
+  (and genotype frequencies) in populations when we don't even
+  know which populations individuals in our sample belong in.}
 
 \section*{Applying assignment to understand invasions}
 
-We'll use {\tt Structure} to assess whether cultivated genotypes of
-{\it Berberis thunbergii\/} contribute to ongoing invasions in
-Connecticut and
+We'll use {\tt Structure}\index{Structure@\texttt{Structure}} to assess whether
+cultivated genotypes of {\it Berberis thunbergii\/}\index{Berberis@\textit{Berberis}!\textit{thunbergii}} contribute to
+ongoing invasions in Connecticut and
 Massachusetts~\cite{Lubell-etal-2008}.\index{individual assignment!application} The first problem is to determine what $K$
 to use, because $K$ doesn't necessarily have to equal the number of
 populations we sample from. Some populations may not be distinct from
@@ -68,7 +86,7 @@ that color.
 
 Figure~\ref{fig:lubell-structure} may not look terribly informative,
 but actually it is. Look at the labels beneath the figure. You'll see
-that with te exception of individual 17 from Beaver Brook Park, all
+that with the exception of individual 17 from Beaver Brook Park, all
 the of the individuals that are solid blue are members of the
 cultivated {\it Berberis thunbergii\/} var. {\it atropurpurea}. The
 solid red bar corresponds to {\it Berberis thunbergii\/}
@@ -126,7 +144,7 @@ them that we won't discuss,\footnote{See~\cite{Novembre-Stephens-2008}
 striking. Figure~\ref{fig:human-PCA} shows the results of a PCA on
 data derived from 3192 Europeans at 500,568 SNP loci. The
 correspondence between the position of individuals in PCA space and
-geographical space is remarkable.
+geographical space is remarkable. 
 
 \begin{figure}
 \resizebox{\textwidth}{!}{\includegraphics{human-PCA.eps}}
@@ -135,4 +153,16 @@ geographical space is remarkable.
   geography~(from~\cite{Novembre-etal-2008}). Panel b is a close-up
   view of the area around Switzerland~(CH).}\label{fig:human-PCA}
 \end{figure}
+
+Jombart et al.~\cite{Jombart-etal-2010} describe a related method
+known as discriminant analysis of principal components. They also
+provide an {\tt R} package, {\tt dapc}, that implements the
+method.\index{Discriminant analysis of population structure} I
+prefer {\tt Structure} because its approach to individual assignment
+is based directly on population genetic principles, and as of a few
+months ago, I don't have to worry so much about how long it takes to
+run an analysis on large datasets. A few months ago Gopalan et
+al.~\cite{Gopalan-etal-2016} released {\tt teraStructure}, which can
+analyze data sets consisting of 10,000 individuals scored at a million
+SNPs in less than 10 hours.\index{teraStructure@\texttt{teraStructure}}
 

@@ -293,10 +293,11 @@ single generation in which all of the conditions for Hardy-Weinberg is
 enough to establish the Hardy-Weinberg proportions. Putting those two
 observations together, it's not too hard to see that genotypes will be
 in Hardy-Weinberg proportions in newly formed zygotes. Viability
-selection will change that later in the life-cycle, but we restart
-every generation with genotypes in the familiar Hardy-Weinberg
-proportions, $p^2$, $2pq$, and $q^2$, where $p$ is the frequency of
-$ST$ in the {\it parental\/} generation.\index{selection equation}
+selection will change the genotype frequencies later in the
+life-cycle, but we restart every generation with {\it zygotes\/} in
+the familiar Hardy-Weinberg proportions, $p^2$, $2pq$, and $q^2$,
+where $p$ is the frequency of $ST$ in the {\it parents\/} of those
+zygotes.\index{selection equation}
 
 \subsection*{Selection acts on relative viability}
 
@@ -307,7 +308,9 @@ p' = \frac{w_{11}p^2 + w_{12}pq}{\bar w} \quad . \label{eq:absolute}
 \end{equation}
 Suppose, for example, that we were to divide the numerator and
 denominator of~(\ref{eq:absolute}) by $w_{11}$.\footnote{I'm dividing
-  by 1, in case you hadn't noticed.} We'd then have
+  by 1, in case you hadn't noticed. When I'm not adding zero to an
+  equation, I'm dividing by one. If you're not used to that yet, you
+  will be in a few more weeks.} We'd then have
 \begin{equation}
 p' = \frac{p^2 + (w_{12}/w_{11})pq}{(\bar w/w_{11})} \quad . \label{eq:relative}
 \end{equation}
@@ -419,11 +422,12 @@ Stabiliizing& $w_{11} < w_{12}$, $w_{22} < w_{12}$
 Before exploring the consequences of these different patterns of
 natural selection, I need to introduce you to a very important result:
 Fisher's Fundamental Theorem of Natural Selection. We'll go through
-the details later when we get to quantitative genetics. For now all
-you need to know is that viability selection causes the mean fitness
-of the progeny generation to be greater than or equal to the mean
-fitness of the parental generation, with equality only at equilibrium,
-i.e.,
+the details later when we get to quantitative genetics. In fact, we'll
+derive Fisher's Fundamental Theorem for one locus and two alleles. For
+now all you need to know is that viability selection causes the mean
+fitness of the progeny generation to be greater than or equal to the
+mean fitness of the parental generation, with equality only at
+equilibrium, i.e.,
 \[
 \bar w' \ge \bar w \quad .
 \]
@@ -556,9 +560,9 @@ upside down bowl~(Figure~\ref{fig:wbar}).\index{stabilizing selection}\index{sel
 
 In this case we can see that no matter what allele frequency the
 population starts with, the only way that $\bar w' \ge \bar w$ can
-hold is if the allele frequency changes in such a way that it gets
-close to the value where $\bar w$ is maximized every
-generation. Unlike directional selection or disruptive selection, in
+hold is if the allele frequency changes in such a way that in every
+generation it gets closer to the value where $\bar w$ is
+maximized. Unlike directional selection or disruptive selection, in
 which natural selection tends to eliminate one allele or the other,
 stabilizing selection tends to keep both alleles in the
 population. You'll also see this pattern of selection referred to as
@@ -568,8 +572,8 @@ balancing selection, because the selection on each allele is
 results by saying that the monomorphic equilibria are unstable and
 that the polymorphic equilibrium is stable. By the way, if we write
 the fitness as $w_{11} = 1 - s_1$, $w_{12}=1$, and $w_{22}=1-s_2$,
-then the allele frequency at the polymorphic equilibrium is $\hat
-p=s_2/(s_1+s_2)$.\footnote{I'm not showing the algebra that justifies
-  this conclusion on the off chance that you may want to test your
-  understanding by verifying it yourself.}
+then the allele frequency at the polymorphic equilibrium is
+$\hat p=s_2/(s_1+s_2)$.\footnote{I'm not showing the algebra that
+  justifies this conclusion on the off chance that you may want to
+  test your understanding by verifying it yourself.}
 

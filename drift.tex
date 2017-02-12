@@ -3,7 +3,7 @@
 \usepackage{html}
 \usepackage{url}
 
-\newcommand{\copyrightYears}{2001-2015}
+\newcommand{\copyrightYears}{2001-2017}
 
 \title{Genetic Drift}
 
@@ -404,7 +404,7 @@ the same variance, and pretending that our actual population is the
 same as an ideal population of the same size. To put that into an
 equation,\footnote{As if that will make it any clearer. Does anyone
   actually read these footnotes?} let $\widehat{Var}(p)$ be the
-variance we calculate for our actual population. Then
+variance we calculate for our actual population. Then\index{variance effective size}
 \[
 N_e^{(v)} = \frac{p(1-p)}{2\widehat{Var}(p)}
 \]
@@ -417,7 +417,7 @@ frequency variance as our actual population.
 You may also remember that we can think of genetic drift as analogous
 to inbreeding. The probability of identity by descent within
 populations changes in a predictable way in relation to population
-size, namely
+size, namely\index{inbreeding effective size}
 \[
 f_{t+1}
    = \frac{1}{2N} + \left(1 - \frac{1}{2N}\right)f_t \quad.
@@ -604,7 +604,7 @@ N_e^{(f)} &=& \left(\left(\frac{1}{K}\right)
 \end{eqnarray*}
 
 The quantity on the right side of that last equation is a well-known
-quantity. It's the {\it harmonic mean} of the $N_{t}$. It's another
+quantity. It's the {\it harmonic mean} of the $N_{t}$.\index{harmonic mean}  It's another
 well-known fact\footnote{Are we ever going to run out of well-known
   facts? Probably not.} that the harmonic mean of a series of numbers
 is always less than its arithmetic mean. This means that genetic drift
