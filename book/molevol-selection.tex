@@ -41,11 +41,11 @@ comparision. Regardless of
 
 \noindent the synonymous positions within the sequence provide an
 internal control on the amount and pattern of differentiation that
-should be expected when substitutions.\footnote{Ignoring, for the
-  moment, the possibility that there may be selection on codon usage.}
-Thus, if we see different patterns of nucleotide substitution at
-synonymous and non-synonymous sites, we can infer that selection is
-having an effect on amino acid substitutions.
+should be expected when substitutions are neutral.\footnote{Ignoring,
+  for the moment, the possibility that there may be selection on codon
+  usage.}  Thus, if we see different patterns of nucleotide
+substitution at synonymous and non-synonymous sites, we can infer that
+selection is having an effect on amino acid substitutions.
 
 \section*{Nucleotide sequence variation at the {\it Adh\/} locus in
   {\it Drosophila melanogaster}}\index{Drosophila@\textit{Drosophila}!\textit{melanogaster}}\index{alcohol dehydrogenase}\index{Adh}
@@ -57,19 +57,20 @@ involved in maintaining the polymorphism at {\it Adh\/} in {\it
 locus, each a little less than 2.4kb in length.\footnote{Think about
   how the technology has changed since then. This work represented a
   major part of his Ph.D. dissertation, and the results were published
-  as an article in {\it Nature}.} If we restrict our attention to the
-coding region, a total of 765bp, there were 6 distinct sequences that
-differed from one another at between 1 and 13 sites. Given the
-observed level of polymorphism within the gene, there should be 9 or
-10 amino acid differences observed as well, but only one of the
-nucleotide differences results in an amino acid difference, the amino
-acid difference associated with the already recognized electrophoretic
-polymorphsim. Thus, there is significantly less amino acid diversity
-than expected if nucleotide substitutions were neutral, consistent
-with my assertion that most mutations are deleterious and that natural
-selection will tend to eliminate them.\index{Adh!purifying selection}
-In other words, another example of the ``sledgehammer
-principle.''\index{sledgehammer principle}
+  as an article in {\it Nature}. Now an undergraduate would do
+  substantially more for an independent study project.} If we restrict
+our attention to the coding region, a total of 765bp, there were 6
+distinct sequences that differed from one another at between 1 and 13
+sites. Given the observed level of polymorphism within the gene, there
+should be 9 or 10 amino acid differences observed as well, but only
+one of the nucleotide differences results in an amino acid difference,
+the amino acid difference associated with the already recognized
+electrophoretic polymorphsim. Thus, there is significantly less amino
+acid diversity than expected if nucleotide substitutions were neutral,
+consistent with my assertion that most mutations are deleterious and
+that natural selection will tend to eliminate
+them.\index{Adh!purifying selection} In other words, another example
+of the ``sledgehammer principle.''\index{sledgehammer principle}
 
 Does this settle the question? Is the {\it Adh\/} polymorphism another
 example of allelic variants being neutral or selected against? Would I
@@ -154,8 +155,7 @@ sequence diversity. They used a ``sliding window'' of 100 silent base
 pairs in their calculations. By ``sliding window'' what they mean is
 that first they calculate statistics for bases 1-100, then for bases
 2-101, then for bases 3-102, and so on until they hit the end of the
-sequence. It's rather like walking a chromosome for QTL mapping, and
-the results are rather pretty~(Figure~\ref{fig:kh}). 
+sequence~(Figure~\ref{fig:kh}). 
 
 \begin{figure}
 \begin{center}
@@ -234,4 +234,178 @@ selection pressures at many different loci~\cite{Guo-etal-2009}.\index{F-statist
   SNPs in this sample are separated, on average, by about
   1kb. (from~\cite{Guo-etal-2009})}\label{fig:high-res-SNP}
 \end{figure}
+
+\section*{Tajima's $D$}\index{Tajima's $D$}
+
+So far we've been comparing rates of synonymous and non-synonymous
+substitution to detect the effects of natural selection on molecular
+polymorphisms. Tajima~\cite{Tajima89} proposed a method that builds on
+the foundation of the neutral theory of molecular evolution in a
+different way. I've already mentioned the infinite alleles model of
+mutation several times. When thinking about DNA sequences a closely
+related approximation is to imagine that every time a mutation occurs,
+it occurs at a different site.\footnote{Of course, we know this isn't
+  true. Multiple substitutions {\it can\/} occur at any site. That's
+  why the percent difference between two sequences isn't equal to the
+  number of substitutions that have happened at any particular
+  site. We're simply assuming that the sequences we're comparing are
+  closely enough related that nearly all mutations have occurred at
+  different positions.} If we do that, we have an {\it infinite
+  sites\/} model of mutation.\index{mutation!infinite sites model}
+
+When dealing with nucleotide sequences in a population context there
+are two statistics of potential interest:
+
+\begin{itemize}
+
+\item The {\it number\/} of nucleotide positions at which a
+  polymorphism is found or, equivalently, the number of segregating
+  sites, $k$.\index{segregating sites}
+
+\item The average per nucleotide diversity, $\pi$, where $\pi$ is
+  estimated as\index{nucleotide diversity}
+\[
+\pi = \sum x_ix_j\delta_{ij}/N \quad .
+\]
+In this expression, $x_i$ is the frequency of the $i$th haplotype,
+$\delta_{ij}$ is the number of nucleotide sequence differences between
+haplotypes $i$ and $j$, and $N$ is the total length of the
+sequence.\footnote{I lied, but you must be getting used to that by
+  now. This isn't quite the way you estimate it. To get an unbiased
+  estimate of pi, you have to multiply this equation by $n/(n-1)$,
+  where $n$ is the number of haplotypes in your sample. And, of
+  course, if you're Bayesian you'll be even a little more
+  careful. You'll estimate $x_i$ using an appropriate prior on
+  haplotype frequencies and you'll estimate the probability that
+  haplotypes $i$ and $j$ are different at a randomly chosen position
+  given the observed number of differences and the sequence
+  length. That probability will be close to $\delta_{ij}/N$, but it
+  won't be identical.}
+
+\end{itemize}
+
+The quantity $4N_e\mu$ comes up a lot in mathematical analyses of
+molecular evolution. Population geneticists, being a lazy bunch, get
+tired of writing that down all the time, so they invented the
+parameter $\theta = 4N_e\mu$ to save themselves a little
+time.\footnote{This is {\it not\/} the same $\theta$ we encountered
+  when discussing $F$-statistics. Weir and Cockerham's $\theta$ is a
+  different beast. I know it's confusing, but that's the way it
+  is. When reading a paper, the context should make it clear which
+  conception of $\theta$ is being used. Another thing to be careful of
+  is that sometimes authors think of $\theta$ in terms of a haploid
+  population. When they do, it's $2N_e\mu$. Usually the context makes
+  it clear which definition is being used, but you have to remember to
+  pay attention to be sure.} Under the infinite-sites model of DNA
+sequence evolution, it can be shown that
+\begin{eqnarray*}
+\E(\pi) &=& \theta \\
+\E(k) &=& \theta\sum_i^{n-1} \frac{1}{i} \quad ,
+\end{eqnarray*}
+where $n$ is the number of haplotypes in your sample.\footnote{The
+  ``E'' refers to expectation. It is the average value of a random
+  variable. $\mbox{E}(\pi)$ is read as ``the expectation of $\pi$>}
+This suggests that there are two ways to estimate $\theta$, namely
+\begin{eqnarray*}
+\hat \theta_\pi &=& \hat \pi \\
+\hat \theta_k   &=& \frac{k}{\sum_i^{n-1}\frac{1}{i}} \quad ,
+\end{eqnarray*}
+where $\hat\pi$ is the average heterozygosity at nucleotide sites in
+our sample and $k$ is the observed number of segregating sites in our
+sample.\footnote{If your memory is really good, you may recognize that
+  those estimates are method of moments estimates, i.e., parameter
+  estimates obtained by equating sample statistics with their expected
+  values.} If the nucleotide sequence variation among our haplotypes
+is neutral and the population from which we sampled is in equilibrium
+with respect to drift and mutation, then $\hat\theta_\pi$ and
+$\hat\theta_k$ should be statistically indistinguishable from one
+another. In other words, 
+\[
+\hat D = \hat\theta_\pi - \hat\theta_k 
+\]
+should be indistinguishable from zero. If it is either negative or
+positive, we can infer that there's some departure from the
+assumptions of neutrality and/or equilibrium. Thus, $\hat D$ can be
+used as a test statistic to assess whether the data are consistent
+with the population being at a neutral mutation-drift
+equilibrium. Consider the value of $D$ under following
+scenarios:\index{Tajima's $D$!interpretation}
+
+\begin{description}
+
+\item[Neutral variation] If the variation is neutral and the
+  population is at a drift-mutation equilibrium, then $\hat D$ will be
+  statistically indistinguishable from zero.
+
+\item[Overdominant selection] Overdominance will allow alleles
+  beloning to the different classes to become quite divergent from one
+  another. $\delta_{ij}$ within each class will be small, but
+  $\delta_{ij}$ between classes will be large and both classes will be
+  in intermediate frequency, leading to large values of
+  $\theta_\pi$. There won't be a similar tendency for the {\it
+  number\/} of segregating sites to increase, so $\theta_k$ will be
+  relatively unaffected. As a result, $\hat D$ will be positive.
+
+\item[Population bottleneck] If the population has recently undergone
+  a bottleneck, then $\pi$ will be little affected unless the
+  bottleneck was prolonged and severe.\footnote{Why? Because most of
+    the heterozygosity is due to alleles of moderate to high
+    frequency, and those are not the ones likely to be lost in a
+    bottleneck.}  $k$, however, may be substantially reduced. Thus,
+  $\hat D$ should be positive.
+
+\item[Purifying selection] If there is purifying selection, mutations
+  will occur and accumulate at silent sites, but they aren't likely
+  ever to become very common. Thus, there are likely to be lots of
+  segregating sites, but not much heterozygosity, meaning that
+  $\hat\theta_k$ will be large, $\hat\theta_\pi$ will be small, and
+  $\hat D$ will be negative.
+
+\item[Population expansion] Similarly, if the population has recently
+  begun to expand, mutations that occur are unlikely to be lost,
+  increasing $\hat\theta_k$, but it will take a long time before they
+  contribute to heterozygosity, $\hat\theta_\pi$. Thus, $\hat D$ will
+  be negative.
+
+\end{description}
+
+In short, $\hat D$ provides a different avenue for insight into the
+evolutionary history of a particular nucleotide sequence. But
+interpreting it can be a little tricky. 
+
+\begin{description}
+
+\item[$\hat D = 0$:] We have no evidence for changes in population
+  size or for any particular pattern of selection at the
+  locus.\footnote{Please remember that the failure to detect a difference
+    from 0 could mean that your sample size is too small to detect an
+    important effect. If you can't detect a difference, you should try
+    to assess what values of $D$ are consistent with your data and be
+    appropriately circumspect in your conclusions.}
+
+\item[$\hat D < 0$:] The population size may be increasing or we may
+  have evidence for purifying selection at this locus.
+
+\item[$\hat D > 0$:] The population may have suffered a recent
+  bottleneck (or be decreaing) or we may have evidence for
+  overdominant selection at this locus.
+
+\end{description}
+
+\noindent If we have data available for more than one locus, we may be
+able to distinguish changes in population size from selection at any
+particular locus. After all, all loci will experience the same
+demographic effects, but we might expect selection to act differently
+at different loci, especially if we choose to analyze loci with
+different physiological function.
+
+A quick search in Google Scholar reveals that the paper in which
+Tajima described this approach~\cite{Tajima89} has been cited over
+8800 times.\footnote{Search on 19 February 2017.} Clearly it has been
+widely used for interpreting patterns of nucleotide sequence
+variation. Although it is a very useful statistic, Zeng et
+al.~\cite{Zeng-etal-2006} point out that there are important aspects
+of the data that Tajima's $D$ does not consider. As a result, it may
+be less powerful, i.e., less able to detect departures from
+neutrality, than some alternatives.
 

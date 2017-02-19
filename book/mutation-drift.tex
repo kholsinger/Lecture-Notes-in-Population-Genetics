@@ -1,16 +1,15 @@
 \chapter{Mutation, Migration, and Genetic Drift}
 
 So far in this course we've focused on single, isolated populations,
-and we've imagined that there isn't any mutation. We've also
-completely ignored the ultimate source of all genetic
-variation{\dash}mutation.\footnote{Well, that's not quite true. We
-  talked about multiple populations when we talked about the Wahlund
-  effect and Wright's $F_{ST}$, but we didn't talk explicitly about
-  any of the evolutionary processes associated with multiple
-  populations.} We're now going to study what happens when we consider
-multiple populations simultaneously and when we allow mutation to
-happen. Let's consider mutation first, because it's the easiest to
-understand.
+and we've imagined that there isn't any migration.\footnote{Well,
+  that's not quite true. We talked about multiple populations when we
+  talked about the Wahlund effect and Wright's $F_{ST}$, but we didn't
+  talk explicitly about any of the evolutionary processes associated
+  with multiple populations.}  We've also completely ignored the
+ultimate source of all genetic variation{\dash}mutation. We're now
+going to study what happens when we consider multiple populations
+simultaneously and when we allow mutation to happen. Let's consider
+mutation first, because it's the easiest to understand.
 
 \section*{Drift and mutation}\index{genetic drift!mutation}
 
@@ -81,15 +80,23 @@ definition of an equilibrium,
 Since $f$ is the probability that two alleles chosen at random are
 identical by descent within our population, $1-f$ is the probability
 that two alleles chosen at random are {\it not\/} identical by descent
-in our population. So $1-f = 4N\mu/(4N\mu + 1)$ is a reasonable
-measure of the genetic diversity within the population. Notice that as
-$N$ increases, the genetic diversity maintained in the population also
-increases. This shouldn't be too surprising. The rate at which
-diversity is lost declines as population size increases so larger
-populations should retain more diversity than small
-ones.\footnote{Remember that if we're dealing with a non-ideal
-population, as we always are, you'll need to substitute $N_e$ for $N$
-in this equation and others like it.}
+in our population. So $1-f = 4N\mu/(4N\mu + 1)$ is the genetic
+diversity within the population. Notice that as $N$ increases, the
+genetic diversity maintained in the population also increases. This
+shouldn't be too surprising. The rate at which diversity is lost
+declines as population size increases so larger populations should
+retain more diversity than small ones.\footnote{Remember that if we're
+  dealing with a non-ideal population, as we always are, you'll need
+  to substitute $N_e$ for $N$ in this equation and others like it.}
+
+Notice also that it's the product $N\mu$ that matters, not $N$ or
+$\mu$ by itself. We'll see this repeatedly. In every case I know of
+when there's some deterministic process like mutation, migration, or
+recombination going on in addition to genetic drift, the outcome of
+the combined process is determined by the product of
+$N$\footnote{Remember that when I write $N$ here, I'm just being
+  lazy. I should be writing $N_e$.} and some parameter that describes
+the ``strength'' of the deterministic process.
 
 \subsection*{A two-allele model with recurrent mutation}\index{genetic drift!mutation, recurrent}
 
@@ -98,13 +105,13 @@ mutation. Suppose we have a set of populations with two alleles, $A_1$
 and $A_2$. Suppose further that the rate of mutation from $A_1$ to
 $A_2$ is equal to the rate of mutation from $A_2$ to
 $A_1$.\footnote{We don't have to make this assumption, but relaxing it
-makes an already fairly complicated scenario even more complicated. If
-you're really interested, ask me about it.} Call that rate $\mu$. In
-the absence of mutation a fraction $p_0$ of the populations would fix
-on $A_1$ and the rest would fix on $A_2$, where $p_0$ is the original
-frequency of $A_1$. With recurrent mutation, no population will ever
-be permanently fixed for one allele or the other. Instead we see the
-following:\index{genetic drift!mutation, stationary distribtuion}
+  makes an already fairly complicated scenario even more
+  complicated. If you're really interested, ask me about it.} Call
+that rate $\mu$. In the absence of mutation a fraction $p_0$ of the
+populations would fix on $A_1$ and the rest would fix on $A_2$, where
+$p_0$ is the original frequency of $A_1$. With recurrent mutation, no
+population will ever be permanently fixed for one allele or the
+other. Instead we see the following:\index{genetic drift!mutation, stationary distribtuion}
 
 \begin{center}
 \resizebox{!}{8cm}{\includegraphics{mutation.eps}}
@@ -114,10 +121,11 @@ When $4N\mu < 1$ the stationary distribution of allele frequencies is
 bowl-shaped, i.e, most populations have allele frequencies near 0 or
 1. When $4N\mu > 1$, the stationary distribution of allele frequencies
 is hump-shaped, i.e., most populations have allele frequencies near
-0.5. In other words if the population is ``small,'' drift dominates
-the distribution of allele frequencies and causes populations to
-become differentiated. If the population is ``large,'' mutation
-dominates and keeps the allele frequencies in the different
+0.5.\footnote{Notice again that it's the product of $N$ and $\mu$ that
+  matters.} In other words if the population is ``small,'' drift
+dominates the distribution of allele frequencies and causes
+populations to become differentiated. If the population is ``large,''
+mutation dominates and keeps the allele frequencies in the different
 populations similar to one another. That's what we mean when we say
 that a population is ``large'' or ``small''. A population is ``large''
 if evolutionary processes other than drift have a predominant
@@ -130,12 +138,16 @@ population large or small is really just a convenient shorthand. There
 isn't much of a difference between the allele frequency distributions
 when $4N\mu = 0.9$ and when $4N\mu = 1.1$. Notice also that because
 mutation is typically rare, on the order of $10^{-5}$ or less per
-locus per generation for a protein-coding gene and on the order of
-$10^{-3}$ or less per locus for a microsatellite, a population must be
-pretty large ($> 25,000$ or $>250$) to be considered large with
-respect to the drift-migration process. Notice also that whether the
-population is ``large'' or ``small'' will depend on the loci that
-you're studying.
+locus per generation for a protein-coding gene, a population must be
+pretty large ($> 25,000$) to be considered large with respect to the
+drift-mutation. Notice also that whether the population is ``large''
+or ``small'' will depend on the mutation rate at the loci that you're
+studying. For example, mutation rates are typically on the order of 
+$10^{-3}$ for microsatellites. So a population would be ``large'' with
+respect to microsatellites if $N > 250$. Think about what that
+means. If we had a population with 1000 individuals, it would be
+``large'' with respect to microsatellite evolution and ``small'' with
+respect to evolution at a protein-coding locus.
 
 \section*{Drift and migration}\index{genetic drift!migration}
 

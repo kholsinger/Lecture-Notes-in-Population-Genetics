@@ -5,7 +5,7 @@
 \usepackage{graphics}
 \usepackage{epstopdf}
 
-\newcommand{\copyrightYears}{2001-2015}
+\newcommand{\copyrightYears}{2001-2017}
 
 \title{The Coalescent}
 
@@ -36,15 +36,15 @@ descent with respect to the immediately preceding generation with
 probability $1/2N_e$. That means that there's a chance that two
 alleles in generation $t$ are copies of the same allele in generation
 $t-1$. If the population size is constant, meaning that the number of
-alleles in the population is remaining constant, then there's also a
-chance that some alleles present in generation $t-1$ will not have
-descendants in generation $t$. Looking backward, then, the number of
-alleles in generation $t-1$ that have descendants in generation $t$ is
-always less than or equal to the number of alleles in generation
-$t$. That means if we trace the ancestry of alleles in a sample back
-far enough, all of them will be descended from a single common
-ancestor. Figure~\ref{fig:coalescent} provides a simple schematic
-illustrating how this might happen.
+alleles in the population is remaining constant, that also means that
+there's a chance that some alleles present in generation $t-1$ will
+not have descendants in generation $t$. Looking backward, then, the
+number of alleles in generation $t-1$ that have descendants in
+generation $t$ is always less than or equal to the number of alleles
+in generation $t$. That means if we trace the ancestry of alleles in a
+sample back far enough, all of them will be descended from a single
+common ancestor. Figure~\ref{fig:coalescent} provides a simple
+schematic illustrating how this might happen.
 
 \begin{figure}
 \begin{center}
@@ -64,17 +64,18 @@ sample are descended from only four alleles that were present in the
 populations ten generations ago. The other fourteen alleles present in
 the population ten generations ago left no descendants. How far back
 in time we'd have to go before all alleles are descended from a single
-common ancestor depends on the effective size of the population, and
-how frequently two (or more) alleles are descended from the same
-allele in the preceding generation depends on the effective size of
-the population, too. But in any finite population the pattern will
+common ancestor depends on the effective size of the population,
+because how frequently two (or more) alleles are descended from the
+same allele in the preceding generation depends on the effective size
+of the population, too. But in any finite population the pattern will
 look something like the one I've illustrated here.
 
 \section*{Mathematics of the coalescent: two
   alleles}\index{coalescent!two alleles}
 
-J. F. C. Kingman developed a convenient and powerful way to describe
-how the time to common ancestry is related to effective population
+Thirty-five years ago J. F. C. Kingman developed a convenient and
+powerful way to describe how the time to common ancestry is related to
+effective population
 size~\cite{Kingman-1982-genealogy,Kingman-1982-coalescent}. The
 process he describes is referred to as the {\it coalescent}, because
 it is based on describing the probability of {\it coalescent
@@ -83,12 +84,12 @@ genealogy of a sample of alleles where two alleles are descended from
 the same allele in the immediately preceding generation.\footnote{An
   important assumption of the coalescent is that populations are large
   enough that we can ignore the possibility that there is more than
-  one coalescent event in a single generation. We also only allow
-  coalescence between a pair of alleles, not three or more. In both
-  ways the mathematical model of the process differs from the diagram
-  in Figure~\ref{fig:coalescent}.}  Let's consider a simple case, one
-that we've already seen, first, i.e., two alleles drawn at random from
-a single populations.
+  one coalescent event in a single generation. That also means that we
+  also only allow coalescence between a pair of alleles, not three or
+  more. In both ways the mathematical model of the process differs
+  from the diagram in Figure~\ref{fig:coalescent}.}  Let's consider a
+simple case, one that we've already seen, first, i.e., two alleles
+drawn at random from a single population.
 
 The probability that two alleles drawn at random from a population are
 copies of the same allele in the preceding generation is also the
@@ -136,27 +137,36 @@ in equation (\ref{eq:two-allele}), that the average time to
 coalescence for two randomly chosen alleles is $2N_e$.\footnote{If
   you've had a little bit of probability theory, you'll notice that
   equation~\ref{eq:two-allele} shows that the coalescence time is a
-  geometric random variable.}
+  geometric random variable.}\index{coalescent!time to common ancestry}
 
 \section*{Mathematics of the coalescent: multiple
   alleles}\index{coalescent!multiple alleles}
 
 It's quite easy to extend this approach to multiple
 alleles.\footnote{Okay, okay. What I should really have said is ``It's
-not {\it too\/} hard to extend this approach to multiple alleles.''}
-We're interested in seeing how far back in time we have to go before
-all alleles are descended from a single common ancestor. We'll assume
-that we have $m$ alleles in our sample. The first thing we have to
-calculate is the probability that any two of the alleles in our sample
-are identical by descent from the immediately preceding generation. To
-make the calculation easier, we assume that the effective size of the
+  not {\it too\/} hard to extend this approach to multiple alleles, if
+  you are comfortable with probability thinking.'' Rembmer: I don't
+  expect you to be able to derive these results on your own. Don't
+  worry if you can't see how you could have come up with the
+  mathematics that follow, don't worry about it. Unless you want to
+  make contributions to developing new theory in population genetics,
+  you don't need to do derivations like these.}  We're interested in
+seeing how far back in time we have to go before all alleles are
+descended from a single common ancestor. We'll assume that we have $m$
+alleles in our sample. The first thing we have to calculate is the
+probability that any two of the alleles in our sample are identical by
+descent from the immediately preceding generation. To make the
+calculation easier, we assume that the effective size of the
 population is large enough that the probability of two coalescent
 events in a single generation is vanishingly small. We already know
 that the probability of a coalescence in the immediately preceding
 generation for two randomly chosen alleles is $1/2N_e$. But there are
-$m(m-1)/2$ different pairs of alleles in our sample. So the
-probability that one pair of these alleles is involved in a coalescent
-event in the immediately preceding generation is
+$m(m-1)/2$ different pairs of alleles in our sample.\footnote{Where
+  did I get that $m(m-1)/2$? You can either take my word for it as ``a
+  well known fact,'' or you can ask me about it, and I'll show you
+  where it comes from.} So the probability that one pair of these
+alleles is involved in a coalescent event in the immediately preceding
+generation is
 \[
 \left(\frac{1}{2N_e}\right)\left(\frac{m(m-1)}{2}\right) \quad .
 \]
@@ -180,7 +190,9 @@ interested in how long we have to wait until {\it all\/} alleles are
 descended from a single common ancestor. Now this is where Kingman's
 sneaky trick comes in. After the first coalescent event, we have $m-1$
 alleles in our sample, instead of $m$. So the whole process starts
-over again with $m-1$ alleles instead of $m$. Since the time to the
+over again with $m-1$ alleles instead of $m$.\footnote{For anyone who
+  cares, this is another example of the Markov property of genetic
+  drift.}\index{genetic drift!Markov property} Since the time to the
 first coalescence depends only on the number of alleles in the sample
 and not on how long the first coalescence event took, we can calculate
 the average time until all coalescences have happened
@@ -252,7 +264,7 @@ can ask if you really care. We only care about $\bar t$ for what
 follows anyway.}
 \[
 \bar t = \frac{k(k-1)\bar t_1 + k\bar t_0}
-              {k} \quad .
+              {k^2} \quad .
 \]
 Slatkin~\cite{Slatkin-1991} pointed out that $F_{st}$ bears a simple
 relationship to average coalescence times within and among
@@ -282,7 +294,7 @@ $F_{st}$ may tell us something about migration. If we are willing to
 assume that there's been no gene exchange among our populations, we
 can infer something about how recently they've diverged from one
 another. But unless we're willing to make one of those assumptions, we
-can't really say anything.
+can't really say anything.\index{genetic drift!migration}
 
 \bibliography{popgen}
 \bibliographystyle{plain}

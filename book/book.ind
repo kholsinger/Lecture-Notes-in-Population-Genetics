@@ -1,96 +1,98 @@
 \begin{theindex}
 
-  \item additive effect, \hyperpage{126}, \hyperpage{129}
-    \subitem Hardy-Weinberg assumption, \hyperpage{126}
-  \item additive genetic variance, \hyperpage{129}
-  \item additive genotypic value, \hyperpage{125}
-  \item Adh, \hyperpage{190}
-    \subitem balancing selection, \hyperpage{191}
-    \subitem purifying selection, \hyperpage{191}
-  \item alcohol dehydrogenase, \hyperpage{190}
+  \item additive effect, \hyperpage{128}, \hyperpage{131}
+    \subitem Hardy-Weinberg assumption, \hyperpage{128}
+  \item additive genetic variance, \hyperpage{131}
+  \item additive genotypic value, \hyperpage{127}
+  \item Adh, \hyperpage{192}
+    \subitem balancing selection, \hyperpage{193}
+    \subitem purifying selection, \hyperpage{193}
+  \item alcohol dehydrogenase, \hyperpage{192}
   \item allele fixation, \hyperpage{71}, \hyperpage{74}
   \item allele frequency distribution, \hyperpage{46}
   \item allele genealogy, \hyperpage{115}
-  \item among-site rate variation, \hyperpage{178}
-    \subitem shape parameter, \hyperpage{178}
-  \item AMOVA, \hyperpage{205}
-    \subitem example, \hyperpage{207}
-  \item ancestral polymorphism, \hyperpage{210}
-  \item Approximate Bayesian Computation, \hyperpage{221}
-    \subitem limitations, \hyperpage{225}
-    \subitem regression, \hyperpage{222}
+  \item among-site rate variation, \hyperpage{180}
+    \subitem shape parameter, \hyperpage{180}
+  \item AMOVA, \hyperpage{215}
+    \subitem example, \hyperpage{217}
+  \item ancestral polymorphism, \hyperpage{220}
+  \item Approximate Bayesian Computation, \hyperpage{231}
+    \subitem limitations, \hyperpage{235}
+    \subitem regression, \hyperpage{232}
   \item assortative mating, \hyperpage{21}
 
   \indexspace
 
-  \item BAMOVA, \hyperpage{235}
-    \subitem example, \hyperpage{236}
+  \item BAMOVA, \hyperpage{245}
+    \subitem example, \hyperpage{246}
   \item Bayesian   inference, \hyperpage{14}
   \item Bayesian inference, \hyperpage{15}
   \item \textit{Berberis}
     \subitem \textit{thunbergii}, \hyperpage{56}
   \item Beta   distribution, \hyperpage{46}
-  \item breeders equation, \hyperpage{148}, \hyperpage{151, 152}
+  \item breeders equation, \hyperpage{150}, \hyperpage{153, 154}
   \item \textit{Bufo}
-    \subitem \textit{marinus}, \hyperpage{219}, \hyperpage{223}
+    \subitem \textit{marinus}, \hyperpage{229}, \hyperpage{233}
 
   \indexspace
 
   \item \textit{Cionia}
-    \subitem \textit{intestinalis}, \hyperpage{234}
+    \subitem \textit{intestinalis}, \hyperpage{244}
   \item coalescent, \hyperpage{115}
-    \subitem balancing selection, \hyperpage{192}
-    \subitem diverging populations, \hyperpage{216}
-    \subitem estimating migration, \hyperpage{216}
-    \subitem estimating migration rates, \hyperpage{215}
+    \subitem balancing selection, \hyperpage{193}
+    \subitem diverging populations, \hyperpage{226}
+    \subitem estimating migration, \hyperpage{226}
+    \subitem estimating migration rates, \hyperpage{225}
     \subitem $F$-statistics, \hyperpage{120}
-    \subitem migration, \hyperpage{213}
+    \subitem migration, \hyperpage{223}
     \subitem mitochondrial Eve, \hyperpage{119}
     \subitem multiple alleles, \hyperpage{118}
-    \subitem time to coalescence, \hyperpage{118}
+    \subitem time to coalescence, \hyperpage{119}
+    \subitem time to common ancestry, \hyperpage{117}
     \subitem two alleles, \hyperpage{116}
   \item coalescent events, \hyperpage{116}
   \item components of   selection, \hyperpage{64}
   \item components of variance
-    \subitem causal, \hyperpage{138}, \hyperpage{140}
-    \subitem observational, \hyperpage{138}, \hyperpage{140}
-  \item covariance, \hyperpage{135}
-    \subitem half-siblings, \hyperpage{135}
-    \subitem relatives, \hyperpage{137}
-  \item cumulative selection gradient, \hyperpage{154}
-    \subitem caveats, \hyperpage{156}
+    \subitem causal, \hyperpage{140}, \hyperpage{142}
+    \subitem observational, \hyperpage{140}, \hyperpage{142}
+  \item concerted evolution, \hyperpage{208}
+  \item covariance, \hyperpage{137}
+    \subitem half-siblings, \hyperpage{137}
+    \subitem relatives, \hyperpage{139}
+  \item cumulative selection gradient, \hyperpage{156}
+    \subitem caveats, \hyperpage{158}
 
   \indexspace
 
   \item \textit{Daphnia}
-    \subitem \textit{pulex}, \hyperpage{234}
+    \subitem \textit{pulex}, \hyperpage{244}
   \item Deviance Information   Criterion, \hyperpage{50}, 
-		\hyperpage{250}
+		\hyperpage{260}
   \item directional selection, \hyperpage{71}
   \item disassortative mating, \hyperpage{65}
   \item Discriminant analysis of population structure, \hyperpage{58}
   \item disruptive selection, \hyperpage{71}
-  \item diversity-divergence, \hyperpage{191}
-  \item dominance genetic variance, \hyperpage{129}
+  \item diversity-divergence, \hyperpage{193}
+  \item dominance genetic variance, \hyperpage{131}
   \item \textit{Drosophila}
-    \subitem \textit{melanogaster}, \hyperpage{190}
+    \subitem \textit{melanogaster}, \hyperpage{192}
     \subitem \textit{pseudoobscura}, \hyperpage{66}
 
   \indexspace
 
-  \item $E$-matrix, \hyperpage{152}
-  \item effective neutrality, \hyperpage{181}
+  \item $E$-matrix, \hyperpage{154}
+  \item effective neutrality, \hyperpage{183}
   \item effectively neutral, \hyperpage{114}
   \item EM algorithm, \hyperpage{12}
-  \item environmental variance, \hyperpage{123}
+  \item environmental variance, \hyperpage{125}
   \item eqilibrium, \hyperpage{24}
   \item equilibrium, \hyperpage{73}
     \subitem monomorphic, \hyperpage{74}
     \subitem polymorphic, \hyperpage{74}
     \subitem unstable, \hyperpage{73}
   \item estimate, \hyperpage{45}
-  \item evolutionary   process, \hyperpage{171}
-  \item evolutionary pattern, \hyperpage{171}
+  \item evolutionary   process, \hyperpage{173}
+  \item evolutionary pattern, \hyperpage{173}
 
   \indexspace
 
@@ -98,30 +100,31 @@
     \subitem $G_{st}$, \hyperpage{41}
     \subitem coalescent, \hyperpage{120}
     \subitem notation, \hyperpage{43}
-    \subitem outliers, \hyperpage{193}
+    \subitem outliers, \hyperpage{195}
     \subitem Weir   and Cockerham, \hyperpage{42}
-  \item Fay and Wu's $H$, \hyperpage{199}
+  \item Fay and Wu's $H$, \hyperpage{201}, \hyperpage{274}
   \item fecundity selection, \hyperpage{64}
   \item fertility selection, \hyperpage{64}
-  \item fineSTRUCTURE, \hyperpage{240}
+  \item fineSTRUCTURE, \hyperpage{250}
   \item First law of   population genetics, \hyperpage{6}
   \item Fisher's Fundamental Theorem of Natural Selection, 
 		\hyperpage{71}
   \item fitness
-    \subitem regression on phenotype, \hyperpage{146, 147}
-  \item Fu's $F_S$, \hyperpage{199}
-  \item full-sib analysis, \hyperpage{133}, \hyperpage{138}
-  \item fundamental theorem of natural selection, \hyperpage{149}
+    \subitem regression on phenotype, \hyperpage{148, 149}
+  \item Fu's $F_S$, \hyperpage{201}, \hyperpage{274}
+  \item full-sib analysis, \hyperpage{135}, \hyperpage{140}
+  \item fundamental theorem of natural selection, \hyperpage{151}
 
   \indexspace
 
-  \item $G$-matrix, \hyperpage{152}
+  \item $G$-matrix, \hyperpage{154}
   \item gamete     competition, \hyperpage{64}
-  \item gametic disequilibrium, \hyperpage{161}
-    \subitem drift, \hyperpage{164}
-  \item gene tree, \hyperpage{210}
-  \item genetic code, \hyperpage{186}
-    \subitem redundancy, \hyperpage{187}
+  \item gametic disequilibrium, \hyperpage{163}
+    \subitem drift, \hyperpage{166}
+  \item gene conversion, \hyperpage{210}
+  \item gene tree, \hyperpage{220}
+  \item genetic code, \hyperpage{188}
+    \subitem redundancy, \hyperpage{189}
   \item genetic composition of populations, \hyperpage{7}
   \item genetic drift, \hyperpage{91}
     \subitem allele frequency variance, \hyperpage{95}
@@ -141,7 +144,8 @@
     \subitem inbreeding analogy, \hyperpage{96}
     \subitem inbreeding effective size, \hyperpage{98}
     \subitem loss of beneficial alleles, \hyperpage{111}
-    \subitem migration, \hyperpage{108}
+    \subitem Markov property, \hyperpage{95}, \hyperpage{118}
+    \subitem migration, \hyperpage{109}, \hyperpage{121}
     \subitem mutation, \hyperpage{105}
     \subitem mutation, recurrent, \hyperpage{107}
     \subitem mutation, stationary distribtuion, \hyperpage{107}
@@ -151,36 +155,37 @@
     \subitem properties with selection, \hyperpage{113}
     \subitem uncertainty in allele frequencies, \hyperpage{92}
     \subitem variance effective size, \hyperpage{98}
-  \item genetic variance, \hyperpage{123}
-    \subitem additive, \hyperpage{130}
-    \subitem components, \hyperpage{129}
-    \subitem dominance, \hyperpage{129}
-  \item genotypic value, \hyperpage{125}, \hyperpage{144}
-    \subitem additive, \hyperpage{125}
-    \subitem fitness, \hyperpage{144}
-  \item genotyping-by-sequencing, \hyperpage{227}, \hyperpage{229}
+  \item genetic variance, \hyperpage{125}
+    \subitem additive, \hyperpage{132}
+    \subitem components, \hyperpage{131}
+    \subitem dominance, \hyperpage{131}
+  \item genotypic value, \hyperpage{127}, \hyperpage{146}
+    \subitem additive, \hyperpage{127}
+    \subitem fitness, \hyperpage{146}
+  \item genotyping-by-sequencing, \hyperpage{237}, \hyperpage{239}
   \item geographic structure, \hyperpage{31}
+  \item globins, \hyperpage{205}
 
   \indexspace
 
-  \item half-sib analysis, \hyperpage{134}
+  \item half-sib analysis, \hyperpage{136}
   \item Hardy-Weinberg   assumptions, \hyperpage{9}
   \item Hardy-Weinberg principle, \hyperpage{10}
   \item Hardy-Weinberg proportions
     \subitem multiple alleles, \hyperpage{81}
   \item harmonic mean, \hyperpage{102}
-  \item heritability, \hyperpage{137, 138}, \hyperpage{140}
-    \subitem broad sense, \hyperpage{124}
-    \subitem narrow sense, \hyperpage{124}
+  \item heritability, \hyperpage{139, 140}, \hyperpage{142}
+    \subitem broad sense, \hyperpage{126}
+    \subitem narrow sense, \hyperpage{126}
   \item HGDP-CEPH, \hyperpage{57}
-  \item human   population genetics, \hyperpage{240}
+  \item human   population genetics, \hyperpage{250}
   \item humans, \hyperpage{57}
 
   \indexspace
 
   \item ideniity by type, \hyperpage{27}
   \item identity by   descent, \hyperpage{27}
-  \item immunological distance, \hyperpage{172}
+  \item immunological distance, \hyperpage{174}
   \item inbreeding, \hyperpage{21}
     \subitem consequences, \hyperpage{23}
     \subitem partial   self-fertilization, \hyperpage{23}
@@ -198,12 +203,12 @@
   \indexspace
 
   \item \texttt{JAGS}, \hyperpage{15}
-  \item Jukes-Cantor distance, \hyperpage{176}
-    \subitem assumptions, \hyperpage{177}
+  \item Jukes-Cantor distance, \hyperpage{178}
+    \subitem assumptions, \hyperpage{179}
 
   \indexspace
 
-  \item linkage disequilibrium, \hyperpage{161}
+  \item linkage disequilibrium, \hyperpage{163}
 
   \indexspace
 
@@ -213,23 +218,31 @@
   \item maximum-likelihood estimates, \hyperpage{13}
   \item MCMC sampling, \hyperpage{15}
   \item mean fitness, \hyperpage{67}
-  \item \textit{Melanopus}, \hyperpage{211}
+  \item \textit{Melanopus}, \hyperpage{221}
   \item migration
-    \subitem estimating, \hyperpage{215}
+    \subitem estimating, \hyperpage{225}
   \item migration rate
     \subitem backward, \hyperpage{109}
     \subitem forward, \hyperpage{109}
-  \item molecular clock, \hyperpage{172}, \hyperpage{180}
-    \subitem derivation, \hyperpage{182}
+  \item molecular clock, \hyperpage{174}, \hyperpage{182}
+    \subitem derivation, \hyperpage{184}
   \item molecular variation
-    \subitem markers, \hyperpage{174}
-    \subitem physical basis, \hyperpage{173}
+    \subitem markers, \hyperpage{176}
+    \subitem physical basis, \hyperpage{175}
   \item monomorphic, \hyperpage{71}
-  \item mother-offspring   pairs, \hyperpage{134}
+  \item mother-offspring   pairs, \hyperpage{136}
+  \item multigene family
+    \subitem concerted evolution, \hyperpage{208}
+    \subitem examples, \hyperpage{208}
+    \subitem gene conversion, \hyperpage{210}
+    \subitem globins, \hyperpage{206}
+    \subitem ortholog, \hyperpage{206}
+    \subitem paralog, \hyperpage{206}
+    \subitem unequal crossing over, \hyperpage{210}
   \item mutation
-    \subitem infinite alleles model, \hyperpage{105}, \hyperpage{183}
-    \subitem infinite sites model, \hyperpage{196}
-  \item mutation rate, \hyperpage{179}
+    \subitem infinite alleles model, \hyperpage{105}, \hyperpage{185}
+    \subitem infinite sites model, \hyperpage{198}, \hyperpage{271}
+  \item mutation rate, \hyperpage{181}
 
   \indexspace
 
@@ -248,45 +261,50 @@
     \subitem sexual selection, \hyperpage{65}, \hyperpage{86}
     \subitem sickle cell anemia, \hyperpage{83}
     \subitem viability     selection, \hyperpage{65}
-  \item nature vs.\ nurture, \hyperpage{124}
-  \item neutral alleles, \hyperpage{180}
+  \item nature vs.\ nurture, \hyperpage{126}
+  \item neutral alleles, \hyperpage{182}
   \item neutral theory
-    \subitem effective neutrality, \hyperpage{181}
-    \subitem modifications, \hyperpage{189}
-  \item next-generation sequencing, \hyperpage{227}
-    \subitem estimating $F_{ST}$, \hyperpage{227}
-    \subitem estimating nucleotide diversity, \hyperpage{232}
-    \subitem partitioning diversity, \hyperpage{235}
-    \subitem phylogeography, \hyperpage{229}
-  \item non-synonymous substitutions, \hyperpage{187}
-  \item nucleotide diversity, \hyperpage{196}
-    \subitem partitioning, \hyperpage{205}
+    \subitem effective neutrality, \hyperpage{183}
+    \subitem modifications, \hyperpage{191}
+  \item next-generation sequencing, \hyperpage{237}
+    \subitem estimating $F_{ST}$, \hyperpage{237}
+    \subitem estimating nucleotide diversity, \hyperpage{242}
+    \subitem partitioning diversity, \hyperpage{245}
+    \subitem phylogeography, \hyperpage{239}
+  \item non-synonymous substitutions, \hyperpage{189}
+  \item nucleotide diversity, \hyperpage{198}, \hyperpage{271}
+    \subitem partitioning, \hyperpage{215}
 
   \indexspace
 
-  \item $P$-matrix, \hyperpage{152}
+  \item ortholog, \hyperpage{206}
+
+  \indexspace
+
+  \item $P$-matrix, \hyperpage{154}
+  \item paralog, \hyperpage{206}
   \item parameter, \hyperpage{45}
-  \item parent-offspring regression, \hyperpage{133}, \hyperpage{137}
+  \item parent-offspring regression, \hyperpage{135}, \hyperpage{139}
   \item phenotypic variance
-    \subitem partitioning, \hyperpage{123}
-  \item phenylketonuria, \hyperpage{124}
-  \item $\Phi_{st}$, \hyperpage{205}
-  \item population tree, \hyperpage{210}
+    \subitem partitioning, \hyperpage{125}
+  \item phenylketonuria, \hyperpage{126}
+  \item $\Phi_{st}$, \hyperpage{215}
+  \item population tree, \hyperpage{220}
 
   \indexspace
 
-  \item QTL, \hyperpage{159}
-  \item quantitative   trait locus, \hyperpage{159}
+  \item QTL, \hyperpage{161}
+  \item quantitative   trait locus, \hyperpage{161}
 
   \indexspace
 
-  \item RAD sequencing, \hyperpage{227, 228}
-  \item recombination frequency, \hyperpage{163}
+  \item RAD sequencing, \hyperpage{237, 238}
+  \item recombination frequency, \hyperpage{165}
   \item reference population, \hyperpage{28}
   \item relative fitness, \hyperpage{69}
-  \item resemblance between relatives, \hyperpage{133}
-  \item response to selection, \hyperpage{125}, \hyperpage{144}, 
-		\hyperpage{148}, \hyperpage{151}
+  \item resemblance between relatives, \hyperpage{135}
+  \item response to selection, \hyperpage{127}, \hyperpage{146}, 
+		\hyperpage{150}, \hyperpage{153}
 
   \indexspace
 
@@ -294,54 +312,55 @@
     \subitem genetic, \hyperpage{45}
     \subitem statistical, \hyperpage{45}
   \item sampling error, \hyperpage{41}
-  \item segregating sites, \hyperpage{196}
+  \item segregating sites, \hyperpage{198}, \hyperpage{271}
   \item segregation distortion, \hyperpage{64}
   \item selection
     \subitem directional   selection, \hyperpage{71}
     \subitem disruptive, \hyperpage{71}
     \subitem marginal fitness, \hyperpage{82}
-    \subitem multivariate example, \hyperpage{153}
+    \subitem multivariate example, \hyperpage{155}
     \subitem one locus, multiple alleles, \hyperpage{82}
     \subitem stabilizing, \hyperpage{74}
   \item selection coefficient, \hyperpage{71}
-  \item selection differential, \hyperpage{148}, \hyperpage{151}
+  \item selection differential, \hyperpage{150}, \hyperpage{153}
   \item selection equation, \hyperpage{68}
   \item self-fertilization, \hyperpage{22}
     \subitem partial, \hyperpage{23}
   \item sexual selection, \hyperpage{21}, \hyperpage{65}
-  \item sledgehammer principle, \hyperpage{185}, \hyperpage{187}, 
-		\hyperpage{191}
+  \item sledgehammer principle, \hyperpage{187}, \hyperpage{189}, 
+		\hyperpage{193}
   \item stabilizing selection, \hyperpage{74}
   \item statistical expectation, \hyperpage{38}
   \item statistical phylogeography
-    \subitem example, \hyperpage{213}
+    \subitem example, \hyperpage{223}
   \item \texttt{Structure}, \hyperpage{56}
-  \item substitution rate, \hyperpage{179}
-  \item substitution rates, \hyperpage{187}
-  \item synonymous substitutions, \hyperpage{187}
+  \item substitution rate, \hyperpage{181}
+  \item substitution rates, \hyperpage{189}
+  \item synonymous substitutions, \hyperpage{189}
 
   \indexspace
 
-  \item Tajima's $D$, \hyperpage{196}
-    \subitem interpretation, \hyperpage{197}
+  \item Tajima's $D$, \hyperpage{198}, \hyperpage{271}
+    \subitem interpretation, \hyperpage{199}, \hyperpage{273}
   \item \texttt{teraStructure}, \hyperpage{58}
   \item testing   Hardy-Weinberg
-    \subitem goodness of fit, \hyperpage{246}
-  \item testing Hardy-Weinberg, \hyperpage{246}
-    \subitem Bayesian approach, \hyperpage{247}
+    \subitem goodness of fit, \hyperpage{256}
+  \item testing Hardy-Weinberg, \hyperpage{256}
+    \subitem Bayesian approach, \hyperpage{257}
   \item two-locus genetics
-    \subitem decay of disequilibrium, \hyperpage{164}
-    \subitem drift, \hyperpage{164}
-    \subitem gamet frequenies, \hyperpage{160}
-    \subitem gametic disequilibrium, \hyperpage{161}
-    \subitem Hardy-Weinberg, \hyperpage{163}
-    \subitem recombination, \hyperpage{163}
-    \subitem transmission, \hyperpage{162}
+    \subitem decay of disequilibrium, \hyperpage{166}
+    \subitem drift, \hyperpage{166}
+    \subitem gamet frequenies, \hyperpage{162}
+    \subitem gametic disequilibrium, \hyperpage{163}
+    \subitem Hardy-Weinberg, \hyperpage{165}
+    \subitem recombination, \hyperpage{165}
+    \subitem transmission, \hyperpage{164}
 
   \indexspace
 
   \item unbiased estimate, \hyperpage{39}
   \item unbiased estimates, \hyperpage{38}
+  \item unequal crossing over, \hyperpage{210}
 
   \indexspace
 
@@ -361,13 +380,13 @@
   \item Wahlund effect, \hyperpage{31, 32}
     \subitem properties, \hyperpage{33}
     \subitem theory, \hyperpage{33}
-    \subitem two loci, \hyperpage{165}
+    \subitem two loci, \hyperpage{167}
   \item \textit{Wyeomyia}
-    \subitem \textit{smithii}, \hyperpage{229}
+    \subitem \textit{smithii}, \hyperpage{239}
 
   \indexspace
 
-  \item Zeng et al.'s $E$, \hyperpage{200}
+  \item Zeng et al.'s $E$, \hyperpage{202}, \hyperpage{275}
   \item zero force laws, \hyperpage{5}
   \item \textit{Zoarces viviparus}, \hyperpage{3}
 

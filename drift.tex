@@ -211,17 +211,19 @@ population except one.
 the population is equal to its current frequency.
 
 \item The population has no memory.\footnote{Technically, we've
-described a Markov chain with a finite state space, but I doubt that
-you really care about that.} The probability that the offspring
-generation will have a particular allele frequency depends {\it
-only\/} on the allele frequency in the parental generation. It does
-not depend on how the parental generation came to have that allele
-frequency. This is exactly analogous to coin-tossing. The probability
-that you get a heads on the next toss of a fair coin is 1/2. It
-doesn't matter whether you've never tossed it before or if you've just
-tossed 25 heads in a row.\footnote{Of course, if you've just tossed 25
-heads in a row, you could be forgiven for having your doubts about
-whether the coin is actually fair.}
+    described a Markov chain with a finite state space, but I doubt
+    that you really care about that. All Markov chains have this
+    ``memoryless'' property. In fact, it's called the Markov
+    property.}\index{genetic drift!Markov property} The probability that the
+  offspring generation will have a particular allele frequency depends
+  {\it only\/} on the allele frequency in the parental generation. It
+  does not depend on how the parental generation came to have that
+  allele frequency. This is exactly analogous to coin-tossing. The
+  probability that you get a heads on the next toss of a fair coin is
+  1/2. It doesn't matter whether you've never tossed it before or if
+  you've just tossed 25 heads in a row.\footnote{Of course, if you've
+    just tossed 25 heads in a row, you could be forgiven for having
+    your doubts about whether the coin is actually fair.}
 
 \end{itemize}
 
