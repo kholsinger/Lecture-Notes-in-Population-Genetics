@@ -118,7 +118,56 @@ that are related to the underlying mutation rate:
   D. melanogaster\/} is selectively neutral, the amount of divergence
 between {\it D. melanogaster\/} and {\it D. simulans\/} should be
 related to the amount of diversity within each. What they found
-instead is summarized in Table~\ref{table:ka}.\index{Adh!balancing selection}\index{diversity-divergence}
+instead is summarized in Table~\ref{table:ka}.\index{Adh!balancing selection}\index{diversity-divergence} 
+
+The expected level of diversity in each part of the {\it Adh\/} locus
+is calculated assuming that the probability of polymorphism is
+independent of what position in the locus we are
+examining.\footnote{It's important to note that what I've labeled as
+  the {\it Adh\/} locus in Table~\ref{table:ka} is the region that
+  contains the protein coding part of the locus. The 5' and 3'
+  flanking regions are physically adjacent, but none of the
+  nucleotides in these parts of the gene are translated into the {\it
+    Adh\/} enzyme.} Specifically, Kreitman and Aguad{\'e} calculated
+the expected polymorphism as follows:
+
+\begin{itemize}
+
+\item They calculated the number of ``site equivalents'' in each
+  region of the locus. A site equivalent is the actual length of the
+  region~(in number of nucleotides) times the fraction of changes
+  within that sequence that would lead to gain or loss of a
+  restriction site.\footnote{Because sequencing was extremely
+    time-consuming in the mid-1980s, it was impractical to sequence
+    the {\it Adh\/} locus in all of the 81 lines they used in the
+    analysis. Instead they used restriction enzymes to reveal some of
+    the nucleotide sequence variation in the locus.} There were 414
+  site equivalents in the 5' flanking region, 411 site equivalents in
+  the {\it Adh\/} locus, and 129 site equivalents in the 3' flanking
+  region. 
+
+\item They calculated the fraction of site equivalents that were
+  polymorphic across the entire locus:
+\[
+\frac{25}{414+411+129} \approx 0.026 \quad .
+\]
+
+\item They calculated the expected number of polymorphic sites within
+  a region as the product of the number of site equivalents and the
+  fraction of polymorphic site equivalents.
+
+\end{itemize}
+
+\noindent They used the same approach to calculate the expected
+divergence between {\it D. melanogaster\/} and {\it D. simulans\/}
+with one important exception. They directly compared the nucleotide
+sequence of one {\it Adh\/} allele from {\it D. melanogaster\/} with
+one {\it Adh\/} allele from {\it D. simulans}.\footnote{Can you
+  explain why it's reasonable to estimate divergence between alleles
+  in these species using only one allele from each of them?} As a
+result, they didn't have to use the site equivalent correction. They
+could directly use the number of nucleotides in each region of the
+gene.
 
 \begin{table}
 \begin{center}
@@ -143,8 +192,9 @@ Divergence$^2$ \\
     Drosophila}~(from~\cite{Kreitman-Aguade86}).}\label{table:ka}
 \end{table}
 
-Notice that there is substantially less divergence at the {\it Adh\/}
-locus than would be expected, based on the average level of divergence
+Notice that there is substantially less divergence between {\it
+  D. melanogaster\/} and {\it D. simulans\/} at the {\it Adh\/} locus
+than would be expected, based on the average level of divergence
 across the entire region. That's consistent with the earlier
 observation that most amino acid substitutions are selected
 against. On the other hand, there is {\it more\/} nucleotide diversity
@@ -176,7 +226,7 @@ sequence~(Figure~\ref{fig:kh}).
 
 \begin{figure}
 \begin{center}
-\resizebox{!}{6cm}{\includegraphics{kreitman-hudson.eps}}
+\resizebox{!}{7cm}{\includegraphics{kreitman-hudson.eps}}
 \end{center}
 \caption{Sliding window analysis of nucleotide diversity in the {\it
     Adh\/}-{\it Adh-dup} region of {\it Drosophila melanogaster}. The

@@ -77,40 +77,53 @@ Not only do we have all of these different types of globin genes in
 our bodies, they're all related to one another. Comparative sequence
 analysis has shown that vertebrate myoglobin and hemoglobins diverged
 from one another about 450 million years ago. Figure~\ref{fig:globins}
-shows a phylogenetic analysis of globin genes from humans, mice, and a
-variety of Archaea. Focus your attention on the part of the tree that
-has human and mouse sequences. You'll notice two interesting
-things:\index{multigene family!globins}
+shows a phylogenetic analysis of part of the globin gene family,
+namely the $\beta$ globin genes within tetrapods. If you stare at this
+tree for a while, you'll notice a couple of interesting things:
 
 \begin{itemize}
 
-\item Human and mouse neuroglobins (Ngb) are more closely related to
-  one another than they are to other globins, even those from the same
-  species. The same holds true for cytoglobins (Cyg) and myoglobins
-  (Mb).
+\item Eutherian $\beta$ and $\delta$ globins are more closely related
+  to marsupial $\beta$ globins than they are to eutherian $\epsilon$
+  or $\gamma$ globins.
 
-\item Within the hemoglobins, only mouse $\beta$-globin (Mouse HbB) is
-  misplaced. All other $\alpha$- and $\beta$-globins group with the
-  corresponding mouse and human loci.
+\item Marsupial $\beta$ globin is more closely related to eutherian
+  $\beta$ and $\delta$ globins than it is to marsupial $\epsilon$
+  globin. 
 
 \end{itemize}
 
-This pattern is exactly what we expect as a result of duplication and
-divergence. Up to the time that a gene becomes duplicated, its
-evolutionary history matches the evolutionary history of the organisms
-containing it. Once there are duplicate copies, each follows an
-independent evolutionary history. Each traces the history of
-speciation and divergence. And over long periods duplicate copies of
-the same gene share more recent common ancestry with copies of the
-same gene in a different species than they do with duplicate genes in
-the same genome.
+\begin{figure}
+\begin{center}
+\resizebox{0.9\textwidth}{!}{\includegraphics{globin-gene-tree.eps}}
+\end{center}
+\caption{Evolution of $\beta$-globin genes in tetrapods drawn as a
+  gene tree~(from~\cite{Opazo-etal-2008}).}\label{fig:globins}
+\end{figure}
+
+\noindent To put that another way, $\beta$ globin genes within humans
+(a eutherian) are more closely related to $\beta$ globin genes in
+kangaroos (a marsupial) than to $\epsilon$ globin genes in
+humans. Strange as it seems, this pattern is exactly what we expect as
+a result of duplication and divergence. 
+
+Up to the time that a gene becomes duplicated, its evolutionary
+history matches the evolutionary history of the organisms containing
+it.  Once there are duplicate copies, each follows an independent
+evolutionary history. Each traces the history of speciation and
+divergence. And over long periods duplicate copies of the same gene
+share more recent common ancestry with copies of the same gene in a
+different species than they do with duplicate genes in the same
+genome. You can see that in this example if we redraw the gene tree in
+Figure~ref{fig:globins} as a species tree with the gene tree inside
+it~(Figure~\ref{fig:globins-species}). 
 
 \begin{figure}
 \begin{center}
-\resizebox{0.75\textwidth}{!}{\includegraphics{globin.eps}}
+\resizebox{0.9\textwidth}{!}{\includegraphics{globin-species-tree.eps}}
 \end{center}
-\caption{Evolution of globin genes in Archaea and
-  mammals~(from~\cite{Freitas-etal2004}).}\label{fig:globins}
+\caption{Evolution of $\beta$-globin genes in tetrapods drawn as a
+  species tree~(from~\cite{Opazo-etal-2008}).}\label{fig:globins-species}
 \end{figure}
 
 A history of duplication and divergence in multigene families makes it
@@ -216,18 +229,18 @@ is referred to as concerted evolution.
 \end{figure}
 
 Two mechanisms that can result in concerted evolution have been widely
-studied: unequal crossing over and gene conversion.
-\index{multigene family!unequal crossing over}
-\index{multigene family!gene conversion}
-\index{unequal crossing over}
-\index{gene conversion}
-Both depend on
-misalignments during meiotic prophase. These misalignments allow a mutation
-that occurs in one copy of a tandemly repeated gene array to
-``spread'' to other copies of the gene array. Tomoko Ohta and Thomas
-Nagylaki have provided exhaustive mathematical treatments of the
-process~\cite{Nagylaki84,Ohta84}. We'll follow Ohta's treatment, but
-keep it fairly simple and straightforward. First some notation:
+studied: unequal crossing over and gene conversion.  \index{multigene
+  family!unequal crossing over} \index{multigene family!gene
+  conversion} \index{unequal crossing over} \index{gene conversion}
+Both depend on misalignments during meiotic prophase. These
+misalignments allow a mutation that occurs in one copy of a tandemly
+repeated gene array to ``spread'' to other copies of the gene
+array. Tomoko Ohta and Thomas Nagylaki have provided exhaustive
+mathematical treatments of the process~\cite{Nagylaki84,Ohta84}. We'll
+follow Ohta's treatment, but keep it fairly simple and
+straightforward. First some notation:\footnote{See
+Figure~\ref{fig:ohta-multigene} for a diagram that you may find
+helpful}
 \begin{eqnarray*}
 f   &=& \mbox{P}(\mbox{two alleles at same locus are ibd}) \\
 c_1 &=& \mbox{P}(\mbox{two alleles at different loci in same
@@ -238,6 +251,13 @@ c_2 &=& \mbox{P}(\mbox{two alleles at different loci in different
 n &=& \mbox{no.\ of loci in family} \\
 \lambda &=& \mbox{rate of gene conversion}
 \end{eqnarray*}
+
+\begin{figure}
+\resizebox{\textwidth}{!}{\includegraphics{ohta-multigene.eps}}
+\caption{Types of identity by descent within a tandem
+  repeat~(from~\cite{Ohta-1982}).}\label{fig:ohta-multigene}
+\end{figure}
+
 Now remember that for the infinite alleles model
 \[
 f = \frac{1}{4N_e\mu + 1} \quad , \\
