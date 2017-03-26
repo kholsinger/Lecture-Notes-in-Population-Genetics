@@ -27,7 +27,7 @@
 \contentsline {chapter}{\numberline {21}Detecting selection on nucleotide polymorphisms}{197}{chapter.21}
 \contentsline {chapter}{\numberline {22}Evolution in multigene families}{207}{chapter.22}
 \contentsline {part}{VI\hspace {1em}Phylogeography}{217}{part.6}
-\contentsline {chapter}{\numberline {23}AMOVA and Statistical phylogeography}{219}{chapter.23}
+\contentsline {chapter}{\numberline {23}Statistical phylogeography: Migrate-N and IMa}{219}{chapter.23}
 \contentsline {chapter}{\numberline {24}Population genomics}{241}{chapter.24}
 \contentsline {chapter}{\numberline {25}Genetic structure of human populations in Great Britain}{253}{chapter.25}
 \contentsline {part}{VII\hspace {1em}Old chapters, no longer updated}{257}{part.7}

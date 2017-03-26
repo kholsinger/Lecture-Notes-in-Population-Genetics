@@ -1,204 +1,4 @@
-\chapter{AMOVA and Statistical phylogeography}
-
-The notation now becomes just a little bit more complicated. We will
-now use $x_{ik}$ to refer to the frequency of the $i$th haplotype in
-the $k$th population. Then
-\[
-x_{i\cdot} = \frac{1}{K}\sum_{k=1}^K x_{ik}
-\]
-is the mean frequency of haplotype $i$ across all populations, where
-$K$ is the number of populations. We can now define
-\begin{eqnarray*}
-\pi_t &=& \sum_{ij} x_{i\cdot}x_{j\cdot} \delta_{ij} \\
-\pi_s &=& \frac{1}{K}\sum_{k=1}^K\sum_{ij} x_{ik}x_{jk}\delta_{ij} \quad ,
-\end{eqnarray*}
-where $\pi_t$ is the nucleotide sequence diversity across the entire
-set of populations and $\pi_s$ is the average nucleotide sequence
-diversity within populations. Then we can define\index{nucleotide diversity!partitioning}
-\begin{equation}
-\Phi_{st} = \frac{\pi_t - \pi_s}{\pi_t} \quad ,
-\label{eq:phi-st}
-\end{equation}
-which is the direct analog of Wright's $F_{st}$ for nucleotide
-sequence diversity. Why? Well, that requires you to remember stuff we
-covered eight or ten weeks ago.\index{Phi-st@$\Phi_{st}$}\index{AMOVA}
-
-To be a bit more specific, refer back to
-\url{http://darwin.eeb.uconn.edu/eeb348/lecture-notes/wahlund/node4.html}.
-If you do, you'll see that we defined
-\[
-F_{IT} = 1 - \frac{H_i}{H_t} \quad ,
-\]
-where $H_i$ is the average heterozygosity in individuals and $H_t$ is
-the expected panmictic heterozygosity. Defining $H_s$ as the average
-panmictic heterozygosity within populations, we then observed that
-\begin{eqnarray*}
-1 - F_{IT} &=& \frac{H_i}{H_t} \\
-           &=& \frac{H_i}{H_s}\frac{H_s}{H_t} \\
-           &=& (1 - F_{IS})(1 - F_{ST}) \\
-1-F_{ST} &=& \frac{1-F_{IT}}{1-F_{IS}} \\
-F_{ST} &=&
-\frac{\left(1-F_{IS}\right)-\left(1-F_{IT}\right)}{1-F_{IS}} \\
-&=& \frac{\left(H_i/H_s\right) - \left(H_i/H_t\right)}{H_i/H_s} \\
-&=& 1 - \frac{H_s}{H_t} \quad .
-\end{eqnarray*}
-In short, another way to think about $F_{ST}$ is
-\begin{equation}
-F_{ST} = \frac{H_t - H_s}{H_t} \quad .
-\label{eq:f-st}
-\end{equation}
-Now if you compare equation~(\ref{eq:phi-st}) and
-equation~(\ref{eq:f-st}), you'll see the analogy.
-
-So far I've motivated this approach by thinking about $\delta_{ij}$ as
-the fraction of sites at which two haplotypes differ and $\pi_s$ and
-$\pi_t$ as estimates of nucleotide diversity. But nothing in the
-algebra leading to equation~(\ref{eq:phi-st}) requires that
-assumption. Excoffier et al.~\cite{Excoffier-etal92} pointed out that
-other types of molecular data can easily be fit into this
-framework. We simply need an appropriate measure of the ``distance''
-between different haplotypes or alleles. Even with nucleotide
-sequences the appropriate $\delta_{ij}$ may reflect something about
-the mutational pathway likely to connect sequences rather than the raw
-number of differences between them. For example, the distance might be
-a Jukes-Cantor distance or a more general distance measure that
-accounts for more of the properties we know are associated with
-nucleotide substitution. The idea is illustrated in
-Figure~\ref{fig:amova-procedure}. Once we have $\delta_{ij}$ for all
-pairs of haplotypes or alleles in our sample, we can use the ideas
-lying behind equation~(\ref{eq:phi-st}) to partition
-diversity{\dash}the average distance between randomly chosen
-haplotypes or alleles{\dash}into within and among population
-components.\footnote{As with $F$-statistics, the actual estimation
-  procedure is more complicated than I describe here. Standard
-  approaches to AMOVA use method of moments calculations analogous to
-  those introduced by Weir and Cockerham for
-  $F$-statistics~\cite{WeirCockerham84}. Bayesian approaches are
-  possible, but they are not yet widely available~(meaning, in part,
-  that I know how to do it, but I haven't written the necessary
-  software yet).} This procedure for
-partitioning diversity in molecular markers is referred to as an
-analysis of molecular variance or AMOVA (by analogy with the
-ubiquitous statistical procedure analysis of variance, ANOVA). Like
-Wright's $F$-statistics, the analysis can include several levels in
-the hierarchy.
-
-\begin{figure}
-\begin{center}
-\resizebox{!}{8cm}{\includegraphics{amova-procedure.eps}}
-\end{center}
-\caption{Converting raw differences in sequence (or presence and
-  absence of restriction sites) into a minimum spanning tree and a
-  mutational measure of distance for an analysis of molecular variance~(from~\cite{Excoffier-etal92}).}\label{fig:amova-procedure}
-\end{figure}
-
-\section*{An AMOVA example}\index{AMOVA!example}
-
-Excoffier et al.~\cite{Excoffier-etal92} illustrate the approach by
-presenting an analysis of restriction haplotypes in human mtDNA. They
-analyze a sample of 672 mitochondrial genomes representing two
-populations in each of five regional
-groups~(Figure~\ref{fig:amova-sample-locations}). They identified 56
-haplotypes in that sample. A minimum spanning tree illustrating the
-relationships and the relative frequency of each haplotype is
-presented in Figure~\ref{fig:amova-haplotypes}.
-
-\begin{figure}
-\begin{center}
-\resizebox{!}{6cm}{\includegraphics{amova-sample-locations.eps}}
-\end{center}
-\caption{Locations of human mtDNA samples used in the example
-  analysis~(from~\cite{Excoffier-etal92}).}\label{fig:amova-sample-locations}
-\end{figure}
-
-\begin{figure}
-\begin{center}
-\resizebox{!}{6cm}{\includegraphics{amova-haplotypes.eps}}
-\end{center}
-\caption{Minimum spanning network of human mtDNA samples in the
-  example. The size of each circle is proportional to its
-  frequency~(from~\cite{Excoffier-etal92}).}\label{fig:amova-haplotypes}
-\end{figure}
-
-It's apparent from the figure that haplotype 1 is very common. In
-fact, it is present in substantial frequency in every sampled
-population. An AMOVA using the minimum spanning network in
-Figure~\ref{fig:amova-haplotypes} to measure distance produces the
-results shown in Table~\ref{table:amova-results}. Notice that there is
-relatively little differentiation among populations within the same
-geographical region ($\Phi_{SC} = 0.044$). There is, however,
-substantial differentiation among regions ($\Phi_{CT} = 0.220$). In
-fact, differences among populations in different regions is
-responsible for nearly all of the differences among populations
-($\Phi_{ST} = 0.246$). Notice also that $\Phi$-statistics follow the
-same rules as Wright's $F$-statistics, namely
-\begin{eqnarray*}
-1 - \Phi_{ST} &=& (1 - \Phi_{SC})(1 - \Phi_{CT}) \\
-0.754 &=& (0.956)(0.78) \quad ,
-\end{eqnarray*}
-within the bounds of rounding error.\footnote{There wouldn't be any
-  rounding error if we had access to the raw data.}
-
-\begin{table}
-\begin{center}
-\begin{tabular}{lc}
-\hline\hline
-Component of differentiation     & $\Phi$-statistics \\
-\hline
-Among regions                    & $\Phi_{CT} = 0.220$ \\
-Among populations within regions & $\Phi_{SC} = 0.044$ \\
-Among all populations            & $\Phi_{ST} = 0.246$ \\
-\hline
-\end{tabular}
-\end{center}
-\caption{AMOVA results for the human mtDNA
-  sample~(from~\cite{Excoffier-etal92}).}\label{table:amova-results}
-\end{table}
-
-\section*{An extension}
-
-As you may recall,\footnote{Look back at
-  \url{http://darwin.eeb.uconn.edu/eeb348/lecture-notes/coalescent/node6.html}
-  for the details.}
-Slatkin~\cite{Slatkin91-coalescence} pointed out that there is a
-relationship between coalescence time and $F_{st}$. Namely, if
-mutation is rare then
-\[
-F_{ST} \approx \frac{\bar t - \bar t_0}{\bar t} \quad ,
-\]
-where $\bar t$ is the average time to coalescence for two genes drawn
-at random without respect to population and $\bar t_0$ is the average
-time to coalescence for two genes drawn at random from the same
-populations. Results in~\cite{Holsinger-MasonGamer96} show that when
-$\delta_{ij}$ is linearly proportional to the time since two sequences
-have diverged, $\Phi_{ST}$ is a good estimator of $F_{ST}$ when
-$F_{ST}$ is thought of as a measure of the relative excess of
-coalescence time resulting from dividing a species into several
-population. This observation suggests that the combination of
-haplotype frequency differences and evolutionary distances among
-haplotypes may provide insight into the evolutionary relationships
-among populations of the same species.
-
-\section*{Statistical phylogeography: a preview}
-
-Nested clade analysis represented the earliest attempt to develop a
-formal approach to using an estimate of phylogenetic relationships
-among haplotypes to infer something both about the biogeographic
-history of the populations in which they are contained and the
-evolutionary processes associated with the pattern of diversification
-implied by the phylogenetic relationships among haplotypes and their
-geographic distribution. The statistical parsimony part of NCA depends
-heavily on coalescent theory for calculating the ``limits'' of
-parsimony. As a result, NCA combines aspects of pure phylogenetic
-inference{\dash}parsimony{\dash}with aspects of pure population
-genetics{\dash}coalescent theory{\dash}to develop a set of inferences
-about the phylogeographic history of populations within species. But
-well before NCA was developed, Pamilo and Nei~\cite{Pamilo-Nei-1988}
-pointed out that the phylogenetic relationships of a single gene might
-be different from those of the populations from which the samples were
-collected.
-
-\section*{Gene trees {\it versus\/} population trees}\index{gene tree}\index{population tree}
+\chapter{Statistical phylogeography: Migrate-N and IMa}
 
 There are several reasons why {\it gene trees\/} might not match {\it
   population trees}.
@@ -209,9 +9,10 @@ There are several reasons why {\it gene trees\/} might not match {\it
   set of gene sequences, we {\it estimate} a phylogenetic relationship
   among them. But our estimate could be wrong. In fact, given the
   astronomical number of different trees possible with 50 or 60
-  distinct sequences, it's virtually certain to be wrong somewhere. We
-  just don't know where. It could be that if we had the right gene
-  tree it would match the species tree.
+  distinct sequences, every phylogenetic estimate is virtually certain
+  to be wrong somewhere. We just don't know where. So a difference
+  between our {\it estimate\/} of a gene tree could mean nothing more
+  than that our gene tree estimate is wrong.
 
 \item There might have been a hybridization event in the past so that
   the phylogenetic history of the gene we're studying is different
@@ -232,7 +33,7 @@ There are several reasons why {\it gene trees\/} might not match {\it
 
 \begin{figure}
 \begin{center}
-\includegraphics[height=6cm]{ancestral-polymorphism.eps}
+\includegraphics[height=10cm]{ancestral-polymorphism.eps}
 \end{center}
 \caption{Discordance between gene and population trees as a result of
   ancestral polymorphism
@@ -245,68 +46,293 @@ some basic ideas from coalescent theory. That leads to a further
 refinement, using coalescent theory directly to examine alternative
 biogeographic hypotheses.
 
-\section*{Phylogeography of montane grasshoppers}
+\section*{Coalescent-based estimates of migration rate}
 
-Lacey Knowles studied grasshoppers in the genus {\it Melanopus}. She
-collected 1275bp of DNA sequence data from cytochrome oxidase I (COI)
-from 124 individuals of {\it M. oregonensis\/} and two outgroup
-speices. The specimens were collected from 15 ``sky-island'' sites in
-the northern Rocky Mountains~(see Figure~\ref{fig:sky-islands};
-\cite{Knowles-2001}). Two alternative hypotheses had been proposed to
-describe the evolutionary relationships among these
-grasshoppers~(refer to Figure~\ref{fig:divergence-hypotheses} for a
-pictorial representation):\index{Melanopus@\textit{Melanopus}}
+Nearly 20 years ago Peter Beerli and Joe
+Felsenstein~\cite{Beerli-Felsenstein-1999,Beerli-Felsenstein-2001}
+proposed a coalescent-based method to estimate migration rates among
+populations. As with other analytical methods we've encountered in
+this course, the details can get pretty hairy, but the basic idea is
+(relatively) simple.\index{coalescent!migration}
 
-\begin{figure}
-\begin{center}
-\includegraphics[height=6cm]{sky-islands.eps}
-\end{center}
-\caption{Collection sites for {\it Melanopus oregonensis\/} in the
-  northern Rocky Mountains~(from~\cite{Knowles-2001}).}\label{fig:sky-islands}
-\end{figure}
+Recall that in a single population we can describe the coalescent
+history of a sample without too much difficulty. Specifically, given a
+sample of $k$ alleles in a diploid population with effective size
+$N_e$, the probability that the first coalescent event took place $t$
+generations ago is
+\begin{equation}
+P(t|k, N_e) = \left(\frac{k(k-1)}{4N_e}\right)\left(1-
+  \frac{k(k-1)}{4N_e}\right)^{t-1} \quad . \label{eq:coalescent-single}
+\end{equation}
+Now suppose that we have a sample of alleles from $K$ different
+populations. To keep things (relatively) simple, we'll imagine that we
+have a sample of $n$ alleles from every one of these populations and
+that every population has an effective size of $N_e$. In addition,
+we'll imagine that there is migration among populations, but again
+we'll keep it really simple. Specifically, we'll assume that the
+probability that a given allele in our sample from one population had
+its ancestor in a different population in the immediately preceding
+generation is $m$.\footnote{In other words, $m$ is the backwards
+  migration rate, the probability that a gene in one population came
+  from another population in the preceding generation. This is the
+  same migration rate we encountered weeks ago when we discussed the
+  balance between drift and migration.} Under this simple scenario, we
+can again construct the coalescent history of our sample. How? Funny
+you should ask.
+
+We start by using the same logic we used to construct
+equation~(\ref{eq:coalescent-single}). Specifically, we ask ``What's
+the probability of an `event' in the immediately preceding
+generation?'' The complication is that there are two kinds of events
+possible: 
+
+\begin{enumerate}
+
+\item a coalescent event and 
+
+\item a migration event. 
+
+\end{enumerate}
+
+\noindent As in our original development of the coalescent process,
+we'll assume that the population sizes are large enough that the
+probability of two coalescent events in a single time step is so small
+as to be negligible. In addition, we'll assume that the number of
+populations and the migration rates are small enough that the
+probability of more than one event of either type is so small as to be
+negligible. That means that all we have to do is to calculate the
+probability of either a coalescent event or a migration event and
+combine them to calculate the probability of an event. It turns out
+that it's easiest to calculate the probability that there {\it
+  isn't\/} an event first and then to calculate the probability that
+there is an event as one minus that.
+
+We already know that the probability of a coalescent event in
+population $k$, is
+\[
+P_k(\mbox{coalescent}|n, N_e) = \frac{k(k-1)}{4N_e} \quad ,
+\]
+so the probability that there is {\it not\/} a coalescent event in any
+of our $K$ populations is
+\[
+P(\mbox{no coalescent}|k, N_e, K) = \left(1-\frac{k(k-1)}{4N_e}\right)^K
+\quad .
+\]
+If $m$ is the probability that there was a migration event in a
+particular population than the probability that there is {\it not\/} a
+migration event involving any of our $kK$ alleles\footnote{$K$ populations
+each with $k$ alleles} is
+\[
+P(\mbox{no migration}|k,m, K) = (1-m)^{kK} \quad .
+\]
+So the probability that there {\it is\/} an event of some kind is
+\[
+P(\mbox{event}|k, m, N_e, K) = 1 - P(\mbox{no coalescent}|k, N_e,
+K)P(\mbox{no migration}|k,m, K) \quad .\label{eq:event}
+\]
+Now we can calculate the time back to the first event
+\[
+P(\mbox{event at }t|k, m, N_e, K) = P(\mbox{event}|k, m, N_e,
+K)\left(1 - P(\mbox{event}|k, m, N_e, K)\right)^{t-1} \quad . \label{eq:time-to-event}
+\]
+We can then use Bayes theorem to calculate the probability that the
+event was a coalescence or a migration and the population or
+populations involved. Once we've done that, we have a new population
+configuration and we can start over. We continue until all of the
+alleles have coalesced into a single common ancestor, and then we have
+the complete coalescent history of our sample.\footnote{This may not
+  seem very simple, but just think about how complicated it would be
+  if I allowed every population to have a different effective size and
+  if I allowed each pair of populations to have different migration
+  rates between them.} That's roughly the logic that Beerli and
+Felsenstein use to construct coalescent histories for a sample of
+alleles from a set of populations{\dash}except that they allow
+effective population sizes to differ among populations and they allow
+migration rates to differ among all pairs of populations. As if that
+weren't bad enough, now things start to get even more complicated.
+
+There are lots of different coalescent histories possible for a sample
+consisting of $n$ alleles from each of $K$ different populations, even
+when we fix $m$ and $N_e$. Worse yet, given any one coalescent
+history, there are a lot of different possible mutational histories
+possible. In short, there are a lot of different possible sample
+configurations consistent with a given set of migration rates and
+effective population size. Nonetheless, some combinations of $m$ and
+$N_e$ will make the data more likely than others. In other words, we
+can construct a likelihood for our data:
+\[
+P(\mbox{data}|m, N_e) \propto f(n, m, N_e, K) \quad ,
+\]
+where $f(n, m, N_e,K)$ is some very complicated function of the
+probabilities we derived above. In fact, the function is so
+complicated, we can't even write it down. Beerli and Felsenstein,
+being very clever people, figured out a way to simulate the
+likelihood, and {\tt Migrate-n}
+\url{http://popgen.sc.fsu.edu/Migrate/Migrate-n.html} provides a
+(relatively) simple way that you can use your data to estimate $m$ and
+$N_e$ for a set of populations. In fact, {\tt Migrate-N} will allow you
+to estimate pairwise migration rates among all populations in your
+sample, and since it can simulate a likelihood, if you put priors on
+the parameters you're interested in, i.e., $m$ and $N_e$, you can get
+Bayesian estimates of those parameters rather than maximum likelihood
+estimates, including credible intervals around those estimates so that
+you have a good sense of how reliable your estimates are.\footnote{If
+  you'd like to see a comparision of maximum likelihood and Bayesian
+  approaches, Beerli~\cite{Beerli-2006} provides an excellent
+  overview.}\index{coalescent!estimating migration rates}\index{migration!estimating}\index{Migrate-N@{\tt Migrate-N}}
+
+There's one further complication I need to mention, and it involves a
+lie I just told you. {\tt Migrate-N} can't give you estimates of $m$
+and $N_e$. Remember how every time we've dealt with drift and another
+process we always end up with things like $4N_em$, $4N_e\mu$, and the
+like. Well, the situation is no different here. What {\tt Migrate-N} can
+actually estimate are the two parameters $4N_em$ and
+$\theta=4N_e\mu$.\footnote{Depending on the option you pick when you
+  run {\tt Migrate} you can either get $\theta$ and $4N_em$ or
+  $\theta$ and $M=m/\mu$.} How did $\mu$ get in here when I only
+mentioned it in passing? Well, remember that I said that once the
+computer has constructed a coalescent history, it has to apply
+mutations to that history. Without mutation, all of the alleles in our
+sample would be identical to one another. Mutation is what what
+produces the diversity. So what we get from {\tt Migrate-N} isn't the
+fraction of a population that's composed of migrants. Rather, we get
+an estimate of how much migration contributes to local population
+diversity relative to mutation. That's a pretty interesting estimate
+to have, but it may not be everything that we want.
+
+There's a further complication to be aware of. Think about the
+simulation process I described. All of the alleles in our sample are
+descended from a single common ancestor. That means we are implicitly
+assuming that the set of populations we're studying have been around
+long enough and have been exchanging migrants with one another long
+enough that we've reached a drift-mutation-migration equilibrium. If
+we're dealing with a relatively small number of populations in a
+geographically limited area, that may not be an unreasonable
+assumption, but what if we're dealing with populations of crickets
+spread across all of the northern Rocky Mountains? And what if we
+haven't sampled all of the populations that
+exist?\footnote{Beerli~\cite{Beerli-2004} discusses the impact of
+  ``ghost'' populations. He concludes that you have to be careful
+  about which populations you sample, but that you don't necessarily
+  need to sample every population. Read the paper for the details.} In
+many circumstances, it may be more appropriate to imagine that
+populations diverged from one another at some time in the not too
+distant past, have exchanged genes since their divergence, but haven't
+had time to reach a drift-mutation-migration equilibrium. What do we
+do then?
+
+\section*{Divergence and migration}
+
+Rasmus Nielsen and John Wakely~\cite{Nielsen-Wakeley-2001} consider
+the simplest generalization of Beerli and
+Felsenstein~\cite{Beerli-Felsenstein-1999,Beerli-Felsenstein-2001} you
+could imagine~(Figure~\ref{fig:nielsen-wakeley}). They consider a
+situation in which you have samples from only two populations and
+you're interested in determining both how long ago the populations
+diverged from one another and how much gene exchange there has been
+between the populations since they diverged. As in {\tt Migrate-N}
+mutation and migration rates are confounded with effective population
+size, and the relevant parameters become:\index{coalescent!estimating
+  migration}\index{coalescent!diverging populations}
 
 \begin{itemize}
 
-\item {\bf Widespread ancestor}: The existing populations might represent
-  independently derived remnants of a single, widespread
-  population. In this case all of the populations would be equally
-  related to one another.
+\item $\theta_a$, which is $4N_e\mu$ in the ancestral population.
 
-\item {\bf Multiple glacial refugia}: Populations that shared the same
-  refugium will be closely related while those that were in different
-  refugia will be distantly related.
+\item $\theta_1$, which is $4N_e\mu$ in the first population.
+
+\item $\theta_2$, which is $4N_e\mu$ in the second population.
+
+\item $M_1$, which is $2N_em_1$ in the first population, where $m_1$ is
+  the fraction of the first population composed of migrants from the
+  second population.
+
+\item $M_2$, which is $2N_em_2$ in the second population.
+
+\item $T$, which is the time since the populations
+  diverged. Specifically, if there have been $t$ units since
+  the two populations diverged, $T=t/2N_1$, where $N_1$ is the
+  effective size of the first population.
 
 \end{itemize}
 
 \begin{figure}
 \begin{center}
-\includegraphics[height=6cm]{divergence-hypotheses.eps}
+\includegraphics[height=6cm]{nielsen-wakeley.eps}
 \end{center}
-\caption{Pictorial representations of the ``widespread ancestor''
-  (top) and ``glacial refugia'' (bottom)
-  hypotheses~(from~\cite{Knowles-2001}).}\label{fig:divergence-hypotheses}
+\caption{The simple model developed by Nielsen and
+  Wakeley~\cite{Nielsen-Wakeley-2001}. $\theta_a$ is $4N_e\mu$ in the
+  ancestral population; $\theta_1$ and $\theta_2$ are $4N_e\mu$ in the
+  descendant populations; $M_1$ and $M_2$ are $2N_em$, where $m$ is
+  the backward migration rate; and $T$ is the time since divergence of
+  the two populations.}\label{fig:nielsen-wakeley}
 \end{figure}
 
-As is evident from Figure~\ref{fig:divergence-hypotheses}, the two
-hypotheses have very different consequences for the coalescent history
-of alleles in the sample. Since the interrelationships between
-divergence times and time to common ancestry differ so markedly
-between the two scenarios, the pattern of sequence differences found
-in relation to the geographic distribution will differ greatly between
-the two scenarios. 
+Given that set of parameters, you can probably imagine that you can
+calculate the likelihood of the data for a given set of
+parameters.\footnote{As with {\tt Migrate-N}, you can't calculate the
+  likelihood explicitly, but you can approximate it
+  numerically. See~\cite{Nielsen-Wakeley-2001} for details.} Once you
+can do that you can either obtain maximum-likelihood estimates of the
+parameters by maximizing the likelihood, or you can place prior
+distributions on the parameters and obtain Bayesian estimates from the
+posterior distribution. Either way, armed with estimates of
+$\theta_a$, $\theta_1$, $\theta_2$, $M_1$, $M_2$, and $T$ you can say
+something about:
 
-Using techniques described in Knowles and
-Maddison~\cite{Knowles-Maddison-2002}, Knowles simulated gene trees
-under the widespread ancestor hypothesis. She then placed them within
-a population tree representing the multiple glacial refugia hypothesis
-and calculated a statistic, $s$, that measures the discordance between
-a gene tree and the population tree that contains it. This gave her a
-distribution of $s$ under the widespread ancestor hypothesis. She
-compared the $s$ estimated from her actual data with this distribution
-and found that the observed value of $s$ was only 1/2 to 1/3 the size
-of the value observed in her simulations.\footnote{The discrepancy was
-  largest when divergence from the widespread ancestor was assumed to
-  be very recent.} In short, Knowles presented strong evidence that
-her data are not consistent with the widespread ancestor
-hypothesis.\index{statistical phylogeography!example}
+\begin{enumerate}
+
+\item the effective population sizes of the two populations relative
+  to one another and relative to the ancestral population, 
+
+\item the relative frequency with which migrants enter each of the two
+  populations from the other, and 
+
+\item the time at which the two populations diverged from one another.
+
+\end{enumerate}
+
+\noindent Keep in mind, though, that the estimates of $M_1$ and $M_2$
+confound local effective population sizes with migration rates. So if
+$M_1 > M_2$, for example, it does not mean that the fraction of
+migrants incorporated into population 1 exceeds the fraction
+incorporated into population 2. It means that the impact of migration
+has been felt more strongly in population 1 than in population 2.
+
+\subsection*{An example}
+
+Orti et al.~\cite{Orti-etal-1994} report the results of phylogenetic
+analyses of mtDNA sequences from 25 populations of threespine
+stickleback, {\it Gasterosteus aculeatus}, in Europe, North America,
+and Japan. The data consist of sequences from a 747bp fragment of
+cytochrome $b$. Nielsen and Wakely~\cite{Nielsen-Wakeley-2001} analyze
+these data using their approach. Their analyses show that ``[a] model
+of moderate migration and very long divergence times is more
+compatible with the data than a model of short divergence times and
+low migration rates.'' By ``very long divergence times'' they mean $T
+> 4.5$, i.e., $t > 4.5N_1$. Focusing on populations in the western
+(population 1) and eastern Pacific (population 2), they find that the
+maximum likelihood estimate of $M_1$ is 0, indicating that there is
+little if any gene flow from the eastern Pacific (population 2) into
+the western Pacific (population 1). In contrast, the maximum
+likelihood estiamte of $M_2$ is about 0.5, indicating that one
+individual is incorporated into the eastern Pacific population from
+the western Pacific population every other generation. The
+maximum-likelihood estimates of $\theta_1$ and $\theta_2$ indicate
+that the effective size of the population eastern Pacific population
+is about 3.0 times greater than that of the western Pacific
+population.
+
+\subsection*{Extending the approach to multiple populations}
+
+A little over five years ago, Jody Hey announced the release of {\tt
+  IMa2}.\footnote{Available from
+  \url{https://bio.cst.temple.edu/~hey/software/software.htm}.}
+implement this method.  Building on work described in Hey and
+Nielsen~\cite{Hey-Nielsen-2004,Hey-Nielsen-2007}, {\tt IMa2} allows
+you to estimate relative divergence times, relative effective
+population sizes, and relative pairwise migration rates for more than
+two populations at a time. That flexibility comes at a cost, of
+course. In particular, you have to specify the phylogenetic history of
+the populations before you begin the analysis.
 

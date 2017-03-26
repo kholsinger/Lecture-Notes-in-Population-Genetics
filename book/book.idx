@@ -305,25 +305,23 @@
 \indexentry{multigene family!gene   conversion|hyperpage}{213}
 \indexentry{unequal crossing over|hyperpage}{213}
 \indexentry{gene conversion|hyperpage}{213}
-\indexentry{nucleotide diversity!partitioning|hyperpage}{219}
-\indexentry{Phi-st@$\Phi_{st}$|hyperpage}{219}
-\indexentry{AMOVA|hyperpage}{219}
-\indexentry{AMOVA!example|hyperpage}{221}
-\indexentry{gene tree|hyperpage}{224}
-\indexentry{population tree|hyperpage}{224}
-\indexentry{ancestral polymorphism|hyperpage}{224}
-\indexentry{Melanopus@\textit{Melanopus}|hyperpage}{225}
-\indexentry{statistical phylogeography!example|hyperpage}{227}
-\indexentry{coalescent!migration|hyperpage}{227}
-\indexentry{coalescent!estimating migration rates|hyperpage}{229}
-\indexentry{migration!estimating|hyperpage}{229}
-\indexentry{coalescent!estimating migration|hyperpage}{230}
-\indexentry{coalescent!diverging populations|hyperpage}{230}
-\indexentry{Bufo@\textit{Bufo}!\textit{marinus}|hyperpage}{233}
-\indexentry{Approximate Bayesian Computation|hyperpage}{235}
+\indexentry{ancestral polymorphism|hyperpage}{219}
+\indexentry{coalescent!migration|hyperpage}{221}
+\indexentry{coalescent!estimating migration rates|hyperpage}{223}
+\indexentry{migration!estimating|hyperpage}{223}
+\indexentry{Migrate-N@{\tt Migrate-N}|hyperpage}{223}
+\indexentry{coalescent!estimating   migration|hyperpage}{224}
+\indexentry{coalescent!diverging populations|hyperpage}{224}
+\indexentry{coalescent!migration|hyperpage}{226}
+\indexentry{coalescent!estimating migration rates|hyperpage}{228}
+\indexentry{migration!estimating|hyperpage}{228}
+\indexentry{coalescent!estimating migration|hyperpage}{229}
+\indexentry{coalescent!diverging populations|hyperpage}{229}
+\indexentry{Bufo@\textit{Bufo}!\textit{marinus}|hyperpage}{232}
+\indexentry{Approximate Bayesian Computation|hyperpage}{234}
 \indexentry{Approximate Bayesian Computation!regression|hyperpage}{236}
-\indexentry{Bufo@\textit{Bufo}!\textit{marinus}|hyperpage}{237}
-\indexentry{Approximate Bayesian Computation!limitations|hyperpage}{239}
+\indexentry{Bufo@\textit{Bufo}!\textit{marinus}|hyperpage}{236}
+\indexentry{Approximate Bayesian Computation!limitations|hyperpage}{238}
 \indexentry{next-generation sequencing|hyperpage}{241}
 \indexentry{RAD sequencing|hyperpage}{241}
 \indexentry{next-generation sequencing!estimating $F_{ST}$|hyperpage}{241}
