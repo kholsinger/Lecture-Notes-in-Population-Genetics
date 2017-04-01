@@ -312,55 +312,54 @@
 \indexentry{Migrate-N@{\tt Migrate-N}|hyperpage}{223}
 \indexentry{coalescent!estimating   migration|hyperpage}{224}
 \indexentry{coalescent!diverging populations|hyperpage}{224}
-\indexentry{coalescent!migration|hyperpage}{226}
-\indexentry{coalescent!estimating migration rates|hyperpage}{228}
-\indexentry{migration!estimating|hyperpage}{228}
-\indexentry{coalescent!estimating migration|hyperpage}{229}
-\indexentry{coalescent!diverging populations|hyperpage}{229}
-\indexentry{Bufo@\textit{Bufo}!\textit{marinus}|hyperpage}{232}
-\indexentry{Approximate Bayesian Computation|hyperpage}{234}
-\indexentry{Approximate Bayesian Computation!regression|hyperpage}{236}
-\indexentry{Bufo@\textit{Bufo}!\textit{marinus}|hyperpage}{236}
-\indexentry{Approximate Bayesian Computation!limitations|hyperpage}{238}
-\indexentry{next-generation sequencing|hyperpage}{241}
-\indexentry{RAD sequencing|hyperpage}{241}
-\indexentry{next-generation sequencing!estimating $F_{ST}$|hyperpage}{241}
+\indexentry{Melanopus@\textit{Melanopus}|hyperpage}{227}
+\indexentry{statistical phylogeography!example|hyperpage}{229}
+\indexentry{ABC|hyperpage}{229}
+\indexentry{Approximate Bayesian Computation|hyperpage}{229}
+\indexentry{Bufo@\textit{Bufo}!\textit{marinus}|hyperpage}{231}
+\indexentry{Approximate Bayesian Computation|hyperpage}{233}
+\indexentry{Approximate Bayesian Computation!regression|hyperpage}{234}
+\indexentry{Bufo@\textit{Bufo}!\textit{marinus}|hyperpage}{235}
+\indexentry{Approximate Bayesian Computation!limitations|hyperpage}{237}
+\indexentry{next-generation sequencing|hyperpage}{239}
+\indexentry{RAD sequencing|hyperpage}{239}
+\indexentry{next-generation sequencing!estimating $F_{ST}$|hyperpage}{239}
+\indexentry{genotyping-by-sequencing|hyperpage}{239}
+\indexentry{RAD sequencing|hyperpage}{240}
 \indexentry{genotyping-by-sequencing|hyperpage}{241}
-\indexentry{RAD sequencing|hyperpage}{242}
-\indexentry{genotyping-by-sequencing|hyperpage}{243}
-\indexentry{next-generation sequencing!phylogeography|hyperpage}{243}
-\indexentry{Wyeomyia@\textit{Wyeomyia}!\textit{smithii}|hyperpage}{243}
-\indexentry{next-generation sequencing!estimating nucleotide diversity|hyperpage}{246}
-\indexentry{Cionia@\textit{Cionia}!\textit{intestinalis}|hyperpage}{248}
-\indexentry{Daphnia@\textit{Daphnia}!\textit{pulex}|hyperpage}{248}
-\indexentry{next-generation sequencing!partitioning diversity|hyperpage}{249}
-\indexentry{BAMOVA|hyperpage}{249}
-\indexentry{BAMOVA!example|hyperpage}{250}
-\indexentry{fineSTRUCTURE|hyperpage}{254}
-\indexentry{human   population genetics|hyperpage}{254}
-\indexentry{testing Hardy-Weinberg|hyperpage}{260}
-\indexentry{testing   Hardy-Weinberg!goodness of fit|hyperpage}{260}
-\indexentry{testing Hardy-Weinberg!Bayesian approach|hyperpage}{261}
-\indexentry{Deviance Information   Criterion|hyperpage}{264}
-\indexentry{mutation rate|hyperpage}{275}
-\indexentry{substitution rate|hyperpage}{275}
-\indexentry{molecular clock|hyperpage}{276}
-\indexentry{neutral alleles|hyperpage}{276}
-\indexentry{neutral theory!effective neutrality|hyperpage}{277}
-\indexentry{effective neutrality|hyperpage}{277}
-\indexentry{molecular clock!derivation|hyperpage}{277}
-\indexentry{mutation!infinite alleles model|hyperpage}{279}
-\indexentry{MHC polymorphism|hyperpage}{281}
-\indexentry{MHC!synonymous and non-synonymous substitutions|hyperpage}{282}
-\indexentry{sledgehammer principle|hyperpage}{282}
-\indexentry{nucleotide substitutions!selection against|hyperpage}{283}
-\indexentry{nucleotide substitutions!selection for|hyperpage}{283}
-\indexentry{MHC!conservative and non-conservative substitutions|hyperpage}{283}
-\indexentry{mutation!infinite sites model|hyperpage}{285}
-\indexentry{Tajima's $D$|hyperpage}{285}
-\indexentry{segregating sites|hyperpage}{285}
-\indexentry{nucleotide diversity|hyperpage}{285}
-\indexentry{Tajima's $D$!interpretation|hyperpage}{287}
-\indexentry{Fu's $F_S$|hyperpage}{288}
-\indexentry{Fay and Wu's $H$|hyperpage}{288}
-\indexentry{Zeng et al.'s $E$|hyperpage}{289}
+\indexentry{next-generation sequencing!phylogeography|hyperpage}{241}
+\indexentry{Wyeomyia@\textit{Wyeomyia}!\textit{smithii}|hyperpage}{241}
+\indexentry{next-generation sequencing!estimating nucleotide diversity|hyperpage}{244}
+\indexentry{Cionia@\textit{Cionia}!\textit{intestinalis}|hyperpage}{246}
+\indexentry{Daphnia@\textit{Daphnia}!\textit{pulex}|hyperpage}{246}
+\indexentry{next-generation sequencing!partitioning diversity|hyperpage}{247}
+\indexentry{BAMOVA|hyperpage}{247}
+\indexentry{BAMOVA!example|hyperpage}{248}
+\indexentry{fineSTRUCTURE|hyperpage}{252}
+\indexentry{human   population genetics|hyperpage}{252}
+\indexentry{testing Hardy-Weinberg|hyperpage}{258}
+\indexentry{testing   Hardy-Weinberg!goodness of fit|hyperpage}{258}
+\indexentry{testing Hardy-Weinberg!Bayesian approach|hyperpage}{259}
+\indexentry{Deviance Information   Criterion|hyperpage}{262}
+\indexentry{mutation rate|hyperpage}{273}
+\indexentry{substitution rate|hyperpage}{273}
+\indexentry{molecular clock|hyperpage}{274}
+\indexentry{neutral alleles|hyperpage}{274}
+\indexentry{neutral theory!effective neutrality|hyperpage}{275}
+\indexentry{effective neutrality|hyperpage}{275}
+\indexentry{molecular clock!derivation|hyperpage}{275}
+\indexentry{mutation!infinite alleles model|hyperpage}{277}
+\indexentry{MHC polymorphism|hyperpage}{279}
+\indexentry{MHC!synonymous and non-synonymous substitutions|hyperpage}{280}
+\indexentry{sledgehammer principle|hyperpage}{280}
+\indexentry{nucleotide substitutions!selection against|hyperpage}{281}
+\indexentry{nucleotide substitutions!selection for|hyperpage}{281}
+\indexentry{MHC!conservative and non-conservative substitutions|hyperpage}{281}
+\indexentry{mutation!infinite sites model|hyperpage}{283}
+\indexentry{Tajima's $D$|hyperpage}{283}
+\indexentry{segregating sites|hyperpage}{283}
+\indexentry{nucleotide diversity|hyperpage}{283}
+\indexentry{Tajima's $D$!interpretation|hyperpage}{285}
+\indexentry{Fu's $F_S$|hyperpage}{286}
+\indexentry{Fay and Wu's $H$|hyperpage}{286}
+\indexentry{Zeng et al.'s $E$|hyperpage}{287}
