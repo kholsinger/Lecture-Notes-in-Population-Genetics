@@ -30,10 +30,10 @@
 \contentsline {chapter}{\numberline {23}Statistical phylogeography: Migrate-N and IMa}{219}{chapter.23}
 \contentsline {chapter}{\numberline {24}Approximate Bayesian Computation}{227}{chapter.24}
 \contentsline {chapter}{\numberline {25}Population genomics}{239}{chapter.25}
-\contentsline {chapter}{\numberline {26}Genetic structure of human populations in Great Britain}{251}{chapter.26}
 \contentsline {part}{VII\hspace {1em}Old chapters, no longer updated}{255}{part.7}
-\contentsline {chapter}{\numberline {27}Testing Hardy-Weinberg}{257}{chapter.27}
-\contentsline {chapter}{\numberline {28}Two-locus population genetics}{265}{chapter.28}
-\contentsline {chapter}{\numberline {29}The neutral theory of molecular evolution}{273}{chapter.29}
-\contentsline {chapter}{\numberline {30}Patterns of selection on nucleotide polymorphisms}{279}{chapter.30}
-\contentsline {chapter}{\numberline {31}Tajima's $D$, Fu's $F_S$, Fay and Wu's $H$, and Zeng et al.'s $E$}{283}{chapter.31}
+\contentsline {chapter}{\numberline {26}Testing Hardy-Weinberg}{257}{chapter.26}
+\contentsline {chapter}{\numberline {27}Two-locus population genetics}{265}{chapter.27}
+\contentsline {chapter}{\numberline {28}The neutral theory of molecular evolution}{273}{chapter.28}
+\contentsline {chapter}{\numberline {29}Patterns of selection on nucleotide polymorphisms}{279}{chapter.29}
+\contentsline {chapter}{\numberline {30}Tajima's $D$, Fu's $F_S$, Fay and Wu's $H$, and Zeng et al.'s $E$}{283}{chapter.30}
+\contentsline {chapter}{\numberline {31}Genetic structure of human populations in Great Britain}{289}{chapter.31}

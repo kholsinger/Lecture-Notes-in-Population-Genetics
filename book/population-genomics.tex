@@ -53,7 +53,7 @@ accessed 26 April 2015).\footnote{In NGS applications for phylogeny, a
 
 \subsection*{RAD sequencing}\index{RAD sequencing}
 
-Baird et al.~\cite{Baird-etal-2008} introduced RAD about 7 years
+Baird et al.~\cite{Baird-etal-2008} introduced RAD almost 10 years
 ago. One of its great attraction for evolutionary geneticists is that
 RAD-seq can be used in any organism from which you can extract DNA and
 the laboratory manipulations are relatively straightforward.
@@ -139,12 +139,12 @@ two distinct groups, those from North Carolina and those from the Gulf
 Coast. Similarly, the northern group of populations is subdivided into
 those from the Appalachians in North Carolina, those from the
 mid-Atlantic coast, and those from further north. The glacial history
-of North America means that both the mid-Atlantic the populations
-farther north must have been derived from one or more southern
-populations after the height of the last glaciation. Given the
-phylogenetic relationships recovered here, it seems clear that they
-are most closely related to populations in the Appalachians of North
-Carolina.
+of North America means that both the mid-Atlantic populations and the
+populations farther north must have been derived from one or more
+southern populations after the height of the last glaciation. Given
+the phylogenetic relationships recovered here, it seems clear that
+they are most closely related to populations in the Appalachians of
+North Carolina.
 
 \begin{figure}
 \begin{center}
@@ -189,7 +189,10 @@ traditional ways.
   quality of the reads from the sequencing reaction, not errors that
   might be introduced during sample preparation. Again, we might focus
   on high-coverage sites and ignore ``polymorphisms'' associated with
-  single reads, but we'd be throwing away a lot of information. 
+  single reads, but we'd be throwing away a lot of
+  information.\footnote{To be honest, though, we did ignore a lot of
+    data in the analysis of GBS data from {\it Protea repens\/} that
+    you may remember from earlier this semester.} 
 
 \end{enumerate}
 A better approach than setting arbitrary thresholds and throwing away
@@ -212,7 +215,8 @@ single, diploid individual:
   miscalled.\footnote{It wouldn't be hard, conceptually, to allow
     different nucleotides to have different error rates, e.g.,
     $\epsilon_A$, $\epsilon_C$, $\epsilon_G$, $\epsilon_T$, but the
-    notation would get really complicated.} 
+    notation would get really complicated, so we won't bother trying
+    to show how differential error rates can be accommodated.} 
 
 \item If the site in question were homozygous A, the probability of
   getting our observed sequence profile is:
@@ -250,7 +254,8 @@ P(k_1,k_2)
 Now consider the ordered genotype $x_ix_j$, where $x_i$ refers to the
 nucleotide on the first chromosome and $x_j$ refers to the nucleotide
 on the second chromosome. The probability of getting our observed
-sequence profile from this genotype is:
+sequence profile from this genotype given that we have $k_1$ reads
+from the first chromosome and $k_2$ reads from the second is:
 {\footnotesize
 \begin{eqnarray*}
 P(n_1,n_2,n_3,n_4|x_i,x_j,k_1,k_2)
@@ -279,7 +284,7 @@ and with that in hand we can get
 P(n_1,n_2,n_3,n_4|\mbox{heterozygous},\epsilon)
 =
 \sum_{i=1}^4\sum_{j\ne i}
-\left(\frac{x_ix_j}{1-{\sum_{l=1}^4p_l^2}}\right) P(n_1,n_2,n_3,n_4|x_i,x_j) 
+\left(\frac{x_ix_j}{1-{\sum_{l=1}^4p_l^2}}\right) P(n_1,n_2,n_3,n_4|x_i,x_j,\epsilon) 
 \]
 
 \item Let $\pi$ be the probability that any site is heterozygous. Then
@@ -446,12 +451,12 @@ values of $\Phi_{ST}$.
 In analysis of the 33-population data set, they found similar values
 of $\Phi_{ST}$ on each chromosome, ranging from 0.083 (0.075, 0.091)
 on chromosome 22 to 0.11 (0.10, 0.12) on chromosome 16. $\Phi_{ST}$
-for the X chromosome was higher: 0.14 (0.13,0.15). They detected 569
-outlier loci, 518 were high outliers and 51 were low outliers. Several
-of the loci they detected as outlier had been previously identified as
-targets of selection. The loci they identified as candidates for
-balancing selection have not been suggested before as targets of such
-selection.  
+for the X chromosome was marginally higher: 0.14 (0.13,0.15). They
+detected 569 outlier loci, 518 were high outliers and 51 were low
+outliers. Several of the loci they detected as outliers had been
+previously identified as targets of selection. The loci they
+identified as candidates for balancing selection have not been
+suggested before as targets of such selection.
 
 \section*{Estimating population structure}
 
@@ -488,5 +493,71 @@ data~(\url{http://www.popgen.dk/software/index.php/NgsAdmix}).
   $2\times$~(from~\cite{Fumagalli-etal-2013}).}\label{fig:Fumagalli-PCA}
 \end{center}
 
+\end{figure}
+
+\section*{Genetic structure of human populations in Great Britain}
+
+As we've seen several times in this course, the amount of genetic data
+available on humans is vastly greater than what is available for any
+other organism. As a result, it's possible to use these data to gain
+unusually deep insight into the recent history of many human
+populations. Today's example comes from Great Britain, courtesy of a
+very large consortium~\cite{Leslie-etal-2015}
+
+\subsection*{Data}
+
+\begin{itemize}
+
+\item 2039 individuals with four grandparents born within 80km of one
+  another, effectively studying alleles sampled from grandparents
+  (ca. 1885). 
+
+\item 6209 samples from 10 countries in continental Europe.
+
+\item Autosomal SNPs genotyped in both samples~(ca. 500K). 
+
+\end{itemize}
+
+\subsection*{Results*}
+
+Very little evidence of population structure within British sample
+
+\begin{itemize}
+
+\item Average pairwise $F_{ST}$: 0.0007
+
+\item Maximum pairwise $F_{ST}$: 0.003
+
+\end{itemize}
+
+Individual assignment analysis of genotypes used {\tt fineSTRUCTURE},
+which uses the same principle as {\tt STRUCTURE} but models the
+correlations among SNPs resulting from gametic disequilibrium, rather
+than treating each locus as being independently inherited. The
+analysis is on {\it haplotypes\/} rather than on alleles. In addition,
+it clusters populations
+hierarchically~(Figure~\ref{fig:fine-structure}\index{fineSTRUCTURE}\index{human
+  population genetics}
+
+\begin{figure}
+\includegraphics[height=0.9\textheight]{fine-structure-britain.eps}
+\caption{{\tt fineSTRUCTURE} analysis of genotypes from Great Britain~(from~\cite{Leslie-etal-2015}).}
+\end{figure}
+
+Analysis of the European data identifies 52 groups. The authors used
+{\tt Chromopainter} to construct each of the haplotypes detected in
+their sample of 2039 individuals from the UK as a mosaic of haplotypes
+derived from those found in their sample of 6209 individuals from
+continental Europe. Since they know (a) the UK cluster to which each
+UK individual belongs and (b) the European group from which each
+individual contributing to the UK mosaic belongs they can estimate (c)
+the proportion of ancestry for each UK cluster derived from each
+European group. The results are shown in Figure~\ref{fig:UK-Europe}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=0.9\textwidth]{UK-Europe.eps}
+\end{center}
+\caption{European ancestry of the 17 clusters identified in the UK~(from~\cite{Leslie-etal-2015}).}\label{fig:UK-Europe}
 \end{figure}
 
