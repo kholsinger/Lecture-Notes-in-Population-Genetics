@@ -100,8 +100,7 @@ hypothesis.\index{statistical phylogeography!example}
   hypothesis.~(from~\cite{Knowles-2001}).}\label{fig:knowles-s-values}
 \end{figure}
 
-\section*{Approximate Bayesian
-  computation}\index{ABC}\index{Approximate Bayesian Computation}
+\section*{Approximate Bayesian computation: motivation}\index{ABC}\index{Approximate Bayesian Computation}
 
 Approximate Bayesian Computation (ABC for short), extends the basic
 idea we've just seen to consider more complicated scenarios. The {\tt
@@ -197,7 +196,7 @@ population sizes, and times since divergence. Let's call that whole,
 long string of parameters $\xi$ and our big, complicated data set
 $X$. If we run enough simulations, we can keep track of how many of
 those simulations produce data identical to the data we
-collected. With those results in hand, we can estimate $P(X|\phi)$,
+collected. With those results in hand, we can estimate $P(X|\xi)$,
 the likelihood of the data, as the fraction of simulations that
 produce data identical to the data we collected.\footnote{The actual
   implementation is a bit more involved than this, but that's the
@@ -210,7 +209,7 @@ pretty complicated and because the coalescent history of every locus
 will be somewhat different from the coalescent history at other
 loci. As a result, the chances of getting {\it any\/} simulated
 samples that match our actual samples is virtually nil, and we can't
-estimate $P(X|\phi)$ in the way we have so far.
+estimate $P(X|\xi)$ in the way we have so far.
 
 Approximate Bayesian computation is an approach that allows us to get
 around this problem. It was introduced by Beaumont et
@@ -291,7 +290,7 @@ data, namely
 where the $S$ here corresponds to our observed set of summary
 statistics. If we throw in some additional bells and whistles, we can
 approximate the posterior distribution of our parameters. With that we
-can get not only a point estimate for $\phi$, but also credible
+can get not only a point estimate for $\xi$, but also credible
 intervals for all of its components.\index{Approximate Bayesian Computation!regression}
 
 \section*{Back to the real world\footnote{Or at least something

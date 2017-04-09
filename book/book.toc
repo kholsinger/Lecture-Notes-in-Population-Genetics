@@ -17,23 +17,23 @@
 \contentsline {chapter}{\numberline {13}The Coalescent}{119}{chapter.13}
 \contentsline {part}{IV\hspace {1em}Quantitative genetics}{127}{part.4}
 \contentsline {chapter}{\numberline {14}Introduction to quantitative genetics}{129}{chapter.14}
-\contentsline {chapter}{\numberline {15}Resemblance among relatives}{139}{chapter.15}
-\contentsline {chapter}{\numberline {16}Evolution of quantitative traits}{149}{chapter.16}
-\contentsline {chapter}{\numberline {17}Selection on multiple characters}{157}{chapter.17}
-\contentsline {chapter}{\numberline {18}Association mapping: the background from two-locus genetics}{165}{chapter.18}
-\contentsline {part}{V\hspace {1em}Molecular evolution}{175}{part.5}
-\contentsline {chapter}{\numberline {19}Introduction to molecular population genetics}{177}{chapter.19}
-\contentsline {chapter}{\numberline {20}Patterns of nucleotide and amino acid substitution}{191}{chapter.20}
-\contentsline {chapter}{\numberline {21}Detecting selection on nucleotide polymorphisms}{197}{chapter.21}
-\contentsline {chapter}{\numberline {22}Evolution in multigene families}{207}{chapter.22}
-\contentsline {part}{VI\hspace {1em}Phylogeography}{217}{part.6}
-\contentsline {chapter}{\numberline {23}Statistical phylogeography: Migrate-N and IMa}{219}{chapter.23}
-\contentsline {chapter}{\numberline {24}Approximate Bayesian Computation}{227}{chapter.24}
-\contentsline {chapter}{\numberline {25}Population genomics}{239}{chapter.25}
-\contentsline {part}{VII\hspace {1em}Old chapters, no longer updated}{255}{part.7}
-\contentsline {chapter}{\numberline {26}Testing Hardy-Weinberg}{257}{chapter.26}
-\contentsline {chapter}{\numberline {27}Two-locus population genetics}{265}{chapter.27}
-\contentsline {chapter}{\numberline {28}The neutral theory of molecular evolution}{273}{chapter.28}
-\contentsline {chapter}{\numberline {29}Patterns of selection on nucleotide polymorphisms}{279}{chapter.29}
-\contentsline {chapter}{\numberline {30}Tajima's $D$, Fu's $F_S$, Fay and Wu's $H$, and Zeng et al.'s $E$}{283}{chapter.30}
-\contentsline {chapter}{\numberline {31}Genetic structure of human populations in Great Britain}{289}{chapter.31}
+\contentsline {chapter}{\numberline {15}Resemblance among relatives}{141}{chapter.15}
+\contentsline {chapter}{\numberline {16}Evolution of quantitative traits}{151}{chapter.16}
+\contentsline {chapter}{\numberline {17}Selection on multiple characters}{159}{chapter.17}
+\contentsline {chapter}{\numberline {18}Association mapping: the background from two-locus genetics}{167}{chapter.18}
+\contentsline {part}{V\hspace {1em}Molecular evolution}{177}{part.5}
+\contentsline {chapter}{\numberline {19}Introduction to molecular population genetics}{179}{chapter.19}
+\contentsline {chapter}{\numberline {20}Patterns of nucleotide and amino acid substitution}{193}{chapter.20}
+\contentsline {chapter}{\numberline {21}Detecting selection on nucleotide polymorphisms}{199}{chapter.21}
+\contentsline {chapter}{\numberline {22}Evolution in multigene families}{209}{chapter.22}
+\contentsline {part}{VI\hspace {1em}Phylogeography}{219}{part.6}
+\contentsline {chapter}{\numberline {23}Statistical phylogeography: Migrate-N and IMa}{221}{chapter.23}
+\contentsline {chapter}{\numberline {24}Approximate Bayesian Computation}{229}{chapter.24}
+\contentsline {chapter}{\numberline {25}Population genomics}{241}{chapter.25}
+\contentsline {part}{VII\hspace {1em}Old chapters, no longer updated}{257}{part.7}
+\contentsline {chapter}{\numberline {26}Testing Hardy-Weinberg}{259}{chapter.26}
+\contentsline {chapter}{\numberline {27}Two-locus population genetics}{267}{chapter.27}
+\contentsline {chapter}{\numberline {28}The neutral theory of molecular evolution}{275}{chapter.28}
+\contentsline {chapter}{\numberline {29}Patterns of selection on nucleotide polymorphisms}{281}{chapter.29}
+\contentsline {chapter}{\numberline {30}Tajima's $D$, Fu's $F_S$, Fay and Wu's $H$, and Zeng et al.'s $E$}{285}{chapter.30}
+\contentsline {chapter}{\numberline {31}Genetic structure of human populations in Great Britain}{291}{chapter.31}

@@ -164,12 +164,12 @@
 \indexentry{coalescent!F-statistics@$F$-statistics|hyperpage}{124}
 \indexentry{genetic drift!migration|hyperpage}{125}
 \indexentry{phenotypic variance!partitioning|hyperpage}{129}
-\indexentry{genetic variance|hyperpage}{129}
+\indexentry{genetic   variance|hyperpage}{129}
 \indexentry{environmental variance|hyperpage}{129}
 \indexentry{nature vs.\ nurture|hyperpage}{130}
 \indexentry{phenylketonuria|hyperpage}{130}
 \indexentry{heritability!narrow sense|hyperpage}{130}
-\indexentry{heritability!broad sense|hyperpage}{130}
+\indexentry{heritability!broad sense|hyperpage}{131}
 \indexentry{response to selection|hyperpage}{131}
 \indexentry{genotypic value|hyperpage}{131}
 \indexentry{additive genotypic value|hyperpage}{131}
@@ -178,190 +178,190 @@
 \indexentry{additive effect!Hardy-Weinberg assumption|hyperpage}{132}
 \indexentry{additive effect|hyperpage}{135}
 \indexentry{genetic variance!components|hyperpage}{135}
-\indexentry{dominance genetic variance|hyperpage}{135}
-\indexentry{genetic variance!dominance|hyperpage}{135}
-\indexentry{additive genetic variance|hyperpage}{135}
-\indexentry{genetic variance!dominance|hyperpage}{135}
-\indexentry{genetic variance!additive|hyperpage}{136}
-\indexentry{resemblance between relatives|hyperpage}{139}
-\indexentry{parent-offspring regression|hyperpage}{139}
-\indexentry{full-sib analysis|hyperpage}{139}
-\indexentry{mother-offspring   pairs|hyperpage}{140}
-\indexentry{half-sib analysis|hyperpage}{140}
-\indexentry{covariance|hyperpage}{141}
-\indexentry{covariance!half-siblings|hyperpage}{141}
-\indexentry{covariance!relatives|hyperpage}{143}
-\indexentry{heritability|hyperpage}{143}
-\indexentry{parent-offspring regression|hyperpage}{143}
-\indexentry{heritability|hyperpage}{144}
-\indexentry{full-sib analysis|hyperpage}{144}
-\indexentry{components of variance!observational|hyperpage}{144}
-\indexentry{components of variance!causal|hyperpage}{144}
+\indexentry{dominance genetic variance|hyperpage}{136}
+\indexentry{genetic variance!dominance|hyperpage}{136}
+\indexentry{additive genetic variance|hyperpage}{136}
+\indexentry{genetic variance!dominance|hyperpage}{136}
+\indexentry{genetic variance!additive|hyperpage}{137}
+\indexentry{resemblance between relatives|hyperpage}{141}
+\indexentry{parent-offspring regression|hyperpage}{141}
+\indexentry{full-sib analysis|hyperpage}{141}
+\indexentry{mother-offspring   pairs|hyperpage}{142}
+\indexentry{half-sib analysis|hyperpage}{142}
+\indexentry{covariance|hyperpage}{143}
+\indexentry{covariance!half-siblings|hyperpage}{143}
+\indexentry{covariance!relatives|hyperpage}{145}
+\indexentry{heritability|hyperpage}{145}
+\indexentry{parent-offspring regression|hyperpage}{145}
+\indexentry{heritability|hyperpage}{146}
+\indexentry{full-sib analysis|hyperpage}{146}
 \indexentry{components of variance!observational|hyperpage}{146}
 \indexentry{components of variance!causal|hyperpage}{146}
-\indexentry{heritability|hyperpage}{146}
-\indexentry{response to selection|hyperpage}{150}
-\indexentry{genotypic value|hyperpage}{150}
-\indexentry{genotypic value!fitness|hyperpage}{150}
-\indexentry{fitness!regression on phenotype|hyperpage}{152}
-\indexentry{fitness!regression on phenotype|hyperpage}{153}
-\indexentry{breeders equation|hyperpage}{154}
-\indexentry{selection differential|hyperpage}{154}
-\indexentry{response to selection|hyperpage}{154}
-\indexentry{fundamental theorem of natural selection|hyperpage}{155}
-\indexentry{response to selection|hyperpage}{157}
-\indexentry{selection differential|hyperpage}{157}
-\indexentry{breeders equation|hyperpage}{157}
-\indexentry{G-matrix@$G$-matrix|hyperpage}{158}
-\indexentry{P-matrix@$P$-matrix|hyperpage}{158}
-\indexentry{E-matrix@$E$-matrix|hyperpage}{158}
-\indexentry{breeders equation|hyperpage}{158}
-\indexentry{selection!multivariate example|hyperpage}{159}
-\indexentry{cumulative selection gradient|hyperpage}{160}
-\indexentry{cumulative selection gradient!caveats|hyperpage}{162}
-\indexentry{quantitative   trait locus|hyperpage}{165}
-\indexentry{QTL|hyperpage}{165}
-\indexentry{two-locus genetics!gamet frequenies|hyperpage}{166}
-\indexentry{gametic disequilibrium|hyperpage}{167}
-\indexentry{two-locus genetics!gametic disequilibrium|hyperpage}{167}
-\indexentry{linkage disequilibrium|hyperpage}{167}
-\indexentry{two-locus genetics!transmission|hyperpage}{168}
-\indexentry{two-locus genetics!recombination|hyperpage}{169}
-\indexentry{recombination frequency|hyperpage}{169}
-\indexentry{two-locus genetics!Hardy-Weinberg|hyperpage}{169}
-\indexentry{two-locus genetics!decay of disequilibrium|hyperpage}{170}
-\indexentry{two-locus genetics!drift|hyperpage}{170}
-\indexentry{gametic disequilibrium!drift|hyperpage}{170}
-\indexentry{Wahlund effect!two loci|hyperpage}{171}
-\indexentry{evolutionary pattern|hyperpage}{177}
-\indexentry{evolutionary   process|hyperpage}{177}
-\indexentry{molecular cloxk|hyperpage}{178}
-\indexentry{molecular clock|hyperpage}{178}
-\indexentry{immunological distance|hyperpage}{178}
-\indexentry{molecular variation!physical basis|hyperpage}{179}
-\indexentry{imprinting|hyperpage}{179}
-\indexentry{copy number variation|hyperpage}{180}
-\indexentry{organelle inheritance|hyperpage}{180}
-\indexentry{molecular variation!markers|hyperpage}{180}
+\indexentry{components of variance!observational|hyperpage}{148}
+\indexentry{components of variance!causal|hyperpage}{148}
+\indexentry{heritability|hyperpage}{148}
+\indexentry{response to selection|hyperpage}{152}
+\indexentry{genotypic value|hyperpage}{152}
+\indexentry{genotypic value!fitness|hyperpage}{152}
+\indexentry{fitness!regression on phenotype|hyperpage}{154}
+\indexentry{fitness!regression on phenotype|hyperpage}{155}
+\indexentry{breeders equation|hyperpage}{156}
+\indexentry{selection differential|hyperpage}{156}
+\indexentry{response to selection|hyperpage}{156}
+\indexentry{fundamental theorem of natural selection|hyperpage}{157}
+\indexentry{response to selection|hyperpage}{159}
+\indexentry{selection differential|hyperpage}{159}
+\indexentry{breeders equation|hyperpage}{159}
+\indexentry{G-matrix@$G$-matrix|hyperpage}{160}
+\indexentry{P-matrix@$P$-matrix|hyperpage}{160}
+\indexentry{E-matrix@$E$-matrix|hyperpage}{160}
+\indexentry{breeders equation|hyperpage}{160}
+\indexentry{selection!multivariate example|hyperpage}{161}
+\indexentry{cumulative selection gradient|hyperpage}{162}
+\indexentry{cumulative selection gradient!caveats|hyperpage}{164}
+\indexentry{quantitative   trait locus|hyperpage}{167}
+\indexentry{QTL|hyperpage}{167}
+\indexentry{two-locus genetics!gamet frequenies|hyperpage}{168}
+\indexentry{gametic disequilibrium|hyperpage}{169}
+\indexentry{two-locus genetics!gametic disequilibrium|hyperpage}{169}
+\indexentry{linkage disequilibrium|hyperpage}{169}
+\indexentry{two-locus genetics!transmission|hyperpage}{170}
+\indexentry{two-locus genetics!recombination|hyperpage}{171}
+\indexentry{recombination frequency|hyperpage}{171}
+\indexentry{two-locus genetics!Hardy-Weinberg|hyperpage}{171}
+\indexentry{two-locus genetics!decay of disequilibrium|hyperpage}{172}
+\indexentry{two-locus genetics!drift|hyperpage}{172}
+\indexentry{gametic disequilibrium!drift|hyperpage}{172}
+\indexentry{Wahlund effect!two loci|hyperpage}{173}
+\indexentry{evolutionary pattern|hyperpage}{179}
+\indexentry{evolutionary   process|hyperpage}{179}
+\indexentry{molecular cloxk|hyperpage}{180}
+\indexentry{molecular clock|hyperpage}{180}
 \indexentry{immunological distance|hyperpage}{180}
-\indexentry{DNA-DNA hybridization|hyperpage}{181}
-\indexentry{isozymes|hyperpage}{181}
-\indexentry{allozymes|hyperpage}{181}
-\indexentry{RFLPs|hyperpage}{181}
-\indexentry{restriction fragment length polymorphisms|hyperpage}{181}
-\indexentry{polymerase chain     reaction|hyperpage}{181}
-\indexentry{RAPD|hyperpage}{181}
-\indexentry{AFLP|hyperpage}{181}
-\indexentry{ISSR|hyperpage}{181}
-\indexentry{Jukes-Cantor distance|hyperpage}{183}
-\indexentry{Jukes-Cantor distance!assumptions|hyperpage}{184}
-\indexentry{substitution rate|hyperpage}{184}
-\indexentry{among-site rate variation|hyperpage}{184}
-\indexentry{among-site rate variation!shape parameter|hyperpage}{185}
-\indexentry{mutation rate|hyperpage}{185}
-\indexentry{substitution rate|hyperpage}{185}
-\indexentry{mutation rate|hyperpage}{185}
-\indexentry{substitution rate|hyperpage}{185}
-\indexentry{molecular clock|hyperpage}{186}
-\indexentry{cost of selection|hyperpage}{186}
-\indexentry{neutral alleles|hyperpage}{187}
-\indexentry{selective neutrality|hyperpage}{187}
-\indexentry{neutral theory!effective neutrality|hyperpage}{188}
-\indexentry{effective neutrality|hyperpage}{188}
-\indexentry{molecular clock!derivation|hyperpage}{188}
-\indexentry{molecular clock|hyperpage}{189}
-\indexentry{mutation!infinite alleles model|hyperpage}{189}
-\indexentry{sledgehammer principle|hyperpage}{191}
-\indexentry{genetic code|hyperpage}{192}
-\indexentry{genetic code!redundancy|hyperpage}{193}
-\indexentry{synonymous substitutions|hyperpage}{193}
-\indexentry{non-synonymous substitutions|hyperpage}{193}
-\indexentry{substitution rate|hyperpage}{193}
+\indexentry{molecular variation!physical basis|hyperpage}{181}
+\indexentry{imprinting|hyperpage}{181}
+\indexentry{copy number variation|hyperpage}{182}
+\indexentry{organelle inheritance|hyperpage}{182}
+\indexentry{molecular variation!markers|hyperpage}{182}
+\indexentry{immunological distance|hyperpage}{182}
+\indexentry{DNA-DNA hybridization|hyperpage}{183}
+\indexentry{isozymes|hyperpage}{183}
+\indexentry{allozymes|hyperpage}{183}
+\indexentry{RFLPs|hyperpage}{183}
+\indexentry{restriction fragment length polymorphisms|hyperpage}{183}
+\indexentry{polymerase chain     reaction|hyperpage}{183}
+\indexentry{RAPD|hyperpage}{183}
+\indexentry{AFLP|hyperpage}{183}
+\indexentry{ISSR|hyperpage}{183}
+\indexentry{Jukes-Cantor distance|hyperpage}{185}
+\indexentry{Jukes-Cantor distance!assumptions|hyperpage}{186}
+\indexentry{substitution rate|hyperpage}{186}
+\indexentry{among-site rate variation|hyperpage}{186}
+\indexentry{among-site rate variation!shape parameter|hyperpage}{187}
+\indexentry{mutation rate|hyperpage}{187}
+\indexentry{substitution rate|hyperpage}{187}
+\indexentry{mutation rate|hyperpage}{187}
+\indexentry{substitution rate|hyperpage}{187}
+\indexentry{molecular clock|hyperpage}{188}
+\indexentry{cost of selection|hyperpage}{188}
+\indexentry{neutral alleles|hyperpage}{189}
+\indexentry{selective neutrality|hyperpage}{189}
+\indexentry{neutral theory!effective neutrality|hyperpage}{190}
+\indexentry{effective neutrality|hyperpage}{190}
+\indexentry{molecular clock!derivation|hyperpage}{190}
+\indexentry{molecular clock|hyperpage}{191}
+\indexentry{mutation!infinite alleles model|hyperpage}{191}
 \indexentry{sledgehammer principle|hyperpage}{193}
-\indexentry{neutral theory!modifications|hyperpage}{195}
-\indexentry{Drosophila@\textit{Drosophila}!\textit{melanogaster}|hyperpage}{198}
-\indexentry{alcohol dehydrogenase|hyperpage}{198}
-\indexentry{Adh|hyperpage}{198}
-\indexentry{Adh!purifying selection|hyperpage}{198}
-\indexentry{sledgehammer principle|hyperpage}{198}
-\indexentry{Adh!balancing selection|hyperpage}{199}
-\indexentry{diversity-divergence|hyperpage}{199}
-\indexentry{coalescent!balancing selection|hyperpage}{199}
-\indexentry{F-statistics@$F$-statistics!outliers|hyperpage}{201}
-\indexentry{Tajima's $D$|hyperpage}{201}
-\indexentry{mutation!infinite sites model|hyperpage}{201}
-\indexentry{segregating sites|hyperpage}{204}
-\indexentry{nucleotide diversity|hyperpage}{204}
-\indexentry{Tajima's $D$!interpretation|hyperpage}{205}
-\indexentry{globins|hyperpage}{207}
-\indexentry{ortholog|hyperpage}{208}
-\indexentry{multigene family!ortholog|hyperpage}{208}
-\indexentry{paralog|hyperpage}{211}
-\indexentry{multigene family!paralog|hyperpage}{211}
-\indexentry{multigene family!examples|hyperpage}{211}
-\indexentry{concerted evolution|hyperpage}{213}
-\indexentry{multigene family!concerted evolution|hyperpage}{213}
-\indexentry{multigene   family!unequal crossing over|hyperpage}{213}
-\indexentry{multigene family!gene   conversion|hyperpage}{213}
-\indexentry{unequal crossing over|hyperpage}{213}
-\indexentry{gene conversion|hyperpage}{213}
-\indexentry{ancestral polymorphism|hyperpage}{219}
-\indexentry{coalescent!migration|hyperpage}{221}
-\indexentry{coalescent!estimating migration rates|hyperpage}{223}
-\indexentry{migration!estimating|hyperpage}{223}
-\indexentry{Migrate-N@{\tt Migrate-N}|hyperpage}{223}
-\indexentry{coalescent!estimating   migration|hyperpage}{224}
-\indexentry{coalescent!diverging populations|hyperpage}{224}
-\indexentry{Melanopus@\textit{Melanopus}|hyperpage}{227}
-\indexentry{statistical phylogeography!example|hyperpage}{229}
-\indexentry{ABC|hyperpage}{229}
-\indexentry{Approximate Bayesian Computation|hyperpage}{229}
-\indexentry{Bufo@\textit{Bufo}!\textit{marinus}|hyperpage}{231}
-\indexentry{Approximate Bayesian Computation|hyperpage}{233}
-\indexentry{Approximate Bayesian Computation!regression|hyperpage}{234}
-\indexentry{Bufo@\textit{Bufo}!\textit{marinus}|hyperpage}{235}
-\indexentry{Approximate Bayesian Computation!limitations|hyperpage}{237}
-\indexentry{next-generation sequencing|hyperpage}{239}
-\indexentry{RAD sequencing|hyperpage}{239}
-\indexentry{next-generation sequencing!estimating $F_{ST}$|hyperpage}{239}
-\indexentry{genotyping-by-sequencing|hyperpage}{239}
-\indexentry{RAD sequencing|hyperpage}{240}
+\indexentry{genetic code|hyperpage}{194}
+\indexentry{genetic code!redundancy|hyperpage}{195}
+\indexentry{synonymous substitutions|hyperpage}{195}
+\indexentry{non-synonymous substitutions|hyperpage}{195}
+\indexentry{substitution rate|hyperpage}{195}
+\indexentry{sledgehammer principle|hyperpage}{195}
+\indexentry{neutral theory!modifications|hyperpage}{197}
+\indexentry{Drosophila@\textit{Drosophila}!\textit{melanogaster}|hyperpage}{200}
+\indexentry{alcohol dehydrogenase|hyperpage}{200}
+\indexentry{Adh|hyperpage}{200}
+\indexentry{Adh!purifying selection|hyperpage}{200}
+\indexentry{sledgehammer principle|hyperpage}{200}
+\indexentry{Adh!balancing selection|hyperpage}{201}
+\indexentry{diversity-divergence|hyperpage}{201}
+\indexentry{coalescent!balancing selection|hyperpage}{201}
+\indexentry{F-statistics@$F$-statistics!outliers|hyperpage}{203}
+\indexentry{Tajima's $D$|hyperpage}{203}
+\indexentry{mutation!infinite sites model|hyperpage}{203}
+\indexentry{segregating sites|hyperpage}{206}
+\indexentry{nucleotide diversity|hyperpage}{206}
+\indexentry{Tajima's $D$!interpretation|hyperpage}{207}
+\indexentry{globins|hyperpage}{209}
+\indexentry{ortholog|hyperpage}{210}
+\indexentry{multigene family!ortholog|hyperpage}{210}
+\indexentry{paralog|hyperpage}{213}
+\indexentry{multigene family!paralog|hyperpage}{213}
+\indexentry{multigene family!examples|hyperpage}{213}
+\indexentry{concerted evolution|hyperpage}{215}
+\indexentry{multigene family!concerted evolution|hyperpage}{215}
+\indexentry{multigene   family!unequal crossing over|hyperpage}{215}
+\indexentry{multigene family!gene   conversion|hyperpage}{215}
+\indexentry{unequal crossing over|hyperpage}{215}
+\indexentry{gene conversion|hyperpage}{215}
+\indexentry{ancestral polymorphism|hyperpage}{221}
+\indexentry{coalescent!migration|hyperpage}{223}
+\indexentry{coalescent!estimating migration rates|hyperpage}{225}
+\indexentry{migration!estimating|hyperpage}{225}
+\indexentry{Migrate-N@{\tt Migrate-N}|hyperpage}{225}
+\indexentry{coalescent!estimating   migration|hyperpage}{226}
+\indexentry{coalescent!diverging populations|hyperpage}{226}
+\indexentry{Melanopus@\textit{Melanopus}|hyperpage}{229}
+\indexentry{statistical phylogeography!example|hyperpage}{231}
+\indexentry{ABC|hyperpage}{231}
+\indexentry{Approximate Bayesian Computation|hyperpage}{231}
+\indexentry{Bufo@\textit{Bufo}!\textit{marinus}|hyperpage}{233}
+\indexentry{Approximate Bayesian Computation|hyperpage}{235}
+\indexentry{Approximate Bayesian Computation!regression|hyperpage}{236}
+\indexentry{Bufo@\textit{Bufo}!\textit{marinus}|hyperpage}{237}
+\indexentry{Approximate Bayesian Computation!limitations|hyperpage}{239}
+\indexentry{next-generation sequencing|hyperpage}{241}
+\indexentry{RAD sequencing|hyperpage}{241}
+\indexentry{next-generation sequencing!estimating $F_{ST}$|hyperpage}{241}
 \indexentry{genotyping-by-sequencing|hyperpage}{241}
-\indexentry{next-generation sequencing!phylogeography|hyperpage}{241}
-\indexentry{Wyeomyia@\textit{Wyeomyia}!\textit{smithii}|hyperpage}{241}
-\indexentry{next-generation sequencing!estimating nucleotide diversity|hyperpage}{244}
-\indexentry{Cionia@\textit{Cionia}!\textit{intestinalis}|hyperpage}{247}
-\indexentry{Daphnia@\textit{Daphnia}!\textit{pulex}|hyperpage}{247}
-\indexentry{next-generation sequencing!partitioning diversity|hyperpage}{247}
-\indexentry{BAMOVA|hyperpage}{247}
-\indexentry{BAMOVA!example|hyperpage}{248}
-\indexentry{fineSTRUCTURE|hyperpage}{251}
-\indexentry{human   population genetics|hyperpage}{251}
-\indexentry{testing Hardy-Weinberg|hyperpage}{258}
-\indexentry{testing   Hardy-Weinberg!goodness of fit|hyperpage}{258}
-\indexentry{testing Hardy-Weinberg!Bayesian approach|hyperpage}{259}
-\indexentry{Deviance Information   Criterion|hyperpage}{262}
-\indexentry{mutation rate|hyperpage}{273}
-\indexentry{substitution rate|hyperpage}{273}
-\indexentry{molecular clock|hyperpage}{274}
-\indexentry{neutral alleles|hyperpage}{274}
-\indexentry{neutral theory!effective neutrality|hyperpage}{275}
-\indexentry{effective neutrality|hyperpage}{275}
-\indexentry{molecular clock!derivation|hyperpage}{275}
-\indexentry{mutation!infinite alleles model|hyperpage}{277}
-\indexentry{MHC polymorphism|hyperpage}{279}
-\indexentry{MHC!synonymous and non-synonymous substitutions|hyperpage}{280}
-\indexentry{sledgehammer principle|hyperpage}{280}
-\indexentry{nucleotide substitutions!selection against|hyperpage}{281}
-\indexentry{nucleotide substitutions!selection for|hyperpage}{281}
-\indexentry{MHC!conservative and non-conservative substitutions|hyperpage}{281}
-\indexentry{mutation!infinite sites model|hyperpage}{283}
-\indexentry{Tajima's $D$|hyperpage}{283}
-\indexentry{segregating sites|hyperpage}{283}
-\indexentry{nucleotide diversity|hyperpage}{283}
-\indexentry{Tajima's $D$!interpretation|hyperpage}{285}
-\indexentry{Fu's $F_S$|hyperpage}{286}
-\indexentry{Fay and Wu's $H$|hyperpage}{286}
-\indexentry{Zeng et al.'s $E$|hyperpage}{287}
-\indexentry{fineSTRUCTURE|hyperpage}{290}
-\indexentry{human   population genetics|hyperpage}{290}
+\indexentry{RAD sequencing|hyperpage}{242}
+\indexentry{genotyping-by-sequencing|hyperpage}{243}
+\indexentry{next-generation sequencing!phylogeography|hyperpage}{243}
+\indexentry{Wyeomyia@\textit{Wyeomyia}!\textit{smithii}|hyperpage}{243}
+\indexentry{next-generation sequencing!estimating nucleotide diversity|hyperpage}{246}
+\indexentry{Cionia@\textit{Cionia}!\textit{intestinalis}|hyperpage}{249}
+\indexentry{Daphnia@\textit{Daphnia}!\textit{pulex}|hyperpage}{249}
+\indexentry{next-generation sequencing!partitioning diversity|hyperpage}{249}
+\indexentry{BAMOVA|hyperpage}{249}
+\indexentry{BAMOVA!example|hyperpage}{250}
+\indexentry{fineSTRUCTURE|hyperpage}{253}
+\indexentry{human   population genetics|hyperpage}{253}
+\indexentry{testing Hardy-Weinberg|hyperpage}{260}
+\indexentry{testing   Hardy-Weinberg!goodness of fit|hyperpage}{260}
+\indexentry{testing Hardy-Weinberg!Bayesian approach|hyperpage}{261}
+\indexentry{Deviance Information   Criterion|hyperpage}{264}
+\indexentry{mutation rate|hyperpage}{275}
+\indexentry{substitution rate|hyperpage}{275}
+\indexentry{molecular clock|hyperpage}{276}
+\indexentry{neutral alleles|hyperpage}{276}
+\indexentry{neutral theory!effective neutrality|hyperpage}{277}
+\indexentry{effective neutrality|hyperpage}{277}
+\indexentry{molecular clock!derivation|hyperpage}{277}
+\indexentry{mutation!infinite alleles model|hyperpage}{279}
+\indexentry{MHC polymorphism|hyperpage}{281}
+\indexentry{MHC!synonymous and non-synonymous substitutions|hyperpage}{282}
+\indexentry{sledgehammer principle|hyperpage}{282}
+\indexentry{nucleotide substitutions!selection against|hyperpage}{283}
+\indexentry{nucleotide substitutions!selection for|hyperpage}{283}
+\indexentry{MHC!conservative and non-conservative substitutions|hyperpage}{283}
+\indexentry{mutation!infinite sites model|hyperpage}{285}
+\indexentry{Tajima's $D$|hyperpage}{285}
+\indexentry{segregating sites|hyperpage}{285}
+\indexentry{nucleotide diversity|hyperpage}{285}
+\indexentry{Tajima's $D$!interpretation|hyperpage}{287}
+\indexentry{Fu's $F_S$|hyperpage}{288}
+\indexentry{Fay and Wu's $H$|hyperpage}{288}
+\indexentry{Zeng et al.'s $E$|hyperpage}{289}
+\indexentry{fineSTRUCTURE|hyperpage}{292}
+\indexentry{human   population genetics|hyperpage}{292}

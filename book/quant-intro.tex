@@ -18,21 +18,26 @@ developed in different environments.
 \noindent This leads us naturally to think that phenotypic variation
 consists of two separable components, namely genotypic and
 environmental components.\footnote{We'll soon see that separating
-genotypic and environmental components is far from trivial.} Putting
-that into an equation
+  genotypic and environmental components is far from trivial. I'm also
+  putting aside, for the moment, that genotypes may differ in their
+  response to the environment, even though that's what I illustrated
+  in Figure~\ref{fig:norm-of-reaction}.} Putting that into an equation
 \[
 \Var(P) = \Var(G) + \Var(E) \quad , 
 \]
 where $\Var(P)$ is the {\it phenotypic variance}, $\Var(G)$ is the
 {\it genetic variance}, and $\Var(E)$ is the environmental
 variance.\footnote{Strictly speaking we should also include a term for
-the interaction between genotype and environment, but we'll ignore
-that for the time being.} As we'll see in just a moment, we can also
-partition the genetic variance into components, the {\it additive
-genetic variance\/}, $\Var(A)$, and the {\it dominance variance},
-$\Var(D)$.\footnote{We could even partition it further into additive
-  by additive, additive by dominance, and dominance by dominance
-  epistatic variance, but let's not go there.}\index{phenotypic variance!partitioning}\index{genetic variance}\index{environmental variance}  
+  the interaction between genotype and environment, but we'll ignore
+  that for the time being. I illustrated the interaction between
+  genotype and environment in Figure~\ref{fig:norm-of-reaction}.} As
+we'll see in just a moment, we can also partition the genetic variance
+into components, the {\it additive genetic variance\/}, $\Var(A)$, and
+the {\it dominance variance}, $\Var(D)$.\footnote{We could even
+  partition it further into additive by additive, additive by
+  dominance, and dominance by dominance epistatic variance, but let's
+  not go there.}\index{phenotypic variance!partitioning}\index{genetic
+  variance}\index{environmental variance}
 
 There's a surprisingly subtle and important insight buried in that
 very simple equation: Because the expression of a quantitative trait
@@ -61,11 +66,11 @@ for a particular condition doesn't mean you're stuck with it.
 Take phenylketonuria, for example. It's a condition in which
 individuals are homozygous for a deficiency that prevents them from
 metabolizing
-phenylalanine~(\url{http://www.nlm.nih.gov/medlineplus/phenylketonuria.html}). If
-individuals with phenylketonuria eat a normal diet, severe mental can
-result by the time an infant is one year old. But if they eat a diet
-that is very low in phenylalanine, their development is completely
-normal.\index{phenylketonuria}
+phenylalanine~(\url{https://medlineplus.gov/phenylketonuria.html}).
+If individuals with phenylketonuria eat a normal diet, severe
+intellectual disabilities can result by the time an infant is one year
+old. But if they eat a diet that is very low in phenylalanine, their
+development is completely normal.\index{phenylketonuria}
 
 It's often useful to talk about how much of the phenotypic variance is
 a result of additive genetic variance or of genetic variance.
@@ -117,12 +122,12 @@ Before we worry about how to estimate any of those variance components
 I just mentioned, we first have to understand what they are. So let's
 start with some
 definitions~(Table~\ref{table:definitions}).\footnote{Warning! There's
-  a {\it lot\/} of algebra between here and the end. It's
-  unavoidable. You can't possibly understand what additive genetic
-  variance is without it. I'll try to focus on principles, and I'll do
-  my best to keep reminding us all why we're slogging through the
-  algebra, but a lot of the algebra that follows {\it is\/}
-  necessary. Sorry about that.}
+  a {\it lot\/} of algebra and even a little differntial calculus
+  between here and the end. It's unavoidable. You can't possibly
+  understand what additive genetic variance is without it. I'll try to
+  focus on principles, and I'll do my best to keep reminding us all
+  why we're slogging through the math, but a lot of the math that
+  follows {\it is\/} necessary. Sorry about that.}
 
 \begin{table}
 \begin{center}
@@ -222,7 +227,9 @@ to zero, and solve for $\alpha_1$ and $\alpha_2$.\footnote{We won't
   $a$ and evaluate it with the values of $\alpha_1$ and $\alpha_2$
   substituted in. You'll find that the resulting matrix of partial
   derivatives, the Hessian matrix, is positive definite, meaning that
-  we've found values that minimize the value of $a$.}
+  we've found values that minimize the value of $a$. If you don't know
+  what any of that means, just take my word for it that the values of
+  $\alpha_1$ and $\alpha_2$ we get minimize the value of $a$.}
 \begin{eqnarray*}
 \frac{\partial a}{\partial{\alpha_1}} &=& p^2\{2[x_{11} - 2\alpha_1][-2]\}
                      + 2pq\{2[x_{12} - (\alpha_1+\alpha_2)][-1]\} \\
@@ -381,8 +388,8 @@ by (\ref{eq:v-a}), and $V_d$ by (\ref{eq:v-d}).
 \subsection*{An alternative expression for $V_a$}\index{genetic variance!additive}
 
 There's another way to write the expression for $V_a$ when there are
-only two alleles at a locus. I show it here because it comes in handy
-some times.
+only two alleles at a locus. I show it here because it will come in
+handy later.
 \begin{eqnarray*}
 V_a &=& p^2(2\alpha_1)^2 + 2pq(\alpha_1+\alpha_2)^2 + q^2(2\alpha_2)^2 -
         4(p\alpha_1+q\alpha_2)^2 \\
@@ -399,7 +406,7 @@ V_a &=& p^2(2\alpha_1)^2 + 2pq(\alpha_1+\alpha_2)^2 + q^2(2\alpha_2)^2 -
 
 We've been through a lot of algebra by now. Let's run through a couple
 of numerical examples to see how it all works. For the first one,
-we'll use the set of genotypic values in Table~\ref{table:additive}
+we'll use the set of genotypic values in Table~\ref{table:additive}.
 
 \begin{table}
 \begin{center}
