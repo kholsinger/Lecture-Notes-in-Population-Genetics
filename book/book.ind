@@ -55,8 +55,8 @@
   \item coalescent events, \hyperpage{120}
   \item components of   selection, \hyperpage{64}
   \item components of variance
-    \subitem causal, \hyperpage{146}, \hyperpage{148}
-    \subitem observational, \hyperpage{146}, \hyperpage{148}
+    \subitem causal, \hyperpage{147, 148}
+    \subitem observational, \hyperpage{147, 148}
   \item concerted evolution, \hyperpage{215}
   \item copy number variation, \hyperpage{182}
   \item cost of selection, \hyperpage{188}
@@ -117,7 +117,9 @@
   \item fitness
     \subitem regression on phenotype, \hyperpage{154, 155}
   \item Fu's $F_S$, \hyperpage{288}
-  \item full-sib analysis, \hyperpage{141}, \hyperpage{146}
+  \item full-sib analysis, \hyperpage{141}, \hyperpage{147}
+    \subitem advantages, \hyperpage{142}
+    \subitem example, \hyperpage{148}
   \item fundamental theorem of natural selection, \hyperpage{157}
 
   \indexspace
@@ -181,7 +183,7 @@
   \item Hardy-Weinberg proportions
     \subitem multiple alleles, \hyperpage{81}
   \item harmonic mean, \hyperpage{102}
-  \item heritability, \hyperpage{145, 146}, \hyperpage{148}
+  \item heritability, \hyperpage{146}, \hyperpage{148}
     \subitem broad sense, \hyperpage{131}
     \subitem narrow sense, \hyperpage{130}
   \item HGDP-CEPH, \hyperpage{57}
@@ -307,7 +309,7 @@
   \item $P$-matrix, \hyperpage{160}
   \item paralog, \hyperpage{213}
   \item parameter, \hyperpage{45}
-  \item parent-offspring regression, \hyperpage{141}, \hyperpage{145}
+  \item parent-offspring regression, \hyperpage{141}, \hyperpage{146}
   \item phenotypic variance
     \subitem partitioning, \hyperpage{129}
   \item phenylketonuria, \hyperpage{130}

@@ -4,7 +4,7 @@
 \usepackage{html}
 \usepackage{url}
 
-\newcommand{\copyrightYears}{2001-2015}
+\newcommand{\copyrightYears}{2001-2017}
 
 \title{Resemblance among relatives}
 
@@ -63,7 +63,10 @@ As we'll see, this design has the advantage that it allows both
 additive and dominance components of the genetic variance to be
 estimated. It has the additional advantage that we don't have to
 assume that the distribution of environments in the offspring
-generation is the same as it was in the parental generation.
+generation is the same as it was in the parental generation. To use
+the regression approach to estimate heritability, we have to assume
+that the distribution of environmental effects is the same in parental
+and offspring generations.\index{full-sib analysis!advantages}
 
 \section*{The gory details}
 
@@ -111,8 +114,18 @@ covariance between $X$ and $Y$ is:
 \[
 \Cov(X,Y) = \sum p_{xy}(x - \mu_x)(y - \mu_y) \quad ,
 \]
-where $\mu_x$ is the mean of $X$ and $\mu_y$ is the mean of $Y$.
-
+where $\mu_x$ is the mean of $X$ and $\mu_y$ is the mean of $Y$. The
+covariance between two random variables is a measure of how much they
+vary together{\dash}covary. If the covariance is large and positive,
+they tend to vary in the same way. Positive deviations from the mean
+in one are associated with positive deviations from the mean in the
+other, and negative deviations are similarly associated. If the
+covariance is large and negative, they tend to vary in opposite
+ways. Positive deviations from the mean in one variable are associated
+with {\it negative\/} deviations in the other, and vice versa. If the
+covariance is small, it means there isn't a strong tendency for
+deviations from the mean in one variable to be associated with
+deviations in the other.
 
 \subsection*{Covariance between half-siblings}\index{covariance!half-siblings}
 
@@ -122,18 +135,20 @@ The phenotype of the first half-sib in the pair is a random variable
 (call it $S_1$), as is the phenotype of the second (call it $S_2$).
 The mean of $S_1$ is just the mean phenotype in {\it all\/} the
 progeny taken together, $\bar x$.  Similarly, the mean of $S_2$ is
-just $\bar x$.  Now with one locus, two alleles we have three possible
-phenotypes: $x_{11}$ (corresponding to the genotype $A_1A_1$),
-$x_{12}$ (corresponding to the genotype $A_1A_2$), and $x_{22}$
-(corresponding to the genotype $A_2A_2$).  So all we need to do to
-calculate the covariance between half-sibs is to write down all
-possible pairs of phenotypes and the frequency with which they will
-occur in our sample of randomly chosen half-sibs based on the
-frequenices in Table~\ref{table:half-sib} above and the frequency of
-maternal genotypes.  It's actually a bit easier to keep track of it
-all if we write down the frequency of each maternal genotype and the
-frequency with which each possible phenotypic combination will occur
-in her progeny.
+just $\bar x$.\footnote{Notice that they have the same mean because
+  they are half siblings. They share the same mother. Offspring from
+  different mothers may have different means.}  Now with one locus,
+two alleles we have three possible phenotypes: $x_{11}$ (corresponding
+to the genotype $A_1A_1$), $x_{12}$ (corresponding to the genotype
+$A_1A_2$), and $x_{22}$ (corresponding to the genotype $A_2A_2$).  So
+all we need to do to calculate the covariance between half-sibs is to
+write down all possible pairs of phenotypes and the frequency with
+which they will occur in our sample of randomly chosen half-sibs based
+on the frequenices in Table~\ref{table:half-sib} above and the
+frequency of maternal genotypes.  It's actually a bit easier to keep
+track of it all if we write down the frequency of each maternal
+genotype and the frequency with which each possible phenotypic
+combination will occur in her progeny.
 \begin{eqnarray*}
 \Cov(S_1,S_2) &=& p^2[p^2(x_{11} - {\bar x})^2 + 2pq(x_{11} - {\bar x})
                                                 (x_{12} - {\bar x})
@@ -343,7 +358,7 @@ covariance among half-sibs.\footnote{To see why consider this is so,
   families with an $A_1A_1$ mother is $px_{11} + qx_{12}$; with an
   $A_1A_2$ mother, $px_{11}/2 + qx_{12}/2 + px_{12}/2 + qx_{22}/2$;
   with an $A_2A_2$ mother, $px_{12} + qx_{22}$.  The equation for the
-  variance of these means is identical to the equation for the
+  variance among these means is identical to the equation for the
   covariance among half-sibs.}
 \begin{eqnarray*}
 \sigma^2_S &=& \Cov_{HS} \\
@@ -357,7 +372,7 @@ within the groups.\footnote{With $x_{ij} = a_i + \epsilon_{ij}$, where
   on individual $j$ in group $i$ (with mean 0), $Cov(x_{ij},x_{ik}) =
   E(a_i + \epsilon_{ij} - \mu)(a_i + \epsilon_{ik} - \mu) = E((a_i
   -\mu^2) + a_i(\epsilon_{ij} + \epsilon_{ik}) +
-  \epsilon_{ij}\epsilon{ik} = Var(A)$.}  Thus, a within group
+  \epsilon_{ij}\epsilon_{ik}) = Var(A)$.}  Thus, a within group
 component of the variance is equal to the total variance minus the
 covariance within groups.  In this case,
 \begin{eqnarray*}
@@ -396,7 +411,7 @@ Furthermore, the narrow-sense heritability is given by
 h^2_N = \frac{4\sigma^2_s}{\sigma^2_S + \sigma^2_D + \sigma^2_W} \quad .
 \]\index{heritability}
 
-\subsection*{An example: body weight in female mice}
+\subsection*{An example: body weight in female mice}\index{full-sib analysis!example}
 
 The analysis involves 719 offspring from 74 sires and 192 dams, each
 with one litter.  The offspring were spread over 4 generations, and

@@ -5,7 +5,7 @@
 \usepackage{html}
 \usepackage{url}
 
-\newcommand{\copyrightYears}{2001-2015}
+\newcommand{\copyrightYears}{2001-2017}
 
 \title{Evolution of quantitative traits}
 
@@ -34,12 +34,12 @@ it's possible to:
 \begin{itemize}
 
 \item Estimate the additive effect of an allele.\footnote{Actually, we
-  don't know this. You'll have to take my word for it that in certain
-  breeding designs its possible to estimate not only the additive
-  genetic variance and the dominance genetic variance, but also the
-  actual additive effect of ``alleles'' that we haven't even
-  identified. We'll see a more direct approach soon, when we get to
-  quantitative trait locus analysis.}
+    don't know this. You'll have to take my word for it that in
+    certain breeding designs its possible to estimate not only the
+    additive genetic variance and the dominance genetic variance, but
+    also the actual additive effect of ``alleles'' that we haven't
+    even identified. We'll see a more direct approach soon, when we
+    get to genome-wide associations studies.}
 
 \item Partition the phenotypic variance into genotypic and
   environmental components and to partition the genotypic variance
@@ -71,10 +71,10 @@ viability selection.  Before we can do this, however, we need to think
 a bit more carefully about the relationship between genotype,
 phenotype, and fitness.  Let $F_{ij}(x)$ be the probability that
 genotype $A_iA_j$ has a phenotype smaller than $x$.\footnote{For those
-of you who have had probability theory, $F_{ij}(x)$ is the cumulative
-distribution for the probability density for phenotype associated with
-$A_IA_j$.} Then $x_{ij}$, the genotypic value of $A_iA_j$
-is\index{genotypic value}
+  of you who have had probability theory, $F_{ij}(x)$ is the
+  cumulative distribution for the probability density for phenotype
+  associated with $A_iA_j$.} Then $x_{ij}$, the genotypic value of
+$A_iA_j$ is\index{genotypic value}
 \[
 x_{ij} = \int_{-\infty}^\infty x \mbox{\rm dF}_{ij}(x)
 \]
@@ -101,7 +101,10 @@ how the mean phenotype in a population will change in response to
 selection. Remember that the mean phenotype, $\bar x$, depends both on
 the underlying genotypic values and on the allele frequency. So I'm
 going to write the mean phenotype as $\bar x(p)$ to remind us of that
-dependency.
+dependency. The phenotype changes from one generation to the next as a
+result of changes in the frequency of alleles that influence the
+phenotype, assuming that the environmental effects on phenotypes don't
+change.
 \begin{eqnarray*}
 {\bar x}(p') &=& {\bar x}(p) + (p' - p)\left({d{\bar x} \over dp}\right)
              + o(p^2) \\
@@ -111,7 +114,7 @@ dependency.
 \frac{d{\bar x(p)}}{dp}
          &=& 2px_{11} + 2qx_{12} - 2px_{12} - 2qx_{22} \\
          &=& 2\left\{
-             \left(px_{11} + qx_{12} - {\bar x}/2\right) +
+             \left(px_{11} + qx_{12} - {\bar x}/2\right) -
              \left(px_{12} + qx_{22} - {\bar x}/2\right)\right\} \\
          &=& 2\left(\alpha_1 - \alpha_2\right) \\
 \\
