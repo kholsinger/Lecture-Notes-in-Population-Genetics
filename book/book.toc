@@ -20,7 +20,7 @@
 \contentsline {chapter}{\numberline {15}Resemblance among relatives}{141}{chapter.15}
 \contentsline {chapter}{\numberline {16}Evolution of quantitative traits}{151}{chapter.16}
 \contentsline {chapter}{\numberline {17}Selection on multiple characters}{159}{chapter.17}
-\contentsline {chapter}{\numberline {18}Association mapping: the background from two-locus genetics}{167}{chapter.18}
+\contentsline {chapter}{\numberline {18}Association mapping: a (very) brief overview}{167}{chapter.18}
 \contentsline {part}{V\hspace {1em}Molecular evolution}{177}{part.5}
 \contentsline {chapter}{\numberline {19}Introduction to molecular population genetics}{179}{chapter.19}
 \contentsline {chapter}{\numberline {20}Patterns of nucleotide and amino acid substitution}{193}{chapter.20}
@@ -33,7 +33,8 @@
 \contentsline {part}{VII\hspace {1em}Old chapters, no longer updated}{257}{part.7}
 \contentsline {chapter}{\numberline {26}Testing Hardy-Weinberg}{259}{chapter.26}
 \contentsline {chapter}{\numberline {27}Two-locus population genetics}{267}{chapter.27}
-\contentsline {chapter}{\numberline {28}The neutral theory of molecular evolution}{275}{chapter.28}
-\contentsline {chapter}{\numberline {29}Patterns of selection on nucleotide polymorphisms}{281}{chapter.29}
-\contentsline {chapter}{\numberline {30}Tajima's $D$, Fu's $F_S$, Fay and Wu's $H$, and Zeng et al.'s $E$}{285}{chapter.30}
-\contentsline {chapter}{\numberline {31}Genetic structure of human populations in Great Britain}{291}{chapter.31}
+\contentsline {chapter}{\numberline {28}Association mapping: BAMD}{275}{chapter.28}
+\contentsline {chapter}{\numberline {29}The neutral theory of molecular evolution}{279}{chapter.29}
+\contentsline {chapter}{\numberline {30}Patterns of selection on nucleotide polymorphisms}{285}{chapter.30}
+\contentsline {chapter}{\numberline {31}Tajima's $D$, Fu's $F_S$, Fay and Wu's $H$, and Zeng et al.'s $E$}{289}{chapter.31}
+\contentsline {chapter}{\numberline {32}Genetic structure of human populations in Great Britain}{295}{chapter.32}

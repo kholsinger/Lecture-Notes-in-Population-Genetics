@@ -7,7 +7,7 @@
 \indexentry{Hardy-Weinberg principle|hyperpage}{10}
 \indexentry{EM algorithm|hyperpage}{12}
 \indexentry{maximum-likelihood estimates|hyperpage}{13}
-\indexentry{Bayesian   inference|hyperpage}{14}
+\indexentry{Bayesian inference|hyperpage}{14}
 \indexentry{Bayesian inference|hyperpage}{15}
 \indexentry{JAGS@\texttt{JAGS}|hyperpage}{15}
 \indexentry{MCMC sampling|hyperpage}{15}
@@ -223,18 +223,17 @@
 \indexentry{cumulative selection gradient!caveats|hyperpage}{164}
 \indexentry{quantitative   trait locus|hyperpage}{167}
 \indexentry{QTL|hyperpage}{167}
-\indexentry{two-locus genetics!gamet frequenies|hyperpage}{168}
-\indexentry{gametic disequilibrium|hyperpage}{169}
-\indexentry{two-locus genetics!gametic disequilibrium|hyperpage}{169}
-\indexentry{linkage disequilibrium|hyperpage}{169}
-\indexentry{two-locus genetics!transmission|hyperpage}{170}
-\indexentry{two-locus genetics!recombination|hyperpage}{171}
-\indexentry{recombination frequency|hyperpage}{171}
-\indexentry{two-locus genetics!Hardy-Weinberg|hyperpage}{171}
-\indexentry{two-locus genetics!decay of disequilibrium|hyperpage}{172}
-\indexentry{two-locus genetics!drift|hyperpage}{172}
-\indexentry{gametic disequilibrium!drift|hyperpage}{172}
-\indexentry{Wahlund effect!two loci|hyperpage}{173}
+\indexentry{QTL mapping|hyperpage}{168}
+\indexentry{Genome-wide association study|hyperpage}{168}
+\indexentry{case-control study|hyperpage}{168}
+\indexentry{genome-wide association study!warfarin|hyperpage}{169}
+\indexentry{two-locus genetics!gamet frequenies|hyperpage}{171}
+\indexentry{gametic   disequilibrium|hyperpage}{172}
+\indexentry{two-locus genetics!gametic   disequilibrium|hyperpage}{172}
+\indexentry{linkage disequilibrium|hyperpage}{172}
+\indexentry{two-locus   genetics!drift|hyperpage}{173}
+\indexentry{gametic disequilibrium!drift|hyperpage}{173}
+\indexentry{Wahlund effect!two loci|hyperpage}{174}
 \indexentry{evolutionary pattern|hyperpage}{179}
 \indexentry{evolutionary   process|hyperpage}{179}
 \indexentry{molecular cloxk|hyperpage}{180}
@@ -343,27 +342,30 @@
 \indexentry{testing   Hardy-Weinberg!goodness of fit|hyperpage}{260}
 \indexentry{testing Hardy-Weinberg!Bayesian approach|hyperpage}{261}
 \indexentry{Deviance Information   Criterion|hyperpage}{264}
-\indexentry{mutation rate|hyperpage}{275}
-\indexentry{substitution rate|hyperpage}{275}
-\indexentry{molecular clock|hyperpage}{276}
-\indexentry{neutral alleles|hyperpage}{276}
-\indexentry{neutral theory!effective neutrality|hyperpage}{277}
-\indexentry{effective neutrality|hyperpage}{277}
-\indexentry{molecular clock!derivation|hyperpage}{277}
-\indexentry{mutation!infinite alleles model|hyperpage}{279}
-\indexentry{MHC polymorphism|hyperpage}{281}
-\indexentry{MHC!synonymous and non-synonymous substitutions|hyperpage}{282}
-\indexentry{sledgehammer principle|hyperpage}{282}
-\indexentry{nucleotide substitutions!selection against|hyperpage}{283}
-\indexentry{nucleotide substitutions!selection for|hyperpage}{283}
-\indexentry{MHC!conservative and non-conservative substitutions|hyperpage}{283}
-\indexentry{mutation!infinite sites model|hyperpage}{285}
-\indexentry{Tajima's $D$|hyperpage}{285}
-\indexentry{segregating sites|hyperpage}{285}
-\indexentry{nucleotide diversity|hyperpage}{285}
-\indexentry{Tajima's $D$!interpretation|hyperpage}{287}
-\indexentry{Fu's $F_S$|hyperpage}{288}
-\indexentry{Fay and Wu's $H$|hyperpage}{288}
-\indexentry{Zeng et al.'s $E$|hyperpage}{289}
-\indexentry{fineSTRUCTURE|hyperpage}{292}
-\indexentry{human   population genetics|hyperpage}{292}
+\indexentry{association mapping!linear mixed model|hyperpage}{275}
+\indexentry{association mapping!relatedness|hyperpage}{276}
+\indexentry{association mapping!BAMD priors|hyperpage}{276}
+\indexentry{mutation rate|hyperpage}{279}
+\indexentry{substitution rate|hyperpage}{279}
+\indexentry{molecular clock|hyperpage}{280}
+\indexentry{neutral alleles|hyperpage}{280}
+\indexentry{neutral theory!effective neutrality|hyperpage}{281}
+\indexentry{effective neutrality|hyperpage}{281}
+\indexentry{molecular clock!derivation|hyperpage}{281}
+\indexentry{mutation!infinite alleles model|hyperpage}{283}
+\indexentry{MHC polymorphism|hyperpage}{285}
+\indexentry{MHC!synonymous and non-synonymous substitutions|hyperpage}{286}
+\indexentry{sledgehammer principle|hyperpage}{286}
+\indexentry{nucleotide substitutions!selection against|hyperpage}{287}
+\indexentry{nucleotide substitutions!selection for|hyperpage}{287}
+\indexentry{MHC!conservative and non-conservative substitutions|hyperpage}{287}
+\indexentry{mutation!infinite sites model|hyperpage}{289}
+\indexentry{Tajima's $D$|hyperpage}{289}
+\indexentry{segregating sites|hyperpage}{289}
+\indexentry{nucleotide diversity|hyperpage}{289}
+\indexentry{Tajima's $D$!interpretation|hyperpage}{291}
+\indexentry{Fu's $F_S$|hyperpage}{292}
+\indexentry{Fay and Wu's $H$|hyperpage}{292}
+\indexentry{Zeng et al.'s $E$|hyperpage}{293}
+\indexentry{fineSTRUCTURE|hyperpage}{296}
+\indexentry{human   population genetics|hyperpage}{296}
