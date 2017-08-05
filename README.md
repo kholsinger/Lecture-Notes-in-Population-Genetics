@@ -3,7 +3,7 @@
 The files here provide the <tt>LaTeX</tt> and other files I use for
 producing the lecture notes I use in EEB 5348 at the University of
 Connecticut:
-[http://darwin.eeb.uconn.edu/eeb348/lecture-notes/notes.html](http://darwin.eeb.uconn.edu/eeb348/lecture-notes/notes.html). The
+[http://darwin.eeb.uconn.edu/eeb348/notes](http://darwin.eeb.uconn.edu/eeb348/notes). The
 <tt>LaTeX</tt> source files are licenced under a Creative Commons
 Attribution-ShareAlike license
 [http://creativecommons.org/licenses/by-sa/4.0/](http://creativecommons.org/licenses/by-sa/4.0/). Some of the
