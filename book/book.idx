@@ -224,18 +224,21 @@
 \indexentry{quantitative   trait locus|hyperpage}{167}
 \indexentry{QTL|hyperpage}{167}
 \indexentry{QTL mapping|hyperpage}{168}
-\indexentry{Genome-wide association study|hyperpage}{168}
+\indexentry{association mapping|hyperpage}{168}
+\indexentry{genome-wide association study|hyperpage}{168}
 \indexentry{case-control study|hyperpage}{168}
+\indexentry{association mapping!regression|hyperpage}{169}
+\indexentry{association mapping!relatedness|hyperpage}{169}
 \indexentry{genome-wide association study!warfarin|hyperpage}{169}
-\indexentry{two-locus genetics!gamet frequenies|hyperpage}{171}
-\indexentry{gametic   disequilibrium|hyperpage}{172}
-\indexentry{two-locus genetics!gametic   disequilibrium|hyperpage}{172}
+\indexentry{two-locus genetics!gamete frequenies|hyperpage}{171}
+\indexentry{gametic disequilibrium|hyperpage}{172}
+\indexentry{two-locus genetics!gametic disequilibrium|hyperpage}{172}
 \indexentry{linkage disequilibrium|hyperpage}{172}
-\indexentry{two-locus   genetics!drift|hyperpage}{173}
+\indexentry{two-locus genetics!drift|hyperpage}{173}
 \indexentry{gametic disequilibrium!drift|hyperpage}{173}
 \indexentry{Wahlund effect!two loci|hyperpage}{174}
 \indexentry{evolutionary pattern|hyperpage}{179}
-\indexentry{evolutionary   process|hyperpage}{179}
+\indexentry{evolutionary process|hyperpage}{179}
 \indexentry{molecular cloxk|hyperpage}{180}
 \indexentry{molecular clock|hyperpage}{180}
 \indexentry{immunological distance|hyperpage}{180}
@@ -250,10 +253,13 @@
 \indexentry{allozymes|hyperpage}{183}
 \indexentry{RFLPs|hyperpage}{183}
 \indexentry{restriction fragment length polymorphisms|hyperpage}{183}
-\indexentry{polymerase chain     reaction|hyperpage}{183}
+\indexentry{polymerase chain reaction|hyperpage}{183}
 \indexentry{RAPD|hyperpage}{183}
 \indexentry{AFLP|hyperpage}{183}
 \indexentry{ISSR|hyperpage}{183}
+\indexentry{microsatellites|hyperpage}{184}
+\indexentry{single nucleotide polymorphisms|hyperpage}{184}
+\indexentry{SNPs|hyperpage}{184}
 \indexentry{Jukes-Cantor distance|hyperpage}{185}
 \indexentry{Jukes-Cantor distance!assumptions|hyperpage}{186}
 \indexentry{substitution rate|hyperpage}{186}
@@ -272,6 +278,7 @@
 \indexentry{molecular clock!derivation|hyperpage}{190}
 \indexentry{molecular clock|hyperpage}{191}
 \indexentry{mutation!infinite alleles model|hyperpage}{191}
+\indexentry{nucleotide diversity|hyperpage}{191}
 \indexentry{sledgehammer principle|hyperpage}{193}
 \indexentry{genetic code|hyperpage}{194}
 \indexentry{genetic code!redundancy|hyperpage}{195}
@@ -280,6 +287,8 @@
 \indexentry{substitution rate|hyperpage}{195}
 \indexentry{sledgehammer principle|hyperpage}{195}
 \indexentry{neutral theory!modifications|hyperpage}{197}
+\indexentry{alcohol dehydrogenase|hyperpage}{199}
+\indexentry{Drosophila@\textit{Drosophila}!\textit{melanogaster}|hyperpage}{199}
 \indexentry{Drosophila@\textit{Drosophila}!\textit{melanogaster}|hyperpage}{200}
 \indexentry{alcohol dehydrogenase|hyperpage}{200}
 \indexentry{Adh|hyperpage}{200}
@@ -288,37 +297,48 @@
 \indexentry{Adh!balancing selection|hyperpage}{201}
 \indexentry{diversity-divergence|hyperpage}{201}
 \indexentry{coalescent!balancing selection|hyperpage}{201}
+\indexentry{HapMap|hyperpage}{203}
 \indexentry{F-statistics@$F$-statistics!outliers|hyperpage}{203}
 \indexentry{Tajima's $D$|hyperpage}{203}
 \indexentry{mutation!infinite sites model|hyperpage}{203}
 \indexentry{segregating sites|hyperpage}{206}
 \indexentry{nucleotide diversity|hyperpage}{206}
 \indexentry{Tajima's $D$!interpretation|hyperpage}{207}
+\indexentry{Tajima's $D$!interpretation|hyperpage}{207}
+\indexentry{duplication|hyperpage}{209}
+\indexentry{divergence|hyperpage}{209}
 \indexentry{globins|hyperpage}{209}
-\indexentry{ortholog|hyperpage}{210}
+\indexentry{orthology|hyperpage}{210}
 \indexentry{multigene family!ortholog|hyperpage}{210}
-\indexentry{paralog|hyperpage}{213}
+\indexentry{paralogy|hyperpage}{213}
 \indexentry{multigene family!paralog|hyperpage}{213}
 \indexentry{multigene family!examples|hyperpage}{213}
 \indexentry{concerted evolution|hyperpage}{215}
 \indexentry{multigene family!concerted evolution|hyperpage}{215}
-\indexentry{multigene   family!unequal crossing over|hyperpage}{215}
-\indexentry{multigene family!gene   conversion|hyperpage}{215}
+\indexentry{multigene family!unequal crossing over|hyperpage}{215}
+\indexentry{multigene family!gene conversion|hyperpage}{215}
 \indexentry{unequal crossing over|hyperpage}{215}
 \indexentry{gene conversion|hyperpage}{215}
+\indexentry{gene tree|hyperpage}{221}
+\indexentry{population tree|hyperpage}{221}
 \indexentry{ancestral polymorphism|hyperpage}{221}
 \indexentry{coalescent!migration|hyperpage}{223}
+\indexentry{migration!backwards migration rate|hyperpage}{223}
+\indexentry{backwards migration rate|hyperpage}{223}
 \indexentry{coalescent!estimating migration rates|hyperpage}{225}
 \indexentry{migration!estimating|hyperpage}{225}
 \indexentry{Migrate-N@{\tt Migrate-N}|hyperpage}{225}
-\indexentry{coalescent!estimating   migration|hyperpage}{226}
+\indexentry{coalescent!drift-mutation-migration equilibrium|hyperpage}{226}
+\indexentry{coalescent!estimating migration|hyperpage}{226}
 \indexentry{coalescent!diverging populations|hyperpage}{226}
 \indexentry{Melanopus@\textit{Melanopus}|hyperpage}{229}
 \indexentry{statistical phylogeography!example|hyperpage}{231}
 \indexentry{ABC|hyperpage}{231}
 \indexentry{Approximate Bayesian Computation|hyperpage}{231}
+\indexentry{Approximate Bayesian Computation!motivation|hyperpage}{231}
 \indexentry{Bufo@\textit{Bufo}!\textit{marinus}|hyperpage}{233}
 \indexentry{Approximate Bayesian Computation|hyperpage}{235}
+\indexentry{Approximate Bayesian Computation!algorithm|hyperpage}{235}
 \indexentry{Approximate Bayesian Computation!regression|hyperpage}{236}
 \indexentry{Bufo@\textit{Bufo}!\textit{marinus}|hyperpage}{237}
 \indexentry{Approximate Bayesian Computation!limitations|hyperpage}{239}
@@ -336,6 +356,7 @@
 \indexentry{next-generation sequencing!partitioning diversity|hyperpage}{249}
 \indexentry{BAMOVA|hyperpage}{249}
 \indexentry{BAMOVA!example|hyperpage}{250}
+\indexentry{principal components analysis|hyperpage}{251}
 \indexentry{fineSTRUCTURE|hyperpage}{253}
 \indexentry{human   population genetics|hyperpage}{253}
 \indexentry{testing Hardy-Weinberg|hyperpage}{260}

@@ -9,7 +9,7 @@
     \subitem balancing selection, \hyperpage{201}
     \subitem purifying selection, \hyperpage{200}
   \item AFLP, \hyperpage{183}
-  \item alcohol dehydrogenase, \hyperpage{200}
+  \item alcohol dehydrogenase, \hyperpage{199, 200}
   \item allele fixation, \hyperpage{71}, \hyperpage{74}
   \item allele frequency distribution, \hyperpage{46}
   \item allele genealogy, \hyperpage{119}
@@ -19,16 +19,20 @@
   \item ancestral polymorphism, \hyperpage{221}
   \item Approximate Bayesian Computation, \hyperpage{231}, 
 		\hyperpage{235}
+    \subitem algorithm, \hyperpage{235}
     \subitem limitations, \hyperpage{239}
+    \subitem motivation, \hyperpage{231}
     \subitem regression, \hyperpage{236}
-  \item association mapping
+  \item association mapping, \hyperpage{168}
     \subitem BAMD priors, \hyperpage{276}
     \subitem linear mixed model, \hyperpage{275}
-    \subitem relatedness, \hyperpage{276}
+    \subitem regression, \hyperpage{169}
+    \subitem relatedness, \hyperpage{169}, \hyperpage{276}
   \item assortative mating, \hyperpage{21}
 
   \indexspace
 
+  \item backwards migration rate, \hyperpage{223}
   \item BAMOVA, \hyperpage{249}
     \subitem example, \hyperpage{250}
   \item Bayesian inference, \hyperpage{14, 15}
@@ -47,7 +51,8 @@
   \item coalescent, \hyperpage{119}
     \subitem balancing selection, \hyperpage{201}
     \subitem diverging populations, \hyperpage{226}
-    \subitem estimating   migration, \hyperpage{226}
+    \subitem drift-mutation-migration equilibrium, \hyperpage{226}
+    \subitem estimating migration, \hyperpage{226}
     \subitem estimating migration rates, \hyperpage{225}
     \subitem $F$-statistics, \hyperpage{124}
     \subitem migration, \hyperpage{223}
@@ -80,12 +85,14 @@
   \item disassortative mating, \hyperpage{65}
   \item Discriminant analysis of population structure, \hyperpage{58}
   \item disruptive selection, \hyperpage{71}
+  \item divergence, \hyperpage{209}
   \item diversity-divergence, \hyperpage{201}
   \item DNA-DNA hybridization, \hyperpage{183}
   \item dominance genetic variance, \hyperpage{136}
   \item \textit{Drosophila}
-    \subitem \textit{melanogaster}, \hyperpage{200}
+    \subitem \textit{melanogaster}, \hyperpage{199, 200}
     \subitem \textit{pseudoobscura}, \hyperpage{66}
+  \item duplication, \hyperpage{209}
 
   \indexspace
 
@@ -100,8 +107,8 @@
     \subitem polymorphic, \hyperpage{74}
     \subitem unstable, \hyperpage{73}
   \item estimate, \hyperpage{45}
-  \item evolutionary   process, \hyperpage{179}
   \item evolutionary pattern, \hyperpage{179}
+  \item evolutionary process, \hyperpage{179}
 
   \indexspace
 
@@ -130,10 +137,10 @@
 
   \item $G$-matrix, \hyperpage{160}
   \item gamete     competition, \hyperpage{64}
-  \item gametic   disequilibrium, \hyperpage{172}
-  \item gametic disequilibrium
+  \item gametic disequilibrium, \hyperpage{172}
     \subitem drift, \hyperpage{173}
   \item gene conversion, \hyperpage{215}
+  \item gene tree, \hyperpage{221}
   \item genetic   variance, \hyperpage{129}
   \item genetic code, \hyperpage{194}
     \subitem redundancy, \hyperpage{195}
@@ -173,8 +180,7 @@
     \subitem additive, \hyperpage{137}
     \subitem components, \hyperpage{135}
     \subitem dominance, \hyperpage{136}
-  \item Genome-wide association study, \hyperpage{168}
-  \item genome-wide association study
+  \item genome-wide association study, \hyperpage{168}
     \subitem warfarin, \hyperpage{169}
   \item genotypic value, \hyperpage{131}, \hyperpage{152}
     \subitem additive, \hyperpage{131}
@@ -186,6 +192,7 @@
   \indexspace
 
   \item half-sib analysis, \hyperpage{142}
+  \item HapMap, \hyperpage{203}
   \item Hardy-Weinberg   assumptions, \hyperpage{9}
   \item Hardy-Weinberg principle, \hyperpage{10}
   \item Hardy-Weinberg proportions
@@ -245,8 +252,10 @@
     \subitem synonymous and non-synonymous substitutions, 
 		\hyperpage{286}
   \item MHC polymorphism, \hyperpage{285}
+  \item microsatellites, \hyperpage{184}
   \item {\tt Migrate-N}, \hyperpage{225}
   \item migration
+    \subitem backwards migration rate, \hyperpage{223}
     \subitem estimating, \hyperpage{225}
   \item migration rate
     \subitem backward, \hyperpage{109}
@@ -260,14 +269,13 @@
     \subitem physical basis, \hyperpage{181}
   \item monomorphic, \hyperpage{71}
   \item mother-offspring   pairs, \hyperpage{142}
-  \item multigene   family
-    \subitem unequal crossing over, \hyperpage{215}
   \item multigene family
     \subitem concerted evolution, \hyperpage{215}
     \subitem examples, \hyperpage{213}
-    \subitem gene   conversion, \hyperpage{215}
+    \subitem gene conversion, \hyperpage{215}
     \subitem ortholog, \hyperpage{210}
     \subitem paralog, \hyperpage{213}
+    \subitem unequal crossing over, \hyperpage{215}
   \item mutation
     \subitem infinite alleles model, \hyperpage{105}, \hyperpage{191}, 
 		\hyperpage{283}
@@ -302,7 +310,8 @@
     \subitem partitioning diversity, \hyperpage{249}
     \subitem phylogeography, \hyperpage{243}
   \item non-synonymous substitutions, \hyperpage{195}
-  \item nucleotide diversity, \hyperpage{206}, \hyperpage{289}
+  \item nucleotide diversity, \hyperpage{191}, \hyperpage{206}, 
+		\hyperpage{289}
   \item nucleotide substitutions
     \subitem selection against, \hyperpage{287}
     \subitem selection for, \hyperpage{287}
@@ -310,18 +319,20 @@
   \indexspace
 
   \item organelle inheritance, \hyperpage{182}
-  \item ortholog, \hyperpage{210}
+  \item orthology, \hyperpage{210}
 
   \indexspace
 
   \item $P$-matrix, \hyperpage{160}
-  \item paralog, \hyperpage{213}
+  \item paralogy, \hyperpage{213}
   \item parameter, \hyperpage{45}
   \item parent-offspring regression, \hyperpage{141}, \hyperpage{146}
   \item phenotypic variance
     \subitem partitioning, \hyperpage{129}
   \item phenylketonuria, \hyperpage{130}
-  \item polymerase chain     reaction, \hyperpage{183}
+  \item polymerase chain reaction, \hyperpage{183}
+  \item population tree, \hyperpage{221}
+  \item principal components analysis, \hyperpage{251}
 
   \indexspace
 
@@ -363,8 +374,10 @@
   \item self-fertilization, \hyperpage{22}
     \subitem partial, \hyperpage{23}
   \item sexual selection, \hyperpage{21}, \hyperpage{65}
+  \item single nucleotide polymorphisms, \hyperpage{184}
   \item sledgehammer principle, \hyperpage{193}, \hyperpage{195}, 
 		\hyperpage{200}, \hyperpage{286}
+  \item SNPs, \hyperpage{184}
   \item stabilizing selection, \hyperpage{74}
   \item statistical expectation, \hyperpage{38}
   \item statistical phylogeography
@@ -383,11 +396,10 @@
     \subitem goodness of fit, \hyperpage{260}
   \item testing Hardy-Weinberg, \hyperpage{260}
     \subitem Bayesian approach, \hyperpage{261}
-  \item two-locus   genetics
-    \subitem drift, \hyperpage{173}
   \item two-locus genetics
-    \subitem gamet frequenies, \hyperpage{171}
-    \subitem gametic   disequilibrium, \hyperpage{172}
+    \subitem drift, \hyperpage{173}
+    \subitem gamete frequenies, \hyperpage{171}
+    \subitem gametic disequilibrium, \hyperpage{172}
 
   \indexspace
 

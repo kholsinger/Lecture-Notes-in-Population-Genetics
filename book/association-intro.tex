@@ -62,7 +62,7 @@ there to be such associations, if we have a dense enough map, because
 some of our marker loci will be closely linked to loci responsible for
 phenotypic variation.\index{QTL mapping}
 
-\section*{Association mapping}
+\section*{Association mapping}\index{association mapping}
 
 So how does association mapping work? There are two broad approaches,
 one that is used in genome-wide association studies (GWAS) that is
@@ -70,7 +70,7 @@ analogous to QTL mapping and one that looks for differences between
 ``cases,'' those that exhibit a particular phenotype of
 interest~(e.g., a disease state in humans), and ``controls,'' those
 that don't exhibit the phenotype of interest. Let's talk about GWAS
-first.\index{Genome-wide association study}\index{case-control study}
+first.\index{genome-wide association study}\index{case-control study}
 
 \subsection*{Genome-wide association study}
 
@@ -86,7 +86,8 @@ $j$th locus.\footnote{To keep things simple I'm assuming that we're
   genotypes as 0, 1, 2 depending on how many copies of the most
   frequent allele they carry. So $x_{ij}$ is the number of copies of
   $A_1$ individual $i$ carries at locus $j$.} Then to do association
-mapping, we simply fit the following regression model:
+mapping, we simply fit the following regression
+model:\index{association mapping!regression}
 \[
 y_i = x_{ij}\beta_j + \epsilon_{ij} \quad ,
 \]
@@ -131,7 +132,7 @@ between $\phi_i$ and $\phi_j$ for individuals $i$ and $j$, i.e.,
 $\rho_{ij}$, is determined by how closely related they are. The degree
 of relationship might be inferred from a pedigree, if one is known, or
 from coefficients of kinship estimated from a large suite of genetic
-markers. 
+markers.\index{association mapping!relatedness} 
 
 \subsubsection*{An example: warfarin maintenance
   dose}\index{genome-wide association study!warfarin}
@@ -221,7 +222,7 @@ in a population that satisfies all of the assumptions necessary for
 genotypes to be in Hardy-Weinberg proportions at each locus. To see
 why consider this. With two loci and two alleles there are four
 possible gametes:\footnote{Think of drawing the Punnett square for a
-  dihybrid cross, if you want.}\index{two-locus genetics!gamet frequenies}
+  dihybrid cross, if you want.}\index{two-locus genetics!gamete frequenies}
 
 \begin{center}
 \begin{tabular}{lcccc}
@@ -260,9 +261,7 @@ covary, and $D$ measures {\it statistical\/} association between
 them. It does not (directly) measure the {\it physical\/}
 association. Similarly, $D = 0$ does not imply that the loci are
 unlinked, only that the alleles at the two loci are arranged into
-gametes independently of one another.\index{gametic
-  disequilibrium}\index{two-locus genetics!gametic
-  disequilibrium}\index{linkage disequilibrium}
+gametes independently of one another.\index{gametic disequilibrium}\index{two-locus genetics!gametic disequilibrium}\index{linkage disequilibrium}
 
 \subsection*{A little diversion}
 
@@ -290,8 +289,7 @@ D &=& x_{11}x_{22} - x_{12}x_{21} \\
 In the absence of mutation, $D$ will eventually decay to 0, although
 the course of that decay isn't as regular as what is shown in the
 Appendix~\cite{Hill-Robertson-1968}. If we allow recurrent mutation at
-both loci, however, where\index{two-locus
-  genetics!drift}\index{gametic disequilibrium!drift}
+both loci, however, where\index{two-locus genetics!drift}\index{gametic disequilibrium!drift}
 \[
 \begin{array}{ccccccc}
     &\mu_1            &     &      &     &\mu_2 \\
