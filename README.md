@@ -1,13 +1,12 @@
-Lecture-Notes-in-Population-Genetics
-====================================
+## Lecture-Notes-in-Population-Genetics
 
 The files here provide the <tt>LaTeX</tt> and other files I use for
 producing the lecture notes I use in EEB 5348 at the University of
 Connecticut:
-http://darwin.eeb.uconn.edu/eeb348/lecture-notes/notes.html. The
+[http://darwin.eeb.uconn.edu/eeb348/lecture-notes/notes.html](http://darwin.eeb.uconn.edu/eeb348/lecture-notes/notes.html). The
 <tt>LaTeX</tt> source files are licenced under a Creative Commons
 Attribution-ShareAlike license
-(http://creativecommons.org/licenses/by-sa/4.0/). Some of the
+[http://creativecommons.org/licenses/by-sa/4.0/](http://creativecommons.org/licenses/by-sa/4.0/). Some of the
 graphical artwork will also be available under the same license (when
 I have time to compile a list of all files included in the CC
 license). Some of the artwork is converted from published sources, and
@@ -17,7 +16,7 @@ artwork is used.
 Files in the <tt>book</tt> subdirectory are either direct copies of
 those in the base directory or simple conversions to allow me to
 produce a single volume of notes:
-http://figshare.com/articles/Lecture_notes_in_population_genetics/100687. If
+[https://figshare.com/articles/Lecture_notes_in_population_genetics/100687](https://figshare.com/articles/Lecture_notes_in_population_genetics/100687). If
 you use or refer to these notes, please use the DOI from Figshare to
 cite them.
 
@@ -28,7 +27,3 @@ that I've missed some. As the title of the subdirectory suggests, I'm
 not maintaining these notes any more. They were useful and accurate
 the last time I used them (so far as I know), but I make no promises
 for them now.
-
-These notes will be revised from December, 2016 through April, 2017
-while I am teaching my course. The source here will not match the PDF
-at Figshare. I expect to update that PDF in May, 2017.
