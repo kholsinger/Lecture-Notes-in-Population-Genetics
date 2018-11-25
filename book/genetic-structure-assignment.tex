@@ -4,23 +4,28 @@ Although $F$-statistics are widely used and very informative, they
 suffer from one fundamental limitation: We have to know what the
 populations are before we can estimate them. They are based on a
 conceptual model in which organisms occur in discrete populations,
-populations that are well mixed within themselves (so that we can
-regard our sample of individuals as a random sample from within each
-population) and clearly separate from others. What if we want to use
-the genetic data itself to help us figure out what the populations
-actually are? Can we do that?\footnote{Would I be asking this question
-  if the answer were ``No?''}
+populations that are both (1) well mixed within themselves (so that we
+can regard our sample of individuals as a random sample from within
+each population) and (2) clearly distinct from others. What if we want
+to use the genetic data itself to help us figure out what the
+populations actually are? Can we do that?\footnote{Would I be asking
+  this question if the answer were ``No?''}
 
-A little over 15 years ago a different approach to the analysis of
-genetic structure began to emerge: analysis of individual
+Almost 20 years ago a different approach to the analysis of genetic
+structure began to emerge: analysis of individual
 assignment.\index{individual assignment} Although the implementation
-details get a little hairy,\footnote{OK, to be fair. The get {\it
+details get a little hairy,\footnote{OK, to be fair. They get {\it
     very\/} hairy.} the basic idea is fairly simple. Suppose we have
 genetic data on a series of individuals. Label the data we have for
 each individual $x_i$. Suppose that all individuals belong to one of
-$K$ populations and let the genotype frequencies in population $k$ be
-represented by $\gamma_k$. Then the likelihood that individual $i$
-comes from population $k$ is just
+$K$ populations\footnote{Remember the peculiar thing I mentioned about
+  population geneticists earlier? We like to imagine we know something
+  even when we don't. In this case, I'm imagining we know $K$ even
+  though we don't. If we knew $K$, we'd probably already know which
+  individual belonged in which population. We'll get to the problem of
+  determining what $K$ is later.} and let the genotype frequencies in
+population $k$ be represented by $\gamma_k$. Then the likelihood that
+individual $i$ comes from population $k$ is just
 \[
 \mbox{P}(i|k) = \frac{\mbox{P}(x_i|\gamma_k)}{\sum_k
   \mbox{P}(x_i|\gamma_k)} \quad .
@@ -39,10 +44,12 @@ with some measure of its reliability.\footnote{You can find details
 
 \section*{Applying assignment to understand invasions}
 
-We'll use {\tt Structure}\index{Structure@\texttt{Structure}} to assess whether
-cultivated genotypes of {\it Berberis thunbergii\/}\index{Berberis@\textit{Berberis}!\textit{thunbergii}} contribute to
-ongoing invasions in Connecticut and
-Massachusetts~\cite{Lubell-etal-2008}.\index{individual assignment!application} The first problem is to determine what $K$
+We'll use {\tt Structure}\index{Structure@\texttt{Structure}} to
+assess whether cultivated genotypes of {\it Berberis
+  thunbergii\/}\index{Berberis@\textit{Berberis}!\textit{thunbergii}}
+contribute to ongoing invasions in Connecticut and
+Massachusetts~\cite{Lubell-etal-2008}.\index{individual
+  assignment!application} The first problem is to determine what $K$
 to use, because $K$ doesn't necessarily have to equal the number of
 populations we sample from. Some populations may not be distinct from
 one another. There are a couple of ways to estimate $K$. The most
@@ -51,7 +58,14 @@ values, repeat it 10-20 times for each value, calculate the mean ``log
 probability of the data'' for each value of $K$, and pick the value of
 $K$ that is the biggest, i.e., the least
 negative~(Table~\ref{table:berberis-k}). For the barberry data, $K=3$
-is the obvious choice.
+is the obvious choice.\footnote{As part of her dissertation, Nora
+  Mitchell used {\tt Structure} to study a hybrid zone between two
+  species of {\it Protea}~\cite{Mitchell-Holsinger-2018}. Nora was
+  interested in determining the extent to which individuals reflected
+  ancestry from one of the two species involved. She set $K=2$ to
+  separate individuals as cleanly into two categories as possible and
+  used the individual assignment score as an index of hybridity. There
+  wasn't any reason to attempt to infer $K$ from the data.}
 
 \begin{table}
 \begin{center}
@@ -90,7 +104,7 @@ that with the exception of individual 17 from Beaver Brook Park, all
 the of the individuals that are solid blue are members of the
 cultivated {\it Berberis thunbergii\/} var. {\it atropurpurea}. The
 solid red bar corresponds to {\it Berberis thunbergii\/}
-'Atropurpurea', another modern cultivar. You'll notice that
+'Atropurpurea', a different modern cultivar. You'll notice that
 individuals 1, 2, 18, and 19 from Beaver Brook Park and individual 1
 from Bluff Point State Park fall into the same genotypic cluster as
 this cultivar. {\it Berberis $\times$ottawensis} is a hybrid cultivar
@@ -106,18 +120,19 @@ areas where it is already established.
 \section*{Genetic diversity in human populations}\index{humans}
 
 A much more interesting application of {\tt Structure} appeared a
-little over a decade ago. The Human Genome Diversity Cell Line Panel
-(HGDP-CEPH)\index{HGDP-CEPH} consisted at the time of data from 1056
-individuals in 52 geographic populations. Each individual was
-genotyped at 377 autosomal loci. If those populations are grouped into
-5 broad geographical regions~(Africa, [Europe, the Middle East, and
-Central/South Asia], East Asia, Oceania, and the Americas), we find
-that about 93\% of genetic variation is found within local populations
-and only about 4\% is a result of allele frequency differences between
+shortly after {\tt Structure} was introduced. The Human Genome
+Diversity Cell Line Panel (HGDP-CEPH)\index{HGDP-CEPH} consisted at
+the time of data from 1056 individuals in 52 geographic
+populations. Each individual was genotyped at 377 autosomal loci. If
+those populations are grouped into 5 broad geographical
+regions~(Africa, [Europe, the Middle East, and Central/South Asia],
+East Asia, Oceania, and the Americas), we find that about 93\% of
+genetic variation is found within local populations and only about 4\%
+is a result of allele frequency differences between
 regions~\cite{Rosenberg-etal-2002}. You might wonder why Europe, the
 Middle East, and Central/South Asia were grouped together for that
 analysis. The reason becomes clearer when you look at a {\tt
-  Structure} analysis of the same data~(Figure~\ref{fig:HGDP-CEPH}).
+  Structure} analysis of the data~(Figure~\ref{fig:HGDP-CEPH}).
 
 \begin{figure}
 \resizebox{\textwidth}{!}{\includegraphics{HGDP-CEPH.eps}}
@@ -154,15 +169,33 @@ geographical space is remarkable.
   view of the area around Switzerland~(CH).}\label{fig:human-PCA}
 \end{figure}
 
+\section*{Other approaches}
+
 Jombart et al.~\cite{Jombart-etal-2010} describe a related method
 known as discriminant analysis of principal components. They also
 provide an {\tt R} package, {\tt dapc}, that implements the
-method.\index{Discriminant analysis of population structure} I
-prefer {\tt Structure} because its approach to individual assignment
-is based directly on population genetic principles, and as of a few
-months ago, I don't have to worry so much about how long it takes to
-run an analysis on large datasets. A few months ago Gopalan et
+method.\index{Discriminant analysis of population structure} I prefer
+{\tt Structure} because its approach to individual assignment is based
+directly on population genetic principles, and as of a couple of years
+ago, I don't have to worry so much about how long it takes to run an
+analysis on large datasets. A few months ago Gopalan et
 al.~\cite{Gopalan-etal-2016} released {\tt teraStructure}, which can
 analyze data sets consisting of 10,000 individuals scored at a million
-SNPs in less than 10 hours.\index{teraStructure@\texttt{teraStructure}}
+SNPs in less than 10
+hours.\index{teraStructure@\texttt{teraStructure}} Here are a couple
+more alternatives to consider that I haven't investigated yet:
+
+\begin{itemize}
+
+\item {\tt sNMF} estimates individual admixture coefficients. It is
+  reportedly 10-30 faster than the likelihood based {\tt ADMIXTURE},
+  which is itself faster than {\tt Structure}. {\tt sNMF} is part of
+  the {\tt R} package {\tt LEA}.
+
+\item Meisner and Albrecthsen~\cite{Meisner-Albrechtsen-2018} present
+  both a principal components method and an admixture method that
+  accounts for sequencing errors inherent in low-coverage next
+  generation DNA sequencing data.
+
+\end{itemize}
 

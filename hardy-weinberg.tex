@@ -4,7 +4,7 @@
 \usepackage{graphicx}
 \usepackage{epstopdf}
 
-\newcommand{\copyrightYears}{2001-2017}
+\newcommand{\copyrightYears}{2001-2019}
 
 \title{The Hardy-Weinberg Principle and estimating allele frequencies}
 
@@ -16,18 +16,19 @@
 
 \section*{Introduction}
 
-To keep things relatively simple, we'll spend much of our time in this
-course talking about variation at a single genetic locus, even though
-alleles at many different loci are involved in expression of most
-morphological or physiological traits. We'll finish the course by
-studying the genetics of quantitative variation, but until then you
-can asssume that I'm talking about variation at a single locus unless
-I specifically say otherwise.\footnote{You'll see in a week or a week
-  and a half when we talk about analysis of population structure that
-  we start discussing variation at many loci. But you'll also see that
-  in spite of discussing variation at many loci simultaneously,
-  virtually all of the underlying mathematics is based on the
-  properties of those loci considered one at a time.}
+To keep things relatively simple, we'll spend much of our time in the
+first part of this course talking about variation at a single genetic
+locus, even though alleles at many different loci are involved in
+expression of most morphological or physiological traits. Towards the
+end of the course, we'll study the genetics of continuous
+(quantitative) variation, but until then you can asssume that I'm
+talking about variation at a single locus unless I specifically say
+otherwise.\footnote{You'll see in a week or a week and a half when we
+  talk about analysis of population structure that we start discussing
+  variation at many loci. But you'll also see that in spite of
+  discussing variation at many loci simultaneously, virtually all of
+  the underlying mathematics is based on the properties of those loci
+  considered one at a time.}
 
 \section*{The genetic composition of populations}
 
@@ -35,8 +36,8 @@ When I talk about the genetic composition of a population, I'm
 referring to three aspects of genetic variation within that
 population:\footnote{At each locus I'm talking about. Remember, I'm
   only talking about one locus at a time, unless I specifically say
-  otherwise. We'll see why this matters when we get to two-locus
-  genetics towards the end of the course.}\index{genetic composition of populations} 
+  otherwise. We'll see why this matters when I outline the ideas
+  behind genome-wide association mapping.}\index{genetic composition of populations} 
 \begin{enumerate}
 
 \item The number of alleles at a locus.
@@ -52,16 +53,23 @@ illustrate with two hypothetical populations:
 \begin{center}
 \begin{tabular}{lrrr}
              & $A_1A_1$ & $A_1A_2$ & $A_2A_2$ \\
+\hline\hline
 Population 1 &       50 &        0 &       50 \\
 Population 2 &       25 &       50 &       25 \\
+\hline
 \end{tabular}
 \end{center}
 It's easy to see that the frequency of $A_1$ is 0.5 in both
-populations,\footnote{$p_1 = 2(50)/200 = 0.5$, $p_2 = (2(25) + 50)/200
-= 0.5$.} but the genotype frequencies are very different. In point of
-fact, we don't need both genotype and allele frequencies. We can
-always calculate allele frequencies from genotype frequencies, but we
-can't do the reverse unless $\dots$
+populations,\footnote{$p_1 = 2(50)/200 = 0.5$,
+  $p_2 = (2(25) + 50)/200 = 0.5$.} but the genotype frequencies are
+very different. In point of fact, we don't need both genotype and
+allele frequencies. We could get away with only genotype frequencies,
+since we can always calculate allele frequencies from genotype
+frequencies. But there are fewer allele frequencies than genotype
+frequencies{\dash}only one allele frequency when there are two alleles
+at a locus. So working with allele frequencies is more convenient, but
+we can't get genotype frequencies from allele frequencies unless
+$\dots$
 
 \section*{Derivation of the Hardy-Weinberg principle}
 
@@ -69,7 +77,9 @@ We saw last time using the data from {\it Zoarces viviparus\/} that we
 can describe empirically and algebraically how genotype frequencies in
 one generation are related to genotype frequencies in the next. Let's
 explore that a bit further. To do so we're going to use a technique
-that is broadly useful in population genetics, i.e., we're going to
+that is broadly useful in population genetics,\footnote{Although to be
+  honest, we won't see mating tables again after the first couple
+  weeks of the semester} i.e., we're going to
 construct a mating table. A mating table consists of three
 components:\index{mating table}
 
@@ -107,7 +117,7 @@ genotype. While it's not necessary for this example, we will see
 examples later in the course where it's important to distinguish a
 mating in which the female is $A_1A_1$ and the male is $A_1A_2$ from
 ones in which the female is $A_1A_2$ and the male is $A_1A_1$. You are
-also likely to be surprised to lean that just in writing this table
+also likely to be surprised to learn that just in writing this table
 we've already made three assumptions about the transmission of genetic
 variation from one generation to the next:\index{Hardy-Weinberg
   assumptions}
@@ -140,7 +150,7 @@ variation from one generation to the next:\index{Hardy-Weinberg
 \end{description}
 Now that we have this table we can use it to calculate the frequency
 of each genotype in newly formed zygotes in the
-population,\footnote{Not just the offspring from these matings}
+population,\footnote{Not just the offspring from these matings.}
 provided that we're willing to make three additional assumptions:
 
 \begin{description}
@@ -265,11 +275,12 @@ counting''~\cite{Ceppellini-etal-1955} and that statisticians later
 generalized for a wide variety of purposes and called the EM
 algorithm~\cite{Dempster-etal-1977}. It uses a trick you'll see
 repeatedly through this course. When we don't know something we want
-to know, we pretend that we know it and do some calculations with
-it. If we're lucky, we can fiddle with our calculations a bit to
-relate the thing that we pretended to know to something we actually do
-know so we can figure out what we wanted to know. Make sense? Probably
-not. But let's try an example.\index{EM algorithm}
+to know, we pretend that we know it and do some calculations with what
+we just pretended to know. If we're lucky, we can fiddle with our
+calculations a bit to relate the thing that we pretended to know to
+something we actually do know so we can figure out what we wanted to
+know. Make sense? Probably not. Let's try an example and see if that
+helps.\index{EM algorithm}
 
 If we knew $p_a$, $p_b$, and $p_o$, we could figure out how many
 individuals with the $A$ phenotype have the $aa$ genotype and how many
@@ -327,21 +338,21 @@ No.\ in sample & 25     & 50      & 25     & 15 \\
 \hline
 \end{tabular}
 \end{center}
-We'll start with the guess that $p_a = 0.33$, $p_b = 0.33$, and $p_o =
-0.34$. With that assumption we would calculate that $25(0.33^2/(0.33^2
-+ 2(0.33)(0.34))) = 8.168$ of the A phenotypes in the sample have
-genotype $aa$, and the remaining 16.832 have genotype $ao$. Similarly,
-we can calculate that 8.168 of the B phenotypes in the population
-sample have genotype $bb$, and the remaining 16.832 have genotype
-$bo$. Now that we have a guess about how many individuals of each
-genotype we have,\footnote{Since we're making these genotype counts
-  up, we can also pretend that it makes sense to have fractional
-  numbers of genotypes.} we can calculate a new guess for the allele
-frequencies, namely $p_a = 0.362$, $p_b = 0.362$, and $p_o =
-0.277$. By the time we've repeated this process four more times, the
-allele frequencies aren't changing anymore. So the maximum likelihood
-estimate of the allele frequencies is $p_a = 0.372$, $p_b = 0.372$,
-and $p_o = 0.256$.
+We'll start with the guess that $p_a = 0.33$, $p_b = 0.33$, and
+$p_o = 0.34$. With that assumption we would calculate that
+$25(0.33^2/(0.33^2 + 2(0.33)(0.34))) = 8.168$ of the A phenotypes in
+the sample have genotype $aa$, and the remaining 16.832 have genotype
+$ao$. Similarly, we can calculate that 8.168 of the B phenotypes in
+the population sample have genotype $bb$, and the remaining 16.832
+have genotype $bo$. Now that we have a guess about how many
+individuals of each genotype we have,\footnote{Since we're making
+  these genotype counts up, we can also pretend that it makes sense to
+  have fractional numbers of genotypes.} we can calculate a new guess
+for the allele frequencies, namely $p_a = 0.362$, $p_b = 0.362$, and
+$p_o = 0.277$. By the time we've repeated this process four more
+times, the allele frequencies aren't changing anymore, and the maximum
+likelihood estimate of the allele frequencies is $p_a = 0.372$,
+$p_b = 0.372$, and $p_o = 0.256$.
 
 \subsection*{What is a maximum-likelihood
   estimate?}\index{maximum-likelihood estimates}
@@ -351,7 +362,7 @@ I just told you that the method I described produces
 haven't told you what a maximum-likelihood estimate {\it is\/}. The
 good news is that you've been using maximum-likelihood estimates for
 as long as you've been estimating anything, without even knowing
-it. Although it will take me awhile to explain it, the idea is
+it. Although it will take me a while to explain it, the idea is
 actually pretty simple.
 
 Suppose we had a sock drawer with two colors of socks, red and
@@ -360,11 +371,12 @@ red socks in the drawer. One way of approaching the problem would be
 to mix the socks well, close our eyes, take one sock from the drawer,
 record its color and replace it. Suppose we do this $N$ times. We know
 that the number of red socks we'll get might be different the next
-time, so the number of red socks we get is a random variable. Let's
-call it $K$. Now suppose in our actual experiment we find $k$ red
-socks, i.e., $K=k$. If we knew $p$, the proportion of red socks in the
-drawer, we could calculate the probability of getting the data we
-observed, namely
+time, so the number of red socks we actually get is a random
+variable. Let's call that random variable $K$. Now suppose in our
+actual experiment we find $k$ red socks, i.e., the value our random
+variable takes on is $k$ or putting it in an equation: $K=k$. If we
+knew $p$, the proportion of red socks in the drawer, we could
+calculate the probability of getting the data we observed, namely
 \begin{equation}
 \mbox{P}(K=k|p) = {N \choose k} p^k (1-p)^{(N-k)} \quad . \label{eq:binomial}
 \end{equation}
@@ -395,20 +407,24 @@ likelihood is a bit more complicated
 \left(p_b^2 + 2p_bp_o\right)^{N_B}
 \left(p_o^2\right)^{N_O}
 \end{equation}
-This is a {\it multinomial probability
-distribution}. It turns out that one way to find the values of $p_a$,
-$p_b$, and $p_o$ is to use the EM algorithm I just
-described.\footnote{There's another way I'd be happy to describe if
-  you're interested, but it's a lot more complicated.}
+This is a {\it multinomial probability distribution}. It turns out
+that one way to find the values of $p_a$, $p_b$, and $p_o$ is to use
+the EM algorithm I just described.\footnote{There's another way I'd be
+  happy to describe if you're interested, but it's a lot more
+  complicated.} There isn't a simple formula that allows us to write
+down an expression for the maximum-likelihood estimate of the allele
+frequencies in terms of the phenotype frequencies. We have to use an
+algorithm to find them, and the EM algorithm happens to be a
+particularly convenient algorithm to use. 
 
 \section*{An introduction to Bayesian inference}\index{Bayesian inference}
 
-Maximum-likelihood estimates have a lot of nice features, but
-likelihood is a slightly backwards way of looking at the world. The
-likelihood of the data is the probability of the data, $x$, given
-parameters that we don't know, $\phi$, i.e, $\mbox{P}(x|\phi)$. It
-seems a lot more natural to think about the probability that the
-unknown parameter takes on some value, given the data, i.e.,
+Maximum-likelihood estimates have a lot of nice features, but they are
+also a slightly backwards way of looking at the world. The likelihood
+of the data is the probability of the data, $x$, given parameters that
+we don't know, $\phi$, i.e, $\mbox{P}(x|\phi)$. It seems a lot more
+natural to think about the probability that the unknown parameter
+takes on some value, given the data, i.e.,
 $\mbox{P}(\phi|x)$. Surprisingly, these two quantities are closely
 related. Bayes' Theorem tells us that
 \begin{equation}
@@ -452,19 +468,22 @@ prior to collecting the data.\footnote{If we had prior information
   distribution to reflect our prior information. See the Summer
   Institute notes for more information, if you're interested.}
 
-Until a little over 25 years ago\footnote{OK, I realize that 25 years
-  ago was before most of you were born, but I was already teaching
-  population genetics then. Cut me a little slack.} it was necessary
-to do a bunch of complicated calculus to combine the prior with the
-likelihood to get a posterior. Since the early 1990s statisticians
-have used a simulation approach, Monte Carlo Markov Chain sampling, to
-construct numerical samples from the posterior. For the problems
-encountered in this course, we'll mostly be using the freely available
-software package {\tt JAGS} to implement Bayesian analyses. For the
-problem we just encountered, here's the code that's needed to get our
-results:\footnote{This code and other {\tt JAGS} code used in the
-  course can be found on the course web site by following the links
-  associated with the corresponding
+Only a little less than 30 years ago\footnote{You are probably balking
+  at my use of the word ``only'' in combination with the phrase ``30
+  years.'' Please cut me a little slack. I know that most of you
+  weren't born 30 years ago, but I'd already taught this course two or
+  three times by the time the paper I'm about to refer to was
+  published.} it was
+necessary to do a bunch of complicated calculus to combine the prior
+with the likelihood to get a posterior. Since the early 1990s
+statisticians have used a simulation approach, Monte Carlo Markov
+Chain sampling, to construct numerical samples from the posterior. For
+the problems encountered in this course, we'll mostly be using the
+freely available software package {\tt JAGS} to implement Bayesian
+analyses. For the problem we just encountered, here's the code that's
+needed to get our results:\footnote{This code and other {\tt JAGS}
+  code used in the course can be found on the course web site by
+  following the links associated with the corresponding
   lecture.}\index{JAGS@\texttt{JAGS}}\index{MCMC sampling}
 \begin{verbatim}
 model {
@@ -478,7 +497,7 @@ model {
 }
 \end{verbatim}
 Running this in {\tt JAGS} with $k=7$ and $n=20$ produces these
-results:\footnote{Nora will show you how to run JAGS through {\tt R}
+results:\footnote{Kristen will show you how to run JAGS through {\tt R}
   in lab.}
 \begin{verbatim}
 > source("binomial.R")

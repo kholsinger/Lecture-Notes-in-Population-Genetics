@@ -3,7 +3,7 @@
 \usepackage{html}
 \usepackage{url}
 
-\newcommand{\copyrightYears}{2001-2017}
+\newcommand{\copyrightYears}{2001-2018}
 
 \title{Analyzing the genetic structure of populations}
 
@@ -94,17 +94,19 @@ Observed (from table above) & 65       & 90       & 45 \\
 \end{center}
 The expected and observed don't match, even though there is random
 mating within both subpopulations. They don't match because there
-isn't random mating {\it in the combined population}. Forest lacewings
-choose mates at random from other forest lacewings, but they never
-mate with a meadow lacewing (and {\it vice versa\/}). Our sample
-includes two populations that don't mix. This is an example of what's
-know as the {\it Wahlund effect}~\cite{Wahlund-1928}.\index{Wahlund effect}
+isn't random mating {\it in the combined population}, only within each
+subpopulation. Forest lacewings choose mates at random from other
+forest lacewings, but they never mate with a meadow lacewing (and {\it
+  vice versa\/}). Our sample includes two populations that don't
+mix. This is an example of what's known as the {\it Wahlund
+  effect}~\cite{Wahlund-1928}.\index{Wahlund effect}
 
 \section*{The algebraic development}
 
-You should know by now that I'm not going to be satisfied with a
-numerical example. I now feel the need to do some algebra to describe
-this situation a little more generally.
+Even though you've only known me for a couple of weeks now, you should
+know me well enough to know that I'm not going to be satisfied with a
+numerical example. You should know that I now feel the need to do some
+algebra to describe this situation a little more generally.
 
 Suppose we know allele frequencies in $k$ subpopulations.\footnote{For
   the time being, I'm going to assume that we know the allele
@@ -129,7 +131,8 @@ Observed & $\frack\sum p_i^2$ & $\frack\sum 2p_iq_i$ & $\frack\sum q_i^2$ \\
 \hline
 \end{tabular}
 \end{center}
-where $\bar p = \sum p_i/k$ and $\bar q = 1 - \bar p$. Now
+where $\bar p = \sum p_i/k$ and $\bar q = 1 - \bar p$ are the average
+allele frequencies in the combined sample. Now
 \begin{eqnarray}
 \frack\sum p_i^2 &=& \frack\sum (p_i - \bar p + \bar p)^2 \\
 &=& \frack\sum \left((p_i - \bar p)^2 + 2\bar p(p_i - \bar p)
@@ -208,15 +211,14 @@ if both alleles are about equally common in the whole sample than if
 one occurs at a mean frequency of 0.99 and the other at a frequency of
 0.01. Moreover, if you stare at equations (\ref{eq:p2})--(\ref{eq:q2})
 for a while, you begin to realize that they look a lot like some
-equations we've already
-\htmladdnormallink{encountered}{http://darwin.eeb.uconn.edu/eeb348/lecture-notes/inbreeding/node4.html}.
-Namely, if we were to define $F_{st}$\footnote{The reason for the
-  subscript will become apparent later. It's also {\it very\/}
-  important to notice that I'm defining $F_{ST}$ here in terms of the
-  population parameters $p$ and $\mbox{Var}(p)$. Again, we'll return
-  to the problem of how to {\it estimate\/} $F_{ST}$ from data a
-  little later.} as $\mbox{Var}(p)/\bar p\bar q$, then we could
-rewrite equations (\ref{eq:p2})--(\ref{eq:q2}) as
+equations we've already encountered. Namely, if we were to define
+$F_{st}$\footnote{The reason for the subscript will become apparent
+  later. It's also {\it very\/} important to notice that I'm defining
+  $F_{ST}$ here in terms of the population parameters $p$ and
+  $\mbox{Var}(p)$. Again, we'll return to the problem of how to {\it
+    estimate\/} $F_{ST}$ from data a little later.} as
+$\mbox{Var}(p)/\bar p\bar q$, then we could rewrite equations
+(\ref{eq:p2})--(\ref{eq:q2}) as
 \begin{eqnarray}
 \frack\sum p_i^2 &=& \bar p^2 + F_{st}\bar p \bar q \label{eq:p2-f} \\
 \frack\sum 2p_iq_i &=& 2\bar p\bar q(1 - F_{st}) \label{eq:2pq-f} \\
@@ -226,8 +228,8 @@ And it's not even completely artificial to define $F_{st}$ the way I
 did. After all, the effect of geographic structure is to cause matings
 to occur among genetically similar individuals. It's rather like
 inbreeding. Moreover, the extent to which this local mating matters
-depends on the extent to which populations differ from one
-another. $\bar p\bar q$ is the maximum allele frequency variance
+depends on the extent to which populations differ from one another. It
+turns out that $\bar p\bar q$ is the maximum allele frequency variance
 possible, given the observed mean frequency. So one way of thinking
 about $F_{st}$ is that it measures the amount of allele frequency
 variance in a sample relative to the maximum possible.\footnote{I say
@@ -255,9 +257,12 @@ from Hardy-Weinberg and assuming that all populations depart from
 Hardy-Weinberg to the same degree, i.e., that they all have the same
 $f$, we can define
 \[
-F_{it} = 1 - \frac{H_i}{H_t}
+F_{it} = 1 - \frac{H_i}{H_t} \quad .
 \]
-Let's fiddle with that a bit.
+$F_{it}$ is the overall departure from Hardy-Weinberg in the entire
+sample. Let's fiddle with it a bit.\footnote{Are you beginning to see
+  how peculiar I am? Do you know anyone else who gets a kick out of
+  playing with formulas and equations.}
 \begin{eqnarray*}
 1 - F_{it} &=& \frac{H_i}{H_t} \\
            &=& \left(\frac{H_i}{H_s}\right)\left(\frac{H_s}{H_t}\right) \\
@@ -272,7 +277,7 @@ diversity in a population. So another way of thinking about $F_{st} =
 (H_t - H_s)/H_t$ is that it's the proportion of the diversity in the
 sample that's due to allele frequency differences among populations.
 
-\section*{F statistics}
+\section*{Estimating $F$-statistics}
 
 We've now seen the principles underlying Wright's $F$-statistics. I
 should point out that Gustave Mal{\'e}cot developed very similar ideas
@@ -294,11 +299,13 @@ characteristics of the sample may differ from those of the population
 from which it was drawn, but neither developed any explicit way of
 dealing with those differences. Wright develops some very {\it ad
   hoc\/} approaches in his book~\cite{Wright69}, but they have been
-forgotten, which is good because they aren't very satisfactory and
-they shouldn't be used. There are now three reasonable approaches
+forgotten, which is good because they aren't satisfactory and they
+shouldn't be used. There are now three reasonable approaches
 available:\index{F-statistics@$F$-statistics}\footnote{And as we'll
   soon see, I'm not too crazy about one of these three. To my mind,
-  there are really only two approaches that anyone should consider.}
+  there are really only two approaches that anyone should consider,
+  and those two approaches are really just variants of the same basic
+  idea.}
 
 \begin{enumerate}
 
@@ -417,8 +424,9 @@ sample. Similarly, we are {\it estimating\/} $F_{ST}$ and our estimate
 of $F_{ST}$ needs to take account of the imprecision in the allele
 frequency estimates on which it was based. To understand one approach
 to dealing with this uncertainty I need to introduce two new concepts:
-statistical expectation\index{statistical expectation} and unbiased
-estimates.\index{unbiased estimates}
+{\it statistical expectation/}\index{statistical expectation} and {\it
+  unbiased
+estimates}.\index{unbiased estimates}
 
 The concept of statistical expectation is actually quite an easy
 one. It is an arithmetic average, just one calculated from
@@ -428,8 +436,8 @@ alleles in our sample given that the allele frequency in the
 population is $p$. Then the {\it expected number\/} of $A_1$ alleles
 in our sample is just
 \begin{eqnarray*}
-\mbox{E}(k) &=& \sum_{k=1}^n k \mbox{P}(k) \\
-     &=& n p \quad , \\
+\mbox{E}(k) &=& \sum_{k=0}^n k \mbox{P}(k) \\
+     &=& n p \quad  \\
 \end{eqnarray*}
 where $n$ is the total number of alleles in our
 sample.\footnote{$\mbox{P}(k) = {N \choose k}p^k(1-p)^{N-k}$. The
@@ -466,12 +474,12 @@ p)$. Well,
      &=& ((n-1)/n)2p(1-p) \quad . \\
 \end{eqnarray*}
 Because $\mbox{E}(\tilde H) \ne 2p(1-p)$, $\tilde H$ is a {\it biased
-estimate\/} of $2p(1-p)$. If we set $\hat H = (n/(n-1))\tilde H$,
-however, $\hat H$ is an unbiased estimator of $2p(1-p)$.\footnote{If
-  you're wondering how I got from the second equation for $\hat H$ to
-  the last one, ask me about it or read the gory details section that
-  follows. TAMO is short for ``Then a miracle occurs.'' You'll see
-  that repeatedly this semester.}
+  estimate\/} of $2p(1-p)$. If, however, we set
+$\hat H = (n/(n-1))\tilde H$, however, $\hat H$ is an unbiased
+estimator of $2p(1-p)$.\footnote{If you're wondering how I got from
+  the second equation for $\hat H$ to the last one, ask me about it or
+  read the gory details section that follows. TAMO is short for ``Then
+  a miracle occurs.'' You'll see that repeatedly this semester.}
 
 If you've ever wondered why you typically divide the sum of squared
 deviations about the mean by $n-1$ instead of $n$ when estimating the
@@ -596,7 +604,12 @@ sampled.
 \subsubsection*{Even more gory details\footnote{This is even worse
     than the last time. I include it for completeness only. I really
     don't expect anyone (unless they happen to be a statistician) to
-    be able to understand these details.}}
+    be able to understand these details. I wouldn't recommend spending
+    time trying to understand this unless you really, really want to
+    understand the mathematical underpinnings of Weir and Cockerham's
+    statistics. I've explained the fundamental principles in the
+    text. This is just a lot of algebra, which admittedly entertains
+    some of us who have a perverse fascination with these things.}}
 
 Let $x_{mn,i}$ be an indicator variable such that $x_{mn,i} = 1$ if
 allele $m$ from individual $n$ is of type $i$ and is 0
@@ -629,8 +642,9 @@ representing more than one population.
 
 \subsection*{Applying $G_{st}$ and $\theta$}
 
-If we return to the data that motivated this discussion, these are the
-results we get from analyses of the $GOT-1$ data from {\it Isotoma
+If we return to the data that motivated this discussion, the results
+in Table~\ref{table:fst-comparison} show what we get from analyses of
+the $GOT-1$ data from {\it Isotoma
   petraea}~(Table~\ref{table:isotoma}).
 \begin{table}
 \begin{center}

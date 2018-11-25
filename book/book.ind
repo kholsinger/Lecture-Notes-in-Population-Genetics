@@ -35,7 +35,7 @@
   \item backwards migration rate, \hyperpage{223}
   \item BAMOVA, \hyperpage{249}
     \subitem example, \hyperpage{250}
-  \item Bayesian inference, \hyperpage{14, 15}
+  \item Bayesian inference, \hyperpage{15}
   \item \textit{Berberis}
     \subitem \textit{thunbergii}, \hyperpage{56}
   \item Beta   distribution, \hyperpage{46}
@@ -194,7 +194,7 @@
   \item half-sib analysis, \hyperpage{142}
   \item HapMap, \hyperpage{203}
   \item Hardy-Weinberg   assumptions, \hyperpage{9}
-  \item Hardy-Weinberg principle, \hyperpage{10}
+  \item Hardy-Weinberg principle, \hyperpage{11}
   \item Hardy-Weinberg proportions
     \subitem multiple alleles, \hyperpage{81}
   \item harmonic mean, \hyperpage{102}
@@ -229,7 +229,7 @@
 
   \indexspace
 
-  \item \texttt{JAGS}, \hyperpage{15}
+  \item \texttt{JAGS}, \hyperpage{16}
   \item Jukes-Cantor distance, \hyperpage{185}
     \subitem assumptions, \hyperpage{186}
 
@@ -243,7 +243,7 @@
   \item mating table, \hyperpage{8}
     \subitem self-fertilization, \hyperpage{22}
   \item maximum-likelihood estimates, \hyperpage{13}
-  \item MCMC sampling, \hyperpage{15}
+  \item MCMC sampling, \hyperpage{16}
   \item mean fitness, \hyperpage{67}
   \item \textit{Melanopus}, \hyperpage{229}
   \item MHC

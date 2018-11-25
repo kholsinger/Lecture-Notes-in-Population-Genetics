@@ -9,6 +9,10 @@
 *.blg
 *.log
 *.synctex.gz
+*.idx
+*.ind
+*.out
+*.toc
 
 ## Don’t sync PDFs since they will be available elsewhere
 ##
@@ -17,4 +21,8 @@
 ## Don't sync local Perl scripts
 ##
 *.pl
+
+## Miscellaneous files to ignore
+##
+Untitled.bib
 
