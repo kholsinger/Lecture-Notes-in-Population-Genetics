@@ -5,7 +5,7 @@
 \usepackage{graphics}
 \usepackage{epstopdf}
 
-\newcommand{\copyrightYears}{2001-2017}
+\newcommand{\copyrightYears}{2001-2019}
 
 \title{The Genetics of Natural Selection}
 
@@ -66,8 +66,8 @@ probability of survival.
 
 The only assumption we've violated so far is Assumption \#2, the
 random-mating assumption. We're going to spend the next several
-lectures talking about what happens when you violate Assumptions \#3,
-\#6, and \#8. When any one of those assumptions is violated we have
+lectures talking about what happens when you violate Assumption \#3,
+\#6, or \#8. When any one of those assumptions is violated we have
 some form of natural selection going on.\footnote{As I alluded to when
   we first started talking about inbreeding, we can also have natural
   selection as a result of certain types of violations of assumption
@@ -165,14 +165,15 @@ happen that corresponds to violating
 \section*{The genetics of viability selection}
 
 That's a pretty exhaustive (and exhausting) list of the ways in which
-selection can happen. Although we're going to focus our study of
-natural selection just on viability selection, it's important to
+selection can happen. We're going to focus our detailed study of
+natural selection on viability selection, but it's important to
 remember that any or all of the other forms of selection may be
 operating simultaneously on the genes or the traits that we're
 studying, and the direction of selection due to these other components
-may be the same or different as the direction of viability
-selection. We're going to focus on viability selection for two
-reasons:\index{viability selection!genetics}
+may be the same or different from the direction of viability
+selection. 
+
+We're going to focus on viability selection for two reasons:\index{viability selection!genetics}
 
 \begin{enumerate}
 
@@ -185,7 +186,7 @@ reasons:\index{viability selection!genetics}
 
 \item The algebra associated with understanding viability selection is
   a {\it lot\/} simpler than the algebra associated with understanding
-  the other types of selection, and the dynamics are simpler and
+  any other type of selection, and the dynamics are simpler and
   easier to understand.\footnote{Once you've seen what you're in for
     you may think I've lied about this. But if you really think I
     have, just ask me to illustrate some of the algebra necessary for
@@ -246,11 +247,10 @@ Number in adults & 25       & 74       & 12       \\
 \section*{Genotype and allele frequencies}
 
 It should be trivial for you by this time to calculate the genotype
-frequencies in eggs and adults. We'll be using the convention that
-genotype frequencies in eggs (or newly-formed zygotes) are the
-genotype frequencies {\it before selection\/} and that genotype
-frequencies in adults are the genotype frequencies {\it after
-  selection}.
+frequencies in eggs and adults. I'll refer to genotype frequencies in
+eggs (or newly-formed zygotes) as genotype frequencies {\it before
+  selection\/} and genotype frequencies in adults as genotype
+frequencies {\it after selection}.
 
 \begin{eqnarray*}
 \mbox{freq($ST/ST$) before selection}
@@ -269,9 +269,9 @@ frequencies in adults are the genotype frequencies {\it after
  w_{22}x_{22}} \\
  &=& \frac{w_{11}x_{11}}{\bar w} \\
  \bar w &=& \frac{w_{11}x_{11}N + w_{12}x_{12}N + w_{22}x_{22}N}{N} \\
-        &=& w_{11}x_{11} + w_{12}x_{12} + w_{22}x_{22} \quad ,
+        &=& w_{11}x_{11} + w_{12}x_{12} + w_{22}x_{22} \quad .
 \end{eqnarray*}
-where $\bar w$ is the mean fitness, i.e., the average probability of
+$\bar w$ is the mean fitness, i.e., the average probability of
 survival in the population.\index{mean fitness}
 
 It is also trivial to calculate the allele frequencies before and
@@ -405,16 +405,16 @@ to the next.
 
 \section*{Patterns of natural selection}
 
-Well, all that algebra was lots of fun,\footnote{I'm kidding, in case
-  you couldn't tell.} but what good did it do us? Not an enormous
-amount, except that it shows us~(not surprisingly), that allele
-frequencies are likely to change as a result of viability selection,
-and it gives us a nice little formula we could plug into a computer to
-figure out exactly how. One of the reasons that it's
-useful\footnote{If not exactly fun.} to go through all of that algebra
-is that it's possible to make predictions about the consequences of
-natural selection simply by knowing the pattern of viaiblity
-differences. What do I mean by pattern? Funny you should
+Well, all that algebra was lots of fun,\footnote{Well, it was fun for
+  me at least. Wasn't it fun for you, too?} but what good did it do
+us? Not an enormous amount, except that it shows us~(not
+surprisingly), that allele frequencies are likely to change as a
+result of viability selection, and it gives us a nice little formula
+we could plug into a computer to figure out exactly how. One of the
+reasons that it's useful\footnote{If not exactly fun.} to go through
+all of that algebra is that it's possible to make predictions about
+the consequences of natural selection simply by knowing the pattern of
+viaiblity differences. What do I mean by pattern? Funny you should
 ask~(Table~\ref{table:patterns}).\index{natural selection!patterns}
 
 \begin{table}
@@ -526,12 +526,13 @@ p\left(ps_1(p - 1) + q^2s_2\right) &=& 0 \\
 p(-pqs_1 + q^2s_2) &=& 0 \\
 pq(-ps_q + qs_2) &=& 0 \quad .
 \end{eqnarray*}
-So $p'=p$ if $\hat p=0$, $\hat q=0$, or $\hat ps_1 = \hat
-qs_2$.\footnote{Remember that the ``hats'' can mean either the
-  estimate of an unknown paramter or an equilibrium. The context will
-  normally make it clear which meaning applies. In this case it should
-  be pretty obvious that I'm talking about equilibria.} We can
-simplify that last one a little further, too.
+So the population is at equilibrium with $p'=p$ if $\hat p=0$,
+$\hat q=0$, or $\hat ps_1 = \hat qs_2$.\footnote{Remember that the
+  ``hats'' can mean either the estimate of an unknown paramter or an
+  equilibrium. The context will normally make it clear which meaning
+  applies. In this case it should be pretty obvious that I'm talking
+  about equilibria.} We can simplify that last one a little further,
+too.
 \begin{eqnarray*}
 \hat ps_1 &=& \hat qs_2 \\
 \hat ps_1 &=& (1-\hat p)s_2 \\
@@ -563,7 +564,7 @@ present, it is said to be {\it polymoprhic}. If two or more alleles
 are present at an equilibrium, we can call it a {\it polymorphic
   equilibrium}. Thus, another way to describe the results of
 disruptive selection is to say that the monomorphic equilibria are
-stable, but the polymorphic equilibrium is not.\footnote{Notice that a
+stable, but that the polymorphic equilibrium is not.\footnote{Notice that a
   polymorphic equilibrium doesn't even exist when selection is
   directional.}\index{allele fixation}\index{equilibrium!monomorphic}\index{equilibrium!polymorphic}
 
