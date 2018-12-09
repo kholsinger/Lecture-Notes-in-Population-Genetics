@@ -29,8 +29,8 @@ consisting of 2 individuals.\footnote{Notice that once we start
   talking about genetic drift, we have to specify the size of the
   population.} Suppose that we are studying a locus with only two
 alleles in this population $A_1$ and $A_2$. This implies that $p = q =
-0.5$, but we'll ignore that numerical fact for now and simply imagine
-that the frequency of the $A_1$ allele is $p$.
+0.5$, but we'll ignore that numerical fact for now and simply label 
+the frequency of the $A_1$ allele as $p$.
 
 We imagine the following scenario:
 
@@ -181,9 +181,11 @@ P(\hbox{$j$ $A_1$ in offspring $|$ $i$ $A_1$ in parents}) =
 {2N \choose j}\left(\frac{i}{2N}\right)\left(1 - \frac{i}{2N}\right)
 \quad ,
 \]
-i.e., a binomial distribution.\index{genetic drift!binomial distribution} I'll be astonished if any of what I'm about to say is
-apparent to any of you, but this equation implies three really
-important things. We've encountered two already:\index{genetic drift!properties}
+i.e., a binomial distribution.\index{genetic drift!binomial
+  distribution} I'll be astonished if any of what I'm about to say is
+apparent to any of you from looking at this equation, but it
+implies three really important things. We've encountered the first two
+of them already:\index{genetic drift!properties}
 
 \begin{itemize}
 
@@ -299,8 +301,8 @@ f_{t+1} = 1 - \left(1 - \frac{1}{2N}\right)^t(1-f_0) \quad .
 
 \subsection*{Summary}
 
-There are four characteristics of genetic drift that I think are
-particularly important for you to remember:\index{genetic drift!properties}
+There are four characteristics of genetic drift that are particularly
+important for you to remember:\index{genetic drift!properties}
 
 \begin{enumerate}
 
@@ -337,12 +339,12 @@ assumed that:\index{genetic drift!ideal population}
 \begin{itemize}
 
 \item We can model drift in a finite population as a result of
-sampling among haploid gametes rather than as a result of sampling
-among diploid genotypes. Since we're dealing with a finite population,
-this effectively means that the two gametes incorporated into an
-individual could have come from the same parent, i.e.,
-self-fertilization occurs when there's random union of gametes in a
-finite, diploid population.
+  sampling among haploid gametes rather than as a result of sampling
+  among diploid genotypes. Since we're dealing with a finite
+  population, this effectively means that the two gametes incorporated
+  into an individual could have come from the same parent, i.e., some
+  amount of self-fertilization can occur when there's random union of
+  gametes in a finite, diploid population.
 
 \item Since we're sampling gametes rather than individuals, we're also
   implictly assuming that there aren't separate sexes.\footnote{How
@@ -428,13 +430,13 @@ and $t+1$, respectively. Then
 N_e^{(f)} &=& \frac{1 - \hat f_t}{2(\hat f_{t+1} - \hat f_t)} \quad .
 \end{eqnarray*}
 In many applications it's convenient to assume that $\hat f_t = 0$. In
-that case the calculation gets a lot simpler:
+that case the calculation gets much simpler:
 \[
 N_e^{(f)} = \frac{1}{2\hat f_{t+1}} \quad .
 \]
-We also don't lose anything by doing so, because $N_e^{(f)}$ depends
-only on how much $f$ {\it changes\/} from one generation to the next,
-not on its actual magnitude.
+We also don't lose anything by taking the simpler approach, because
+$N_e^{(f)}$ depends only on how much $f$ {\it changes\/} from one
+generation to the next, not on its actual magnitude.
 
 \subsection*{Comments on effective population sizes}\index{genetic drift!effective population size, limitations}
 
@@ -573,7 +575,10 @@ Now if the population size were constant
 \left(1 - \frac{1}{2N_e^{(f)}}\right)^K \quad .
 \]
 Dealing with products and powers is inconvenient, but if we take the
-logarithm of both sides of the equation we get something simpler:
+logarithm of both sides of the equation we get something
+simpler:\footnote{OK. I know it doesn't look any simpler, but trust me
+  it is. We can work with this one. The other one we can only stare
+  at.} 
 \[
 \sum_{i=1}^K\log\left(1-\frac{1}{2N_{t+i}}\right) =
 K\log\left(1 - \frac{1}{2N_e^{(f)}}\right) \quad .

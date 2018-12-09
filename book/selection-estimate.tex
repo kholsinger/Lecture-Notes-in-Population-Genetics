@@ -6,7 +6,10 @@ those viabilities are. Fortunately, figuring them out isn't too
 hard.\footnote{I almost said that it was easy, but that would be going
   a bit too far.} If we know the number of individuals of each
 genotype before selection, it's really easy as a matter of
-fact. Consider that our data looks like this:
+fact.\footnote{And in the very next sentence I contradicted the last
+  footnote. But it really is easy to estimate viabilities if we can
+  genotype individuals before and after selection.} Consider that our
+data looks like this:
 
 \begin{center}
 \begin{tabular}{l|ccc}
@@ -62,7 +65,7 @@ up?\footnote{Would I be asking the question if the answer were
   ``Yes''?}\index{viability!estimating relative}
 
 Remember that to make inferences about how selection will act, we only
-need to know {\it relative\/} viabilities, not absolute
+need to know {\it relative\/} viabilities, not {\it absolute\/}
 viabilities.\footnote{At least that's true until we start worrying
   about how selection and drift interact.} We still need to know
 something about the genotypic composition of the population before
@@ -95,13 +98,15 @@ x_{11}^{(a)}/x_{12}^{(a)} &=& w_{11}x_{11}^{(z)}/w_{12}x_{12}^{(z)} \\
 x_{22}^{(a)}/x_{12}^{(a)} &=& w_{22}x_{22}^{(z)}/w_{12}x_{12}^{(z)} \quad ,
 \end{eqnarray*}
 or, rearranging a bit
-\begin{eqnarray*}
+\begin{eqnarray}
 \frac{w_{11}}{w_{12}} &=& \left(\frac{x_{11}^{(a)}}{x_{12}^{(a)}}\right)
-                          \left(\frac{x_{12}^{(z)}}{x_{11}^{(z)}}\right) \\
+                          \left(\frac{x_{12}^{(z)}}{x_{11}^{(z)}}\right) 
+\label{eq:est-rel-viability-1}
+\\
 \frac{w_{22}}{w_{12}} &=& \left(\frac{x_{22}^{(a)}}{x_{12}^{(a)}}\right)
                           \left(\frac{x_{12}^{(z)}}{x_{22}^{(z)}}\right)
-\quad .
-\end{eqnarray*}
+\quad . \label{eq:est-rel-viability-2}
+\end{eqnarray}
 This gives us a complete set of relative viabilities.
 \begin{center}
 \begin{tabular}{l|ccc}
@@ -121,10 +126,10 @@ before and after selection, we obtain maximum likelihood estimates for
 the relative viabilities.\footnote{If anyone cares, it's because of
   the invariance property of maximum-likelihod estimates. If you don't
   understand what that is, don't worry about it, just trust me.} If we
-use Bayesian methods to estimate genotype frequencies (including the
-uncertainty around those estimates), we can use these formulas to get
-Bayesian estimates of the relative viabilities (and the uncertainty
-around them).
+use Bayesian methods to estimate genotype frequencies before and after
+selection (including the uncertainty around those estimates), we can
+use these formulas to get Bayesian estimates of the relative
+viabilities (and the uncertainty around them).
 
 \section*{An example}\index{viability!example of estimating}
 
@@ -198,16 +203,16 @@ these estimates in a Bayesian context is relatively straightforward
 and the details will be left as an excerise.\footnote{In past years
   Project \#3 has consisted of making Bayesian estimates of
   viabilities from data like these and predicting the outcome of
-  viability selection. This year I anticipate that you'll see
-  something similar} In outline we simply
+  viability selection.} In outline we simply
 
 \begin{enumerate}
 
 \item Estimate the gentoype frequencies before and after selection as
   samples from a multinomial.
 
-\item Apply the formulas above to calculate relative viabilities and
-  selection coefficients.
+\item Apply the formulas from equations (\ref{eq:est-rel-viability-1})
+  and (\ref{eq:est-rel-viability-2}) to calculate relative viabilities
+  and selection coefficients.
 
 \item Determine whether the 95\% credible intervals for $s_1$ or $s_2$
   overlap 0.\footnote{Meaning that we don't have good evidence for
