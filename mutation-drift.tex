@@ -7,7 +7,7 @@
 
 \title{Mutation, Migration, and Genetic Drift}
 
-\newcommand{\copyrightYears}{2001-2017}
+\newcommand{\copyrightYears}{2001-2019}
 
 \begin{document}
 
@@ -53,7 +53,7 @@ in an offspring is different from the allele it was derived from in a
 parent. In writing down this expression, the reason this is referred
 to as an infinite alleles model becomes apparent: we are assuming that
 every time a mutation occurs it produces a new allele. The only way in
-which two alleles can be identical is if neither
+which two alleles can be identical is if neither has ever
 mutated.\footnote{Notice that we're also playing a little fast and
   loose with definitions here, since I've just described this in terms
   of identity by type when what the equation is written in terms of
@@ -61,22 +61,22 @@ mutated.\footnote{Notice that we're also playing a little fast and
   this?}
 
 So where do we go from here? Well, if you think about it, mutation is
-always introducing new alleles that, by definition, are different from
-any of the alleles currently in the population. It stands to reason,
-therefore, that we'll never be in a situation where all of the alleles
-in a population are identical by descent as they would be in the
-absence of mutation. In other words we expect there to be an
-equilibrium between loss of diversity through genetic drift and the
-introduction of diversity through mutation.\footnote{Technically what
-  the population reaches is not an equilibrium. It reaches a
-  stationary distribution. At any point in time there is some
-  probability that the population has a particular allele
-  frequency. After long enough the probability distribution stops
-  changing. That's when the population is at its stationary
+always introducing new alleles that are, by definition in an infinite
+alleles model, different from any of the alleles currently in the
+population. It stands to reason, therefore, that we'll never be in a
+situation where all of the alleles in a population are identical by
+descent as they would be in the absence of mutation. In other words we
+expect there to be an equilibrium between loss of diversity through
+genetic drift and the introduction of diversity through
+mutation.\footnote{Technically what the population reaches is not an
+  equilibrium. It reaches a stationary distribution. At any point in
+  time there is some probability that the population has a particular
+  allele frequency. After long enough the probability distribution
+  stops changing. That's when the population is at its stationary
   distribution. We often say that it's ``reached stationarity.'' This
   is an example of a place where the inbreeding analogy breaks down a
-  little.}\index{genetic drift!mutation, stationary distribution} From the
-definition of an equilibrium,
+  little.}\index{genetic drift!mutation, stationary distribution} From
+the definition of an equilibrium,
 \begin{eqnarray*}
 \hat f &=& \left(\left(\frac{1}{2N}\right) +
           \left(1 - \frac{1}{2N}\right)\hat f\right)(1-\mu)^2 \\
@@ -108,9 +108,9 @@ retain more diversity than small ones.\footnote{Remember that if we're
 
 Notice also that it's the product $N\mu$ that matters, not $N$ or
 $\mu$ by itself. We'll see this repeatedly. In every case I know of
-when there's some deterministic process like mutation, migration, or
-recombination going on in addition to genetic drift, the outcome of
-the combined process is determined by the product of
+when there's some deterministic process like mutation, migration,
+selection, or recombination going on in addition to genetic drift, the
+outcome of the combined process is determined by the product of
 $N$\footnote{Remember that when I write $N$ here, I'm just being
   lazy. I should be writing $N_e$.} and some parameter that describes
 the ``strength'' of the deterministic process.
@@ -190,8 +190,9 @@ all populations receive the same fraction of migrants. Because any
 immigrant allele is different, by assumption, from any resident allele
 we don't even have to keep track of how far apart populations are from
 one another, since populations close by will be no more similar to one
-another than populations far apart. This is Wright's island model of
-migration. Given these assumptions, we can write the following:
+another than populations far apart. This is Wright's infinite island
+model of migration. Given these assumptions, we can write the
+following:
 \begin{equation}
 f_{t+1} = \left(\left(\frac{1}{2N}\right) +
           \left(1 - \frac{1}{2N}\right)f_t\right)(1-m)^2 \quad
