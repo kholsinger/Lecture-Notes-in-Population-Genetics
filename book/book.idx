@@ -136,16 +136,17 @@
 \indexentry{genetic drift!effectively neutral|hyperpage}{101}
 \indexentry{allele genealogy|hyperpage}{103}
 \indexentry{coalescent|hyperpage}{103}
-\indexentry{coalescent!two alleles|hyperpage}{104}
-\indexentry{coalescent events|hyperpage}{104}
-\indexentry{coalescent!time to common ancestry|hyperpage}{105}
+\indexentry{allele copy|hyperpage}{103}
+\indexentry{coalescent!two alleles|hyperpage}{105}
+\indexentry{coalescent events|hyperpage}{105}
+\indexentry{coalescent!time to common ancestry|hyperpage}{106}
 \indexentry{coalescent!multiple alleles|hyperpage}{106}
-\indexentry{genetic drift!Markov property|hyperpage}{106}
+\indexentry{genetic drift!Markov property|hyperpage}{107}
 \indexentry{coalescent!time to coalescence|hyperpage}{107}
-\indexentry{coalescent!mitochondrial Eve|hyperpage}{107}
-\indexentry{F-statistics@$F$-statistics!coalescent|hyperpage}{108}
-\indexentry{coalescent!F-statistics@$F$-statistics|hyperpage}{108}
-\indexentry{genetic drift!migration|hyperpage}{109}
+\indexentry{coalescent!mitochondrial Eve|hyperpage}{108}
+\indexentry{F-statistics@$F$-statistics!coalescent|hyperpage}{109}
+\indexentry{coalescent!F-statistics@$F$-statistics|hyperpage}{109}
+\indexentry{genetic drift!migration|hyperpage}{110}
 \indexentry{phenotypic variance!partitioning|hyperpage}{113}
 \indexentry{genetic   variance|hyperpage}{113}
 \indexentry{environmental variance|hyperpage}{113}

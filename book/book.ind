@@ -10,6 +10,7 @@
     \subitem purifying selection, \hyperpage{184}
   \item AFLP, \hyperpage{167}
   \item alcohol dehydrogenase, \hyperpage{183, 184}
+  \item allele copy, \hyperpage{103}
   \item allele fixation, \hyperpage{63}, \hyperpage{66}
   \item allele frequency distribution, \hyperpage{252}
   \item allele genealogy, \hyperpage{103}
@@ -54,14 +55,14 @@
     \subitem drift-mutation-migration equilibrium, \hyperpage{210}
     \subitem estimating migration, \hyperpage{210}
     \subitem estimating migration rates, \hyperpage{209}
-    \subitem $F$-statistics, \hyperpage{108}
+    \subitem $F$-statistics, \hyperpage{109}
     \subitem migration, \hyperpage{207}
-    \subitem mitochondrial Eve, \hyperpage{107}
+    \subitem mitochondrial Eve, \hyperpage{108}
     \subitem multiple alleles, \hyperpage{106}
     \subitem time to coalescence, \hyperpage{107}
-    \subitem time to common ancestry, \hyperpage{105}
-    \subitem two alleles, \hyperpage{104}
-  \item coalescent events, \hyperpage{104}
+    \subitem time to common ancestry, \hyperpage{106}
+    \subitem two alleles, \hyperpage{105}
+  \item coalescent events, \hyperpage{105}
   \item components of   selection, \hyperpage{56}
   \item components of variance
     \subitem causal, \hyperpage{131, 132}
@@ -114,7 +115,7 @@
 
   \item $F$-statistics, \hyperpage{34}, \hyperpage{36}
     \subitem $G_{st}$, \hyperpage{41}
-    \subitem coalescent, \hyperpage{108}
+    \subitem coalescent, \hyperpage{109}
     \subitem notation, \hyperpage{43}
     \subitem outliers, \hyperpage{187}
     \subitem Weir   and Cockerham, \hyperpage{42}
@@ -165,8 +166,8 @@
     \subitem inbreeding analogy, \hyperpage{80}
     \subitem inbreeding effective size, \hyperpage{82}
     \subitem loss of beneficial alleles, \hyperpage{95}
-    \subitem Markov property, \hyperpage{79}, \hyperpage{106}
-    \subitem migration, \hyperpage{93}, \hyperpage{109}
+    \subitem Markov property, \hyperpage{79}, \hyperpage{107}
+    \subitem migration, \hyperpage{93}, \hyperpage{110}
     \subitem mutation, \hyperpage{89}
     \subitem mutation, recurrent, \hyperpage{91}
     \subitem mutation, stationary distribtuion, \hyperpage{91}

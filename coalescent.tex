@@ -5,7 +5,7 @@
 \usepackage{graphics}
 \usepackage{epstopdf}
 
-\newcommand{\copyrightYears}{2001-2017}
+\newcommand{\copyrightYears}{2001-2019}
 
 \title{The Coalescent}
 
@@ -18,13 +18,19 @@
 \section*{Introduction}
 
 I've mentioned many times by now that population geneticists often
-look at the world backwards. Sometimes when they do, the result is
-very useful. Consider genetic drift, for example. So far we've been
-trying to predict what will happen in a population given a particular
-effective population size. But when we collect data we are often more
-interested in understanding the processes that produced the pattern we
-find than in predicting what will happen in the future. So let's take
-a backward look at drift and see what we find.
+look at the world backwards. To those of you who aren't population
+geneticists,\footnote{i.e., virtually everyone who is reading these
+  notes.} looking at the world backwards is probably as awkwards as
+walking backwards. Sometimes, though, it turns out that walking
+backwards is useful, as when you're trying to keep an eye on where
+you've been, not just where you're going. That's what we're about to
+do with genetic drift. So far we've been trying to predict what will
+happen in a population given a particular effective population
+size. But when we collect data we are often more interested in
+understanding the processes that produced the pattern we find than in
+predicting what will happen in the future. We're using data to provide
+insight about where we've been, not where we're going. So let's take a
+backward look at drift and see what we find.
 
 
 \section*{Reconstructing the genealogy of a sample of
@@ -36,14 +42,25 @@ descent with respect to the immediately preceding generation with
 probability $1/2N_e$. That means that there's a chance that two
 alleles in generation $t$ are copies of the same allele in generation
 $t-1$. If the population size is constant, meaning that the number of
-alleles in the population is remaining constant, that also means that
-there's a chance that some alleles present in generation $t-1$ will
-not have descendants in generation $t$. Looking backward, then, the
-number of alleles in generation $t-1$ that have descendants in
-generation $t$ is always less than or equal to the number of alleles
-in generation $t$. That means if we trace the ancestry of alleles in a
-sample back far enough, all of them will be descended from a single
-common ancestor. Figure~\ref{fig:coalescent} provides a simple
+allele copies\footnote{I'm using the phrase ``allele copy'' here to
+  refer to distinct physical alleles. Allele copies may or may not be
+  identical by type or identical by descent. If a diploid population
+  has effective size $N_e$, then the number of allele {\it copies\/}
+  is $2N_e$. The number of allele types may be 1, 2, or any other
+  integer less than or equal to $2N_e$. Similarly, the number of
+  identity by descent categories among the alleles may be anything rom
+  1 to $2N_e$.}\index{allele copy} is also constant, that also means
+that there's a chance that some allele copies present in generation
+$t-1$ will not have descendants in generation $t$. Looking backward,
+then, the number of allele copies in generation $t-1$ that have
+descendants in generation $t$ is always less than or equal to the
+number of allele copies in generation $t$. That means if we trace the
+ancestry of allele copies in a sample back far enough, all of them
+will be descended from a single common ancestor.\footnote{As you can
+  see, it quickly becomes tedious to write ``allele copies.'' I'm
+  going to write ``allele'' throughout the rest of this
+  discussion. Just remember that when I do, I'm really referring to an
+  allele copy.}  Figure~\ref{fig:coalescent} provides a simple
 schematic illustrating how this might happen.
 
 \begin{figure}
@@ -71,7 +88,8 @@ of the population, too. But in any finite population the pattern will
 look something like the one I've illustrated here.
 
 \section*{Mathematics of the coalescent: two
-  alleles}\index{coalescent!two alleles}
+  alleles\footnote{Remember, I'm
+  talking about allele copies here.}}\index{coalescent!two alleles}
 
 Thirty-five years ago J. F. C. Kingman developed a convenient and
 powerful way to describe how the time to common ancestry is related to
@@ -148,25 +166,27 @@ alleles.\footnote{Okay, okay. What I should really have said is ``It's
   you are comfortable with probability thinking.'' Rembmer: I don't
   expect you to be able to derive these results on your own. Don't
   worry if you can't see how you could have come up with the
-  mathematics that follow, don't worry about it. Unless you want to
-  make contributions to developing new theory in population genetics,
-  you don't need to do derivations like these.}  We're interested in
-seeing how far back in time we have to go before all alleles are
-descended from a single common ancestor. We'll assume that we have $m$
-alleles in our sample. The first thing we have to calculate is the
-probability that any two of the alleles in our sample are identical by
-descent from the immediately preceding generation. To make the
-calculation easier, we assume that the effective size of the
-population is large enough that the probability of two coalescent
-events in a single generation is vanishingly small. We already know
-that the probability of a coalescence in the immediately preceding
-generation for two randomly chosen alleles is $1/2N_e$. But there are
-$m(m-1)/2$ different pairs of alleles in our sample.\footnote{Where
-  did I get that $m(m-1)/2$? You can either take my word for it as ``a
-  well known fact,'' or you can ask me about it, and I'll show you
-  where it comes from.} So the probability that one pair of these
-alleles is involved in a coalescent event in the immediately preceding
-generation is
+  mathematics that follow. Unless you want to make contributions to
+  developing new theory in population genetics, you don't need to do
+  derivations like these. Nonetheless, I think it's useful for you to
+  see them. That way you have a better chance of understanding the
+  limitations of coalescence approaches if you use them in analyzing
+  your own data.}  We're interested in seeing how far back in time we
+have to go before all alleles are descended from a single common
+ancestor. We'll assume that we have $m$ alleles in our sample. The
+first thing we have to calculate is the probability that any two of
+the alleles in our sample are identical by descent from the
+immediately preceding generation. To make the calculation easier, we
+assume that the effective size of the population is large enough that
+the probability of two coalescent events in a single generation is
+vanishingly small. We already know that the probability of a
+coalescence in the immediately preceding generation for two randomly
+chosen alleles is $1/2N_e$. But there are $m(m-1)/2$ different pairs
+of alleles in our sample.\footnote{Where did I get that $m(m-1)/2$?
+  You can either take my word for it as ``a well known fact,'' or you
+  can ask me about it, and I'll show you where it comes from.} So the
+probability that one pair of these alleles is involved in a coalescent
+event in the immediately preceding generation is
 \[
 \left(\frac{1}{2N_e}\right)\left(\frac{m(m-1)}{2}\right) \quad .
 \]
@@ -174,7 +194,7 @@ From this it follows\footnote{Using logic just like what we used in
 the two allele case.} that the probability that the first coalescent
 event involving this sample of alleles occurred $t$ generations ago is
 \begin{equation}
-P(T=t) = 
+P(T=t) =
 \left(1-\left(\frac{1}{2N_e}\right)\left(\frac{m(m-1)}{2}\right)\right)^{t-1}
 \left(\frac{1}{2N_e}\right)\left(\frac{m(m-1)}{2}\right)
 \quad .
@@ -205,6 +225,36 @@ as\index{coalescent!time to coalescence}
        &\approx& 4N_e
 \end{eqnarray*}
 
+\subsection*{A continuous time version of the coalescent}
+
+Since the effective size of a population has to be pretty big for the
+coalescent process to be a good representation, big enough that
+$(1/2N_e)^2$ is negligible, $4N_e$ is generally in the hundreds or
+thousands. That means that even though the coalescent as I formulated
+it above is discrete time process, i.e., events happen at time 1, 2,
+3, $\dots$, it can be convenient to think of time as continuous, which
+is surprisingly easy to do. We start with the ``well-known fact'' that
+if $p$ is ``small''
+\[
+\log(1-p) \approx -p \quad .
+\]
+As a result,
+\begin{eqnarray*}
+(1 - p)^t &=& e^{t \log(1-p)} \\
+          &\approx& e^{-pt} \quad .
+\end{eqnarray*}
+In our case,
+\[
+p = \frac{k(k-1)}{4N_e} \quad ,
+\]
+when there are $k$ alleles.\footnote{Remember, I'm using ``alleles''
+  as shorthand for ``allele copies'' (and wasting a lot more space
+  with this footnote than I would have if I'd just written ``allele
+  copies'' in the text).} So
+\[
+t_k = \left(\frac{k(k-1)}{4N_e}\right)e^{\frac{k(k-1)}{4N_e}} \quad .
+\]
+
 
 \subsection*{An example: Mitochondrial
   Eve}\index{coalescent!mitochondrial Eve}
@@ -225,9 +275,14 @@ spread. What does the coalescent tell us about their conclusion?
 
 Well, we expect all mitochondrial genomes in the sample to have had a
 common ancestor about $2N_e$ generations ago. Why $2N_e$ rather than
-$4N_e$? Because mitochondrial genomes are haploid. Furthermore, since
-we all got our mitochondria from our mothers, $N_e$ in this case
-refers to the effective number of {\it females}.
+$4N_e$? Because mitochondrial genomes are haploid, not
+diploid. Furthermore, since we all get our mitochondria from our
+mothers,\footnote{Luo et al.~\cite{Luo-etal-2018} recently presented
+  data suggesting that mitochondria may sometimes be biparentally
+  inherited in humans and that whether or not biparental inheritance
+  occurs seems to be determined by the nuclear genotype of the
+  mother.} $N_e$ in this case refers to the effective number of {\it
+  females}.
 
 Given that a human generation is about 20 years, a coalescence time of
 200,000 years implies that the mitochondrial genomes in the Cann et
@@ -248,8 +303,8 @@ my limited reading of the literature suggests that other dara are
 consistent with the ``Out of Africa'' scenario. Y-chromosome
 polymorphisms, for example, are also consistent with the ``Out of
 Africa'' hypothesis~\cite{Underhill-etal-2000}. Interestingly, dating
-of those polymorphisms suggetsts that Y-chromosome Adam left Africa
-35,000 -- 89,000 years ago.
+of Y-chromosome polymorphisms suggetsts that Y-chromosome Adam left
+Africa only 35,000 -- 89,000 years ago.
 
 \section*{The coalescent and $F$-statistics}\index{F-statistics@$F$-statistics!coalescent}\index{coalescent!F-statistics@$F$-statistics}
 
@@ -281,9 +336,9 @@ greater the chances that they have become different. An implication of
 this relationship is that $F$-statistics, by themselves, can tell us
 something about how recently populations have been connected, relative
 to the within-population coalescence time, but they can't distinguish
-between recent common ancestry that is due to lots of migration among
-populations and recent common ancestry that is due to a recent split
-between populations.
+between recent common ancestry that is due to migration among
+populations and recent common ancestry that is due to a split between
+populations.
 
 A given pattern of among-population relationships might reflect a
 migration-drift equilibrium, a sequence of population splits followed
