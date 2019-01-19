@@ -11,19 +11,28 @@ differ.\footnote{When I introduced nucleotide diversity before, I
   defined $\delta_{ij}$ as the {\it number\/} of nucleotides that
   differ between haplotypes $i$ and $j$. It's a little easier for what
   follows if we think of it as the {\it fraction\/} of nucleotides at
-  which they differ instead.} It shouldn't come to any surprise to you
-that just as there is interest in partitioning diversity within and
-among populations when we're dealing with simple allelic variation,
-i.e., Wright's $F$-statistics, there is interest in partitioning
-diversity within and among populations when we're dealing with
-nucleotide sequence or other molecular data. We'll see later that
-AMOVA can be used very generally to partition variation when there is
-a distance we can use to describe how different alleles are from one
-another, but for now, let's stick with nucleotide sequence data for
-the moment and think of $\delta_{ij}$ simply as the fraction of
-nucleotide sites at which two sequences differ.\index{nucleotide diversity}
+  which they differ instead. It's really easy to convert between the
+  two. If $\delta^*{ij}$ is the {\it number\/} of nucleotides that
+  differ between haplotypes $i$ and $j$ and $N$ is the length of the
+  haplotype sequence, then $\delta_{ij} = \delta^*{ij}/N$. Of course,
+  if we wanted to get fancy we could use a Bayesian approach to
+  estimate $\delta_{ij}$, but we'll avoid that complication in what
+  follows.} It shouldn't come to any surprise to you that just as
+there is interest in partitioning diversity within and among
+populations when we're dealing with simple allelic variation, i.e.,
+Wright's $F$-statistics, there is interest in partitioning diversity
+within and among populations when we're dealing with nucleotide
+sequence or other molecular data. The approach I'm going to describe
+is known as Analysis of Molecular VAriance
+(AMOVA)~\cite{Excoffier-etal92}. We'll see later that AMOVA can be
+used very generally to partition variation when there is a distance we
+can use to describe how different alleles are from one another, but
+for now, let's stick with nucleotide sequence data and think of
+$\delta_{ij}$ simply as the fraction of nucleotide sites at which two
+sequences differ.\index{nucleotide diversity}
 
-\section*{Analysis of molecular variation (AMOVA)}
+\section*{Analysis of molecular variance
+  (AMOVA)}\index{AMOVA}\index{Analysis of molecular variance}
 
 The notation now becomes just a little bit more complicated. We will
 now use $x_{ik}$ to refer to the frequency of the $i$th haplotype in
@@ -46,10 +55,12 @@ diversity within populations. Then we can define\index{nucleotide diversity!part
 \end{equation}
 which is the direct analog of Wright's $F_{st}$ for nucleotide
 sequence diversity. Why? Well, that requires you to remember stuff we
-covered eight or ten weeks ago.\index{Phi-st@$\Phi_{st}$}\index{AMOVA}
+covered about two months ago.\index{Phi-st@$\Phi_{st}$}\index{AMOVA}
 
-To be a bit more specific, refer back to
-\url{http://darwin.eeb.uconn.edu/eeb348/lecture-notes/wahlund/node4.html}.
+To be a bit more specific, refer back to the online
+notes\footnote{\url{http://darwin.eeb.uconn.edu/eeb348-notes/genetic-structure.pdf}}
+or to Chapter 4 in the book version of the
+notes\footnote{\url{https://figshare.com/articles/Lecture_notes_in_population_genetics/100687}}.
 If you do, you'll see that we defined
 \[
 F_{IT} = 1 - \frac{H_i}{H_t} \quad ,
@@ -101,12 +112,14 @@ components.\footnote{As with $F$-statistics, the actual estimation
   $F$-statistics~\cite{WeirCockerham84}. Bayesian approaches are
   possible, but they are not yet widely available~(meaning, in part,
   that I know how to do it, but I haven't written the necessary
-  software yet).} This procedure for
-partitioning diversity in molecular markers is referred to as an
-analysis of molecular variance or AMOVA (by analogy with the
-ubiquitous statistical procedure analysis of variance, ANOVA). Like
-Wright's $F$-statistics, the analysis can include several levels in
-the hierarchy.
+  software yet). Gompert et al.~\cite{Gompert-etal-2010} describe one
+  approach for Bayesian AMOVA from pooled DNA sequences obtained from
+  high-throughput sequencing.} This procedure for partitioning
+diversity in molecular markers is referred to as an analysis of
+molecular variance or AMOVA (by analogy with the ubiquitous
+statistical procedure analysis of variance, ANOVA). Like Wright's
+$F$-statistics, the analysis can include several levels in the
+hierarchy.
 
 \begin{figure}
 \begin{center}
@@ -129,6 +142,9 @@ relationships and the relative frequency of each haplotype is
 presented in Figure~\ref{fig:amova-haplotypes}.
 
 \begin{figure}
+\begin{center}
+\resizebox{!}{6cm}{\includegraphics{amova-sample-locations.eps}}
+\end{center}
 \caption{Locations of human mtDNA samples used in the example
   analysis~(from~\cite{Excoffier-etal92}).}\label{fig:amova-sample-locations}
 \end{figure}
@@ -142,10 +158,10 @@ presented in Figure~\ref{fig:amova-haplotypes}.
   frequency~(from~\cite{Excoffier-etal92}).}\label{fig:amova-haplotypes}
 \end{figure}
 
-It's apparent from the figure that haplotype 1 is very common. In
-fact, it is present in substantial frequency in every sampled
-population. An AMOVA using the minimum spanning network in
-Figure~\ref{fig:amova-haplotypes} to measure distance produces the
+It's apparent from Figure~\ref{fig:amova-haplotypes} that haplotype 1
+is very common. In fact, it is present in substantial frequency in
+every sampled population. An AMOVA using the minimum spanning network
+in Figure~\ref{fig:amova-haplotypes} to measure distance produces the
 results shown in Table~\ref{table:amova-results}. Notice that there is
 relatively little differentiation among populations within the same
 geographical region ($\Phi_{SC} = 0.044$). There is, however,
@@ -180,8 +196,8 @@ Among all populations            & $\Phi_{ST} = 0.246$ \\
 \section*{An extension}
 
 As you may recall,\footnote{Look back at
-  \url{http://darwin.eeb.uconn.edu/eeb348/lecture-notes/coalescent/node6.html}
-  for the details.}
+  \url{http://darwin.eeb.uconn.edu/eeb348-notes/coalescent.pdf} or
+  Chapter 15 in the online notes for the details.}
 Slatkin~\cite{Slatkin91-coalescence} pointed out that there is a
 relationship between coalescence time and $F_{st}$. Namely, if
 mutation is rare then

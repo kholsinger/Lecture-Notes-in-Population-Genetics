@@ -4,7 +4,7 @@
 \usepackage{html}
 \usepackage{url}
 
-\newcommand{\copyrightYears}{2001-2017}
+\newcommand{\copyrightYears}{2001-2019}
 
 \title{Resemblance among relatives}
 
@@ -16,16 +16,16 @@
 
 \section*{Introduction}
 
-Just as individuals may differ from one another in phenotype 
-because they have different genotypes, because they developed in
-different environments, or both, relatives may resemble one another
-more than they resemble other members of the population because they
-have similar genotypes, because they developed in similar
-environments, or both. In an experimental situation, we may be able to
-randomize individuals across environments. Under those circumstances
-any tendency for relatives to resemble one another more than
-non-relatives must be due to similarities in their
-genotypes.\index{resemblance between relatives}
+Just as individuals may differ from one another in phenotype because
+they have different genotypes, because they developed in different
+environments, or both, relatives may resemble one another more than
+they resemble other members of the population because they have
+similar genotypes, because they developed in similar environments, or
+both. In an experimental situation, typically try to randomize
+individuals across environments. If we are successful, any tendency
+for relatives to resemble one another more than non-relatives must be
+due to similarities in their genotypes.\index{resemblance between
+  relatives}
 
 Using this insight, we can develop a statistical technique that allows
 us to determine how much of the variance among individuals in
@@ -43,7 +43,7 @@ regression of offspring phenotype on parental phenotype, which as
 we'll see estimates $h^2_n$, or to use a nested analysis of
 variance. One of the most complete designs is a full-sib, half-sib
 design in which each male sires offspring from several dams but each
-dam mates with only one sire.\index{parent-offspring regression}\index{full-sib analysis} 
+dam mates with only one sire.\index{parent-offspring regression}\index{full-sib analysis}
 
 The offspring of a single dam are full-sibs (they are nested within
 dams). Differences among the offspring of dams indicates that there
@@ -135,9 +135,14 @@ The phenotype of the first half-sib in the pair is a random variable
 (call it $S_1$), as is the phenotype of the second (call it $S_2$).
 The mean of $S_1$ is just the mean phenotype in {\it all\/} the
 progeny taken together, $\bar x$.  Similarly, the mean of $S_2$ is
-just $\bar x$.\footnote{Notice that they have the same mean because
-  they are half siblings. They share the same mother. Offspring from
-  different mothers may have different means.}  Now with one locus,
+just $\bar x$.\footnote{The reasoning here gets a little tricky, since
+  the mean of different half-sib families may be different. Think
+  about it this way. We picked this particular half-sib family at
+  random from among all half-sib families in the population. It takes
+  a bit of algebra to show it, but the mean phenotype of a randomly
+  chosen half-sib family is $\bar x$, meaning that $\bar x$ is the
+  mean phenotype for both $S_1$ and $S_2$. They're part of the same
+  family, so they share the same family mean.}  Now with one locus,
 two alleles we have three possible phenotypes: $x_{11}$ (corresponding
 to the genotype $A_1A_1$), $x_{12}$ (corresponding to the genotype
 $A_1A_2$), and $x_{22}$ (corresponding to the genotype $A_2A_2$).  So
@@ -163,7 +168,7 @@ combination will occur in her progeny.
                                                  + q^2(x_{22} - {\bar
                                                 x})] \\
    &=&\ p^2[p(x_{11} - {\bar x}) + q(x_{12} - {\bar x})]^2 \\
-   &&+ 2pq[{1 \over 2}p(x_{11} - {\bar x}) + 
+   &&+ 2pq[{1 \over 2}p(x_{11} - {\bar x}) +
          {1 \over 2}q(x_{12} - {\bar x}) +
          {1 \over 2}p(x_{12} - {\bar x}) +
          {1 \over 2}q(x_{22} - {\bar x})]^2 \\
@@ -176,11 +181,11 @@ combination will occur in her progeny.
    + 2pq\left[{1 \over 2}(\alpha_1 - {{\bar x} \over 2}) +
          {1 \over 2}(\alpha_2 - {{\bar x} \over 2})\right]^2
    + q^2\left[\alpha_2 - {{\bar x} \over 2}\right]^2 \\
-   &=&\ p^2\left[{1 \over 2}(2\alpha_1 - {\bar x})\right]^2 
-   + 2pq\left[{1 \over 2}(\alpha_1 + \alpha_2 - {\bar x})\right]^2 
+   &=&\ p^2\left[{1 \over 2}(2\alpha_1 - {\bar x})\right]^2
+   + 2pq\left[{1 \over 2}(\alpha_1 + \alpha_2 - {\bar x})\right]^2
         + q^2\left[{1 \over 2}(2\alpha_2 - {\bar x})\right]^2 \\
    &=& \left({1 \over 4}\right)
-      \left[p^2(2\alpha_1 - {\bar x})^2 
+      \left[p^2(2\alpha_1 - {\bar x})^2
         + 2pq[(\alpha_1+\alpha_2 - {\bar x})]^2
         + q^2(2\alpha_2 - {\bar x})^2\right] \\
    &=& \left({1 \over 4}\right)V_a
@@ -194,9 +199,9 @@ phenotypes may look familiar. It is the same one we encountered
 earlier when we calculated additive and dominance components of
 variance. Let's assume that $p = 0.4$. Then we know that
 \begin{eqnarray*}
-\bar x &=& 1.104 \\
-V_a &=& 0.5192 \\
-V_d &=& 0.0092 \quad .
+\bar x &=& 54.4 \\
+V_a &=& 1505.28 \\
+V_d &=& 207.36 \quad .
 \end{eqnarray*}
 We can also calculate the numerical version of
 Table~\ref{table:half-sib}, which you'll find in
@@ -207,7 +212,7 @@ Table~\ref{table:example-hs}.
 \begin{tabular}{l|ccc}
 \hline\hline
 Genotype  & $A_1A_1$ & $A_1A_2$ & $A_2A_2$ \\
-Phenotype & 0        & 0.8      & 2 \\
+Phenotype & 100        & 80      & 0 \\
 \hline
 \end{tabular}
 \end{center}
@@ -235,22 +240,22 @@ $A_2A_2$ & 0.36      & 0.0      & 0.4      & 0.6 \\
 So now we can follow the same approach we did before and calculate the
 numerical value of the covariance between half-sibs in this example:
 \begin{eqnarray*}
-\Cov(S_1,S_2) &=&\ [(0.4)^2(0.16) + (0.2)^2(0.48)](0 - 1.104)^2 \\
-          && + [(0.6)^2(0.16) + (0.5)^2(0.48) + (0.4)^2(0.36)] (0.8 - 1.104)^2 \\
-          && + [(0.3)^2(0.48) + (0.6)^2(0.36)](2 - 1.104)^2 \\
-          && + 2[(0.4)(0.6)(0.16) + (0.2)(0.5)(0.48)](0 - 1.104)(0.8 - 1.104) \\
-          && + 2(0.2)(0.3)(0.48)(0 - 1.104)(2 - 1.104) \\
-          && + 2[(0.5)(0.3)(0.48) + (0.4)(0.6)(0.36)](0.8 - 1.104)(2.0 - 1.104) \\
-         &=&\ 0.1298 \\
-         &=&\ \left({1 \over 4}\right)0.5192 \quad .
+\Cov(S_1,S_2) &=&\ [(0.4)^2(0.16) + (0.2)^2(0.48)](100 - 54.4)^2 \\
+          && + [(0.6)^2(0.16) + (0.5)^2(0.48) + (0.4)^2(0.36)] (80 - 54.4)^2 \\
+          && + [(0.3)^2(0.48) + (0.6)^2(0.36)](0 - 54.4)^2 \\
+          && + 2[(0.4)(0.6)(0.16) + (0.2)(0.5)(0.48)](100 - 54.4)(80 - 54.4) \\
+          && + 2(0.2)(0.3)(0.48)(100 - 54.4)(0 - 54.4) \\
+          && + 2[(0.5)(0.3)(0.48) + (0.4)(0.6)(0.36)](80 - 54.4)(0 - 54.4) \\
+         &=&\ 376.32 \\
+         &=&\ \left({1 \over 4}\right)1505.28 \quad .
 \end{eqnarray*}
 
 \subsection*{Covariances among relatives}\index{covariance!relatives}
 
 Well, if we can do this sort of calculation for half-sibs, you can
 probably guess that it's also possible to do it for other relatives. I
-won't go through all of the calculations, but the results are
-summarized in Table~\ref{table:relatives}
+won't go through all of the calculations, but the results for common
+forms of relationship are summarized in Table~\ref{table:relatives}
 
 \begin{table}
 \begin{center}
@@ -274,9 +279,16 @@ Galton introduced the term {\it regression\/} to describe the
 inheritance of height in humans. He noted that there is a tendency for
 adult offspring of tall parents to be tall and of short parents to be
 short, but he also noted that offspring tended to be less extreme than
-the parents. He described this as a ``regression to mediocrity,'' and
-statisticians adopted the term to describe a standard technique for
-describing the functional relationship between two~variables.
+the parents.\footnote{It's worth noting that Galton is often
+  ``credited'' with establishing the field of eugenics. He was a
+  proponent of encouraging the ``best'' people to marry one another to
+  ``improve'' the human race. There is a building at University
+  College London named in his honor, the Galton Laboratory. The
+  University is considering changing its
+  name~(\url{https://www.dailymail.co.uk/sciencetech/article-6466845/UCL-rename-buildings-honouring-Sir-Francis-Galton-known-father-eugenics.html}).}
+He described this as a ``regression to mediocrity,'' and statisticians
+adopted the term to describe a standard technique for describing the
+functional relationship between two~variables.
 
 \subsection*{Regression analysis}\index{parent-offspring regression}
 
@@ -321,7 +333,7 @@ Table~\ref{table:full-sib}.
         &      &             & Composition of \\
 Source  & d.f. & Mean square & mean square \\
 \hline
-Among sires             & $s-1$     & $MS_S$ 
+Among sires             & $s-1$     & $MS_S$
                         & $\sigma^2_W + k\sigma^2_D + dk\sigma^2_s$ \\
 Among dams              & $s(d-1)$  & $MS_D$
                         & $\sigma^2_W + k\sigma^2_D$ \\
@@ -331,7 +343,7 @@ Within progenies        & $sd(k-1)$ & $MS_W$
 \hline
 \multicolumn{4}{l}{$s = \hbox{number of sires}$} \\
 \multicolumn{4}{l}{$d = \hbox{number of dams per sire}$} \\
-\multicolumn{4}{l}{$k = \hbox{number of offspring per dam}$} 
+\multicolumn{4}{l}{$k = \hbox{number of offspring per dam}$}
 \end{tabular}
 \end{center}
 \caption{Analysis of variance table for a full-sib analysis of
@@ -377,10 +389,10 @@ component of the variance is equal to the total variance minus the
 covariance within groups.  In this case,
 \begin{eqnarray*}
 \sigma^2_W &=& V_p - \Cov_{FS} \\
- &=& V_a + V_d + V_e - \left[\left(\frac{1}{2}\right)V_a + 
+ &=& V_a + V_d + V_e - \left[\left(\frac{1}{2}\right)V_a +
                             \left(\frac{1}{4}\right)V_d
                       \right] \\
- &=& \left(\frac{1}{2}\right)V_a 
+ &=& \left(\frac{1}{2}\right)V_a
     + \left({3 \over 4}\right)V_d
     + V_e \quad .
 \end{eqnarray*}
@@ -391,7 +403,7 @@ $\sigma^2_S = Cov_{HS}$, and $\sigma^2_T = V_p$.  Thus,
            &=& V_p - \Cov_{HS} - (V_p - \Cov_{FS}) \\
            &=& \Cov_{FS} - \Cov_{HS} \\
            &=& \left[
-              \left(\frac{1}{2}\right)V_a + \left(\frac{1}{4}\right)V_d 
+              \left(\frac{1}{2}\right)V_a + \left(\frac{1}{4}\right)V_d
               \right]
               - \left(\frac{1}{4}\right)V_a \\
            &=& \left(\frac{1}{4}\right)V_a +
@@ -431,7 +443,7 @@ summarized in Table~\ref{table:mice}.
         &      &             & Composition of \\
 Source  & d.f. & Mean square & mean square \\
 \hline
-Among sires             & 70 & 17.10 
+Among sires             & 70 & 17.10
                         & $\sigma^2_W + k'\sigma^2_D + dk'\sigma^2_s$ \\
 Among dams              & 118 & 10.79
                         & $\sigma^2_W + k\sigma^2_D$ \\
@@ -456,7 +468,7 @@ obtain
            &=& 2.19 \\
 \sigma^2_D &=& \left({1 \over k}\right)(MS_D - \sigma^2_W) \\
            &=& 2.47 \\
-\sigma^2_S &=& \left({1 \over dk'}\right)(MS_S - \sigma^2_W 
+\sigma^2_S &=& \left({1 \over dk'}\right)(MS_S - \sigma^2_W
                     - k'\sigma^2_D) \\
            &=& 0.48 \quad .
 \end{eqnarray*}

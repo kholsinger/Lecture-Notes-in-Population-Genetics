@@ -5,7 +5,7 @@
 \usepackage{url}
 \usepackage{epstopdf}
 
-\newcommand{\copyrightYears}{2001-2017}
+\newcommand{\copyrightYears}{2001-2019}
 
 \title{Introduction to quantitative genetics}
 
@@ -43,7 +43,7 @@ Morgan).\index{biometricians}\index{Mendelians}
 
 Biometricians asserted that the really important variation in
 evolution didn't follow Mendelian rules. Height, weight, skin color,
-and similar traits seemed to 
+and similar traits seemed to
 
 \begin{itemize}
 
@@ -63,7 +63,7 @@ that wasn't particularly interesting.\index{quantitative traits}\index{blending 
 
 Mendelians dismissed the biometricians, at least in part, because they
 seemed not to recognize the distinction between genotype and
-phenotype. It seemed to at least some of them that traits whose
+phenotype. It seemed to at least some Mendelians that traits whose
 expression was influenced by the environment were, by definition, not
 inherited. Moreover, the evidence that Mendelian principles accounted
 for the inheritance of many discrete traits was incontrovertible.
@@ -121,7 +121,7 @@ possible explanations for that difference:
 
 \item The individuals have different genotypes.
 
-\item The individuals developed in different environments. 
+\item The individuals developed in different environments.
 
 \item The individuals have different genotypes {\it and\/} they
 developed in different environments.
@@ -136,7 +136,7 @@ environmental components.\footnote{We'll soon see that separating
   response to the environment, even though that's what I illustrated
   in discussing norms of reaction.} Putting that into an equation
 \[
-\Var(P) = \Var(G) + \Var(E) \quad , 
+\Var(P) = \Var(G) + \Var(E) \quad ,
 \]
 where $\Var(P)$ is the {\it phenotypic variance}, $\Var(G)$ is the
 {\it genetic variance}, and $\Var(E)$ is the environmental
@@ -158,13 +158,17 @@ is a result both of genes involved in that trait's expression and the
 environment in which it is expressed, it doesn't make sense to say of
 a particular individual's phenotype that genes are more important than
 environment in determining it. You wouldn't have a phenotype without
-both. What we might be able to say is that when we look at a
-particular population of organisms some fraction of the phenotypic
-differences among them is due to differences in the genes they carry
-and that some fraction is due to differences in the environment they
-have experienced.\footnote{When I put it this way, I hope it's obvious
-  that I'm neglecting genotype-environment interactions, and that I'm
-  oversimplifying quite a bit.}\index{nature vs.\ nurture} 
+both. At most what we can say is that when we look at a particular
+population of organisms some fraction of the phenotypic variation they
+exhibit is due to differences in the genes they carry and that some
+fraction is due to differences in the environment they have
+experienced.\footnote{When I put it this way, I hope it's obvious that
+  I'm neglecting genotype-environment interactions, and that I'm
+  oversimplifying a lot.}\index{nature vs.\ nurture} If we have two
+individuals with different phenotypes, e.g., Ralph is tall and Harry
+is short, we can't even say whether the difference between Ralph and
+Harry is because of differences in their genes or differences in their
+developmental environment.
 
 One important implication of this insight is that much of the ``nature
 vs.\ nurture'' debate concerning human intelligence or human
@@ -173,8 +177,10 @@ personality that you have is a product of {\it both} the genes you
 happened to inherit and the environment that you happened to
 experience. Any differences between you and the person next to you
 probably reflect both differences in genes {\it and\/} differences in
-environment. Moreover, just because you have a genetic pre-disposition
-for a particular condition doesn't mean you're stuck with it.
+environment. Moreover, even if the differences between you and your
+neighbor are due to differences in genes, it doesn't mean that those
+differences are fixed and indelible. You may be able to do something
+to change them.
 
 Take phenylketonuria, for example. It's a condition in which
 individuals are homozygous for a deficiency that prevents them from
@@ -183,7 +189,10 @@ phenylalanine~(\url{https://medlineplus.gov/phenylketonuria.html}).
 If individuals with phenylketonuria eat a normal diet, severe
 intellectual disabilities can result by the time an infant is one year
 old. But if they eat a diet that is very low in phenylalanine, their
-development is completely normal.\index{phenylketonuria}
+development is completely normal.\index{phenylketonuria} In other
+words, clear genetic differences at this locus {\it can\/} lead to
+dramatic differences in cognitive ability, but {\it they don't have
+  to}.
 
 It's often useful to talk about how much of the phenotypic variance is
 a result of additive genetic variance or of genetic variance.
@@ -223,11 +232,13 @@ where $R$ is the {\it response to selection\/} and $S$ is the
 As you'll see in the coming weeks, there's a lot of stuff hidden
 behind these simple equations, including a lot of assumptions. But
 quantitative genetics is very useful. Its principles have been widely
-applied in plant and animal breeding for almost a century, and they
+applied in plant and animal breeding for more than a century, and they
 have been increasingly applied in evolutionary investigations in the
-last forty years. Nonetheless, it's useful to remember that
-quantitative genetics is a lot like a bikini. What it reveals is
-interesting, but what it conceals is crucial.
+last forty years.\footnote{I used to include a joke here that I've
+  decided not to include any more. It's not very funny, and some
+  people might find it offensive. If for some reason you want to know
+  what the joke is, you can find it in the 2017 version of these notes
+  on Figshare~(\url{https://doi.org/10.6084/m9.figshare.100687.v2})}.
 
 \section*{Partitioning the phenotypic variance}
 
@@ -250,7 +261,7 @@ Genotype                 & $A_1A_1$    & $A_1A_2$ & $A_2A_2$ \\
 \hline
 Frequency                & $p^2$       & $2pq$    & $q^2$ \\
 Genotypic value          & $x_{11}$    & $x_{12}$ & $x_{22}$ \\
-Additive genotypic value & $2\alpha_1$ & $\alpha_1 + \alpha_2$ 
+Additive genotypic value & $2\alpha_1$ & $\alpha_1 + \alpha_2$
                                                   & $2\alpha_2$ \\
 \hline
 \end{tabular}
@@ -296,7 +307,7 @@ genotype, as would be inferred from the {\it additive effect\/} of the
 alleles of which it is composed. That didn't help much, did it? That's
 because I now need to tell you what we mean by the {\it additive
   effect\/} of an allele.\footnote{Hold on. Things get even more
-  interesting from here.}
+  interesting, i.e., worse from here.}
 
 \begin{figure}
 \begin{center}
@@ -351,7 +362,7 @@ to zero, and solve for $\alpha_1$ and $\alpha_2$.\footnote{We won't
 \frac{\partial a}{\partial{\alpha_2}} &=& q^2\{2[x_{22} - 2\alpha_2][-2]\}
                      + 2pq\{2[x_{12} - (\alpha_1+\alpha_2)][-1]\} \\
                   &=& -4q^2[x_{22} - 2\alpha_2]
-                     -4pq[x_{12} - (\alpha_1+\alpha_2)] 
+                     -4pq[x_{12} - (\alpha_1+\alpha_2)]
 \end{eqnarray*}
 Thus, $\frac{\partial a}{\partial{\alpha_1}} = \frac{\partial a}{\partial{\alpha_2}} = 0$ if and only if
 \begin{eqnarray}
@@ -435,7 +446,7 @@ V_g &=&\ p^2[x_{11} - {\bar x}]^2 + 2pq[x_{12} - {\bar x}]^2
        +2pq[2(x_{12} - \{\alpha_1+\alpha_2\})(\{\alpha_1+\alpha_2\} -
      {\bar x})] \nonumber \\
      &&\ +q^2[2(x_{22} - 2\alpha_2)(2\alpha_2 - {\bar x})] \quad .
-     \label{eq:part-begin} 
+     \label{eq:part-begin}
 \end{eqnarray}
 There are two terms in~(\ref{eq:part-begin}) that have a biological
 (or at least a quantitative genetic) interpretation.  The term on the
@@ -469,7 +480,7 @@ p^2[2(x_{11} &-& 2\alpha_1)(2\alpha_1 - {\bar x})]
  + 2pq[2(x_{12} - \{\alpha_1+\alpha_2\})(\{\alpha_1+\alpha_2\} - {\bar
  x})] \\
  &&+ q^2[2(x_{22} - 2\alpha_2)(2\alpha_2 - {\bar x})] \\
-&=& 2p^2(x_{11}-2\alpha_1)(2\alpha_1 - {\bar x}) 
+&=& 2p^2(x_{11}-2\alpha_1)(2\alpha_1 - {\bar x})
    + 4pq[x_{12}-(\alpha_1+\alpha_2)][(\alpha_1+\alpha_2)-{\bar x})] \\
  &&+ 2q^2(x_{22}-2\alpha_2)(2\alpha_2 - {\bar x}) \\
 &=&\ 4p^2(x_{11}-2\alpha_1)[\alpha_1 - (p\alpha_1+q\alpha_2)] \\
@@ -482,10 +493,10 @@ p^2[2(x_{11} &-& 2\alpha_1)(2\alpha_1 - {\bar x})]
 &=& 0
 \end{eqnarray*}
 Where we have used the identities ${\bar x} = 2(p\alpha_1 + q\alpha_2)$ [see
-equation~(\ref{eq:alpha_bar})] and 
+equation~(\ref{eq:alpha_bar})] and
 \begin{eqnarray*}
 p(x_{11} - 2\alpha_1) + q(x_{12} - \alpha_1 - \alpha_2) &=& 0 \\
-q(x_{22} - 2\alpha_2) + p(x_{12} - \alpha_1 - \alpha_2) &=& 0 
+q(x_{22} - 2\alpha_2) + p(x_{12} - \alpha_1 - \alpha_2) &=& 0
 \end{eqnarray*}
 [see equations~(\ref{eq:zeros_divide_1}) and (\ref{eq:zeros_divide_2})].
 In short, we have now shown that the total genotypic variance in the
@@ -526,7 +537,7 @@ we'll use the set of genotypic values in Table~\ref{table:additive}.
 \begin{tabular}{l|ccc}
 \hline\hline
 Genotype        & $A_1A_1$ & $A_1A_2$ & $A_2A_2$ \\
-Genotypic value &  0       & 1        & 2 \\
+Genotypic value &  100       & 50        & 0 \\
 \hline
 \end{tabular}
 \end{center}
@@ -537,27 +548,27 @@ Genotypic value &  0       & 1        & 2 \\
 
 For $p = 0.4$
 \begin{eqnarray*}
-{\bar x} &=& (0.4)^2(0) + 2(0.4)(0.6)(1) + (0.6)^2(2) \\
-                    &=& 1.20 \\
+{\bar x} &=& (0.4)^2(100) + 2(0.4)(0.6)(50) + (0.6)^2(0) \\
+                    &=& 40 \\
 \\
-\alpha_1 &=& (0.4)(0) + (0.6)(1) - (1.20)/2 \\
+\alpha_1 &=& (0.4)(100) + (0.6)(50) - (40)/2 \\
+         &=& 50.0 \\
+\alpha_2 &=& (0.4)(50) + (0.6)(0) - (40)/2 \\
          &=& 0.0 \\
-\alpha_2 &=& (0.4)(1) + (0.6)(2) - (1.20)/2 \\
-         &=& 1.0 \\
 \\
-V_g &=& (0.4)^2(0-1.20)^2 + 2(0.4)(0.6)(1-1.20)^2 + (0.6)^2(2-1.20)^2 \\
-    &=& 0.48 \\
-V_a &=& (0.4)^2[2(0.0)-1.20]^2 + 2(0.4)(0.6)[(0.0+1.0)-1.20]^2
-       + (0.6)^2[2(1.0)-1.20]^2 \\
-    &=& 0.48 \\
-V_d &=& (0.4)^2[0 - 2(0.0)]^2 + 2(0.4)(0.6)[1 - (0.0+1.0)]^2
-       + (0.6)^2[2 - 2(1.0)]^2 \\
-    &=& 0.00 \quad . 
+V_g &=& (0.4)^2(100-40)^2 + 2(0.4)(0.6)(50-40)^2 + (0.6)^2(0-40)^2 \\
+    &=& 1200 \\
+V_a &=& (0.4)^2[2(50.0)-20]^2 + 2(0.4)(0.6)[(50.0+0.0)-20]^2
+       + (0.6)^2[2(0.0)-20]^2 \\
+    &=& 1200 \\
+V_d &=& (0.4)^2[2(50.0) - 100]^2 + 2(0.4)(0.6)[(50.0+0.0) - 50]^2
+       + (0.6)^2[2(0.0) - 0]^2 \\
+    &=& 0.00 \quad .
 \end{eqnarray*}
-For $p = 0.2$, ${\bar x} = 1.60$, $V_g = V_a = 0.32$, $V_d = 0.00$. 
-You should verify for yourself that $\alpha_1=0$ and $\alpha_2=1$ for
+For $p = 0.2$, ${\bar x} = 20$, $V_g = V_a = 800$, $V_d = 0.00$.  You
+should verify for yourself that $\alpha_1=50$ and $\alpha_2=0$ for
 $p=0.2$.  If you are ambitious, you could try to prove that
-$\alpha_1=0$ and $\alpha_2=1$ for {\it any\/} allele frequency.
+$\alpha_1=50$ and $\alpha_2=0$ for {\it any\/} allele frequency.
 
 For the second example we'll use the set of genotypic values in
 Table~\ref{table:non-additive}.
@@ -567,7 +578,7 @@ Table~\ref{table:non-additive}.
 \begin{tabular}{l|ccc}
 \hline\hline
 Genotype        & $A_1A_1$ & $A_1A_2$ & $A_2A_2$ \\
-Genotypic value & 0        & 0.8      & 2 \\
+Genotypic value & 100        & 80      & 0 \\
 \hline
 \end{tabular}
 \end{center}
@@ -578,32 +589,35 @@ Genotypic value & 0        & 0.8      & 2 \\
 
 For $p = 0.4$
 \begin{eqnarray*}
-{\bar x} &=& (0.4)^2(0) + 2(0.4)(0.6)(0.8) + (0.6)^2(2) \\
-                    &=& 1.104 \\
+{\bar x} &=& (0.4)^2(100) + 2(0.4)(0.6)(80) + (0.6)^2(0) \\
+                    &=& 54.4 \\
 \\
-\alpha_1 &=& (0.4)(0) + (0.6)(0.8) - (1.104)/2 \\
-         &=& -0.072 \\
-\alpha_2 &=& (0.4)(0.8) + (0.6)(2) - (1.104)/2 \\
-         &=& 0.968 \\
+\alpha_1 &=& (0.4)(100) + (0.6)(80) - (54.4)/2 \\
+         &=& 60.8 \\
+\alpha_2 &=& (0.4)(80) + (0.6)(0) - (54.4)/2 \\
+         &=& 4.8 \\
 \\
-V_g &=& (0.4)^2(0-1.104)^2 + 2(0.4)(0.6)(0.8-1.104)^2 + (0.6)^2(2-1.104)^2 \\
-    &=& 0.5284 \\
-V_a &=& (0.4)^2[2(-0.072)-1.104]^2 + 2(0.4)(0.6)[(-0.072+0.968)-1.104]^2 \\
-       &&+ (0.6)^2[2(0.968)-1.104]^2 \\
-    &=& 0.5192 \\
-V_d &=& (0.4)^2[0 - 2(-0.072)]^2 + 2(0.4)(0.6)[0.8 - (-0.072+0.968)]^2 \\
-       &&+ (0.6)^2[2 - 2(0.968)]^2 \\
-    &=& 0.0092 \quad . 
+V_g &=& (0.4)^2(100-54.4)^2 + 2(0.4)(0.6)(80-54.4)^2 + (0.6)^2(0-54.4)^2 \\
+    &=& 1712.64 \\
+V_a &=& (0.4)^2[2(60.8)-54.4]^2 + 2(0.4)(0.6)[(60.8+4.8)-54.4]^2 \\
+       &&+ (0.6)^2[2(9.6)-54.4]^2 \\
+    &=& 1505.28 \\
+V_d &=& (0.4)^2[2(60.8)-100]^2 + 2(0.4)(0.6)[(60.8+4.8) - 80]^2 \\
+       &&+ (0.6)^2[2(9.6)-0]^2 \\
+    &=& 207.36 \quad .
 \end{eqnarray*}
 
 To test your understanding, it would probably be useful to calculate
 ${\bar x}$, $\alpha_1$, $\alpha_2$, $V_g$, $V_a$, and $V_d$ for one or
-two other allele frequencies, say $p=0.2$ and $p=0.8$.  Is it still
-true that $\alpha_1$ and $\alpha_2$ are independent of allele
-frequencies?  If you are {\it really\/} ambitious you could try to
-prove that $\alpha_1$ and $\alpha_2$ are independent of allele
-frequencies if and only if $x_{12} = (x_{11}+x_{12})/2$, i.e., when
-heterozygotes are exactly~intermediate.
+two other allele frequencies, say $p=0.2$ and $p=0.8$.\footnote{The
+  easy way to do this, of course, would be to have the R Shiny app do
+  the calculation for you. I recommend that you try it on your own and
+  compare your answers with what R Shiny reports.} Is it still true
+that $\alpha_1$ and $\alpha_2$ are independent of allele frequencies?
+If you are {\it really\/} ambitious you could try to prove that
+$\alpha_1$ and $\alpha_2$ are independent of allele frequencies if and
+only if $x_{12} = (x_{11}+x_{12})/2$, i.e., when heterozygotes are
+exactly~intermediate.
 
 \bibliography{popgen}
 \bibliographystyle{plain}

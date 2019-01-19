@@ -14,7 +14,7 @@ eliminate it. Are there other examples? How could we detect them?
 
 In the 1970s a variety of studies suggested that a polymorphism in the
 locus coding for alcohol dehydrogenase in {\it Drosophila
-  melanogaster\/}\index{alcohol dehydrogenase}\index{Drosophila@\textit{Drosophila}!\textit{melanogaster}} might not only be subject to selection but that
+  melanogaster\/} might not only be subject to selection but that
 selection may be acting to maintain the polymorphism. As DNA
 sequencing became more practical at about the same time,\footnote{It
   was still {\it vastly\/} more laborious than it is now.} population
@@ -103,6 +103,55 @@ between {\it D. melanogaster\/} and {\it D. simulans\/} should be
 related to the amount of diversity within each. What they found
 instead is summarized in Table~\ref{table:ka}.\index{Adh!balancing selection}\index{diversity-divergence}
 
+The expected level of diversity in each part of the {\it Adh\/} locus
+is calculated assuming that the probability of polymorphism is
+independent of what position in the locus we are
+examining.\footnote{It's important to note that what I've labeled as
+  the {\it Adh\/} locus in Table~\ref{table:ka} is the region that
+  contains the protein coding part of the locus. The 5' and 3'
+  flanking regions are physically adjacent, but none of the
+  nucleotides in these parts of the gene are translated into the {\it
+    Adh\/} enzyme.} Specifically, Kreitman and Aguad{\'e} calculated
+the expected polymorphism as follows:
+
+\begin{itemize}
+
+\item They calculated the number of ``site equivalents'' in each
+  region of the locus. A site equivalent is the actual length of the
+  region~(in number of nucleotides) times the fraction of changes
+  within that sequence that would lead to gain or loss of a
+  restriction site.\footnote{Because sequencing was extremely
+    time-consuming in the mid-1980s, it was impractical to sequence
+    the {\it Adh\/} locus in all of the 81 lines they used in the
+    analysis. Instead they used restriction enzymes to reveal some of
+    the nucleotide sequence variation in the locus.} There were 414
+  site equivalents in the 5' flanking region, 411 site equivalents in
+  the {\it Adh\/} locus, and 129 site equivalents in the 3' flanking
+  region.
+
+\item They calculated the fraction of site equivalents that were
+  polymorphic across the entire locus:
+\[
+\frac{25}{414+411+129} \approx 0.026 \quad .
+\]
+
+\item They calculated the expected number of polymorphic sites within
+  a region as the product of the number of site equivalents and the
+  fraction of polymorphic site equivalents.
+
+\end{itemize}
+
+\noindent They used the same approach to calculate the expected
+divergence between {\it D. melanogaster\/} and {\it D. simulans\/}
+with one important exception. They directly compared the nucleotide
+sequence of one {\it Adh\/} allele from {\it D. melanogaster\/} with
+one {\it Adh\/} allele from {\it D. simulans}.\footnote{Can you
+  explain why it's reasonable to estimate divergence between alleles
+  in these species using only one allele from each of them?} As a
+result, they didn't have to use the site equivalent correction. They
+could directly use the number of nucleotides in each region of the
+gene.
+
 \begin{table}
 \begin{center}
 \begin{tabular}{l|ccc}
@@ -126,8 +175,9 @@ Divergence$^2$ \\
     Drosophila}~(from~\cite{Kreitman-Aguade86}).}\label{table:ka}
 \end{table}
 
-Notice that there is substantially less divergence at the {\it Adh\/}
-locus than would be expected, based on the average level of divergence
+Notice that there is substantially less divergence between {\it
+  D. melanogaster\/} and {\it D. simulans\/} at the {\it Adh\/} locus
+than would be expected, based on the average level of divergence
 across the entire region. That's consistent with the earlier
 observation that most amino acid substitutions are selected
 against. On the other hand, there is {\it more\/} nucleotide diversity
@@ -155,11 +205,11 @@ sequence diversity. They used a ``sliding window'' of 100 silent base
 pairs in their calculations. By ``sliding window'' what they mean is
 that first they calculate statistics for bases 1-100, then for bases
 2-101, then for bases 3-102, and so on until they hit the end of the
-sequence~(Figure~\ref{fig:kh}). 
+sequence~(Figure~\ref{fig:kh}).
 
 \begin{figure}
 \begin{center}
-\resizebox{!}{6cm}{\includegraphics{kreitman-hudson.eps}}
+\resizebox{!}{7cm}{\includegraphics{kreitman-hudson.eps}}
 \end{center}
 \caption{Sliding window analysis of nucleotide diversity in the {\it
     Adh\/}-{\it Adh-dup} region of {\it Drosophila melanogaster}. The
@@ -174,18 +224,19 @@ responsible for the electrophoretic polymorphism is clearly
 evident. Second, the excess of polymorphism extends for only a 200-300
 nucleotides in each direction. That means that the rate of
 recombination {\it within\/} the gene is high enough to randomize the
-nucleotide sequence variation farther away.\footnote{Think about what
-  that means for association mapping. In organisms with a large
-  effective population size, associations due to physical linkage may
-  fall off {\it very\/} rapidly, meaning that you would have to have a
-  {\it very\/} dense map to have a hope of finding associations.}
+nucleotide sequence variation farther away.\footnote{Remember this
+  observation when we get to association mapping at the end of the
+  course. In organisms with a large effective population size,
+  associations due to physical linkage may fall off {\it very\/}
+  rapidly, meaning that you would have to have a {\it very\/} dense
+  map to have a hope of finding associations.}
 
 \section*{Detecting selection in the human genome}
 
 I've already mentioned the HapMap project~\cite{HapMap-2007}, a
 collection of genotype data at roughly 3.2M SNPs in the human
 genome. The data in phase II of the project were collected from four
-populations:\index{HapMap}
+populations:
 
 \begin{itemize}
 
@@ -319,9 +370,9 @@ sample.\footnote{If your memory is really good, you may recognize that
 is neutral and the population from which we sampled is in equilibrium
 with respect to drift and mutation, then $\hat\theta_\pi$ and
 $\hat\theta_k$ should be statistically indistinguishable from one
-another. In other words, 
+another. In other words,
 \[
-\hat D = \hat\theta_\pi - \hat\theta_k 
+\hat D = \hat\theta_\pi - \hat\theta_k
 \]
 should be indistinguishable from zero. If it is either negative or
 positive, we can infer that there's some departure from the
@@ -371,7 +422,7 @@ scenarios:\index{Tajima's $D$!interpretation}
 
 In short, $\hat D$ provides a different avenue for insight into the
 evolutionary history of a particular nucleotide sequence. But
-interpreting it can be a little tricky.\index{Tajima's $D$!interpretation}
+interpreting it can be a little tricky.
 
 \begin{description}
 
@@ -401,11 +452,12 @@ different physiological function.
 
 A quick search in Google Scholar reveals that the paper in which
 Tajima described this approach~\cite{Tajima89} has been cited over
-8800 times.\footnote{Search on 19 February 2017.} Clearly it has been
-widely used for interpreting patterns of nucleotide sequence
-variation. Although it is a very useful statistic, Zeng et
-al.~\cite{Zeng-etal-2006} point out that there are important aspects
-of the data that Tajima's $D$ does not consider. As a result, it may
-be less powerful, i.e., less able to detect departures from
-neutrality, than some alternatives.
+10,500
+times.\footnote{\url{https://scholar.google.com/scholar?hl=en&as_sdt=0\%2C7&q=tajima+genetics+123\%3A585-595\%3B+1989&btnG=}
+  Search on 29 December 2018.} Clearly it has been widely used for
+interpreting patterns of nucleotide sequence variation. Although it is
+a very useful statistic, Zeng et al.~\cite{Zeng-etal-2006} point out
+that there are important aspects of the data that Tajima's $D$ does
+not consider. As a result, it may be less powerful, i.e., less able to
+detect departures from neutrality, than some alternatives.
 

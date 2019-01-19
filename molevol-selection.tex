@@ -5,7 +5,7 @@
 \usepackage{html}
 \usepackage{url}
 
-\newcommand{\copyrightYears}{2001-2017}
+\newcommand{\copyrightYears}{2001-2019}
 
 \title{Detecting selection on nucleotide polymorphisms}
 
@@ -118,7 +118,7 @@ that are related to the underlying mutation rate:
   D. melanogaster\/} is selectively neutral, the amount of divergence
 between {\it D. melanogaster\/} and {\it D. simulans\/} should be
 related to the amount of diversity within each. What they found
-instead is summarized in Table~\ref{table:ka}.\index{Adh!balancing selection}\index{diversity-divergence} 
+instead is summarized in Table~\ref{table:ka}.\index{Adh!balancing selection}\index{diversity-divergence}
 
 The expected level of diversity in each part of the {\it Adh\/} locus
 is calculated assuming that the probability of polymorphism is
@@ -144,7 +144,7 @@ the expected polymorphism as follows:
     the nucleotide sequence variation in the locus.} There were 414
   site equivalents in the 5' flanking region, 411 site equivalents in
   the {\it Adh\/} locus, and 129 site equivalents in the 3' flanking
-  region. 
+  region.
 
 \item They calculated the fraction of site equivalents that were
   polymorphic across the entire locus:
@@ -222,7 +222,7 @@ sequence diversity. They used a ``sliding window'' of 100 silent base
 pairs in their calculations. By ``sliding window'' what they mean is
 that first they calculate statistics for bases 1-100, then for bases
 2-101, then for bases 3-102, and so on until they hit the end of the
-sequence~(Figure~\ref{fig:kh}). 
+sequence~(Figure~\ref{fig:kh}).
 
 \begin{figure}
 \begin{center}
@@ -241,11 +241,12 @@ responsible for the electrophoretic polymorphism is clearly
 evident. Second, the excess of polymorphism extends for only a 200-300
 nucleotides in each direction. That means that the rate of
 recombination {\it within\/} the gene is high enough to randomize the
-nucleotide sequence variation farther away.\footnote{Think about what
-  that means for association mapping. In organisms with a large
-  effective population size, associations due to physical linkage may
-  fall off {\it very\/} rapidly, meaning that you would have to have a
-  {\it very\/} dense map to have a hope of finding associations.}
+nucleotide sequence variation farther away.\footnote{Remember this
+  observation when we get to association mapping at the end of the
+  course. In organisms with a large effective population size,
+  associations due to physical linkage may fall off {\it very\/}
+  rapidly, meaning that you would have to have a {\it very\/} dense
+  map to have a hope of finding associations.}
 
 \section*{Detecting selection in the human genome}
 
@@ -386,9 +387,9 @@ sample.\footnote{If your memory is really good, you may recognize that
 is neutral and the population from which we sampled is in equilibrium
 with respect to drift and mutation, then $\hat\theta_\pi$ and
 $\hat\theta_k$ should be statistically indistinguishable from one
-another. In other words, 
+another. In other words,
 \[
-\hat D = \hat\theta_\pi - \hat\theta_k 
+\hat D = \hat\theta_\pi - \hat\theta_k
 \]
 should be indistinguishable from zero. If it is either negative or
 positive, we can infer that there's some departure from the
@@ -438,7 +439,7 @@ scenarios:\index{Tajima's $D$!interpretation}
 
 In short, $\hat D$ provides a different avenue for insight into the
 evolutionary history of a particular nucleotide sequence. But
-interpreting it can be a little tricky. 
+interpreting it can be a little tricky.
 
 \begin{description}
 
@@ -468,13 +469,14 @@ different physiological function.
 
 A quick search in Google Scholar reveals that the paper in which
 Tajima described this approach~\cite{Tajima89} has been cited over
-8800 times.\footnote{Search on 19 February 2017.} Clearly it has been
-widely used for interpreting patterns of nucleotide sequence
-variation. Although it is a very useful statistic, Zeng et
-al.~\cite{Zeng-etal-2006} point out that there are important aspects
-of the data that Tajima's $D$ does not consider. As a result, it may
-be less powerful, i.e., less able to detect departures from
-neutrality, than some alternatives.
+10,500
+times.\footnote{\url{https://scholar.google.com/scholar?hl=en&as_sdt=0\%2C7&q=tajima+genetics+123\%3A585-595\%3B+1989&btnG=}
+  Search on 29 December 2018.} Clearly it has been widely used for
+interpreting patterns of nucleotide sequence variation. Although it is
+a very useful statistic, Zeng et al.~\cite{Zeng-etal-2006} point out
+that there are important aspects of the data that Tajima's $D$ does
+not consider. As a result, it may be less powerful, i.e., less able to
+detect departures from neutrality, than some alternatives.
 
 \bibliography{popgen}
 \bibliographystyle{plain}

@@ -5,7 +5,7 @@
 \usepackage{html}
 \usepackage{url}
 
-\newcommand{\copyrightYears}{2010-2017}
+\newcommand{\copyrightYears}{2010-2019}
 
 \title{Association mapping: a (very) brief overview}
 
@@ -38,7 +38,7 @@ we call a {\it quantitative trait locus\/} or QTL.\index{quantitative
 \begin{itemize}
 
 \item Cross the ``high'' line and the ``low'' line to construct an
-  $F_1$. 
+  $F_1$.
 
 \item Intercross individuals in the $F_1$ generation to form an
   $F_2$.\footnote{Note: You could also backcross to either or both of
@@ -125,12 +125,12 @@ locus is {\it associated} with the phenotype differences. As we'll see
 in just a bit, the observed association {\it might\/} reflect physical
 linkage between the marker locus and a locus influencing the phenotype
 or it could reflect a statistical association that arises for other
-reasons, including population structure as we'll see below. So in
-practice the regression model we fit is a more complicated than the
-one I just described. The simplest case is when individuals fall into
-obvious groups, e.g., samples from different populations. Then
-$y_i^{(k)}$ is the trait value for individual $i$. The superscript
-$(k)$ indicates that this individual belongs to group $k$.
+reasons, including population structure. So in practice the regression
+model we fit is a more complicated than the one I just described. The
+simplest case is when individuals fall into obvious groups, e.g.,
+samples from different populations. Then $y_i^{(k)}$ is the trait
+value for individual $i$. The superscript $(k)$ indicates that this
+individual belongs to group $k$.
 \[
 y_i^{(k)} = x_{ij}\beta_j + \phi^{(k)} + \epsilon_{ij} \quad .
 \]
@@ -148,7 +148,7 @@ between $\phi_i$ and $\phi_j$ for individuals $i$ and $j$, i.e.,
 $\rho_{ij}$, is determined by how closely related they are. The degree
 of relationship might be inferred from a pedigree, if one is known, or
 from coefficients of kinship estimated from a large suite of genetic
-markers. 
+markers.
 
 \subsubsection*{An example: warfarin maintenance
   dose}\index{genome-wide association study!warfarin}
@@ -158,7 +158,7 @@ poison. By the mid-1950s it was approved for medical use in the United
 States as a treatment for diseases in which blood clotting caused a
 significant threat of stroke. It is still in common use as a treatment
 for atrial fibrillation.\footnote{As it happens, my father has been
-  taking warfarin for at least a decade.} Currently, determining the
+  taking warfarin for nearly 20 years.} Currently, determining the
 appropriate dose is done by closely monitoring the degree of
 anticoagulation, an INR of
 $2.5 \pm 0.5$~(\url{https://www.drugs.com/dosage/warfarin.html}). In
@@ -173,7 +173,14 @@ consistently associated with warfarin dose. {\it VKORC1} encodes the
 vitamin K epoxide reductaxe complex 1 enzyme, and {\it CYP2C9} encodes
 a cytochrome P450~(Figure~\ref{fig:GWAS-warfarin}). Differences at
 {\it VKORC1} account for approximately 25\% of the variance in
-stabilized dose.
+stabilized dose.\footnote{If you remembera a little human physiology,
+  vitamin K may ring a bell. ``The name vitamin K comes from the
+  German word
+  `Koagulationsvitamin.'''~(\url{https://www.webmd.com/vitamins/ai/ingredientmono-983/vitamin-k},
+  accessed 19 January 2019). Vitamin K plays an important role in
+  blood clotting, so it makes sense that a locus encoding an enzyme
+  related to vitamin K metabolism would have a strong association with
+  the dose of warfarin needed to safely reduce blood clotting.}
 
 \begin{figure}
 \begin{center}
@@ -190,7 +197,7 @@ stabilized dose.
 \subsection*{Case-control study}
 
 The GWAS approach I just described works well if the trait we're
-studying is continuouse,\footnote{With the caveats about interpreting
+studying is continuous,\footnote{With the caveats about interpreting
   the association that I mentioned earlier.} but what do we do if the
 trait we're interested occurs in only two states, e.g., diseased
 vs. healthy? Let's suppose we have a set of ``candidate'' loci, i.e.,
@@ -269,8 +276,8 @@ x_{21} &=& q_1p_2 - D \\
 x_{22} &=& q_1q_2 + D \quad ,
 \end{eqnarray*}
 where $D = x_{11}x_{22} - x_{12}x_{22}$ is known as the {\it gametic
-  disequilibrium}.\footnote{You will sometimes see $D$ referred to as
-  the linkage disequilibrium, but that's misleading. Alleles at
+  disequilibrium}.\footnote{You will usually see $D$ referred to as
+  the linkage disequilibrium. I think that's misleading. Alleles at
   different loci may be non-randomly associated even when they are not
   physically linked.} When $D \ne 0$ the alleles within gametes
 covary, and $D$ measures {\it statistical\/} association between
@@ -299,7 +306,7 @@ D &=& x_{11}x_{22} - x_{12}x_{21} \\
   &=& D(p_1p_2 + q_1q_2 + p_1q_2 + q_1p_2) \\
   &=& D\left(p_1(p_2 + q_2) + q_1(q_2 + p_2)\right) \\
   &=& D(p_1 + q_1) \\
-  &=& D \quad. 
+  &=& D \quad.
 \end{eqnarray*}
 
 \subsection*{$D$ in a finite population}
@@ -314,11 +321,11 @@ both loci, however, where\index{two-locus
     &\mu_1            &     &      &     &\mu_2 \\
 A_1 &\rightleftharpoons& A_2 &\qquad& B_1 &\rightleftharpoons& B_2
 \quad , \\
-    &\nu_1            &     &      &     &\nu_2 
+    &\nu_1            &     &      &     &\nu_2
 \end{array}
 \]
 then it can be shown~\cite{Ohta-Kimura-1969} that the expected value
-of $D^2/p_1(1-p_1)p_2(1-p_2)$ is 
+of $D^2/p_1(1-p_1)p_2(1-p_2)$ is
 {\scriptsize
 \begin{eqnarray*}
 \frac{\mbox{E}(D^2)}{\mbox{E}(p_1(1-p_1)p_2(1-p_2))}
@@ -327,7 +334,7 @@ of $D^2/p_1(1-p_1)p_2(1-p_2)$ is
                               + N_e(\mu_1+\nu_1+\mu_2+\nu_2))}} \\
 &\approx& \frac{1}{3 + 4N_er} \quad .
 \end{eqnarray*}}
-Bottom line: In a finite population, we don't expect $D$ to go to 0,
+Bottom line: In a finite population, wQe don't expect $D$ to go to 0,
 and the magnitude of $D^2$ is inversely related to amount of
 recombination between the two loci. The less recombination there is
 between two loci, i.e., the smaller $r$ is, the larger the value of
@@ -346,7 +353,7 @@ populations mix. So if we are dealing with populations having a
 history of hybridization, teasing apart physical linkage and
 statistical association can become very challenging.\footnote{Think
   about what this means for GWAS or case-control studies in human
-  populations.} 
+  populations.}
 
 \section*{Population structure with two loci}
 
@@ -364,9 +371,9 @@ has equal proportions from each population.\index{Wahlund effect!two loci}
 \begin{center}
 \begin{tabular}{c|cccc|cc|c}
 \hline\hline
-           & \multicolumn{4}{c|}{Gamete frequencies} 
+           & \multicolumn{4}{c|}{Gamete frequencies}
            & \multicolumn{2}{c|}{Allele frequencies} \\
-Population & $A_1B_1$ & $A_1B_2$ & $A_2B_1$ & $A_2B_2$ 
+Population & $A_1B_1$ & $A_1B_2$ & $A_2B_1$ & $A_2B_2$
            & $p_{i1}$ & $p_{i2}$ & $D$ \\
 \hline
 1          & 0.24     & 0.36     & 0.16    & 0.24
@@ -394,7 +401,7 @@ D_t &=& \bar x_{11} - \bar p_1\bar p_2 \quad ,
 where $\bar x_{11} = \frac{1}{K} \sum_{k=1}^K x_{11,k}$, $\bar p_1 =
 \frac{1}{K} \sum_{k=1}^K p_{1k}$, and $\bar p_2 = \frac{1}{K}
 \sum_{k=1}^K p_{2k}$. Given these definitions, we can now calculate
-$D_t$. 
+$D_t$.
 \begin{eqnarray*}
 D_t &=& \bar x_{11} - \bar p_1\bar p_2 \\
     &=& \frac{1}{K} \sum_{k=1}^K x_{11,k} - \bar p_1\bar p_2 \\
@@ -491,7 +498,7 @@ $c$       & $\quarter$ & $\quarter$ & $\quarter$ & $\quarter$ \\
 Total     & $\frac{2-c}{4}$ & $\frac{c}{4}$ & $\frac{c}{4}$
           & $\frac{2-c}{4}$ \\
           & $\frac{1-r}{2}$ & $\frac{r}{2}$ & $\frac{r}{2}$
-          & $\frac{1-r}{2}$ \\          
+          & $\frac{1-r}{2}$ \\
 \hline
 \end{tabular}
 \end{center}
