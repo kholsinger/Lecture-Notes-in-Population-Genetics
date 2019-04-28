@@ -26,16 +26,17 @@
 \contentsline {chapter}{\numberline {19}Resemblance among relatives}{205}{chapter.19}
 \contentsline {chapter}{\numberline {20}Evolution of quantitative traits}{215}{chapter.20}
 \contentsline {chapter}{\numberline {21}Association mapping: a (very) brief overview}{223}{chapter.21}
-\contentsline {part}{VII\hspace {1em}Old chapters, no longer updated}{233}{part.7}
-\contentsline {chapter}{\numberline {22}Testing Hardy-Weinberg}{235}{chapter.22}
-\contentsline {chapter}{\numberline {23}Analyzing the genetic structure of populations: a Bayesian approach}{243}{chapter.23}
-\contentsline {chapter}{\numberline {24}Two-locus population genetics}{253}{chapter.24}
-\contentsline {chapter}{\numberline {25}Selection at one locus with many alleles, fertility selection, and sexual selection}{261}{chapter.25}
-\contentsline {chapter}{\numberline {26}Association mapping: BAMD}{269}{chapter.26}
-\contentsline {chapter}{\numberline {27}The neutral theory of molecular evolution}{273}{chapter.27}
-\contentsline {chapter}{\numberline {28}Patterns of selection on nucleotide polymorphisms}{279}{chapter.28}
-\contentsline {chapter}{\numberline {29}Tajima's $D$, Fu's $F_S$, Fay and Wu's $H$, and Zeng et al.'s $E$}{283}{chapter.29}
-\contentsline {chapter}{\numberline {30}Evolution in multigene families}{289}{chapter.30}
-\contentsline {chapter}{\numberline {31}Approximate Bayesian Computation}{299}{chapter.31}
-\contentsline {chapter}{\numberline {32}Genetic structure of human populations in Great Britain}{311}{chapter.32}
-\contentsline {chapter}{\numberline {33}Selection on multiple characters}{315}{chapter.33}
+\contentsline {chapter}{\numberline {22}Genomic prediction}{233}{chapter.22}
+\contentsline {part}{VII\hspace {1em}Old chapters, no longer updated}{241}{part.7}
+\contentsline {chapter}{\numberline {23}Testing Hardy-Weinberg}{243}{chapter.23}
+\contentsline {chapter}{\numberline {24}Analyzing the genetic structure of populations: a Bayesian approach}{251}{chapter.24}
+\contentsline {chapter}{\numberline {25}Two-locus population genetics}{261}{chapter.25}
+\contentsline {chapter}{\numberline {26}Selection at one locus with many alleles, fertility selection, and sexual selection}{269}{chapter.26}
+\contentsline {chapter}{\numberline {27}Association mapping: BAMD}{277}{chapter.27}
+\contentsline {chapter}{\numberline {28}The neutral theory of molecular evolution}{281}{chapter.28}
+\contentsline {chapter}{\numberline {29}Patterns of selection on nucleotide polymorphisms}{287}{chapter.29}
+\contentsline {chapter}{\numberline {30}Tajima's $D$, Fu's $F_S$, Fay and Wu's $H$, and Zeng et al.'s $E$}{291}{chapter.30}
+\contentsline {chapter}{\numberline {31}Evolution in multigene families}{297}{chapter.31}
+\contentsline {chapter}{\numberline {32}Approximate Bayesian Computation}{307}{chapter.32}
+\contentsline {chapter}{\numberline {33}Genetic structure of human populations in Great Britain}{319}{chapter.33}
+\contentsline {chapter}{\numberline {34}Selection on multiple characters}{323}{chapter.34}

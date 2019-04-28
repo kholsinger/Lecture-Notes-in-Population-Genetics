@@ -14,6 +14,11 @@
 *.out
 *.toc
 
+## Endnote library
+##
+*.enl
+*.Data
+
 ## Don’t sync PDFs since they will be available elsewhere
 ##
 *.pdf
