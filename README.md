@@ -20,7 +20,7 @@ produce a single volume of notes:
 you use or refer to these notes, please use the DOI from Figshare to
 cite them.
 
-Files in the <tt>not maintained</tt> subdirectory are from pre-2017
+Files in the <tt>not maintained</tt> subdirectory are from pre-2019
 editions of the course. I believe all of the EPS files referred to in
 the LaTeX source are also found in this directory, but it's possible
 that I've missed some. As the title of the subdirectory suggests, I'm
