@@ -1,0 +1,1150 @@
+<!DOCTYPE html><html>
+<head>
+<title>Resemblance among relatives</title>
+<!--Generated on Tue Jul 28 15:55:32 2020 by LaTeXML (version 0.8.4) http://dlmf.nist.gov/LaTeXML/.-->
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="LaTeXML.css" type="text/css">
+<link rel="stylesheet" href="ltx-article.css" type="text/css">
+<meta name="keywords" lang="en" content="advantages, causal, components of variance, covariance, example, full-sib analysis, half-sib analysis, half-siblings, heritability, mother-offspring
+pairs, observational, parent-offspring regression, relatives, resemblance between
+relatives">
+</head>
+<body>
+<div class="ltx_page_main">
+<div class="ltx_page_content">
+<article class="ltx_document ltx_authors_1line">
+<h1 class="ltx_title ltx_title_document">Resemblance among relatives</h1>
+
+<section id="Sx1" class="ltx_section">
+<h2 class="ltx_title ltx_title_section">Introduction</h2>
+
+<div id="Sx1.p1" class="ltx_para">
+<p class="ltx_p">Just as individuals may differ from one another in phenotype because
+they have different genotypes, because they developed in different
+environments, or both, relatives may resemble one another more than
+they resemble other members of the population because they have
+similar genotypes, because they developed in similar environments, or
+both. In an experimental situation, typically try to randomize
+individuals across environments. If we are successful, any tendency
+for relatives to resemble one another more than non-relatives must be
+due to similarities in their genotypes.
+</p>
+</div>
+<div id="Sx1.p2" class="ltx_para">
+<p class="ltx_p">Using this insight, we can develop a statistical technique that allows
+us to determine how much of the variance among individuals in
+phenotype is a result of genetic variance and how much is due to
+environmental variance. <span class="ltx_text ltx_font_italic">Remember</span>, we can only ask about how much
+of the variability is due to genetic differences, and we can only do
+so <span class="ltx_text ltx_font_italic">in a particular environment</span> and <span class="ltx_text ltx_font_italic">with a particular set
+of genotypes</span>, and we can only do it when we <span class="ltx_text ltx_font_italic">randomize genotypes
+across environments</span>.</p>
+</div>
+</section>
+<section id="Sx2" class="ltx_section">
+<h2 class="ltx_title ltx_title_section">An outline of the approach</h2>
+
+<div id="Sx2.p1" class="ltx_para">
+<p class="ltx_p">The basic approach to the analysis is either to use a linear
+regression of offspring phenotype on parental phenotype, which as
+we’ll see estimates <math id="Sx2.p1.m1" class="ltx_Math" alttext="h^{2}_{n}" display="inline"><msubsup><mi>h</mi><mi>n</mi><mn>2</mn></msubsup></math>, or to use a nested analysis of
+variance. One of the most complete designs is a full-sib, half-sib
+design in which each male sires offspring from several dams but each
+dam mates with only one sire.
+</p>
+</div>
+<div id="Sx2.p2" class="ltx_para">
+<p class="ltx_p">The offspring of a single dam are full-sibs (they are nested within
+dams). Differences among the offspring of dams indicates that there
+are differences in maternal “genotype” in the trait being
+measured.<span id="footnote1" class="ltx_note ltx_role_footnote"><sup class="ltx_note_mark">1</sup><span class="ltx_note_outer"><span class="ltx_note_content"><sup class="ltx_note_mark">1</sup>
+            <span class="ltx_tag ltx_tag_note">1</span>
+            
+            
+            
+          Assuming that we’ve randomized siblings across
+environments. If we haven’t, siblings may resemble one another
+because of similarities in the environment they experienced, too.</span></span></span></p>
+</div>
+<div id="Sx2.p3" class="ltx_para">
+<p class="ltx_p">The offspring of different dams mated to a single sire are
+half-sibs. Differences among the offspring of sires indicates that
+thee are differences in paternal “genotype” in the trait being
+measured.<span id="footnote2" class="ltx_note ltx_role_footnote"><sup class="ltx_note_mark">2</sup><span class="ltx_note_outer"><span class="ltx_note_content"><sup class="ltx_note_mark">2</sup>
+            <span class="ltx_tag ltx_tag_note">2</span>
+            
+            
+            
+          You’ll see the reason for the quotes around
+genotype in this paragraph and the last a little later. It’s a
+little more complex than what I’ve suggested.</span></span></span></p>
+</div>
+<div id="Sx2.p4" class="ltx_para">
+<p class="ltx_p">As we’ll see, this design has the advantage that it allows both
+additive and dominance components of the genetic variance to be
+estimated. It has the additional advantage that we don’t have to
+assume that the distribution of environments in the offspring
+generation is the same as it was in the parental generation. To use
+the regression approach to estimate heritability, we have to assume
+that the distribution of environmental effects is the same in parental
+and offspring generations.
+</p>
+</div>
+</section>
+<section id="Sx3" class="ltx_section">
+<h2 class="ltx_title ltx_title_section">The gory details</h2>
+
+<div id="Sx3.p1" class="ltx_para">
+<p class="ltx_p">OK, so I’ve given you the basic idea. Where does it come from, and how
+does it work? Funny you should ask. The whole approach is based on
+calculations of the degree to which different relatives resemble one
+another. For these purposes we’re going to continue our focus on
+phenotypes influenced by one locus with two alleles, and we’ll do the
+calculations in detail only for half sib families. We start with
+something that may look vaguely familiar.<span id="footnote3" class="ltx_note ltx_role_footnote"><sup class="ltx_note_mark">3</sup><span class="ltx_note_outer"><span class="ltx_note_content"><sup class="ltx_note_mark">3</sup>
+            <span class="ltx_tag ltx_tag_note">3</span>
+            
+            
+            
+          Remember our
+mother-offspring combinations with <span class="ltx_text ltx_font_italic">Zoarces viviparus</span>?</span></span></span> Take
+a look at Table <a href="#Sx3.T1" title="Table 1 ‣ The gory details ‣ Resemblance among relatives" class="ltx_ref"><span class="ltx_text ltx_ref_tag">1</span></a>.
+</p>
+</div>
+<figure id="Sx3.T1" class="ltx_table">
+<table class="ltx_tabular ltx_centering ltx_guessed_headers ltx_align_middle">
+<tbody class="ltx_tbody">
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_r ltx_border_tt">Maternal</th>
+<th class="ltx_td ltx_th ltx_th_row ltx_border_r ltx_border_tt"></th>
+<td class="ltx_td ltx_align_center ltx_border_tt" colspan="3">Offspring genotype</td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_r">genotype</th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_r">Frequency</th>
+<td class="ltx_td ltx_align_center"><math id="Sx3.T1.m1" class="ltx_Math" alttext="A_{1}A_{1}" display="inline"><mrow><msub><mi>A</mi><mn>1</mn></msub><mo>⁢</mo><msub><mi>A</mi><mn>1</mn></msub></mrow></math></td>
+<td class="ltx_td ltx_align_center"><math id="Sx3.T1.m2" class="ltx_Math" alttext="A_{1}A_{2}" display="inline"><mrow><msub><mi>A</mi><mn>1</mn></msub><mo>⁢</mo><msub><mi>A</mi><mn>2</mn></msub></mrow></math></td>
+<td class="ltx_td ltx_align_center"><math id="Sx3.T1.m3" class="ltx_Math" alttext="A_{2}A_{2}" display="inline"><mrow><msub><mi>A</mi><mn>2</mn></msub><mo>⁢</mo><msub><mi>A</mi><mn>2</mn></msub></mrow></math></td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_r ltx_border_t"><math id="Sx3.T1.m4" class="ltx_Math" alttext="A_{1}A_{1}" display="inline"><mrow><msub><mi>A</mi><mn>1</mn></msub><mo>⁢</mo><msub><mi>A</mi><mn>1</mn></msub></mrow></math></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_r ltx_border_t"><math id="Sx3.T1.m5" class="ltx_Math" alttext="p^{2}" display="inline"><msup><mi>p</mi><mn>2</mn></msup></math></th>
+<td class="ltx_td ltx_align_center ltx_border_t"><math id="Sx3.T1.m6" class="ltx_Math" alttext="p" display="inline"><mi>p</mi></math></td>
+<td class="ltx_td ltx_align_center ltx_border_t">q</td>
+<td class="ltx_td ltx_align_center ltx_border_t">0</td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_r"><math id="Sx3.T1.m7" class="ltx_Math" alttext="A_{1}A_{2}" display="inline"><mrow><msub><mi>A</mi><mn>1</mn></msub><mo>⁢</mo><msub><mi>A</mi><mn>2</mn></msub></mrow></math></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_r"><math id="Sx3.T1.m8" class="ltx_Math" alttext="2pq" display="inline"><mrow><mn>2</mn><mo>⁢</mo><mi>p</mi><mo>⁢</mo><mi>q</mi></mrow></math></th>
+<td class="ltx_td ltx_align_center"><math id="Sx3.T1.m9" class="ltx_Math" alttext="\frac{p}{2}" display="inline"><mfrac><mi>p</mi><mn>2</mn></mfrac></math></td>
+<td class="ltx_td ltx_align_center"><math id="Sx3.T1.m10" class="ltx_Math" alttext="\frac{1}{2}" display="inline"><mfrac><mn>1</mn><mn>2</mn></mfrac></math></td>
+<td class="ltx_td ltx_align_center"><math id="Sx3.T1.m11" class="ltx_Math" alttext="\frac{q}{2}" display="inline"><mfrac><mi>q</mi><mn>2</mn></mfrac></math></td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_b ltx_border_r"><math id="Sx3.T1.m12" class="ltx_Math" alttext="A_{2}A_{2}" display="inline"><mrow><msub><mi>A</mi><mn>2</mn></msub><mo>⁢</mo><msub><mi>A</mi><mn>2</mn></msub></mrow></math></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_b ltx_border_r"><math id="Sx3.T1.m13" class="ltx_Math" alttext="q^{2}" display="inline"><msup><mi>q</mi><mn>2</mn></msup></math></th>
+<td class="ltx_td ltx_align_center ltx_border_b">0</td>
+<td class="ltx_td ltx_align_center ltx_border_b">p</td>
+<td class="ltx_td ltx_align_center ltx_border_b">q</td>
+</tr>
+</tbody>
+</table>
+<figcaption class="ltx_caption"><span class="ltx_tag ltx_tag_table">Table 1: </span>Half-sib family structure in a population with genotypes in
+Hardy-Weinberg proportions.</figcaption>
+</figure>
+<div id="Sx3.p2" class="ltx_para">
+<p class="ltx_p">Note also that the probabilities in Table <a href="#Sx3.T1" title="Table 1 ‣ The gory details ‣ Resemblance among relatives" class="ltx_ref"><span class="ltx_text ltx_ref_tag">1</span></a> are
+appropriate <span class="ltx_text ltx_font_italic">only</span> if the progeny are from half-sib families.
+If the progeny are from full-sib families, we must specify the
+frequency of each of the nine possible matings (keeping track of the
+genotype of both mother and father) and the offspring that each will
+produce.<span id="footnote4" class="ltx_note ltx_role_footnote"><sup class="ltx_note_mark">4</sup><span class="ltx_note_outer"><span class="ltx_note_content"><sup class="ltx_note_mark">4</sup>
+            <span class="ltx_tag ltx_tag_note">4</span>
+            
+            
+            
+          To check your understanding of all of this, you
+might want to try to produce the appropriate table.</span></span></span></p>
+</div>
+<section id="Sx3.SSx1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection">Covariance of two random variables</h3>
+
+<div id="Sx3.SSx1.p1" class="ltx_para">
+<p class="ltx_p">Let <math id="Sx3.SSx1.p1.m1" class="ltx_Math" alttext="p_{xy}" display="inline"><msub><mi>p</mi><mrow><mi>x</mi><mo>⁢</mo><mi>y</mi></mrow></msub></math> be the probability that random variable <math id="Sx3.SSx1.p1.m2" class="ltx_Math" alttext="X" display="inline"><mi>X</mi></math> takes the
+value <math id="Sx3.SSx1.p1.m3" class="ltx_Math" alttext="x" display="inline"><mi>x</mi></math> and random variable <math id="Sx3.SSx1.p1.m4" class="ltx_Math" alttext="Y" display="inline"><mi>Y</mi></math> takes the value <math id="Sx3.SSx1.p1.m5" class="ltx_Math" alttext="y" display="inline"><mi>y</mi></math>. Then the
+covariance between <math id="Sx3.SSx1.p1.m6" class="ltx_Math" alttext="X" display="inline"><mi>X</mi></math> and <math id="Sx3.SSx1.p1.m7" class="ltx_Math" alttext="Y" display="inline"><mi>Y</mi></math> is:</p>
+<table id="Sx3.Ex1" class="ltx_equation ltx_eqn_table">
+
+<tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_eqn_cell ltx_align_center"><math id="Sx3.Ex1.m1" class="ltx_Math" alttext="\mbox{Cov}(X,Y)=\sum p_{xy}(x-\mu_{x})(y-\mu_{y})\quad," display="block"><mrow><mrow><mrow><mtext>Cov</mtext><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>X</mi><mo>,</mo><mi>Y</mi><mo stretchy="false">)</mo></mrow></mrow><mo>=</mo><mrow><mo largeop="true" movablelimits="false" symmetric="true">∑</mo><mrow><msub><mi>p</mi><mrow><mi>x</mi><mo>⁢</mo><mi>y</mi></mrow></msub><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><mi>x</mi><mo>-</mo><msub><mi>μ</mi><mi>x</mi></msub></mrow><mo stretchy="false">)</mo></mrow><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><mi>y</mi><mo>-</mo><msub><mi>μ</mi><mi>y</mi></msub></mrow><mo stretchy="false">)</mo></mrow></mrow></mrow></mrow><mo mathvariant="italic" separator="true"> </mo><mo>,</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+</table>
+<p class="ltx_p">where <math id="Sx3.SSx1.p1.m8" class="ltx_Math" alttext="\mu_{x}" display="inline"><msub><mi>μ</mi><mi>x</mi></msub></math> is the mean of <math id="Sx3.SSx1.p1.m9" class="ltx_Math" alttext="X" display="inline"><mi>X</mi></math> and <math id="Sx3.SSx1.p1.m10" class="ltx_Math" alttext="\mu_{y}" display="inline"><msub><mi>μ</mi><mi>y</mi></msub></math> is the mean of <math id="Sx3.SSx1.p1.m11" class="ltx_Math" alttext="Y" display="inline"><mi>Y</mi></math>. The
+covariance between two random variables is a measure of how much they
+vary together — covary. If the covariance is large and positive,
+they tend to vary in the same way. Positive deviations from the mean
+in one are associated with positive deviations from the mean in the
+other, and negative deviations are similarly associated. If the
+covariance is large and negative, they tend to vary in opposite
+ways. Positive deviations from the mean in one variable are associated
+with <span class="ltx_text ltx_font_italic">negative</span> deviations in the other, and vice versa. If the
+covariance is small, it means there isn’t a strong tendency for
+deviations from the mean in one variable to be associated with
+deviations in the other.</p>
+</div>
+</section>
+<section id="Sx3.SSx2" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection">Covariance between half-siblings</h3>
+
+<div id="Sx3.SSx2.p1" class="ltx_para">
+<p class="ltx_p">Here’s how we can calculate the covariance between half-siblings:
+First, imagine selecting huge number of half-sibs pairs at random.
+The phenotype of the first half-sib in the pair is a random variable
+(call it <math id="Sx3.SSx2.p1.m1" class="ltx_Math" alttext="S_{1}" display="inline"><msub><mi>S</mi><mn>1</mn></msub></math>), as is the phenotype of the second (call it <math id="Sx3.SSx2.p1.m2" class="ltx_Math" alttext="S_{2}" display="inline"><msub><mi>S</mi><mn>2</mn></msub></math>).
+The mean of <math id="Sx3.SSx2.p1.m3" class="ltx_Math" alttext="S_{1}" display="inline"><msub><mi>S</mi><mn>1</mn></msub></math> is just the mean phenotype in <span class="ltx_text ltx_font_italic">all</span> the
+progeny taken together, <math id="Sx3.SSx2.p1.m4" class="ltx_Math" alttext="\bar{x}" display="inline"><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover></math>. Similarly, the mean of <math id="Sx3.SSx2.p1.m5" class="ltx_Math" alttext="S_{2}" display="inline"><msub><mi>S</mi><mn>2</mn></msub></math> is
+just <math id="Sx3.SSx2.p1.m6" class="ltx_Math" alttext="\bar{x}" display="inline"><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover></math>.<span id="footnote5" class="ltx_note ltx_role_footnote"><sup class="ltx_note_mark">5</sup><span class="ltx_note_outer"><span class="ltx_note_content"><sup class="ltx_note_mark">5</sup>
+              <span class="ltx_tag ltx_tag_note">5</span>
+              
+              
+              
+            The reasoning here gets a little tricky, since
+the mean of different half-sib families may be different. Think
+about it this way. We picked this particular half-sib family at
+random from among all half-sib families in the population. It takes
+a bit of algebra to show it, but the mean phenotype of a randomly
+chosen half-sib family is <math id="footnote5.m1" class="ltx_Math" alttext="\bar{x}" display="inline"><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover></math>, meaning that <math id="footnote5.m2" class="ltx_Math" alttext="\bar{x}" display="inline"><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover></math> is the
+mean phenotype for both <math id="footnote5.m3" class="ltx_Math" alttext="S_{1}" display="inline"><msub><mi>S</mi><mn>1</mn></msub></math> and <math id="footnote5.m4" class="ltx_Math" alttext="S_{2}" display="inline"><msub><mi>S</mi><mn>2</mn></msub></math>. They’re part of the same
+family, so they share the same family mean.</span></span></span> Now with one locus,
+two alleles we have three possible phenotypes: <math id="Sx3.SSx2.p1.m7" class="ltx_Math" alttext="x_{11}" display="inline"><msub><mi>x</mi><mn>11</mn></msub></math> (corresponding
+to the genotype <math id="Sx3.SSx2.p1.m8" class="ltx_Math" alttext="A_{1}A_{1}" display="inline"><mrow><msub><mi>A</mi><mn>1</mn></msub><mo>⁢</mo><msub><mi>A</mi><mn>1</mn></msub></mrow></math>), <math id="Sx3.SSx2.p1.m9" class="ltx_Math" alttext="x_{12}" display="inline"><msub><mi>x</mi><mn>12</mn></msub></math> (corresponding to the genotype
+<math id="Sx3.SSx2.p1.m10" class="ltx_Math" alttext="A_{1}A_{2}" display="inline"><mrow><msub><mi>A</mi><mn>1</mn></msub><mo>⁢</mo><msub><mi>A</mi><mn>2</mn></msub></mrow></math>), and <math id="Sx3.SSx2.p1.m11" class="ltx_Math" alttext="x_{22}" display="inline"><msub><mi>x</mi><mn>22</mn></msub></math> (corresponding to the genotype <math id="Sx3.SSx2.p1.m12" class="ltx_Math" alttext="A_{2}A_{2}" display="inline"><mrow><msub><mi>A</mi><mn>2</mn></msub><mo>⁢</mo><msub><mi>A</mi><mn>2</mn></msub></mrow></math>). So
+all we need to do to calculate the covariance between half-sibs is to
+write down all possible pairs of phenotypes and the frequency with
+which they will occur in our sample of randomly chosen half-sibs based
+on the frequenices in Table <a href="#Sx3.T1" title="Table 1 ‣ The gory details ‣ Resemblance among relatives" class="ltx_ref"><span class="ltx_text ltx_ref_tag">1</span></a> above and the
+frequency of maternal genotypes. It’s actually a bit easier to keep
+track of it all if we write down the frequency of each maternal
+genotype and the frequency with which each possible phenotypic
+combination will occur in her progeny.</p>
+<table id="Sx5.EGx1" class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table">
+
+<tbody id="Sx3.Ex15">
+<tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math id="Sx3.Ex2.m1" class="ltx_Math" alttext="\displaystyle\mbox{Cov}(S_{1},S_{2})" display="inline"><mrow><mtext>Cov</mtext><mo>⁢</mo><mrow><mo stretchy="false">(</mo><msub><mi>S</mi><mn>1</mn></msub><mo>,</mo><msub><mi>S</mi><mn>2</mn></msub><mo stretchy="false">)</mo></mrow></mrow></math></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx3.Ex2.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx3.Ex2.m3" class="ltx_Math" alttext="\displaystyle p^{2}[p^{2}(x_{11}-{\bar{x}})^{2}+2pq(x_{11}-{\bar{x}})(x_{12}-{%
+\bar{x}})+q^{2}(x_{12}-{\bar{x}})^{2}]" display="inline"><mrow><msup><mi>p</mi><mn>2</mn></msup><mo>⁢</mo><mrow><mo stretchy="false">[</mo><mrow><mrow><msup><mi>p</mi><mn>2</mn></msup><mo>⁢</mo><msup><mrow><mo stretchy="false">(</mo><mrow><msub><mi>x</mi><mn>11</mn></msub><mo>-</mo><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover></mrow><mo stretchy="false">)</mo></mrow><mn>2</mn></msup></mrow><mo>+</mo><mrow><mn>2</mn><mo>⁢</mo><mi>p</mi><mo>⁢</mo><mi>q</mi><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><msub><mi>x</mi><mn>11</mn></msub><mo>-</mo><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover></mrow><mo stretchy="false">)</mo></mrow><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><msub><mi>x</mi><mn>12</mn></msub><mo>-</mo><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover></mrow><mo stretchy="false">)</mo></mrow></mrow><mo>+</mo><mrow><msup><mi>q</mi><mn>2</mn></msup><mo>⁢</mo><msup><mrow><mo stretchy="false">(</mo><mrow><msub><mi>x</mi><mn>12</mn></msub><mo>-</mo><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover></mrow><mo stretchy="false">)</mo></mrow><mn>2</mn></msup></mrow></mrow><mo stretchy="false">]</mo></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx3.Ex3.m3" class="ltx_Math" alttext="\displaystyle+2pq[{1\over 4}p^{2}(x_{11}-{\bar{x}})^{2}+{1\over 2}p(x_{11}-{%
+\bar{x}})(x_{12}-{\bar{x}})+{1\over 2}pq(x_{11}-{\bar{x}})(x_{22}-{\bar{x}})" display="inline"><mrow><mo>+</mo><mn>2</mn><mi>p</mi><mi>q</mi><mrow><mo stretchy="false">[</mo><mstyle displaystyle="true"><mfrac><mn>1</mn><mn>4</mn></mfrac></mstyle><msup><mi>p</mi><mn>2</mn></msup><msup><mrow><mo stretchy="false">(</mo><msub><mi>x</mi><mn>11</mn></msub><mo>-</mo><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover><mo stretchy="false">)</mo></mrow><mn>2</mn></msup><mo>+</mo><mstyle displaystyle="true"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle><mi>p</mi><mrow><mo stretchy="false">(</mo><msub><mi>x</mi><mn>11</mn></msub><mo>-</mo><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover><mo stretchy="false">)</mo></mrow><mrow><mo stretchy="false">(</mo><msub><mi>x</mi><mn>12</mn></msub><mo>-</mo><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover><mo stretchy="false">)</mo></mrow><mo>+</mo><mstyle displaystyle="true"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle><mi>p</mi><mi>q</mi><mrow><mo stretchy="false">(</mo><msub><mi>x</mi><mn>11</mn></msub><mo>-</mo><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover><mo stretchy="false">)</mo></mrow><mrow><mo stretchy="false">(</mo><msub><mi>x</mi><mn>22</mn></msub><mo>-</mo><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover><mo stretchy="false">)</mo></mrow></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx3.Ex4.m3" class="ltx_Math" alttext="\displaystyle\ \ +{1\over 4}(x_{12}-{\bar{x}})^{2}+{1\over 2}q(x_{12}-{\bar{x}%
+})(x_{22}-{\bar{x}})+{1\over 4}q^{2}(x_{22}-{\bar{x}})^{2}]" display="inline"><mrow><mpadded width="+5pt"><mi mathvariant="normal"> </mi></mpadded><mo>+</mo><mstyle displaystyle="true"><mfrac><mn>1</mn><mn>4</mn></mfrac></mstyle><msup><mrow><mo stretchy="false">(</mo><msub><mi>x</mi><mn>12</mn></msub><mo>-</mo><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover><mo stretchy="false">)</mo></mrow><mn>2</mn></msup><mo>+</mo><mstyle displaystyle="true"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle><mi>q</mi><mrow><mo stretchy="false">(</mo><msub><mi>x</mi><mn>12</mn></msub><mo>-</mo><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover><mo stretchy="false">)</mo></mrow><mrow><mo stretchy="false">(</mo><msub><mi>x</mi><mn>22</mn></msub><mo>-</mo><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover><mo stretchy="false">)</mo></mrow><mo>+</mo><mstyle displaystyle="true"><mfrac><mn>1</mn><mn>4</mn></mfrac></mstyle><msup><mi>q</mi><mn>2</mn></msup><msup><mrow><mo stretchy="false">(</mo><msub><mi>x</mi><mn>22</mn></msub><mo>-</mo><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover><mo stretchy="false">)</mo></mrow><mn>2</mn></msup><mo stretchy="false">]</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx3.Ex5.m3" class="ltx_Math" alttext="\displaystyle+q^{2}[p^{2}(x_{12}-{\bar{x}})^{2}+2pq(x_{12}-{\bar{x}})+q^{2}(x_%
+{22}-{\bar{x}})]" display="inline"><mrow><mo>+</mo><mrow><msup><mi>q</mi><mn>2</mn></msup><mo>⁢</mo><mrow><mo stretchy="false">[</mo><mrow><mrow><msup><mi>p</mi><mn>2</mn></msup><mo>⁢</mo><msup><mrow><mo stretchy="false">(</mo><mrow><msub><mi>x</mi><mn>12</mn></msub><mo>-</mo><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover></mrow><mo stretchy="false">)</mo></mrow><mn>2</mn></msup></mrow><mo>+</mo><mrow><mn>2</mn><mo>⁢</mo><mi>p</mi><mo>⁢</mo><mi>q</mi><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><msub><mi>x</mi><mn>12</mn></msub><mo>-</mo><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover></mrow><mo stretchy="false">)</mo></mrow></mrow><mo>+</mo><mrow><msup><mi>q</mi><mn>2</mn></msup><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><msub><mi>x</mi><mn>22</mn></msub><mo>-</mo><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover></mrow><mo stretchy="false">)</mo></mrow></mrow></mrow><mo stretchy="false">]</mo></mrow></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx3.Ex6.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx3.Ex6.m3" class="ltx_Math" alttext="\displaystyle\ p^{2}[p(x_{11}-{\bar{x}})+q(x_{12}-{\bar{x}})]^{2}" display="inline"><mrow><mi mathvariant="normal"> </mi><mo>⁢</mo><msup><mi>p</mi><mn>2</mn></msup><mo>⁢</mo><msup><mrow><mo stretchy="false">[</mo><mrow><mrow><mi>p</mi><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><msub><mi>x</mi><mn>11</mn></msub><mo>-</mo><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover></mrow><mo stretchy="false">)</mo></mrow></mrow><mo>+</mo><mrow><mi>q</mi><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><msub><mi>x</mi><mn>12</mn></msub><mo>-</mo><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover></mrow><mo stretchy="false">)</mo></mrow></mrow></mrow><mo stretchy="false">]</mo></mrow><mn>2</mn></msup></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx3.Ex7.m3" class="ltx_Math" alttext="\displaystyle+2pq[{1\over 2}p(x_{11}-{\bar{x}})+{1\over 2}q(x_{12}-{\bar{x}})+%
+{1\over 2}p(x_{12}-{\bar{x}})+{1\over 2}q(x_{22}-{\bar{x}})]^{2}" display="inline"><mrow><mo>+</mo><mrow><mn>2</mn><mo>⁢</mo><mi>p</mi><mo>⁢</mo><mi>q</mi><mo>⁢</mo><msup><mrow><mo stretchy="false">[</mo><mrow><mrow><mstyle displaystyle="true"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle><mo>⁢</mo><mi>p</mi><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><msub><mi>x</mi><mn>11</mn></msub><mo>-</mo><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover></mrow><mo stretchy="false">)</mo></mrow></mrow><mo>+</mo><mrow><mstyle displaystyle="true"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle><mo>⁢</mo><mi>q</mi><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><msub><mi>x</mi><mn>12</mn></msub><mo>-</mo><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover></mrow><mo stretchy="false">)</mo></mrow></mrow><mo>+</mo><mrow><mstyle displaystyle="true"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle><mo>⁢</mo><mi>p</mi><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><msub><mi>x</mi><mn>12</mn></msub><mo>-</mo><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover></mrow><mo stretchy="false">)</mo></mrow></mrow><mo>+</mo><mrow><mstyle displaystyle="true"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle><mo>⁢</mo><mi>q</mi><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><msub><mi>x</mi><mn>22</mn></msub><mo>-</mo><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover></mrow><mo stretchy="false">)</mo></mrow></mrow></mrow><mo stretchy="false">]</mo></mrow><mn>2</mn></msup></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx3.Ex8.m3" class="ltx_Math" alttext="\displaystyle+q^{2}[p(x_{12}-{\bar{x}})+q(x_{22}-{\bar{x}})]^{2}" display="inline"><mrow><mo>+</mo><mrow><msup><mi>q</mi><mn>2</mn></msup><mo>⁢</mo><msup><mrow><mo stretchy="false">[</mo><mrow><mrow><mi>p</mi><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><msub><mi>x</mi><mn>12</mn></msub><mo>-</mo><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover></mrow><mo stretchy="false">)</mo></mrow></mrow><mo>+</mo><mrow><mi>q</mi><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><msub><mi>x</mi><mn>22</mn></msub><mo>-</mo><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover></mrow><mo stretchy="false">)</mo></mrow></mrow></mrow><mo stretchy="false">]</mo></mrow><mn>2</mn></msup></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx3.Ex9.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx3.Ex9.m3" class="ltx_Math" alttext="\displaystyle\ p^{2}[px_{11}+qx_{12}-{\bar{x}}]^{2}" display="inline"><mrow><mi mathvariant="normal"> </mi><mo>⁢</mo><msup><mi>p</mi><mn>2</mn></msup><mo>⁢</mo><msup><mrow><mo stretchy="false">[</mo><mrow><mrow><mrow><mi>p</mi><mo>⁢</mo><msub><mi>x</mi><mn>11</mn></msub></mrow><mo>+</mo><mrow><mi>q</mi><mo>⁢</mo><msub><mi>x</mi><mn>12</mn></msub></mrow></mrow><mo>-</mo><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover></mrow><mo stretchy="false">]</mo></mrow><mn>2</mn></msup></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx3.Ex10.m3" class="ltx_Math" alttext="\displaystyle+2pq\left[{1\over 2}(px_{11}+qx_{12}-{\bar{x}})+{1\over 2}(px_{12%
+}+qx_{22}-{\bar{x}})\right]^{2}" display="inline"><mrow><mo>+</mo><mrow><mn>2</mn><mo>⁢</mo><mi>p</mi><mo>⁢</mo><mi>q</mi><mo>⁢</mo><msup><mrow><mo>[</mo><mrow><mrow><mstyle displaystyle="true"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><mrow><mrow><mi>p</mi><mo>⁢</mo><msub><mi>x</mi><mn>11</mn></msub></mrow><mo>+</mo><mrow><mi>q</mi><mo>⁢</mo><msub><mi>x</mi><mn>12</mn></msub></mrow></mrow><mo>-</mo><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover></mrow><mo stretchy="false">)</mo></mrow></mrow><mo>+</mo><mrow><mstyle displaystyle="true"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><mrow><mrow><mi>p</mi><mo>⁢</mo><msub><mi>x</mi><mn>12</mn></msub></mrow><mo>+</mo><mrow><mi>q</mi><mo>⁢</mo><msub><mi>x</mi><mn>22</mn></msub></mrow></mrow><mo>-</mo><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover></mrow><mo stretchy="false">)</mo></mrow></mrow></mrow><mo>]</mo></mrow><mn>2</mn></msup></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx3.Ex11.m3" class="ltx_Math" alttext="\displaystyle+q^{2}[px_{12}+qx_{22}-{\bar{x}}]^{2}" display="inline"><mrow><mo>+</mo><mrow><msup><mi>q</mi><mn>2</mn></msup><mo>⁢</mo><msup><mrow><mo stretchy="false">[</mo><mrow><mrow><mrow><mi>p</mi><mo>⁢</mo><msub><mi>x</mi><mn>12</mn></msub></mrow><mo>+</mo><mrow><mi>q</mi><mo>⁢</mo><msub><mi>x</mi><mn>22</mn></msub></mrow></mrow><mo>-</mo><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover></mrow><mo stretchy="false">]</mo></mrow><mn>2</mn></msup></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx3.Ex12.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx3.Ex12.m3" class="ltx_Math" alttext="\displaystyle\ p^{2}\left[\alpha_{1}-{{\bar{x}}\over 2}\right]^{2}+2pq\left[{1%
+\over 2}(\alpha_{1}-{{\bar{x}}\over 2})+{1\over 2}(\alpha_{2}-{{\bar{x}}\over 2%
+})\right]^{2}+q^{2}\left[\alpha_{2}-{{\bar{x}}\over 2}\right]^{2}" display="inline"><mrow><mrow><mi mathvariant="normal"> </mi><mo>⁢</mo><msup><mi>p</mi><mn>2</mn></msup><mo>⁢</mo><msup><mrow><mo>[</mo><mrow><msub><mi>α</mi><mn>1</mn></msub><mo>-</mo><mstyle displaystyle="true"><mfrac><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover><mn>2</mn></mfrac></mstyle></mrow><mo>]</mo></mrow><mn>2</mn></msup></mrow><mo>+</mo><mrow><mn>2</mn><mo>⁢</mo><mi>p</mi><mo>⁢</mo><mi>q</mi><mo>⁢</mo><msup><mrow><mo>[</mo><mrow><mrow><mstyle displaystyle="true"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><msub><mi>α</mi><mn>1</mn></msub><mo>-</mo><mstyle displaystyle="true"><mfrac><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover><mn>2</mn></mfrac></mstyle></mrow><mo stretchy="false">)</mo></mrow></mrow><mo>+</mo><mrow><mstyle displaystyle="true"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><msub><mi>α</mi><mn>2</mn></msub><mo>-</mo><mstyle displaystyle="true"><mfrac><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover><mn>2</mn></mfrac></mstyle></mrow><mo stretchy="false">)</mo></mrow></mrow></mrow><mo>]</mo></mrow><mn>2</mn></msup></mrow><mo>+</mo><mrow><msup><mi>q</mi><mn>2</mn></msup><mo>⁢</mo><msup><mrow><mo>[</mo><mrow><msub><mi>α</mi><mn>2</mn></msub><mo>-</mo><mstyle displaystyle="true"><mfrac><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover><mn>2</mn></mfrac></mstyle></mrow><mo>]</mo></mrow><mn>2</mn></msup></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx3.Ex13.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx3.Ex13.m3" class="ltx_Math" alttext="\displaystyle\ p^{2}\left[{1\over 2}(2\alpha_{1}-{\bar{x}})\right]^{2}+2pq%
+\left[{1\over 2}(\alpha_{1}+\alpha_{2}-{\bar{x}})\right]^{2}+q^{2}\left[{1%
+\over 2}(2\alpha_{2}-{\bar{x}})\right]^{2}" display="inline"><mrow><mrow><mi mathvariant="normal"> </mi><mo>⁢</mo><msup><mi>p</mi><mn>2</mn></msup><mo>⁢</mo><msup><mrow><mo>[</mo><mrow><mstyle displaystyle="true"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><mrow><mn>2</mn><mo>⁢</mo><msub><mi>α</mi><mn>1</mn></msub></mrow><mo>-</mo><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover></mrow><mo stretchy="false">)</mo></mrow></mrow><mo>]</mo></mrow><mn>2</mn></msup></mrow><mo>+</mo><mrow><mn>2</mn><mo>⁢</mo><mi>p</mi><mo>⁢</mo><mi>q</mi><mo>⁢</mo><msup><mrow><mo>[</mo><mrow><mstyle displaystyle="true"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><mrow><msub><mi>α</mi><mn>1</mn></msub><mo>+</mo><msub><mi>α</mi><mn>2</mn></msub></mrow><mo>-</mo><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover></mrow><mo stretchy="false">)</mo></mrow></mrow><mo>]</mo></mrow><mn>2</mn></msup></mrow><mo>+</mo><mrow><msup><mi>q</mi><mn>2</mn></msup><mo>⁢</mo><msup><mrow><mo>[</mo><mrow><mstyle displaystyle="true"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><mrow><mn>2</mn><mo>⁢</mo><msub><mi>α</mi><mn>2</mn></msub></mrow><mo>-</mo><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover></mrow><mo stretchy="false">)</mo></mrow></mrow><mo>]</mo></mrow><mn>2</mn></msup></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx3.Ex14.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx3.Ex14.m3" class="ltx_Math" alttext="\displaystyle\left({1\over 4}\right)\left[p^{2}(2\alpha_{1}-{\bar{x}})^{2}+2pq%
+[(\alpha_{1}+\alpha_{2}-{\bar{x}})]^{2}+q^{2}(2\alpha_{2}-{\bar{x}})^{2}\right]" display="inline"><mrow><mrow><mo>(</mo><mstyle displaystyle="true"><mfrac><mn>1</mn><mn>4</mn></mfrac></mstyle><mo>)</mo></mrow><mo>⁢</mo><mrow><mo>[</mo><mrow><mrow><msup><mi>p</mi><mn>2</mn></msup><mo>⁢</mo><msup><mrow><mo stretchy="false">(</mo><mrow><mrow><mn>2</mn><mo>⁢</mo><msub><mi>α</mi><mn>1</mn></msub></mrow><mo>-</mo><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover></mrow><mo stretchy="false">)</mo></mrow><mn>2</mn></msup></mrow><mo>+</mo><mrow><mn>2</mn><mo>⁢</mo><mi>p</mi><mo>⁢</mo><mi>q</mi><mo>⁢</mo><msup><mrow><mo stretchy="false">[</mo><mrow><mo stretchy="false">(</mo><mrow><mrow><msub><mi>α</mi><mn>1</mn></msub><mo>+</mo><msub><mi>α</mi><mn>2</mn></msub></mrow><mo>-</mo><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover></mrow><mo stretchy="false">)</mo></mrow><mo stretchy="false">]</mo></mrow><mn>2</mn></msup></mrow><mo>+</mo><mrow><msup><mi>q</mi><mn>2</mn></msup><mo>⁢</mo><msup><mrow><mo stretchy="false">(</mo><mrow><mrow><mn>2</mn><mo>⁢</mo><msub><mi>α</mi><mn>2</mn></msub></mrow><mo>-</mo><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover></mrow><mo stretchy="false">)</mo></mrow><mn>2</mn></msup></mrow></mrow><mo>]</mo></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx3.Ex15.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx3.Ex15.m3" class="ltx_Math" alttext="\displaystyle\left({1\over 4}\right)V_{a}" display="inline"><mrow><mrow><mo>(</mo><mstyle displaystyle="true"><mfrac><mn>1</mn><mn>4</mn></mfrac></mstyle><mo>)</mo></mrow><mo>⁢</mo><msub><mi>V</mi><mi>a</mi></msub></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="Sx3.SSx3" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection">A numerical example</h3>
+
+<div id="Sx3.SSx3.p1" class="ltx_para">
+<p class="ltx_p">Now we’ll return to an example we saw
+earlier (Table <a href="#Sx3.T2" title="Table 2 ‣ A numerical example ‣ The gory details ‣ Resemblance among relatives" class="ltx_ref"><span class="ltx_text ltx_ref_tag">2</span></a>). This set of genotypes and
+phenotypes may look familiar. It is the same one we encountered
+earlier when we calculated additive and dominance components of
+variance. Let’s assume that <math id="Sx3.SSx3.p1.m1" class="ltx_Math" alttext="p=0.4" display="inline"><mrow><mi>p</mi><mo>=</mo><mn>0.4</mn></mrow></math>. Then we know that</p>
+<table id="Sx5.EGx2" class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table">
+
+<tbody id="Sx3.Ex16"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math id="Sx3.Ex16.m1" class="ltx_Math" alttext="\displaystyle\bar{x}" display="inline"><mover accent="true"><mi>x</mi><mo stretchy="false">¯</mo></mover></math></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx3.Ex16.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx3.Ex16.m3" class="ltx_Math" alttext="\displaystyle 54.4" display="inline"><mn>54.4</mn></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+<tbody id="Sx3.Ex17"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math id="Sx3.Ex17.m1" class="ltx_Math" alttext="\displaystyle V_{a}" display="inline"><msub><mi>V</mi><mi>a</mi></msub></math></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx3.Ex17.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx3.Ex17.m3" class="ltx_Math" alttext="\displaystyle 1505.28" display="inline"><mn>1505.28</mn></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+<tbody id="Sx3.Ex18"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math id="Sx3.Ex18.m1" class="ltx_Math" alttext="\displaystyle V_{d}" display="inline"><msub><mi>V</mi><mi>d</mi></msub></math></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx3.Ex18.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx3.Ex18.m3" class="ltx_Math" alttext="\displaystyle 207.36\quad." display="inline"><mrow><mn>207.36</mn><mo mathvariant="italic" separator="true"> </mo><mo>.</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">We can also calculate the numerical version of
+Table <a href="#Sx3.T1" title="Table 1 ‣ The gory details ‣ Resemblance among relatives" class="ltx_ref"><span class="ltx_text ltx_ref_tag">1</span></a>, which you’ll find in
+Table <a href="#Sx3.T3" title="Table 3 ‣ A numerical example ‣ The gory details ‣ Resemblance among relatives" class="ltx_ref"><span class="ltx_text ltx_ref_tag">3</span></a>.</p>
+</div>
+<figure id="Sx3.T2" class="ltx_table">
+<table class="ltx_tabular ltx_centering ltx_guessed_headers ltx_align_middle">
+<thead class="ltx_thead">
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_left ltx_th ltx_th_column ltx_th_row ltx_border_r ltx_border_tt">Genotype</th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column ltx_border_tt"><math id="Sx3.T2.m1" class="ltx_Math" alttext="A_{1}A_{1}" display="inline"><mrow><msub><mi>A</mi><mn>1</mn></msub><mo>⁢</mo><msub><mi>A</mi><mn>1</mn></msub></mrow></math></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column ltx_border_tt"><math id="Sx3.T2.m2" class="ltx_Math" alttext="A_{1}A_{2}" display="inline"><mrow><msub><mi>A</mi><mn>1</mn></msub><mo>⁢</mo><msub><mi>A</mi><mn>2</mn></msub></mrow></math></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column ltx_border_tt"><math id="Sx3.T2.m3" class="ltx_Math" alttext="A_{2}A_{2}" display="inline"><mrow><msub><mi>A</mi><mn>2</mn></msub><mo>⁢</mo><msub><mi>A</mi><mn>2</mn></msub></mrow></math></th>
+</tr>
+</thead>
+<tbody class="ltx_tbody">
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_left ltx_th ltx_th_row ltx_border_b ltx_border_r">Phenotype</th>
+<td class="ltx_td ltx_align_center ltx_border_b">100</td>
+<td class="ltx_td ltx_align_center ltx_border_b">80</td>
+<td class="ltx_td ltx_align_center ltx_border_b">0</td>
+</tr>
+</tbody>
+</table>
+<figcaption class="ltx_caption"><span class="ltx_tag ltx_tag_table">Table 2: </span>An example of a non-additive relationship between genotypes
+and phenotypes.</figcaption>
+</figure>
+<figure id="Sx3.T3" class="ltx_table">
+<table class="ltx_tabular ltx_centering ltx_guessed_headers ltx_align_middle">
+<thead class="ltx_thead">
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column ltx_th_row ltx_border_r ltx_border_tt">Maternal</th>
+<th class="ltx_td ltx_th ltx_th_column ltx_th_row ltx_border_r ltx_border_tt"></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column ltx_border_tt" colspan="3">Offspring genotype</th>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column ltx_th_row ltx_border_r">genotype</th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column ltx_th_row ltx_border_r">Frequency</th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column"><math id="Sx3.T3.m1" class="ltx_Math" alttext="A_{1}A_{1}" display="inline"><mrow><msub><mi>A</mi><mn>1</mn></msub><mo>⁢</mo><msub><mi>A</mi><mn>1</mn></msub></mrow></math></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column"><math id="Sx3.T3.m2" class="ltx_Math" alttext="A_{1}A_{2}" display="inline"><mrow><msub><mi>A</mi><mn>1</mn></msub><mo>⁢</mo><msub><mi>A</mi><mn>2</mn></msub></mrow></math></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_column"><math id="Sx3.T3.m3" class="ltx_Math" alttext="A_{2}A_{2}" display="inline"><mrow><msub><mi>A</mi><mn>2</mn></msub><mo>⁢</mo><msub><mi>A</mi><mn>2</mn></msub></mrow></math></th>
+</tr>
+</thead>
+<tbody class="ltx_tbody">
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_r ltx_border_t"><math id="Sx3.T3.m4" class="ltx_Math" alttext="A_{1}A_{1}" display="inline"><mrow><msub><mi>A</mi><mn>1</mn></msub><mo>⁢</mo><msub><mi>A</mi><mn>1</mn></msub></mrow></math></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_r ltx_border_t">0.16</th>
+<td class="ltx_td ltx_align_center ltx_border_t">0.4</td>
+<td class="ltx_td ltx_align_center ltx_border_t">0.6</td>
+<td class="ltx_td ltx_align_center ltx_border_t">0.0</td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_r"><math id="Sx3.T3.m5" class="ltx_Math" alttext="A_{1}A_{2}" display="inline"><mrow><msub><mi>A</mi><mn>1</mn></msub><mo>⁢</mo><msub><mi>A</mi><mn>2</mn></msub></mrow></math></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_r">0.48</th>
+<td class="ltx_td ltx_align_center">0.2</td>
+<td class="ltx_td ltx_align_center">0.5</td>
+<td class="ltx_td ltx_align_center">0.3</td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_b ltx_border_r"><math id="Sx3.T3.m6" class="ltx_Math" alttext="A_{2}A_{2}" display="inline"><mrow><msub><mi>A</mi><mn>2</mn></msub><mo>⁢</mo><msub><mi>A</mi><mn>2</mn></msub></mrow></math></th>
+<th class="ltx_td ltx_align_center ltx_th ltx_th_row ltx_border_b ltx_border_r">0.36</th>
+<td class="ltx_td ltx_align_center ltx_border_b">0.0</td>
+<td class="ltx_td ltx_align_center ltx_border_b">0.4</td>
+<td class="ltx_td ltx_align_center ltx_border_b">0.6</td>
+</tr>
+</tbody>
+</table>
+<figcaption class="ltx_caption"><span class="ltx_tag ltx_tag_table">Table 3: </span>Mother-offspring combinations (half-sib) when the frequency
+of <math id="Sx3.T3.m8" class="ltx_Math" alttext="A_{1}" display="inline"><msub><mi>A</mi><mn>1</mn></msub></math> is 0.4.</figcaption>
+</figure>
+<div id="Sx3.SSx3.p2" class="ltx_para">
+<p class="ltx_p">So now we can follow the same approach we did before and calculate the
+numerical value of the covariance between half-sibs in this example:</p>
+<table id="Sx5.EGx3" class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table">
+
+<tbody id="Sx3.Ex26">
+<tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math id="Sx3.Ex19.m1" class="ltx_Math" alttext="\displaystyle\mbox{Cov}(S_{1},S_{2})" display="inline"><mrow><mtext>Cov</mtext><mo>⁢</mo><mrow><mo stretchy="false">(</mo><msub><mi>S</mi><mn>1</mn></msub><mo>,</mo><msub><mi>S</mi><mn>2</mn></msub><mo stretchy="false">)</mo></mrow></mrow></math></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx3.Ex19.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx3.Ex19.m3" class="ltx_Math" alttext="\displaystyle\ [(0.4)^{2}(0.16)+(0.2)^{2}(0.48)](100-54.4)^{2}" display="inline"><mrow><mi mathvariant="normal"> </mi><mo>⁢</mo><mrow><mo stretchy="false">[</mo><mrow><mrow><msup><mrow><mo stretchy="false">(</mo><mn>0.4</mn><mo stretchy="false">)</mo></mrow><mn>2</mn></msup><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mn>0.16</mn><mo stretchy="false">)</mo></mrow></mrow><mo>+</mo><mrow><msup><mrow><mo stretchy="false">(</mo><mn>0.2</mn><mo stretchy="false">)</mo></mrow><mn>2</mn></msup><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mn>0.48</mn><mo stretchy="false">)</mo></mrow></mrow></mrow><mo stretchy="false">]</mo></mrow><mo>⁢</mo><msup><mrow><mo stretchy="false">(</mo><mrow><mn>100</mn><mo>-</mo><mn>54.4</mn></mrow><mo stretchy="false">)</mo></mrow><mn>2</mn></msup></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx3.Ex20.m3" class="ltx_Math" alttext="\displaystyle+[(0.6)^{2}(0.16)+(0.5)^{2}(0.48)+(0.4)^{2}(0.36)](80-54.4)^{2}" display="inline"><mrow><mo>+</mo><mrow><mrow><mo stretchy="false">[</mo><mrow><mrow><msup><mrow><mo stretchy="false">(</mo><mn>0.6</mn><mo stretchy="false">)</mo></mrow><mn>2</mn></msup><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mn>0.16</mn><mo stretchy="false">)</mo></mrow></mrow><mo>+</mo><mrow><msup><mrow><mo stretchy="false">(</mo><mn>0.5</mn><mo stretchy="false">)</mo></mrow><mn>2</mn></msup><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mn>0.48</mn><mo stretchy="false">)</mo></mrow></mrow><mo>+</mo><mrow><msup><mrow><mo stretchy="false">(</mo><mn>0.4</mn><mo stretchy="false">)</mo></mrow><mn>2</mn></msup><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mn>0.36</mn><mo stretchy="false">)</mo></mrow></mrow></mrow><mo stretchy="false">]</mo></mrow><mo>⁢</mo><msup><mrow><mo stretchy="false">(</mo><mrow><mn>80</mn><mo>-</mo><mn>54.4</mn></mrow><mo stretchy="false">)</mo></mrow><mn>2</mn></msup></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx3.Ex21.m3" class="ltx_Math" alttext="\displaystyle+[(0.3)^{2}(0.48)+(0.6)^{2}(0.36)](0-54.4)^{2}" display="inline"><mrow><mo>+</mo><mrow><mrow><mo stretchy="false">[</mo><mrow><mrow><msup><mrow><mo stretchy="false">(</mo><mn>0.3</mn><mo stretchy="false">)</mo></mrow><mn>2</mn></msup><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mn>0.48</mn><mo stretchy="false">)</mo></mrow></mrow><mo>+</mo><mrow><msup><mrow><mo stretchy="false">(</mo><mn>0.6</mn><mo stretchy="false">)</mo></mrow><mn>2</mn></msup><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mn>0.36</mn><mo stretchy="false">)</mo></mrow></mrow></mrow><mo stretchy="false">]</mo></mrow><mo>⁢</mo><msup><mrow><mo stretchy="false">(</mo><mrow><mn>0</mn><mo>-</mo><mn>54.4</mn></mrow><mo stretchy="false">)</mo></mrow><mn>2</mn></msup></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx3.Ex22.m3" class="ltx_Math" alttext="\displaystyle+2[(0.4)(0.6)(0.16)+(0.2)(0.5)(0.48)](100-54.4)(80-54.4)" display="inline"><mrow><mo>+</mo><mrow><mn>2</mn><mo>⁢</mo><mrow><mo stretchy="false">[</mo><mrow><mrow><mrow><mo stretchy="false">(</mo><mn>0.4</mn><mo stretchy="false">)</mo></mrow><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mn>0.6</mn><mo stretchy="false">)</mo></mrow><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mn>0.16</mn><mo stretchy="false">)</mo></mrow></mrow><mo>+</mo><mrow><mrow><mo stretchy="false">(</mo><mn>0.2</mn><mo stretchy="false">)</mo></mrow><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mn>0.5</mn><mo stretchy="false">)</mo></mrow><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mn>0.48</mn><mo stretchy="false">)</mo></mrow></mrow></mrow><mo stretchy="false">]</mo></mrow><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><mn>100</mn><mo>-</mo><mn>54.4</mn></mrow><mo stretchy="false">)</mo></mrow><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><mn>80</mn><mo>-</mo><mn>54.4</mn></mrow><mo stretchy="false">)</mo></mrow></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx3.Ex23.m3" class="ltx_Math" alttext="\displaystyle+2(0.2)(0.3)(0.48)(100-54.4)(0-54.4)" display="inline"><mrow><mo>+</mo><mrow><mn>2</mn><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mn>0.2</mn><mo stretchy="false">)</mo></mrow><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mn>0.3</mn><mo stretchy="false">)</mo></mrow><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mn>0.48</mn><mo stretchy="false">)</mo></mrow><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><mn>100</mn><mo>-</mo><mn>54.4</mn></mrow><mo stretchy="false">)</mo></mrow><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><mn>0</mn><mo>-</mo><mn>54.4</mn></mrow><mo stretchy="false">)</mo></mrow></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx3.Ex24.m3" class="ltx_Math" alttext="\displaystyle+2[(0.5)(0.3)(0.48)+(0.4)(0.6)(0.36)](80-54.4)(0-54.4)" display="inline"><mrow><mo>+</mo><mrow><mn>2</mn><mo>⁢</mo><mrow><mo stretchy="false">[</mo><mrow><mrow><mrow><mo stretchy="false">(</mo><mn>0.5</mn><mo stretchy="false">)</mo></mrow><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mn>0.3</mn><mo stretchy="false">)</mo></mrow><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mn>0.48</mn><mo stretchy="false">)</mo></mrow></mrow><mo>+</mo><mrow><mrow><mo stretchy="false">(</mo><mn>0.4</mn><mo stretchy="false">)</mo></mrow><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mn>0.6</mn><mo stretchy="false">)</mo></mrow><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mn>0.36</mn><mo stretchy="false">)</mo></mrow></mrow></mrow><mo stretchy="false">]</mo></mrow><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><mn>80</mn><mo>-</mo><mn>54.4</mn></mrow><mo stretchy="false">)</mo></mrow><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><mn>0</mn><mo>-</mo><mn>54.4</mn></mrow><mo stretchy="false">)</mo></mrow></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx3.Ex25.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx3.Ex25.m3" class="ltx_Math" alttext="\displaystyle\ 376.32" display="inline"><mrow><mi mathvariant="normal"> </mi><mo>⁢</mo><mn>376.32</mn></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx3.Ex26.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx3.Ex26.m3" class="ltx_Math" alttext="\displaystyle\ \left({1\over 4}\right)1505.28\quad." display="inline"><mrow><mrow><mi mathvariant="normal"> </mi><mo>⁢</mo><mrow><mo>(</mo><mstyle displaystyle="true"><mfrac><mn>1</mn><mn>4</mn></mfrac></mstyle><mo>)</mo></mrow><mo>⁢</mo><mn>1505.28</mn></mrow><mo mathvariant="italic" separator="true"> </mo><mo>.</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="Sx3.SSx4" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection">Covariances among relatives</h3>
+
+<div id="Sx3.SSx4.p1" class="ltx_para">
+<p class="ltx_p">Well, if we can do this sort of calculation for half-sibs, you can
+probably guess that it’s also possible to do it for other relatives. I
+won’t go through all of the calculations, but the results for common
+forms of relationship are summarized in Table <a href="#Sx3.T4" title="Table 4 ‣ Covariances among relatives ‣ The gory details ‣ Resemblance among relatives" class="ltx_ref"><span class="ltx_text ltx_ref_tag">4</span></a></p>
+</div>
+<figure id="Sx3.T4" class="ltx_table">
+<table class="ltx_tabular ltx_centering ltx_guessed_headers ltx_align_middle">
+<tbody class="ltx_tbody">
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_left ltx_th ltx_th_row ltx_border_tt">MZ twins (<math id="Sx3.T4.m1" class="ltx_Math" alttext="\mbox{Cov}_{MZ}" display="inline"><msub><mtext>Cov</mtext><mrow><mi>M</mi><mo>⁢</mo><mi>Z</mi></mrow></msub></math>)</th>
+<td class="ltx_td ltx_align_left ltx_border_tt"><math id="Sx3.T4.m2" class="ltx_Math" alttext="V_{a}+V_{d}" display="inline"><mrow><msub><mi>V</mi><mi>a</mi></msub><mo>+</mo><msub><mi>V</mi><mi>d</mi></msub></mrow></math></td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_left ltx_th ltx_th_row">Parent-offspring (<math id="Sx3.T4.m3" class="ltx_Math" alttext="\mbox{Cov}_{PO}" display="inline"><msub><mtext>Cov</mtext><mrow><mi>P</mi><mo>⁢</mo><mi>O</mi></mrow></msub></math>)<math id="Sx3.T4.m4" class="ltx_Math" alttext="{}^{1}" display="inline"><msup><mi></mi><mn>1</mn></msup></math>
+</th>
+<td class="ltx_td ltx_align_left"><math id="Sx3.T4.m5" class="ltx_Math" alttext="\left(\frac{1}{2}\right)V_{a}" display="inline"><mrow><mrow><mo>(</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>)</mo></mrow><mo>⁢</mo><msub><mi>V</mi><mi>a</mi></msub></mrow></math></td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_left ltx_th ltx_th_row">Full sibs (<math id="Sx3.T4.m6" class="ltx_Math" alttext="\mbox{Cov}_{FS}" display="inline"><msub><mtext>Cov</mtext><mrow><mi>F</mi><mo>⁢</mo><mi>S</mi></mrow></msub></math>)</th>
+<td class="ltx_td ltx_align_left"><math id="Sx3.T4.m7" class="ltx_Math" alttext="\left(\frac{1}{2}\right)V_{a}+\left(\frac{1}{4}\right)V_{d}" display="inline"><mrow><mrow><mrow><mo>(</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>)</mo></mrow><mo>⁢</mo><msub><mi>V</mi><mi>a</mi></msub></mrow><mo>+</mo><mrow><mrow><mo>(</mo><mfrac><mn>1</mn><mn>4</mn></mfrac><mo>)</mo></mrow><mo>⁢</mo><msub><mi>V</mi><mi>d</mi></msub></mrow></mrow></math></td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_left ltx_th ltx_th_row">Half sibs (<math id="Sx3.T4.m8" class="ltx_Math" alttext="\mbox{Cov}_{HS}" display="inline"><msub><mtext>Cov</mtext><mrow><mi>H</mi><mo>⁢</mo><mi>S</mi></mrow></msub></math>)</th>
+<td class="ltx_td ltx_align_left"><math id="Sx3.T4.m9" class="ltx_Math" alttext="\left(\frac{1}{4}\right)V_{a}" display="inline"><mrow><mrow><mo>(</mo><mfrac><mn>1</mn><mn>4</mn></mfrac><mo>)</mo></mrow><mo>⁢</mo><msub><mi>V</mi><mi>a</mi></msub></mrow></math></td>
+</tr>
+</tbody>
+<tfoot class="ltx_tfoot">
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_left ltx_th ltx_th_row ltx_border_t" colspan="2">
+<math id="Sx3.T4.m10" class="ltx_Math" alttext="{}^{1}" display="inline"><msup><mi></mi><mn>1</mn></msup></math>One parent or mid-parent.</th>
+</tr>
+</tfoot>
+</table>
+<figcaption class="ltx_caption"><span class="ltx_tag ltx_tag_table">Table 4: </span>Genetic covariances among relatives.</figcaption>
+</figure>
+</section>
+</section>
+<section id="Sx4" class="ltx_section">
+<h2 class="ltx_title ltx_title_section">Estimating heritability</h2>
+
+<div id="Sx4.p1" class="ltx_para">
+<p class="ltx_p">Galton introduced the term <span class="ltx_text ltx_font_italic">regression</span> to describe the
+inheritance of height in humans. He noted that there is a tendency for
+adult offspring of tall parents to be tall and of short parents to be
+short, but he also noted that offspring tended to be less extreme than
+the parents.<span id="footnote6" class="ltx_note ltx_role_footnote"><sup class="ltx_note_mark">6</sup><span class="ltx_note_outer"><span class="ltx_note_content"><sup class="ltx_note_mark">6</sup>
+            <span class="ltx_tag ltx_tag_note">6</span>
+            
+            
+            
+          It’s worth noting that Galton is often
+“credited” with establishing the field of eugenics. He was a
+proponent of encouraging the “best” people to marry one another to
+“improve” the human race. There is a building at University
+College London named in his honor, the Galton Laboratory. The
+University is considering changing its
+name (<a href="https://www.dailymail.co.uk/sciencetech/article-6466845/UCL-rename-buildings-honouring-Sir-Francis-Galton-known-father-eugenics.html" title="" class="ltx_ref ltx_url ltx_font_typewriter">https://www.dailymail.co.uk/sciencetech/article-6466845/UCL-rename-buildings-honouring-Sir-Francis-Galton-known-father-eugenics.html</a>).</span></span></span>
+He described this as a “regression to mediocrity,” and statisticians
+adopted the term to describe a standard technique for describing the
+functional relationship between two variables.</p>
+</div>
+<section id="Sx4.SSx1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection">Regression analysis</h3>
+
+<div id="Sx4.SSx1.p1" class="ltx_para">
+<p class="ltx_p">Measure the parents. Regress the offspring phenotype on: (1) the
+phenotype of one parent or (2) the mean of the parental parental
+phenotypes. In either case, the covariance between the parental
+phenotype and the offspring genotype is <math id="Sx4.SSx1.p1.m1" class="ltx_Math" alttext="\left({1\over 2}\right)V_{a}" display="inline"><mrow><mrow><mo>(</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>)</mo></mrow><mo>⁢</mo><msub><mi>V</mi><mi>a</mi></msub></mrow></math>.
+Now the regression coefficient between one parent and offspring, <math id="Sx4.SSx1.p1.m2" class="ltx_Math" alttext="b_{P\rightarrow O}" display="inline"><msub><mi>b</mi><mrow><mi>P</mi><mo>→</mo><mi>O</mi></mrow></msub></math>, is</p>
+<table id="Sx5.EGx4" class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table">
+
+<tbody id="Sx4.Ex29">
+<tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math id="Sx4.Ex27.m1" class="ltx_Math" alttext="\displaystyle b_{P\rightarrow O}" display="inline"><msub><mi>b</mi><mrow><mi>P</mi><mo>→</mo><mi>O</mi></mrow></msub></math></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx4.Ex27.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx4.Ex27.m3" class="ltx_Math" alttext="\displaystyle\frac{\mbox{Cov}_{PO}}{\mbox{Var}(P)}" display="inline"><mstyle displaystyle="true"><mfrac><msub><mtext>Cov</mtext><mrow><mi>P</mi><mo>⁢</mo><mi>O</mi></mrow></msub><mrow><mtext>Var</mtext><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>P</mi><mo stretchy="false">)</mo></mrow></mrow></mfrac></mstyle></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx4.Ex28.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx4.Ex28.m3" class="ltx_Math" alttext="\displaystyle{\left({1\over 2}\right)V_{a}\over V_{p}}" display="inline"><mstyle displaystyle="true"><mfrac><mrow><mrow><mo>(</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>)</mo></mrow><mo>⁢</mo><msub><mi>V</mi><mi>a</mi></msub></mrow><msub><mi>V</mi><mi>p</mi></msub></mfrac></mstyle></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx4.Ex29.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx4.Ex29.m3" class="ltx_Math" alttext="\displaystyle\left({1\over 2}\right)h^{2}_{N}\quad." display="inline"><mrow><mrow><mrow><mo>(</mo><mstyle displaystyle="true"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle><mo>)</mo></mrow><mo>⁢</mo><msubsup><mi>h</mi><mi>N</mi><mn>2</mn></msubsup></mrow><mo mathvariant="italic" separator="true"> </mo><mo>.</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+</tbody>
+</table>
+<p class="ltx_p">In short, the slope of the regression line is equal to one-half the
+narrow sense heritability. In the regression of offspring on
+mid-parent value,</p>
+<table id="Sx5.EGx5" class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table">
+
+<tbody id="Sx4.Ex34">
+<tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math id="Sx4.Ex30.m1" class="ltx_Math" alttext="\displaystyle\mbox{Var}(MP)" display="inline"><mrow><mtext>Var</mtext><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><mi>M</mi><mo>⁢</mo><mi>P</mi></mrow><mo stretchy="false">)</mo></mrow></mrow></math></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx4.Ex30.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx4.Ex30.m3" class="ltx_Math" alttext="\displaystyle\mbox{Var}\left(\frac{M+F}{2}\right)" display="inline"><mrow><mtext>Var</mtext><mo>⁢</mo><mrow><mo>(</mo><mstyle displaystyle="true"><mfrac><mrow><mi>M</mi><mo>+</mo><mi>F</mi></mrow><mn>2</mn></mfrac></mstyle><mo>)</mo></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx4.Ex31.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx4.Ex31.m3" class="ltx_Math" alttext="\displaystyle\frac{1}{4}\mbox{Var}(M+F)" display="inline"><mrow><mstyle displaystyle="true"><mfrac><mn>1</mn><mn>4</mn></mfrac></mstyle><mo>⁢</mo><mtext>Var</mtext><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><mi>M</mi><mo>+</mo><mi>F</mi></mrow><mo stretchy="false">)</mo></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx4.Ex32.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx4.Ex32.m3" class="ltx_Math" alttext="\displaystyle\frac{1}{4}\left(Var(M)+Var(F)\right)" display="inline"><mrow><mstyle displaystyle="true"><mfrac><mn>1</mn><mn>4</mn></mfrac></mstyle><mo>⁢</mo><mrow><mo>(</mo><mrow><mrow><mi>V</mi><mo>⁢</mo><mi>a</mi><mo>⁢</mo><mi>r</mi><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>M</mi><mo stretchy="false">)</mo></mrow></mrow><mo>+</mo><mrow><mi>V</mi><mo>⁢</mo><mi>a</mi><mo>⁢</mo><mi>r</mi><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>F</mi><mo stretchy="false">)</mo></mrow></mrow></mrow><mo>)</mo></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx4.Ex33.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx4.Ex33.m3" class="ltx_Math" alttext="\displaystyle\frac{1}{4}\left(2V_{p}\right)" display="inline"><mrow><mstyle displaystyle="true"><mfrac><mn>1</mn><mn>4</mn></mfrac></mstyle><mo>⁢</mo><mrow><mo>(</mo><mrow><mn>2</mn><mo>⁢</mo><msub><mi>V</mi><mi>p</mi></msub></mrow><mo>)</mo></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx4.Ex34.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx4.Ex34.m3" class="ltx_Math" alttext="\displaystyle\frac{1}{2}V_{p}\quad." display="inline"><mrow><mrow><mstyle displaystyle="true"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle><mo>⁢</mo><msub><mi>V</mi><mi>p</mi></msub></mrow><mo mathvariant="italic" separator="true"> </mo><mo>.</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+</tbody>
+</table>
+<p class="ltx_p">Thus, <math id="Sx4.SSx1.p1.m3" class="ltx_Math" alttext="b_{MP\rightarrow O}=\frac{1}{2}V_{a}/\frac{1}{2}V_{p}=h^{2}_{N}" display="inline"><mrow><msub><mi>b</mi><mrow><mrow><mi>M</mi><mo>⁢</mo><mi>P</mi></mrow><mo>→</mo><mi>O</mi></mrow></msub><mo>=</mo><mrow><mrow><mrow><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>⁢</mo><msub><mi>V</mi><mi>a</mi></msub></mrow><mo>/</mo><mfrac><mn>1</mn><mn>2</mn></mfrac></mrow><mo>⁢</mo><msub><mi>V</mi><mi>p</mi></msub></mrow><mo>=</mo><msubsup><mi>h</mi><mi>N</mi><mn>2</mn></msubsup></mrow></math>.
+In short, the slope of the regression line is equal to the narrow
+sense heritability.
+</p>
+</div>
+</section>
+<section id="Sx4.SSx2" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection">Sib analysis</h3>
+
+<div id="Sx4.SSx2.p1" class="ltx_para">
+<p class="ltx_p">Mate a number of males (sires) with a number of females (dams). Each
+sire is mated to more than one dam, but each dam mates only with one
+sire. Do an analysis of variance on the phenotype in the progeny,
+treating sire and dam as main effects. The result is shown in
+Table <a href="#Sx4.T5" title="Table 5 ‣ Sib analysis ‣ Estimating heritability ‣ Resemblance among relatives" class="ltx_ref"><span class="ltx_text ltx_ref_tag">5</span></a>.</p>
+</div>
+<figure id="Sx4.T5" class="ltx_table">
+<table class="ltx_tabular ltx_centering ltx_guessed_headers ltx_align_middle">
+<tbody class="ltx_tbody">
+<tr class="ltx_tr">
+<th class="ltx_td ltx_th ltx_th_row ltx_border_r ltx_border_tt"></th>
+<td class="ltx_td ltx_border_tt"></td>
+<td class="ltx_td ltx_border_tt"></td>
+<td class="ltx_td ltx_align_center ltx_border_tt">Composition of</td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_left ltx_th ltx_th_row ltx_border_r">Source</th>
+<td class="ltx_td ltx_align_center">d.f.</td>
+<td class="ltx_td ltx_align_center">Mean square</td>
+<td class="ltx_td ltx_align_center">mean square</td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_left ltx_th ltx_th_row ltx_border_r ltx_border_t">Among sires</th>
+<td class="ltx_td ltx_align_center ltx_border_t"><math id="Sx4.T5.m1" class="ltx_Math" alttext="s-1" display="inline"><mrow><mi>s</mi><mo>-</mo><mn>1</mn></mrow></math></td>
+<td class="ltx_td ltx_align_center ltx_border_t"><math id="Sx4.T5.m2" class="ltx_Math" alttext="MS_{S}" display="inline"><mrow><mi>M</mi><mo>⁢</mo><msub><mi>S</mi><mi>S</mi></msub></mrow></math></td>
+<td class="ltx_td ltx_align_center ltx_border_t"><math id="Sx4.T5.m3" class="ltx_Math" alttext="\sigma^{2}_{W}+k\sigma^{2}_{D}+dk\sigma^{2}_{s}" display="inline"><mrow><msubsup><mi>σ</mi><mi>W</mi><mn>2</mn></msubsup><mo>+</mo><mrow><mi>k</mi><mo>⁢</mo><msubsup><mi>σ</mi><mi>D</mi><mn>2</mn></msubsup></mrow><mo>+</mo><mrow><mi>d</mi><mo>⁢</mo><mi>k</mi><mo>⁢</mo><msubsup><mi>σ</mi><mi>s</mi><mn>2</mn></msubsup></mrow></mrow></math></td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_left ltx_th ltx_th_row ltx_border_r">Among dams</th>
+<td class="ltx_td ltx_align_center"><math id="Sx4.T5.m4" class="ltx_Math" alttext="s(d-1)" display="inline"><mrow><mi>s</mi><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><mi>d</mi><mo>-</mo><mn>1</mn></mrow><mo stretchy="false">)</mo></mrow></mrow></math></td>
+<td class="ltx_td ltx_align_center"><math id="Sx4.T5.m5" class="ltx_Math" alttext="MS_{D}" display="inline"><mrow><mi>M</mi><mo>⁢</mo><msub><mi>S</mi><mi>D</mi></msub></mrow></math></td>
+<td class="ltx_td ltx_align_center"><math id="Sx4.T5.m6" class="ltx_Math" alttext="\sigma^{2}_{W}+k\sigma^{2}_{D}" display="inline"><mrow><msubsup><mi>σ</mi><mi>W</mi><mn>2</mn></msubsup><mo>+</mo><mrow><mi>k</mi><mo>⁢</mo><msubsup><mi>σ</mi><mi>D</mi><mn>2</mn></msubsup></mrow></mrow></math></td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_left ltx_th ltx_th_row ltx_border_r">   (within sires)</th>
+<td class="ltx_td"></td>
+<td class="ltx_td"></td>
+<td class="ltx_td"></td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_left ltx_th ltx_th_row ltx_border_r">Within progenies</th>
+<td class="ltx_td ltx_align_center"><math id="Sx4.T5.m7" class="ltx_Math" alttext="sd(k-1)" display="inline"><mrow><mi>s</mi><mo>⁢</mo><mi>d</mi><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><mi>k</mi><mo>-</mo><mn>1</mn></mrow><mo stretchy="false">)</mo></mrow></mrow></math></td>
+<td class="ltx_td ltx_align_center"><math id="Sx4.T5.m8" class="ltx_Math" alttext="MS_{W}" display="inline"><mrow><mi>M</mi><mo>⁢</mo><msub><mi>S</mi><mi>W</mi></msub></mrow></math></td>
+<td class="ltx_td ltx_align_center"><math id="Sx4.T5.m9" class="ltx_Math" alttext="\sigma^{2}_{W}" display="inline"><msubsup><mi>σ</mi><mi>W</mi><mn>2</mn></msubsup></math></td>
+</tr>
+</tbody>
+<tfoot class="ltx_tfoot">
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_left ltx_th ltx_th_row ltx_border_t" colspan="4"><math id="Sx4.T5.m10" class="ltx_Math" alttext="s=\hbox{number of sires}" display="inline"><mrow><mi>s</mi><mo>=</mo><mtext>number of sires</mtext></mrow></math></th>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_left ltx_th ltx_th_row" colspan="4"><math id="Sx4.T5.m11" class="ltx_Math" alttext="d=\hbox{number of dams per sire}" display="inline"><mrow><mi>d</mi><mo>=</mo><mtext>number of dams per sire</mtext></mrow></math></th>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_left ltx_th ltx_th_row" colspan="4"><math id="Sx4.T5.m12" class="ltx_Math" alttext="k=\hbox{number of offspring per dam}" display="inline"><mrow><mi>k</mi><mo>=</mo><mtext>number of offspring per dam</mtext></mrow></math></th>
+</tr>
+</tfoot>
+</table>
+<figcaption class="ltx_caption"><span class="ltx_tag ltx_tag_table">Table 5: </span>Analysis of variance table for a full-sib analysis of
+quantitative genetic variation.</figcaption>
+</figure>
+<div id="Sx4.SSx2.p2" class="ltx_para">
+<p class="ltx_p">Now we need some way to relate the variance components (<math id="Sx4.SSx2.p2.m1" class="ltx_Math" alttext="\sigma^{2}_{W}" display="inline"><msubsup><mi>σ</mi><mi>W</mi><mn>2</mn></msubsup></math>,
+<math id="Sx4.SSx2.p2.m2" class="ltx_Math" alttext="\sigma^{2}_{D}" display="inline"><msubsup><mi>σ</mi><mi>D</mi><mn>2</mn></msubsup></math>, and <math id="Sx4.SSx2.p2.m3" class="ltx_Math" alttext="\sigma^{2}_{S}" display="inline"><msubsup><mi>σ</mi><mi>S</mi><mn>2</mn></msubsup></math>) to <math id="Sx4.SSx2.p2.m4" class="ltx_Math" alttext="V_{a}" display="inline"><msub><mi>V</mi><mi>a</mi></msub></math>, <math id="Sx4.SSx2.p2.m5" class="ltx_Math" alttext="V_{d}" display="inline"><msub><mi>V</mi><mi>d</mi></msub></math>, and
+<math id="Sx4.SSx2.p2.m6" class="ltx_Math" alttext="V_{e}" display="inline"><msub><mi>V</mi><mi>e</mi></msub></math>.<span id="footnote7" class="ltx_note ltx_role_footnote"><sup class="ltx_note_mark">7</sup><span class="ltx_note_outer"><span class="ltx_note_content"><sup class="ltx_note_mark">7</sup>
+              <span class="ltx_tag ltx_tag_note">7</span>
+              
+              
+              
+            <math id="footnote7.m1" class="ltx_Math" alttext="\sigma^{2}_{W}" display="inline"><msubsup><mi>σ</mi><mi>W</mi><mn>2</mn></msubsup></math>, <math id="footnote7.m2" class="ltx_Math" alttext="\sigma^{2}_{D}" display="inline"><msubsup><mi>σ</mi><mi>D</mi><mn>2</mn></msubsup></math>, and <math id="footnote7.m3" class="ltx_Math" alttext="\sigma^{2}_{S}" display="inline"><msubsup><mi>σ</mi><mi>S</mi><mn>2</mn></msubsup></math> are often
+referred to as the <span class="ltx_text ltx_font_italic">observational</span> components of variance,
+because they are estimated from observations we make on phenotypic
+variation. <math id="footnote7.m4" class="ltx_Math" alttext="V_{a}" display="inline"><msub><mi>V</mi><mi>a</mi></msub></math>, <math id="footnote7.m5" class="ltx_Math" alttext="V_{d}" display="inline"><msub><mi>V</mi><mi>d</mi></msub></math>, and <math id="footnote7.m6" class="ltx_Math" alttext="V_{e}" display="inline"><msub><mi>V</mi><mi>e</mi></msub></math> are often referred to as the <span class="ltx_text ltx_font_italic">causal</span> components of variance, because they represent the
+gentic and environmental influences on trait
+expression.</span></span></span> How do we
+do that? Well,</p>
+<table id="Sx4.Ex35" class="ltx_equation ltx_eqn_table">
+
+<tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_eqn_cell ltx_align_center"><math id="Sx4.Ex35.m1" class="ltx_Math" alttext="V_{p}=\sigma^{2}_{T}=\sigma^{2}_{S}+\sigma^{2}_{D}+\sigma^{2}_{W}\quad." display="block"><mrow><mrow><msub><mi>V</mi><mi>p</mi></msub><mo>=</mo><msubsup><mi>σ</mi><mi>T</mi><mn>2</mn></msubsup><mo>=</mo><mrow><msubsup><mi>σ</mi><mi>S</mi><mn>2</mn></msubsup><mo>+</mo><msubsup><mi>σ</mi><mi>D</mi><mn>2</mn></msubsup><mo>+</mo><msubsup><mi>σ</mi><mi>W</mi><mn>2</mn></msubsup></mrow></mrow><mo mathvariant="italic" separator="true"> </mo><mo>.</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+</table>
+<p class="ltx_p"><math id="Sx4.SSx2.p2.m7" class="ltx_Math" alttext="\sigma^{2}_{S}" display="inline"><msubsup><mi>σ</mi><mi>S</mi><mn>2</mn></msubsup></math> estimates the variance among the means of the half-sib
+familes fathered by each of the different sires or, equivalently, the
+covariance among half-sibs.<span id="footnote8" class="ltx_note ltx_role_footnote"><sup class="ltx_note_mark">8</sup><span class="ltx_note_outer"><span class="ltx_note_content"><sup class="ltx_note_mark">8</sup>
+              <span class="ltx_tag ltx_tag_note">8</span>
+              
+              
+              
+            To see why consider this is so,
+consider the following: The mean genotypic value of half-sib
+families with an <math id="footnote8.m1" class="ltx_Math" alttext="A_{1}A_{1}" display="inline"><mrow><msub><mi>A</mi><mn>1</mn></msub><mo>⁢</mo><msub><mi>A</mi><mn>1</mn></msub></mrow></math> mother is <math id="footnote8.m2" class="ltx_Math" alttext="px_{11}+qx_{12}" display="inline"><mrow><mrow><mi>p</mi><mo>⁢</mo><msub><mi>x</mi><mn>11</mn></msub></mrow><mo>+</mo><mrow><mi>q</mi><mo>⁢</mo><msub><mi>x</mi><mn>12</mn></msub></mrow></mrow></math>; with an
+<math id="footnote8.m3" class="ltx_Math" alttext="A_{1}A_{2}" display="inline"><mrow><msub><mi>A</mi><mn>1</mn></msub><mo>⁢</mo><msub><mi>A</mi><mn>2</mn></msub></mrow></math> mother, <math id="footnote8.m4" class="ltx_Math" alttext="px_{11}/2+qx_{12}/2+px_{12}/2+qx_{22}/2" display="inline"><mrow><mrow><mrow><mi>p</mi><mo>⁢</mo><msub><mi>x</mi><mn>11</mn></msub></mrow><mo>/</mo><mn>2</mn></mrow><mo>+</mo><mrow><mrow><mi>q</mi><mo>⁢</mo><msub><mi>x</mi><mn>12</mn></msub></mrow><mo>/</mo><mn>2</mn></mrow><mo>+</mo><mrow><mrow><mi>p</mi><mo>⁢</mo><msub><mi>x</mi><mn>12</mn></msub></mrow><mo>/</mo><mn>2</mn></mrow><mo>+</mo><mrow><mrow><mi>q</mi><mo>⁢</mo><msub><mi>x</mi><mn>22</mn></msub></mrow><mo>/</mo><mn>2</mn></mrow></mrow></math>;
+with an <math id="footnote8.m5" class="ltx_Math" alttext="A_{2}A_{2}" display="inline"><mrow><msub><mi>A</mi><mn>2</mn></msub><mo>⁢</mo><msub><mi>A</mi><mn>2</mn></msub></mrow></math> mother, <math id="footnote8.m6" class="ltx_Math" alttext="px_{12}+qx_{22}" display="inline"><mrow><mrow><mi>p</mi><mo>⁢</mo><msub><mi>x</mi><mn>12</mn></msub></mrow><mo>+</mo><mrow><mi>q</mi><mo>⁢</mo><msub><mi>x</mi><mn>22</mn></msub></mrow></mrow></math>. The equation for the
+variance among these means is identical to the equation for the
+covariance among half-sibs.</span></span></span>
+</p>
+<table id="Sx5.EGx6" class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table">
+
+<tbody id="Sx4.Ex37">
+<tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math id="Sx4.Ex36.m1" class="ltx_Math" alttext="\displaystyle\sigma^{2}_{S}" display="inline"><msubsup><mi>σ</mi><mi>S</mi><mn>2</mn></msubsup></math></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx4.Ex36.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx4.Ex36.m3" class="ltx_Math" alttext="\displaystyle\mbox{Cov}_{HS}" display="inline"><msub><mtext>Cov</mtext><mrow><mi>H</mi><mo>⁢</mo><mi>S</mi></mrow></msub></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx4.Ex37.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx4.Ex37.m3" class="ltx_Math" alttext="\displaystyle\left(\frac{1}{4}\right)V_{a}\quad." display="inline"><mrow><mrow><mrow><mo>(</mo><mstyle displaystyle="true"><mfrac><mn>1</mn><mn>4</mn></mfrac></mstyle><mo>)</mo></mrow><mo>⁢</mo><msub><mi>V</mi><mi>a</mi></msub></mrow><mo mathvariant="italic" separator="true"> </mo><mo>.</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+</tbody>
+</table>
+<p class="ltx_p">Now consider the within progeny component of the variance,
+<math id="Sx4.SSx2.p2.m8" class="ltx_Math" alttext="\sigma^{2}_{W}" display="inline"><msubsup><mi>σ</mi><mi>W</mi><mn>2</mn></msubsup></math>. In general, it can be shown that <span class="ltx_text ltx_font_italic">any</span> among
+group variance component is equal to the covariance among the members
+within the groups.<span id="footnote9" class="ltx_note ltx_role_footnote"><sup class="ltx_note_mark">9</sup><span class="ltx_note_outer"><span class="ltx_note_content"><sup class="ltx_note_mark">9</sup>
+              <span class="ltx_tag ltx_tag_note">9</span>
+              
+              
+              
+            With <math id="footnote9.m1" class="ltx_Math" alttext="x_{ij}=a_{i}+\epsilon_{ij}" display="inline"><mrow><msub><mi>x</mi><mrow><mi>i</mi><mo>⁢</mo><mi>j</mi></mrow></msub><mo>=</mo><mrow><msub><mi>a</mi><mi>i</mi></msub><mo>+</mo><msub><mi>ϵ</mi><mrow><mi>i</mi><mo>⁢</mo><mi>j</mi></mrow></msub></mrow></mrow></math>, where
+<math id="footnote9.m2" class="ltx_Math" alttext="a_{i}" display="inline"><msub><mi>a</mi><mi>i</mi></msub></math> is the mean group effect and <math id="footnote9.m3" class="ltx_Math" alttext="\epsilon_{ij}" display="inline"><msub><mi>ϵ</mi><mrow><mi>i</mi><mo>⁢</mo><mi>j</mi></mrow></msub></math> is random effect
+on individual <math id="footnote9.m4" class="ltx_Math" alttext="j" display="inline"><mi>j</mi></math> in group <math id="footnote9.m5" class="ltx_Math" alttext="i" display="inline"><mi>i</mi></math> (with mean 0), <math id="footnote9.m6" class="ltx_Math" alttext="Cov(x_{ij},x_{ik})=E(a_{i}+\epsilon_{ij}-\mu)(a_{i}+\epsilon_{ik}-\mu)=E((a_{i%
+}-\mu^{2})+a_{i}(\epsilon_{ij}+\epsilon_{ik})+\epsilon_{ij}\epsilon_{ik})=Var(A)" display="inline"><mrow><mrow><mi>C</mi><mo>⁢</mo><mi>o</mi><mo>⁢</mo><mi>v</mi><mo>⁢</mo><mrow><mo stretchy="false">(</mo><msub><mi>x</mi><mrow><mi>i</mi><mo>⁢</mo><mi>j</mi></mrow></msub><mo>,</mo><msub><mi>x</mi><mrow><mi>i</mi><mo>⁢</mo><mi>k</mi></mrow></msub><mo stretchy="false">)</mo></mrow></mrow><mo>=</mo><mrow><mi>E</mi><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><mrow><msub><mi>a</mi><mi>i</mi></msub><mo>+</mo><msub><mi>ϵ</mi><mrow><mi>i</mi><mo>⁢</mo><mi>j</mi></mrow></msub></mrow><mo>-</mo><mi>μ</mi></mrow><mo stretchy="false">)</mo></mrow><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><mrow><msub><mi>a</mi><mi>i</mi></msub><mo>+</mo><msub><mi>ϵ</mi><mrow><mi>i</mi><mo>⁢</mo><mi>k</mi></mrow></msub></mrow><mo>-</mo><mi>μ</mi></mrow><mo stretchy="false">)</mo></mrow></mrow><mo>=</mo><mrow><mi>E</mi><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><mrow><mo stretchy="false">(</mo><mrow><msub><mi>a</mi><mi>i</mi></msub><mo>-</mo><msup><mi>μ</mi><mn>2</mn></msup></mrow><mo stretchy="false">)</mo></mrow><mo>+</mo><mrow><msub><mi>a</mi><mi>i</mi></msub><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><msub><mi>ϵ</mi><mrow><mi>i</mi><mo>⁢</mo><mi>j</mi></mrow></msub><mo>+</mo><msub><mi>ϵ</mi><mrow><mi>i</mi><mo>⁢</mo><mi>k</mi></mrow></msub></mrow><mo stretchy="false">)</mo></mrow></mrow><mo>+</mo><mrow><msub><mi>ϵ</mi><mrow><mi>i</mi><mo>⁢</mo><mi>j</mi></mrow></msub><mo>⁢</mo><msub><mi>ϵ</mi><mrow><mi>i</mi><mo>⁢</mo><mi>k</mi></mrow></msub></mrow></mrow><mo stretchy="false">)</mo></mrow></mrow><mo>=</mo><mrow><mi>V</mi><mo>⁢</mo><mi>a</mi><mo>⁢</mo><mi>r</mi><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mi>A</mi><mo stretchy="false">)</mo></mrow></mrow></mrow></math>.</span></span></span> Thus, a within group
+component of the variance is equal to the total variance minus the
+covariance within groups. In this case,</p>
+<table id="Sx5.EGx7" class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table">
+
+<tbody id="Sx4.Ex40">
+<tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math id="Sx4.Ex38.m1" class="ltx_Math" alttext="\displaystyle\sigma^{2}_{W}" display="inline"><msubsup><mi>σ</mi><mi>W</mi><mn>2</mn></msubsup></math></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx4.Ex38.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx4.Ex38.m3" class="ltx_Math" alttext="\displaystyle V_{p}-\mbox{Cov}_{FS}" display="inline"><mrow><msub><mi>V</mi><mi>p</mi></msub><mo>-</mo><msub><mtext>Cov</mtext><mrow><mi>F</mi><mo>⁢</mo><mi>S</mi></mrow></msub></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx4.Ex39.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx4.Ex39.m3" class="ltx_Math" alttext="\displaystyle V_{a}+V_{d}+V_{e}-\left[\left(\frac{1}{2}\right)V_{a}+\left(%
+\frac{1}{4}\right)V_{d}\right]" display="inline"><mrow><mrow><msub><mi>V</mi><mi>a</mi></msub><mo>+</mo><msub><mi>V</mi><mi>d</mi></msub><mo>+</mo><msub><mi>V</mi><mi>e</mi></msub></mrow><mo>-</mo><mrow><mo>[</mo><mrow><mrow><mrow><mo>(</mo><mstyle displaystyle="true"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle><mo>)</mo></mrow><mo>⁢</mo><msub><mi>V</mi><mi>a</mi></msub></mrow><mo>+</mo><mrow><mrow><mo>(</mo><mstyle displaystyle="true"><mfrac><mn>1</mn><mn>4</mn></mfrac></mstyle><mo>)</mo></mrow><mo>⁢</mo><msub><mi>V</mi><mi>d</mi></msub></mrow></mrow><mo>]</mo></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx4.Ex40.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx4.Ex40.m3" class="ltx_Math" alttext="\displaystyle\left(\frac{1}{2}\right)V_{a}+\left({3\over 4}\right)V_{d}+V_{e}\quad." display="inline"><mrow><mrow><mrow><mrow><mo>(</mo><mstyle displaystyle="true"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle><mo>)</mo></mrow><mo>⁢</mo><msub><mi>V</mi><mi>a</mi></msub></mrow><mo>+</mo><mrow><mrow><mo>(</mo><mstyle displaystyle="true"><mfrac><mn>3</mn><mn>4</mn></mfrac></mstyle><mo>)</mo></mrow><mo>⁢</mo><msub><mi>V</mi><mi>d</mi></msub></mrow><mo>+</mo><msub><mi>V</mi><mi>e</mi></msub></mrow><mo mathvariant="italic" separator="true"> </mo><mo>.</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+</tbody>
+</table>
+<p class="ltx_p">There remains only <math id="Sx4.SSx2.p2.m9" class="ltx_Math" alttext="\sigma^{2}_{D}" display="inline"><msubsup><mi>σ</mi><mi>D</mi><mn>2</mn></msubsup></math>. Now <math id="Sx4.SSx2.p2.m10" class="ltx_Math" alttext="\sigma^{2}_{W}=V_{p}-Cov_{FS}" display="inline"><mrow><msubsup><mi>σ</mi><mi>W</mi><mn>2</mn></msubsup><mo>=</mo><mrow><msub><mi>V</mi><mi>p</mi></msub><mo>-</mo><mrow><mi>C</mi><mo>⁢</mo><mi>o</mi><mo>⁢</mo><msub><mi>v</mi><mrow><mi>F</mi><mo>⁢</mo><mi>S</mi></mrow></msub></mrow></mrow></mrow></math>,
+<math id="Sx4.SSx2.p2.m11" class="ltx_Math" alttext="\sigma^{2}_{S}=Cov_{HS}" display="inline"><mrow><msubsup><mi>σ</mi><mi>S</mi><mn>2</mn></msubsup><mo>=</mo><mrow><mi>C</mi><mo>⁢</mo><mi>o</mi><mo>⁢</mo><msub><mi>v</mi><mrow><mi>H</mi><mo>⁢</mo><mi>S</mi></mrow></msub></mrow></mrow></math>, and <math id="Sx4.SSx2.p2.m12" class="ltx_Math" alttext="\sigma^{2}_{T}=V_{p}" display="inline"><mrow><msubsup><mi>σ</mi><mi>T</mi><mn>2</mn></msubsup><mo>=</mo><msub><mi>V</mi><mi>p</mi></msub></mrow></math>. Thus,</p>
+<table id="Sx5.EGx8" class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table">
+
+<tbody id="Sx4.Ex45">
+<tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math id="Sx4.Ex41.m1" class="ltx_Math" alttext="\displaystyle\sigma^{2}_{D}" display="inline"><msubsup><mi>σ</mi><mi>D</mi><mn>2</mn></msubsup></math></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx4.Ex41.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx4.Ex41.m3" class="ltx_Math" alttext="\displaystyle\sigma^{2}_{T}-\sigma^{2}_{S}-\sigma^{2}_{W}" display="inline"><mrow><msubsup><mi>σ</mi><mi>T</mi><mn>2</mn></msubsup><mo>-</mo><msubsup><mi>σ</mi><mi>S</mi><mn>2</mn></msubsup><mo>-</mo><msubsup><mi>σ</mi><mi>W</mi><mn>2</mn></msubsup></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx4.Ex42.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx4.Ex42.m3" class="ltx_Math" alttext="\displaystyle V_{p}-\mbox{Cov}_{HS}-(V_{p}-\mbox{Cov}_{FS})" display="inline"><mrow><msub><mi>V</mi><mi>p</mi></msub><mo>-</mo><msub><mtext>Cov</mtext><mrow><mi>H</mi><mo>⁢</mo><mi>S</mi></mrow></msub><mo>-</mo><mrow><mo stretchy="false">(</mo><mrow><msub><mi>V</mi><mi>p</mi></msub><mo>-</mo><msub><mtext>Cov</mtext><mrow><mi>F</mi><mo>⁢</mo><mi>S</mi></mrow></msub></mrow><mo stretchy="false">)</mo></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx4.Ex43.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx4.Ex43.m3" class="ltx_Math" alttext="\displaystyle\mbox{Cov}_{FS}-\mbox{Cov}_{HS}" display="inline"><mrow><msub><mtext>Cov</mtext><mrow><mi>F</mi><mo>⁢</mo><mi>S</mi></mrow></msub><mo>-</mo><msub><mtext>Cov</mtext><mrow><mi>H</mi><mo>⁢</mo><mi>S</mi></mrow></msub></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx4.Ex44.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx4.Ex44.m3" class="ltx_Math" alttext="\displaystyle\left[\left(\frac{1}{2}\right)V_{a}+\left(\frac{1}{4}\right)V_{d}%
+\right]-\left(\frac{1}{4}\right)V_{a}" display="inline"><mrow><mrow><mo>[</mo><mrow><mrow><mrow><mo>(</mo><mstyle displaystyle="true"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle><mo>)</mo></mrow><mo>⁢</mo><msub><mi>V</mi><mi>a</mi></msub></mrow><mo>+</mo><mrow><mrow><mo>(</mo><mstyle displaystyle="true"><mfrac><mn>1</mn><mn>4</mn></mfrac></mstyle><mo>)</mo></mrow><mo>⁢</mo><msub><mi>V</mi><mi>d</mi></msub></mrow></mrow><mo>]</mo></mrow><mo>-</mo><mrow><mrow><mo>(</mo><mstyle displaystyle="true"><mfrac><mn>1</mn><mn>4</mn></mfrac></mstyle><mo>)</mo></mrow><mo>⁢</mo><msub><mi>V</mi><mi>a</mi></msub></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx4.Ex45.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx4.Ex45.m3" class="ltx_Math" alttext="\displaystyle\left(\frac{1}{4}\right)V_{a}+\left(\frac{1}{4}\right)V_{d}\quad." display="inline"><mrow><mrow><mrow><mrow><mo>(</mo><mstyle displaystyle="true"><mfrac><mn>1</mn><mn>4</mn></mfrac></mstyle><mo>)</mo></mrow><mo>⁢</mo><msub><mi>V</mi><mi>a</mi></msub></mrow><mo>+</mo><mrow><mrow><mo>(</mo><mstyle displaystyle="true"><mfrac><mn>1</mn><mn>4</mn></mfrac></mstyle><mo>)</mo></mrow><mo>⁢</mo><msub><mi>V</mi><mi>d</mi></msub></mrow></mrow><mo mathvariant="italic" separator="true"> </mo><mo>.</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+</tbody>
+</table>
+<p class="ltx_p">So if we rearrange these equations, we can express the genetic
+components of the phenotypic variance, the <span class="ltx_text ltx_font_italic">causal</span> components
+of variance, as simple functions of the <span class="ltx_text ltx_font_italic">observational</span> components
+of variance:
+</p>
+<table id="Sx5.EGx9" class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table">
+
+<tbody id="Sx4.Ex46"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math id="Sx4.Ex46.m1" class="ltx_Math" alttext="\displaystyle V_{a}" display="inline"><msub><mi>V</mi><mi>a</mi></msub></math></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx4.Ex46.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx4.Ex46.m3" class="ltx_Math" alttext="\displaystyle 4\sigma^{2}_{S}" display="inline"><mrow><mn>4</mn><mo>⁢</mo><msubsup><mi>σ</mi><mi>S</mi><mn>2</mn></msubsup></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+<tbody id="Sx4.Ex47"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math id="Sx4.Ex47.m1" class="ltx_Math" alttext="\displaystyle V_{d}" display="inline"><msub><mi>V</mi><mi>d</mi></msub></math></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx4.Ex47.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx4.Ex47.m3" class="ltx_Math" alttext="\displaystyle 4(\sigma^{2}_{D}-\sigma^{2}_{S})" display="inline"><mrow><mn>4</mn><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><msubsup><mi>σ</mi><mi>D</mi><mn>2</mn></msubsup><mo>-</mo><msubsup><mi>σ</mi><mi>S</mi><mn>2</mn></msubsup></mrow><mo stretchy="false">)</mo></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+<tbody id="Sx4.Ex48"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math id="Sx4.Ex48.m1" class="ltx_Math" alttext="\displaystyle V_{e}" display="inline"><msub><mi>V</mi><mi>e</mi></msub></math></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx4.Ex48.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx4.Ex48.m3" class="ltx_Math" alttext="\displaystyle\sigma^{2}_{W}-3\sigma^{2}_{D}+\sigma^{2}_{S}\quad." display="inline"><mrow><mrow><mrow><msubsup><mi>σ</mi><mi>W</mi><mn>2</mn></msubsup><mo>-</mo><mrow><mn>3</mn><mo>⁢</mo><msubsup><mi>σ</mi><mi>D</mi><mn>2</mn></msubsup></mrow></mrow><mo>+</mo><msubsup><mi>σ</mi><mi>S</mi><mn>2</mn></msubsup></mrow><mo mathvariant="italic" separator="true"> </mo><mo>.</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+</table>
+<p class="ltx_p">Furthermore, the narrow-sense heritability is given by</p>
+<table id="Sx4.Ex49" class="ltx_equation ltx_eqn_table">
+
+<tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_eqn_cell ltx_align_center"><math id="Sx4.Ex49.m1" class="ltx_Math" alttext="h^{2}_{N}=\frac{4\sigma^{2}_{s}}{\sigma^{2}_{S}+\sigma^{2}_{D}+\sigma^{2}_{W}}\quad." display="block"><mrow><mrow><msubsup><mi>h</mi><mi>N</mi><mn>2</mn></msubsup><mo>=</mo><mfrac><mrow><mn>4</mn><mo>⁢</mo><msubsup><mi>σ</mi><mi>s</mi><mn>2</mn></msubsup></mrow><mrow><msubsup><mi>σ</mi><mi>S</mi><mn>2</mn></msubsup><mo>+</mo><msubsup><mi>σ</mi><mi>D</mi><mn>2</mn></msubsup><mo>+</mo><msubsup><mi>σ</mi><mi>W</mi><mn>2</mn></msubsup></mrow></mfrac></mrow><mo mathvariant="italic" separator="true"> </mo><mo>.</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+</table>
+</div>
+</section>
+<section id="Sx4.SSx3" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection">An example: body weight in female mice</h3>
+
+<div id="Sx4.SSx3.p1" class="ltx_para">
+<p class="ltx_p">The analysis involves 719 offspring from 74 sires and 192 dams, each
+with one litter. The offspring were spread over 4 generations, and
+the analysis is performed as a nested ANOVA with the genetic analysis
+nested <span class="ltx_text ltx_font_italic">within</span> generations. An additional complication is that
+the design was unbalanced, i.e., unequal numbers of progeny were
+measured in each sibship. As a result the degrees of freedom don’t
+work out to be quite as simple as what I showed you.<span id="footnote10" class="ltx_note ltx_role_footnote"><sup class="ltx_note_mark">10</sup><span class="ltx_note_outer"><span class="ltx_note_content"><sup class="ltx_note_mark">10</sup>
+              <span class="ltx_tag ltx_tag_note">10</span>
+              
+              
+              
+            What did
+you expect from real data? This example is extracted from Falconer and
+Mackay, pp. 169–170. See the book for details.</span></span></span> The results are
+summarized in Table <a href="#Sx4.T6" title="Table 6 ‣ An example: body weight in female mice ‣ Estimating heritability ‣ Resemblance among relatives" class="ltx_ref"><span class="ltx_text ltx_ref_tag">6</span></a>.</p>
+</div>
+<figure id="Sx4.T6" class="ltx_table">
+<table class="ltx_tabular ltx_centering ltx_guessed_headers ltx_align_middle">
+<tbody class="ltx_tbody">
+<tr class="ltx_tr">
+<th class="ltx_td ltx_th ltx_th_row ltx_border_r ltx_border_tt"></th>
+<td class="ltx_td ltx_border_tt"></td>
+<td class="ltx_td ltx_border_tt"></td>
+<td class="ltx_td ltx_align_center ltx_border_tt">Composition of</td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_left ltx_th ltx_th_row ltx_border_r">Source</th>
+<td class="ltx_td ltx_align_center">d.f.</td>
+<td class="ltx_td ltx_align_center">Mean square</td>
+<td class="ltx_td ltx_align_center">mean square</td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_left ltx_th ltx_th_row ltx_border_r ltx_border_t">Among sires</th>
+<td class="ltx_td ltx_align_center ltx_border_t">70</td>
+<td class="ltx_td ltx_align_center ltx_border_t">17.10</td>
+<td class="ltx_td ltx_align_center ltx_border_t"><math id="Sx4.T6.m1" class="ltx_Math" alttext="\sigma^{2}_{W}+k^{\prime}\sigma^{2}_{D}+dk^{\prime}\sigma^{2}_{s}" display="inline"><mrow><msubsup><mi>σ</mi><mi>W</mi><mn>2</mn></msubsup><mo>+</mo><mrow><msup><mi>k</mi><mo>′</mo></msup><mo>⁢</mo><msubsup><mi>σ</mi><mi>D</mi><mn>2</mn></msubsup></mrow><mo>+</mo><mrow><mi>d</mi><mo>⁢</mo><msup><mi>k</mi><mo>′</mo></msup><mo>⁢</mo><msubsup><mi>σ</mi><mi>s</mi><mn>2</mn></msubsup></mrow></mrow></math></td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_left ltx_th ltx_th_row ltx_border_r">Among dams</th>
+<td class="ltx_td ltx_align_center">118</td>
+<td class="ltx_td ltx_align_center">10.79</td>
+<td class="ltx_td ltx_align_center"><math id="Sx4.T6.m2" class="ltx_Math" alttext="\sigma^{2}_{W}+k\sigma^{2}_{D}" display="inline"><mrow><msubsup><mi>σ</mi><mi>W</mi><mn>2</mn></msubsup><mo>+</mo><mrow><mi>k</mi><mo>⁢</mo><msubsup><mi>σ</mi><mi>D</mi><mn>2</mn></msubsup></mrow></mrow></math></td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_left ltx_th ltx_th_row ltx_border_r">   (within sires)</th>
+<td class="ltx_td"></td>
+<td class="ltx_td"></td>
+<td class="ltx_td"></td>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_left ltx_th ltx_th_row ltx_border_r">Within progenies</th>
+<td class="ltx_td ltx_align_center">527</td>
+<td class="ltx_td ltx_align_center">2.19</td>
+<td class="ltx_td ltx_align_center"><math id="Sx4.T6.m3" class="ltx_Math" alttext="\sigma^{2}_{W}" display="inline"><msubsup><mi>σ</mi><mi>W</mi><mn>2</mn></msubsup></math></td>
+</tr>
+</tbody>
+<tfoot class="ltx_tfoot">
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_left ltx_th ltx_th_row ltx_border_t" colspan="4"><math id="Sx4.T6.m4" class="ltx_Math" alttext="d=2.33" display="inline"><mrow><mi>d</mi><mo>=</mo><mn>2.33</mn></mrow></math></th>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_left ltx_th ltx_th_row" colspan="4"><math id="Sx4.T6.m5" class="ltx_Math" alttext="k=3.48" display="inline"><mrow><mi>k</mi><mo>=</mo><mn>3.48</mn></mrow></math></th>
+</tr>
+<tr class="ltx_tr">
+<th class="ltx_td ltx_align_left ltx_th ltx_th_row" colspan="4"><math id="Sx4.T6.m6" class="ltx_Math" alttext="k^{\prime}=4.16" display="inline"><mrow><msup><mi>k</mi><mo>′</mo></msup><mo>=</mo><mn>4.16</mn></mrow></math></th>
+</tr>
+</tfoot>
+</table>
+<figcaption class="ltx_caption"><span class="ltx_tag ltx_tag_table">Table 6: </span>Quantitative genetic analysis of the inheritance of body
+weight in female mice (from Falconer and Mackay,
+pp. 169–170.)</figcaption>
+</figure>
+<div id="Sx4.SSx3.p2" class="ltx_para">
+<p class="ltx_p">Using the expressions for the composition of the mean square we
+obtain</p>
+<table id="Sx5.EGx10" class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table">
+
+<tbody id="Sx4.Ex51">
+<tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math id="Sx4.Ex50.m1" class="ltx_Math" alttext="\displaystyle\sigma^{2}_{W}" display="inline"><msubsup><mi>σ</mi><mi>W</mi><mn>2</mn></msubsup></math></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx4.Ex50.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx4.Ex50.m3" class="ltx_Math" alttext="\displaystyle MS_{W}" display="inline"><mrow><mi>M</mi><mo>⁢</mo><msub><mi>S</mi><mi>W</mi></msub></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx4.Ex51.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx4.Ex51.m3" class="ltx_Math" alttext="\displaystyle 2.19" display="inline"><mn>2.19</mn></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+</tbody>
+<tbody id="Sx4.Ex53">
+<tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math id="Sx4.Ex52.m1" class="ltx_Math" alttext="\displaystyle\sigma^{2}_{D}" display="inline"><msubsup><mi>σ</mi><mi>D</mi><mn>2</mn></msubsup></math></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx4.Ex52.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx4.Ex52.m3" class="ltx_Math" alttext="\displaystyle\left({1\over k}\right)(MS_{D}-\sigma^{2}_{W})" display="inline"><mrow><mrow><mo>(</mo><mstyle displaystyle="true"><mfrac><mn>1</mn><mi>k</mi></mfrac></mstyle><mo>)</mo></mrow><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><mrow><mi>M</mi><mo>⁢</mo><msub><mi>S</mi><mi>D</mi></msub></mrow><mo>-</mo><msubsup><mi>σ</mi><mi>W</mi><mn>2</mn></msubsup></mrow><mo stretchy="false">)</mo></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx4.Ex53.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx4.Ex53.m3" class="ltx_Math" alttext="\displaystyle 2.47" display="inline"><mn>2.47</mn></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+</tbody>
+<tbody id="Sx4.Ex55">
+<tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math id="Sx4.Ex54.m1" class="ltx_Math" alttext="\displaystyle\sigma^{2}_{S}" display="inline"><msubsup><mi>σ</mi><mi>S</mi><mn>2</mn></msubsup></math></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx4.Ex54.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx4.Ex54.m3" class="ltx_Math" alttext="\displaystyle\left({1\over dk^{\prime}}\right)(MS_{S}-\sigma^{2}_{W}-k^{\prime%
+}\sigma^{2}_{D})" display="inline"><mrow><mrow><mo>(</mo><mstyle displaystyle="true"><mfrac><mn>1</mn><mrow><mi>d</mi><mo>⁢</mo><msup><mi>k</mi><mo>′</mo></msup></mrow></mfrac></mstyle><mo>)</mo></mrow><mo>⁢</mo><mrow><mo stretchy="false">(</mo><mrow><mrow><mi>M</mi><mo>⁢</mo><msub><mi>S</mi><mi>S</mi></msub></mrow><mo>-</mo><msubsup><mi>σ</mi><mi>W</mi><mn>2</mn></msubsup><mo>-</mo><mrow><msup><mi>k</mi><mo>′</mo></msup><mo>⁢</mo><msubsup><mi>σ</mi><mi>D</mi><mn>2</mn></msubsup></mrow></mrow><mo stretchy="false">)</mo></mrow></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx4.Ex55.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx4.Ex55.m3" class="ltx_Math" alttext="\displaystyle 0.48\quad." display="inline"><mrow><mn>0.48</mn><mo mathvariant="italic" separator="true"> </mo><mo>.</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+</tbody>
+</table>
+<p class="ltx_p">Thus,</p>
+<table id="Sx5.EGx11" class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table">
+
+<tbody id="Sx4.Ex56"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math id="Sx4.Ex56.m1" class="ltx_Math" alttext="\displaystyle V_{p}" display="inline"><msub><mi>V</mi><mi>p</mi></msub></math></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx4.Ex56.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx4.Ex56.m3" class="ltx_Math" alttext="\displaystyle 5.14" display="inline"><mn>5.14</mn></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+<tbody id="Sx4.Ex57"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math id="Sx4.Ex57.m1" class="ltx_Math" alttext="\displaystyle V_{a}" display="inline"><msub><mi>V</mi><mi>a</mi></msub></math></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx4.Ex57.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx4.Ex57.m3" class="ltx_Math" alttext="\displaystyle 1.92" display="inline"><mn>1.92</mn></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+<tbody id="Sx4.Ex58"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math id="Sx4.Ex58.m1" class="ltx_Math" alttext="\displaystyle V_{d}+V_{e}" display="inline"><mrow><msub><mi>V</mi><mi>d</mi></msub><mo>+</mo><msub><mi>V</mi><mi>e</mi></msub></mrow></math></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx4.Ex58.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx4.Ex58.m3" class="ltx_Math" alttext="\displaystyle 3.22" display="inline"><mn>3.22</mn></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+<tbody id="Sx4.Ex59"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math id="Sx4.Ex59.m1" class="ltx_Math" alttext="\displaystyle V_{d}" display="inline"><msub><mi>V</mi><mi>d</mi></msub></math></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx4.Ex59.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx4.Ex59.m3" class="ltx_Math" alttext="\displaystyle(0.00\hbox{---}1.64)" display="inline"><mrow><mo stretchy="false">(</mo><mrow><mn>0.00</mn><mo>⁢</mo><mtext>—</mtext><mo>⁢</mo><mn>1.64</mn></mrow><mo stretchy="false">)</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+<tbody id="Sx4.Ex60"><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math id="Sx4.Ex60.m1" class="ltx_Math" alttext="\displaystyle V_{e}" display="inline"><msub><mi>V</mi><mi>e</mi></msub></math></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx4.Ex60.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx4.Ex60.m3" class="ltx_Math" alttext="\displaystyle(1.58\hbox{---}3.22)" display="inline"><mrow><mo stretchy="false">(</mo><mrow><mn>1.58</mn><mo>⁢</mo><mtext>—</mtext><mo>⁢</mo><mn>3.22</mn></mrow><mo stretchy="false">)</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr></tbody>
+</table>
+</div>
+<div id="Sx4.SSx3.p3" class="ltx_para">
+<p class="ltx_p">Why didn’t I give a definite number for <math id="Sx4.SSx3.p3.m1" class="ltx_Math" alttext="V_{d}" display="inline"><msub><mi>V</mi><mi>d</mi></msub></math> after my big spiel above
+about how we can estimate it from a full-sib crossing design? Two
+reasons. First, if you plug the estimates for <math id="Sx4.SSx3.p3.m2" class="ltx_Math" alttext="\sigma^{2}_{D}" display="inline"><msubsup><mi>σ</mi><mi>D</mi><mn>2</mn></msubsup></math> and
+<math id="Sx4.SSx3.p3.m3" class="ltx_Math" alttext="\sigma^{2}_{S}" display="inline"><msubsup><mi>σ</mi><mi>S</mi><mn>2</mn></msubsup></math> into the formula above for <math id="Sx4.SSx3.p3.m4" class="ltx_Math" alttext="V_{d}" display="inline"><msub><mi>V</mi><mi>d</mi></msub></math> you get <math id="Sx4.SSx3.p3.m5" class="ltx_Math" alttext="V_{d}=7.96,V_{e}=-4.74" display="inline"><mrow><mrow><msub><mi>V</mi><mi>d</mi></msub><mo>=</mo><mn>7.96</mn></mrow><mo>,</mo><mrow><msub><mi>V</mi><mi>e</mi></msub><mo>=</mo><mrow><mo>-</mo><mn>4.74</mn></mrow></mrow></mrow></math>, which is clearly impossible since <math id="Sx4.SSx3.p3.m6" class="ltx_Math" alttext="V_{d}" display="inline"><msub><mi>V</mi><mi>d</mi></msub></math> has to be less than
+<math id="Sx4.SSx3.p3.m7" class="ltx_Math" alttext="V_{p}" display="inline"><msub><mi>V</mi><mi>p</mi></msub></math> and <math id="Sx4.SSx3.p3.m8" class="ltx_Math" alttext="V_{e}" display="inline"><msub><mi>V</mi><mi>e</mi></msub></math> has to be greater than zero. It’s a variance. Second,
+the experimental design confounds two sources of resemblance among
+full siblings: (1) genetic covariance and (2) environmental
+covariance. The full-sib families were all raised by the same mother
+in the same pen. Hence, we don’t know to what extent their resemblance
+is due to a common natal environment.<span id="footnote11" class="ltx_note ltx_role_footnote"><sup class="ltx_note_mark">11</sup><span class="ltx_note_outer"><span class="ltx_note_content"><sup class="ltx_note_mark">11</sup>
+              <span class="ltx_tag ltx_tag_note">11</span>
+              
+              
+              
+            Notice that this
+doesn’t affect our analysis of half-sib families, i.e., the progeny
+of different sires, since each father was bred with several females</span></span></span>
+If we assume <math id="Sx4.SSx3.p3.m9" class="ltx_Math" alttext="V_{d}=0" display="inline"><mrow><msub><mi>V</mi><mi>d</mi></msub><mo>=</mo><mn>0</mn></mrow></math>, we can estimate the amount of variance
+accounted for by exposure to a common natal environment, <math id="Sx4.SSx3.p3.m10" class="ltx_Math" alttext="V_{Ec}=1.99" display="inline"><mrow><msub><mi>V</mi><mrow><mi>E</mi><mo>⁢</mo><mi>c</mi></mrow></msub><mo>=</mo><mn>1.99</mn></mrow></math>, and by environmental variation within sibships, <math id="Sx4.SSx3.p3.m11" class="ltx_Math" alttext="V_{Ew}=1.23" display="inline"><mrow><msub><mi>V</mi><mrow><mi>E</mi><mo>⁢</mo><mi>w</mi></mrow></msub><mo>=</mo><mn>1.23</mn></mrow></math>.<span id="footnote12" class="ltx_note ltx_role_footnote"><sup class="ltx_note_mark">12</sup><span class="ltx_note_outer"><span class="ltx_note_content"><sup class="ltx_note_mark">12</sup>
+              <span class="ltx_tag ltx_tag_note">12</span>
+              
+              
+              
+            See Falconer for details.</span></span></span> Similarly, if we assume
+<math id="Sx4.SSx3.p3.m12" class="ltx_Math" alttext="V_{Ew}=0" display="inline"><mrow><msub><mi>V</mi><mrow><mi>E</mi><mo>⁢</mo><mi>w</mi></mrow></msub><mo>=</mo><mn>0</mn></mrow></math>, then <math id="Sx4.SSx3.p3.m13" class="ltx_Math" alttext="V_{d}=1.64" display="inline"><mrow><msub><mi>V</mi><mi>d</mi></msub><mo>=</mo><mn>1.64</mn></mrow></math> and <math id="Sx4.SSx3.p3.m14" class="ltx_Math" alttext="V_{Ec}=1.58" display="inline"><mrow><msub><mi>V</mi><mrow><mi>E</mi><mo>⁢</mo><mi>c</mi></mrow></msub><mo>=</mo><mn>1.58</mn></mrow></math>. In any case, we
+can estimate the narrow sense heritability as</p>
+<table id="Sx5.EGx12" class="ltx_equationgroup ltx_eqn_eqnarray ltx_eqn_table">
+
+<tbody id="Sx4.Ex63">
+<tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"><math id="Sx4.Ex62.m1" class="ltx_Math" alttext="\displaystyle h^{2}_{N}" display="inline"><msubsup><mi>h</mi><mi>N</mi><mn>2</mn></msubsup></math></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx4.Ex62.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx4.Ex62.m3" class="ltx_Math" alttext="\displaystyle\left({1.92\over 5.14}\right)" display="inline"><mrow><mo>(</mo><mstyle displaystyle="true"><mfrac><mn>1.92</mn><mn>5.14</mn></mfrac></mstyle><mo>)</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+<tr class="ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_td ltx_align_right ltx_eqn_cell"></td>
+<td class="ltx_td ltx_align_center ltx_eqn_cell"><math id="Sx4.Ex63.m2" class="ltx_Math" alttext="\displaystyle=" display="inline"><mo>=</mo></math></td>
+<td class="ltx_td ltx_align_left ltx_eqn_cell"><math id="Sx4.Ex63.m3" class="ltx_Math" alttext="\displaystyle 0.37\quad." display="inline"><mrow><mn>0.37</mn><mo mathvariant="italic" separator="true"> </mo><mo>.</mo></mrow></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="Sx5" class="ltx_section">
+<h2 class="ltx_title ltx_align_left ltx_title_section">Creative Commons License</h2>
+
+<div id="Sx5.p1" class="ltx_para ltx_align_left">
+<p class="ltx_p">These notes are licensed under the Creative Commons
+Attribution License. To view a copy of this license, visit
+<a href="https://creativecommons.org/licenses/by/4.0/" title="" class="ltx_ref ltx_href">https://creativecommons.org/licenses/by/4.0/</a> or send a
+letter to Creative Commons, 559 Nathan Abbott Way, Stanford,
+California 94305, USA.</p>
+</div>
+</section>
+</article>
+</div>
+<footer class="ltx_page_footer">
+<div class="ltx_page_logo">Generated  on Tue Jul 28 15:55:32 2020 by <a href="http://dlmf.nist.gov/LaTeXML/">LaTeXML <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAOCAYAAAD5YeaVAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9wKExQZLWTEaOUAAAAddEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIFRoZSBHSU1Q72QlbgAAAdpJREFUKM9tkL+L2nAARz9fPZNCKFapUn8kyI0e4iRHSR1Kb8ng0lJw6FYHFwv2LwhOpcWxTjeUunYqOmqd6hEoRDhtDWdA8ApRYsSUCDHNt5ul13vz4w0vWCgUnnEc975arX6ORqN3VqtVZbfbTQC4uEHANM3jSqXymFI6yWazP2KxWAXAL9zCUa1Wy2tXVxheKA9YNoR8Pt+aTqe4FVVVvz05O6MBhqUIBGk8Hn8HAOVy+T+XLJfLS4ZhTiRJgqIoVBRFIoric47jPnmeB1mW/9rr9ZpSSn3Lsmir1fJZlqWlUonKsvwWwD8ymc/nXwVBeLjf7xEKhdBut9Hr9WgmkyGEkJwsy5eHG5vN5g0AKIoCAEgkEkin0wQAfN9/cXPdheu6P33fBwB4ngcAcByHJpPJl+fn54mD3Gg0NrquXxeLRQAAwzAYj8cwTZPwPH9/sVg8PXweDAauqqr2cDjEer1GJBLBZDJBs9mE4zjwfZ85lAGg2+06hmGgXq+j3+/DsixYlgVN03a9Xu8jgCNCyIegIAgx13Vfd7vdu+FweG8YRkjXdWy329+dTgeSJD3ieZ7RNO0VAXAPwDEAO5VKndi2fWrb9jWl9Esul6PZbDY9Go1OZ7PZ9z/lyuD3OozU2wAAAABJRU5ErkJggg==" alt="[LOGO]"></a>
+</div></footer>
+</div>
+</body>
+</html>

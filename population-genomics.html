@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Population genomics</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Population genomics</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#a-quick-overview-of-ngs-methods">A quick overview of NGS methods</a>
+<ul>
+<li><a href="#rad-sequencing">RAD sequencing</a></li>
+<li><a href="#genotyping-by-sequencing">Genotyping-by-sequencing</a></li>
+</ul></li>
+<li><a href="#next-generation-phylogeography">Next-generation phylogeography</a></li>
+<li><a href="#estimates-of-nucleotide-diversity">Estimates of nucleotide diversity</a></li>
+<li><a href="#next-generation-amova">Next-generation AMOVA</a>
+<ul>
+<li><a href="#bamova-example">BAMOVA example</a></li>
+</ul></li>
+<li><a href="#estimating-population-structure">Estimating population structure</a></li>
+<li><a href="#genetic-structure-of-human-populations-in-great-britain">Genetic structure of human populations in Great Britain</a>
+<ul>
+<li><a href="#data">Data</a></li>
+<li><a href="#results">Results</a></li>
+</ul></li>
+<li><a href="#creative-commons-license">Creative Commons License</a></li>
+</ul>
+</nav>
+<h1 class="unnumbered" id="introduction">Introduction</h1>
+<p>In the past decade, the development of high-throughput methods for genomic sequencing (next-generation sequencing: NGS) have revolutionized how many geneticists collect data. It is now possible to produce so much data so rapidly that simply storing and processing the data poses great challenges <span class="citation" data-cites="Nekrutenko-Taylor-2012"></span>. The Nekrutenko and Taylor review <span class="citation" data-cites="Nekrutenko-Taylor-2012"></span> doesn’t even discuss the new challenges that face population geneticists and evolutionary biologists as they start to take advantage of those tools, nor did it discuss the promise these data hold for providing new insight into long-standing questions, but the challenges and the promise are at least as great as those they do describe.</p>
+<p>To some extent the most important opportunity provided by NGS sequencing is simply that we now have a lot more data to answer the same questions. For example, using a technique like RAD sequencing <span class="citation" data-cites="Baird-etal-2008"></span> or genotyping-by-sequencing (GBS: <span class="citation" data-cites="Elshire-etal-2011"></span>), it is now possible to identify thousands of polymorphic SNP markers in non-model organisms, even if you don’t have a reference genome available. As we’ve seen several times this semester, the variance associated with drift is enormous. Many SNPs identified through RAD-Seq or GBS are likely to be independently inherited. Thus, the amount and pattern of variation at each locus will represent an independent sample from the underlying evolutionary process. As a result, we should be able to get much better estimates of fundamental parameters like <span class="math inline">\(\theta=4N_e\mu\)</span>, <span class="math inline">\(M=4N_em\)</span>, and <span class="math inline">\(R=4N_er\)</span> and to have much greater power to discriminate among different evolutionary scenarios. Willing et al. <span class="citation" data-cites="Willing-etal-2012"></span>, for example, present simulations suggesting that accurate estimates of <span class="math inline">\(F_{ST}\)</span> are possible with sample sizes as small as 4–6 individuals per population, so long as the number of markers used for inference is greater than 1000.</p>
+<h1 class="unnumbered" id="a-quick-overview-of-ngs-methods">A quick overview of NGS methods</h1>
+<p>I won’t review the chemistry used for next-generation sequencing. It changes very rapidly, and I can’t keep up with it. Suffice it to say that 454 Life Sciences, Illumina, PacBio, and probably other companies I don’t know about each have different approaches to very high throughput DNA sequencing. What they all have in common is that the whole genome is broken into small fragments and sequnced and that a single run through the machine produces an enormous amount of data, 134-6000 Gb and up to 20 billion readsfrom a NovaSeq 600 for example (<a href="https://www.illumina.com/systems/sequencing-platforms/comparison-tool.html">https://www.illumina.com/systems/sequencing-platforms/comparison-tool.html</a>; accessed 30 December 2018).<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<h2 class="unnumbered" id="rad-sequencing">RAD sequencing</h2>
+<p>Baird et al. <span class="citation" data-cites="Baird-etal-2008"></span> introduced RAD almost 10 years ago. One of its great attraction for evolutionary geneticists is that RAD-seq can be used in any organism from which you can extract DNA and the laboratory manipulations are relatively straightforward.</p>
+<ul>
+<li><p>Digest genomic DNA from each individual with a restriction enzyme, and ligate an adapter to the resulting fragments. The adapter includes a forward amplification primer, a sequencing primer and a “barcode” used to identify the individual from which the DNA was extracted.</p></li>
+<li><p>Pool the individually barcoded samples (“normalizing” the mixture so that roughly equal amounts of DNA from each individual are present) shear them and select those of a size appropriate for the sequencing platform you are using.</p></li>
+<li><p>Ligate a second adapter to the sample, where the second adapter is the reverse complement of the reverse amplification primer.</p></li>
+<li><p>PCR amplification will enrich only DNA fragments having both the forward and reverse amplification primer.</p></li>
+</ul>
+<p>The resulting library consists of sequences within a relatively small distance from restriction sites.</p>
+<h2 class="unnumbered" id="genotyping-by-sequencing">Genotyping-by-sequencing</h2>
+<p>Genotyping-by-sequencing (GBS) is a similar approach.</p>
+<ul>
+<li><p>Digest genomic DNA with a restriction enzyme and ligate two adapters to the genomic fragments. One adapter contains a barcode and the other does not.</p></li>
+<li><p>Pool the samples.</p></li>
+<li><p>PCR amplify and sequence. Not all ligated fragments will be sequenced because some will contain only one adapter and some fragments will be too long for the NGS platform.</p></li>
+</ul>
+<p>Once an investigator has her sequenced fragments back, she can either map the fragments back to a reference genome or she can assemble the fragments into orthologous sequences <span><em>de novo</em></span>. I’m not going to discuss either of those processes, but you can imagine that there’s a lot of bioinformatic processing going on. What I want to focus on is what you do with the data and how you interpret it.</p>
+<h1 class="unnumbered" id="next-generation-phylogeography">Next-generation phylogeography</h1>
+<p>The American pitcher plant mosquito <span><em>Wyeomyia smithii</em></span> has been extensively studied for many years. It’s a model organism for ecology, but its genome has not been sequenced. An analysis of <span><em>COI</em></span> from 20 populatins and two outgroups produced the set of relationships you see in Figure <a href="#fig:wyeomyia-COI" data-reference-type="ref" data-reference="fig:wyeomyia-COI">1</a> <span class="citation" data-cites="Emerson-etal-2010"></span>. As you can see, this analysis allows us to distinguish a northern group of populations from a southern group of populations, but it doesn’t provide us any reliable insight into finer scale relationships.</p>
+<figure>
+<img src="wyeomyia-COI.png" id="fig:wyeomyia-COI" style="width:90.0%" alt="" /><figcaption>Maximum-likelihood phylogenetic tree depicting relationshps among populations of <span><em>W. smithii</em></span> relative to the outgroups <span><em>W. vanduzeei</em></span> and <span><em>W. mitchelli</em></span> (from <span class="citation" data-cites="Emerson-etal-2010"></span>).</figcaption>
+</figure>
+<p>Using the same set of samples, the authors used RAD sequencing to identify 3741 SNPs. That’s more than 20 times the number of variable sites found in <span><em>COI</em></span>, 167. Not surprisingly, the large number of additional sites allowed the authors to produce a much more highly resolved phylogeny (Figure <a href="#fig:wyeomyia-RAD" data-reference-type="ref" data-reference="fig:wyeomyia-RAD">2</a>). With this phylogeny it’s easy to see that southern populations are divided into two distinct groups, those from North Carolina and those from the Gulf Coast. Similarly, the northern group of populations is subdivided into those from the Appalachians in North Carolina, those from the mid-Atlantic coast, and those from further north. The glacial history of North America means that both the mid-Atlantic populations and the populations farther north must have been derived from one or more southern populations after the height of the last glaciation. Given the phylogenetic relationships recovered here, it seems clear that they are most closely related to populations in the Appalachians of North Carolina.</p>
+<figure>
+<img src="wyeomyia-RAD.png" id="fig:wyeomyia-RAD" style="width:90.0%" alt="" /><figcaption>A. Geographical distribution of samples included in the analysis. B. Phylogenetic relationship of samples included in the analysis.</figcaption>
+</figure>
+<p>That’s the promise of NGS for population genetics. What are the challenges? Funny you should ask.</p>
+<h1 class="unnumbered" id="estimates-of-nucleotide-diversity">Estimates of nucleotide diversity<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></h1>
+<p>Beyond the simple challenge of dealing with all of the short DNA fragments that emerge from high-throughput sequencing, there are at least two challenges that don’t arise with data obtained in more traditional ways.</p>
+<ol>
+<li><p>Most studies involve “shotgun” sequencing of entire genomes. In large diploid genomes, this leads to variable coverage. At sites where coverage is low, there’s a good chance that all of the reads will be derived from only one of the two chromosomes present, and a heterozygous individual will be scored as homozygous. “Well,” you might say, “let’s just throw away all of the sites that don’t have at least 8<span class="math inline">\(\times\)</span> coverage.”<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> That would work, but you would also be throwing out a lot of potentially valuable information.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> It seems better to develop an approach that lets us use <span><em>all</em></span> of the data we collect.</p></li>
+<li><p>Sequencing errors are more common with high-throughput methods than with traditional methods, and since so much data is produced, it’s not feasible to go back and resequence apparent polymorphisms to see if they reflect sequencing error rather than real differences. Quality scores can be used, but they only reflect the quality of the reads from the sequencing reaction, not errors that might be introduced during sample preparation. Again, we might focus on high-coverage sites and ignore “polymorphisms” associated with single reads, but we’d be throwing away a lot of information.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p></li>
+</ol>
+<p>A better approach than setting arbitrary thresholds and throwing away data is to develop an explicit model of how errors can arise during sequencing and to use that model to interpret the data we’ve collected. That’s precisely the approach that Lynch <span class="citation" data-cites="Lynch-2008"></span> adopts. Here’s how it works assuming that we have a sample from a single, diploid individual:</p>
+<ul>
+<li><p>Any particular site will have a sequence profile, <span class="math inline">\((n_1, n_2,
+  n_3, n_4)\)</span>, corresponding to the number of times an A, C, G, or T was observed. <span class="math inline">\(n=n_1+n_2+n_3+n_4\)</span> is the depth of coverage for that site.</p></li>
+<li><p>Let <span class="math inline">\(\epsilon\)</span> be the probability of a sequencing error at any site, and assume that all errors are equiprobable, e.g., there’s no tendency for an A to be miscalled as a C rather than a T when it’s miscalled.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></p></li>
+<li><p>If the site in question were homozygous A, the probability of getting our observed sequence profile is: <span class="math display">\[P(n_1,n_2,n_3,n_4|\mbox{homozygous A},\epsilon)
+=
+{n \choose n_1}(1-\epsilon)^{n_1}\epsilon^{n-n_1} \quad .\]</span> A similar relationship holds if the site were homozygous C, G, or T. Thus, we can calculate the probability of our data if it were homozygous as<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> <span class="math display">\[P(n_1,n_2,n_3,n_4|\mbox{homozygous},\epsilon)
+=
+\sum_{i=1}^4 \left(\frac{p_i^2}{\sum_{j=1}^4p_j^2}\right) 
+{n \choose n_i}(1-\epsilon)^{n_i}\epsilon^{n-n_i}
+\quad .\]</span></p></li>
+<li><p>If the site in question were heterozygous, the probability of getting our observed sequence profile is a bit more complicated. Let <span class="math inline">\(k_1\)</span> be the number of reads from the first chromosome and <span class="math inline">\(k_2\)</span> be the number of reads from the second chromosome (<span class="math inline">\(n=k_1+k_2\)</span>). Then <span class="math display">\[\begin{aligned}
+P(k_1,k_2)
+&amp;=&amp;
+{n \choose k_1}\left(\frac{1}{2}\right)^{k_1}
+               \left(\frac{1}{2}\right)^{k_2}
+\\
+&amp;=&amp;
+{n \choose k_1}\left(\frac{1}{2}\right)^n \quad .\end{aligned}\]</span> Now consider the ordered genotype <span class="math inline">\(x_ix_j\)</span>, where <span class="math inline">\(x_i\)</span> refers to the nucleotide on the first chromosome and <span class="math inline">\(x_j\)</span> refers to the nucleotide on the second chromosome. The probability of getting our observed sequence profile from this genotype given that we have <span class="math inline">\(k_1\)</span> reads from the first chromosome and <span class="math inline">\(k_2\)</span> reads from the second is: <span> <span class="math display">\[\begin{aligned}
+P(n_1,n_2,n_3,n_4|x_i,x_j,k_1,k_2)
+&amp;=&amp;
+\sum_{l=1}^4\sum_{m=0}^{k_1}{k_1 \choose m}(1-\delta_{il})^m\delta_{il}^{k_1-m}
+{k_2 \choose n_i-m}(1-\delta_{jl})^{n_1-m}\delta_{jl}^{k_2-(n_1-m)}
+\quad ,\end{aligned}\]</span> </span> where <span class="math display">\[\delta_{il} = \left\{\begin{array}{ll}
+1-\epsilon &amp; \mbox{if } i = l \\
+\epsilon &amp; \mbox{if } i \ne l \quad .
+\end{array}
+\right.\]</span> We can use Bayes’ Theorem<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> to get <span class="math display">\[P(n_1,n_2,n_3,n_4|x_i,x_j,\epsilon) =
+P(n_1,n_2,n_3,n_4|x_i,x_j,k_1,k_2,\epsilon)P(k_1,k_2) \quad ,\]</span> and with that in hand we can get <span class="math display">\[P(n_1,n_2,n_3,n_4|\mbox{heterozygous},\epsilon)
+=
+\sum_{i=1}^4\sum_{j\ne i}
+\left(\frac{x_ix_j}{1-{\sum_{l=1}^4p_l^2}}\right) P(n_1,n_2,n_3,n_4|x_i,x_j,\epsilon)\]</span></p></li>
+<li><p>Let <span class="math inline">\(\pi\)</span> be the probability that any site is heterozygous. Then the probability of getting our data is: <span> <span class="math display">\[P(n_1,n_2,n_3,n_4|\pi,\epsilon)
+=
+\pi P(n_1,n_2,n_3,n_4|\mbox{heterozygous},\epsilon)
++
+(1-\pi)P(n_1,n_2,n_3,n_4|\mbox{homozygous},\epsilon) \quad .\]</span> </span></p></li>
+<li><p>What we’ve just calculated is the probability of the configuration we observed at a particular site. The probability of our data is just the product of this probability across all of the sites in our sample: <span class="math display">\[P(\mbox{data}|\pi,\epsilon) = \prod_{s=1}^S
+P(n_1^{(s)},n_2^{(s)},n_3^{(s)},n_4^{(s)}|\pi,\epsilon) \quad ,\]</span> where the superscript <span class="math inline">\((s)\)</span> is used to index each site in the data.</p></li>
+<li><p>What we now have is the likelihood of the data in terms of <span class="math inline">\(\epsilon\)</span>, which isn’t very interesting since it’s just the average sequencing error rate in our sample, and <span class="math inline">\(\pi\)</span>, which is interesting, because it’s the genome-wide nucleotide diversity. Now we “simply” maximize that likelihood, and we have maximum-likelihood estimates of both parameters. Alternatively, we could supply priors for <span class="math inline">\(\epsilon\)</span> and <span class="math inline">\(\pi\)</span> and use MCMC to get Bayesian estimates of <span class="math inline">\(\epsilon\)</span> and <span class="math inline">\(\pi\)</span>.</p></li>
+</ul>
+<p>Notice that this genome-wide estimate of nucleotide diversity is obtained from a sample derived from a single diploid individual. Lynch <span class="citation" data-cites="Lynch-2008"></span> develops similar methods for estimating gametic disequilibrium as a function of genetic distance for a sample from a single diploid individual. He also extends that method to samples from a pair of individuals, and he describes how to estimate mutation rates by comparing sequences derived from individuals in mutation accumulation lines with consensus sequences.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a></p>
+<p>Haubold et al. <span class="citation" data-cites="Haubold-etal-2010"></span> describe a program implementing these methods. Recall that under the infinite sites model of mutation <span class="math inline">\(\pi = 4N_e\mu\)</span>. They analyzed data sets from the sea squirt <span><em>Ciona intestinalis</em></span> and the water flea <span><em>Daphnia pulex</em></span> (Table <a href="#table:NGS-results" data-reference-type="ref" data-reference="table:NGS-results">1</a>). Notice that the sequencing error rate in <span><em>D. pulex</em></span> is indistinguishable from the nucleotide diversity.</p>
+<div id="table:NGS-results">
+<table>
+<caption>Estimates of nucleotide diversity and sequencing error rate in <span><em>Cionia intestinalis</em></span> and <span><em>Daphnia pulex</em></span> (results from <span class="citation" data-cites="Haubold-etal-2010"></span>).</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Taxon</th>
+<th style="text-align: center;"><span class="math inline">\(4N_e\mu\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(4N_e\mu\)</span> (low coverage)</th>
+<th style="text-align: center;"><span class="math inline">\(\epsilon\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span><em>Cionia intestinalis</em></span></td>
+<td style="text-align: center;">0.0111</td>
+<td style="text-align: center;">0.012</td>
+<td style="text-align: center;">0.00113</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span><em>Daphnia pulex</em></span></td>
+<td style="text-align: center;">0.0011</td>
+<td style="text-align: center;">0.0012</td>
+<td style="text-align: center;">0.00121</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 class="unnumbered" id="next-generation-amova">Next-generation AMOVA<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a></h1>
+<p>What we’ve discussed so far gets us estimates of some population parameters (<span class="math inline">\(4N_e\mu\)</span>, <span class="math inline">\(4N_er\)</span>), but they’re derived from the sequences in a single diploid individual. That’s not much of a population sample, and it certainly doesn’t tell us anything about how different populations are from one another. Gompert and Buerkle <span class="citation" data-cites="Gompert-Buerkle-2011"></span> describe an approach to estimate statistics very similar to <span class="math inline">\(\Phi_{ST}\)</span> from AMOVA. Since they take a Bayesian approach to developing their estimates, they refer to approach as BAMOVA, Bayesian models for analysis of molecular variance. They propose several related models.</p>
+<ul>
+<li><p><span><strong>NGS-individual model</strong></span>: This model assumes that sequencing errors are negligible.<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a> Under this model, the only trick is that we may or may not pick up both sequences from a heterozygote. The probability of not seeing both sequences in a heterozygote is related to the depth of coverage.</p></li>
+<li><p><span><strong>NGS-population model</strong></span>: In some NGS experiments, investigators pool all of the samples from a population into a single sample. Again, Gompert and Buerkle assume that sequencing errors are negligible. Here we assume that the number of reads for one of two alleles at a particular SNP site in a sample is related to the underlying allele frequency at that site. Roughly speaking, the likelihood of the data at that site is then <span class="math display">\[P(x_i|p_i,n_i, k_i) = {n_i \choose k_i}p_i^{k_i}(1-p_{i})^{n-k_i}
+\quad ,\]</span> where <span class="math inline">\(p_i\)</span> is the allele frequency at this site, <span class="math inline">\(n_i\)</span> is the sample size, and <span class="math inline">\(k_i\)</span> is the count of one of the alleles in the sample. The likelihood of the data is just the product across the site-specific likelihoods.<a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a></p></li>
+</ul>
+<p>Then, as we did way back when we used a Bayesian appraach to estimate <span class="math inline">\(F_{ST}\)</span> <span class="citation" data-cites="Holsinger-Wallace-2004"></span>, we put a prior on the <span class="math inline">\(p_i\)</span> and the parameters of this prior are defined in terms of <span class="math inline">\(\Phi_{ST}\)</span> (among other things).<a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a> They also propose a method for detecting SNP loci<a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a> that have unusually large or small values of <span class="math inline">\(\Phi_{ST}\)</span>.</p>
+<h2 class="unnumbered" id="bamova-example">BAMOVA example</h2>
+<p>Gompert and Buerkle <span class="citation" data-cites="Gompert-Buerkle-2011"></span> used data derived from two different human population data sets:</p>
+<ul>
+<li><p>316 fully sequenced genes in an African population and a population with European ancestry. With these data, they didn’t have to worry about the sequencing errors that their model neglects and they could simulate pooled samples allowing them to compare estimates derived from pooled versus individual-level data.</p></li>
+<li><p>12,649 haplotype regions and 11,866 genes derived from 597 individuals across 33 widely distributed human populations.</p></li>
+</ul>
+<p>In analysis of the first data set, they estimated <span class="math inline">\(\Phi_{ST}=0.08\)</span>. Three loci were identified as having unusually high values of <span class="math inline">\(\Phi_{ST}\)</span>.</p>
+<ul>
+<li><p><span><strong>HSD11B2</strong></span>: <span class="math inline">\(\Phi_{ST}=0.32 (0.16,0.48)\)</span>. Variants at this locus are associated with an inherited form of high blood pressure and renal disease. A microsatellite in an intron of this locus is weakly associated with type 1 diabetes.</p></li>
+<li><p><span><strong>FOXA2</strong></span>: <span class="math inline">\(\Phi_{ST}=0.32 (0.12,0.51)\)</span>. This gene is involved in reguation of insulin sensitivity.</p></li>
+<li><p><span><strong>POLG2</strong></span>: <span class="math inline">\(\Phi_{ST}=0.33 (0.18,0.48)\)</span>. This locus was identified as a target of selection in another study.</p></li>
+</ul>
+<p>In analysis of the 33-population data set, they found similar values of <span class="math inline">\(\Phi_{ST}\)</span> on each chromosome, ranging from 0.083 (0.075, 0.091) on chromosome 22 to 0.11 (0.10, 0.12) on chromosome 16. <span class="math inline">\(\Phi_{ST}\)</span> for the X chromosome was marginally higher: 0.14 (0.13,0.15). They detected 569 outlier loci, 518 were high outliers and 51 were low outliers. Several of the loci they detected as outliers had been previously identified as targets of selection. The loci they identified as candidates for balancing selection have not been suggested before as targets of such selection.</p>
+<h1 class="unnumbered" id="estimating-population-structure">Estimating population structure</h1>
+<p>In addition to <span class="math inline">\(F_{ST}\)</span> we saw that a principal components analysis of genetic data might sometimes be useful. Fumagalli et al. <span class="citation" data-cites="Fumagalli-etal-2013"></span> develop a method for PCA that, like Lynch’s <span class="citation" data-cites="Lynch-2008"></span> method for estimating nucleotide diversity, uses all of the information available in NGS data rather than imposing an artificial threshold for calling genotypes. They calculate the pairwise entries of the covariance matrix by integrating across the genotype probabiity at each site as part of the calculation and weighting the contribution of each site to the analysis by the probability that it is variable.<a href="#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a> As shown in Figure <a href="#fig:Fumagalli-PCA" data-reference-type="ref" data-reference="fig:Fumagalli-PCA">3</a> this approach to PCA recovers the structure much better than approaches that simply call genotypes at each locus, whether or not outliers are excluded. The authors also describe approaches to estimating <span class="math inline">\(F_{ST}\)</span> that take account of the characteristics of NGS data. Their software (<span><code>ANGSD</code></span>: <a href="http://popgen.dk/wiki/index.php/ANGSD">http://popgen.dk/wiki/index.php/ANGSD</a>) implements these and other useful statistical analysis tools for next-generation sequencing data, including Tajima’s D. They also provide <span><code>NgsAdmix</code></span> for <span><code> Structure</code></span>-like analyses of NGS data (<a href="http://www.popgen.dk/software/index.php/NgsAdmix">http://www.popgen.dk/software/index.php/NgsAdmix</a>).</p>
+<figure>
+<img src="fumagalli-PCA.png" id="fig:Fumagalli-PCA" style="width:10cm" alt="" /><figcaption>The “true genotypes” PCA is based on the actual, simulated genotypes (20 individuals in each population, 10,000 sites in the sample with 10% variable; <span class="math inline">\(F_{ST}\)</span> between the purple population and either the red or the green population was 0.4 and between the green and red populations was 0.15; and coverage was simulated at <span class="math inline">\(2\times\)</span> (from <span class="citation" data-cites="Fumagalli-etal-2013"></span>).</figcaption>
+</figure>
+<h1 class="unnumbered" id="genetic-structure-of-human-populations-in-great-britain">Genetic structure of human populations in Great Britain</h1>
+<p>As we’ve seen several times in this course, the amount of genetic data available on humans is vastly greater than what is available for any other organism. As a result, it’s possible to use these data to gain unusually deep insight into the recent history of many human populations. Today’s example comes from Great Britain, courtesy of a very large consortium <span class="citation" data-cites="Leslie-etal-2015"></span></p>
+<h2 class="unnumbered" id="data">Data</h2>
+<ul>
+<li><p>2039 individuals with four grandparents born within 80km of one another, effectively studying alleles sampled from grandparents (ca. 1885).</p></li>
+<li><p>6209 samples from 10 countries in continental Europe.</p></li>
+<li><p>Autosomal SNPs genotyped in both samples (ca. 500K).</p></li>
+</ul>
+<h2 class="unnumbered" id="results">Results</h2>
+<p>Very little evidence of population structure within British sample</p>
+<ul>
+<li><p>Average pairwise <span class="math inline">\(F_{ST}\)</span>: 0.0007</p></li>
+<li><p>Maximum pairwise <span class="math inline">\(F_{ST}\)</span>: 0.003</p></li>
+</ul>
+<p>Individual assignment analysis of genotypes used <span><code>fineSTRUCTURE</code></span>, which uses the same principle as <span><code>STRUCTURE</code></span> but models the correlations among SNPs resulting from gametic disequilibrium, rather than treating each locus as being independently inherited. The analysis is on <span><em>haplotypes</em></span> rather than on alleles. In addition, it clusters populations hierarchically (Figure <a href="#fig:fine-structure" data-reference-type="ref" data-reference="fig:fine-structure">4</a></p>
+<figure>
+<img src="fine-structure-britain.png" id="fig:fine-structure" alt="" /><figcaption><span><code>fineSTRUCTURE</code></span> analysis of genotypes from Great Britain (from <span class="citation" data-cites="Leslie-etal-2015"></span>).</figcaption>
+</figure>
+<p>Analysis of the European data identifies 52 groups. The authors used <span><code>Chromopainter</code></span> to construct each of the haplotypes detected in their sample of 2039 individuals from the UK as a mosaic of haplotypes derived from those found in their sample of 6209 individuals from continental Europe. Since they know (a) the UK cluster to which each UK individual belongs and (b) the European group from which each individual contributing to the UK mosaic belongs they can estimate (c) the proportion of ancestry for each UK cluster derived from each European group. The results are shown in Figure <a href="#fig:UK-Europe" data-reference-type="ref" data-reference="fig:UK-Europe">5</a>.</p>
+<figure>
+<img src="UK-Europe.png" id="fig:UK-Europe" style="width:90.0%" alt="" /><figcaption>European ancestry of the 17 clusters identified in the UK (from <span class="citation" data-cites="Leslie-etal-2015"></span>).</figcaption>
+</figure>
+<h1 class="unnumbered" id="creative-commons-license">Creative Commons License</h1>
+<p>These notes are licensed under the Creative Commons Attribution License. To view a copy of this license, visit https://creativecommons.org/licenses/by/4.0/ or send a letter to Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305, USA.</p>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p>In NGS applications for phylogeny, a strategy of targeted enrichment is often used. In this approach, pre-identified parts of the genome are “baited” using primers and those parts of the genome are enriched through PCR before the sequencing library is constructed <span class="citation" data-cites="Lemmon-etal-2012"></span>. By the way, when I taught this course two years ago the Illumina HiSeq X Ten produced the most data from a single run, up to 1800 Gb and 3-6 billion reads. That means the volume of sequence you can produce in a single run has tripled in two years.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>This section draws heavily on <span class="citation" data-cites="Lynch-2008"></span><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3" role="doc-endnote"><p>If both chromosomes have an equal probability of being sequenced, the probability that one of them is missed with 8<span class="math inline">\(\times\)</span> coverage is <span class="math inline">\((1/2)^8 = 1/256\)</span>.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4" role="doc-endnote"><p>It’s valuable information, providing you know how to deal with in properly.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5" role="doc-endnote"><p>To be honest, though, we did ignore a lot of data in the analysis of GBS data from <span><em>Protea repens</em></span> that you may remember from earlier this semester.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6" role="doc-endnote"><p>It wouldn’t be hard, conceptually, to allow different nucleotides to have different error rates, e.g., <span class="math inline">\(\epsilon_A\)</span>, <span class="math inline">\(\epsilon_C\)</span>, <span class="math inline">\(\epsilon_G\)</span>, <span class="math inline">\(\epsilon_T\)</span>, but the notation would get really complicated, so we won’t bother trying to show how differential error rates can be accommodated.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7" role="doc-endnote"><p>This expression looks a little different from the one in <span class="citation" data-cites="Lynch-2008"></span>, but I’m pretty sure it’s equivalent.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8" role="doc-endnote"><p>Ask me for details if you’re interested.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9" role="doc-endnote"><p>Mutation accumulation lines are lines propagated through several (sometimes up to hundreds) of generations in which population sizes are repeatedly reduced to one or a few individuals, allowing drift to dominate the dynamics and alleles to “accumulate” with little regard to their fitness effects.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10" role="doc-endnote"><p>This section depends heavily on <span class="citation" data-cites="Gompert-Buerkle-2011"></span><a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn11" role="doc-endnote"><p>Or that they’ve already been corrected. We don’t care <span><em>how</em></span> they might have been corrected. We care only that we can assume that the reads we get from a sequencing run faithfully reflect the sequences present on each of the chromosomes.<a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn12" role="doc-endnote"><p>The actual model they use is a bit more complicated than this, but the principles are the same.<a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn13" role="doc-endnote"><p>Again, the actual model is a bit more complicated than what I’m describing here, but the principle is the same.<a href="#fnref13" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn14" role="doc-endnote"><p>Or sets of SNP loci that are parts of a single contig.<a href="#fnref14" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn15" role="doc-endnote"><p>See <span class="citation" data-cites="Fumagalli-etal-2013"></span> for details.<a href="#fnref15" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+</body>
+</html>

@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Resemblance among relatives</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Resemblance among relatives</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#an-outline-of-the-approach">An outline of the approach</a></li>
+<li><a href="#the-gory-details">The gory details</a>
+<ul>
+<li><a href="#covariance-of-two-random-variables">Covariance of two random variables</a></li>
+<li><a href="#covariance-between-half-siblings">Covariance between half-siblings</a></li>
+<li><a href="#a-numerical-example">A numerical example</a></li>
+<li><a href="#covariances-among-relatives">Covariances among relatives</a></li>
+</ul></li>
+<li><a href="#estimating-heritability">Estimating heritability</a>
+<ul>
+<li><a href="#regression-analysis">Regression analysis</a></li>
+<li><a href="#sib-analysis">Sib analysis</a></li>
+<li><a href="#an-example-body-weight-in-female-mice">An example: body weight in female mice</a></li>
+</ul></li>
+<li><a href="#creative-commons-license">Creative Commons License</a></li>
+</ul>
+</nav>
+<h1 class="unnumbered" id="introduction">Introduction</h1>
+<p>Just as individuals may differ from one another in phenotype because they have different genotypes, because they developed in different environments, or both, relatives may resemble one another more than they resemble other members of the population because they have similar genotypes, because they developed in similar environments, or both. In an experimental situation, typically try to randomize individuals across environments. If we are successful, any tendency for relatives to resemble one another more than non-relatives must be due to similarities in their genotypes.</p>
+<p>Using this insight, we can develop a statistical technique that allows us to determine how much of the variance among individuals in phenotype is a result of genetic variance and how much is due to environmental variance. <span><em>Remember</em></span>, we can only ask about how much of the variability is due to genetic differences, and we can only do so <span><em>in a particular environment</em></span> and <span><em>with a particular set of genotypes</em></span>, and we can only do it when we <span><em>randomize genotypes across environments</em></span>.</p>
+<h1 class="unnumbered" id="an-outline-of-the-approach">An outline of the approach</h1>
+<p>The basic approach to the analysis is either to use a linear regression of offspring phenotype on parental phenotype, which as we’ll see estimates <span class="math inline">\(h^2_n\)</span>, or to use a nested analysis of variance. One of the most complete designs is a full-sib, half-sib design in which each male sires offspring from several dams but each dam mates with only one sire.</p>
+<p>The offspring of a single dam are full-sibs (they are nested within dams). Differences among the offspring of dams indicates that there are differences in maternal “genotype” in the trait being measured.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>The offspring of different dams mated to a single sire are half-sibs. Differences among the offspring of sires indicates that thee are differences in paternal “genotype” in the trait being measured.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<p>As we’ll see, this design has the advantage that it allows both additive and dominance components of the genetic variance to be estimated. It has the additional advantage that we don’t have to assume that the distribution of environments in the offspring generation is the same as it was in the parental generation. To use the regression approach to estimate heritability, we have to assume that the distribution of environmental effects is the same in parental and offspring generations.</p>
+<h1 class="unnumbered" id="the-gory-details">The gory details</h1>
+<p>OK, so I’ve given you the basic idea. Where does it come from, and how does it work? Funny you should ask. The whole approach is based on calculations of the degree to which different relatives resemble one another. For these purposes we’re going to continue our focus on phenotypes influenced by one locus with two alleles, and we’ll do the calculations in detail only for half sib families. We start with something that may look vaguely familiar.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> Take a look at Table <a href="#table:half-sib" data-reference-type="ref" data-reference="table:half-sib">1</a>.</p>
+<div id="table:half-sib">
+<table>
+<caption>Half-sib family structure in a population with genotypes in Hardy-Weinberg proportions.</caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Maternal</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">genotype</td>
+<td style="text-align: center;">Frequency</td>
+<td style="text-align: center;"><span class="math inline">\(A_1A_1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(A_1A_2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(A_2A_2\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(A_1A_1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(p^2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(p\)</span></td>
+<td style="text-align: center;">q</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(A_1A_2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(2pq\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\frac{p}{2}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\frac{1}{2}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\frac{q}{2}\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(A_2A_2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(q^2\)</span></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">p</td>
+<td style="text-align: center;">q</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Note also that the probabilities in Table <a href="#table:half-sib" data-reference-type="ref" data-reference="table:half-sib">1</a> are appropriate <span><em>only</em></span> if the progeny are from half-sib families. If the progeny are from full-sib families, we must specify the frequency of each of the nine possible matings (keeping track of the genotype of both mother and father) and the offspring that each will produce.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
+<h2 class="unnumbered" id="covariance-of-two-random-variables">Covariance of two random variables</h2>
+<p>Let <span class="math inline">\(p_{xy}\)</span> be the probability that random variable <span class="math inline">\(X\)</span> takes the value <span class="math inline">\(x\)</span> and random variable <span class="math inline">\(Y\)</span> takes the value <span class="math inline">\(y\)</span>. Then the covariance between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> is: <span class="math display">\[\mbox{Cov}(X,Y) = \sum p_{xy}(x - \mu_x)(y - \mu_y) \quad ,\]</span> where <span class="math inline">\(\mu_x\)</span> is the mean of <span class="math inline">\(X\)</span> and <span class="math inline">\(\mu_y\)</span> is the mean of <span class="math inline">\(Y\)</span>. The covariance between two random variables is a measure of how much they vary togethercovary. If the covariance is large and positive, they tend to vary in the same way. Positive deviations from the mean in one are associated with positive deviations from the mean in the other, and negative deviations are similarly associated. If the covariance is large and negative, they tend to vary in opposite ways. Positive deviations from the mean in one variable are associated with <span><em>negative</em></span> deviations in the other, and vice versa. If the covariance is small, it means there isn’t a strong tendency for deviations from the mean in one variable to be associated with deviations in the other.</p>
+<h2 class="unnumbered" id="covariance-between-half-siblings">Covariance between half-siblings</h2>
+<p>Here’s how we can calculate the covariance between half-siblings: First, imagine selecting huge number of half-sibs pairs at random. The phenotype of the first half-sib in the pair is a random variable (call it <span class="math inline">\(S_1\)</span>), as is the phenotype of the second (call it <span class="math inline">\(S_2\)</span>). The mean of <span class="math inline">\(S_1\)</span> is just the mean phenotype in <span><em>all</em></span> the progeny taken together, <span class="math inline">\(\bar x\)</span>. Similarly, the mean of <span class="math inline">\(S_2\)</span> is just <span class="math inline">\(\bar x\)</span>.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> Now with one locus, two alleles we have three possible phenotypes: <span class="math inline">\(x_{11}\)</span> (corresponding to the genotype <span class="math inline">\(A_1A_1\)</span>), <span class="math inline">\(x_{12}\)</span> (corresponding to the genotype <span class="math inline">\(A_1A_2\)</span>), and <span class="math inline">\(x_{22}\)</span> (corresponding to the genotype <span class="math inline">\(A_2A_2\)</span>). So all we need to do to calculate the covariance between half-sibs is to write down all possible pairs of phenotypes and the frequency with which they will occur in our sample of randomly chosen half-sibs based on the frequenices in Table <a href="#table:half-sib" data-reference-type="ref" data-reference="table:half-sib">1</a> above and the frequency of maternal genotypes. It’s actually a bit easier to keep track of it all if we write down the frequency of each maternal genotype and the frequency with which each possible phenotypic combination will occur in her progeny. <span class="math display">\[\begin{aligned}
+\mbox{Cov}(S_1,S_2) &amp;=&amp; p^2[p^2(x_{11} - {\bar x})^2 + 2pq(x_{11} - {\bar x})
+                                                (x_{12} - {\bar x})
+                                           + q^2(x_{12} - {\bar x})^2] \\
+             &amp;&amp;+ 2pq[{1 \over 4}p^2(x_{11} - {\bar x})^2
+                  + {1 \over 2}p(x_{11} - {\bar x})(x_{12} - {\bar x})
+                  + {1 \over 2}pq(x_{11} - {\bar x})(x_{22} - {\bar x}) \\
+             &amp;&amp;\ \ + {1 \over 4}(x_{12} - {\bar x})^2
+                  + {1 \over 2}q(x_{12} - {\bar x})(x_{22} - {\bar x})
+                  + {1 \over 4}q^2(x_{22} - {\bar x})^2] \\
+             &amp;&amp;+ q^2[p^2(x_{12} - {\bar x})^2 + 2pq(x_{12} - {\bar x})
+                                                 + q^2(x_{22} - {\bar
+                                                x})] \\
+   &amp;=&amp;\ p^2[p(x_{11} - {\bar x}) + q(x_{12} - {\bar x})]^2 \\
+   &amp;&amp;+ 2pq[{1 \over 2}p(x_{11} - {\bar x}) +
+         {1 \over 2}q(x_{12} - {\bar x}) +
+         {1 \over 2}p(x_{12} - {\bar x}) +
+         {1 \over 2}q(x_{22} - {\bar x})]^2 \\
+   &amp;&amp;+ q^2[p(x_{12} - {\bar x}) + q(x_{22} - {\bar x})]^2 \\
+   &amp;=&amp;\ p^2[px_{11} + qx_{12} - {\bar x}]^2 \\
+   &amp;&amp;+ 2pq\left[{1 \over 2}(px_{11} + qx_{12} - {\bar x}) +
+         {1 \over 2}(px_{12} + qx_{22} - {\bar x})\right]^2 \\
+   &amp;&amp;+ q^2[px_{12} + qx_{22} - {\bar x}]^2 \\
+   &amp;=&amp;\ p^2\left[\alpha_1 - {{\bar x} \over 2}\right]^2
+   + 2pq\left[{1 \over 2}(\alpha_1 - {{\bar x} \over 2}) +
+         {1 \over 2}(\alpha_2 - {{\bar x} \over 2})\right]^2
+   + q^2\left[\alpha_2 - {{\bar x} \over 2}\right]^2 \\
+   &amp;=&amp;\ p^2\left[{1 \over 2}(2\alpha_1 - {\bar x})\right]^2
+   + 2pq\left[{1 \over 2}(\alpha_1 + \alpha_2 - {\bar x})\right]^2
+        + q^2\left[{1 \over 2}(2\alpha_2 - {\bar x})\right]^2 \\
+   &amp;=&amp; \left({1 \over 4}\right)
+      \left[p^2(2\alpha_1 - {\bar x})^2
+        + 2pq[(\alpha_1+\alpha_2 - {\bar x})]^2
+        + q^2(2\alpha_2 - {\bar x})^2\right] \\
+   &amp;=&amp; \left({1 \over 4}\right)V_a\end{aligned}\]</span></p>
+<h2 class="unnumbered" id="a-numerical-example">A numerical example</h2>
+<p>Now we’ll return to an example we saw earlier (Table <a href="#table:example" data-reference-type="ref" data-reference="table:example">2</a>). This set of genotypes and phenotypes may look familiar. It is the same one we encountered earlier when we calculated additive and dominance components of variance. Let’s assume that <span class="math inline">\(p = 0.4\)</span>. Then we know that <span class="math display">\[\begin{aligned}
+\bar x &amp;=&amp; 54.4 \\
+V_a &amp;=&amp; 1505.28 \\
+V_d &amp;=&amp; 207.36 \quad .\end{aligned}\]</span> We can also calculate the numerical version of Table <a href="#table:half-sib" data-reference-type="ref" data-reference="table:half-sib">1</a>, which you’ll find in Table <a href="#table:example-hs" data-reference-type="ref" data-reference="table:example-hs">3</a>.</p>
+<div id="table:example">
+<table>
+<caption>An example of a non-additive relationship between genotypes and phenotypes.</caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Genotype</td>
+<td style="text-align: center;"><span class="math inline">\(A_1A_1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(A_1A_2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(A_2A_2\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Phenotype</td>
+<td style="text-align: center;">100</td>
+<td style="text-align: center;">80</td>
+<td style="text-align: center;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="table:example-hs">
+<table>
+<caption>Mother-offspring combinations (half-sib) when the frequency of <span class="math inline">\(A_1\)</span> is 0.4.</caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Maternal</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">genotype</td>
+<td style="text-align: center;">Frequency</td>
+<td style="text-align: center;"><span class="math inline">\(A_1A_1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(A_1A_2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(A_2A_2\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(A_1A_1\)</span></td>
+<td style="text-align: center;">0.16</td>
+<td style="text-align: center;">0.4</td>
+<td style="text-align: center;">0.6</td>
+<td style="text-align: center;">0.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(A_1A_2\)</span></td>
+<td style="text-align: center;">0.48</td>
+<td style="text-align: center;">0.2</td>
+<td style="text-align: center;">0.5</td>
+<td style="text-align: center;">0.3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(A_2A_2\)</span></td>
+<td style="text-align: center;">0.36</td>
+<td style="text-align: center;">0.0</td>
+<td style="text-align: center;">0.4</td>
+<td style="text-align: center;">0.6</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>So now we can follow the same approach we did before and calculate the numerical value of the covariance between half-sibs in this example: <span class="math display">\[\begin{aligned}
+\mbox{Cov}(S_1,S_2) &amp;=&amp;\ [(0.4)^2(0.16) + (0.2)^2(0.48)](100 - 54.4)^2 \\
+          &amp;&amp; + [(0.6)^2(0.16) + (0.5)^2(0.48) + (0.4)^2(0.36)] (80 - 54.4)^2 \\
+          &amp;&amp; + [(0.3)^2(0.48) + (0.6)^2(0.36)](0 - 54.4)^2 \\
+          &amp;&amp; + 2[(0.4)(0.6)(0.16) + (0.2)(0.5)(0.48)](100 - 54.4)(80 - 54.4) \\
+          &amp;&amp; + 2(0.2)(0.3)(0.48)(100 - 54.4)(0 - 54.4) \\
+          &amp;&amp; + 2[(0.5)(0.3)(0.48) + (0.4)(0.6)(0.36)](80 - 54.4)(0 - 54.4) \\
+         &amp;=&amp;\ 376.32 \\
+         &amp;=&amp;\ \left({1 \over 4}\right)1505.28 \quad .\end{aligned}\]</span></p>
+<h2 class="unnumbered" id="covariances-among-relatives">Covariances among relatives</h2>
+<p>Well, if we can do this sort of calculation for half-sibs, you can probably guess that it’s also possible to do it for other relatives. I won’t go through all of the calculations, but the results for common forms of relationship are summarized in Table <a href="#table:relatives" data-reference-type="ref" data-reference="table:relatives">4</a></p>
+<div id="table:relatives">
+<table>
+<caption>Genetic covariances among relatives.</caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">MZ twins (<span class="math inline">\(\mbox{Cov}_{MZ}\)</span>)</td>
+<td style="text-align: left;"><span class="math inline">\(V_a + V_d\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Parent-offspring (<span class="math inline">\(\mbox{Cov}_{PO}\)</span>)<span class="math inline">\(^1\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\left(\frac{1}{2}\right)V_a\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Full sibs (<span class="math inline">\(\mbox{Cov}_{FS}\)</span>)</td>
+<td style="text-align: left;"><span class="math inline">\(\left(\frac{1}{2}\right)V_a +
+\left(\frac{1}{4}\right)V_d\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Half sibs (<span class="math inline">\(\mbox{Cov}_{HS}\)</span>)</td>
+<td style="text-align: left;"><span class="math inline">\(\left(\frac{1}{4}\right)V_a\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 class="unnumbered" id="estimating-heritability">Estimating heritability</h1>
+<p>Galton introduced the term <span><em>regression</em></span> to describe the inheritance of height in humans. He noted that there is a tendency for adult offspring of tall parents to be tall and of short parents to be short, but he also noted that offspring tended to be less extreme than the parents.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> He described this as a “regression to mediocrity,” and statisticians adopted the term to describe a standard technique for describing the functional relationship between two variables.</p>
+<h2 class="unnumbered" id="regression-analysis">Regression analysis</h2>
+<p>Measure the parents. Regress the offspring phenotype on: (1) the phenotype of one parent or (2) the mean of the parental parental phenotypes. In either case, the covariance between the parental phenotype and the offspring genotype is <span class="math inline">\(\left({1 \over 2}\right)V_a\)</span>. Now the regression coefficient between one parent and offspring, <span class="math inline">\(b_{P
+\rightarrow O}\)</span>, is <span class="math display">\[\begin{aligned}
+b_{P \rightarrow O}
+&amp;=&amp; \frac{\mbox{Cov}_{PO}}{\mbox{Var}(P)} \\
+&amp;=&amp; {\left({1 \over 2}\right)V_a \over V_p} \\
+&amp;=&amp; \left({1 \over 2}\right)h^2_N \quad .\end{aligned}\]</span> In short, the slope of the regression line is equal to one-half the narrow sense heritability. In the regression of offspring on mid-parent value, <span class="math display">\[\begin{aligned}
+\mbox{Var}(MP) &amp;=&amp; \mbox{Var}\left(\frac{M+F}{2}\right) \\
+                  &amp;=&amp; \frac{1}{4} \mbox{Var}(M+F) \\
+                  &amp;=&amp; \frac{1}{4} \left(Var(M) + Var(F)\right) \\
+                  &amp;=&amp; \frac{1}{4} \left(2V_p\right) \\
+                  &amp;=&amp; \frac{1}{2} V_p \quad .\end{aligned}\]</span> Thus, <span class="math inline">\(b_{MP \rightarrow O} = \frac{1}{2}V_a/\frac{1}{2}V_p = h^2_N\)</span>. In short, the slope of the regression line is equal to the narrow sense heritability.</p>
+<h2 class="unnumbered" id="sib-analysis">Sib analysis</h2>
+<p>Mate a number of males (sires) with a number of females (dams). Each sire is mated to more than one dam, but each dam mates only with one sire. Do an analysis of variance on the phenotype in the progeny, treating sire and dam as main effects. The result is shown in Table <a href="#table:full-sib" data-reference-type="ref" data-reference="table:full-sib">5</a>.</p>
+<div id="table:full-sib">
+<table>
+<caption>Analysis of variance table for a full-sib analysis of quantitative genetic variation.</caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">Composition of</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Source</td>
+<td style="text-align: center;">d.f.</td>
+<td style="text-align: center;">Mean square</td>
+<td style="text-align: center;">mean square</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Among sires</td>
+<td style="text-align: center;"><span class="math inline">\(s-1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(MS_S\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sigma^2_W + k\sigma^2_D + dk\sigma^2_s\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Among dams</td>
+<td style="text-align: center;"><span class="math inline">\(s(d-1)\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(MS_D\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sigma^2_W + k\sigma^2_D\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1em (within sires)</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Within progenies</td>
+<td style="text-align: center;"><span class="math inline">\(sd(k-1)\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(MS_W\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\sigma^2_W\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Now we need some way to relate the variance components (<span class="math inline">\(\sigma^2_W\)</span>, <span class="math inline">\(\sigma^2_D\)</span>, and <span class="math inline">\(\sigma^2_S\)</span>) to <span class="math inline">\(V_a\)</span>, <span class="math inline">\(V_d\)</span>, and <span class="math inline">\(V_e\)</span>.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> How do we do that? Well, <span class="math display">\[V_p = \sigma^2_T = \sigma^2_S + \sigma^2_D + \sigma^2_W \quad .\]</span> <span class="math inline">\(\sigma^2_S\)</span> estimates the variance among the means of the half-sib familes fathered by each of the different sires or, equivalently, the covariance among half-sibs.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> <span class="math display">\[\begin{aligned}
+\sigma^2_S &amp;=&amp; \mbox{Cov}_{HS} \\
+           &amp;=&amp; \left(\frac{1}{4}\right)V_a \quad .\end{aligned}\]</span> Now consider the within progeny component of the variance, <span class="math inline">\(\sigma^2_W\)</span>. In general, it can be shown that <span><em>any</em></span> among group variance component is equal to the covariance among the members within the groups.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> Thus, a within group component of the variance is equal to the total variance minus the covariance within groups. In this case, <span class="math display">\[\begin{aligned}
+\sigma^2_W &amp;=&amp; V_p - \mbox{Cov}_{FS} \\
+ &amp;=&amp; V_a + V_d + V_e - \left[\left(\frac{1}{2}\right)V_a +
+                            \left(\frac{1}{4}\right)V_d
+                      \right] \\
+ &amp;=&amp; \left(\frac{1}{2}\right)V_a
+    + \left({3 \over 4}\right)V_d
+    + V_e \quad .\end{aligned}\]</span> There remains only <span class="math inline">\(\sigma^2_D\)</span>. Now <span class="math inline">\(\sigma^2_W = V_p - Cov_{FS}\)</span>, <span class="math inline">\(\sigma^2_S = Cov_{HS}\)</span>, and <span class="math inline">\(\sigma^2_T = V_p\)</span>. Thus, <span class="math display">\[\begin{aligned}
+\sigma^2_D &amp;=&amp; \sigma^2_T - \sigma^2_S - \sigma^2_W \\
+           &amp;=&amp; V_p - \mbox{Cov}_{HS} - (V_p - \mbox{Cov}_{FS}) \\
+           &amp;=&amp; \mbox{Cov}_{FS} - \mbox{Cov}_{HS} \\
+           &amp;=&amp; \left[
+              \left(\frac{1}{2}\right)V_a + \left(\frac{1}{4}\right)V_d
+              \right]
+              - \left(\frac{1}{4}\right)V_a \\
+           &amp;=&amp; \left(\frac{1}{4}\right)V_a +
+           \left(\frac{1}{4}\right)V_d \quad .\end{aligned}\]</span> So if we rearrange these equations, we can express the genetic components of the phenotypic variance, the <span><em>causal</em></span> components of variance, as simple functions of the <span><em>observational</em></span> components of variance: <span class="math display">\[\begin{aligned}
+V_a &amp;=&amp; 4\sigma^2_S \\
+V_d &amp;=&amp; 4(\sigma^2_D - \sigma^2_S) \\
+V_e &amp;=&amp; \sigma^2_W - 3\sigma^2_D + \sigma^2_S \quad .\end{aligned}\]</span> Furthermore, the narrow-sense heritability is given by <span class="math display">\[h^2_N = \frac{4\sigma^2_s}{\sigma^2_S + \sigma^2_D + \sigma^2_W} \quad .\]</span></p>
+<h2 class="unnumbered" id="an-example-body-weight-in-female-mice">An example: body weight in female mice</h2>
+<p>The analysis involves 719 offspring from 74 sires and 192 dams, each with one litter. The offspring were spread over 4 generations, and the analysis is performed as a nested ANOVA with the genetic analysis nested <span><em>within</em></span> generations. An additional complication is that the design was unbalanced, i.e., unequal numbers of progeny were measured in each sibship. As a result the degrees of freedom don’t work out to be quite as simple as what I showed you.<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a> The results are summarized in Table <a href="#table:mice" data-reference-type="ref" data-reference="table:mice">6</a>.</p>
+<div id="table:mice">
+<table>
+<caption>Quantitative genetic analysis of the inheritance of body weight in female mice (from Falconer and Mackay, pp. 169–170.)</caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">Composition of</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Source</td>
+<td style="text-align: center;">d.f.</td>
+<td style="text-align: center;">Mean square</td>
+<td style="text-align: center;">mean square</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Among sires</td>
+<td style="text-align: center;">70</td>
+<td style="text-align: center;">17.10</td>
+<td style="text-align: center;"><span class="math inline">\(\sigma^2_W + k&#39;\sigma^2_D + dk&#39;\sigma^2_s\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Among dams</td>
+<td style="text-align: center;">118</td>
+<td style="text-align: center;">10.79</td>
+<td style="text-align: center;"><span class="math inline">\(\sigma^2_W + k\sigma^2_D\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1em (within sires)</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Within progenies</td>
+<td style="text-align: center;">527</td>
+<td style="text-align: center;">2.19</td>
+<td style="text-align: center;"><span class="math inline">\(\sigma^2_W\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Using the expressions for the composition of the mean square we obtain <span class="math display">\[\begin{aligned}
+\sigma^2_W &amp;=&amp; MS_W \\
+           &amp;=&amp; 2.19 \\
+\sigma^2_D &amp;=&amp; \left({1 \over k}\right)(MS_D - \sigma^2_W) \\
+           &amp;=&amp; 2.47 \\
+\sigma^2_S &amp;=&amp; \left({1 \over dk&#39;}\right)(MS_S - \sigma^2_W
+                    - k&#39;\sigma^2_D) \\
+           &amp;=&amp; 0.48 \quad .\end{aligned}\]</span> Thus, <span class="math display">\[\begin{aligned}
+V_p &amp;=&amp; 5.14 \\
+V_a &amp;=&amp; 1.92 \\
+V_d + V_e &amp;=&amp; 3.22 \\
+V_d &amp;=&amp; (0.00\hbox{---}1.64) \\
+V_e &amp;=&amp; (1.58\hbox{---}3.22) \\\end{aligned}\]</span></p>
+<p>Why didn’t I give a definite number for <span class="math inline">\(V_d\)</span> after my big spiel above about how we can estimate it from a full-sib crossing design? Two reasons. First, if you plug the estimates for <span class="math inline">\(\sigma^2_D\)</span> and <span class="math inline">\(\sigma^2_S\)</span> into the formula above for <span class="math inline">\(V_d\)</span> you get <span class="math inline">\(V_d = 7.96, V_e
+= -4.74\)</span>, which is clearly impossible since <span class="math inline">\(V_d\)</span> has to be less than <span class="math inline">\(V_p\)</span> and <span class="math inline">\(V_e\)</span> has to be greater than zero. It’s a variance. Second, the experimental design confounds two sources of resemblance among full siblings: (1) genetic covariance and (2) environmental covariance. The full-sib families were all raised by the same mother in the same pen. Hence, we don’t know to what extent their resemblance is due to a common natal environment.<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a> If we assume <span class="math inline">\(V_d = 0\)</span>, we can estimate the amount of variance accounted for by exposure to a common natal environment, <span class="math inline">\(V_{Ec} =
+1.99\)</span>, and by environmental variation within sibships, <span class="math inline">\(V_{Ew} =
+1.23\)</span>.<a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a> Similarly, if we assume <span class="math inline">\(V_{Ew} = 0\)</span>, then <span class="math inline">\(V_d = 1.64\)</span> and <span class="math inline">\(V_{Ec} = 1.58\)</span>. In any case, we can estimate the narrow sense heritability as <span class="math display">\[\begin{aligned}
+h^2_N &amp;=&amp; \left({1.92 \over 5.14}\right) \\
+      &amp;=&amp; 0.37 \quad .\end{aligned}\]</span></p>
+<h1 class="unnumbered" id="creative-commons-license">Creative Commons License</h1>
+<p>These notes are licensed under the Creative Commons Attribution License. To view a copy of this license, visit https://creativecommons.org/licenses/by/4.0/ or send a letter to Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305, USA.</p>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p>Assuming that we’ve randomized siblings across environments. If we haven’t, siblings may resemble one another because of similarities in the environment they experienced, too.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>You’ll see the reason for the quotes around genotype in this paragraph and the last a little later. It’s a little more complex than what I’ve suggested.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3" role="doc-endnote"><p>Remember our mother-offspring combinations with <span><em>Zoarces viviparus</em></span>?<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4" role="doc-endnote"><p>To check your understanding of all of this, you might want to try to produce the appropriate table.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5" role="doc-endnote"><p>The reasoning here gets a little tricky, since the mean of different half-sib families may be different. Think about it this way. We picked this particular half-sib family at random from among all half-sib families in the population. It takes a bit of algebra to show it, but the mean phenotype of a randomly chosen half-sib family is <span class="math inline">\(\bar x\)</span>, meaning that <span class="math inline">\(\bar x\)</span> is the mean phenotype for both <span class="math inline">\(S_1\)</span> and <span class="math inline">\(S_2\)</span>. They’re part of the same family, so they share the same family mean.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6" role="doc-endnote"><p>It’s worth noting that Galton is often “credited” with establishing the field of eugenics. He was a proponent of encouraging the “best” people to marry one another to “improve” the human race. There is a building at University College London named in his honor, the Galton Laboratory. The University is considering changing its name (<a href="https://www.dailymail.co.uk/sciencetech/article-6466845/UCL-rename-buildings-honouring-Sir-Francis-Galton-known-father-eugenics.html">https://www.dailymail.co.uk/sciencetech/article-6466845/UCL-rename-buildings-honouring-Sir-Francis-Galton-known-father-eugenics.html</a>).<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7" role="doc-endnote"><p><span class="math inline">\(\sigma^2_W\)</span>, <span class="math inline">\(\sigma^2_D\)</span>, and <span class="math inline">\(\sigma^2_S\)</span> are often referred to as the <span><em>observational</em></span> components of variance, because they are estimated from observations we make on phenotypic variation. <span class="math inline">\(V_a\)</span>, <span class="math inline">\(V_d\)</span>, and <span class="math inline">\(V_e\)</span> are often referred to as the <span> <em>causal</em></span> components of variance, because they represent the gentic and environmental influences on trait expression.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8" role="doc-endnote"><p>To see why consider this is so, consider the following: The mean genotypic value of half-sib families with an <span class="math inline">\(A_1A_1\)</span> mother is <span class="math inline">\(px_{11} + qx_{12}\)</span>; with an <span class="math inline">\(A_1A_2\)</span> mother, <span class="math inline">\(px_{11}/2 + qx_{12}/2 + px_{12}/2 + qx_{22}/2\)</span>; with an <span class="math inline">\(A_2A_2\)</span> mother, <span class="math inline">\(px_{12} + qx_{22}\)</span>. The equation for the variance among these means is identical to the equation for the covariance among half-sibs.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9" role="doc-endnote"><p>With <span class="math inline">\(x_{ij} = a_i + \epsilon_{ij}\)</span>, where <span class="math inline">\(a_i\)</span> is the mean group effect and <span class="math inline">\(\epsilon_{ij}\)</span> is random effect on individual <span class="math inline">\(j\)</span> in group <span class="math inline">\(i\)</span> (with mean 0), <span class="math inline">\(Cov(x_{ij},x_{ik}) =
+  E(a_i + \epsilon_{ij} - \mu)(a_i + \epsilon_{ik} - \mu) = E((a_i
+  -\mu^2) + a_i(\epsilon_{ij} + \epsilon_{ik}) +
+  \epsilon_{ij}\epsilon_{ik}) = Var(A)\)</span>.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10" role="doc-endnote"><p>What did you expect from real data? This example is extracted from Falconer and Mackay, pp. 169–170. See the book for details.<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn11" role="doc-endnote"><p>Notice that this doesn’t affect our analysis of half-sib families, i.e., the progeny of different sires, since each father was bred with several females<a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn12" role="doc-endnote"><p>See Falconer for details.<a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+</body>
+</html>
