@@ -51,9 +51,9 @@ allele frequencies. We could get away with only genotype frequencies,
 since we can always calculate allele frequencies from genotype
 frequencies. But there are fewer allele frequencies than genotype
 frequencies{\dash}only one allele frequency when there are two alleles
-at a locus. So working with allele frequencies is more convenient, but
-we can't get genotype frequencies from allele frequencies unless
-$\dots$
+at a locus. So working with allele frequencies is more convenient when
+we can get away with it. The challenge is that we can't get genotype
+frequencies from allele frequencies unless $\dots$
 
 \section*{Derivation of the Hardy-Weinberg principle}
 
@@ -63,7 +63,7 @@ one generation are related to genotype frequencies in the next. Let's
 explore that a bit further. To do so we're going to use a technique
 that is broadly useful in population genetics,\footnote{Although to be
   honest, we won't see mating tables again after the first couple
-  weeks of the semester} i.e., we're going to
+  weeks of the semester.} i.e., we're going to
 construct a mating table. A mating table consists of three
 components:\index{mating table}
 
@@ -127,9 +127,10 @@ variation from one generation to the next:\index{Hardy-Weinberg
   may come as a surprise to you, but there are alleles at some loci in
   some organisms that subvert the Mendelian rules, e.g., the $t$
   allele in house mice, segregation distorter in {\it Drosophila
-    melanogaster}, and spore killer in {\it Neurospora crassa\/}. If
-  you're interested, a pair of papers describing work in {\it
-    Neurospora\/} appeared in 2012~\cite{Hammond-etal-2012,Saupe-2012}.
+    melanogaster}, and spore killer in {\it Neurospora
+    crassa\/}.\footnote{If you're interested, a pair of papers
+    describing work on spore killer in {\it Neurospora\/} appeared in
+    2012~\cite{Hammond-etal-2012,Saupe-2012}.}
 
 \end{description}
 Now that we have this table we can use it to calculate the frequency
@@ -194,9 +195,9 @@ After a single generation in which {\it all\/} eight of the above
 assumptions are satisfied
 
 \begin{eqnarray}
-\hbox{freq.}(A_1A_1\hbox{ in zygotes}) &=& p^2 \label{eq:hw-p2} \\
-\hbox{freq.}(A_1A_2\hbox{ in zygotes}) &=& 2pq \label{eq:hw-2pq} \\
-\hbox{freq.}(A_2A_2\hbox{ in zygotes}) &=& q^2 \label{eq:hw-q2}
+\hbox{freq.}(A_1A_1\hbox{ in adults}) &=& p^2 \label{eq:hw-p2} \\
+\hbox{freq.}(A_1A_2\hbox{ in adults}) &=& 2pq \label{eq:hw-2pq} \\
+\hbox{freq.}(A_2A_2\hbox{ in adults}) &=& q^2 \label{eq:hw-q2}
 \end{eqnarray}
 
 \noindent It's vital to understand the logic here.
@@ -224,9 +225,9 @@ satisfies all 8 assumptions, even for a single
 generation.\footnote{There may be some that come reasonably close, but
   none that fulfill them {\it exactly}. There aren't any populations
   of infinite size, for example.}  But {\it all\/} possible
-evolutionary forces within populations cause a violation of at least
-one of these assumptions. Departures from Hardy-Weinberg are one way
-in which we can detect those forces and estimate their
+evolutionary processes within populations cause a violation of at
+least one of these assumptions. Departures from Hardy-Weinberg are one
+way in which we can detect those processes and estimate their
 magnitude.\footnote{Actually, there's a ninth assumption that I didn't
   mention. Everything I said here depends on the assumption that the
   locus we're dealing with is autosomal. We can talk about what
@@ -452,81 +453,115 @@ prior to collecting the data.\footnote{If we had prior information
   distribution to reflect our prior information. See the Summer
   Institute notes for more information, if you're interested.}
 
-Only a little less than 30 years ago\footnote{You are probably balking
-  at my use of the word ``only'' in combination with the phrase ``30
-  years.'' Please cut me a little slack. I know that most of you
-  weren't born 30 years ago, but I'd already taught this course two or
-  three times by the time the paper I'm about to refer to was
-  published.} it was
-necessary to do a bunch of complicated calculus to combine the prior
-with the likelihood to get a posterior. Since the early 1990s
-statisticians have used a simulation approach, Monte Carlo Markov
-Chain sampling, to construct numerical samples from the posterior. For
-the problems encountered in this course, we'll mostly be using the
-freely available software package {\tt JAGS} to implement Bayesian
-analyses. For the problem we just encountered, here's the code that's
-needed to get our results:\footnote{This code and other {\tt JAGS}
-  code used in the course can be found on the course web site by
-  following the links associated with the corresponding
-  lecture.}\index{JAGS@\texttt{JAGS}}\index{MCMC sampling}
+Until the early 1990s\footnote{You are probably thinking to yourself
+  ``The 1990s? That's ancient history. Why is Holsinger making such a
+  big deal about this'' Please cut me a little slack. I know that most
+  of you weren't born in the early 90s, but I'd already taught this
+  course two or three times by the time the paper I'm about to refer
+  to was published.} it was necessary to do a bunch of complicated
+calculus to combine the prior with the likelihood to get a
+posterior. Since the early 1990s statisticians have used a simulation
+approach, Monte Carlo Markov Chain sampling, to construct numerical
+samples from the posterior. For the problems encountered in this
+course, we'll mostly be using the freely available software package
+{\tt Stan} through its interface in {\tt R}, {\tt rstan}, to implement
+Bayesian analyses. For the problem we just encountered, here's the
+code that's needed to get our results:\footnote{This code and other
+  {\tt Stan} code used in the course can be found on the course web
+  site by following the links associated with the corresponding
+  lecture.}\index{Stan@\texttt{Stan}}\index{MCMC sampling}
 \begin{verbatim}
+data {
+  int<lower=0> N;     // the sample size
+  int<lower=0> k;     // the number of A_1 alleles observed
+}
+
+parameters {
+  real<lower=0, upper=1> p;  // the allele frequency
+}
+
 model {
+  // likelihood
+  //
+  k ~ binomial(N, p);
 
-   # likelihood
-   k ~ dbin(p, N)
-
-   # prior
-   p ~ dunif(0,1)
-
+  // prior
+  p ~ dunif(0.0, 1.0);
 }
 \end{verbatim}
-Running this in {\tt JAGS} with $k=7$ and $n=20$ produces these
-results:\footnote{Kristen will show you how to run JAGS through {\tt R}
-  in lab.}
+We can run this is in {\tt R} by {\tt source()}'ing the following
+code. Remember that in our fictitious example, we found 7 fast alleles
+in a sample of 20, i.e., $k=7$ and $N=20$.
 \begin{verbatim}
-> source("binomial.R")
-Compiling model graph
-   Resolving undeclared variables
-   Allocating nodes
-   Graph Size: 5
+## Load the rstan library
+##
+library(rstan)
 
-Initializing model
+## set the number of chains to the number of cores in the computer
+##
+options(mc.cores = parallel::detectCores())
 
-  |**************************************************| 100%
-Inference for Bugs model at "binomial.txt", fit using jags,
- 5 chains, each with 2000 iterations (first 1000 discarded)
- n.sims = 5000 iterations saved
-         mu.vect sd.vect  2.5%   25%   50%   75% 97.5%  Rhat n.eff
-p          0.363   0.099 0.187 0.290 0.358 0.431 0.567 1.001  3800
-deviance   4.289   1.264 3.382 3.487 3.817 4.579 7.909 1.001  3100
+## set up the data
+##   N: sample size
+##   k: number of A1 alleles
+stan_data <- list(N = 20,
+                  k = 7)
 
-For each parameter, n.eff is a crude measure of effective sample size,
-and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
+## Invoke stan
+##
+fit <- stan("binomial-model.stan",
+            data = stan_data,
+            refresh = 0)
 
-DIC info (using the rule, pD = var(deviance)/2)
-pD = 0.8 and DIC = 5.1
-DIC is an estimate of expected predictive error (lower deviance is better).
+## print the results on the console with 3 digits after the decimal
+##
+print(fit, digits = 3)
+\end{verbatim}
+
+\noindent Here's what you'll see in the terminal.\footnote{Your
+  computer may appear to freeze after the message about avoiding
+  recompilation. Don't worry. It's just thinking.}
+
+\begin{verbatim}
+> source("binomial-model.R")
+Loading required package: StanHeaders
+Loading required package: ggplot2
+rstan (Version 2.21.2, GitRev: 2e1f913d3ca3)
+For execution on a local, multicore CPU with excess RAM we recommend calling
+options(mc.cores = parallel::detectCores()).
+To avoid recompilation of unchanged Stan programs, we recommend calling
+rstan_options(auto_write = TRUE)
+Inference for Stan model: binomial-model.
+4 chains, each with iter=2000; warmup=1000; thin=1; 
+post-warmup draws per chain=1000, total post-warmup draws=4000.
+
+        mean se_mean    sd    2.5%     25%     50%     75%   97.5% n_eff  Rhat
+p      0.360   0.003 0.099   0.179   0.289   0.357   0.424   0.561  1475 1.001
+lp__ -14.926   0.017 0.719 -16.901 -15.088 -14.646 -14.470 -14.421  1691 1.000
+
+Samples were drawn using NUTS(diag_e) at Sat Jun  5 16:54:55 2021.
+For each parameter, n_eff is a crude measure of effective sample size,
+and Rhat is the potential scale reduction factor on split chains (at 
+convergence, Rhat=1).
 >
 \end{verbatim}
 
-
-The column headings should be fairly self-explanatory, except for the
-one last two. {\tt mu.vect} is the posterior mean. It's our best guess of
-the value for the frequency of the {\it fast\/} allele. {\tt sd.vect} is
-the posterior standard deviation. It's our best guess of the
-uncertainty associated with our estimate of the frequency of the {\it
-  fast\/} allele. The 2.5\%, 50\%, and 97.5\% columns are the
-percentiles of the posterior distribution. The [2.5\%, 97.5\%]
-interval is the 95\% credible interval, which is analogous to the 95\%
-confidence interval in classical statistics, except that we can say
-that there's a 95\% chance that the frequency of the {\it fast\/}
-allele lies within this interval.\footnote{If you don't understand why
-  that's different from a standard confidence interval, ask me about
-  it.} Since the results are from a simulation, different runs will
-produce slightly different results. In this case, we have a posterior
-mean of about 0.36 (as opposed to the maximum-likelihood estimate of
-0.35), and there is a 95\% chance that $p$ lies in the interval [0.19,
-0.57].
+Most of the column headings should be fairly self-explanatory. {\tt
+  mean} is our best guess for the value for the frequency of the {\it
+  fast\/} allele, the posterior mean of $p$. {\tt sd} is the posterior
+standard deviation of $p$. It's our best guess of the uncertainty
+associated with our estimate of the frequency of the {\it fast\/}
+allele. The 2.5\%, 50\%, and 97.5\% columns are the percentiles of the
+posterior distribution. The [2.5\%, 97.5\%] interval is the 95\%
+credible interval, which is analogous to the 95\% confidence interval
+in classical statistics, except that we can say that there's a 95\%
+chance that the frequency of the {\it fast\/} allele lies within this
+interval.\footnote{If you don't understand why that's different from a
+  standard confidence interval, ask me about it.} Since the results
+are from a simulation, different runs will produce slightly different
+results. In this case, we have a posterior mean of about 0.36 (as
+opposed to the maximum-likelihood estimate of 0.35), and there is a
+95\% chance that $p$ lies in the interval [0.18, 0.56].
 
 \section*{Returning to the ABO example}
 
@@ -550,69 +585,102 @@ frequencies:\footnote{Assuming genotypes are in Hardy-Weinberg
 \hbox{Freq}(B) &=& p_B^2 + 2p_Bp_O \\
 \hbox{Freq}(O) &=& p_O^2 \quad .
 \end{eqnarray*}
-Hers's the {\tt JAGS} code we use to estimate the allele
+Hers's the {\tt Stan} code we use to estimate the allele
 frequencies:
 \begin{verbatim}
+data {
+  int<lower=0> N_A;
+  int<lower=0> N_AB;
+  int<lower=0> N_B;
+  int<lower=0> N_O;
+}
+
+transformed data {
+  int<lower=0> N[4];
+
+  N[1] = N_A;
+  N[2] = N_AB;
+  N[3] = N_B;
+  N[4] = N_O;
+}
+
+parameters {
+  // the three allele frequencies add to 1
+  //
+  simplex[3] p;
+}
+
+transformed parameters {
+  real<lower=0, upper=1> p_a;
+  real<lower=0, upper=1> p_b;
+  real<lower=0, upper=1> p_o;
+  // the four phenotype frequencies add to 1
+  //
+  simplex[4] x;
+
+  // allele frequencies
+  //
+  p_a = p[1];
+  p_b = p[2];
+  p_o = p[3];
+  // phenotype frequencies
+  //
+  // A
+  x[1] = p_a^2 + 2*p_a*p_o;
+  // AB
+  x[2] = 2*p_a*p_b;
+  // B
+  x[3] = p_b^2 + 2*p_b*p_o;
+  // O
+  x[4] = p_o^2;
+}
+
 model {
-   # likelihood
-   pi[1] <- p.a*p.a + 2*p.a*p.o
-   pi[2] <- 2*p.a*p.b
-   pi[3] <- p.b*p.b + 2*p.b*p.o
-   pi[4] <- p.o*p.o
-   x[1:4] ~ dmulti(pi[],n)
+  // likelihood
+  //
+  N ~ multinomial(x);
 
-   # priors
-   a1 ~ dexp(1)
-   b1 ~ dexp(1)
-   o1 ~ dexp(1)
-   p.a <- a1/(a1 + b1 + o1)
-   p.b <- b1/(a1 + b1 + o1)
-   p.o <- o1/(a1 + b1 + o1)
-
-   n <- sum(x[])
+  // prior
+  //
+  p ~ dirichlet(rep_vector(1.0, 3));
 }
 \end{verbatim}
-The {\tt dmulti()} is a multinomial probability, a simple
-generalization of the binomial probability to samples when there are
-more than two categories. The priors are some mumbo jumbo necessary to
-produce the rough equivalent of uniform [0,1] priors with more than
-two alleles.\footnote{It produces a Dirichlet(1,1,1), if you really
-  want to know.} {\tt sum()} is a built-in function that saves me the
-trouble of calculating the sample size and ensures that the n in {\tt
-  dmulti()} is consistent with the individual sample components. The
-{\tt x=c()} produces a vector of counts arranged in the same order as
-the frequencies in {\tt pi[]}. Here are the results:
+The {\tt dirichlet()} prior produces a uniform distribution across all
+three allele frequencies while ensuring that they sum to 1. Here are
+the results of the analysis:
+{\footnotesize
 \begin{verbatim}
-> source("multinomial.R")
-Compiling model graph
-   Resolving undeclared variables
-   Allocating nodes
-   Graph Size: 20
+> source("abo-model.R")
+Inference for Stan model: abo-model.
+4 chains, each with iter=2000; warmup=1000; thin=1; 
+post-warmup draws per chain=1000, total post-warmup draws=4000.
 
-Initializing model
+          mean se_mean    sd      2.5%       25%       50%       75%     97.5% n_eff  Rhat
+p[1]     0.281   0.000 0.008     0.266     0.276     0.281     0.287     0.297  3814 1.000
+p[2]     0.129   0.000 0.005     0.119     0.126     0.129     0.133     0.140  3685 1.000
+p[3]     0.589   0.000 0.008     0.573     0.584     0.589     0.595     0.605  3428 1.001
+p_a      0.281   0.000 0.008     0.266     0.276     0.281     0.287     0.297  3814 1.000
+p_b      0.129   0.000 0.005     0.119     0.126     0.129     0.133     0.140  3685 1.000
+p_o      0.589   0.000 0.008     0.573     0.584     0.589     0.595     0.605  3428 1.001
+x[1]     0.411   0.000 0.010     0.391     0.404     0.411     0.418     0.431  4033 1.000
+x[2]     0.073   0.000 0.003     0.067     0.071     0.073     0.075     0.079  3417 1.001
+x[3]     0.169   0.000 0.007     0.156     0.164     0.169     0.174     0.183  3764 1.000
+x[4]     0.347   0.000 0.010     0.328     0.341     0.347     0.354     0.366  3430 1.001
+lp__ -2506.009   0.022 0.963 -2508.531 -2506.366 -2505.715 -2505.316 -2505.068  1915 1.000
 
-  |++++++++++++++++++++++++++++++++++++++++++++++++++| 100%
-  |**************************************************| 100%
-Inference for Bugs model at "multinomial.txt", fit using jags,
- 5 chains, each with 2000 iterations (first 1000 discarded)
- n.sims = 5000 iterations saved
-         mu.vect sd.vect   2.5%    25%    50%    75%  97.5%  Rhat n.eff
-p.a        0.282   0.008  0.266  0.276  0.282  0.287  0.297 1.001  5000
-p.b        0.129   0.005  0.118  0.125  0.129  0.133  0.140 1.001  5000
-p.o        0.589   0.008  0.573  0.584  0.589  0.595  0.606 1.001  5000
-deviance  27.811   2.007 25.830 26.363 27.229 28.577 33.245 1.001  4400
-
-For each parameter, n.eff is a crude measure of effective sample size,
-and Rhat is the potential scale reduction factor (at convergence, Rhat=1).
-
-DIC info (using the rule, pD = var(deviance)/2)
-pD = 2.0 and DIC = 29.8
-DIC is an estimate of expected predictive error (lower deviance is better).
+Samples were drawn using NUTS(diag_e) at Sat Jun  5 17:23:22 2021.
+For each parameter, n_eff is a crude measure of effective sample size,
+and Rhat is the potential scale reduction factor on split chains (at 
+convergence, Rhat=1).
 >
 \end{verbatim}
-Notice that the posterior means are very close to the
-maximum-likelihood estimates, but that we also have 95\% credible
-intervals so that we have an assessment of how reliable the Bayesian
-estimates are. Getting them from a likelihood analysis is possible,
-but it takes a fair amount of additional work.
+}
+\noindent The posterior means for the allele frequencies are indistinguishable
+from the maximum-likelihood estimates ($p_a = 0.281$, $p_b = 0.129$,
+and $p_o = 0.59$), but we also have 95\% credible intervals so that we
+have an assessment of how reliable the Bayesian estimates are. We also
+have estimates of the phenotype frequencies and their
+reliability. Getting estimates of the reliability for the allele
+frequencies from a likelihood analysis is possible, but it takes a
+fair amount of additional work.
 

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Genetic transmission in populations</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Genetic transmission in populations</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#an-algebraic-formulation-of-the-problem">An algebraic formulation of the problem</a>
+<ul>
+<li><a href="#zero-force-laws">Zero force laws</a></li>
+</ul></li>
+<li><a href="#creative-commons-license">Creative Commons License</a></li>
+</ul>
+</nav>
+<h1 class="unnumbered" id="introduction">Introduction</h1>
+<p>Mendel’s rules describe how genetic transmission happens between parents and offspring. Consider a monohybrid cross:</p>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><span class="math inline">\(\downarrow\)</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(\frac{1}{4}A_1A_1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\frac{1}{2}A_1A_2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\frac{1}{4}A_2A_2\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Population genetics describes how genetic transmission happens between a <span><em>population</em></span> of parents and a population of offspring. Consider, for example, the following data from the <span> <em>Est</em></span>-3 locus of <span><em>Zoarces viviparus</em></span>:<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Maternal genotype</td>
+<td style="text-align: right;"><span class="math inline">\(A_1A_1\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(A_1A_2\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(A_2A_2\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(A_1A_1\)</span></td>
+<td style="text-align: right;">305</td>
+<td style="text-align: right;">516</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(A_1A_2\)</span></td>
+<td style="text-align: right;">459</td>
+<td style="text-align: right;">1360</td>
+<td style="text-align: right;">877</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(A_2A_2\)</span></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">877</td>
+<td style="text-align: right;">1541</td>
+</tr>
+</tbody>
+</table>
+<p>This table describes, empirically, the relationship between the genotypes of mothers and the genotypes of their offspring. We can also make some inferences about the genotypes of the fathers in this population, even though we didn’t see them.</p>
+<ol>
+<li><p>305 out of 821 male gametes that fertilized eggs from <span class="math inline">\(A_1A_1\)</span> mothers carried the <span class="math inline">\(A_1\)</span> allele (37%).</p></li>
+<li><p>877 out of 2418 male gametes that fertilized eggs from <span class="math inline">\(A_2A_2\)</span> mothers carried the <span class="math inline">\(A_1\)</span> allele (36%).</p></li>
+</ol>
+<dl>
+<dt>Question</dt>
+<dd><p>How many of the 2,696 male gametes that fertilized eggs from <span class="math inline">\(A_1A_2\)</span> mothers carried the <span class="math inline">\(A_1\)</span> allele?</p>
+</dd>
+<dt>Recall</dt>
+<dd><p>We don’t know the paternal genotypes or we wouldn’t be asking this question.</p>
+<ul>
+<li><p>There is no way to tell which of the 1360 <span class="math inline">\(A_1A_2\)</span> offspring received <span class="math inline">\(A_1\)</span> from their mother and which from their father.</p></li>
+<li><p>Regardless of what the genotype of the father is, half of the offspring of a heterozygous mother will be heterozygous.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p></li>
+<li><p>Heterozygous offspring of heterozygous mothers contain no information about the frequency of <span class="math inline">\(A_1\)</span> among fathers, so we don’t bother to include them in our calculations.</p></li>
+</ul>
+</dd>
+<dt>Rephrase</dt>
+<dd><p>How many of the 1336 homozygous progeny of heterozygous mothers received an <span class="math inline">\(A_1\)</span> allele from their father?</p>
+</dd>
+<dt>Answer</dt>
+<dd><p>459 out of 1336 (34%)</p>
+</dd>
+<dt>New question</dt>
+<dd><p>How many of the offspring where the paternal contribution can be identified received an <span class="math inline">\(A_1\)</span> allele from their father?</p>
+</dd>
+<dt>Answer</dt>
+<dd><p>(305 + 459 + 877) out of (305 + 459 + 877 + 516 + 877 + 1541) or 1641 out of 4575 (36%)</p>
+</dd>
+</dl>
+<h1 class="unnumbered" id="an-algebraic-formulation-of-the-problem">An algebraic formulation of the problem</h1>
+<p>The above calculations tell us what’s happening for this particular data set, but those of you who know me know that there has to be a little math coming so that we can describe the situation more generally. Here’s the notation:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Genotype</th>
+<th style="text-align: center;">Number</th>
+<th style="text-align: right;">Sex</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(A_1A_1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(F_{11}\)</span></td>
+<td style="text-align: right;">female</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(A_1A_2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(F_{12}\)</span></td>
+<td style="text-align: right;">female</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(A_2A_2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(F_{22}\)</span></td>
+<td style="text-align: right;">female</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(A_1A_1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(M_{11}\)</span></td>
+<td style="text-align: right;">male</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(A_1A_2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(M_{12}\)</span></td>
+<td style="text-align: right;">male</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(A_2A_2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(M_{22}\)</span></td>
+<td style="text-align: right;">male</td>
+</tr>
+</tbody>
+</table>
+<p>Using that notation,</p>
+<p><span class="math display">\[\begin{array}{cc}
+p_f = \frac{2F_{11}+F_{12}}{2F_{11}+2F_{12}+2F_{22}} &amp;
+q_f = \frac{2F_{22}+F_{12}}{2F_{11}+2F_{12}+2F_{22}} \\
+ &amp; \\
+p_m = \frac{2M_{11}+M_{12}}{2M_{11}+2M_{12}+2M_{22}} &amp;
+q_m = \frac{2M_{22}+M_{12}}{2M_{11}+2M_{12}+2M_{22}} \quad ,
+\end{array}\]</span> where <span class="math inline">\(p_f\)</span> is the frequency of <span class="math inline">\(A_1\)</span> in mothers and <span class="math inline">\(p_m\)</span> is the frequency of <span class="math inline">\(A_1\)</span> in fathers.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
+<p>Since every individual in the population must have one father and one mother, the frequency of <span class="math inline">\(A_1\)</span> among offspring is the same in both sexes, namely <span class="math display">\[p = \frac{1}{2}(p_f + p_m) \quad ,\]</span> assuming that all matings have the same average fecundity and that the locus we’re studying is autosomal.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
+<p><span><strong>Question</strong></span>: Why do those assumptions matter?</p>
+<p><span><strong>Answer</strong></span>: If <span class="math inline">\(p_f = p_m\)</span>, then the allele frequency among offspring is equal to the allele frequency in their parents, i.e., the allele frequency doesn’t change from one generation to the next. This might be considered the First Law of Population Genetics: <span><em>If no forces act to change allele frequencies between zygote formation and breeding, allele frequencies will not change.</em></span></p>
+<h2 class="unnumbered" id="zero-force-laws">Zero force laws</h2>
+<p>This is an example of what philosophers call a <span><strong>zero force law</strong></span>. Zero force laws play a very important role in scientific theories, because we can’t begin to understand what a force does until we understand what would happen in the absence of any forces. Consider Newton’s famous dictum:</p>
+<blockquote>
+<p>An object in motion tends to remain in motion in a straight line. An object at rest tends to remain at rest.</p>
+</blockquote>
+<p>or (as you may remember from introductory physics)<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> <span class="math display">\[F = ma \quad.\]</span> If we observe an object accelerating, we can immediately infer that a force is acting on it. Not only that, we can also infer something about the magnitude of the force. <span><strong>However</strong></span>, if an object is not accelerating we cannot conclude that no forces are acting. It might be that opposing forces act on the object in such a way that the resultant is no <span><em>net</em></span> force. Acceleration is a <span> <em>sufficient</em></span> condition to infer that force is operating on an object, but it is not <span><em>necessary</em></span>.</p>
+<p>What we might call the “First Law of Population Genetics” is analogous to Newton’s First Law of Motion:</p>
+<blockquote>
+<p>If all genotypes at a particular locus have the same average fecundity and the same average chance of being included in the breeding population, allele frequencies in the population will remain constant from one generation to the next.</p>
+</blockquote>
+<p>For the rest of the semester we’ll be learning about the processes that cause allele frequencies to change and learning how to infer the properties of those processes from the changes that they induce. But you must always remember that while we can infer that some evolutionary process is happening if allele frequencies change from one generation to the next, we <span><em>cannot</em></span> infer the absence of an evolutionary process from a lack of allele frequency change.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></p>
+<h1 class="unnumbered" id="creative-commons-license">Creative Commons License</h1>
+<p>These notes are licensed under the Creative Commons Attribution License. To view a copy of this license, visit https://creativecommons.org/licenses/by/4.0/ or send a letter to Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305, USA.</p>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p>Only one offspring from each mother is included in these data (from <span class="citation" data-cites="Christiansen-1980"></span>).<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>Assuming we’re looking at data from a locus that has only two alleles. If there were four alleles at a locus, for example, <span><em>all</em></span> of the offspring could be heterozygous. If you don’t see that immediately, think about an <span class="math inline">\(A_1A_2\)</span> mother mating with an <span class="math inline">\(A_3A_4\)</span> father and write out the Punnett square. We are also assuming that meiosis is fair, i.e., that there’s no segregation distortion, and that there’s no gamete competition and no gamete-gamete assortative mating. If you don’t know what any of that means don’t worry about it. We’ll get to (most of) it over the next few weeks.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3" role="doc-endnote"><p><span class="math inline">\(q_f = 1 - p_f\)</span> and <span class="math inline">\(q_m = 1 -
+  p_m\)</span> as usual.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4" role="doc-endnote"><p>And that there are enough offspring produced that we can ignore genetic drift. Have you noticed that I have a fondness for footnotes? You’ll see a lot more before the semester is through, and you’ll soon discover that most of my weak attempts at humor are buried in them.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5" role="doc-endnote"><p>Don’t worry if you’re not good at physics. I’m probably worse. What I’m about to tell you is almost the only thing about physics I can remember. I graduated from college with only one semester of college physics, and it didn’t even require calculus as a pre-requisite. My brother is an electrical engineer, and he is appalled by my inability to remember Ohm’s Law.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6" role="doc-endnote"><p>If you’ve been paying very close attention, you will have noticed that I changed from talking about “forces” to talking about “evolutionary processes.” There’s a reason for that. One important evolutionary process, genetic drift, isn’t a force. Merriam-Webster defines force as “strength or energy exerted or brought to bear.” While natural selection can be thought of as a force, since it “pushes” a population in a particular direction, genetic drift can’t be thought of as a force, since it describes the random change of a population that happens because it is small and when the change doesn’t have a directional tendency.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+</body>
+</html>
