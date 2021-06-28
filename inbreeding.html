@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Inbreeding and self-fertilization</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Inbreeding and self-fertilization</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#self-fertilization">Self-fertilization</a></li>
+<li><a href="#partial-self-fertilization">Partial self-fertilization</a></li>
+<li><a href="#inbreeding-coefficients">Inbreeding coefficients</a></li>
+<li><a href="#identity-by-descent">Identity by descent</a></li>
+<li><a href="#creative-commons-license">Creative Commons License</a></li>
+</ul>
+</nav>
+<h1 class="unnumbered" id="introduction">Introduction</h1>
+<p>Remember that long list of assumptions associated with derivation of the Hardy-Weinberg principle that we just finished? Well, we’re about to begin violating assumptions to explore the consequences, but we’re not going to violate them in order. We’re first going to violate Assumption #2:</p>
+<blockquote>
+<p>Genotypes mate at random with respect to their genotype at this particular locus.</p>
+</blockquote>
+<p>There are many ways in which this assumption might be violated:</p>
+<ul>
+<li><p>Some genotypes may be more successful in mating than otherssexual selection.</p></li>
+<li><p>Genotypes that are different from one another may mate more often than expecteddisassortative mating, e.g., self-incompatibility alleles in flowering plants, MHC loci in humans (the smelly t-shirt experiment <span class="citation" data-cites="Wedekind-etal-1995"></span>).</p></li>
+<li><p>Genotypes that are similar to one another may mate more often than expectedassortative mating.</p></li>
+<li><p>Some fraction of the offspring produced may be produced asexually.</p></li>
+<li><p>Individuals may mate with relativesinbreeding.</p>
+<ul>
+<li><p>self-fertilization</p></li>
+<li><p>sib-mating</p></li>
+<li><p>first-cousin mating</p></li>
+<li><p>parent-offspring mating</p></li>
+<li><p>etc.</p></li>
+</ul></li>
+</ul>
+<p>When there is sexual selection or disassortative mating genotypes differ in their chances of being included in the breeding population. As a result, allele and genotype frequencies will tend to change from one generation to the next. We’ll talk a little about these types of departures from random mating when we discuss the genetics of natural selection in a few weeks, but we’ll ignore them for now. In fact, we’ll also ignore assortative mating, since it’s properties are fairly similar to those of inbreeding, and inbreeding is easier to understand. We’ll also ignore asexual reproduction, since genotypes simply reproduce themselves and the genetic composition of the population doesn’t change.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<h1 class="unnumbered" id="self-fertilization">Self-fertilization</h1>
+<p>Self-fertilization is the most extreme form of inbreeding possible, and it is characteristic of many flowering plants and some hermaphroditic animals, including freshwater snails and that darling of developmental genetics, <span><em>Caenorhabditis elegans</em></span>.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> It’s not too hard to figure out what the consequences of self-fertilization will be without doing any algebra.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
+<ul>
+<li><p>All progeny of homozygotes are themselves homozygous.</p></li>
+<li><p>Half of the progeny of heterozygotes are heterozygous and half are homozygous.</p></li>
+</ul>
+<p>So you’d expect that the frequency of heterozygotes would be halved every generation, that the frequency of homozygotes would increase, and that the allele frequencies wouldn’t change,<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> and you’d be right. To see why, consider the following mating table:<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Mating</td>
+<td style="text-align: center;">frequency</td>
+<td style="text-align: center;"><span class="math inline">\(A_1A_1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(A_1A_2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(A_2A_2\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(A_1A_1 \times A_1A_1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(x_{11}\)</span></td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(A_1A_2 \times A_1A_2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(x_{12}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\frac{1}{4}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\frac{1}{2}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\frac{1}{4}\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(A_2A_2 \times A_2A_2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(x_{22}\)</span></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+</tr>
+</tbody>
+</table>
+<p>Using the same technique we used to derive the Hardy-Weinberg principle, we can calculate the frequency of the different offspring genotypes from the above table. <span class="math display">\[\begin{aligned}
+x_{11}&#39; &amp;=&amp; x_{11} + x_{12}/4 \\
+x_{12}&#39; &amp;=&amp; x_{12}/2 \\
+x_{22}&#39; &amp;=&amp; x_{22} + x_{12}/4\end{aligned}\]</span></p>
+<p>I use the <span class="math inline">\(&#39;\)</span> to indicate the next generation. Notice that in making this caclulation I assume that all other conditions associated with Hardy-Weinberg apply (meiosis is fair, no differences among genotypes in probability of survival, no input of new genetic material, etc.). We can also calculate the frequency of the <span class="math inline">\(A_1\)</span> allele among offspring, namely <span class="math display">\[\begin{aligned}
+p&#39; &amp;=&amp; x_{11}&#39; + x_{12}&#39;/2 \\
+   &amp;=&amp; x_{11} + x_{12}/4 + x_{12} /4 \\
+   &amp;=&amp; x_{11} + x_{12}/2 \\
+   &amp;=&amp; p\end{aligned}\]</span></p>
+<p>These equations illustrate two very important principles that are true with any system of strict inbreeding:</p>
+<ol>
+<li><p>Inbreeding does not cause <span><em>allele</em></span> frequencies to change, but it will generally cause <span><em>genotype</em></span> frequencies to change.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></p></li>
+<li><p>Inbreeding reduces the frequency of heterozygotes relative to Hardy-Weinberg expectations. It need not eliminate heterozygotes entirely, but it is guaranteed to reduce their frequency.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
+<ul>
+<li><p>Suppose we have a population of hermaphrodites in which <span class="math inline">\(x_{12}
+= 0.5\)</span> and we subject it to strict self-fertilization. Assuming that inbred progeny are as likely to survive and reproduce as outbred progeny, <span class="math inline">\(x_{12} &lt; 0.01\)</span> in six generations and <span class="math inline">\(x_{12} &lt; 0.0005\)</span> in ten generations.</p></li>
+</ul></li>
+</ol>
+<h1 class="unnumbered" id="partial-self-fertilization">Partial self-fertilization</h1>
+<p>Many plants reproduce by a mixture of outcrossing and self-fertilization. To a population geneticist that means that they reproduce by a mixture of selfing and random mating.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> Now I’m going to pull a fast one and derive the equations that determine how allele frequencies change from one generation to the next without using a mating table. To do so, I’m going to imagine that our population consists of a mixture of two populations. In one part of the population all of the reproduction occurs through self-fertilization and in the other part all of the reproduction occurs through random mating. If you think about it for a while, you’ll realize that this is equivalent to imagining that each plant reproduces some fraction of the time through self-fertilization and some fraction of the time through random mating.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> Let <span class="math inline">\(\sigma\)</span> be the fraction of progeny produced through self-fertilization, then <span class="math display">\[\begin{aligned}
+x_{11}&#39; &amp;=&amp; p^2(1-\sigma) + (x_{11} + x_{12}/4)\sigma \\
+x_{12}&#39; &amp;=&amp; 2pq(1-\sigma) + (x_{12}/2)\sigma  \label{eq:het} \\
+x_{22}&#39; &amp;=&amp; q^2(1-\sigma) + (x_{22} + x_{12}/4)\sigma\end{aligned}\]</span> Notice that I use <span class="math inline">\(p^2\)</span>, <span class="math inline">\(2pq\)</span>, and <span class="math inline">\(q^2\)</span> for the genotype frequencies in the part of the population that’s mating at random. <span><strong>Question</strong></span>: Why can I get away with that?<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a></p>
+<p>It takes a little more algebra than it did before, but it’s not difficult to verify that the allele frequencies don’t change between parents and offspring. <span class="math display">\[\begin{aligned}
+p&#39; &amp;=&amp; \left\{p^2(1-\sigma) + (x_{11} + x_{12}/4)\sigma\right\}
+       + \left\{pq(1-\sigma) + (x_{12}/4)\sigma\right\} \\
+   &amp;=&amp; p(p+q)(1-\sigma) + (x_{11} + x_{12}/2)\sigma \\
+   &amp;=&amp; p(1-\sigma) + p\sigma \\
+   &amp;=&amp; p\end{aligned}\]</span> Because homozygous parents can always have heterozygous offspring (when they outcross), heterozygotes are never completely eliminated from the population as they are with complete self-fertilization. In fact, we can solve for the <span><em>equilibrium</em></span> frequency of heterozygotes, i.e., the frequency of heterozygotes reached when genotype frequencies stop changing.<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a> By definition, an equilibrium for <span class="math inline">\(x_{12}\)</span> is a value such that if we put it in on the right side of equation (<a href="#eq:het" data-reference-type="ref" data-reference="eq:het">[eq:het]</a>) we get it back on the left side, or in equations <span class="math display">\[\begin{aligned}
+\hat x_{12} &amp;=&amp; 2pq(1-\sigma) + (\hat x_{12}/2)\sigma \\
+\hat x_{12}(1 - \sigma/2) &amp;=&amp; 2pq(1-\sigma) \\
+\hat x_{12} &amp;=&amp; \frac{2pq(1-\sigma)}{(1-\sigma/2)}\end{aligned}\]</span></p>
+<p>It’s worth noting several things about this set of equations:</p>
+<ol>
+<li><p>I’m using <span class="math inline">\(\hat x_{12}\)</span> to refer to the equilibrium frequency of heterozygotes. I’ll be using hats over variables to denote equilibrium properties throughout the course.<a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a></p></li>
+<li><p>I can solve for <span class="math inline">\(\hat x_{12}\)</span> in terms of <span class="math inline">\(p\)</span> because I know that <span class="math inline">\(p\)</span> doesn’t change. If <span class="math inline">\(p\)</span> changed, the calculations wouldn’t be nearly this simple.</p></li>
+<li><p>The equilibrium is approached gradually (or asymptotically as mathematicians would say). A single generation of random mating will put genotypes in Hardy-Weinberg proportions (assuming all the other conditions are satisfied), but many generations may be required for genotypes to approach their equilibrium frequency with partial self-fertilization.</p></li>
+</ol>
+<h1 class="unnumbered" id="inbreeding-coefficients">Inbreeding coefficients</h1>
+<p>Now that we’ve found an expression for <span class="math inline">\(\hat x_{12}\)</span> we can also find expressions for <span class="math inline">\(\hat x_{11}\)</span> and <span class="math inline">\(\hat x_{22}\)</span>. The complete set of equations for the genotype frequencies with partial selfing are: <span class="math display">\[\begin{aligned}
+\hat x_{11} &amp;=&amp; p^2 + \frac{\sigma pq}{2(1-\sigma/2)} \\
+\hat x_{12} &amp;=&amp; 2pq - 2\left(\frac{\sigma pq}{2(1-\sigma/2)}\right) \\
+\hat x_{22} &amp;=&amp; q^2 + \frac{\sigma pq}{2(1-\sigma/2)} \end{aligned}\]</span> Notice that all of those equations have a term <span class="math inline">\(\sigma/(2(1-\sigma/2))\)</span>. Let’s call that term <span class="math inline">\(f\)</span>. Then we can save ourselves a little hassle by rewriting the above equations as: <span class="math display">\[\begin{aligned}
+\hat x_{11} &amp;=&amp; p^2 + fpq \\
+\hat x_{12} &amp;=&amp; 2pq(1-f) \\
+\hat x_{22} &amp;=&amp; q^2 + fpq\end{aligned}\]</span> Now you’re going to have to stare at this a little longer, but notice that <span class="math inline">\(\hat x_{12}\)</span> is the frequency of heterozygotes that we observe and <span class="math inline">\(2pq\)</span> is the frequency of heterozygotes we’d expect under Hardy-Weinberg in this population.<a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a> So</p>
+<p><span class="math display">\[\begin{aligned}
+1-f &amp;=&amp; \frac{\hat x_{12}}{2pq} \\
+  f &amp;=&amp; 1 - \frac{\hat x_{12}}{2pq} \\
+    &amp;=&amp; 1 - \frac{\hbox{observed heterozygosity}}%
+                 {\hbox{expected heterozygosity}}\end{aligned}\]</span></p>
+<p><span class="math inline">\(f\)</span> is the inbreeding coefficient. When defined as 1 - (observed heterozygosity)/(expected heterozygosity) it can be used to measure the extent to which a particular population departs from Hardy-Weinberg expectations.<a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a> When <span class="math inline">\(f\)</span> is defined in this way, I refer to it as the <span><em>population inbreeding coefficient</em></span>.<a href="#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a></p>
+<p>But <span class="math inline">\(f\)</span> can also be regarded as a function of a particular system of mating. With partial self-fertilization the population inbreeding coefficient when the population has reached equilibrium is <span class="math inline">\(\sigma/(2(1-\sigma/2))\)</span>. When regarded as the inbreeding coefficient predicted by a particular system of mating, I refer to it as the <span> <em>equilibrium inbreeding coefficient</em></span>.</p>
+<p>We’ll encounter at least two more definitions for <span class="math inline">\(f\)</span> once I’ve introduced idea of identity by descent.</p>
+<h1 class="unnumbered" id="identity-by-descent">Identity by descent</h1>
+<p>Self-fertilization is, of course, only one example of the general phenomenon of inbreedingnon-random mating in which individuals mate with close relatives more often than expected at random. We’ve already seen that the consequences of inbreeding can be described in terms of the inbreeding coefficient, <span class="math inline">\(f\)</span> and I’ve introduced you to two ways in which <span class="math inline">\(f\)</span> can be defined.<a href="#fn16" class="footnote-ref" id="fnref16" role="doc-noteref"><sup>16</sup></a> I’m about to introduce you to one more, but first I have to tell you about identity by descent.</p>
+<blockquote>
+<p>Two alleles at a single locus are <span><em>identical by descent</em></span> if they are identical copies of the same allele in some earlier generation, i.e., both are copies that arose by DNA replication from the same ancestral sequence without any intervening mutation.</p>
+</blockquote>
+<p>We’re more used to classifying alleles by <span><em>type</em></span> than by <span> <em>descent</em></span>. Although we don’t usually say it explicitly, we regard two alleles as the “same,” i.e., identical by type, if they have the same phenotypic effects. Whether or not two alleles are identical by descent, however, is a property of their genealogical history, not of their phenotypic effects. Consider the following two scenarios:</p>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">Identity by descent</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><span class="math inline">\(A_1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\rightarrow\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(A_1\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"></td>
+<td style="text-align: center;"><span class="math inline">\(\nearrow\)</span></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><span class="math inline">\(A_1\)</span></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"></td>
+<td style="text-align: center;"><span class="math inline">\(\searrow\)</span></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><span class="math inline">\(A_1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\rightarrow\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(A_1\)</span></td>
+</tr>
+</tbody>
+</table>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">Identity by type</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><span class="math inline">\(A_1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\rightarrow\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(A_1\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"></td>
+<td style="text-align: center;"><span class="math inline">\(\nearrow\)</span></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><span class="math inline">\(A_1\)</span></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"></td>
+<td style="text-align: center;"><span class="math inline">\(\searrow\)</span></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><span class="math inline">\(A_2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\rightarrow\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(A_1\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"></td>
+<td style="text-align: center;"><span class="math inline">\(\uparrow\)</span></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><span class="math inline">\(\uparrow\)</span></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"></td>
+<td style="text-align: center;">mutation</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">mutation</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p>In both scenarios, the alleles at the end of the process are identical in type, i.e., they’re both <span class="math inline">\(A_1\)</span> alleles and they have the same phenotypic effect. In the second scenario, however, they are identical in type only because one of the alleles has two mutations in its history.<a href="#fn17" class="footnote-ref" id="fnref17" role="doc-noteref"><sup>17</sup></a> So alleles that are identical by descent will also be identical by type, but alleles that are identical by type need not be identical by descent.<a href="#fn18" class="footnote-ref" id="fnref18" role="doc-noteref"><sup>18</sup></a></p>
+<p>A third definition for <span class="math inline">\(f\)</span> is the probability that two alleles <span> <em>chosen at random</em></span> are identical by descent.<a href="#fn19" class="footnote-ref" id="fnref19" role="doc-noteref"><sup>19</sup></a> Of course, there are several aspects to this definition that need to be spelled out more explicitly.<a href="#fn20" class="footnote-ref" id="fnref20" role="doc-noteref"><sup>20</sup></a></p>
+<ul>
+<li><p>In what sense are the alleles chosen at random, within an individual, within a particular population, within a particular set of populations?</p></li>
+<li><p>How far back do we trace the ancestry of alleles to determine whether they’re identical by descent? Two alleles that are identical by type may not share a common ancestor if we trace their ancestry only 20 generations, but they may share a common ancestor if we trace their ancestry back 1000 generations and neither may have undergone any mutations since they diverged from one another.</p></li>
+</ul>
+<p>Let’s imagine for a moment, however, that we’ve traced back the ancestry of all alleles in a particular population to what we call a <span><em>reference population</em></span>, i.e., a population in which we regard all alleles as unrelated. That’s equivalent to saying that alleles chosen at random from this population have zero probability of being identical by descent, even if they are identical by type. Given this assumption we can write down the genotype frequencies in a descendant population once we know <span class="math inline">\(f\)</span>, where we define <span class="math inline">\(f\)</span> as the probability that two alleles chosen at random in the descendant population are identical by descent, i.e., descended from just one of the alleles in the reference population. <span class="math display">\[\begin{aligned}
+x_{11} &amp;=&amp; p^2(1-f) + fp \\
+x_{12} &amp;=&amp; 2pq(1-f) \\
+x_{22} &amp;=&amp; q^2(1-f) + fq \quad .\end{aligned}\]</span> It may not be immediately apparent, but you’ve actually seen these equations before in a different form. Since <span class="math inline">\(p - p^2 = p(1-p) = pq\)</span> and <span class="math inline">\(q - q^2 = q(1-q) = pq\)</span> these equations can be rewritten as <span class="math display">\[\begin{aligned}
+x_{11} &amp;=&amp; p^2 + fpq \\
+x_{12} &amp;=&amp; 2pq(1-f) \\
+x_{22} &amp;=&amp; q^2 + fpq \quad .\end{aligned}\]</span></p>
+<p>Now you can probably see why population geneticists tend to play fast and loose with the definitions. <span><em>If</em></span> we ignore the distinction between identity by type and identity by descent, then the equations we used earlier to show the relationship between genotype frequencies, allele frequencies, and <span class="math inline">\(f\)</span> (defined as a measure of departure from Hardy-Weinberg expectations) are identical to those used to show the relationship between genotype frequencies, allele frequencies, and <span class="math inline">\(f\)</span> (defined as a the probability that two randomly chosen alleles in the population are identical by descent).</p>
+<h1 class="unnumbered" id="creative-commons-license">Creative Commons License</h1>
+<p>These notes are licensed under the Creative Commons Attribution License. To view a copy of this license, visit https://creativecommons.org/licenses/by/4.0/ or send a letter to Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305, USA.</p>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p>Assuming, of course, that all of the other assumptions underlying Hardy-Weinberg continue to apply. In the real world, the genetic composition of the population will change, but we’re not going to discuss how asexual reproduction influences changes in the genotype composition of populations unless there is overwhelming demand to do so.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>It could be that it is characteristic of <span><em>many</em></span> hermaphroditic animal parasites, but I’m a plant biologist. I know next to nothing about animal mating systems, so I don’t have a good feel for how extensively self-fertilization has been looked for in hermaphroditic animals. You should also know that I exaggerated when I wrote that “self-fertilization is the most extreme form of inbreeding.” (Watch me carefully. I have a tendency to exaggerate in the main text of these notes. I usually try to provide the complicating details in footnotes in the hope that they’ll be less distracting here.) The form of self-fertilization I’m going to describe actually isn’t the most extreme form of self-fertilization possible. That honor belongs to gametophytic self-fertilization in homosporous plants. The offspring of gametophytic self-fertilization are uniformly homozygous at every locus in the genome. If you don’t know what gametophytic self-fertilization is, you’re not alone. Ask me or see <span class="citation" data-cites="Holsinger-1990"></span> if your want more details.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3" role="doc-endnote"><p>As you’ll see, though, I often resort to algebra, because it makes things even clearer.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4" role="doc-endnote"><p>Since half of the homozygous offspring carry one of the two alleles and the other half carry the other one, the overall frequency of alleles doesn’t change.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5" role="doc-endnote"><p>Note: The “missing” entries in the mating table are mating events that never happen.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6" role="doc-endnote"><p>This is why I think of evolution as a change in the genotypic composition of a population over time, <span><em>not</em></span> as a change in allele frequencies over time. I think a population that is self-fertilizing evolves, because the genotype frequencies change even though the allele frequencies don’t.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7" role="doc-endnote"><p>Inbreeding that leads to distinct family lines, e.g., self-fertilization or sib-mating, will completely eliminate heterozygosity over time.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8" role="doc-endnote"><p>It would be more accurate to write: “Population geneticists usually model partial self-fertilization as a mixture of self-fertilization and random mating. That simple model ignores a lot of complexity in how self-fertilization happens, but it’s a useful approximation for most purposes.”<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9" role="doc-endnote"><p>Again, it would be more accurate to write: “If you think about it for a while, you’ll realize that for purposes of understanding how genotype frequencies change through time this is equivalent to assuming that each plant produces some fraction of its progeny through self-fertilization and some fraction through outcrossing.”<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10" role="doc-endnote"><p>If you’re being good little boys and girls and looking over these notes <span><em>before</em></span> you get to class, when you see <span><strong>Question</strong></span> in the notes, you’ll know to think about that a bit, because I’m not going to give you the answer in the notes, I’m going to help you discover it during lecture.<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn11" role="doc-endnote"><p>This is analogous to stopping the calculation and re-calculation of allele frequencies in the EM algorithm when the allele frequency estimates stop changing.<a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn12" role="doc-endnote"><p>Unfortunately, I’ll also be using hats to denote estimates of unknown parameters, as I did when discussing maximum-likelihood estimates of allele frequencies. I apologize for using the same notation to mean different things, but I’m afraid you’ll have to get used to figuring out the meaning from the context. Believe me. Things are about to get a lot worse. Wait until I tell you how many different ways population geneticists use a parameter <span class="math inline">\(f\)</span> that is commonly called the inbreeding coefficient.<a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn13" role="doc-endnote"><p>In both cases, I’m assuming that we have observed the genotype and allele frequencies without error. When we talk about estimating <span class="math inline">\(f\)</span> a little later, you’ll see how things work in the real world (as opposed to how they work in the imaginary world I’m fond of spending my time in).<a href="#fnref13" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn14" role="doc-endnote"><p><span class="math inline">\(f\)</span> can be negative if there are more heterozygotes than expected, as might be the case if cross-homozygote matings are more frequent than expected at random.<a href="#fnref14" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn15" role="doc-endnote"><p>To be honest, I’ll <span><em>try</em></span> to remember to refer to it this way. Chances are that I’ll forget sometimes and just call it the inbreeding coefficient. If I do, you’ll either have to figure out what I mean from the context or ask me to be more explicit.<a href="#fnref15" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn16" role="doc-endnote"><p>See paragraphs above describing the population and equilibrium inbreeding coefficient.<a href="#fnref16" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn17" role="doc-endnote"><p>Notice that we could also have had each allele mutate independently to <span class="math inline">\(A_2\)</span>.<a href="#fnref17" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn18" role="doc-endnote"><p>Systematists in the audience will recognize this as the problem of homoplasy.<a href="#fnref18" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn19" role="doc-endnote"><p>Notice that if we adopt this definition for <span class="math inline">\(f\)</span> it can only take on values between 0 and 1. When used in the sense of a population or equilibrium inbreeding coefficient, however, <span class="math inline">\(f\)</span> can be negative.<a href="#fnref19" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn20" role="doc-endnote"><p>OK, maybe “of course” is overstating it. It isn’t really obvious that more clarity is needed until I point out the ambiguities in the bullet points that follow.<a href="#fnref20" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+</body>
+</html>
