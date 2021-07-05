@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Analyzing the genetic structure of populations: a Bayesian approach</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Analyzing the genetic structure of populations: a Bayesian approach</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#the-bayesian-model">The Bayesian model</a>
+<ul>
+<li><a href="#using-hickory-to-analyze-f-statistics">Using <span><code>Hickory</code></span> to analyze <span class="math inline">\(F\)</span>-statistics</a>
+<ul>
+<li><a href="#getting-data-into-hickory">Getting data into Hickory</a></li>
+<li><a href="#running-the-analysis">Running the analysis</a></li>
+<li><a href="#thinking-about-priors">Thinking about priors</a></li>
+</ul></li>
+<li><a href="#assessing-evidence-for-inbreeding-and-population-differentiation">Assessing evidence for inbreeding and population differentiation</a></li>
+</ul></li>
+<li><a href="#creative-commons-license">Creative Commons License</a></li>
+</ul>
+</nav>
+<h1 class="unnumbered" id="introduction">Introduction</h1>
+<p>Our review of Nei’s <span class="math inline">\(G_{st}\)</span> and Weir and Cockerham’s <span class="math inline">\(\theta\)</span> illustrated two important principles:</p>
+<ol>
+<li><p>It’s essential to distinguish <span><em>parameters</em></span> from <span> <em>estimates</em></span>. <span><em>Parameters</em></span> are the things we’re really interested in, but since we always have to make inferences about the things we’re really interested in from limited data, we have to rely on <span><em>estimates</em></span> of those parameters.</p></li>
+<li><p>This means that we have to identify the possible sources of sampling error in our estimates and to find ways of accounting for them. In the particular case of Wright’s <span class="math inline">\(F\)</span>-statistics we saw that, there are two sources of sampling error: the error associated with sampling only some individuals from a larger universe of individuals within populations (<span><em>statistical sampling</em></span>) and the error associated with sampling only some populations from a larger universe of populations (<span><em>genetic sampling</em></span>).<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p></li>
+</ol>
+<p>It shouldn’t come as any surprise that there is a Bayesian way to do what I’ve just described. As I hope to convince you, there are some real advantages associated with doing so.</p>
+<h1 class="unnumbered" id="the-bayesian-model">The Bayesian model</h1>
+<p>I’m not going to provide all of the gory details on the Bayesian model. In fact, I’m only going to describe two pieces of the model.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> First, a little notation: <span class="math display">\[\begin{aligned}
+n_{11,i} &amp;=&amp; \hbox{\# of $A_1A_1$ genotypes} \\
+n_{12,i} &amp;=&amp; \hbox{\# of $A_1A_2$ genotypes} \\
+n_{22,i} &amp;=&amp; \hbox{\# of $A_2A_2$ genotypes} \\
+i         &amp;=&amp; \hbox{population index} \\
+I         &amp;=&amp; \hbox{number of populations} \\\end{aligned}\]</span> These are the data we have to work with. The corresponding genotype frequencies are <span class="math display">\[\begin{aligned}
+x_{11,i} &amp;=&amp; p_{i}^2 + fp_{i}(1-p_{i}) \\
+x_{12,i} &amp;=&amp; 2p_{i}(1-p_{i})(1-f) \\
+x_{22,i} &amp;=&amp; (1-p_{i})^2 + fp_{i}(1-p_{i})\end{aligned}\]</span> So we can express the likelihood of our sample as a product of multinomial probabilities <span class="math display">\[P({\bf n}|{\bf p},f) \propto \prod_{i=1}^I x_{11,i}^{n_{11,i}}
+x_{12,i}^{n_{12,i}} x_{22,i}^{n_{22,i}} \quad .\]</span> Notice that I am assuming here that we have the same <span class="math inline">\(f\)</span> in every population. It’s easy enough to relax that assumption, but we won’t worry about it for now. To complete the Bayesian model, all we need are some appropriate priors. We’ll discuss them a little later.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
+<h2 class="unnumbered" id="using-hickory-to-analyze-f-statistics">Using <span><code>Hickory</code></span> to analyze <span class="math inline">\(F\)</span>-statistics</h2>
+<p>As I said earlier, the good news is that you don’t have to write any code to run an analysis of <span class="math inline">\(F\)</span>-statistics using a Bayesian approach. All you have to do is to download and install the package <span><code>Hickory</code></span> in <span><code>R</code></span>. Doing this isn’t quite as simple as typing <span><code>install.packages("Hickory")</code></span> in <span><code>R</code></span>, but it’s not too much worse.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
+<pre><code>install.packages(&quot;devtools&quot;)
+install.packages(c(&quot;bayesplot&quot;, &quot;rstan&quot;, &quot;tidyverse&quot;))
+devtools::install_github(&quot;kholsinger/Hickory&quot;, build_vignettes = TRUE)</code></pre>
+<h3 class="unnumbered" id="getting-data-into-hickory">Getting data into Hickory</h3>
+<p>Now you’re ready to read in the data. In this case, we’re going to start with the <span><em>Isotomoa petrea</em></span> example. Download the data from <a href="http://darwin.eeb.uconn.edu/eeb348-resources/isotoma.csv">http://darwin.eeb.uconn.edu/eeb348-resources/isotoma.csv</a>, open it up in your favorite spreadsheet editor, and you should see something similar to Figure <a href="#fig:isotoma-csv" data-reference-type="ref" data-reference="fig:isotoma-csv">1</a>.</p>
+<figure>
+<img src="isotoma-csv.png" id="fig:isotoma-csv" alt="" /><figcaption>Selected rows of a <span><code>isotoma.csv</code></span> with data from <span> <em>Isotoma petraea</em></span> <span class="citation" data-cites="James-etal-1983"></span>.</figcaption>
+</figure>
+<p>The first row is a header row that describes the data in the columns. The first column has the heading <span><code>pop</code></span>, which indicates that the elements in the column refer to the population from which an individual was collected. The second column has the heading <span><code> GOT-1</code></span>, which indicates that this column contains the genotype of an individual at the <span><code>GOT-1</code></span> locus. Each row after the first is the genotype of one individual. I used 2 for <span class="math inline">\(A_1A_1\)</span>, 1 for <span class="math inline">\(A_1A_2\)</span>, and 0 for <span class="math inline">\(A_2A_2\)</span>. I could have swapped the numbers for the two homozygotes, but the heterozygote must be given the genotype 1.</p>
+<p>Now load <span><code>Hickory</code></span> and the <span><code>tidyverse</code></span> and take a quick look at a more complicated data set before we continue with the <span> <em>Isotoma petraea</em></span> example.</p>
+<pre><code>library(&quot;Hickory&quot;)
+library(&quot;tidyverse&quot;)
+dat &lt;- read_csv(system.file(&quot;extdata&quot;, &quot;protea_repens.csv&quot;, package = &quot;Hickory&quot;))
+view(dat)</code></pre>
+<p>Here you’ll see the <span><code>pop</code></span> column again and columns for the genotype of individuals at 20 different loci (Figure <a href="#fig:repens-csv" data-reference-type="ref" data-reference="fig:repens-csv">2</a>). For now just notice how every individual has been genotyped at a number of loci, and that there are missing data (denoted by ’.’) for some combinations of individuals and loci.</p>
+<figure>
+<img src="repens-csv.png" id="fig:repens-csv" alt="" /><figcaption>Selected rows of a a data set from <span><em>Protea repens</em></span> that is distributed with <span><code>Hickory</code></span> <span class="citation" data-cites="Prunier-etal-2017"></span>.</figcaption>
+</figure>
+<p>Now that you understand something about the format of the data that <span><code>Hickory</code></span> needs, let’s load it into <span><code>R</code></span> for further analysis.</p>
+<pre><code>genos &lt;- read_marker_data(&quot;isotoma.csv&quot;)</code></pre>
+<h3 class="unnumbered" id="running-the-analysis">Running the analysis</h3>
+<p>Now that the data are loaded, running the analysis is very straightforward.</p>
+<pre><code>fit &lt;- analyze_codominant(genos)</code></pre>
+<p>The results are pretty easy to interpret, too.</p>
+<pre><code>Inference for Stan model: analyze_codominant.
+4 chains, each with iter=2000; warmup=1000; thin=1; 
+post-warmup draws per chain=1000, total post-warmup draws=4000.
+
+          mean se_mean    sd     2.5%      25%      50%      75%    97.5% n_eff  Rhat
+f        0.344   0.002 0.101    0.147    0.276    0.345    0.414    0.538  3539 1.000
+theta    0.075   0.001 0.046    0.017    0.042    0.065    0.096    0.197  1223 1.002
+lp__  -121.464   0.150 4.035 -130.283 -124.022 -121.095 -118.549 -114.516   727 1.003
+
+Samples were drawn using NUTS(diag_e) at Sat Jul  3 16:07:48 2021.
+For each parameter, n_eff is a crude measure of effective sample size,
+and Rhat is the potential scale reduction factor on split chains (at 
+convergence, Rhat=1).</code></pre>
+<p>The column labeled <span><code>mean</code></span> is the posterior mean for the parameter listed in the first column.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> The column labeled <span><code>se_mean</code></span> is the standard error of the mean. It’s a measure of how accurate the estimate of the posterior mean is, and we want it to be very small relative to the estimate of the posterior mean. The column labeled <span><code>sd</code></span> is the standard deviation of the posterior mean. It’s a measure of our uncertainty about the mean. We expect about 95% of the posterior probability to lie within 2 standard deviations of the mean. If we compare the 2.5% and 97.5% quantiles,<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> they are very close to what we expect.</p>
+<p>In short, there appears to be a reasonable amount of inbreeding within populations (<span class="math inline">\(f = 0.344\)</span>) and a small to moderate amount of among population differentiation (<span class="math inline">\(\theta = 0.075\)</span>). In contrast to the Weir and Cockerham method, we also have estimates of uncertainty associated with both <span class="math inline">\(f\)</span> and <span class="math inline">\(\theta\)</span>.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> Since you’ve probably forgotten what the other estimates look like, Table <a href="#table:hickory-comparison" data-reference-type="ref" data-reference="table:hickory-comparison">1</a> compares all of the approaches we’ve considered.</p>
+<div id="table:hickory-comparison">
+<table>
+<caption>Comparison of different approaches for estimating population structure from genetic data.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Method</th>
+<th style="text-align: left;"><span class="math inline">\(F_{is}\)</span></th>
+<th style="text-align: left;"><span class="math inline">\(F_{st}\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Direct</td>
+<td style="text-align: left;">0.137</td>
+<td style="text-align: left;">0.214</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Nei</td>
+<td style="text-align: left;">0.309</td>
+<td style="text-align: left;">0.240</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Weir &amp; Cockerham</td>
+<td style="text-align: left;">0.540</td>
+<td style="text-align: left;">0.039</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span><code>Hickory</code></span></td>
+<td style="text-align: left;">0.344</td>
+<td style="text-align: left;">0.075</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The logic behind <span><code>Hickory</code></span> matches the logic behind Weir &amp; Cockerham. With moderate to large sample sizes, the point estimates are reasonably close. They’re somewhat different here because there is only one locus in the sample and because the sample sizes in some of the populations are very small. Notice, however, that the <span><code> Hickory</code></span> and the Weir &amp; Cockerham estimates are similar in one very important respect. The estimate of <span class="math inline">\(F_{ST}\)</span> is much smaller in them than in Nei’s method or the direct method because they take account of genetic sampling, not just statistical sampling.</p>
+<h3 class="unnumbered" id="thinking-about-priors">Thinking about priors</h3>
+<p>When I introduced the Bayesian model I reminded you that we need to specify priors to complete it, so how did I get away without specifying any priors in the analysis we just completed? Because <span><code> Hickory</code></span> picks priors by default when you don’t specify them. It picks priors for <span class="math inline">\(f\)</span> and <span class="math inline">\(\theta\)</span> such that there’s a 95% chance that they lie between 0.01 and 0.2. That makes sense for many organisms, since many of them are outbreeding and have low to moderate amounts of population differentiation. If we have a fair amount of data, that choice won’t make much difference. What about here?</p>
+<p>Instead of starting our analysis thinking that we have a reasonably good idea of what <span class="math inline">\(f\)</span> and <span class="math inline">\(\theta\)</span> ought to be, let’s suppose we don’t have much of an idea at all. In particular, let’s imagine that all we’re willing to say is that there’s a 95% chance that <span class="math inline">\(f\)</span> and <span class="math inline">\(\theta\)</span> lie between 0.1 and 0.9. How do we incorporate that into the analysis?</p>
+<pre><code>fit &lt;- analyze_codominant(genos, prior_f = list(lower = 0.1, upper = 0.9), 
+                          prior_theta = list(lower = 0.1, upper = 0.9))</code></pre>
+<p>As you can see, the results are quite different from those we got before.</p>
+<pre><code>Inference for Stan model: analyze_codominant.
+4 chains, each with iter=2000; warmup=1000; thin=1; 
+post-warmup draws per chain=1000, total post-warmup draws=4000.
+
+          mean se_mean    sd     2.5%      25%      50%      75%    97.5% n_eff  Rhat
+f        0.523   0.001 0.094    0.331    0.460    0.525    0.590    0.693  4027 0.999
+theta    0.263   0.005 0.131    0.068    0.163    0.243    0.342    0.571   724 1.005
+lp__  -122.391   0.184 4.255 -131.796 -125.070 -121.939 -119.311 -115.408   533 1.007
+
+Samples were drawn using NUTS(diag_e) at Sat Jul  3 16:43:51 2021.
+For each parameter, n_eff is a crude measure of effective sample size,
+and Rhat is the potential scale reduction factor on split chains (at 
+convergence, Rhat=1).</code></pre>
+<p>The posterior mean of <span class="math inline">\(f\)</span> is now <span class="math inline">\(0.523\)</span> rather than <span class="math inline">\(0.344\)</span>, and the posterior mean of <span class="math inline">\(\theta\)</span> is now <span class="math inline">\(0.263\)</span> rather than <span class="math inline">\(0.075\)</span>. If you’re following along, you’re probably asking yourself “Which of those estimates should I believe?” My advice is that you shouldn’t believe either of them very much. Remember what a Bayesian model looks like.</p>
+<p><span class="math display">\[\mbox{P}(\phi|x) = \frac{\mbox{P}(x|\phi)\mbox{P}(\phi)}{\mbox{P}(x)}\]</span></p>
+<p>We get the posterior mean from the posterior distribution, <span class="math inline">\(\mbox{P}(\phi|x)\)</span>. If the posterior mean changes substantially based on different choices for the prior, <span class="math inline">\(\mbox{P}(\phi)\)</span>, it means that we don’t have enough data for the likelihood, <span class="math inline">\(\mbox{P}(x|\phi)\)</span> to dominate the result. In simpler terms, if different choices for the prior lead to markedly different conclusions, our confidence in those conclusions depends heavily on our prior beliefs, not just the data we’ve collected. Unless we have a lot of confidence in our prior beliefs, we shouldn’t have much confidence in the conclusions.</p>
+<p>One of the nice things about a Bayesian approach is that it gives us a straightforward way to assess how much to rely on inferences from the data we’ve collected. If different priors have a large influence on the posterior, as they do here, it tells us that the data we’ve collected don’t have much information about the parameters we’re interested in. If different priors don’t have a large influence, then the data <span><em>do</em></span> have a fair amount of information about the parameters.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></p>
+<p>There’s a general lesson here: Think carefully about the prior distribution on the parameters in <span><em>any</em></span> Bayesian model you use, <span><em>and</em></span> consider exploring at least a couple of different choices of priors to see if they have a large influence on your conclusions. In addition, <span><em>pay attention to the credible intervals</em></span>. In both sets of analyses you’ve just seen, the credible intervals are very wide. That in itself says that the data aren’t giving you a very clear idea of what the parameter is.</p>
+<h2 class="unnumbered" id="assessing-evidence-for-inbreeding-and-population-differentiation">Assessing evidence for inbreeding and population differentiation</h2>
+<p>You’ve already seen that <span><code>Hickory</code></span> gives you estimates of the credible intervals for <span class="math inline">\(f\)</span> and <span class="math inline">\(\theta\)</span>, but if you’re interested in seeing whether there is evidence for inbreeding within populations or for genetic differentiation among populations, you can’t just look to see whether the credible intervals overlap <span class="math inline">\(0\)</span>. Why? because <span class="math inline">\(f\)</span> and <span class="math inline">\(\theta\)</span> are defined to lie between 0 and 1 in <span><code>Hickory</code></span> so they can’t overlap 0.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> In some data sets the posterior mean for either or both may be substantially larger than 0, and the lower bound of the credible interval may also be substantially larger than 0. In such cases, you’d be pretty safe saying that you have evidence for inbreeding or geographical differentiation, but what if you have a situation like what you get from using the <span><em>Protea repens</em></span> data set that is distributed with <span><code>Hickory</code></span>.</p>
+<pre><code>genos &lt;- read_marker_data(system.file(&quot;extdata&quot;, &quot;protea_repens.csv&quot;, package = &quot;Hickory&quot;))
+fit &lt;- analyze_codominant(genos)
+
+Inference for Stan model: analyze_codominant.
+4 chains, each with iter=2000; warmup=1000; thin=1; 
+post-warmup draws per chain=1000, total post-warmup draws=4000.
+
+           mean se_mean     sd      2.5%       25%       50%       75%     97.5% n_eff  Rhat
+f         0.005   0.000  0.002     0.002     0.003     0.005     0.006     0.010  5169 0.999
+theta     0.081   0.000  0.008     0.066     0.075     0.081     0.086     0.097  1599 1.001
+lp__  -6242.725   0.538 17.416 -6276.812 -6254.305 -6242.781 -6230.561 -6209.327  1048 1.005
+
+Samples were drawn using NUTS(diag_e) at Sun Jul  4 12:52:05 2021.
+For each parameter, n_eff is a crude measure of effective sample size,
+and Rhat is the potential scale reduction factor on split chains (at 
+convergence, Rhat=1).</code></pre>
+<p>The posterior means and credible intervals in these data are relatively insensitive to our choice of priors.<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a> The posterior mean for <span class="math inline">\(\theta\)</span> is only 0.081, but the lower bound of the 95% credible interval is 0.066 and the credible interval is quite small, which gives us reasonably strong evidence that <span class="math inline">\(\theta &gt; 0\)</span>, i.e., that there is genetic differentiation among populations. But what about inbreeding within populations? The posterior mean of <span class="math inline">\(f\)</span> is only 0.005, and the lower bound of the 95% credible interval is barely greater than 0, i.e., 0.002. That doesn’t seem like very good evidence either way, but can we say something more?<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a></p>
+<p>We could simply do Hardy-Weinberg tests at every locus in every population, but that could get pretty tedious. If we did that, we’d also run into problemms with multiple tests, which inconvenient to deal with. We’ll take a different approach. Namely, we’ll compare the model we just fit with one that <span><em>assumes</em></span> there is no inbreeding within populations, i.e., <span class="math inline">\(f = 0\)</span>. The criterion we’ll use to compare the models is something known as the expected log predictive density <span class="citation" data-cites="Vehtari-etal-2017"></span>. That’s a mouthful, and the mathematics is reasonably complicated, but it’s easy enough to interpret the results without understanding all of those details.</p>
+<p>First, we run the model in which we assume <span class="math inline">\(f = 0\)</span> and store the result in a different object.</p>
+<pre><code>fit_f0 &lt;- analyze_codominant(genos, f_zero = TRUE)
+
+Inference for Stan model: analyze_codominant.
+4 chains, each with iter=2000; warmup=1000; thin=1; 
+post-warmup draws per chain=1000, total post-warmup draws=4000.
+
+           mean se_mean     sd      2.5%       25%       50%       75%     97.5% n_eff  Rhat
+f         0.000     NaN  0.000     0.000     0.000     0.000     0.000     0.000   NaN   NaN
+theta     0.081   0.000  0.008     0.067     0.076     0.080     0.086     0.097  1934 1.000
+lp__  -6234.006   0.518 16.882 -6267.340 -6245.573 -6233.842 -6222.445 -6202.017  1060 1.001
+
+Samples were drawn using NUTS(diag_e) at Sun Jul  4 13:21:39 2021.
+For each parameter, n_eff is a crude measure of effective sample size,
+and Rhat is the potential scale reduction factor on split chains (at 
+convergence, Rhat=1).</code></pre>
+<p>Notice that the estimate for <span class="math inline">\(f\)</span> is 0, as expected. Now we can commpare the two models using <span><code>loo()</code></span>.<a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a></p>
+<pre><code>loo_free &lt;- loo(fit)
+loo_f0 &lt;- loo(f0)
+compare(loo_free, loo_f0)</code></pre>
+<p>You’ll see some warning messages when you run <span><code>loo()</code></span> with these data. In an ideal world, we’d do things a bit differently and get rid of them, but in this case, we don’t need to worry about them. Let’s focus on the table that was printed.</p>
+<pre><code>       elpd_diff se_diff
+model2  0.0       0.0   
+model1 -1.8       3.4   </code></pre>
+<p>The column labeled <span><code>elpd_diff</code></span> is the difference in expected log predictive density between the model with the highest elpd and the model on the line in which the entry appears. The column labeled <span><code> se_diff</code></span> is the standard error of that difference. <span><code>model 2</code></span> refers to the second model named in the call to <span><code>compare()</code></span>, i.e., the <span class="math inline">\(f=0\)</span> model (<span><code>loo_f0</code></span>), and <span><code>model 1</code></span> refers to the first model named in the call to <span><code>compare()</code></span>, i.e., the <span class="math inline">\(f\)</span> “free” model. What all of this means is that</p>
+<ul>
+<li><p>Model 2, the <span class="math inline">\(f=0\)</span> model, is more strongly supported than Model 2, the model in which we estimated <span class="math inline">\(f\)</span>, <span><em>but</em></span></p></li>
+<li><p>The difference between the two models, -1.8, is substantially less than twice the standard error of the difference (3.4), meaning that we don’t have good evidence that one model is better than the other.</p></li>
+</ul>
+<p>You may find it dissatisfying that we can’t distinguish between these two models and that we’re left saying that we don’t know whether we have evidence for inbreeding within populations or not, but remember, our estimate of <span class="math inline">\(f\)</span> is only 0.005. Table <a href="#table:f-model-comparison" data-reference-type="ref" data-reference="table:f-model-comparison">2</a> shows what that means for expected genotype frequencies if <span class="math inline">\(p = 0.5\)</span>. As you can see, the difference in genotype frequencies is extremely small. It’s hard to believe that there would be any biologically meaningful difference between any of the scenarios that seem compatible with the data.</p>
+<div id="table:f-model-comparison">
+<table>
+<caption>Comparison of genotype frequencies assuming <span class="math inline">\(p = 0.5\)</span> with <span class="math inline">\(f = 0\)</span> and <span class="math inline">\(f\)</span> as estimated (mean and upper bound of the 95% credible interval) from the <span><em>Protea repens</em></span> data distributed with <span><code>Hickory</code></span>.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Model</th>
+<th style="text-align: left;"><span class="math inline">\(A_1A_1\)</span></th>
+<th style="text-align: left;"><span class="math inline">\(A_1A_2\)</span></th>
+<th style="text-align: left;"><span class="math inline">\(A_2A_2\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(f = 0\)</span></td>
+<td style="text-align: left;">0.25</td>
+<td style="text-align: left;">0.50</td>
+<td style="text-align: left;">0.25</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(f = 0.005\)</span></td>
+<td style="text-align: left;">0.25125</td>
+<td style="text-align: left;">0.4975</td>
+<td style="text-align: left;">0.25125</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(f = 0.010\)</span></td>
+<td style="text-align: left;">0.2525</td>
+<td style="text-align: left;">0.495</td>
+<td style="text-align: left;">0.2525</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 class="unnumbered" id="creative-commons-license">Creative Commons License</h1>
+<p>These notes are licensed under the Creative Commons Attribution License. To view a copy of this license, visit https://creativecommons.org/licenses/by/4.0/ or send a letter to Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305, USA.</p>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p>The terms “statistical sampling” and “genetic sampling” are due to Weir <span class="citation" data-cites="Weir-1996"></span>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>The good news is that to do the Bayesian analyses you don’t have to write any code. All you have to do is download an <span><code> R</code></span> package in a slightly strange way, but we’ll get to that.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3" role="doc-endnote"><p>And you’ll be relieved to know that we’re going to ignore most of the mathematical details when we do.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4" role="doc-endnote"><p>One of these days I’ll get around to cleaning <span><code> Hickory</code></span> up a bit more and submit it to <span><code>CRAN</code></span>. Then installing it will be as simple as <span><code> install.packages("Hickory")</code></span><a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5" role="doc-endnote"><p>Don’t worry about <span><code>lp__</code></span> for the time being.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6" role="doc-endnote"><p>Corresponding to 95% of the posterior probabiity.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7" role="doc-endnote"><p>It’s not too difficult to get estimates of uncertainty usins the Weir and Cockerham approach, but it takes some additional work.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8" role="doc-endnote"><p>If it seems as if I’m repeating myself, I probably am, but I think this is a really immportant point that bears repeating.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9" role="doc-endnote"><p>We noted a couple of lectures ago that <span class="math inline">\(f\)</span> can be negative when it’s understood as a measure of departure from Hardy-Weinber, but for computational reasons, <span><code>Hickory</code></span> restricts it to <span class="math inline">\([0,1]\)</span>. If you’re interested in the gory details of why, feel free to ask me.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10" role="doc-endnote"><p>Don’t take my word for it. Run the analysis yourself with the second set of priors we used above or with another set of priors that strikes your fancy and compare the results.<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn11" role="doc-endnote"><p>Would I be asking this question if the answer were “No”?<a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn12" role="doc-endnote"><p>I call the first object <span><code>loo_free</code></span> because in that model <span class="math inline">\(f\)</span> was free to vary.<a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+</body>
+</html>
