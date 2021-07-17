@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Mutation, Migration, and Genetic Drift</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Mutation, Migration, and Genetic Drift</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#drift-and-mutation">Drift and mutation</a>
+<ul>
+<li><a href="#a-two-allele-model-with-recurrent-mutation">A two-allele model with recurrent mutation</a></li>
+</ul></li>
+<li><a href="#drift-and-migration">Drift and migration</a></li>
+<li><a href="#creative-commons-license">Creative Commons License</a></li>
+</ul>
+</nav>
+<h1 class="unnumbered" id="introduction">Introduction</h1>
+<p>So far in this course we’ve focused on single, isolated populations, and we’ve imagined that there isn’t any migration.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> We’ve also completely ignored the ultimate source of all genetic variationmutation. We’re now going to study what happens when we consider multiple populations simultaneously and when we allow mutation to happen. Let’s consider mutation first, because it’s the easiest to understand.</p>
+<h1 class="unnumbered" id="drift-and-mutation">Drift and mutation</h1>
+<p>Remember that in the absence of mutation <span class="math display">\[f_{t+1} = \left(\frac{1}{2N}\right) +
+          \left(1 - \frac{1}{2N}\right)f_t \quad \label{eq:f} ,\]</span> One way of modeling mutation is to assume that every time a mutation occurs it introduces a new allele into the population. This model is referred to as the <span><em>infinite alleles model</em></span>, because it implicitly assumes that there is potentially an infinite number of alleles. Under this model we need to make only one simple modification to equation (<a href="#eq:f" data-reference-type="ref" data-reference="eq:f">[eq:f]</a>). We have to multiply the expression on the right by the probability that neither allele mutated: <span class="math display">\[f_{t+1} = \left(\left(\frac{1}{2N}\right) +
+          \left(1 - \frac{1}{2N}\right)f_t\right)(1-\mu)^2 \quad
+\label{eq:f-mu} ,\]</span> where <span class="math inline">\(\mu\)</span> is the mutation rate, i.e., the probability that an allele in an offspring is different from the allele it was derived from in a parent. In writing down this expression, the reason this is referred to as an infinite alleles model becomes apparent: we are assuming that every time a mutation occurs it produces a new allele. The only way in which two alleles can be identical is if neither has ever mutated.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<p>So where do we go from here? Well, if you think about it, mutation is always introducing new alleles that are, by definition in an infinite alleles model, different from any of the alleles currently in the population. It stands to reason, therefore, that we’ll never be in a situation where all of the alleles in a population are identical by descent as they would be in the absence of mutation. In other words we expect there to be an equilibrium between loss of diversity through genetic drift and the introduction of diversity through mutation.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> From the definition of an equilibrium, <span class="math display">\[\begin{aligned}
+\hat f &amp;=&amp; \left(\left(\frac{1}{2N}\right) +
+          \left(1 - \frac{1}{2N}\right)\hat f\right)(1-\mu)^2 \\
+\hat f\left(1 -
+\left(1 - \frac{1}{2N}\right)(1-\mu)^2\right)
+       &amp;=&amp; \left(\frac{1}{2N}\right)(1-\mu)^2 \\
+\hat f &amp;=&amp; \frac{\left(\frac{1}{2N}\right)(1-\mu)^2}
+           {1 -\left(1 - \frac{1}{2N}\right)(1-\mu)^2} \\
+       &amp;\approx&amp; \frac{1 - 2\mu}
+           {2N\left(1 - \left(1 - \frac{1}{2N}\right)(1-2\mu)\right)} \\
+       &amp;=&amp; \frac{1 - 2\mu}
+           {2N\left(1 - 1 + \frac{1}{2N} + 2\mu -
+            \frac{2\mu}{2N}\right)} \\
+       &amp;=&amp; \frac{1 - 2\mu}{1 + 4N\mu - 2\mu} \\
+       &amp;\approx&amp; \frac{1}{4N\mu + 1}\end{aligned}\]</span></p>
+<p>Since <span class="math inline">\(f\)</span> is the probability that two alleles chosen at random are identical by descent within our population, <span class="math inline">\(1-f\)</span> is the probability that two alleles chosen at random are <span><em>not</em></span> identical by descent in our population. So <span class="math inline">\(1-f = 4N\mu/(4N\mu + 1)\)</span> is the genetic diversity within the population. Notice that as <span class="math inline">\(N\)</span> increases, the genetic diversity maintained in the population also increases. This shouldn’t be too surprising. The rate at which diversity is lost declines as population size increases so larger populations should retain more diversity than small ones.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
+<p>Notice also that it’s the product <span class="math inline">\(N\mu\)</span> that matters, not <span class="math inline">\(N\)</span> or <span class="math inline">\(\mu\)</span> by itself. We’ll see this repeatedly. In every case I know of when there’s some deterministic process like mutation, migration, selection, or recombination going on in addition to genetic drift, the outcome of the combined process is determined by the product of <span class="math inline">\(N\)</span><a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> and some parameter that describes the “strength” of the deterministic process.</p>
+<h2 class="unnumbered" id="a-two-allele-model-with-recurrent-mutation">A two-allele model with recurrent mutation</h2>
+<p>There’s another way of looking at the interaction between drift and mutation. Suppose we have a set of populations with two alleles, <span class="math inline">\(A_1\)</span> and <span class="math inline">\(A_2\)</span>. Suppose further that the rate of mutation from <span class="math inline">\(A_1\)</span> to <span class="math inline">\(A_2\)</span> is equal to the rate of mutation from <span class="math inline">\(A_2\)</span> to <span class="math inline">\(A_1\)</span>.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> Call that rate <span class="math inline">\(\mu\)</span>. In the absence of mutation a fraction <span class="math inline">\(p_0\)</span> of the populations would fix on <span class="math inline">\(A_1\)</span> and the rest would fix on <span class="math inline">\(A_2\)</span>, where <span class="math inline">\(p_0\)</span> is the original frequency of <span class="math inline">\(A_1\)</span>. With recurrent mutation, no population will ever be permanently fixed for one allele or the other. Instead we see the pattern illustrated in Figure <a href="#fig:drift-mutation" data-reference-type="ref" data-reference="fig:drift-mutation">1</a></p>
+<figure>
+<img src="mutation.png" id="fig:drift-mutation" alt="" /><figcaption>The stationary distribution of allele frequencies for one locus and two alleles with symmetrical mutation.</figcaption>
+</figure>
+<p>When <span class="math inline">\(4N\mu &lt; 1\)</span> the stationary distribution of allele frequencies is bowl-shaped, i.e, most populations have allele frequencies near 0 or 1. When <span class="math inline">\(4N\mu &gt; 1\)</span>, the stationary distribution of allele frequencies is hump-shaped, i.e., most populations have allele frequencies near 0.5.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> In other words if the population is “small,” drift dominates the distribution of allele frequencies and causes populations to become differentiated. If the population is “large,” mutation dominates and keeps the allele frequencies in the different populations similar to one another. That’s what we mean when we say that a population is “large” or “small”. A population is “large” if evolutionary processes other than drift have a predominant influence on the outcome. It’s “small” if drift has a predominant role on the outcome.</p>
+<p>A population is large with respect to the drift-mutation process if <span class="math inline">\(4N\mu &gt; 1\)</span>, and it is small if <span class="math inline">\(4N\mu &lt; 1\)</span>. Notice that calling a population large or small is really just a convenient shorthand. There isn’t much of a difference between the allele frequency distributions when <span class="math inline">\(4N\mu = 0.9\)</span> and when <span class="math inline">\(4N\mu = 1.1\)</span>. Notice also that because mutation is typically rare, on the order of <span class="math inline">\(10^{-5}\)</span> or less per locus per generation for a protein-coding gene, a population must be pretty large (<span class="math inline">\(&gt; 25,000\)</span>) to be considered large with respect to drift and mutation. Notice also that whether the population is “large” or “small” will depend on the mutation rate at the loci that you’re studying. For example, mutation rates are typically on the order of <span class="math inline">\(10^{-3}\)</span> for microsatellites. So a population would be “large” with respect to microsatellites if <span class="math inline">\(N &gt; 250\)</span>. Think about what that means. If we had a population with 1000 individuals, it would be “large” with respect to microsatellite evolution and “small” with respect to evolution at a protein-coding locus.</p>
+<h1 class="unnumbered" id="drift-and-migration">Drift and migration</h1>
+<p>I just pointed out that if populations are isolated from one another they will tend to diverge from one another as a result of genetic drift. Recurrent mutation, which “pushes” all populations towards the same allele frequency, is one way in which that tendency can be opposed. If populations are not isolated, but exchange migrants with one another, then migration will also oppose the tendency for populations to become different from one another. It should be obvious that there will be a tradeoff similar to the one with mutation: the larger the populations, the less the tendency for them to diverge from one another and, therefore, the more migration will tend to make them similar. To explore how drift and migration interact we can use an approach exactly analogous to what we used for mutation.</p>
+<p>The model of migration we’ll consider is an extremely oversimplified one. It imagines that every allele brought into a population is different from any of the resident alleles.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> It also imagines that all populations receive the same fraction of migrants. Because any immigrant allele is different, by assumption, from any resident allele we don’t even have to keep track of how far apart populations are from one another, since populations close by will be no more similar to one another than populations far apart. This is Wright’s infinite island model of migration. Given these assumptions, we can write the following: <span class="math display">\[f_{t+1} = \left(\left(\frac{1}{2N}\right) +
+          \left(1 - \frac{1}{2N}\right)f_t\right)(1-m)^2 \quad
+\label{eq:f-m} .\]</span></p>
+<p>That might look fairly familiar. In fact, it’s identical to equation (<a href="#eq:f-mu" data-reference-type="ref" data-reference="eq:f-mu">[eq:f-mu]</a>) except that there’s an <span class="math inline">\(m\)</span> in (<a href="#eq:f-m" data-reference-type="ref" data-reference="eq:f-m">[eq:f-m]</a>) instead of a <span class="math inline">\(\mu\)</span>. <span class="math inline">\(m\)</span> is the migration rate, the fraction of individuals in a population that is composed of immigrants. More precisely, <span class="math inline">\(m\)</span> is the <span><em>backward</em></span> migration rate. It’s the probability that a randomly chosen individual in this generation <span><em>came from</em></span> a population different from the one in which it is currently found in the preceding generation. Normally we’d think about the <span><em>forward</em></span> migration rate, i.e., the probability that a randomly chosen individual with <span><em>go to</em></span> a different population in the next generation, but backwards migration rates turn out to be more convenient to work with in most population genetic models.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a></p>
+<p>It shouldn’t surprise you that if equations (<a href="#eq:f-mu" data-reference-type="ref" data-reference="eq:f-mu">[eq:f-mu]</a>) and (<a href="#eq:f-m" data-reference-type="ref" data-reference="eq:f-m">[eq:f-m]</a>) are so similar the equilibrium <span class="math inline">\(f\)</span> under drift and migration is <span class="math display">\[\hat f \approx \frac{1}{4Nm + 1}\]</span> In fact, the two allele analog to the mutation model I presented earlier turns out to be pretty similar, too.</p>
+<ul>
+<li><p>If <span class="math inline">\(2Nm &gt; 1\)</span>, the stationary distribution of allele frequencies is hump-shaped, i.e., the populations tend not to diverge from one another.<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a></p></li>
+<li><p>If <span class="math inline">\(2Nm &lt; 1\)</span>, the stationary distribution of allele frequencies is bowl-shaped, i.e., the populations tend to diverge from one another.</p></li>
+</ul>
+<p>Now there’s a consequence of these relationships that’s both surprising and odd. <span class="math inline">\(N\)</span> is the population size. <span class="math inline">\(m\)</span> is the fraction of individuals in the population that are immigrants. So <span class="math inline">\(Nm\)</span> is the <span> <em>number</em></span> of individuals in the population that are new immigrants in any generation. That means that if populations receive more than one new immigrant every other generation, on average, they’ll tend not to diverge in allele frequency from one another.<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a> It doesn’t make any difference if the populations have a million individuals apiece or ten. One new immigrant every other generation is enough to keep them from diverging.</p>
+<p>With a little more reflection, this result is less surprising than it initially seems. After all in populations of a million individuals, drift will be operating very slowly, so it doesn’t take a large proportion of immigrants to keep populations from diverging.<a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a> In populations with only ten individuals, drift will be operating much more quickly, so it takes a large proportion of immigrants to keep populations from diverging.<a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a></p>
+<h1 class="unnumbered" id="creative-commons-license">Creative Commons License</h1>
+<p>These notes are licensed under the Creative Commons Attribution License. To view a copy of this license, visit https://creativecommons.org/licenses/by/4.0/ or send a letter to Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305, USA.</p>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p>Well, that’s not quite true. We talked about multiple populations when we talked about the Wahlund effect and Wright’s <span class="math inline">\(F_{ST}\)</span>, but we didn’t talk explicitly about any of the evolutionary processes associated with multiple populations.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>Notice that we’re also playing a little fast and loose with definitions here, since I’ve just described this in terms of identity by type when what the equation is written in terms of identity by descent. Can you see why it is that I can get away with this?<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3" role="doc-endnote"><p>Technically what the population reaches is not an equilibrium. It reaches a stationary distribution. At any point in time there is some probability that the population has a particular allele frequency. After long enough the probability distribution stops changing. That’s when the population is at its stationary distribution. We often say that it’s “reached stationarity.” This is an example of a place where the inbreeding analogy breaks down.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4" role="doc-endnote"><p>Remember that if we’re dealing with a non-ideal population, as we always are, you’ll need to substitute <span class="math inline">\(N_e\)</span> for <span class="math inline">\(N\)</span> in this equation and others like it.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5" role="doc-endnote"><p>Remember that when I write <span class="math inline">\(N\)</span> here, I’m just being lazy. I should be writing <span class="math inline">\(N_e\)</span>.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6" role="doc-endnote"><p>We don’t have to make this assumption, but relaxing it makes an already fairly complicated scenario even more complicated. If you’re really interested, ask me about it.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7" role="doc-endnote"><p>Notice again that it’s the product of <span class="math inline">\(N\)</span> and <span class="math inline">\(\mu\)</span> that matters.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8" role="doc-endnote"><p>Sounds a lot like the infinite alleles model of mutation, doesn’t it? Just you wait. The parallel gets even more striking.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9" role="doc-endnote"><p>I warned you weeks ago that population geneticists tend to think backwards.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10" role="doc-endnote"><p>You read that right it’s <span class="math inline">\(2Nm\)</span> not <span class="math inline">\(4Nm\)</span> as you might have expected from the mutation model. If you’re <span><em>really</em></span> interested why there’s a difference, I can show you. But the explanation isn’t simple.<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn11" role="doc-endnote"><p>In the sense that the stationary distribution of allele frequencies is hump-shaped.<a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn12" role="doc-endnote"><p>And one immigrant every other generation corresponds to a backwards migration rate of only <span class="math inline">\(5\times
+  10^{-7}\)</span>.<a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn13" role="doc-endnote"><p>And one immigrant every other generation corresponds to a backwards migration rate of <span class="math inline">\(5 \times 10^{-2}\)</span>.<a href="#fnref13" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+</body>
+</html>

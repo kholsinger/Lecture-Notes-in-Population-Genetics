@@ -3,7 +3,7 @@
 \usepackage{html}
 \usepackage{url}
 
-\newcommand{\copyrightYears}{2001-2019}
+\newcommand{\copyrightYears}{2001-2021}
 
 \title{Genetic Drift}
 
@@ -42,10 +42,13 @@ To understand in more detail what happens when there is genetic drift,
 let's consider the simplest possible example: a haploid population
 consisting of 2 individuals.\footnote{Notice that once we start
   talking about genetic drift, we have to specify the size of the
-  population.} Suppose that we are studying a locus with only two
-alleles in this population $A_1$ and $A_2$. This implies that $p = q =
-0.5$, but we'll ignore that numerical fact for now and simply label 
-the frequency of the $A_1$ allele as $p$.
+  population. As we'll see, that's because the properties of drift
+  depend on how big the population is. We'll also see that the size of
+  the population isn't simply the number of individuals we can count.}
+Suppose that we are studying a locus with only two alleles in this
+population $A_1$ and $A_2$. This implies that $p = q = 0.5$, but we'll
+ignore that numerical fact for now and simply label the frequency of
+the $A_1$ allele as $p$.
 
 We imagine the following scenario:
 
@@ -216,7 +219,7 @@ the population is equal to its current frequency.
     described a Markov chain with a finite state space, but I doubt
     that you really care about that. All Markov chains have this
     ``memoryless'' property. In fact, it's called the Markov
-    property.}\index{genetic drift!Markov property} The probability that the
+    property~(\url{https://en.wikipedia.org/wiki/Markov_property}).}\index{genetic drift!Markov property} The probability that the 
   offspring generation will have a particular allele frequency depends
   {\it only\/} on the allele frequency in the parental generation. It
   does not depend on how the parental generation came to have that
@@ -562,7 +565,9 @@ N_e^{(f)} &=& \frac{4(N/2)(N/2)}{N/2 + N/2} \\
 The effective population size is equal to the actual population size
 if the sex ratio is 50:50. If it departs from 50:50, the effective
 population size will be smaller than the actual population
-size. Consider the extreme case where there's only one reproductive
+size.
+
+qConsider the extreme case where there's only one reproductive
 male in the population. Then
 \begin{equation}
 N_e^{(f)} = \frac{4N_f}{N_f + 1} \quad . \label{eq:ne-harem}
@@ -570,7 +575,9 @@ N_e^{(f)} = \frac{4N_f}{N_f + 1} \quad . \label{eq:ne-harem}
 Notice what this equation implies: The effective size of a population
 with only one reproductive male (or female) can {\it never\/} be
 bigger than 4, no matter how many mates that individual has and no
-matter how many offspring are produced.
+matter how many offspring are produced. At first, this is a little
+surprising, but if when you realize that under these conditions all
+offspring are half sibs, it may be a little less surprising.
 
 \subsubsection*{Variable population size}\index{genetic drift!effective population size, variable population size}
 

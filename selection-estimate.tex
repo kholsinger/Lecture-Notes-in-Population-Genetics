@@ -5,7 +5,7 @@
 \usepackage{graphics}
 \usepackage{epstopdf}
 
-\newcommand{\copyrightYears}{2001-2019}
+\newcommand{\copyrightYears}{2001-2021}
 
 \title{Estimating viability}
 
@@ -50,28 +50,28 @@ w_{ij} = \frac{n_{ij}^{(a)}}{n_{ij}^{(z)}} \quad ,
 Since $w_{ij}$ is a probability and the outcome is binary (survive or
 die), you should be able to guess what kind of likelihood relates the
 observed data to the unseen parameter, namely, a binomial
-likelihood. In {\tt JAGS} notation:\footnote{You knew you were going
+likelihood. In {\tt Stan} notation:\footnote{You knew you were going
   to see this again, didn't you?}
 \begin{verbatim}
-   n.11.adult ~ dbin(w.11, n.11.zygote)
-   n.12.adult ~ dbin(w.12, n.12.zygote)
-   n.22.adult ~ dbin(w.22, n.22.zygote)
+   n_11_adult ~ binomial(n_11_zygote, w_11)
+   n_12_adult ~ binomial(n_12_zygote, w_12)
+   n_22_adult ~ binomial(n_22_zygote, w_22)
 \end{verbatim}
 
 \section*{Estimating relative viability}
 
 To estimate absolute viabilities, we have to be able to identify
 genotypes non-destructively, because we have to know what their
-genotype was both before the selection event and after the selection
-event.That's fine if we happen to be dealing with an experimental
-situation where we can do controlled crosses to establish known
-genotypes or if we happen to be studying an organism and a trait where
-we can identify the genotype from the phenotype of a zygote (or at
-least a very young individual) and from surviving adults.\footnote{How
-  many organisms and traits can you think of that satisfy this
-  criterion? Any? There is one other possibility: If we can identify
-  an individual's genotype after it's dead {\it and\/} if we can
-  construct a random sample that includes both living and dead
+genotype was both {\it before\/} the selection event and {\it after\/}
+the selection event.That's fine if we happen to be dealing with an
+experimental situation where we can do controlled crosses to establish
+known genotypes or if we happen to be studying an organism and a trait
+where we can identify the genotype from the phenotype of a zygote (or
+at least a very young individual) and from surviving
+adults.\footnote{How many organisms and traits can you think of that
+  satisfy this criterion? Any? There is one other possibility: If we
+  can identify an individual's genotype after it's dead {\it and\/} if
+  we can construct a random sample that includes both living and dead
   individuals {\it and\/} if we the probability of including an
   individual in the sample doesn't depend on whether that individual
   is dead or alive, then we can sample a population after the
@@ -142,7 +142,8 @@ If we use the maximum-likelihood estimates for genotype frequencies
 before and after selection, we obtain maximum likelihood estimates for
 the relative viabilities.\footnote{If anyone cares, it's because of
   the invariance property of maximum-likelihod estimates. If you don't
-  understand what that is, don't worry about it, just trust me.} If we
+  understand what that is, don't worry about it, just trust me. Or if
+  you want to know what the invariance principle is, ask.} If we
 use Bayesian methods to estimate genotype frequencies before and after
 selection (including the uncertainty around those estimates), we can
 use these formulas to get Bayesian estimates of the relative

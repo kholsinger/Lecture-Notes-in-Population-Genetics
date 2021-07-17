@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Genetic Drift</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Genetic Drift</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#a-simple-example">A simple example</a></li>
+<li><a href="#general-properties-of-genetic-drift">General properties of genetic drift</a>
+<ul>
+<li><a href="#variance-of-allele-frequencies-between-generations">Variance of allele frequencies between generations</a></li>
+<li><a href="#analogy-to-inbreeding">Analogy to inbreeding</a></li>
+<li><a href="#summary">Summary</a></li>
+</ul></li>
+<li><a href="#effective-population-size">Effective population size</a>
+<ul>
+<li><a href="#variance-effective-size">Variance effective size</a></li>
+<li><a href="#inbreeding-effective-size">Inbreeding effective size</a></li>
+<li><a href="#comments-on-effective-population-sizes">Comments on effective population sizes</a></li>
+<li><a href="#examples">Examples</a>
+<ul>
+<li><a href="#separate-sexes">Separate sexes</a></li>
+<li><a href="#variable-population-size">Variable population size</a></li>
+</ul></li>
+<li><a href="#variation-in-offspring-number">Variation in offspring number</a></li>
+</ul></li>
+<li><a href="#creative-commons-license">Creative Commons License</a></li>
+</ul>
+</nav>
+<h1 class="unnumbered" id="introduction">Introduction</h1>
+<p>So far in this course we’ve talked about changes in genotype and allele frequencies as if they were completely deterministic. Given the current allele frequencies and viabilities, for example, we wrote down an equation describing how they will change from one generation to the next: <span class="math display">\[p&#39; = \frac{p^2w_{11} + pqw_{12}}{\bar w} \quad .\]</span> Notice that in writing this equation, we’re claiming that we can predict the allele frequency in the next generation <span><em>without error</em></span>. But suppose the population is small, say 10 diploid individuals, and our prediction is that <span class="math inline">\(p&#39; = 0.5\)</span>. Then just as we wouldn’t be surprised if we flipped a coin 20 times and got 12 heads, we shouldn’t be surprised if we found that <span class="math inline">\(p&#39; = 0.6\)</span>. The difference between what we expect (<span class="math inline">\(p&#39; = 0.5\)</span>) and what we observe (<span class="math inline">\(p&#39; = 0.6\)</span>) can be chalked up to statistical sampling error. That sampling error is the cause of (or just another name for) <span><em>genetic drift</em></span>the tendency for allele frequencies to change from one generation to the next in a finite population even if there is no selection.</p>
+<h1 class="unnumbered" id="a-simple-example">A simple example</h1>
+<p>To understand in more detail what happens when there is genetic drift, let’s consider the simplest possible example: a haploid population consisting of 2 individuals.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> Suppose that we are studying a locus with only two alleles in this population <span class="math inline">\(A_1\)</span> and <span class="math inline">\(A_2\)</span>. This implies that <span class="math inline">\(p = q = 0.5\)</span>, but we’ll ignore that numerical fact for now and simply label the frequency of the <span class="math inline">\(A_1\)</span> allele as <span class="math inline">\(p\)</span>.</p>
+<p>We imagine the following scenario:</p>
+<ul>
+<li><p>Each individual in the population produces a very large number of haploid gametes that develop directly into adult offspring.</p></li>
+<li><p>The allele in each offspring is an identical copy of the allele in its parent, i.e., <span class="math inline">\(A_1\)</span> begets <span class="math inline">\(A_1\)</span> and <span class="math inline">\(A_2\)</span> begets <span class="math inline">\(A_2\)</span>. In other words, there’s no mutation.</p></li>
+<li><p>The next generation is constructed by picking two offspring at random from the very large number of offspring produced by these two individuals.</p></li>
+</ul>
+<p>Then it’s not too hard to see that <span class="math display">\[\begin{aligned}
+\mbox{Probability that both offspring are $A_1$} &amp;=&amp; p^2 \\
+\mbox{Probability that one offspring is $A_1$ and one is $A_2$} &amp;=&amp; 2pq \\
+\mbox{Probability that both offspring are $A_2$} &amp;=&amp; q^2\end{aligned}\]</span> Of course <span class="math inline">\(p&#39; = 1\)</span> if both offspring sampled are <span class="math inline">\(A_1\)</span>, <span class="math inline">\(p&#39; = 1/2\)</span> if one is <span class="math inline">\(A_1\)</span> and one is <span class="math inline">\(A_2\)</span>, and <span class="math inline">\(p&#39; = 0\)</span> if both are <span class="math inline">\(A_2\)</span>, so that set of equations is equivalent to this one: <span class="math display">\[\begin{aligned}
+P(p&#39;=1) &amp;=&amp; p^2  \label{eq:p-1} \\
+P(p&#39;=1/2) &amp;=&amp; 2pq \\
+P(p&#39;=0) &amp;=&amp; q^2  \label{eq:p-2}\end{aligned}\]</span> In other words, we can no longer predict with certainty what allele frequencies in the next generation will be. We can only assign probabilities to each of the three possible outcomes. Of course, in a larger population the amount of uncertainty about the allele frequencies will be smaller,<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> but there will be <span><em>some</em></span> uncertainty associated with the predicted allele frequencies unless the population is infinite.</p>
+<p>The probability of ending up in any of the three possible states obviously depends on the current allele frequency. In probability theory we express this dependence by writing equations (<a href="#eq:p-1" data-reference-type="ref" data-reference="eq:p-1">[eq:p-1]</a>)–(<a href="#eq:p-2" data-reference-type="ref" data-reference="eq:p-2">[eq:p-2]</a>) as conditional probabilities: <span class="math display">\[\begin{aligned}
+P(p_1=1|p_0) &amp;=&amp; p_0^2  \label{eq:p-1-1} \\
+P(p_1=1/2|p_0) &amp;=&amp; 2p_0q_0 \\
+P(p_1=0|p_0) &amp;=&amp; q_0^2  \label{eq:p-1-2}\end{aligned}\]</span> I’ve introduced the subscripts so that we can distinguish among various generations in the process. Why? Because if we can write equations (<a href="#eq:p-1-1" data-reference-type="ref" data-reference="eq:p-1-1">[eq:p-1-1]</a>)–(<a href="#eq:p-1-2" data-reference-type="ref" data-reference="eq:p-1-2">[eq:p-1-2]</a>), we can also write the following equations:<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> <span class="math display">\[\begin{aligned}
+P(p_2=1|p_1) &amp;=&amp; p_1^2 \\
+P(p_2=1/2|p_1) &amp;=&amp; 2p_1q_1 \\
+P(p_2=0|p_1) &amp;=&amp; q_1^2\end{aligned}\]</span></p>
+<p>Now if we stare at those a little while, we<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> begin to see some interesting possibilities. Namely,</p>
+<p><span class="math display">\[\begin{aligned}
+P(p_2=1|p_0) &amp;=&amp; P(p_2=1|p_1=1)P(p_1=1|p_0) + P(p_2=1|p_1=1/2)P(p_1=1/2|p_0) \\
+             &amp;=&amp; (1)(p_0^2) + (1/4)(2p_0q_0) \\
+             &amp;=&amp; p_0^2 + (1/2)p_0q_0 \\
+P(p_2=1/2|p_0) &amp;=&amp; P(p_2=1/2|p_1=1/2)P(p_1=1/2|p_0) \\
+               &amp;=&amp; (1/2)(2p_0q_0) \\
+               &amp;=&amp; p_0q_0 \\
+P(p_2=0|p_0) &amp;=&amp; P(p_2=0|p_1=0)P(p_1=0|p_0) + P(p_2=0|p_1=1/2)P(p_1=1/2|p_0) \\
+             &amp;=&amp; (1)(q_0^2) + (1/4)(2p_0q_0) \\
+             &amp;=&amp; q_0^2 + (1/2)p_0q_0\end{aligned}\]</span> It takes more algebra than I care to show,<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> but these equations can be extended to an arbitrary number of generations. <span class="math display">\[\begin{aligned}
+P(p_t=1|p_0) &amp;=&amp; p_0^2 + \left(1 - (1/2)^{t-1}\right)p_0q_0 \\
+P(p_t=1/2|p_0) &amp;=&amp; p_0q_0(1/2)^{t-2} \\
+P(p_t=0|p_0) &amp;=&amp; q_0^2 + \left(1 - (1/2)^{t-1}\right)p_0q_0\end{aligned}\]</span></p>
+<p>Why do I bother to show you these equations?<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> Because you can see pretty quickly that as <span class="math inline">\(t\)</span> gets big, i.e., the longer our population evolves, the smaller the probability that <span class="math inline">\(p_t = 1/2\)</span> becomes. In fact, it’s not hard to verify two facts about genetic drift in this simple situation:</p>
+<ol>
+<li><p>One of the two alleles originally present in the population is certain to be lost eventually.</p></li>
+<li><p>The probability that <span class="math inline">\(A_1\)</span> is fixed is equal to its initial frequency, <span class="math inline">\(p_0\)</span>, and the probability that <span class="math inline">\(A_2\)</span> is fixed is equal to its initial frequency, <span class="math inline">\(q_0\)</span>.</p></li>
+</ol>
+<p>Both of these properties are true in general for <span><em>any</em></span> finite population and <span><em>any</em></span> number of alleles.</p>
+<ol>
+<li><p>Genetic drift will eventually lead to loss of all alleles in the population except one.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p></li>
+<li><p>The probability that any allele will eventually become fixed in the population is equal to its current frequency.</p></li>
+</ol>
+<h1 class="unnumbered" id="general-properties-of-genetic-drift">General properties of genetic drift</h1>
+<p>What I’ve shown you so far applies only to a haploid population with two individuals. Even I will admit that it isn’t a very interesting situation. Suppose, however, we now consider a populaton with <span class="math inline">\(N\)</span> diploid individuals. We can treat it as if it were a population of <span class="math inline">\(2N\)</span> haploid individuals using a direct analogy to the process I described earlier, and then things start to get a little more interesting.</p>
+<ul>
+<li><p>Each individual in the population produces a large number of gametes.</p></li>
+<li><p>The allele in each gamete is an identical copy of the allele in the individual that produced it, i.e., <span class="math inline">\(A_1\)</span> begets <span class="math inline">\(A_1\)</span> and <span class="math inline">\(A_2\)</span> begets <span class="math inline">\(A_2\)</span>.</p></li>
+<li><p>The next generation is constructed by picking <span class="math inline">\(2N\)</span> gametes at random from the large number originally produced.</p></li>
+</ul>
+<p>We can then write a general expression for how allele frequencies will change between generations. Specifically, the distribution describing the probability that there will be <span class="math inline">\(j\)</span> copies of <span class="math inline">\(A_1\)</span> in the next generation given that there are <span class="math inline">\(i\)</span> copies in this generation is <span class="math display">\[P(\hbox{$j$ $A_1$ in offspring $|$ $i$ $A_1$ in parents}) =
+{2N \choose j}\left(\frac{i}{2N}\right)\left(1 - \frac{i}{2N}\right)
+\quad ,\]</span> i.e., a binomial distribution. I’ll be astonished if any of what I’m about to say is apparent to any of you from looking at this equation, but it implies three really important things. We’ve encountered the first two of them already:</p>
+<ul>
+<li><p>Allele frequencies will tend to change from one generation to the next purely as a result of sampling error. As a consequence, genetic drift will eventually lead to loss of all alleles in the population except one.</p></li>
+<li><p>The probability that any allele will eventually become fixed in the population is equal to its current frequency.</p></li>
+<li><p>The population has no memory.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> The probability that the offspring generation will have a particular allele frequency depends <span><em>only</em></span> on the allele frequency in the parental generation. It does not depend on how the parental generation came to have that allele frequency. This is exactly analogous to coin-tossing. The probability that you get a heads on the next toss of a fair coin is 1/2. It doesn’t matter whether you’ve never tossed it before or if you’ve just tossed 25 heads in a row.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a></p></li>
+</ul>
+<h2 class="unnumbered" id="variance-of-allele-frequencies-between-generations">Variance of allele frequencies between generations</h2>
+<p>For a binomial distribution</p>
+<p><span class="math display">\[\begin{aligned}
+P(K=k) &amp;=&amp; {{N \choose k}p^k(1-p)^{N-k}} \\
+\hbox{Var}(K) &amp;=&amp; Np(1-p) \\
+\hbox{Var}(p) &amp;=&amp; \hbox{Var}(K/N) \\
+              &amp;=&amp; \frac{1}{N^2}\hbox{Var}(K) \\
+              &amp;=&amp; \frac{p(1-p)}{N}\end{aligned}\]</span></p>
+<p><span class="math display">\[P(K=k) = {{N \choose k}p^k(1-p)^{N-k}}\]</span> <span class="math display">\[\hbox{Var}(K) = Np(1-p)\]</span> <span class="math display">\[\hbox{Var}(p) = \hbox{Var}(K/N)\]</span> <span class="math display">\[= \frac{1}{N^2}\hbox{Var}(K)\]</span> <span class="math display">\[= \frac{p(1-p)}{N}\]</span></p>
+<p>Applying this to our situation, <span class="math display">\[\hbox{Var}(p_{t+1}) = \frac{p_t(1-p_t)}{2N}\]</span> Var<span class="math inline">\((p_{t+1})\)</span> measures the amount of uncertainty about allele frequencies in the next generation, given the current allele frequency. As you probably guessed long ago, the amount of uncertainty is inversely proportional to population size. The larger the population, the smaller the uncertainty.</p>
+<p>If you think about this a bit, you might expect that a smaller variance would “slow down” the process of genetic driftand you’d be right. It takes some pretty advanced mathematics to say how much the process slows down as a function of population size,<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a> but we can summarize the result in the following equation: <span class="math display">\[\bar t \approx -4N\left(p\log p + (1-p)\log(1-p)\right) \quad ,\]</span> where <span class="math inline">\(\bar t\)</span> is the average time to fixation of one allele or the other and <span class="math inline">\(p\)</span> is the current allele frequency.<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a> So the average time to fixation of one allele or the other increases approximately linearly with increases in the population size.</p>
+<h2 class="unnumbered" id="analogy-to-inbreeding">Analogy to inbreeding</h2>
+<p>You may have noticed some similarities between drift and inbreeding. Specifically, both processes lead to a loss of heterozygosity and an increase in homozygosity. This analogy leads to a useful heuristic for helping us to understand the dynamics of genetic drift.</p>
+<p>Remember our old friend <span class="math inline">\(f\)</span>, the inbreeding coefficient? I’m going to re-introduce you to it in the form of the population inbreeding coefficient, the probability that two alleles chosen at random from a population are identical by descent. We’re going to study how the population inbreeding coefficient changes from one generation to the next as a result of reproduction in a finite population.<a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a></p>
+<p><span class="math display">\[\begin{aligned}
+f_{t+1} &amp;=&amp; \mbox{Prob. ibd from preceding generation} \\
+        &amp;&amp;  + (\mbox{Prob. not ibd from prec. gen.}) \times (\mbox{Prob. ibd from
+          earlier gen.}) \\
+   &amp;=&amp; \frac{1}{2N} + \left(1 - \frac{1}{2N}\right)f_t\end{aligned}\]</span> or, in general, <span class="math display">\[f_{t+1} = 1 - \left(1 - \frac{1}{2N}\right)^t(1-f_0) \quad .\]</span></p>
+<h2 class="unnumbered" id="summary">Summary</h2>
+<p>There are four characteristics of genetic drift that are particularly important for you to remember:</p>
+<ol>
+<li><p>Allele frequencies tend to change from one generation to the next simply as a result of sampling error. We can specify a probability distribution for the allele frequency in the next generation, but we cannot predict the actual frequency with certainty.</p></li>
+<li><p>There is no systematic bias to changes in allele frequency. The allele frequency is as likely to increase from one generation to the next as it is to decrease.</p></li>
+<li><p>If the process is allowed to continue long enough without input of new genetic material through migration or mutation, the population will eventually become fixed for only one of the alleles originally present.<a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a></p></li>
+<li><p>The time to fixation on a single allele is directly proportional to population size, and the amount of uncertainty associated with allele frequencies from one generation to the next is inversely related to population size.</p></li>
+</ol>
+<h1 class="unnumbered" id="effective-population-size">Effective population size</h1>
+<p>I didn’t make a big point of it, but in our discussion of genetic drift so far we’ve assumed everything about populations that we assumed to derive the Hardy-Weinberg principle, <span><em>and</em></span> we’ve assumed that:</p>
+<ul>
+<li><p>We can model drift in a finite population as a result of sampling among haploid gametes rather than as a result of sampling among diploid genotypes. Since we’re dealing with a finite population, this effectively means that the two gametes incorporated into an individual could have come from the same parent, i.e., some amount of self-fertilization can occur when there’s random union of gametes in a finite, diploid population.</p></li>
+<li><p>Since we’re sampling gametes rather than individuals, we’re also implictly assuming that there aren’t separate sexes.<a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a></p></li>
+<li><p>The number of gametes any individual has represented in the next generation is a binomial random variable.<a href="#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a></p></li>
+<li><p>The population size is constant.</p></li>
+</ul>
+<p>How do we deal with the fact that one or more of these conditions will be violated in just about any case we’re interested in?<a href="#fn16" class="footnote-ref" id="fnref16" role="doc-noteref"><sup>16</sup></a> One way would be to develop all the probability models that incorporate that complexity and try to solve them. That’s nearly impossible, except through computer simulations. Another, and by far the most common approach, is to come up with a conversion formula that makes our actual population seem like the “ideal” population that we’ve been studying. That’s exactly what <span> <em>effective population size</em></span> is.</p>
+<blockquote>
+<p>The effective size of a population is the size of an ideal population that has the same properties with respect to genetic drift as our actual population does.</p>
+</blockquote>
+<p>What does that phrase “same properties with respect to genetic drift” mean? Well there are two ways it can be defined.<a href="#fn17" class="footnote-ref" id="fnref17" role="doc-noteref"><sup>17</sup></a></p>
+<h2 class="unnumbered" id="variance-effective-size">Variance effective size</h2>
+<p>You may remember<a href="#fn18" class="footnote-ref" id="fnref18" role="doc-noteref"><sup>18</sup></a> that the variance in allele frequency in an ideal population is <span class="math display">\[Var(p_{t+1}) = \frac{p_t(1-p_t)}{2N} \quad.\]</span> So one way we can make our actual population equivalent to an ideal population to make their allele frequency variances the same. We do this by calculating the variance in allele frequency for our actual population, figuring out what size of ideal population would produce the same variance, and pretending that our actual population is the same as an ideal population of the same size. To put that into an equation,<a href="#fn19" class="footnote-ref" id="fnref19" role="doc-noteref"><sup>19</sup></a> let <span class="math inline">\(\widehat{Var}(p)\)</span> be the variance we calculate for our actual population. Then <span class="math display">\[N_e^{(v)} = \frac{p(1-p)}{2\widehat{Var}(p)}\]</span> is the <span><em>variance effective population size</em></span>, i.e., the size of an ideal population that has the same properties with respect to allele frequency variance as our actual population.</p>
+<h2 class="unnumbered" id="inbreeding-effective-size">Inbreeding effective size</h2>
+<p>You may also remember that we can think of genetic drift as analogous to inbreeding. The probability of identity by descent within populations changes in a predictable way in relation to population size, namely <span class="math display">\[f_{t+1}
+   = \frac{1}{2N} + \left(1 - \frac{1}{2N}\right)f_t \quad.\]</span> So another way we can make our actual population equivalent to an ideal population is to make them equivalent with respect to how <span class="math inline">\(f\)</span> changes from generation to generation. We do this by calculating how the inbreeding coefficient changes from one generation to the next in our actual population, figuring out what size an ideal population would have to be to show the same change between generations, and pretending that our actual population is the same size at the ideal one. So suppose <span class="math inline">\(\hat f_t\)</span> and <span class="math inline">\(\hat f_{t+1}\)</span> are the actual inbreeding coefficients we’d have in our population at generation <span class="math inline">\(t\)</span> and <span class="math inline">\(t+1\)</span>, respectively. Then <span class="math display">\[\begin{aligned}
+\hat f_{t+1} &amp;=&amp; \frac{1}{2N_e^{(f)}} + \left(1 -
+        \frac{1}{2N_e^{(f)}}\right)\hat f_t \\
+        &amp;=&amp; \left(\frac{1}{2N_e^{(f)}}\right)(1 - \hat f_t) + \hat f_t \\
+\hat f_{t+1} - \hat f_t &amp;=&amp; \left(\frac{1}{2N_e^{(f)}}\right)(1 - \hat
+        f_t) \\
+N_e^{(f)} &amp;=&amp; \frac{1 - \hat f_t}{2(\hat f_{t+1} - \hat f_t)} \quad .\end{aligned}\]</span> In many applications it’s convenient to assume that <span class="math inline">\(\hat f_t = 0\)</span>. In that case the calculation gets much simpler: <span class="math display">\[N_e^{(f)} = \frac{1}{2\hat f_{t+1}} \quad .\]</span> We also don’t lose anything by taking the simpler approach, because <span class="math inline">\(N_e^{(f)}\)</span> depends only on how much <span class="math inline">\(f\)</span> <span><em>changes</em></span> from one generation to the next, not on its actual magnitude.</p>
+<h2 class="unnumbered" id="comments-on-effective-population-sizes">Comments on effective population sizes</h2>
+<p>Those are nice tricks, but there are some limitations. The biggest is that <span class="math inline">\(N_e^{(v)} \ne N_e^{(f)}\)</span> if the population size is changing from one generation to the next.<a href="#fn20" class="footnote-ref" id="fnref20" role="doc-noteref"><sup>20</sup></a> So you have to decide which of these two measures is more appropriate for the question you’re studying.</p>
+<ul>
+<li><p><span class="math inline">\(N_e^{(f)}\)</span> is naturally related to the number of individuals in the parental populations. It tells you something about how the probability of identity by descent within a single population will change over time.</p></li>
+<li><p><span class="math inline">\(N_e^{(v)}\)</span> is naturally related to the number of individuals in the offspring generation. It tells you something about how much allele frequencies in isolated populations will diverge from one another.</p></li>
+</ul>
+<h2 class="unnumbered" id="examples">Examples</h2>
+<p>This is all pretty abstract. Let’s work through some examples to see how this all plays out.<a href="#fn21" class="footnote-ref" id="fnref21" role="doc-noteref"><sup>21</sup></a> In the case of separate sexes and variable population size, I’ll provide a derivation of <span class="math inline">\(N_e^{(f)}\)</span>. In the case of differences in the number of offspring left by individuals, I’ll just give you the formula and we’ll discuss some of the implications.</p>
+<h3 class="unnumbered" id="separate-sexes">Separate sexes</h3>
+<p>We’ll start by assuming that <span class="math inline">\(\hat f_t = 0\)</span> to make the calculations simple. So we know that <span class="math display">\[N_e^{(f)} = \frac{1}{2\hat f_{t+1}} \quad .\]</span> The first thing to do is to calculate <span class="math inline">\(\hat f_{t+1}\)</span>. To do this we have to break the problem down into pieces.<a href="#fn22" class="footnote-ref" id="fnref22" role="doc-noteref"><sup>22</sup></a></p>
+<ul>
+<li><p>We assumed that <span class="math inline">\(\hat f_t = 0\)</span>, so the only way for two alleles to be identical by descent is if they are identical copies of the <span> <em>same</em></span> allele in the immediately preceding generation.</p></li>
+<li><p>Even if the numbers of reproductive males and reproductive females are different, every new offspring has exactly one father and one mother. Thus, the probability that the first gamete selected at random is female is just 1/2, and the probability that the first gamete selected is male is just 1/2.</p></li>
+<li><p>The probability that the second gamete selected is female given that the first one we selected was female is <span class="math inline">\((N-1)/(2N-1)\)</span>, because <span class="math inline">\(N\)</span> out of the <span class="math inline">\(2N\)</span> alleles represented among offspring came from females, and there are only <span class="math inline">\(N-1\)</span> out of <span class="math inline">\(2N-1\)</span> left after we’ve already picked one. The same logic applies for male gametes.</p></li>
+<li><p>The probability that one particular female gamete was chosen is <span class="math inline">\(1/2N_f\)</span>, where <span class="math inline">\(N_f\)</span> is the number of females in the population. Similarly the probability that one particular male gamete was chosen is <span class="math inline">\(1/2N_m\)</span>, where <span class="math inline">\(N_m\)</span> is the number of males in the population.</p></li>
+</ul>
+<p>With those facts in hand, we’re ready to calculate <span class="math inline">\(\hat
+f_{t+1}\)</span>.</p>
+<p><span class="math display">\[\begin{aligned}
+f_{t+1} &amp;=&amp; \left(\frac{1}{2}\right) \left(\frac{N-1}{2N-1}\right)
+            \left(\frac{1}{2N_f}\right) +
+            \left(\frac{1}{2}\right) \left(\frac{N-1}{2N-1}\right)
+            \left(\frac{1}{2N_m}\right) \\
+        &amp;=&amp; \left(\frac{1}{2}\right) \left(\frac{N-1}{2N-1}\right)
+            \left(\frac{1}{2N_f} + \frac{1}{2N_m}\right) \\
+        &amp;\approx&amp; \left(\frac{1}{4}\right)
+            \left(\frac{2N_m + 2N_f}{4N_fN_m}\right) \\
+        &amp;=&amp; \left(\frac{1}{2}\right)
+            \left(\frac{N_m + N_f}{4N_fN_m}\right)\end{aligned}\]</span> So, <span class="math display">\[N_e^{(f)} \approx \frac{4N_fN_m}{N_f + N_m} \quad .\]</span></p>
+<p>What does this all mean? Well, consider a couple of important examples. Suppose the numbers of females and males in a population are equal, <span class="math inline">\(N_f = N_m = N/2\)</span>. Then <span class="math display">\[\begin{aligned}
+N_e^{(f)} &amp;=&amp; \frac{4(N/2)(N/2)}{N/2 + N/2} \\
+          &amp;=&amp; \frac{4N^2/4}{N} \\
+          &amp;=&amp; N \quad .\end{aligned}\]</span> The effective population size is equal to the actual population size if the sex ratio is 50:50. If it departs from 50:50, the effective population size will be smaller than the actual population size.</p>
+<p>qConsider the extreme case where there’s only one reproductive male in the population. Then <span class="math display">\[N_e^{(f)} = \frac{4N_f}{N_f + 1} \quad . \label{eq:ne-harem}\]</span> Notice what this equation implies: The effective size of a population with only one reproductive male (or female) can <span><em>never</em></span> be bigger than 4, no matter how many mates that individual has and no matter how many offspring are produced. At first, this is a little surprising, but if when you realize that under these conditions all offspring are half sibs, it may be a little less surprising.</p>
+<h3 class="unnumbered" id="variable-population-size">Variable population size</h3>
+<p>The notation for this one gets a little more complicated, but the ideas are simpler than those you just survived. Since the population size is changing we need to specify the population size at each time step. Let <span class="math inline">\(N_t\)</span> be the population size in generation <span class="math inline">\(t\)</span>. Then <span class="math display">\[\begin{aligned}
+f_{t+1} &amp;=&amp; \left(1-\frac{1}{2N_t}\right)f_t + \frac{1}{2N_t} \\
+1 - f_{t+1} &amp;=&amp; \left(1-\frac{1}{2N_t}\right)(1-f_t) \\
+1 - f_{t+K} &amp;=&amp;
+\left(\prod_{i=1}^K\left(1-\frac{1}{2N_{t+i}}\right)\right)(1-f_t) \quad .\end{aligned}\]</span> Now if the population size were constant <span class="math display">\[\left(\prod_{i=1}^K\left(1-\frac{1}{2N_{t+i}}\right)\right) =
+\left(1 - \frac{1}{2N_e^{(f)}}\right)^K \quad .\]</span> Dealing with products and powers is inconvenient, but if we take the logarithm of both sides of the equation we get something simpler:<a href="#fn23" class="footnote-ref" id="fnref23" role="doc-noteref"><sup>23</sup></a> <span class="math display">\[\sum_{i=1}^K\log\left(1-\frac{1}{2N_{t+i}}\right) =
+K\log\left(1 - \frac{1}{2N_e^{(f)}}\right) \quad .\]</span> It’s a well-known fact<a href="#fn24" class="footnote-ref" id="fnref24" role="doc-noteref"><sup>24</sup></a> that <span class="math inline">\(\log(1-x) \approx -x\)</span> when <span class="math inline">\(x\)</span> is small. So if we assume that <span class="math inline">\(N_e\)</span> and all of the <span class="math inline">\(N_{t}\)</span> are large,<a href="#fn25" class="footnote-ref" id="fnref25" role="doc-noteref"><sup>25</sup></a> then <span class="math display">\[\begin{aligned}
+K\left(-\frac{1}{2N_e^{(f)}}\right)
+  &amp;=&amp; \sum_{i=1}^K-\frac{1}{2N_{t+i}} \\
+\frac{K}{N_e^{(f)}} &amp;=&amp; \sum_{i=1}^K\frac{1}{N_{t+i}} \\
+N_e^{(f)} &amp;=&amp; \left(\left(\frac{1}{K}\right)
+                    \sum_{i=1}^K\frac{1}{N_{t+i}}\right)^{-1}\end{aligned}\]</span></p>
+<p>The quantity on the right side of that last equation is a well-known quantity. It’s the <span><em>harmonic mean</em></span> of the <span class="math inline">\(N_{t}\)</span>. It’s another well-known fact<a href="#fn26" class="footnote-ref" id="fnref26" role="doc-noteref"><sup>26</sup></a> that the harmonic mean of a series of numbers is always less than its arithmetic mean. This means that genetic drift may play a much more imporant role than we might have imagined, since the effective size of a population will be more influenced by times when it is small than by times when it is large.</p>
+<p>Consider, for example, a population in which <span class="math inline">\(N_1\)</span> through <span class="math inline">\(N_9\)</span> are 1000, and <span class="math inline">\(N_{10}\)</span> is 10. <span class="math display">\[\begin{aligned}
+N_e &amp;=&amp; \left(\left(\frac{1}{10}\right)
+            \left(9\left(\frac{1}{1000}\right) +
+                   \left(\frac{1}{10}\right)\right)\right)^{-1} \\
+    &amp;\approx&amp; 92\end{aligned}\]</span> <span><em>versus</em></span> an arithmetic average of 901. So the population will behave with respect to the inbreeding associated with drift like a population a tenth of its arithmetic average size.</p>
+<h2 class="unnumbered" id="variation-in-offspring-number">Variation in offspring number</h2>
+<p>I’m just going to give you this formula. I’m not going to derive it for you.<a href="#fn27" class="footnote-ref" id="fnref27" role="doc-noteref"><sup>27</sup></a> <span class="math display">\[N_e^{(f)} = \frac{2N - 1}{1 + \frac{V_k}{2}} \quad ,\]</span> where <span class="math inline">\(V_k\)</span> is the variance in number of offspring among individuals in the population. Remember I told you that the number of gametes any individual has represented in the next generation is a binomial random variable in an ideal population? Well, if the population size isn’t changing, that means that <span class="math inline">\(V_k = 2(1 - 1/N)\)</span> in an ideal population.<a href="#fn28" class="footnote-ref" id="fnref28" role="doc-noteref"><sup>28</sup></a> A little algebra should convince you that in this case <span class="math inline">\(N_e^{(f)} = N\)</span>. It can also be shown (with more algebra) that</p>
+<ul>
+<li><p><span class="math inline">\(N_e^{(f)} &lt; N\)</span> if <span class="math inline">\(V_k &gt; 2(1 - 1/N)\)</span> and</p></li>
+<li><p><span class="math inline">\(N_e^{(f)} &gt; N\)</span> if <span class="math inline">\(V_k &lt; 2(1 - 1/N)\)</span>.</p></li>
+</ul>
+<p>That last fact is pretty remarkable. Conservation biologists try to take advantage of it to decrease the loss of genetic variation in small populations, especially those that are captive bred. If you can reduce the variance in reproductive success, you can substantially increase the effective size of the population. In fact, if you could reduce <span class="math inline">\(V_k\)</span> to zero, then <span class="math display">\[N_e^{(f)} = 2N - 1 \quad .\]</span> The effective size of the population would then be almost twice its actual size.</p>
+<h1 class="unnumbered" id="creative-commons-license">Creative Commons License</h1>
+<p>These notes are licensed under the Creative Commons Attribution License. To view a copy of this license, visit https://creativecommons.org/licenses/by/4.0/ or send a letter to Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305, USA.</p>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p>Notice that once we start talking about genetic drift, we have to specify the size of the population. As we’ll see, that’s because the properties of drift depend on how big the population is. We’ll also see that the size of the population isn’t simply the number of individuals we can count.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>More about that later.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3" role="doc-endnote"><p>I know. I’m weird. I actually get a kick out of writing equations!<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4" role="doc-endnote"><p>Or at least the weird ones among us<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5" role="doc-endnote"><p>Ask me, if you’re really interested.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6" role="doc-endnote"><p>It’s not just that I’m crazy.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7" role="doc-endnote"><p>You obviously can’t lose all of them unless the population becomes extinct.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8" role="doc-endnote"><p>Technically, we’ve described a Markov chain with a finite state space, but I doubt that you really care about that. All Markov chains have this “memoryless” property. In fact, it’s called the Markov property (<a href="https://en.wikipedia.org/wiki/Markov_property">https://en.wikipedia.org/wiki/Markov_property</a>).<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9" role="doc-endnote"><p>Of course, if you’ve just tossed 25 heads in a row, you could be forgiven for having your doubts about whether the coin is actually fair.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10" role="doc-endnote"><p>Actually, we’ll encounter a way that isn’t quite so hard in a few lectures when we get to the coalescent.<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn11" role="doc-endnote"><p>Notice that this equation only applies to the case of one-locus with two alleles, although the principle applies to any number of alleles.<a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn12" role="doc-endnote"><p>Remember that I use the abbreviation ibd to mean identical by descent.<a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn13" role="doc-endnote"><p>This will hold true even if there is strong selection for keeping alleles in the population. Selection can’t prevent loss of diversity, only slow it down.<a href="#fnref13" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn14" role="doc-endnote"><p>How could there be separate sexes if there can be self-fertilization?<a href="#fnref14" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn15" role="doc-endnote"><p>More about this later.<a href="#fnref15" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn16" role="doc-endnote"><p>OK, OK. They will probably be violated in <span><em>every</em></span> case we’re interested in.<a href="#fnref16" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn17" role="doc-endnote"><p>There are actually more than two ways, but we’re only going to talk about two.<a href="#fnref17" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn18" role="doc-endnote"><p>You probably won’t, so I’ll remind you<a href="#fnref18" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn19" role="doc-endnote"><p>As if that will make it any clearer. Does anyone actually read these footnotes?<a href="#fnref19" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn20" role="doc-endnote"><p>It’s even worse than that. When the population size is changing, it’s not clear that any of the available adjustments to produce an effective population size are entirely satisfactory. Well, that’s not entirely true either. Fu et al. <span class="citation" data-cites="Fu-etal-2003"></span> show that there is a reasonable definition in one simple case when the population size varies, and it happens to correspond to the solution presented below.<a href="#fnref20" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn21" role="doc-endnote"><p>If you’re interested in a comprehensive list of formulas relating various demographic parameters to effective population size, take a look at <span class="citation" data-cites="Crow-Kimura-1970"></span>. They provide a pretty comprehensive summary and a number of derivations.<a href="#fnref21" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn22" role="doc-endnote"><p>Remembering, of course, that <span class="math inline">\(\hat f_{t+1}\)</span> is the probability that two alleles drawn at random are identical by descent.<a href="#fnref22" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn23" role="doc-endnote"><p>OK. I know it doesn’t look any simpler, but trust me it is. We can work with this one. The other one we can only stare at.<a href="#fnref23" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn24" role="doc-endnote"><p>Well known to some of us at least.<a href="#fnref24" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn25" role="doc-endnote"><p>So that there reciprocals are small<a href="#fnref25" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn26" role="doc-endnote"><p>Are we ever going to run out of well-known facts? Probably not.<a href="#fnref26" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn27" role="doc-endnote"><p>The details are in <span class="citation" data-cites="Crow-Kimura-1970"></span>, if you’re interested.<a href="#fnref27" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn28" role="doc-endnote"><p>The calculation is really easy, and I’d be happy to show it to you if you’re interested.<a href="#fnref28" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+</body>
+</html>
