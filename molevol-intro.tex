@@ -5,7 +5,7 @@
 \usepackage{html}
 \usepackage{url}
 
-\newcommand{\copyrightYears}{2001-2019}
+\newcommand{\copyrightYears}{2001-2021}
 
 \title{Introduction to molecular population genetics}
 
@@ -84,17 +84,28 @@ you'll see in what follows, however, any discussion of molecular
 evolution, even if it focuses on understanding the processes, cannot
 avoid some careful attention to the pattern.
 
-\section*{Types of data}
+\section*{Types of data} 
 
-Before we delve any further into our study of molecular evolution,
-it's probably useful to back up a bit and talk a bit about the types
-of data that are available to molecular evolutionists. We've already
-encountered a couple of these (microsatellites and SNPs), but there
-are a variety of important categories into which we can group data
-used for molecular evolutionary analyses. Even though studies of
-molecular evolution in the last 20-25 years have focused mostly on
-data derived from DNA sequence or copy number variation, modern
-applications of molecular data evolved from earlier
+If you're interested in the history of molecular evolution, you may be
+interested in this review of the types of data that population
+geneticists have used in the last 50 years to provide insights into
+evolutionary processes. If you're not interested in the history, feel
+free to skip this section. Much of the data being collected now for
+population genetics is treated as single nucleotide
+polymorphisms~(sometimes with genetic linkage taken into account) or
+copy-number variation, and it is derived either from low-coverage
+whole-genome resequencing or from a reduced representation sequencing
+approach like RADseq. The exceptions are that for some purposes,
+microsatellites are still the marker of choice. For others, RNAseq can
+be used to explore differences in gene expression between individuals
+or under different conditions.
+
+We've already encountered a couple of these (microsatellites and
+SNPs), but there are a variety of important categories into which we
+can group data used for molecular evolutionary analyses. Even though
+studies of molecular evolution in the last 20-25 years have focused
+mostly on data derived from DNA sequence or copy number variation,
+modern applications of molecular data evolved from earlier
 applications. Markers that were used before the advent of (relatively)
 easy and cheap DNA sequencing had their limitations, but analyses of
 those data also laid the groundwork for most or all of what's going on
@@ -231,7 +242,7 @@ used.\footnote{Note: Several of these are primarily of historical
   typically co-dominant (the allelic composition of heterozygotes can
   be inferred), and they allow investigators to identify both variable
   and non-variable loci.\footnote{Classical Mendelian genetics, and
-    quantitative genetics too for that matter, depend on genetic
+    quantitative genetics too for that matter, depends on genetic
     variation in traits to identify the presence of a gene.} Patterns
   of variation at allozyme loci may not be representative of genetic
   variation that does not result from differences in protein structure
@@ -334,15 +345,16 @@ molecules are the most interesting.
 
 \section*{Divergence of nucleotide sequences}
 
-Underlying much of what we're going to discuss in this last part of
-the course is the idea that we should be able to describe the degree
-of difference between nucleotide sequences, proteins, or anything else
-as a result of some underlying evolutionary processes. To illustrate
-the principle, let's start with nucleotide sequences and develop a
-fairly simple model that describes how they become different over
+Underlying much of what we're going to discuss in this part of the
+course is the idea that we should be able to describe the degree of
+difference between nucleotide sequences, proteins, or anything else as
+a result of some underlying evolutionary processes. To illustrate the
+principle, let's start with nucleotide sequences and develop a fairly
+simple model that describes how they become different over
 time.\footnote{By now you should realize that when I write that
   somethin is ``fairly simple'', I mean that it's fairly simple to
-  someone who's comfortable with mathematics.}\index{Jukes-Cantor distance}
+  someone who's comfortable with mathematics.}\index{Jukes-Cantor
+  distance}
 
 Let $q_t$ be the probability that two homologous nucleotides are
 identical after having been evolving for $t$ generations independently
@@ -519,16 +531,20 @@ high.\index{cost of selection}
 
 Kimura~\cite{Kimura68} and King and Jukes~\cite{King-Jukes69} proposed
 a way to solve both empirical problems. If the vast majority of amino
-acid substitutions are selectively neutral, then substitutions will
-occur at approximately a constant rate~(assuming that mutation rates
-don't vary over time) and it will be easy to maintain lots of
-polymorphism within populations because there will be no cost of
-selection. I'll develop both of those points in a bit more detail in
-just a moment, but let me first be precise about what the neutral
-theory of molecular evolution actually proposes. More specifically,
-let me first be precise about what it does {\it not\/} propose. I'll
-do so specifically in the context of protein evolution for now,
-although we'll broaden the scope later.
+acid substitutions are selectively neutral,\footnote{Notice that I
+  just said that we're going to assume that the vast majority of
+  nucleotide {\it substitutions\/} are selectively neutral. This
+  doesn't mean that most nucleotide {\it mutations\/} are selectively
+  neutral. Indeed, we'll see that most of them are deleterious.} then
+substitutions will occur at approximately a constant rate~(assuming
+that substitution rates don't vary over time) and it will be easy to
+maintain lots of polymorphism within populations because there will be
+no cost of selection. I'll develop both of those points in a bit more
+detail in just a moment, but let me first be precise about what the
+neutral theory of molecular evolution actually proposes. More
+specifically, let me first be precise about what it does {\it not\/}
+propose. I'll do so specifically in the context of protein evolution
+for now, although we'll broaden the scope later.
 
 \begin{itemize}
 
@@ -598,9 +614,12 @@ fitness.\index{neutral theory!effective neutrality}\index{effective neutrality}
 
 We're now going to calculate the rate of molecular evolution, i.e.,
 the rate of allelic substitution, under the hypothesis that mutations
-are selectively neutral. To get that rate we need two things: the rate
+are selectively neutral.\footnote{Notice that contrary to what I said
+  earlier, here I am assuming that {\it mutations\/} are neutral, not
+  just substitutions.} To get that rate we need two things: the rate
 at which new mutations occur and the probability with which new
-mutations are fixed. In a word equation\index{molecular clock!derivation}
+mutations are fixed. In a word equation\index{molecular
+  clock!derivation}
 \begin{eqnarray*}
 \mbox{\# of substitutions/generation} &=& (\mbox{\# of mutations/generation})\times(\mbox{probability
   of fixation}) \\
@@ -650,11 +669,14 @@ nucleotides.\footnote{Why three when there are four nucleotides?
 infinite number of possibilities, but it's pretty large.\footnote{If a
   protein consists of 400 amino acids, that's 1200 nucleotides. There
   are $4^{1200} \approx 10^{720}$ different sequences that are 1200
-  nucleotides long.} It suggests that we could treat every mutation
-that occurs as if it were completely new, a mutation that has never
-been seen before and will never be seen again. Does that description
-ring any bells? Does the infinite alleles model sound familiar? It
-should, because it exactly fits the situation I've just
+  nucleotides long. For context, there are only about
+  $3.28 \times 10^{80}$ elementary particles in the
+  universe~(\url{https://www.popularmechanics.com/space/a27259/how-many-particles-are-in-the-entire-universe/}).}
+It suggests that we could treat every mutation that occurs as if it
+were completely new, a mutation that has never been seen before and
+will never be seen again. Does that description ring any bells? Does
+the infinite alleles model sound familiar? It should, because it
+exactly fits the situation I've just
 described.\index{mutation!infinite alleles model}
 
 Having remembered that this situation is well described by the
@@ -684,7 +706,7 @@ that histone loci evolve much more slowly than interferons or MHC
 loci?''  Those are good questions, and those are where we're going
 next. As we'll see, molecular evolutionists have elaborated the
 framework extensively\footnote{That mean's they've made it more
-  complicated.} in the last thirty years, but these basic principles
+  complicated.} in the last fifty years, but these basic principles
 underlie every investigation that's conducted. That's why I wanted to
 spend a fair amount of time going over the logic and
 consequences. Besides, it's a rare case in population genetics where
