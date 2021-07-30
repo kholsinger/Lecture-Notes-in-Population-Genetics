@@ -4,7 +4,7 @@
 \usepackage{html}
 \usepackage{url}
 
-\newcommand{\copyrightYears}{2001-2019}
+\newcommand{\copyrightYears}{2001-2021}
 
 \title{Patterns of nucleotide and amino acid substitution}
 
@@ -17,26 +17,23 @@
 \section*{Introduction}
 
 So I've just suggested that the neutral theory of molecular evolution
-explains quite a bit, but it also ignores quite a bit.\footnote{I
-  won't make my bikini joke. If you want to know what my bikini joke
-  is, you'll have to ask someone who's taken this class before (or
-  find some old notes that are lurking somewhere on the web). I've
-  decided not to tell it any more.} The derivations we did assumed
-that all substitutions are equally likely to occur, because they are
-selectively neutral. That isn't plausible. We need look no further
-than sickle cell anemia to see an example of a protein polymorphism in
-which a single nucleotide substitution and a single amino acid
-difference has a very large effect on fitness. Even reasoning from
-first principles we can see that it doesn't make much sense to think
-that all nucleotide substitutions are created equal. Just as it's
-unlikely that you'll improve the performance of your car if you pick
-up a sledgehammer, open its hood, close your eyes, and hit something
-inside, so it's unlikely that picking a random amino acid in a protein
-and substituting it with a different one will improve the function of
-the protein.\footnote{Obviously it happens sometimes. If it didn't,
-  there wouldn't be any adaptive evolution. It's just that, on
-  average, mutations are more likely to decrease fitness than to
-  increase it. }\index{sledgehammer principle}
+explains quite a bit, but it also ignores quite a bit. The derivations
+we did assumed that all substitutions are equally likely to occur,
+because they are selectively neutral. That isn't plausible. We need
+look no further than sickle cell anemia to see an example of a protein
+polymorphism in which a single nucleotide substitution and a single
+amino acid difference has a very large effect on fitness. Even
+reasoning from first principles we can see that it doesn't make much
+sense to think that all nucleotide substitutions are created
+equal. Just as it's unlikely that you'll improve the performance of
+your car if you pick up a sledgehammer, open its hood, close your
+eyes, and hit something inside, so it's unlikely that picking a random
+amino acid in a protein and substituting it with a different one will
+improve the function of the protein.\footnote{Obviously it happens
+  sometimes. If it didn't, there wouldn't be any adaptive
+  evolution. It's just that, on average, mutations are more likely to
+  decrease fitness than to increase it. }\index{sledgehammer
+  principle}
 
 \section*{The genetic code}
 
@@ -170,27 +167,33 @@ Interferons \\
 Two very important observations emerge after you've looked at this
 table for awhile. The first won't come as any shock. The rate of
 non-synonymous substitution is generally lower than the rate of
-synonymous substitution. This is a result of my ``sledgehammer
-principle.'' Mutations that change the amino acid sequence of a
-protein are more likely to reduce that protein's functionality than to
-increase it. As a result, they are likely to lower the fitness of
-individuals carrying them, and they will have a lower probability of
-being fixed than those mutations that do not change the amino acid
-sequence.\index{sledgehammer principle}
-
+synonymous substitution. This is a result of the ``sledgehammer
+principle'' I mentioned earlier. Just as taking a sledgehammer to your
+car engine and making random changes is unlikely to make it run
+better, so making random changes to the amino acid composition of a
+protein is unlikely to make it function better. Mutations that change
+the amino acid sequence of a protein are more likely to reduce that
+protein's functionality than to increase it. As a result, they are
+likely to lower the fitness of individuals carrying them, and they
+will have a lower probability of being fixed than those mutations that
+do not change the amino acid sequence.\index{sledgehammer principle}\footnote{Remember 
+our discussion of the probability that disfavored mutations are fixed
+as a result of natural selection. They can be fixed, but they are less
+likely to be fixed than those that are neutral.}
+  
 The second observation is more subtle. Rates of non-synonymous
 substitution vary by more than two orders of magnitude: 0.02
 substitutions per nucleotide per billion years in ribosomal protein
 S14 to 3.06 substitutions per nucleotide per billion years in
 $\gamma$-interferon, while rates of synonymous substitution vary only
 by a factor of two (2.16 in ribosomal protein S14 to 5.50 in $\gamma$
-interferons. If synonymous substitutions are neutral, as they probably are to
-a first approximation,\footnote{We'll see that they may not be
+interferons. If synonymous substitutions are neutral, as they probably
+are to a first approximation,\footnote{We'll see that they may not be
   completely neutral a little later, but at least it's reasonable to
   believe that the intensity of selection to which they are subject is
-  less than that to which non-synonymous substitutions are subject.}
-then the rate of synonymous substitution should equal the mutation
-rate. Thus, the rate of synonymous substitution should be
+  a lot less than that to which non-synonymous substitutions are
+  subject.}  then the rate of synonymous substitution should equal the
+mutation rate. Thus, the rate of synonymous substitution should be
 approximately the same at every locus, which is roughly what we
 observe. But proteins differ in the degree to which their
 physiological function affects the performance and fitness of the
@@ -198,7 +201,7 @@ organisms that carry them. Some, like histones and ribosomal proteins,
 are intimately involved with chromatin or translation of messenger RNA
 into protein. It's easy to imagine that just about any change in the
 amino acid sequence of such proteins will have a detrimental effect on
-its function. Others, like interferons, are involved in responses to
+their function. Others, like interferons, are involved in responses to
 viral or bacterial pathogens. It's easy to imagine not only that the
 selection on these proteins might be less intense, but that some amino
 acid substitutions might actually be favored by natural selection
@@ -225,7 +228,13 @@ accomodate these new observations.\index{neutral theory!modifications}
     selectively neutral.} If most function-altering mutations are
   deleterious, it follows that we are unlikely to find much variation
   in populations for such mutations. Selection will quickly eliminate
-  them.
+  them.\footnote{Remember, when I say that ``the variability is
+    selectively neutral,'' that's shorthand for saying that ``the
+    product of effective population size and the selection coefficient
+    on different alleles is less than one, meaning that the dynamics
+    of allele frequency change are more similar to those of an allele
+    that has no effects on fitness than to those of an allele with an
+    effect on fitness when we can neglect genetic drift.''}
 
 \item {\it Natural selection is primarily purifying.} Although natural
   selection for variants that improve function is ultimately the

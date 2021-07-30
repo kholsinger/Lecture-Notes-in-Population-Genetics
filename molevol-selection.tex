@@ -5,7 +5,7 @@
 \usepackage{html}
 \usepackage{url}
 
-\newcommand{\copyrightYears}{2001-2019}
+\newcommand{\copyrightYears}{2001-2021}
 
 \title{Detecting selection on nucleotide polymorphisms}
 
@@ -340,7 +340,7 @@ $\delta_{ij}$ is the number of nucleotide sequence differences between
 haplotypes $i$ and $j$, and $N$ is the total length of the
 sequence.\footnote{I lied, but you must be getting used to that by
   now. This isn't quite the way you estimate it. To get an unbiased
-  estimate of pi, you have to multiply this equation by $n/(n-1)$,
+  estimate of $\pi$, you have to multiply this equation by $n/(n-1)$,
   where $n$ is the number of haplotypes in your sample. And, of
   course, if you're Bayesian you'll be even a little more
   careful. You'll estimate $x_i$ using an appropriate prior on
@@ -364,15 +364,17 @@ time.\footnote{This is {\it not\/} the same $\theta$ we encountered
   is that sometimes authors think of $\theta$ in terms of a haploid
   population. When they do, it's $2N_e\mu$. Usually the context makes
   it clear which definition is being used, but you have to remember to
-  pay attention to be sure.} Under the infinite-sites model of DNA
-sequence evolution, it can be shown that
+  pay attention to be sure. If you follow population geneticists on
+  Twitter, you'll often see them complaining about ``off by two''
+  errors.} Under the infinite-sites model of DNA sequence evolution,
+it can be shown that
 \begin{eqnarray*}
 \E(\pi) &=& \theta \\
 \E(k) &=& \theta\sum_i^{n-1} \frac{1}{i} \quad ,
 \end{eqnarray*}
 where $n$ is the number of haplotypes in your sample.\footnote{The
   ``E'' refers to expectation. It is the average value of a random
-  variable. $\mbox{E}(\pi)$ is read as ``the expectation of $\pi$>}
+  variable. $\mbox{E}(\pi)$ is read as ``the expectation of $\pi$.''}
 This suggests that there are two ways to estimate $\theta$, namely
 \begin{eqnarray*}
 \hat \theta_\pi &=& \hat \pi \\
@@ -469,9 +471,9 @@ different physiological function.
 
 A quick search in Google Scholar reveals that the paper in which
 Tajima described this approach~\cite{Tajima89} has been cited over
-10,500
+13,000
 times.\footnote{\url{https://scholar.google.com/scholar?hl=en&as_sdt=0\%2C7&q=tajima+genetics+123\%3A585-595\%3B+1989&btnG=}
-  Search on 29 December 2018.} Clearly it has been widely used for
+  Search on 30 July 2021.} Clearly it has been widely used for
 interpreting patterns of nucleotide sequence variation. Although it is
 a very useful statistic, Zeng et al.~\cite{Zeng-etal-2006} point out
 that there are important aspects of the data that Tajima's $D$ does
