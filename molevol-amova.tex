@@ -5,7 +5,7 @@
 \usepackage{url}
 \usepackage{epstopdf}
 
-\newcommand{\copyrightYears}{2001-2019}
+\newcommand{\copyrightYears}{2001-2021}
 
 \title{Analysis of molecular variance (AMOVA)}
 
@@ -74,11 +74,10 @@ which is the direct analog of Wright's $F_{st}$ for nucleotide
 sequence diversity. Why? Well, that requires you to remember stuff we
 covered about two months ago.\index{Phi-st@$\Phi_{st}$}\index{AMOVA}
 
-To be a bit more specific, refer back to the online
-notes\footnote{\url{http://darwin.eeb.uconn.edu/eeb348-notes/genetic-structure.pdf}}
-or to Chapter 4 in the book version of the
-notes\footnote{\url{https://figshare.com/articles/Lecture_notes_in_population_genetics/100687}}.
-If you do, you'll see that we defined
+To be a bit more specific, refer back to the 
+notes on $F_{ST}$.\footnote{You can find the online version here, if
+  you don't have them handy: \url{http://darwin.eeb.uconn.edu/eeb348-notes/genetic-structure.pdf}.}.
+When you do, you'll see that we defined
 \[
 F_{IT} = 1 - \frac{H_i}{H_t} \quad ,
 \]
@@ -88,11 +87,18 @@ panmictic heterozygosity within populations, we then observed that
 \begin{eqnarray*}
 1 - F_{IT} &=& \frac{H_i}{H_t} \\
            &=& \frac{H_i}{H_s}\frac{H_s}{H_t} \\
-           &=& (1 - F_{IS})(1 - F_{ST}) \\
+           &=& (1 - F_{IS})(1 - F_{ST}) \quad .
+\end{eqnarray*}
+We can rearrange that equation a bit to solve for $F_{ST}$ in terms of
+$F_{IT}$ and $F_{IS}$.
+
+\begin{eqnarray*}
 1-F_{ST} &=& \frac{1-F_{IT}}{1-F_{IS}} \\
 F_{ST} &=&
 \frac{\left(1-F_{IS}\right)-\left(1-F_{IT}\right)}{1-F_{IS}} \\
 &=& \frac{\left(H_i/H_s\right) - \left(H_i/H_t\right)}{H_i/H_s} \\
+&=& \frac{\left(1/H_S\right) - \left(1/H_t\right)}{1/H_s} \\
+&=& 1 - \frac{1/H_t}{1/H_S} \\  
 &=& 1 - \frac{H_s}{H_t} \quad .
 \end{eqnarray*}
 In short, another way to think about $F_{ST}$ is
@@ -117,26 +123,35 @@ number of differences between them. For example, the distance might be
 a Jukes-Cantor distance or a more general distance measure that
 accounts for more of the properties we know are associated with
 nucleotide substitution. The idea is illustrated in
-Figure~\ref{fig:amova-procedure}. Once we have $\delta_{ij}$ for all
-pairs of haplotypes or alleles in our sample, we can use the ideas
-lying behind equation~(\ref{eq:phi-st}) to partition
-diversity{\dash}the average distance between randomly chosen
-haplotypes or alleles{\dash}into within and among population
-components.\footnote{As with $F$-statistics, the actual estimation
-  procedure is more complicated than I describe here. Standard
-  approaches to AMOVA use method of moments calculations analogous to
-  those introduced by Weir and Cockerham for
-  $F$-statistics~\cite{WeirCockerham84}. Bayesian approaches are
-  possible, but they are not yet widely available~(meaning, in part,
-  that I know how to do it, but I haven't written the necessary
-  software yet). Gompert et al.~\cite{Gompert-etal-2010} describe one
-  approach for Bayesian AMOVA from pooled DNA sequences obtained from
-  high-throughput sequencing.} This procedure for partitioning
-diversity in molecular markers is referred to as an analysis of
-molecular variance or AMOVA (by analogy with the ubiquitous
-statistical procedure analysis of variance, ANOVA). Like Wright's
-$F$-statistics, the analysis can include several levels in the
-hierarchy.
+Figure~\ref{fig:amova-procedure}.
+
+Notice that when we're partitioning diversity with AMOVA, we're using
+the word ``diversity'' in a different sense than we did with
+$F$-statistics. With $F$-statistics we were thinking about diversity
+solely in terms of allele frequency differences. With AMOVA we're
+thinking about diversity in terms of a combination of haplotype
+frequency differences {\it and\/} a measure of how different{\dash}how
+distant{\dash} those haplotypes are from one another.
+
+Once we have $\delta_{ij}$ for all pairs of haplotypes or alleles in
+our sample, we can use the ideas lying behind
+equation~(\ref{eq:phi-st}) to partition diversity{\dash}the average
+distance between randomly chosen haplotypes or alleles{\dash}into
+within and among population components.\footnote{As with
+  $F$-statistics, the actual estimation procedure is more complicated
+  than I describe here. Standard approaches to AMOVA use method of
+  moments calculations analogous to those introduced by Weir and
+  Cockerham for $F$-statistics~\cite{WeirCockerham84}. Bayesian
+  approaches are possible, but they are not yet widely
+  available~(meaning, in part, that I know how to do it, but I haven't
+  written the necessary software yet). Gompert et
+  al.~\cite{Gompert-etal-2010} describe one approach for Bayesian
+  AMOVA from pooled DNA sequences obtained from high-throughput
+  sequencing.} This procedure for partitioning diversity in molecular
+markers is referred to as an analysis of molecular variance or AMOVA
+(by analogy with the ubiquitous statistical procedure analysis of
+variance, ANOVA). Like Wright's $F$-statistics, the analysis can
+include several levels in the hierarchy.
 
 \begin{figure}
 \begin{center}
@@ -185,8 +200,22 @@ geographical region ($\Phi_{SC} = 0.044$). There is, however,
 substantial differentiation among regions ($\Phi_{CT} = 0.220$). In
 fact, differences among populations in different regions is
 responsible for nearly all of the differences among populations
-($\Phi_{ST} = 0.246$). Notice also that $\Phi$-statistics follow the
-same rules as Wright's $F$-statistics, namely
+($\Phi_{ST} = 0.246$).
+
+Remembering that AMOVA partitions a combination of haplotype frequency
+differences and haplotye differences, the interpretation of the
+$\Phi$-statistics is a little different from the interpretation of
+$F$-statistics. When we say that there is relatively little
+differentiation among populations within regions and that differences
+among populations are responsible for most of the among population
+differences, we mean that the evolutionary distance\footnote{Measured
+  on the minimum spanning tree.} between any two haplotypes from
+populations within the same region is relatively small while the
+evolutionary distance between haplotypes from different regions is
+relatively large.
+
+Notice also that $\Phi$-statistics follow the same rules as Wright's
+$F$-statistics, namely
 \begin{eqnarray*}
 1 - \Phi_{ST} &=& (1 - \Phi_{SC})(1 - \Phi_{CT}) \\
 0.754 &=& (0.956)(0.78) \quad ,
@@ -212,12 +241,12 @@ Among all populations            & $\Phi_{ST} = 0.246$ \\
 
 \section*{An extension}
 
-As you may recall,\footnote{Look back at
-  \url{http://darwin.eeb.uconn.edu/eeb348-notes/coalescent.pdf} or
-  Chapter 15 in the online notes for the details.}
-Slatkin~\cite{Slatkin91-coalescence} pointed out that there is a
-relationship between coalescence time and $F_{st}$. Namely, if
-mutation is rare then
+As you may recall,\footnote{Look back at our discussion of the
+  coalescent
+  (\url{http://darwin.eeb.uconn.edu/eeb348-notes/coalescent.pdf}) for
+  the details.}  Slatkin~\cite{Slatkin91-coalescence} pointed out that
+there is a relationship between coalescence time and $F_{st}$. Namely,
+if mutation is rare then
 \[
 F_{ST} \approx \frac{\bar t - \bar t_0}{\bar t} \quad ,
 \]
