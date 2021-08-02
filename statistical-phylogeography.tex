@@ -5,7 +5,7 @@
 \usepackage{url}
 \usepackage{epstopdf}
 
-\newcommand{\copyrightYears}{2010--2019}
+\newcommand{\copyrightYears}{2010--2021}
 
 \title{Statistical phylogeography: Migrate-N, IMa, and ABC}
 
@@ -31,9 +31,9 @@ develop a set of inferences about the phylogeographic history of
 populations within species. NCA is now of primarily historical
 interest. So far as I am aware, no one uses it any more. Instead
 everyone uses methods based directly on coalescent theory or similar
-approaches. Before we get to that, though, I need to point out one
-complication that is taken for granted now that I first became aware
-of in the late 1980s when Pekka Pamilo and Mashatoshi
+approaches. Before we get to that, though, I need to describe one
+complication that is taken for granted now that first became widely
+recognized in the late 1980s. Pekka Pamilo and Mashatoshi
 Nei~\cite{Pamilo-Nei-1988} pointed out that the phylogenetic
 relationships of a single gene might be different from those of the
 populations from which the samples were collected.
@@ -89,7 +89,7 @@ biogeographic hypotheses.
 
 \section*{Coalescent-based estimates of migration rate}
 
-Nearly 20 years ago Peter Beerli and Joe
+Peter Beerli and Joe
 Felsenstein~\cite{Beerli-Felsenstein-1999,Beerli-Felsenstein-2001}
 proposed a coalescent-based method to estimate migration rates among
 populations. As with other analytical methods we've encountered in
@@ -117,9 +117,16 @@ generation is $m$.\footnote{In other words, $m$ is the backwards
   migration rate, the probability that a gene in one population came
   from another population in the preceding generation. This is the
   same migration rate we encountered weeks ago when we discussed the
-  balance between drift and migration.} Under this simple scenario, we
-can again construct the coalescent history of our sample. How? Funny
-you should ask.
+  balance between drift and migration. The method Beerli and
+  Felsenstein developed allows populations to differ in $N_e$ and
+  allows rates of migration among pairs of populations to differ. It
+  even allows the rate of migration into population A from population
+  B to differ from the rate of migration into population B from
+  population A. We're going to ignore all of those complications here,
+  because the math is complicated enough without them, and it gets a
+  {\it lot\/} more complicated when they are included.} Under this
+simple scenario, we can again construct the coalescent history of our
+sample. How? Funny you should ask.
 
 We start by using the same logic we used to construct
 equation~(\ref{eq:coalescent-single}). Specifically, we ask ``What's
@@ -178,19 +185,23 @@ K)\left(1 - P(\mbox{event}|k, m, N_e, K)\right)^{t-1} \quad . \label{eq:time-to-
 \]
 We can then use Bayes theorem to calculate the probability that the
 event was a coalescence or a migration and the population or
-populations involved. Once we've done that, we have a new population
-configuration and we can start over. We continue until all of the
-alleles have coalesced into a single common ancestor, and then we have
-the complete coalescent history of our sample.\footnote{This may not
-  seem very simple, but just think about how complicated it would be
-  if I allowed every population to have a different effective size and
-  if I allowed each pair of populations to have different migration
-  rates between them.} That's roughly the logic that Beerli and
-Felsenstein use to construct coalescent histories for a sample of
-alleles from a set of populations{\dash}except that they allow
-effective population sizes to differ among populations and they allow
-migration rates to differ among all pairs of populations. As if that
-weren't bad enough, now things start to get even more complicated.
+populations involved. Notice, however, that if the event is a
+coalescent event, we first have to pick the population in which it
+occurred and then identify the pair of alleles that coalesced. Alleles
+have to be in the same population. Once we've done all of this, we
+have a new population configuration and we can start over. We continue
+until all of the alleles have coalesced into a single common ancestor,
+and then we have the complete coalescent history of our
+sample.\footnote{This may not seem very simple, but just think about
+  how complicated it would be if I allowed every population to have a
+  different effective size and if I allowed each pair of populations
+  to have different migration rates between them.} That's roughly the
+logic that Beerli and Felsenstein use to construct coalescent
+histories for a sample of alleles from a set of
+populations{\dash}except that they allow effective population sizes to
+differ among populations and they allow migration rates to differ
+among all pairs of populations. As if that weren't bad enough, now
+things start to get even more complicated.
 
 There are lots of different coalescent histories possible for a sample
 consisting of $n$ alleles from each of $K$ different populations, even
@@ -206,13 +217,13 @@ P(\mbox{data}|m, N_e) \propto f(n, m, N_e, K) \quad ,
 \]
 where $f(n, m, N_e,K)$ is some very complicated function of the
 probabilities we derived above. In fact, the function is so
-complicated, we can't even write it down. Beerli and Felsenstein,
-being very clever people, figured out a way to simulate the
-likelihood, and {\tt Migrate-n}
+complicated, we can't even write it down. Fortunately, Beerli and
+Felsenstein, being very clever people, figured out a way to simulate
+the likelihood, and {\tt Migrate-n}
 \url{http://popgen.sc.fsu.edu/Migrate/Migrate-n.html} provides a
 (relatively) simple way that you can use your data to estimate $m$ and
-$N_e$ for a set of populations. In fact, {\tt Migrate-N} will allow you
-to estimate pairwise migration rates among all populations in your
+$N_e$ for a set of populations. In fact, {\tt Migrate-N} will allow
+you to estimate pairwise migration rates among all populations in your
 sample, and since it can simulate a likelihood, if you put priors on
 the parameters you're interested in, i.e., $m$ and $N_e$, you can get
 Bayesian estimates of those parameters rather than maximum likelihood
@@ -220,7 +231,8 @@ estimates, including credible intervals around those estimates so that
 you have a good sense of how reliable your estimates are.\footnote{If
   you'd like to see a comparision of maximum likelihood and Bayesian
   approaches, Beerli~\cite{Beerli-2006} provides an excellent
-  overview.}\index{coalescent!estimating migration rates}\index{migration!estimating}\index{Migrate-N@{\tt Migrate-N}}
+  overview.}\index{coalescent!estimating migration
+  rates}\index{migration!estimating}\index{Migrate-N@{\tt Migrate-N}}
 
 There's one further complication I need to mention, and it involves a
 lie I just told you. {\tt Migrate-N} can't give you estimates of $m$
@@ -337,8 +349,9 @@ something about:
 confound local effective population sizes with migration rates. So if
 $M_1 > M_2$, for example, it does not mean that the fraction of
 migrants incorporated into population 1 exceeds the fraction
-incorporated into population 2. It means that the impact of migration
-has been felt more strongly in population 1 than in population 2.
+incorporated into population 2. It means that the {\it number\/} of
+migrants entering population 1 is greater than the number entering
+population 2.
 
 \subsection*{An example}
 
@@ -366,10 +379,9 @@ population.
 
 \subsection*{Extending the approach to multiple populations}
 
-About ten years ago, Jody Hey announced the release of {\tt
-  IMa2}.\footnote{Available from
-  \url{https://bio.cst.temple.edu/~hey/software/software.htm}.}
-implement this method.  Building on work described in Hey and
+Jody Hey later announced the release of {\tt IMa2}.\footnote{Available
+  from \url{https://bio.cst.temple.edu/~hey/software/software.htm}.}
+Building on work described in Hey and
 Nielsen~\cite{Hey-Nielsen-2004,Hey-Nielsen-2007}, {\tt IMa2} allows
 you to estimate relative divergence times, relative effective
 population sizes, and relative pairwise migration rates for more than
@@ -482,7 +494,7 @@ hypothesis.\index{statistical phylogeography!example}
 \section*{Approximate Bayesian computation: motivation}\index{ABC}\index{Approximate Bayesian Computation}
 
 Approximate Bayesian Computation (ABC for short), extends the basic
-idea we've just seen to consider more complicated scenarios. The {\tt
+idea Knowles used to consider more complicated scenarios. The {\tt
   IMa} approach developed by Nielsen, Wakely, and Hey is potentially
 {\it very\/} flexible and {\it very\/}
 powerful~\cite{Hey-Nielsen-2004,Hey-Nielsen-2007,Nielsen-Wakeley-2001}. It
