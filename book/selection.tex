@@ -148,13 +148,13 @@ happen that corresponds to violating
 \section*{The genetics of viability selection}
 
 That's a pretty exhaustive (and exhausting) list of the ways in which
-selection can happen. We're going to focus our detailed study of
-natural selection on viability selection, but it's important to
-remember that any or all of the other forms of selection may be
-operating simultaneously on the genes or the traits that we're
-studying, and the direction of selection due to these other components
-may be the same or different from the direction of viability
-selection. 
+selection can happen. We could spend the entire semester exploring
+each of those. Instead, we're going to focus on viability
+selection, but it's important to remember that any or all of the other
+forms of selection may be operating simultaneously on the genes or the
+traits that we're studying, and the direction of selection due to
+these other components may be the same or different from the direction
+of viability selection.
 
 We're going to focus on viability selection for two reasons:\index{viability selection!genetics}
 
@@ -183,7 +183,7 @@ We're going to focus on viability selection for two reasons:\index{viability sel
 
 To understand the basics, we'll start with a numerical example using
 some data on {\it Drosophila pseudoobscura\/} that Theodosius
-Dobzhansky collected more than 50 years ago. You may remember that
+Dobzhansky collected more than 70 years ago. You may remember that
 this species has chromosome inversion polymorphisms. Although these
 inversions involve many genes, they are inherited as if they were
 single Mendelian loci, so we can treat the karyotypes as single-locus
@@ -229,11 +229,13 @@ Number in adults & 25       & 74       & 12       \\
 
 \section*{Genotype and allele frequencies}
 
-It should be trivial for you by this time to calculate the genotype
-frequencies in eggs and adults. I'll refer to genotype frequencies in
-eggs (or newly-formed zygotes) as genotype frequencies {\it before
-  selection\/} and genotype frequencies in adults as genotype
-frequencies {\it after selection}.
+It should be easy for you by this time to calculate the genotype
+frequencies in eggs and adults.\footnote{At least it should be easy
+  for you to calculate the frequencies using the numbers. It may not
+  be so easy to do it with the symbols.} I'll refer to genotype
+frequencies in eggs (or newly-formed zygotes) as genotype frequencies
+{\it before selection\/} and genotype frequencies in adults as
+genotype frequencies {\it after selection}.
 
 \begin{eqnarray*}
 \mbox{freq($ST/ST$) before selection}
@@ -257,8 +259,8 @@ frequencies {\it after selection}.
 $\bar w$ is the mean fitness, i.e., the average probability of
 survival in the population.\index{mean fitness}
 
-It is also trivial to calculate the allele frequencies before and
-after selection:
+If you followed that, you shouldn't have much trouble following how to
+calculate the allele frequencies before and after selection:
 
 \begin{eqnarray*}
 \hbox{freq($ST$) before selection}
@@ -297,7 +299,13 @@ selection will change the genotype frequencies later in the
 life-cycle, but we restart every generation with {\it zygotes\/} in
 the familiar Hardy-Weinberg proportions, $p^2$, $2pq$, and $q^2$,
 where $p$ is the frequency of $ST$ in the {\it parents\/} of those
-zygotes.\index{selection equation}
+zygotes.\index{selection equation} An important implication of this
+that we'll return to later, is that we can understand the dynamics of
+viability selection by focusing on how {\it allele\/} frequencies
+change. One of the reasons that other forms of natural selection are
+more complicated to understand is that we have to understand the
+dynamics of genotype frequencies, meaning that instead of one
+(relatively) simple equation we have at least two.
 
 \subsection*{Selection acts on relative viability}
 
@@ -340,15 +348,16 @@ their {\it absolute\/} magnitude.\index{relative fitness}
 \end{quote}
 That means, for example, that in order to predict the outcome of
 viability selection, we don't have to know the probability that each
-genotype will survive, their {\it absolute viabilities}. We only need
-to know the probability that each genotype will survive relative to
-the probability that other genotypes will survive, their {\it relative
-  viabilities}. As we'll see later, it's sometimes easier to estimate
-the relative viabilities than to estimate absolute
+genotype will survive, i.e., their {\it absolute viabilities}. We only
+need to know the probability that each genotype will survive relative
+to the probability that other genotypes will survive, i.e., their {\it
+  relative viabilities}. As we'll see later, it's sometimes easier to
+estimate the relative viabilities than to estimate absolute
 viabilities.\footnote{We'll also see when we get to studying the
   interaction between natural selection and drift that this statement
   is no longer true. To understand how drift and selection interact we
-  have to know something about {\it absolute\/} viabilities.}\index{viability!absolute}\index{viability!relative}
+  have to know something about {\it absolute\/}
+  viabilities.}\index{viability!absolute}\index{viability!relative}
 
 \subsection*{Marginal fitnesses}
 
@@ -377,14 +386,14 @@ it corresponds to the probability that a randomly chosen $A_1$ allele
 in a newly formed zygote will survive into a reproductive
 adult.\index{marginal fitness}
 
-Why do we care? Because it provides some (obvious) intuition on how
-allele frequencies will change from one generation to the next. If
-$w_1 > \bar w$, i.e., if the chances of a zygote carrying an $A_1$
-allele of surviving to make an adult are greater than the chances of a
-randomly chosen zygote, then $A_1$ will increase in frequency. If $w_1
-< \bar w$, $A_1$ will decrease in frequency. Only if $p=0$, $p=1$, or
-$w_1=\bar w$ will the allele frequency not change from one generation
-to the next.
+Why do we care? Because it provides some (relatively obvious)
+intuition on how allele frequencies will change from one generation to
+the next. If $w_1 > \bar w$, i.e., if the chances of a zygote carrying
+an $A_1$ allele of surviving to make an adult are greater than the
+chances of a randomly chosen zygote, then $A_1$ will increase in
+frequency. If $w_1 < \bar w$, $A_1$ will decrease in frequency. Only
+if $p=0$, $p=1$, or $w_1=\bar w$ will the allele frequency not change
+from one generation to the next.
 
 \section*{Patterns of natural selection}
 

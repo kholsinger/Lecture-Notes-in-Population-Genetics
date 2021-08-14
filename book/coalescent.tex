@@ -56,26 +56,26 @@ schematic illustrating how this might happen.
   the last one illustrated, one involving three alleles.}\label{fig:coalescent}
 \end{figure}
 
-Now take a look at Figure~\ref{fig:coalescent}. Time runs from the top
-of the figure to the bottom, i.e., the current generation is
-represented by the circles in the botton row of the figure. Each
-circle represents an allele. The eighteen alleles in our current
-sample are descended from only four alleles that were present in the
-populations ten generations ago. The other fourteen alleles present in
-the population ten generations ago left no descendants. How far back
-in time we'd have to go before all alleles are descended from a single
-common ancestor depends on the effective size of the population,
-because how frequently two (or more) alleles are descended from the
-same allele in the preceding generation depends on the effective size
-of the population, too. But in any finite population the pattern will
-look something like the one I've illustrated here.
+Time runs from the top of Figure~\ref{fig:coalescent} to the bottom,
+i.e., the current generation is represented by the circles in the
+botton row of the figure. Each circle represents an allele. The
+eighteen alleles in our current sample are descended from only four
+alleles that were present in the populations ten generations ago. The
+other fourteen alleles present in the population ten generations ago
+left no descendants. How far back in time we'd have to go before all
+alleles are descended from a single common ancestor depends on the
+effective size of the population, because how frequently two (or more)
+alleles are descended from the same allele in the preceding generation
+depends on the effective size of the population, too. But in any
+finite population the pattern will look something like the one I've
+illustrated here.
 
 \section*{Mathematics of the coalescent: two
   alleles\footnote{Remember, I'm
   talking about allele copies here.}}\index{coalescent!two alleles}
 
-Thirty-five years ago J. F. C. Kingman developed a convenient and
-powerful way to describe how the time to common ancestry is related to
+The mathematician J. F. C. Kingman developed a convenient and powerful
+way to describe how the time to common ancestry is related to
 effective population
 size~\cite{Kingman-1982-genealogy,Kingman-1982-coalescent}. The
 process he describes is referred to as the {\it coalescent}, because
@@ -170,9 +170,10 @@ of alleles in our sample.\footnote{Where did I get that $m(m-1)/2$?
   can ask me about it, and I'll show you where it comes from.} So the
 probability that one pair of these alleles is involved in a coalescent
 event in the immediately preceding generation is
-\[
-\left(\frac{1}{2N_e}\right)\left(\frac{m(m-1)}{2}\right) \quad .
-\]
+\begin{equation}
+  \left(\frac{1}{2N_e}\right)\left(\frac{m(m-1)}{2}\right) \quad .
+  \label{eq:multi-allele-first-event}
+\end{equation}
 From this it follows\footnote{Using logic just like what we used in
 the two allele case.} that the probability that the first coalescent
 event involving this sample of alleles occurred $t$ generations ago is
@@ -243,18 +244,25 @@ t_k = \left(\frac{k(k-1)}{4N_e}\right)e^{\frac{k(k-1)}{4N_e}} \quad .
   Eve}\index{coalescent!mitochondrial Eve}
 
 Cann et al.~\cite{Cann-etal-1987} sampled mitochondrial DNA from 147
-humans of diverse racial and geographic origins. Based on the amount
-of sequence divergence they found among genomes in their sample and
-independent estimates of the rate of sequence evolution, they inferred
-that the mitochondria in their sample had their most recent common
-ancestor about 200,000 years ago. Because all of the most ancient
-lineages in their sample were from individuals of African ancestry,
-they also suggested that mitochondrial Eve lived in Africa. They used
-these arguments as evidence for the ``Out of Africa'' hypothesis for
-modern human origins, i.e., the hypothesis that anatomically modern
-humans arose in Africa about 200,000 years ago and displaced other
-members of the genus {\it Homo\/} in Europe and Asia as they
-spread. What does the coalescent tell us about their conclusion?
+humans of diverse racial and geographic origins.\footnote{That may
+  seem like a pretty small sammple to you, but the technology
+  available to analyze genomes has advanced tremendously since Cann et
+  al. did their work. To sequence a segment of DNA for example
+  required, among other things, running samples on a polyacrylamide
+  gel, producing an autoradiogram, and manually reading the
+  results. The process took about 2 weeks per sequence.}  Based on the
+amount of sequence divergence they found among genomes in their sample
+and independent estimates of the rate of sequence evolution, they
+inferred that the mitochondria in their sample had their most recent
+common ancestor about 200,000 years ago. Because all of the most
+ancient lineages in their sample were from individuals of African
+ancestry, they also suggested that mitochondrial Eve lived in
+Africa. They used these arguments as evidence for the ``Out of
+Africa'' hypothesis for modern human origins, i.e., the hypothesis
+that anatomically modern humans arose in Africa about 200,000 years
+ago and displaced other members of the genus {\it Homo\/} in Europe
+and Asia as they spread. What does the coalescent tell us about their
+conclusion?
 
 Well, we expect all mitochondrial genomes in the sample to have had a
 common ancestor about $2N_e$ generations ago. Why $2N_e$ rather than
@@ -282,11 +290,12 @@ mitochondrial Eve need not tell us anything about the origin of modern
 human populations, because there had to be a coalescence
 somewhere. There's no guarantee, from this evidence alone, that the
 Y-chromosome Adam would have lived in Africa, too. Having said that,
-my limited reading of the literature suggests that other dara are
-consistent with the ``Out of Africa'' scenario. Y-chromosome
-polymorphisms, for example, are also consistent with the ``Out of
-Africa'' hypothesis~\cite{Underhill-etal-2000}. Interestingly, dating
-of Y-chromosome polymorphisms suggetsts that Y-chromosome Adam left
+my limited reading of the literature suggests that more extensive
+recent dara are consistent with the ``Out of Africa''
+scenario. Y-chromosome polymorphisms, for example, are also consistent
+with the ``Out of Africa''
+hypothesis~\cite{Underhill-etal-2000}. Interestingly, dating of
+Y-chromosome polymorphisms suggetsts that Y-chromosome Adam left
 Africa only 35,000 -- 89,000 years ago.
 
 \section*{The coalescent and $F$-statistics}\index{F-statistics@$F$-statistics!coalescent}\index{coalescent!F-statistics@$F$-statistics}
@@ -300,16 +309,17 @@ coalescence for two alleles drawn at random without respect to
 population is\footnote{If you don't see why, don't worry about it. You
 can ask if you really care. We only care about $\bar t$ for what
 follows anyway.}
-\[
-\bar t = \frac{k(k-1)\bar t_1 + k\bar t_0}
-              {k^2} \quad .
-\]
+\begin{eqnarray*}
+  \bar t &=& \frac{1}{k}\bar t_0 + \frac{k-1}{k}\bar t_1 \\
+  &=& \frac{\bar t_0 + (k-1)\bar t_1}
+              {k} \quad .
+\end{eqnarray*}
 Slatkin~\cite{Slatkin-1991} pointed out that $F_{st}$ bears a simple
 relationship to average coalescence times within and among
 populations. Given these definitions of $\bar t$ and $\bar t_0$,
-\[
-F_{st} = \frac{\bar t - \bar t_0}{\bar t} \quad .
-\]
+\begin{eqnarray*}
+  F_{st} &=& \frac{\bar t - \bar t_0}{\bar t} \quad .
+\end{eqnarray*}
 So another way to think about $F_{st}$ is as a measure of the
 proportional increase in coalescence time that is due to populations
 being separate from one another. One way to think about that
@@ -332,5 +342,78 @@ $F_{st}$ may tell us something about migration. If we are willing to
 assume that there's been no gene exchange among our populations, we
 can infer something about how recently they've diverged from one
 another. But unless we're willing to make one of those assumptions, we
-can't really say anything.\index{genetic drift!migration}
+can't really say anything.\index{genetic drift!migration}\footnote{We can't say anything from allele
+  frequencies alone. If we have DNA sequences for the alleles, which
+  allows us to tell how closely related they are to one another, we
+  can say something. We'll get to this when we discuss phylogeography
+  in a few weeks.}
+
+\section*{The coalescent and natural selection}\index{coalescent!natural selection}
+
+It shouldn't surprise you that if we can study some of the properties
+of drift and selection, we can also use the coalescent to understand
+how natural selection works in a finite population. Even though the
+mathematics of the coalescent are ususally simpler than the older
+diffusion approach for studying allele frequency changes in a finite
+population, they are still very complicated. I'll simply outline one
+approach here known as the {\it structured
+  coalescent}.\index{structured coalescent} 
+
+The idea is reasonably simple, especially if we think about selection
+involving only two alleles.\footnote{Wakeley~\cite{Wakeley-2010}
+  provides a reasonably accessible overview. Coop and
+  Griffiths~\cite{Coop-Griffiths-2004} provide all of the gory
+  details.} When you start to think about it, you should realize two
+things pretty quickly:
+
+\begin{enumerate}
+
+  \item Coalescent events will happen only {\it within} each of the
+    two allele classes. If we were to trace the history back far
+    enough, to the point where the mutation leading to a second allele
+    occurred, then there might be coalescence involving the two
+    classes{\dash}except that there wouldn't be two classes, only
+    one.
+
+  \item The allele copies\footnote{There's that phrase again.} within
+    one of the two allele classes will all have the same fitness
+    properties. That means that the genealogy within each allele
+    classs will behave just like the coalescent you've already seen.
+    
+ \end{enumerate}
+There are a couple of further complications. The first one is that the
+probability of a coalescent event between two alleles belonging to an
+allele class whose frequency is $p_t$ is
+\[
+ \frac{\frac{m(m-1)}{2}}{2N_ep_t} \quad .
+ \]
+If you think about it a bit, that my look reasonably familiar. If it
+doesn't look back at equation~(\ref{eq:multi-allele-first-event}). All
+we've done is to reduce the effective size of the population by a
+factor $p_t$, which is the fraction of total allele copies that belong
+to the allele class we're focusing on.
+
+The second complication is hidden in the first one. Notice that
+subscript on $p_t$. Since we're assuming that natural selection is
+going on, we expect the allele frequencies to change over time. This
+is where the mathematics gets really complicated. Since the population
+is finite, we can't simply calculate the trajectory. We have to
+simulate it. That's OK because when applying coalescent ideas to make
+inferences from data, we're always simulating anyway. It's just that
+simulating a sample when there is selection is a bit more complicated.
+
+\begin{enumerate}
+
+  \item We first simulate the allele frequency trajectory, typically
+    using our estimate of the current allele frequency as a starting
+    point.
+
+  \item The we simulate the coalescent history within each allele
+    class.
+
+  \item The result is a {\it structured coalescent}\index{structured coalescent}  
+    sample that we can use for further analyses. We'll talk more about
+    how to use these simulated samples when we get to phylogeography.
+    
+  \end{enumerate}
 

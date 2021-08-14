@@ -2,30 +2,46 @@
 
 Although $F$-statistics are widely used and very informative, they
 suffer from one fundamental limitation: We have to know what the
-populations are before we can estimate them. They are based on a
-conceptual model in which organisms occur in discrete populations,
-populations that are both (1) well mixed within themselves (so that we
-can regard our sample of individuals as a random sample from within
-each population) and (2) clearly distinct from others. What if we want
-to use the genetic data itself to help us figure out what the
-populations actually are? Can we do that?\footnote{Would I be asking
-  this question if the answer were ``No?''}
+populations are before we can estimate them.\footnote{To be a little
+  more precise~(and more than a little pedantic), we have to {\it
+    assume\/} that the sample locations we decide to treat as
+  populations are discrete, well-mixed populations that are distinct
+  from others.} They are based on a conceptual model in which
+organisms occur in discrete populations, populations that are both (1)
+well mixed within themselves (so that we can regard our sample of
+individuals as a random sample from within each population) and (2)
+clearly distinct from others. What if we want to use the genetic data
+itself to help us figure out what the populations actually are? Can we
+do that?\footnote{Would I be asking this question if the answer were
+  ``No?''}
 
-Almost 20 years ago a different approach to the analysis of genetic
-structure began to emerge: analysis of individual
+A little over 20 years ago a different approach to the analysis of
+genetic structure began to emerge: analysis of individual
 assignment.\index{individual assignment} Although the implementation
 details get a little hairy,\footnote{OK, to be fair. They get {\it
-    very\/} hairy.} the basic idea is fairly simple. Suppose we have
-genetic data on a series of individuals. Label the data we have for
-each individual $x_i$. Suppose that all individuals belong to one of
-$K$ populations\footnote{Remember the peculiar thing I mentioned about
+    very\/} hairy.} the basic idea is fairly simple. I'll give an
+outline of the math in a moment, but let's do this in words
+first. Suppose we have data on a series of individuals. If two
+individuals are part of the same population, we expect them to be more
+similar to one another than they are to individuals in other
+populations. So if we ``cluster'' individuals that are ``genetically
+similar'' to one another, those clusters should correspond to
+populations. Rather than pre-defining the populations, we will have
+allowed the data to tell us what the populations are. We haven't even
+required {\it a priori\/} that individuals be grouped according to
+their geographic proximity. Instead, we can examine the clusters we
+find and see if they make any sense geographically.
+
+Now for an outline of the math. Label the data we have for each
+individual $x_i$. Suppose that all individuals belong to one of $K$
+populations\footnote{Remember the peculiar thing I mentioned about
   population geneticists earlier? We like to imagine we know something
-  even when we don't. In this case, I'm imagining we know $K$ even
-  though we don't. If we knew $K$, we'd probably already know which
-  individual belonged in which population. We'll get to the problem of
-  determining what $K$ is later.} and let the genotype frequencies in
-population $k$ be represented by $\gamma_k$. Then the likelihood that
-individual $i$ comes from population $k$ is just
+  even when we don't. In this case, I'm imagining we know that there
+  are $K$ even though we don't. If we knew $K$, we'd probably already
+  know which individual belonged in which population. We'll get to the
+  problem of determining what $K$ is later.} and let the genotype
+frequencies in population $k$ be represented by $\gamma_k$. Then the
+likelihood that individual $i$ comes from population $k$ is just
 \[
 \mbox{P}(i|k) = \frac{\mbox{P}(x_i|\gamma_k)}{\sum_k
   \mbox{P}(x_i|\gamma_k)} \quad .
@@ -39,17 +55,25 @@ with some measure of its reliability.\footnote{You can find details
   hairy. First, we're trying to get the data to tell us what the
   populations are, so we don't even know how many populations there
   are. Then we have to find a way of estimating allele frequencies
-  (and genotype frequencies) in populations when we don't even
-  know which populations individuals in our sample belong in.}
+  (and genotype frequencies) in populations when we don't even know
+  which populations individuals in our sample belong in.}  Remember,
+though, that we've arrived at the assignment by {\it assuming\/} that
+there are $K$ populations. Since we don't know $K$, we have to find a
+way of estimating it. Different choices of $K$ may lead to different
+patterns of individual assignment, which complicates our
+interpretation of the results.\footnote{This is an example of the ``no
+  free lunch'' principle. You don't get something for nothing. Here we
+  gained the ability to have the data tell us what the populations
+  are, but we made interpreting the results more difficult.}
 
 \section*{Applying assignment to understand invasions}
 
-We'll use {\tt Structure}\index{Structure@\texttt{Structure}} to
-assess whether cultivated genotypes of {\it Berberis
+To see a simple example of how {\tt
+  Structure}\index{Structure@\texttt{Structure}} can be used, we'll
+use it to assess whether cultivated genotypes of {\it Berberis
   thunbergii\/}\index{Berberis@\textit{Berberis}!\textit{thunbergii}}
 contribute to ongoing invasions in Connecticut and
-Massachusetts~\cite{Lubell-etal-2008}.\index{individual
-  assignment!application} The first problem is to determine what $K$
+Massachusetts~\cite{Lubell-etal-2008}.\index{individual assignment!application} The first problem is to determine what $K$
 to use, because $K$ doesn't necessarily have to equal the number of
 populations we sample from. Some populations may not be distinct from
 one another. There are a couple of ways to estimate $K$. The most
@@ -103,15 +127,18 @@ but actually it is. Look at the labels beneath the figure. You'll see
 that with the exception of individual 17 from Beaver Brook Park, all
 the of the individuals that are solid blue are members of the
 cultivated {\it Berberis thunbergii\/} var. {\it atropurpurea}. The
-solid red bar corresponds to {\it Berberis thunbergii\/}
-'Atropurpurea', a different modern cultivar. You'll notice that
-individuals 1, 2, 18, and 19 from Beaver Brook Park and individual 1
-from Bluff Point State Park fall into the same genotypic cluster as
-this cultivar. {\it Berberis $\times$ottawensis} is a hybrid cultivar
-whose parents are {\it Berberis thunbergii\/} and {\it Berberis
-  vulgaris\/}, so it makes sense that individuals of this cultivar
-would be half blue and half red. The solid green bars are feral
-individuals from long-established populations. Notice that the
+solid red bar corresponds to {\it Berberis vulgaris\/} 'Atropurpurea',
+a different modern cultivar.\footnote{I find it very confusing that
+  {\it Berberis thunbergii\/} var. {\it atropurpurea\/} and {\it
+    Berberis vulgaris\/} 'Atropurpurea' both have ``atropurpurea''
+  associated with their names, but that's the way life is.} You'll
+notice that individuals 1, 2, 18, and 19 from Beaver Brook Park and
+individual 1 from Bluff Point State Park fall into the same genotypic
+cluster as this cultivar. {\it Berberis $\times$ottawensis} is a
+hybrid cultivar whose parents are {\it Berberis thunbergii\/} and {\it
+  Berberis vulgaris\/}, so it makes sense that individuals of this
+cultivar would be half blue and half red. The solid green bars are
+feral individuals from long-established populations. Notice that the
 cultivars are distinct from all but a few of the individuals in the
 long-established feral populations, suggesting that contemporary
 cultivars are doing relatively little to maintain the invasion in
@@ -176,14 +203,23 @@ known as discriminant analysis of principal components. They also
 provide an {\tt R} package, {\tt dapc}, that implements the
 method.\index{Discriminant analysis of population structure} I prefer
 {\tt Structure} because its approach to individual assignment is based
-directly on population genetic principles, and as of a couple of years
-ago, I don't have to worry so much about how long it takes to run an
-analysis on large datasets. A few months ago Gopalan et
-al.~\cite{Gopalan-etal-2016} released {\tt teraStructure}, which can
-analyze data sets consisting of 10,000 individuals scored at a million
-SNPs in less than 10
-hours.\index{teraStructure@\texttt{teraStructure}} Here are a couple
-more alternatives to consider that I haven't investigated yet:
+directly on population genetic principles, and since computers are
+getting so fast~(especially when you have a computational cluster
+available) that I worry less about how long it takes to run an
+analysis on large datasets.\footnote{I also remember that a very long
+  time ago when systematists were complaining that likelihood analyses
+  of their data sets were taking a couple of weeks, Joe Felsenstein
+  was reported to have said ``Why are you complaining that your
+  analysis is taking a couple of weeks when you spent a couple of
+  years collecting the data?''} That being said, Gopalan et
+al.~\cite{Gopalan-etal-2016} released {\tt teraStructure} about five
+years ago, which can analyze data sets consisting of 10,000
+individuals scored at a million SNPs in less than 10
+hours.\index{teraStructure@\texttt{teraStructure}} I haven't tried it
+myself, because I haven't had a large data set to try it on, but you
+should keep it in mind if you collect SNP data on a large number of
+loci. Here are a couple more alternatives to consider that I haven't
+investigated yet:
 
 \begin{itemize}
 

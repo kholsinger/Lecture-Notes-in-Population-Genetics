@@ -57,8 +57,7 @@ mutation.\footnote{Technically what the population reaches is not an
   allele frequency. After long enough the probability distribution
   stops changing. That's when the population is at its stationary
   distribution. We often say that it's ``reached stationarity.'' This
-  is an example of a place where the inbreeding analogy breaks down a
-  little.}\index{genetic drift!mutation, stationary distribution} From
+  is an example of a place where the inbreeding analogy breaks down.}\index{genetic drift!mutation, stationary distribution} From
 the definition of an equilibrium,
 \begin{eqnarray*}
 \hat f &=& \left(\left(\frac{1}{2N}\right) +
@@ -111,11 +110,15 @@ that rate $\mu$. In the absence of mutation a fraction $p_0$ of the
 populations would fix on $A_1$ and the rest would fix on $A_2$, where
 $p_0$ is the original frequency of $A_1$. With recurrent mutation, no
 population will ever be permanently fixed for one allele or the
-other. Instead we see the following:\index{genetic drift!mutation, stationary distribtuion}
+other. Instead we see the pattern illustrated in Figure~\ref{fig:drift-mutation}\index{genetic drift!mutation, stationary distribtuion}
 
+\begin{figure}
 \begin{center}
-\resizebox{!}{8cm}{\includegraphics{mutation.eps}}
+\resizebox{!}{6cm}{\includegraphics{mutation.eps}}
 \end{center}
+\caption{The stationary distribution of allele frequencies for one
+  locus and two alleles with symmetrical mutation.}\label{fig:drift-mutation}
+\end{figure}
 
 When $4N\mu < 1$ the stationary distribution of allele frequencies is
 bowl-shaped, i.e, most populations have allele frequencies near 0 or
@@ -129,7 +132,7 @@ mutation dominates and keeps the allele frequencies in the different
 populations similar to one another. That's what we mean when we say
 that a population is ``large'' or ``small''. A population is ``large''
 if evolutionary processes other than drift have a predominant
-influence on the outcom. It's ``small'' if drift has a predominant
+influence on the outcome. It's ``small'' if drift has a predominant
 role on the outcome.\index{genetic drift!population size}
 
 A population is large with respect to the drift-mutation process if
@@ -139,8 +142,8 @@ isn't much of a difference between the allele frequency distributions
 when $4N\mu = 0.9$ and when $4N\mu = 1.1$. Notice also that because
 mutation is typically rare, on the order of $10^{-5}$ or less per
 locus per generation for a protein-coding gene, a population must be
-pretty large ($> 25,000$) to be considered large with respect to the
-drift-mutation. Notice also that whether the population is ``large''
+pretty large ($> 25,000$) to be considered large with respect to
+drift and mutation. Notice also that whether the population is ``large''
 or ``small'' will depend on the mutation rate at the loci that you're
 studying. For example, mutation rates are typically on the order of 
 $10^{-3}$ for microsatellites. So a population would be ``large'' with

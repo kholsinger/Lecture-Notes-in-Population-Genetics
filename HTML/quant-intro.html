@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Introduction to quantitative genetics</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Introduction to quantitative genetics</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#an-overview-of-where-were-headed">An overview of where we’re headed</a></li>
+<li><a href="#partitioning-the-phenotypic-variance">Partitioning the phenotypic variance</a>
+<ul>
+<li><a href="#the-additive-effect-of-an-allele">The additive effect of an allele</a></li>
+<li><a href="#components-of-the-genetic-variance">Components of the genetic variance</a></li>
+<li><a href="#an-alternative-expression-for-v_a">An alternative expression for <span class="math inline">\(V_a\)</span></a></li>
+<li><a href="#an-example-the-genetic-variance-with-known-genotypes">An example: the genetic variance with known genotypes</a></li>
+</ul></li>
+<li><a href="#creative-commons-license">Creative Commons License</a></li>
+</ul>
+</nav>
+<p>So far in this course we have dealt entirely either with the evolution of characters that are controlled by simple Mendelian inheritance at a single locus or with the evolution of molecular sequences. Even last week when we were dealing with population genomic data, data from hundreds or thousands of loci, we were treating the variation at each locus separately and combining results across loci. I have some old notes on gametic disequilibrium and how allele frequencies change at two loci simultaneously, but they’re in the “Old notes, no longer updated” section of the book version of these notes (<a href="https://figshare.com/articles/journal_contribution/Lecture_notes_in_population_genetics/100687">https://figshare.com/articles/journal_contribution/Lecture_notes_in_population_genetics/100687</a>), and we didn’t discuss them.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> In every example we’ve considered so far we’ve imagined that we could understand something about evolution by examining the evolution of a single gene. That’s the domain of classical population genetics.</p>
+<p>For the next few weeks we’re going to be exploring a field that’s older than classical population genetics, although the approach we’ll be taking to it involves the use of population genetic machinery.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> If you know a little about the history of evolutionary biology, you may know that after the rediscovery of Mendel’s work in 1900 there was a heated debate between the “biometricians” (e.g., Galton and Pearson) and the “Mendelians” (e.g., de Vries, Correns, Bateson, and Morgan).</p>
+<p>Biometricians asserted that the really important variation in evolution didn’t follow Mendelian rules. Height, weight, skin color, and similar traits seemed to</p>
+<ul>
+<li><p>vary continuously,</p></li>
+<li><p>show blending inheritance, and</p></li>
+<li><p>show variable responses to the environment.</p></li>
+</ul>
+<p>Since variation in such <span><em>quantitative traits</em></span> seemed to be more obviously related to organismal adaptation than the “trivial” traits that Mendelians studied, it seemed obvious to the biometricians that Mendelian geneticists were studying a phenomenon that wasn’t particularly interesting.</p>
+<p>Mendelians dismissed the biometricians, at least in part, because they seemed not to recognize the distinction between genotype and phenotype. It seemed to at least some Mendelians that traits whose expression was influenced by the environment were, by definition, not inherited. Moreover, the evidence that Mendelian principles accounted for the inheritance of many discrete traits was incontrovertible.</p>
+<p>Woltereck’s <span class="citation" data-cites="Woltereck-1909"></span> experiments on <span><em>Daphnia</em></span> helped to show that traits whose expression is environmentally influenced may also be inherited. He introduced the idea of a <span> <em>norm of reaction</em></span> to describe the observation that the same genotype may produce different phenotypes in different environments (Figure <a href="#fig:norm-of-reaction" data-reference-type="ref" data-reference="fig:norm-of-reaction">1</a>). When you fertilize a plant, for example, it will grow larger and more robust than when you don’t. The phenotype an organism expresses is, therefore, a product of <span><em>both</em></span> its genotype and its environment.</p>
+<figure>
+<img src="Trait-scale-linear.png" id="fig:norm-of-reaction" alt="" /><figcaption>Hypothetical illustration of reaction norms for two genotypes across a 1-dimensional environmental gradient (from Wikipedia, Public Domain, <span><code>https://en.wikipedia.org/w/index.php?curid=3925138</code></span>, accessed 9 April 2017).</figcaption>
+</figure>
+<p>Nilsson-Ehle’s <span class="citation" data-cites="NilssonEhle-1909"></span> experiments on inheritance of kernel color in wheat showed how continuous variation and Mendelian inheritance could be reconciled (Figure <a href="#fig:nilsson-ehle" data-reference-type="ref" data-reference="fig:nilsson-ehle">2</a>). He demonstrated that what appeared to be continuous variation in color from red to white with blending inheritance could be understood as the result of three separate genes influencing kernel color that were inherited separately from one another. It was the first example of what’s come to be known as <span><em>polygenic inheritance</em></span>. Fisher <span class="citation" data-cites="Fisher-1918"></span>, in a paper that grew out of his undergraduate Honors thesis at Cambridge University, set forth the mathematical theory that describes how it all works. That’s the theory of <span><em>quantitative genetics</em></span>, and it’s what we’re going to spend the next several weeks discussing.</p>
+<figure>
+<img src="Nilsson-Ehle.png" id="fig:nilsson-ehle" alt="" /><figcaption>Results from one of Nilsson-Ehle’s crosses illustrating polygenic inhertance of kernel color in wheat (from <span><code> http://www.biology-pages.info/Q/QTL.html</code></span>, accessed 9 April 2017).</figcaption>
+</figure>
+<h1 class="unnumbered" id="an-overview-of-where-were-headed">An overview of where we’re headed</h1>
+<p>Woltereck’s ideas force us to realize that when we see a phenotypic difference between two individuals in a population there are three possible sources for that difference:</p>
+<ol>
+<li><p>The individuals have different genotypes.</p></li>
+<li><p>The individuals developed in different environments.</p></li>
+<li><p>The individuals have different genotypes <span><em>and</em></span> they developed in different environments.</p></li>
+</ol>
+<p>This leads us naturally to think that phenotypic variation consists of two separable components, namely genotypic and environmental components.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> Putting that into an equation <span class="math display">\[\mbox{Var}(P) = \mbox{Var}(G) + \mbox{Var}(E) \quad ,\]</span> where <span class="math inline">\(\mbox{Var}(P)\)</span> is the <span><em>phenotypic variance</em></span>, <span class="math inline">\(\mbox{Var}(G)\)</span> is the <span><em>genetic variance</em></span>, and <span class="math inline">\(\mbox{Var}(E)\)</span> is the environmental variance.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> As we’ll see in just a moment, we can also partition the genetic variance into components, the <span><em>additive genetic variance</em></span>, <span class="math inline">\(\mbox{Var}(A)\)</span>, and the <span><em>dominance variance</em></span>, <span class="math inline">\(\mbox{Var}(D)\)</span>.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
+<p>There’s a surprisingly subtle and important insight buried in that very simple equation: Because the expression of a quantitative trait is a result both of genes involved in that trait’s expression and the environment in which it is expressed, it doesn’t make sense to say of a particular individual’s phenotype that genes are more important than environment in determining it. You wouldn’t have a phenotype without both. At most what we can say is that when we look at a particular population of organisms some fraction of the phenotypic variation they exhibit is due to differences in the genes they carry and that some fraction is due to differences in the environment they have experienced.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> If we have two individuals with different phenotypes, e.g., Ralph is tall and Harry is short, we can’t even say whether the difference between Ralph and Harry is because of differences in their genes or differences in their developmental environment.</p>
+<p>One important implication of this insight is that much of the “nature vs. nurture” debate concerning human intelligence or human personality characteristics is misguided. The intelligence and personality that you have is a product of <span><em>both</em></span> the genes you happened to inherit and the environment that you happened to experience. Any differences between you and the person next to you probably reflect both differences in genes <span><em>and</em></span> differences in environment. Moreover, even if the differences between you and your neighbor are due to differences in genes, it doesn’t mean that those differences are fixed and indelible. You may be able to do something to change them.</p>
+<p>Take phenylketonuria, for example. It’s a condition in which individuals are homozygous for a deficiency that prevents them from metabolizing phenylalanine (<a href="https://medlineplus.gov/phenylketonuria.html">https://medlineplus.gov/phenylketonuria.html</a>). If individuals with phenylketonuria eat a normal diet, severe intellectual disabilities can result by the time an infant is one year old. But if they eat a diet that is very low in phenylalanine, their development is completely normal. In other words, clear genetic differences at this locus <span><em>can</em></span> lead to dramatic differences in cognitive ability, but <span><em>they don’t have to</em></span>.</p>
+<p>It’s often useful to talk about how much of the phenotypic variance is a result of additive genetic variance or of genetic variance. <span class="math display">\[h^2_n = \frac{\mbox{Var}(A)}{\mbox{Var}(P)}\]</span> is what’s known as the <span><em>narrow-sense heritability</em></span>. It’s the proportion of phenotypic variance that’s attributable to differences among individuals in their additive genotype,<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> much as <span class="math inline">\(F_{st}\)</span> can be thought of as the proportion of genotypic diversity that attributable to differences among populations. Similarly, <span class="math display">\[h^2_b = \frac{\mbox{Var}(G)}{\mbox{Var}(P)}\]</span> is the <span><em>broad-sense heritability</em></span>. It’s the proportion of phenotypic variance that’s attributable to differences among individuals in their genotype. It is <span><em>not</em></span>, repeat <span><strong><em>NOT</em></strong></span>, a measure of how important genes are in determining phenotype. Every individuals phenotype is determined both by its genes and by its phenotype. It measures how much of the <span><em>difference</em></span> among individuals is attributable to differences in their genes.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> Why bother to make the distinction between narrow- and broad-sense heritability? Because, as we’ll see, it’s only the additive genetic variance that responds to natural selection.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> In fact, <span class="math display">\[R = h^2_nS \quad ,\]</span> where <span class="math inline">\(R\)</span> is the <span><em>response to selection</em></span> and <span class="math inline">\(S\)</span> is the <span><em>selective differential</em></span>.</p>
+<p>As you’ll see in the coming weeks, there’s a lot of stuff hidden behind these simple equations, including a lot of assumptions. But quantitative genetics is very useful. Its principles have been widely applied in plant and animal breeding for more than a century, and they have been increasingly applied in evolutionary investigations in the last forty years.<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a>.</p>
+<h1 class="unnumbered" id="partitioning-the-phenotypic-variance">Partitioning the phenotypic variance</h1>
+<p>Before we worry about how to estimate any of those variance components I just mentioned, we first have to understand what they are. So let’s start with some definitions (Table <a href="#table:definitions" data-reference-type="ref" data-reference="table:definitions">1</a>).<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a></p>
+<div id="table:definitions">
+<table>
+<caption>Fundamental parameter definitions for quantitative genetics with one locus and two alleles.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Genotype</th>
+<th style="text-align: center;"><span class="math inline">\(A_1A_1\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(A_1A_2\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(A_2A_2\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Frequency</td>
+<td style="text-align: center;"><span class="math inline">\(p^2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(2pq\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(q^2\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Genotypic value</td>
+<td style="text-align: center;"><span class="math inline">\(x_{11}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(x_{12}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(x_{22}\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Additive genotypic value</td>
+<td style="text-align: center;"><span class="math inline">\(2\alpha_1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\alpha_1 + \alpha_2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(2\alpha_2\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>You should notice something rather strange about Table <a href="#table:definitions" data-reference-type="ref" data-reference="table:definitions">1</a> when you look at it. I motivated the entire discussion of quantitative genetics by talking about the need to deal with variation at many loci, and what I’ve presented involves only two alleles at a single locus. I do this for two reasons:</p>
+<ol>
+<li><p>It’s not too difficult to do the algebra with multiple alleles at one locus instead of only two, but it gets messy, doesn’t add any insight, and I’d rather avoid the mess.</p></li>
+<li><p>Doing the algebra with multiple loci involves a <span><em>lot</em></span> of assumptions, which I’ll mention when we get to applications, and the algebra is even worse than with multiple alleles.</p></li>
+</ol>
+<p>Fortunately, the basic principles extend with little modification to multiple loci, so we can see all of the underlying logic by focusing on one locus with two alleles where we have a chance of understanding what the different variance components mean.</p>
+<p>Two terms in Table <a href="#table:definitions" data-reference-type="ref" data-reference="table:definitions">1</a> will almost certainly be unfamiliar to you: <span><em>genotypic value</em></span> and <span><em>additive genotypic value</em></span>. Of the two, <span><em>genotypic value</em></span> is the easiest to understand (Figure <a href="#fig:genotypic-value" data-reference-type="ref" data-reference="fig:genotypic-value">3</a>). It simply refers to the average phenotype associated with a given genotype.<a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a> The <span><em>additive genotypic value</em></span> refers to the average phenotype associated with a given genotype, as would be inferred from the <span><em>additive effect</em></span> of the alleles of which it is composed. That didn’t help much, did it? That’s because I now need to tell you what we mean by the <span><em>additive effect</em></span> of an allele.<a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a></p>
+<figure>
+<img src="genotypic-value.png" id="fig:genotypic-value" alt="" /><figcaption>The phenotype distribution in a population in which the three genotypes at a single locus with two alleles occur in Hardy-Weinberg proportions and the alleles occur in equal frequency. The <span class="math inline">\(A_1A_1\)</span> genotype has a mean trait value of 1, the <span class="math inline">\(A_1A_2\)</span> genotype has a mean trait value of 2, and the <span class="math inline">\(A_2A_2\)</span> genotype has a mean trait value of 3, but each genotype can produce a range of phenotypes with the standard deviation of the distribution being 0.25 in each case.</figcaption>
+</figure>
+<h2 class="unnumbered" id="the-additive-effect-of-an-allele">The additive effect of an allele</h2>
+<p>In constructing Table <a href="#table:definitions" data-reference-type="ref" data-reference="table:definitions">1</a> I used the quantities <span class="math inline">\(\alpha_1\)</span> and <span class="math inline">\(\alpha_2\)</span>, but I didn’t tell you where they came from. Obviously, the idea should be to pick values of <span class="math inline">\(\alpha_1\)</span> and <span class="math inline">\(\alpha_2\)</span> that give additive genotypic values that are reasonably close to the genotypic values. A good way to do that is to minimize the squared deviation between the two, weighted by the frequency of the genotypes. So our first big assumption is that genotypes are in Hardy-Weinberg proportions.<a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a></p>
+<p>The objective is to find values for <span class="math inline">\(\alpha_1\)</span> and <span class="math inline">\(\alpha_2\)</span> that minimize: <span class="math display">\[a = p^2[x_{11}-2\alpha_1]^2
+       + 2pq[x_{12}-(\alpha_1+\alpha_2)]^2
+       + q^2[x_{22}-2\alpha_2]^2 \quad .\]</span> To do this we take the partial derivative of <span class="math inline">\(a\)</span> with respect to both <span class="math inline">\(\alpha_1\)</span> and <span class="math inline">\(\alpha_2\)</span>, set the resulting pair of equations equal to zero, and solve for <span class="math inline">\(\alpha_1\)</span> and <span class="math inline">\(\alpha_2\)</span>.<a href="#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a> <span class="math display">\[\begin{aligned}
+\frac{\partial a}{\partial{\alpha_1}} &amp;=&amp; p^2\{2[x_{11} - 2\alpha_1][-2]\}
+                     + 2pq\{2[x_{12} - (\alpha_1+\alpha_2)][-1]\} \\
+                  &amp;=&amp; -4p^2[x_{11} - 2\alpha_1]
+                     -4pq[x_{12} - (\alpha_1+\alpha_2)] \\
+\frac{\partial a}{\partial{\alpha_2}} &amp;=&amp; q^2\{2[x_{22} - 2\alpha_2][-2]\}
+                     + 2pq\{2[x_{12} - (\alpha_1+\alpha_2)][-1]\} \\
+                  &amp;=&amp; -4q^2[x_{22} - 2\alpha_2]
+                     -4pq[x_{12} - (\alpha_1+\alpha_2)]\end{aligned}\]</span> Thus, <span class="math inline">\(\frac{\partial a}{\partial{\alpha_1}} = \frac{\partial a}{\partial{\alpha_2}} = 0\)</span> if and only if <span class="math display">\[\begin{aligned}
+p^2(x_{11} - 2\alpha_1) + pq(x_{12} - \alpha_1 - \alpha_2) &amp;=&amp; 0
+  \nonumber \\
+q^2(x_{22} - 2\alpha_2) + pq(x_{12} - \alpha_1 - \alpha_2) &amp;=&amp; 0
+\label{eq:zeros}\end{aligned}\]</span> Adding the equations in (<a href="#eq:zeros" data-reference-type="ref" data-reference="eq:zeros">[eq:zeros]</a>) we obtain (after a little bit of rearrangement) <span class="math display">\[-
+   [p^2(2\alpha_1) + 2pq(\alpha_1 + \alpha_2) + q^2(2\alpha_2)] = 0 \quad .
+\label{eq:basic}\]</span></p>
+<p>Now the first term in square brackets is just the mean phenotype in the population, <span class="math inline">\(\bar x\)</span>. Thus, we can rewrite equation (<a href="#eq:basic" data-reference-type="ref" data-reference="eq:basic">[eq:basic]</a>) as: <span class="math display">\[\begin{aligned}
+{\bar x} &amp;=&amp; 2p^2\alpha_1 + 2pq(\alpha_1 + \alpha_2)
+                        +2q^2\alpha_2 \nonumber \\
+                     &amp;=&amp; 2p\alpha_1(p+q) + 2q\alpha_2(p+q) \nonumber \\
+                     &amp;=&amp; 2(p\alpha_1 + q\alpha_2) \quad . \label{eq:alpha_bar}\end{aligned}\]</span> Now divide the first equation in (<a href="#eq:zeros" data-reference-type="ref" data-reference="eq:zeros">[eq:zeros]</a>) by <span class="math inline">\(p\)</span> and the second by <span class="math inline">\(q\)</span>. <span class="math display">\[\begin{aligned}
+p(x_{11} - 2\alpha_1) + q(x_{12} - \alpha_1 - \alpha_2) &amp;=&amp; 0
+\label{eq:zeros_divide_1} \\
+q(x_{22} - 2\alpha_2) + p(x_{12} - \alpha_1 - \alpha_2) &amp;=&amp; 0 \quad
+. \label{eq:zeros_divide_2}\end{aligned}\]</span> Thus, <span class="math display">\[\begin{aligned}
+px_{11} + qx_{12} &amp;=&amp; 2p\alpha_1 + q\alpha_1 + q\alpha_2 \\
+ &amp;=&amp; \alpha_1(p + q) + p\alpha_1 + q\alpha_2 \\
+ &amp;=&amp; \alpha_1 + p\alpha_1 + q\alpha_2 \\
+ &amp;=&amp; \alpha_1 + {\bar x}/2 \\
+\alpha_1 &amp;=&amp; px_{11} + qx_{12} - {\bar x}/2 \quad .\end{aligned}\]</span> Similarly, <span class="math display">\[\begin{aligned}
+px_{12} + qx_{22} &amp;=&amp; 2q\alpha_2 + p\alpha_1 + p\alpha_2 \\
+ &amp;=&amp; \alpha_2(p + q) + p\alpha_1 + q\alpha_2 \\
+ &amp;=&amp; \alpha_2 + p\alpha_1 + q\alpha_2 \\
+ &amp;=&amp; \alpha_2 + {\bar x}/2 \\
+\alpha_2 &amp;=&amp; px_{12} + qx_{22} - {\bar x}/2 \quad .\end{aligned}\]</span> <span class="math inline">\(\alpha_1\)</span> is the additive effect of allele <span class="math inline">\(A_1\)</span>, and <span class="math inline">\(\alpha_2\)</span> is the additive effect of allele <span class="math inline">\(A_2\)</span>. If we use these expressions, the additive genotypic values are as close to the genotypic values as possible, given the particular allele freequencies in the population.<a href="#fn16" class="footnote-ref" id="fnref16" role="doc-noteref"><sup>16</sup></a></p>
+<h2 class="unnumbered" id="components-of-the-genetic-variance">Components of the genetic variance</h2>
+<p>Let’s assume for the moment that we can actually measure the genotypic values. Later, we’ll relax that assumption and see how to use the resemblance among relatives to estimate the genetic components of variance. But it’s easiest to see where they come from if we assume that the genotypic value of each genotype is known. If it is then, writing <span class="math inline">\(V_g\)</span> for <span class="math inline">\(\mbox{Var}(G)\)</span> <span class="math display">\[\begin{aligned}
+V_g &amp;=&amp;\ p^2[x_{11} - {\bar x}]^2 + 2pq[x_{12} - {\bar x}]^2
+     + q^2[x_{22} - {\bar x}]^2 \label{eq:v-g} \\
+    &amp;=&amp;\ p^2[x_{11} - 2\alpha_1 + 2\alpha_1 - {\bar x}]^2
+     + 2pq[x_{12} - (\alpha_1 + \alpha_2) + (\alpha_1 + \alpha_2)
+                - {\bar x}]^2 \nonumber \\
+     &amp;&amp;\ \ + q^2[x_{22} - 2\alpha_2 + 2\alpha_2 - {\bar x}]^2
+     \nonumber \\
+    &amp;=&amp;\ p^2[x_{11} - 2\alpha_1]^2 + 2pq[x_{12} - (\alpha_1+\alpha_2)]^2
+       + q^2[x_{22} - 2\alpha_2]^2 \nonumber \\
+     &amp;&amp;\ + p^2[2\alpha_1 - {\bar x}]^2 + 2pq[(\alpha_1 + \alpha_2) - {\bar x}]^2
+       + q^2[2\alpha_2 - {\bar x}]^2 \nonumber \\
+     &amp;&amp;\ + p^2[2(x_{11} - 2\alpha_1)(2\alpha_1 - {\bar x})]
+       +2pq[2(x_{12} - \{\alpha_1+\alpha_2\})(\{\alpha_1+\alpha_2\} -
+     {\bar x})] \nonumber \\
+     &amp;&amp;\ +q^2[2(x_{22} - 2\alpha_2)(2\alpha_2 - {\bar x})] \quad .
+     \label{eq:part-begin}\end{aligned}\]</span> There are two terms in (<a href="#eq:part-begin" data-reference-type="ref" data-reference="eq:part-begin">[eq:part-begin]</a>) that have a biological (or at least a quantitative genetic) interpretation. The term on the first line is the average squared deviation between the genotypic value and the additive genotypic value. It will be zero only if the effects of the alleles can be decomposed into strictly additive components, i.e., only if the pheontype of the heterozygote is exactly intermediate between the phenotype of the two homozygotes. Thus, it is a measure of how much variation is due to non-additivity (dominance) of allelic effects. In short, the <span><em>dominance genetic variance</em></span>, <span class="math inline">\(V_d\)</span>, is <span class="math display">\[V_d = p^2[x_{11} - 2\alpha_1]^2 + 2pq[x_{12} - (\alpha_1+\alpha_2)]^2
+          + q^2[x_{22} - 2\alpha_2]^2 \quad .\label{eq:v-d}\]</span> Similarly, the term on the second line of (<a href="#eq:part-begin" data-reference-type="ref" data-reference="eq:part-begin">[eq:part-begin]</a>) is the average squared deviation between the additive genotypic value and the mean genotypic value in the population. Thus, it is a measure of how much variation is due to differences between genotypes in their additive genotype. In short, the <span><em>additive genetic variance</em></span>, <span class="math inline">\(V_a\)</span>, is <span class="math display">\[V_a = p^2[2\alpha_1 - {\bar x}]^2 + 2pq[(\alpha_1 + \alpha_2) - {\bar x}]^2
+          + q^2[2\alpha_2 - {\bar x}]^2 \quad .\label{eq:v-a}\]</span> What about the terms on the third and fourth lines of the last equation in <a href="#eq:part-begin" data-reference-type="ref" data-reference="eq:part-begin">[eq:part-begin]</a>? Well, they can be rearranged as follows: <span class="math display">\[\begin{aligned}
+p^2[2(x_{11} &amp;-&amp; 2\alpha_1)(2\alpha_1 - {\bar x})]
+ + 2pq[2(x_{12} - \{\alpha_1+\alpha_2\})(\{\alpha_1+\alpha_2\} - {\bar
+ x})] \\
+ &amp;&amp;+ q^2[2(x_{22} - 2\alpha_2)(2\alpha_2 - {\bar x})] \\
+&amp;=&amp; 2p^2(x_{11}-2\alpha_1)(2\alpha_1 - {\bar x})
+   + 4pq[x_{12}-(\alpha_1+\alpha_2)][(\alpha_1+\alpha_2)-{\bar x})] \\
+ &amp;&amp;+ 2q^2(x_{22}-2\alpha_2)(2\alpha_2 - {\bar x}) \\
+&amp;=&amp;\ 4p^2(x_{11}-2\alpha_1)[\alpha_1 - (p\alpha_1+q\alpha_2)] \\
+ &amp;&amp;+ 4pq[x_{12}-(\alpha_1+\alpha_2)][(\alpha_1+\alpha_2)-2(p\alpha_1+q\alpha_2)] \\
+ &amp;&amp;+ 4q^2(x_{22}-2\alpha_2)[\alpha_2 - (p\alpha_1+q\alpha_2)] \\
+&amp;=&amp; 4p[\alpha_1-(p\alpha_1+q\alpha_2)]
+      [p(x_{11}-2\alpha_1) + q(x_{12}-\{\alpha_1+\alpha_2\})] \\
+ &amp;&amp;+ 4q[\alpha_2-(p\alpha_1+q\alpha_2)]
+      [p(x_{11}-2\alpha_1)p + q(x_{12}-\{\alpha_1+\alpha_2\})] \\
+&amp;=&amp; 0\end{aligned}\]</span> Where we have used the identities <span class="math inline">\({\bar x} = 2(p\alpha_1 + q\alpha_2)\)</span> [see equation (<a href="#eq:alpha_bar" data-reference-type="ref" data-reference="eq:alpha_bar">[eq:alpha_bar]</a>)] and <span class="math display">\[\begin{aligned}
+p(x_{11} - 2\alpha_1) + q(x_{12} - \alpha_1 - \alpha_2) &amp;=&amp; 0 \\
+q(x_{22} - 2\alpha_2) + p(x_{12} - \alpha_1 - \alpha_2) &amp;=&amp; 0\end{aligned}\]</span> [see equations (<a href="#eq:zeros_divide_1" data-reference-type="ref" data-reference="eq:zeros_divide_1">[eq:zeros_divide_1]</a>) and (<a href="#eq:zeros_divide_2" data-reference-type="ref" data-reference="eq:zeros_divide_2">[eq:zeros_divide_2]</a>)]. In short, we have now shown that the total genotypic variance in the population, <span class="math inline">\(V_g\)</span>, can be subdivided into two componentsthe additive genetic variance, <span class="math inline">\(V_a\)</span>, and the dominance genetic variance, <span class="math inline">\(V_d\)</span>. Specifically, <span class="math display">\[V_g = V_a + V_d \quad ,\]</span> where <span class="math inline">\(V_g\)</span> is given by the first line of (<a href="#eq:v-g" data-reference-type="ref" data-reference="eq:v-g">[eq:v-g]</a>), <span class="math inline">\(V_a\)</span> by (<a href="#eq:v-a" data-reference-type="ref" data-reference="eq:v-a">[eq:v-a]</a>), and <span class="math inline">\(V_d\)</span> by (<a href="#eq:v-d" data-reference-type="ref" data-reference="eq:v-d">[eq:v-d]</a>).</p>
+<h2 class="unnumbered" id="an-alternative-expression-for-v_a">An alternative expression for <span class="math inline">\(V_a\)</span></h2>
+<p>There’s another way to write the expression for <span class="math inline">\(V_a\)</span> when there are only two alleles at a locus. I show it here because it will come in handy later. <span class="math display">\[\begin{aligned}
+V_a &amp;=&amp; p^2(2\alpha_1)^2 + 2pq(\alpha_1+\alpha_2)^2 + q^2(2\alpha_2)^2 -
+        4(p\alpha_1+q\alpha_2)^2 \\
+    &amp;=&amp; 4p^2\alpha_1^2 + 2pq(\alpha_1+\alpha_2)^2 + 4q^2\alpha_2^2
+       - 4(p^2\alpha_1^2 +2pq\alpha_1\alpha_2 + q^2\alpha_2^2) \\
+    &amp;=&amp; 2pq[(\alpha_1+\alpha_2)^2 - 4\alpha_1\alpha_2] \\
+    &amp;=&amp; 2pq[(\alpha_1^2 + 2\alpha_1\alpha_2 + \alpha_2^2) - 4\alpha_1\alpha_2] \\
+    &amp;=&amp; 2pq[\alpha_1^2 - 2\alpha_1\alpha_2 + \alpha_2^2] \\
+    &amp;=&amp; 2pq[\alpha_1 - \alpha_2]^2 \\
+    &amp;=&amp; 2pq\alpha^2 \\\end{aligned}\]</span></p>
+<h2 class="unnumbered" id="an-example-the-genetic-variance-with-known-genotypes">An example: the genetic variance with known genotypes</h2>
+<p>We’ve been through a lot of algebra by now. Let’s run through a couple of numerical examples to see how it all works. For the first one, we’ll use the set of genotypic values in Table <a href="#table:additive" data-reference-type="ref" data-reference="table:additive">2</a>.</p>
+<div id="table:additive">
+<table>
+<caption>A set of perfectly additive genotypic values. Note that the genotypic value of the heterozygote is exactly halfway between the genotypic values of the two homozygotes.</caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Genotype</td>
+<td style="text-align: center;"><span class="math inline">\(A_1A_1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(A_1A_2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(A_2A_2\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Genotypic value</td>
+<td style="text-align: center;">100</td>
+<td style="text-align: center;">50</td>
+<td style="text-align: center;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>For <span class="math inline">\(p = 0.4\)</span> <span class="math display">\[\begin{aligned}
+{\bar x} &amp;=&amp; (0.4)^2(100) + 2(0.4)(0.6)(50) + (0.6)^2(0) \\
+                    &amp;=&amp; 40 \\
+\\
+\alpha_1 &amp;=&amp; (0.4)(100) + (0.6)(50) - (40)/2 \\
+         &amp;=&amp; 50.0 \\
+\alpha_2 &amp;=&amp; (0.4)(50) + (0.6)(0) - (40)/2 \\
+         &amp;=&amp; 0.0 \\
+\\
+V_g &amp;=&amp; (0.4)^2(100-40)^2 + 2(0.4)(0.6)(50-40)^2 + (0.6)^2(0-40)^2 \\
+    &amp;=&amp; 1200 \\
+V_a &amp;=&amp; (0.4)^2[2(50.0)-20]^2 + 2(0.4)(0.6)[(50.0+0.0)-20]^2
+       + (0.6)^2[2(0.0)-20]^2 \\
+    &amp;=&amp; 1200 \\
+V_d &amp;=&amp; (0.4)^2[2(50.0) - 100]^2 + 2(0.4)(0.6)[(50.0+0.0) - 50]^2
+       + (0.6)^2[2(0.0) - 0]^2 \\
+    &amp;=&amp; 0.00 \quad .\end{aligned}\]</span> For <span class="math inline">\(p = 0.2\)</span>, <span class="math inline">\({\bar x} = 20\)</span>, <span class="math inline">\(V_g = V_a = 800\)</span>, <span class="math inline">\(V_d = 0.00\)</span>. You should verify for yourself that <span class="math inline">\(\alpha_1=50\)</span> and <span class="math inline">\(\alpha_2=0\)</span> for <span class="math inline">\(p=0.2\)</span>. If you are ambitious, you could try to prove that <span class="math inline">\(\alpha_1=50\)</span> and <span class="math inline">\(\alpha_2=0\)</span> for <span><em>any</em></span> allele frequency.</p>
+<p>For the second example we’ll use the set of genotypic values in Table <a href="#table:non-additive" data-reference-type="ref" data-reference="table:non-additive">3</a>.</p>
+<div id="table:non-additive">
+<table>
+<caption>A set of non-additive genotypic values. Note that the genotypic value of the heterozygote is closer to the genotypic value of <span class="math inline">\(A_1A_1\)</span> than it is to the genotypic value of <span class="math inline">\(A_2A_2\)</span>.</caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Genotype</td>
+<td style="text-align: center;"><span class="math inline">\(A_1A_1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(A_1A_2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(A_2A_2\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Genotypic value</td>
+<td style="text-align: center;">100</td>
+<td style="text-align: center;">80</td>
+<td style="text-align: center;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>For <span class="math inline">\(p = 0.4\)</span> <span class="math display">\[\begin{aligned}
+{\bar x} &amp;=&amp; (0.4)^2(100) + 2(0.4)(0.6)(80) + (0.6)^2(0) \\
+                    &amp;=&amp; 54.4 \\
+\\
+\alpha_1 &amp;=&amp; (0.4)(100) + (0.6)(80) - (54.4)/2 \\
+         &amp;=&amp; 60.8 \\
+\alpha_2 &amp;=&amp; (0.4)(80) + (0.6)(0) - (54.4)/2 \\
+         &amp;=&amp; 4.8 \\
+\\
+V_g &amp;=&amp; (0.4)^2(100-54.4)^2 + 2(0.4)(0.6)(80-54.4)^2 + (0.6)^2(0-54.4)^2 \\
+    &amp;=&amp; 1712.64 \\
+V_a &amp;=&amp; (0.4)^2[2(60.8)-54.4]^2 + 2(0.4)(0.6)[(60.8+4.8)-54.4]^2 \\
+       &amp;&amp;+ (0.6)^2[2(9.6)-54.4]^2 \\
+    &amp;=&amp; 1505.28 \\
+V_d &amp;=&amp; (0.4)^2[2(60.8)-100]^2 + 2(0.4)(0.6)[(60.8+4.8) - 80]^2 \\
+       &amp;&amp;+ (0.6)^2[2(9.6)-0]^2 \\
+    &amp;=&amp; 207.36 \quad .\end{aligned}\]</span></p>
+<p>To test your understanding, it would probably be useful to calculate <span class="math inline">\({\bar x}\)</span>, <span class="math inline">\(\alpha_1\)</span>, <span class="math inline">\(\alpha_2\)</span>, <span class="math inline">\(V_g\)</span>, <span class="math inline">\(V_a\)</span>, and <span class="math inline">\(V_d\)</span> for one or two other allele frequencies, say <span class="math inline">\(p=0.2\)</span> and <span class="math inline">\(p=0.8\)</span>.<a href="#fn17" class="footnote-ref" id="fnref17" role="doc-noteref"><sup>17</sup></a> Is it still true that <span class="math inline">\(\alpha_1\)</span> and <span class="math inline">\(\alpha_2\)</span> are independent of allele frequencies? If you are <span><em>really</em></span> ambitious you could try to prove that <span class="math inline">\(\alpha_1\)</span> and <span class="math inline">\(\alpha_2\)</span> are independent of allele frequencies if and only if <span class="math inline">\(x_{12} = (x_{11}+x_{12})/2\)</span>, i.e., when heterozygotes are exactly intermediate.</p>
+<h1 class="unnumbered" id="creative-commons-license">Creative Commons License</h1>
+<p>These notes are licensed under the Creative Commons Attribution License. To view a copy of this license, visit https://creativecommons.org/licenses/by/4.0/ or send a letter to Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305, USA.</p>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p>We will spend some time talking about gametic disequilibrium when we talk about association mapping in a couple of weeks.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>In fact, it involves the use of the single-locus population genetic machinery we’ve been using all semester.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3" role="doc-endnote"><p>We’ll soon see that separating genotypic and environmental components is far from trivial. I’m also putting aside, for the moment, that genotypes may differ in their response to the environment, even though that’s what I illustrated in discussing norms of reaction.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4" role="doc-endnote"><p>Strictly speaking we should also include a term for the interaction between genotype and environment, but we’ll ignore that for the time being. I illustrated the interaction between genotype and environment in discussing norms of reaction.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5" role="doc-endnote"><p>We could even partition it further into additive by additive, additive by dominance, and dominance by dominance epistatic variance, but let’s not go there.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6" role="doc-endnote"><p>When I put it this way, I hope it’s obvious that I’m neglecting genotype-environment interactions, and that I’m oversimplifying a lot.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7" role="doc-endnote"><p>Don’t worry about what I mean by <span><em>additive genotype</em></span>yet. We’ll get to it soon enough.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8" role="doc-endnote"><p>As we’ll see later it can do this only for the range of environments in which it was measured.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9" role="doc-endnote"><p>Or at least only the additive genetic variance responds to natural selection when zygotes are found in Hardy-Weinberg proportions.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10" role="doc-endnote"><p>I used to include a joke here that I’ve decided not to include any more. It’s not very funny, and some people might find it offensive. If for some reason you want to know what the joke is, you can find it in the 2017 version of these notes on Figshare (<a href="https://doi.org/10.6084/m9.figshare.100687.v2">https://doi.org/10.6084/m9.figshare.100687.v2</a>)<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn11" role="doc-endnote"><p>Warning! There’s a <span><em>lot</em></span> of algebra and even a little differntial calculus between here and the end. It’s unavoidable. You can’t possibly understand what additive genetic variance is without it. I’ll try to focus on principles, and I’ll do my best to keep reminding us all why we’re slogging through the math, but a lot of the math that follows <span><em>is</em></span> necessary. Sorry about that.<a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn12" role="doc-endnote"><p>Remember. We’re now considering traits in which the environment influences the phenotypic expression, so the same genotype can produce different phenotypes, depending on the environment in which it develops.<a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn13" role="doc-endnote"><p>Hold on. Things get even more interesting, i.e., worse from here.<a href="#fnref13" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn14" role="doc-endnote"><p>As you should have noticed in Table <a href="#table:definitions" data-reference-type="ref" data-reference="table:definitions">1</a>.<a href="#fnref14" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn15" role="doc-endnote"><p>We won’t bother with proving that the resulting estimates produce the minimum possible value of <span class="math inline">\(a\)</span>. Just take my word for it. Or if you don’t believe me and know a little calculus, take the second partials of <span class="math inline">\(a\)</span> and evaluate it with the values of <span class="math inline">\(\alpha_1\)</span> and <span class="math inline">\(\alpha_2\)</span> substituted in. You’ll find that the resulting matrix of partial derivatives, the Hessian matrix, is positive definite, meaning that we’ve found values that minimize the value of <span class="math inline">\(a\)</span>. If you don’t know what any of that means, just take my word for it that the values of <span class="math inline">\(\alpha_1\)</span> and <span class="math inline">\(\alpha_2\)</span> we get minimize the value of <span class="math inline">\(a\)</span>.<a href="#fnref15" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn16" role="doc-endnote"><p>If you’ve been paying close attention and you have a good memory, the expressions for <span class="math inline">\(\alpha_1\)</span> and <span class="math inline">\(\alpha_2\)</span> may look vaguely familiar. They look a lot like the expressions for marginal fitnesses we encountered when studying viability selection.<a href="#fnref16" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn17" role="doc-endnote"><p>The easy way to do this, of course, would be to have the R Shiny app do the calculation for you. I recommend that you try it on your own and compare your answers with what R Shiny reports.<a href="#fnref17" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+</body>
+</html>

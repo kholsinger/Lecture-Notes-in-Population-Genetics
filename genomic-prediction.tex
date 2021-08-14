@@ -5,9 +5,9 @@
 \usepackage{html}
 \usepackage{url}
 
-\newcommand{\copyrightYears}{2019}
+\newcommand{\copyrightYears}{2019-2021}
 
-\title{Genomic prediction}
+\title{Genomic prediction: an {\it extremely\/} brief overview}
 
 \begin{document}
 
@@ -49,9 +49,10 @@ simultaneously, which raises an interesting problem.
 In a typical GWAS analysis\footnote{In humans at least}, you will have
 measured the phenotype of a few thousand individuals, but you will
 have genotyped those individuals at several hundred thousand
-loci. Lango Allen et al.~\cite{LangoAllen-etal-2010} report results
-from a large analysis of height variation in humans, 183,727
-individuals genotyped at 2,834,208 loci. What's the problem here?
+loci. Lango Allen et al.~\cite{LangoAllen-etal-2010}, for example,
+report results from a large analysis of height variation in humans,
+183,727 individuals genotyped at 2,834,208 loci. What's the problem
+here?
 
 There are more predictors~(loci) than observations~(individual
 phenotypes). If you remember some basic algebra, you'll remember that
@@ -79,7 +80,8 @@ justification for doing it\footnote{And biological justification for
 which is why you want to use GEMMA or TASSEL for a real GWAS. We'll
 ignore this part of the challenge associated with GWAS and focus on
 another one: complex traits often are influenced by a very large
-nubmer of loci.
+nubmer of loci. That is, after all, why we started studying
+quantitative genetics in the first place.
 
 \section*{Genetics of complex traits}
 
@@ -90,7 +92,8 @@ associated with genes that are part of previously identified pathways,
 e.g., Hedgehog signaling,\footnote{``The Hedgehog signaling pathway is
   a signaling pathway that transmits information to embryonic cells
   required for proper cell differentiation.''
-  \url{https://en.wikipedia.org/wiki/Hedgehog_signaling_pathway}} or
+  \url{https://en.wikipedia.org/wiki/Hedgehog_signaling_pathway},
+  accessed 14 August 2021.} or
 that were previously identified as being involved in skeletal growth
 defects. A more recent study by Wood et al.~\cite{Wood-etal-2014}
 synthesized results from 79 studies involving 253,288 individuals and
@@ -128,7 +131,11 @@ that the loci identified in Wood et al.~\cite{Wood-etal-2014} account
 for about 16 percent of variation in height.\footnote{In Europe the
   heritability of height at age 20 is about 80
   percent~\cite{Jelenkovic-etal-2016}.}\index{genomic predictioon}
-\index{polygenic score}
+\index{polygenic score} If we don't have too many groups, we could
+refine our estimate a bit further by adding in the group-specific
+estimate, $\phi^{(k)}$. Of course when we do so, our prediction is no
+longer a {\it genomic\/} predictiion, {\it per se}. It's a genomic
+prediction enhanced by non-genetic group information.
 
 \subsection*{A toy example}
 
@@ -159,10 +166,10 @@ If you {\tt source("genomic-prediction.R")} it will
     
 \end{itemize}
 
-If you look at the code, you'll see that I use {\tt stan\_lm()} for the
-locus by locus regression rather than the {\tt Stan} code you used in
-Project \#6. That's because I simulate the data without family
-structure, so there's no need to include the family random effect.
+If you look at the code, you'll see that I use {\tt stan\_lm()} rather
+than using {\tt stan\_lmer()}. That's because I simulate the data without
+family structure, so there's no need to include the family random
+effect.
 
 Table~\ref{table:single} shows results of the locus by locus analysis
 from my run of {\tt genomic-prediction.R}. Your results will vary a

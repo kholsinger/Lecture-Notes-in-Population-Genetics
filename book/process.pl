@@ -8,25 +8,24 @@ use constant TRUE => 1;
 my $baseName = shift
   or die "Must specify basename on command line";
 
-open(INFILE, "<../$baseName")
-  or die "Could not open ../$baseName for input: $!";
+open (INFILE, "<../$baseName")
+    or die "Could not open ../$baseName for input: $!";
 open(OUTFILE, ">$baseName")
   or die "Could not open $baseName for output: $!";
-while (<INFILE>) {
-  next unless m/\\title/;
-  my $line = $_;
+while (my $line = <INFILE>) {
+  next unless $line =~ m/\\title/;
   $line =~ s/^.*\\title(\{.*\}).*$/\\chapter$1/;
   print OUTFILE $line;
   last;
 }
-while (<INFILE>) {
-  next unless m/\\section/;
+while (my $line = <INFILE>) {
+  next unless $line =~ m/\\section/;
   last;
 }
-while (<INFILE>) {
-  last if m/\\bibliography/;
-  last if m/\\ccLicense/;
-  print OUTFILE;
+while (my $line = <INFILE>) {
+  last if $line =~ m/\\bibliography/;
+  last if $line =~ m/\\ccLicense/;
+  print OUTFILE $line;
 }
 close(OUTFILE);
 close(INFILE);

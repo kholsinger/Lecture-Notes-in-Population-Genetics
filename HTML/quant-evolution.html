@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Evolution of quantitative traits</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Evolution of quantitative traits</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#evolution-of-the-mean-phenotype">Evolution of the mean phenotype</a>
+<ul>
+<li><a href="#a-numerical-example">A Numerical Example</a></li>
+</ul></li>
+<li><a href="#fishers-fundamental-theorem-of-natural-selection">Fisher’s Fundamental Theorem of Natural Selection</a></li>
+<li><a href="#selection-on-multiple-characters">Selection on multiple characters</a></li>
+<li><a href="#an-example-selection-in-a-pentastomid-bug">An example: selection in a pentastomid bug</a></li>
+<li><a href="#cumulative-selection-gradients">Cumulative selection gradients</a>
+<ul>
+<li><a href="#the-data">The data</a></li>
+<li><a href="#the-method">The method</a></li>
+<li><a href="#the-results">The results</a></li>
+<li><a href="#the-conclusions">The conclusions</a></li>
+<li><a href="#the-caveats">The caveats</a></li>
+</ul></li>
+<li><a href="#creative-commons-license">Creative Commons License</a></li>
+</ul>
+</nav>
+<h1 class="unnumbered" id="introduction">Introduction</h1>
+<p>Let’s stop and review quickly where we’ve come and where we’re going. We started our survey of quantitative genetics by pointing out that our objective was to develop a way to describe the patterns of phenotypic resemblance among relatives. The challenge was that we wanted to do this for phenotypic traits that whose expression is influenced both by many genes and by the environment in which those genes are expressed. Beyond the technical, algebraic challenges associated with many genes, we have the problem that we can’t directly associate particular genotypes with particular phenotypes. We have to rely on patterns of <span><em>phenotypic</em></span> resemblance to tell us something about how <span><em>genetic</em></span> variation is transmitted. Surprisingly, we’ve managed to do that. We now know that it’s possible to:</p>
+<ul>
+<li><p>Estimate the additive effect of an allele.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p></li>
+<li><p>Partition the phenotypic variance into genotypic and environmental components and to partition the genotypic variance into additive and dominance components.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p></li>
+<li><p>Estimate all of the variance components from a combination of appropriate crossing designs and appropriate statistical analyses.</p></li>
+</ul>
+<p>Now we’re ready for the next step: applying all of these ideas to the evolution of a quantitative trait.</p>
+<h1 class="unnumbered" id="evolution-of-the-mean-phenotype">Evolution of the mean phenotype</h1>
+<p>We’re going to focus on how the mean phenotype in a population changes in response to natural selection, specifically in response to viability selection. Before we can do this, however, we need to think a bit more carefully about the relationship between genotype, phenotype, and fitness. Let <span class="math inline">\(F_{ij}(x)\)</span> be the probability that genotype <span class="math inline">\(A_iA_j\)</span> has a phenotype smaller than <span class="math inline">\(x\)</span>.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> Then <span class="math inline">\(x_{ij}\)</span>, the genotypic value of <span class="math inline">\(A_iA_j\)</span> is <span class="math display">\[x_{ij} = \int_{-\infty}^\infty x \mbox{\rm dF}_{ij}(x)\]</span> and the population mean phenotype is <span class="math inline">\(p^2x_{11} + 2pqx_{12} +
+q^2x_{22}\)</span>. If an individual with phenotype <span class="math inline">\(x\)</span> has fitness <span class="math inline">\(w(x)\)</span>, then the fitness of an individual with genotype <span class="math inline">\(A_iA_j\)</span> is <span class="math display">\[w_{ij} = \int_{-\infty}^\infty w(x) \mbox{\rm dF}_{ij}(x)\]</span> and the mean fitness in the population is <span class="math inline">\(\bar w = p^2w_{11} +
+2pqw_{12} + q^2w_{22}\)</span>.</p>
+<p>Now, there’s a well known theorem from calculus known as Taylor’s theorem. It says that for any function<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> <span class="math inline">\(f(x)\)</span> <span class="math display">\[f(x) = f(a) + \sum_{k=1}^\infty \left({{(x-a)^k} \over k!}\right)
+                                 f^{(k)}(a) \quad .\]</span> Using this theorem we can produce an approximate expression describing how the mean phenotype in a population will change in response to selection. Remember that the mean phenotype, <span class="math inline">\(\bar x\)</span>, depends both on the underlying genotypic values and on the allele frequency. So I’m going to write the mean phenotype as <span class="math inline">\(\bar x(p)\)</span> to remind us of that dependency. The phenotype changes from one generation to the next as a result of changes in the frequency of alleles that influence the phenotype, assuming that the environmental effects on phenotypes don’t change. <span class="math display">\[\begin{aligned}
+{\bar x}(p&#39;) &amp;=&amp; {\bar x}(p) + (p&#39; - p)\left({d{\bar x} \over dp}\right)
+             + o(p^2) \\
+\\
+{\bar x}(p) &amp;=&amp; p^2x_{11} + 2pqx_{12} + q^2x_{22} \\
+\\
+\frac{d{\bar x(p)}}{dp}
+         &amp;=&amp; 2px_{11} + 2qx_{12} - 2px_{12} - 2qx_{22} \\
+         &amp;=&amp; 2\left\{
+             \left(px_{11} + qx_{12} - {\bar x}/2\right) -
+             \left(px_{12} + qx_{22} - {\bar x}/2\right)\right\} \\
+         &amp;=&amp; 2\left(\alpha_1 - \alpha_2\right) \\
+\\
+{\bar x}(p&#39;) &amp;\approx&amp; {\bar x}(p) + (p&#39; - p)\left(2(\alpha_1 - \alpha_2)\right) \\
+\\
+\Delta{\bar x} &amp;=&amp; (\Delta p)\left(2(\alpha_1 - \alpha_2)\right)\end{aligned}\]</span></p>
+<p>Now you need to remember (from lo those many weeks ago) that <span class="math display">\[p&#39; = {p^2w_{11} + pqw_{12} \over \bar w} \quad .\]</span> Thus, <span class="math display">\[\begin{aligned}
+   \Delta p &amp;=&amp; p&#39; - p \\
+            &amp;=&amp; {p^2w_{11} + pqw_{12} \over \bar w} - p \\
+            &amp;=&amp; {p^2w_{11} + pqw_{12} - p\bar w \over \bar w} \\
+            &amp;=&amp; p\left(pw_{11} + qw_{12} - \bar w \over \bar w \right) \quad .\end{aligned}\]</span> Now,<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> let’s do a linear regression of fitness on phenotype. After all, to make any further progress, we need to relate phenotype to fitness, so that we can use the relationship between phenotype and genotype to infer the change in allele frequencies, from which we will infer the change in mean phenotype.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> From our vast statistical knowledge, we know that the slope of this regression line is <span class="math display">\[\beta_1 = {\mbox{Cov}(w,x) \over \mbox{Var}(x)}\]</span> and its intercept is <span class="math display">\[\beta_0 = \bar w - \beta_1 \bar x \quad .\]</span> Let’s use this regression equation to determine the fitness of each genotype. This is only an approximation to the true fitness,<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> but it is adequate for many purposes. <span class="math display">\[\begin{aligned}
+w_{ij} &amp;=&amp; \int_{-\infty}^\infty w(x) \mbox{\rm dF}_{ij}(x) \\
+       &amp;\approx&amp; \int_{-\infty}^\infty (\beta_0 + \beta_1x) \mbox{\rm dF}_{ij}(x) \\
+       &amp;=&amp; \beta_0 + \beta_1x_{ij} \\
+\bar w &amp;=&amp; \beta_0 + \beta_1\bar x \quad .\end{aligned}\]</span> If we substitute this into our expression for <span class="math inline">\(\Delta p\)</span> above, we get <span class="math display">\[\begin{aligned}
+   \Delta p &amp;=&amp; p\left(pw_{11} + qw_{12} - \bar w \over \bar w \right) \\
+            &amp;=&amp; p\left(p(\beta_0 + \beta_1x_{11})
+                      + q(\beta_0 + \beta_1x_{12})
+                      - (\beta_0 + \beta_1\bar x) \over \bar w \right) \\
+            &amp;=&amp; p\beta_1\left(px_{11} + qx_{12} - \bar x \over
+                             \bar w \right) \\
+            &amp;=&amp; p\beta_1\left(\alpha_1 - \bar x/2 \over \bar w \right) \\
+            &amp;=&amp; p\beta_1\left(\alpha_1 - (p\alpha_1 + q\alpha_2) \over
+                             \bar w \right) \\
+            &amp;=&amp; {pq\beta_1(\alpha_1 - \alpha_2) \over \bar w} \quad .\end{aligned}\]</span> So where are we now?<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> Let’s substitute this result back into the equation for <span class="math inline">\(\Delta\bar
+x\)</span>. When we do we get <span class="math display">\[\begin{aligned}
+\Delta\bar x &amp;=&amp; (\Delta p)\left(2(\alpha_1 - \alpha_2)\right) \\
+          &amp;=&amp; \left(
+                pq\beta_1(\alpha_1 - \alpha_2) \over \bar w
+             \right)
+             \left(2(\alpha_1 - \alpha_2)\right) \\
+          &amp;=&amp; 2pq\alpha^2\left(\beta_1 \over \bar w\right) \\
+          &amp;=&amp; V_a \left(\beta_1 \over \bar w\right) \quad .\end{aligned}\]</span> This is great if we’ve done the regression between fitness and phenotype, but what if we haven’t?<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> Let’s look at <span class="math inline">\(\mbox{Cov}(w,x)\)</span> in a little more detail. <span class="math display">\[\begin{aligned}
+\mbox{Cov}(w,x) &amp;=&amp; p^2\int_{-\infty}^\infty x w(x) \mbox{\rm dF}_{11}(x)
+            + 2pq\int_{-\infty}^\infty x w(x) \mbox{\rm dF}_{12}(x) \\
+         &amp;&amp; \qquad + q^2\int_{-\infty}^\infty x w(x) \mbox{\rm dF}_{22}(x)
+            - \bar x \bar w \\
+         &amp;=&amp; p^2\left(\int_{-\infty}^\infty x w(x) \mbox{dF}_{11}(x) -
+            x_{11}\bar w + x_{11}\bar w\right) \\
+         &amp;&amp; \quad + 2pq\left(\int_{-\infty}^\infty x w(x)
+            \mbox{dF}_{11}(x) -
+            x_{12}\bar w + x_{12}\bar w\right) \\
+         &amp;&amp; \quad + q^2\left(\int_{-\infty}^\infty x w(x) \mbox{dF}_{22}(x) -
+            x_{22}\bar w + x_{22}\bar w\right) \\
+         &amp;&amp; \quad - \bar x \bar w \\
+         &amp;=&amp; p^2\left(\int_{-\infty}^\infty x w(x) \mbox{dF}_{11}(x) -
+            x_{11}\bar w\right) \\
+         &amp;&amp; \quad + 2pq\left(\int_{-\infty}^\infty x w(x)
+            \mbox{dF}_{11}(x) -
+            x_{12}\bar w\right) \\
+         &amp;&amp; \quad + q^2\left(\int_{-\infty}^\infty x w(x) \mbox{dF}_{22}(x) -
+            x_{22}\bar w\right) \quad .\end{aligned}\]</span> Now <span class="math display">\[\begin{aligned}
+\int_{-\infty}^\infty x w(x) \mbox{\rm dF}_{ij}(x) - x_{ij}\bar w
+              &amp;=&amp; \bar w \left(
+                 \int_{-\infty}^\infty {x w(x) \over \bar w} \mbox{\rm
+                 dF}_{ij}(x)
+                 - x_{ij}
+                 \right) \\
+              &amp;=&amp; \bar w (x_{ij}^* - x_{ij})
+\quad,\end{aligned}\]</span> where <span class="math inline">\(x_{ij}^*\)</span> refers to the mean phenotype of <span class="math inline">\(A_iA_j\)</span> after selection. So <span class="math display">\[\begin{aligned}
+\mbox{Cov}(w,x) &amp;=&amp; p^2\bar w(x_{11}^* - x_{11}) + 2pq\bar w(x_{12}^* -
+              x_{12}) +
+              q^2\bar w(x_{22}^* - x_{22}) \\
+&amp;=&amp; \bar w(\bar x^* - \bar x) \quad ,\end{aligned}\]</span> where <span class="math inline">\(\bar x^*\)</span> is the population mean phenotype after selection. In short,<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a> combining our equations for the change in mean phenotype and for the covariance of fitness and phenotype and remembering that <span class="math inline">\(\beta_1 =
+\mbox{Cov}(w,x)/Var(x)\)</span><a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a> <span class="math display">\[\begin{aligned}
+\Delta\bar x &amp;=&amp; V_a \left({\bar w(\bar x^* - \bar x) \over
+                               V_p} \over \bar w \right) \cr
+             &amp;=&amp; h^2_N (\bar x^* - \bar x) \cr\end{aligned}\]</span> <span class="math inline">\(\Delta\bar x = \bar x&#39; - \bar x\)</span> is referred to as the response to selection and is often given the symbol <span class="math inline">\(R\)</span>. It is the change in population mean between the parental generation (before selection) and the offspring beneration (before selection). <span class="math inline">\(\bar x^* - \bar x\)</span> is referred to as the selection differential and is often given the symbol <span class="math inline">\(S\)</span>. It is the difference between the mean phenotype in the parental generation before selection and the mean phenotype in the parental generation after selection. Thus, we can rewrite our final equation as <span class="math display">\[R = h^2_N S \quad .\]</span> This equation is often referred to as the <span><em>breeders equation</em></span>.</p>
+<h2 class="unnumbered" id="a-numerical-example">A Numerical Example</h2>
+<p>To illustrate how this works, let’s examine the simple example in Table <a href="#table:evolution-example" data-reference-type="ref" data-reference="table:evolution-example">1</a>.</p>
+<div id="table:evolution-example">
+<table>
+<caption>A simple example to illustrate response to selection in a quantitative trait.</caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Genotype</td>
+<td style="text-align: center;"><span class="math inline">\(A_1A_1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(A_1A_2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(A_2A_2\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Phenotype</td>
+<td style="text-align: center;">1.303</td>
+<td style="text-align: center;">1.249</td>
+<td style="text-align: center;">0.948</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Given these phenotypes, <span class="math inline">\(p = 0.25\)</span>, and <span class="math inline">\(V_p = 0.16\)</span>, it follows that <span class="math inline">\({\bar x} = 1.08\)</span> and <span class="math inline">\(h^2_N = 0.1342\)</span>. Suppose the mean phenotype after selection is 1.544. What will the phenotype be among the newly born progeny? <span class="math display">\[\begin{aligned}
+S &amp;=&amp; \bar x^* - \bar x \\
+  &amp;=&amp; 1.544 - 1.08 \\
+  &amp;=&amp; 0.464 \\
+\Delta\bar x &amp;=&amp; h^2_N S \\
+         &amp;=&amp; (0.1342)(0.464) \\
+         &amp;=&amp; 0.06 \\
+\bar x&#39; &amp;=&amp; \bar x + \Delta\bar x \\
+        &amp;=&amp; 1.08 + 0.06 \\
+        &amp;=&amp; 1.14\end{aligned}\]</span></p>
+<h1 class="unnumbered" id="fishers-fundamental-theorem-of-natural-selection">Fisher’s Fundamental Theorem of Natural Selection</h1>
+<p>Suppose the phenotype whose evolution we’re interested in following is fitness itself.<a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a> Then we can summarize the fitnesses as illustrated in Table <a href="#table:fitness" data-reference-type="ref" data-reference="table:fitness">2</a>.</p>
+<div id="table:fitness">
+<table>
+<caption>Fitnesses and additive fitness values used in deriving Fisher’s Fundamental Theorem of Natural Selection.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Genotype</th>
+<th style="text-align: center;"><span class="math inline">\(A_1A_1\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(A_1A_2\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(A_2A_2\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Frequency</td>
+<td style="text-align: center;"><span class="math inline">\(p^2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(2pq\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(q^2\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Fitness</td>
+<td style="text-align: center;"><span class="math inline">\(w_{11}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(w_{12}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(w_{22}\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Additive fitness value</td>
+<td style="text-align: center;"><span class="math inline">\(2\alpha_1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\alpha_1 + \alpha_2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(2\alpha_2\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Although I didn’t tell you this, a well-known fact about viability selection at one locus is that the change in allele frequency from one generation to the next can be written as <span class="math display">\[\Delta p = \left({{pq} \over 2{\bar w}}\right)
+           \left({{d{\bar w}} \over {dp}}\right) \quad .\]</span></p>
+<p>Using our new friend, Taylor’s theorem, it follows immediately that <span class="math display">\[{\bar w}&#39; = {\bar w} + \left(\Delta p\right)\left({{d{\bar w}} \over {dp}}\right)
+            + \left({{(\Delta p)^2} \over 2}\right)
+              \left({{d^2{\bar w}} \over {dp^2}}\right) \quad .\]</span> Or, equivalently <span class="math display">\[\Delta {\bar w} = \left(\Delta p\right)\left({{d{\bar w}} \over {dp}}\right)
+            + \left({{(\Delta p)^2} \over 2}\right)
+              \left({{d^2{\bar w}} \over {dp^2}}\right) \quad .\]</span></p>
+<p>Recalling that <span class="math inline">\({\bar w} = p^2w_{11} + 2p(1-p)w_{12} + (1-p)^2w_{22}\)</span> we find that <span class="math display">\[\begin{aligned}
+\frac{d{\bar w}}{dp}
+ &amp;=&amp; 2pw_{11} + 2(1-p)w_{12} - 2pw_{12} - 2(1-p)w_{22} \\
+ &amp;=&amp; 2[(pw_{11}+qw_{12}) - (pw_{12}+qw_{22})] \\
+ &amp;=&amp; 2[(pw_{11}+qw_{12}-{\bar w}/2) - (pw_{12}+qw_{22}-{\bar w}/2)] \\
+ &amp;=&amp; 2[\alpha_1 - \alpha_2] \\
+ &amp;=&amp; 2\alpha \quad ,\end{aligned}\]</span> where the last two steps use the definitions for <span class="math inline">\(\alpha_1\)</span> and <span class="math inline">\(\alpha_2\)</span>, and we set <span class="math inline">\(\alpha = \alpha_1 - \alpha_2\)</span>. Similarly, <span class="math display">\[\begin{aligned}
+\frac{d^2{\bar w}}{dp^2}
+ &amp;=&amp; 2w_{11} - 2w_{12} - 2w_{12} + 2w_{22} \\
+ &amp;=&amp; 2(w_{11} - 2w_{12} + w_{22}) \\\end{aligned}\]</span></p>
+<p>Now we can plug these back into the equation for <span class="math inline">\(\Delta\bar w\)</span>: <span class="math display">\[\begin{aligned}
+\Delta {\bar w}
+ &amp;=&amp; \left\{\left({{pq} \over {2{\bar w}}}\right)\left({{d{\bar w}} \over {dp}}\right)
+      \right\}
+    \left({{d{\bar w}} \over {dp}}\right)
+    + {{ \left\{\left({{pq} \over {2{\bar w}}}\right)\left({{d{\bar w}} \over {dp}}\right)
+      \right\}^2} \over 2}
+    [2(w_{11} - 2w_{12} + w_{22})] \\
+ &amp;=&amp; \left\{\left({{pq} \over {2{\bar w}}}\right)\left(2\alpha\right)\right\}\left(2\alpha\right)
+    + \left\{\left({{pq} \over {2{\bar w}}}\right)\left(2\alpha\right)\right\}^2
+    (w_{11} - 2w_{12} + w_{22}) \\
+ &amp;=&amp; {{2pq\alpha^2} \over {\bar w}}
+    + {{p^2q^2\alpha^2} \over {{\bar w}^2}}(w_{11} - 2w_{12} + w_{22}) \\
+ &amp;=&amp; {V_a \over {\bar w}}
+    \left\{1 + {{pq} \over {2{\bar w}}}(w_{11} - 2w_{12} + w_{22})\right\}
+    \quad ,\end{aligned}\]</span> where the last step follows from the observation that <span class="math inline">\(V_a =
+2pq\alpha^2\)</span>. The quantity <span class="math inline">\({{pq} \over {2{\bar w}}}(w_{11} - 2w_{12}
++ w_{22})\)</span> is usually quite small, especially if selection is not too intense.<a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a> So we are left with <span class="math display">\[\Delta {\bar w} \approx {V_a \over {\bar w}} \quad .\]</span></p>
+<h1 class="unnumbered" id="selection-on-multiple-characters">Selection on multiple characters</h1>
+<p>So far we’ve studied only the evolution of a single trait, e.g., height or weight. But organisms have many traits, and they evolve at the same time. How can we understand their simultaneous evolution? The basic framework of the quantitative genetic approach was first outlined by Russ Lande and Steve Arnold <span class="citation" data-cites="Lande-Arnold-1983"></span>.</p>
+<p>Let <span class="math inline">\(z_1\)</span>, <span class="math inline">\(z_2\)</span>, …, <span class="math inline">\(z_n\)</span> be the phenotype of each character that we are studying. We’ll use <span class="math inline">\(\bar{\bf z}\)</span> to denote the vector of these characters before selection and <span class="math inline">\(\bar{\bf z}^*\)</span> to denote the vector after selection. The selection differential, <span class="math inline">\(\bf s\)</span>, is also a vector given by <span class="math display">\[{\bf s} = \bar{\bf z}^* - \bar{\bf z} \quad .\]</span> Suppose <span class="math inline">\(p({\bf z})\)</span> is the probability that any individual has phenotype <span class="math inline">\(\bf z\)</span>, and let <span class="math inline">\(W({\bf z})\)</span> be the fitness (absolute viability) of an individual with phenotype <span class="math inline">\(\bf z\)</span>. Then the mean absolute fitness is <span class="math display">\[\bar W = \int W({\bf z})p({\bf z})d{\bf z} \quad .\]</span> The fitness of phenotype <span class="math inline">\(\bf z\)</span> relative to the mean fitness in the population can be written as <span class="math display">\[w({\bf z}) = {W({\bf z}) \over \bar W} \quad .\]</span> Using relative fitnesses for each phenotype the mean relative fitness, <span class="math inline">\(\bar w\)</span>, is 1. Now <span class="math display">\[\bar{\bf z}^* = \int {\bf z}w({\bf z})p({\bf z})d{\bf z} \quad .\]</span> Recall that <span class="math inline">\(Cov(X,Y) = E(X - \mu_x)(Y - \mu_y) = E(XY) -
+\mu_x\mu_y\)</span>. Consider <span class="math display">\[\begin{aligned}
+{\bf s} &amp;=&amp; \bar{\bf z}^* - \bar{\bf z} \\
+        &amp;=&amp; \int {\bf z}w({\bf z})p({\bf z})d{\bf z} - \bar {\bf z} \\
+        &amp;=&amp; E(w,z) - \bar w\bar {\bf z} \quad ,\end{aligned}\]</span> where the last step follows since <span class="math inline">\(\bar w = 1\)</span> meaning that <span class="math inline">\(\bar
+w\bar{\bf z} = \bar{\bf z}\)</span>. In short, <span class="math display">\[{\bf s} = Cov(w,z) \quad .\]</span> That should look familiar from our analysis of the evolution of a single phenotype.</p>
+<p>If we assume that all genetic effects are additive, then the phenotype of an individual can be written as <span class="math display">\[{\bf z} = {\bf x} + {\bf e} \quad ,\]</span> where <span class="math inline">\(\bf x\)</span> is the additive genotype and <span class="math inline">\(\bf e\)</span> is the environmental effect. We’ll denote by <span class="math inline">\(\bf G\)</span> the matrix of genetic variances and covariances and by <span class="math inline">\(\bf E\)</span> the matrix of environmental variances and covariances. The matrix of phenotype variances and covariances, <span class="math inline">\(\bf P\)</span>, is then given by<a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a> <span class="math display">\[{\bf P} = {\bf G} + {\bf E} \quad .\]</span> Now, if we’re willing to assume that the regression of additive genetic effects on phenotype is linear<a href="#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a> and that the environmental variance is the same for every genotype, then we can predict how phenotypes will change from one generation to the next <span class="math display">\[\begin{aligned}
+\bar{\bf x}^* - \bar{\bf x} &amp;=&amp; {\bf GP}^{-1}(\bar{\bf z}^* - \bar{\bf z}) \\
+\bar{\bf z}&#39;  - \bar{\bf z} &amp;=&amp; {\bf GP}^{-1}(\bar{\bf z}^* - \bar{\bf z}) \\
+\Delta\bar{\bf z} &amp;=&amp; {\bf GP}^{-1}{\bf s}\end{aligned}\]</span> <span class="math inline">\({\bf GP}^{-1}\)</span> is the multivariate version of <span class="math inline">\(h^2_N\)</span>. This equation is also the multivariate version of the breeders equation.</p>
+<p>But we have already seen that <span class="math inline">\({\bf s} = Cov(w,z)\)</span>. Thus, <span class="math display">\[{\bf \beta} = {\bf P}^{-1}{\bf s}\]</span> is a set of partial regression coefficients of relative fitness on the characters, i.e., the dependence of relative fitness on that character alone holding all others constant.</p>
+<p>Note: <span class="math display">\[\begin{aligned}
+s_i &amp;=&amp; \sum_{j=1}^n \beta_jP_{ij} \\
+    &amp;=&amp; \beta_1P_{i1} + \cdots + \beta_iP_{ii} + \cdots + \beta_nP_{in}\end{aligned}\]</span> is the total selective differential in character <span class="math inline">\(i\)</span>, including the indirect effects of selection on other characters.</p>
+<h1 class="unnumbered" id="an-example-selection-in-a-pentastomid-bug">An example: selection in a pentastomid bug</h1>
+<p>94 individuals were collected along shoreline of Lake Michigan in Parker County, Indiana after a storm. 39 were alive, 55 dead. The means of several characters before selection, the trait correlations, and the selection analysis are presented in Table <a href="#table:data" data-reference-type="ref" data-reference="table:data">5</a>.</p>
+<div id="table:data">
+<table>
+<caption>Selection analysis of pentastomid bugs on the shores of Lake Michigan.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Character</th>
+<th style="text-align: center;">Mean before selection</th>
+<th style="text-align: center;">standard deviation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">head</td>
+<td style="text-align: center;">0.880</td>
+<td style="text-align: center;">0.034</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">thorax</td>
+<td style="text-align: center;">2.038</td>
+<td style="text-align: center;">0.049</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">scutellum</td>
+<td style="text-align: center;">1.526</td>
+<td style="text-align: center;">0.057</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">wing</td>
+<td style="text-align: center;">2.337</td>
+<td style="text-align: center;">0.043</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="table:data">
+<table>
+<caption>Selection analysis of pentastomid bugs on the shores of Lake Michigan.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: center;">head</th>
+<th style="text-align: center;">thorax</th>
+<th style="text-align: center;">scutellum</th>
+<th style="text-align: center;">wing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">head</td>
+<td style="text-align: center;">1.00</td>
+<td style="text-align: center;">0.72</td>
+<td style="text-align: center;">0.50</td>
+<td style="text-align: center;">0.60</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">thorax</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">1.00</td>
+<td style="text-align: center;">0.59</td>
+<td style="text-align: center;">0.71</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">scutellum</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">1.00</td>
+<td style="text-align: center;">0.62</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">wing</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">1.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="table:data">
+<table>
+<caption>Selection analysis of pentastomid bugs on the shores of Lake Michigan.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Character</th>
+<th style="text-align: center;"><span class="math inline">\(s\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(s&#39;\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\beta\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(\beta&#39;\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">head</td>
+<td style="text-align: center;">-0.004</td>
+<td style="text-align: center;">-0.11</td>
+<td style="text-align: center;">-0.7 <span class="math inline">\(\pm\)</span> 4.9</td>
+<td style="text-align: center;">-0.03 <span class="math inline">\(\pm\)</span> 0.17</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">thorax</td>
+<td style="text-align: center;">-0.003</td>
+<td style="text-align: center;">-0.06</td>
+<td style="text-align: center;">11.6 <span class="math inline">\(\pm\)</span> 3.9<span class="math inline">\(^{**}\)</span></td>
+<td style="text-align: center;">0.58 <span class="math inline">\(\pm\)</span> 0.19<span class="math inline">\(^{**}\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">scutellum</td>
+<td style="text-align: center;">-0.16<span class="math inline">\(^*\)</span></td>
+<td style="text-align: center;">-0.28<span class="math inline">\(^*\)</span></td>
+<td style="text-align: center;">-2.8 <span class="math inline">\(\pm\)</span> 2.7</td>
+<td style="text-align: center;">-0.17 <span class="math inline">\(\pm\)</span> 0.15</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">wing</td>
+<td style="text-align: center;">-0.019<span class="math inline">\(^{**}\)</span></td>
+<td style="text-align: center;">-0.43<span class="math inline">\(^{**}\)</span></td>
+<td style="text-align: center;">-16.6 <span class="math inline">\(\pm\)</span> 4.0<span class="math inline">\(^{**}\)</span></td>
+<td style="text-align: center;">-0.74 <span class="math inline">\(\pm\)</span> 0.18<span class="math inline">\(^{**}\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The column labeled <span class="math inline">\(s\)</span> is the selective differential for each character. The column labeled <span class="math inline">\(s&#39;\)</span> is the <span><em>standardized</em></span> selective differential, i.e., the change measured in units of standard deviation rather than on the original scale.<a href="#fn16" class="footnote-ref" id="fnref16" role="doc-noteref"><sup>16</sup></a> A multiple regression analysis of fitness versus phenotype on the original scale gives estimates of <span class="math inline">\(\beta\)</span>, the direct effect of selection on that trait. A multiple regression analysis of fitness versus phenotype on the transformed scale gives the standardized direct effect of selection, <span class="math inline">\(\beta&#39;\)</span>, on that trait.</p>
+<p>Notice that the selective differential<a href="#fn17" class="footnote-ref" id="fnref17" role="doc-noteref"><sup>17</sup></a> for the thorax measurement is negative, i.e., individuals that survived had smaller thoraces than those that died. But the <span><em>direct</em></span> effect of selection on thorax is strongly positive, i.e., all other things being equal, an individual with a large was more likely to survive than one with a small thorax. Why the apparent contradiction? Because the thorax measurement is positively correlated with the wing measurement, and there’s strong selection for decreased values of the wing measurement.</p>
+<h1 class="unnumbered" id="cumulative-selection-gradients">Cumulative selection gradients</h1>
+<p>Arnold <span class="citation" data-cites="Arnold-1988"></span> suggested an extension of this approach to longer evolutionary time scales. Specifically, he studied variation in the number of body vertebrae and the number of tail vertebrae in populations of <span><em>Thamnophis elegans</em></span> from two regions of central California. He found relatively little vertebral variation within populations, but there were considerable differences in vertebral number between populations on the coast side of the Coast Ranges and populations on the Central Valley side of the Coast Ranges. The consistent difference suggested that selection might have produced these differences, and Arnold attempted to determine the amount of selection necessary to produce these differences.</p>
+<h2 class="unnumbered" id="the-data">The data</h2>
+<p>Arnold collected pregnant females from two local populations in each of two sites in northern California 282 km apart from one another. Females were collected over a ten-year period and returned to the University of Chicago. Dam-offspring regressions were used to estimate additive genetic variances and covariances of vertebral number.<a href="#fn18" class="footnote-ref" id="fnref18" role="doc-noteref"><sup>18</sup></a> Mark-release-recapture experiments in the California populations showed that females with intermediate numbers of vertebrae grow at the fastest rate, at least at the inland site, although no such relationship was found in males. The genetic variance-covariance matrix he obtained is shown in Table <a href="#table:arnold-data" data-reference-type="ref" data-reference="table:arnold-data">6</a>.</p>
+<div id="table:arnold-data">
+<table>
+<caption>Genetic variance-covariance matrix for vertebral number in central Californian garter snakes.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: center;">body</th>
+<th style="text-align: center;">tail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">body</td>
+<td style="text-align: center;">35.4606</td>
+<td style="text-align: center;">11.3530</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tail</td>
+<td style="text-align: center;">11.3530</td>
+<td style="text-align: center;">37.2973</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 class="unnumbered" id="the-method">The method</h2>
+<p>We know from Lande and Arnold’s results that the change in multivariate phenotype from one generation to the next, <span class="math inline">\(\Delta\bar{\bf z}\)</span>, can be written as <span class="math display">\[\Delta\bar{\bf z} = {\bf G\beta} \quad ,\]</span> where <span class="math inline">\(\bf G\)</span> is the genotypic variance-covariance matrix, <span class="math inline">\({\bf\beta}
+= {\bf P}^{-1}{\bf s}\)</span> is the set of partial regression coefficients describing the direct effect of each character on relative fitness.<a href="#fn19" class="footnote-ref" id="fnref19" role="doc-noteref"><sup>19</sup></a> If we are willing to assume that <span><strong>G</strong></span> remains constant, then the total change in a character subject to selection for <span class="math inline">\(n\)</span> generations is <span class="math display">\[\sum_{k=1}^n \Delta\bar{\bf z} = {\bf G}\sum_{k=1}^n\beta \quad .\]</span> Thus, <span class="math inline">\(\sum_{k=1}^n\beta\)</span> can be regarded as the cumulative selection differential associated with a particular observed change, and it can be estimated as <span class="math display">\[\sum_{k=1}^n\beta = {\bf G}^{-1}\sum_{k=1}^n \Delta\bar{\bf z}\quad .\]</span></p>
+<h2 class="unnumbered" id="the-results">The results</h2>
+<p>The overall difference in vertebral number between inland and coastal populations can be summarized as: <span class="math display">\[\begin{aligned}
+\mbox{body}_{\mbox{inland}} - \mbox{body}_{\mbox{coastal}} &amp;=&amp; 16.21 \\
+\mbox{tail}_{\mbox{inland}} - \mbox{tail}_{\mbox{coastal}} &amp;=&amp; 9.69\end{aligned}\]</span> Given the estimate of <span class="math inline">\(\bf G\)</span> already obtained, this corresponds to a cumulative selection gradient between inland and coastal populations of <span class="math display">\[\begin{aligned}
+\beta_{\mbox{body}} &amp;=&amp; 0.414 \\
+\beta_{\mbox{tail}} &amp;=&amp; 0.134\end{aligned}\]</span></p>
+<p>Applying the same technique to looking at the differences between populations within the inland site and within the coastal site we find cumulative selection gradients of <span class="math display">\[\begin{aligned}
+\beta_{\mbox{body}} &amp;=&amp; 0.035 \\
+\beta_{\mbox{tail}} &amp;=&amp; 0.038\end{aligned}\]</span> for the coastal site and <span class="math display">\[\begin{aligned}
+\beta_{\mbox{body}} &amp;=&amp; 0.035 \\
+\beta_{\mbox{tail}} &amp;=&amp; -0.004\end{aligned}\]</span> for the inland site.</p>
+<h2 class="unnumbered" id="the-conclusions">The conclusions</h2>
+<p>“To account for divergence between inland and coastal California, we must invoke cumulative forces of selection that are 7 to 11 times stronger than the forces needed to account for differentiation of local populations.”</p>
+<p>Furthermore, recall that the selection gradients can be used to partition the overall response to selection in a character into the portion due to the direct effects of that character alone and the portion due to the indirect effects of selection on a correlated character. In this case the overall response to selection in number of body vertebrae is given by <span class="math display">\[{\bf G}_{11}\beta_1 + {\bf G}_{12}\beta_2 \quad ,\]</span> where <span class="math inline">\({\bf G}_{11}\beta_1\)</span> is the direct effect of body vertebral number and <span class="math inline">\({\bf G}_{12}\beta_2\)</span> is the indirect effect of tail vertebral number. Similarly, the overall response to selection in number of tail vertebrae is given by <span class="math display">\[{\bf G}_{12}\beta_1 + {\bf G}_{22}\beta_2 \quad ,\]</span> where <span class="math inline">\({\bf G}_{22}\beta_2\)</span> is the direct effect of tail vertebral number and <span class="math inline">\({\bf G}_{12}\beta_1\)</span> is the indirect effect of body vertebral number. Using these equations it is straightforward to calculate that 91% of the total divergence in number of body vertebrae is a result of direct selection on this character. In contrast, only 51% of the total divergence in number of tail vertebrae is a result of direct selection on this character, i.e., 49% of the difference in number of tail vertebrae is attributable to indirect selection as a result of its correlation with number of body vertebrae.</p>
+<h2 class="unnumbered" id="the-caveats">The caveats</h2>
+<p>While the approach Arnold suggests is intriguing, there are a number of caveats that must be kept in mind in trying to apply it.</p>
+<ul>
+<li><p>This approach assumes that the <span class="math inline">\(\bf G\)</span> matrix remains constant.</p></li>
+<li><p>This approach cannot distinguish strong selection that happened over a short period of time from weak selection that happened over a long period of time.</p></li>
+<li><p>This approach <span><em>assumes</em></span> that the observed differences in populations are the result of selection, but populations isolated from one another will diverge from one another even in the absence of selection simply as a result of genetic drift.</p>
+<ul>
+<li><p>Small amount of differentiation between populations within sites could reflect relatively recent divergence of those populations from a common ancestral population.</p></li>
+<li><p>Large amount of differentiation between populations from inland versus coastal sites could reflect a more ancient divergence from a common ancestral population.</p></li>
+</ul></li>
+</ul>
+<h1 class="unnumbered" id="creative-commons-license">Creative Commons License</h1>
+<p>These notes are licensed under the Creative Commons Attribution License. To view a copy of this license, visit https://creativecommons.org/licenses/by/4.0/ or send a letter to Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305, USA.</p>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p>Actually, we don’t know this. You’ll have to take my word for it that in certain breeding designs its possible to estimate not only the additive genetic variance and the dominance genetic variance, but also the actual additive effect of “alleles” that we haven’t even identified. We’ll see a more direct approach soon, when we get to genome-wide associations studies.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>I should point out that this is an oversimplification. I’ve mentioned that we typically assume that we can simply add the effects of alleles across loci, but if you think about how genes actually work in organisms, you realize that such additivity across loci isn’t likely to be very common. Strictly speaking there are epistatic components to the genetic variance too, i.e., components of the genetic variance that have to do not with the interaction among alleles at a single locus (the dominance variance that we’ve already encountered), but with the interaction of alleles at different loci.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3" role="doc-endnote"><p>For those of you who have had probability theory, <span class="math inline">\(F_{ij}(x)\)</span> is the cumulative distribution of the probability density for phenotype associated with <span class="math inline">\(A_iA_j\)</span>.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4" role="doc-endnote"><p>Actually there are restrictions on the functions to which it applies, but we can ignore those restrictions for our purposes.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5" role="doc-endnote"><p>Since we’re having so much fun with mathematics why should we stop here?<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6" role="doc-endnote"><p>Whew! That was a mouthful.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7" role="doc-endnote"><p>Specifically, we are implicitly assuming that the fitnesses are adequately approximated by a linear function of our phenotypic measure.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8" role="doc-endnote"><p>You don’t have to tell me where you <span> <em>wish</em></span> you were. I can reliably guess that it’s not here.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9" role="doc-endnote"><p>Hang on just a little while longer. We’re almost there.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10" role="doc-endnote"><p>We finally made it.<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn11" role="doc-endnote"><p>You also need to remember that <span class="math inline">\(\mbox{Var}(x) =
+  V_p\)</span>, since they’re the same thing, the phenotypic variance.<a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn12" role="doc-endnote"><p>The proof of the fundamental theorem that follows is due to C. C. Li <span class="citation" data-cites="Li-1976"></span><a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn13" role="doc-endnote"><p>Notice that it’s exactly equal to 0 if the fitness of the heterozygote is exactly intermediate. In that case, all of the variance in fitness is additive.<a href="#fnref13" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn14" role="doc-endnote"><p>Assuming that there are no genotype <span class="math inline">\(\times\)</span> environment interactions.<a href="#fnref14" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn15" role="doc-endnote"><p>And we were willing to do this when we were studying the evolution of only one trait, so why not do it now?<a href="#fnref15" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn16" role="doc-endnote"><p>To measure on this scale the data is simply transformed by setting <span class="math inline">\(y_i = (x_i -
+  \bar x)/s\)</span>, where <span class="math inline">\(x_i\)</span> is the raw score for the <span class="math inline">\(i\)</span>th individual, <span class="math inline">\(\bar x\)</span> is the sample mean for the trait, and <span class="math inline">\(s\)</span> is its standard deviation.<a href="#fnref16" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn17" role="doc-endnote"><p>The cumulative effect of selection on the change in mean phenotype.<a href="#fnref17" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn18" role="doc-endnote"><p>1000 progeny from 100 dams.<a href="#fnref18" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn19" role="doc-endnote"><p><span><strong>P</strong></span> is the phenotypic variance-covariance matrix and <span><strong>s</strong></span> is the vector of selection differentials.<a href="#fnref19" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+</body>
+</html>
