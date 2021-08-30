@@ -13,5 +13,5 @@ model {
   k ~ binomial(N, p);
 
   // prior
-  p ~ dunif(0.0, 1.0);
+  p ~ uniform(0.0, 1.0);
 }

@@ -502,7 +502,7 @@ model {
   k ~ binomial(N, p);
 
   // prior
-  p ~ dunif(0.0, 1.0);
+  p ~ uniform(0.0, 1.0);
 }
 \end{verbatim}
 We can run this is in {\tt R} by {\tt source()}'ing the following
