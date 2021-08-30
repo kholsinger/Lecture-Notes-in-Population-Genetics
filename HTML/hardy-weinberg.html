@@ -311,7 +311,7 @@ model {
   k ~ binomial(N, p);
 
   // prior
-  p ~ dunif(0.0, 1.0);
+  p ~ uniform(0.0, 1.0);
 }</code></pre>
 <p>We can run this is in <span><code>R</code></span> by <span><code>source()</code></span>’ing the following code. Remember that in our fictitious example, we found 7 fast alleles in a sample of 20, i.e., <span class="math inline">\(k=7\)</span> and <span class="math inline">\(N=20\)</span>.</p>
 <pre><code>## Load the rstan library
