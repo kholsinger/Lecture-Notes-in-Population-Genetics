@@ -1,0 +1,113 @@
+---
+title: "$F$-statistics with `hierfstat` and `Hickory`"
+output: html_notebook
+---
+
+What you see here is an `R` notebook. We'll talk about how to use them in class on Tuesday. Let's start with a simple example. We'll use the data from *Isotoma petraea* that we discussed in class to illustrate `hierfstat` and Hickory. 
+
+## Converting the *Isotoma* data to a different format
+
+We'll start by using `hierfstat`. It needs the data in a different format from what is available on the website. This piece of code reads in the data directly from the website and converts it to the format that `hierfstat` uses. Other than the cute trick of reading the CSV file directly from the server rather than downloading it first, you can ignore all of the other coding.
+
+```{r}
+library("tidyverse")
+
+## The following line clears out any objects in memory. I make it a habit to do this so that I can make sure
+## that things left over from the last time I ran R don't confuse things.
+##
+rm(list = ls())
+
+dat <- read_csv("http://darwin.eeb.uconn.edu/eeb348-resources/isotoma.csv",
+                col_types = cols(pop = col_character(), .default = col_integer()))
+
+## If you know R, you'll recognize that I could have expressed this much more succintly, but for anyone who
+## cares to follow the logic, this will be easier to see.
+##
+for (i in 1:nrow(dat)) {
+  for (j in 2:ncol(dat)) {
+    if (!is.na(dat[i, j])) {
+      if (dat[i, j] == 0) {
+        dat[i, j] <- 11
+      } else if (dat[i, j] == 1) {
+        dat[i, j] <- 12
+      } else if (dat[i, j] == 2) {
+        dat[i, j] <- 22
+      }
+    }   
+  }
+}
+## This line converts the population abbreviatons to numbers
+##
+dat$Location <- as.numeric(as.factor(dat$pop))
+## The first line puts Location in the first column. The second drops the pop column.
+##
+dat <- relocate(dat, Location) %>%
+  select(-pop)
+```
+
+## Using `hierfstat`
+
+We use `varcomp()` to estimate Weir and Cockerham's $F$-statistics.
+
+```{r}
+library(hierfstat)
+
+dat_fst <- varcomp(dat, diploid = TRUE)
+round(dat_fst$F, 4)
+```
+
+That's all there is to it. You don't need to include the `diploid = TRUE`, but it's good form to do so. If you happened to try this with the original file you downloaded, you'd get an error because the data aren't in the right format. The matrix format is a little confusing, but `varcomp` allows you to estimate $F$-statistics across an arbitrary number of levels. We won't explore that here. For more information, see the documentation for `hierfstat` and the following paper:
+
+Yang, R.C.  1998.  Estimating hierarchical $F$-statistics. *Evolution* 52:950-956.
+
+All you need to know for purposes of this exercise is that with a 2-level hierarchy (individuals within populations) the $F$-statistics appear in the matrix as follows:
+
+<pre>
+       [, 1] [, 2]
+[1, ]  F_st  F_it
+[2, ]  0     F_is
+</pre>
+
+Those numbers match what I mentioned in lecture (with a small rounding error in the 4th decimal place for $F_{IS}$)
+
+## Using `Hickory`
+
+Using `Hickory` is pretty straigthforward.^[Of course I'm probably biased. I wrote `Hickory`.] It is, however, a bit more challenging to install than a regular `R` package. It uses `RStan`, and you'll need to refer to [this guide](https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started) to install it. In particular, you'll need to "configure the C++ toolchain". If that sounds frightening, don't worry about it. You don't need to learn to program in C++, and you don't even have to know how to compile a C++ program. The links will walk you through installing a C++ compiler on your machine. Once you've done that, installing `Rstan` is straigtforward, and then you're ready to install `Hickory`. Just do the following:
+
+<pre>
+install.packages("devtools")
+install.packages(c("bayesplot"))
+devtools::install_github("kholsinger/Hickory", build_vignettes = TRUE)
+</pre>
+
+That last step will take a while, maybe as much as 10 minutes, and you'll see a bunch of arcane messages in your `R` console window. So long as you don't see something that says "Error", you're fine. If you do, let me know, and we'll figure out how to work around it.
+
+Once you've got `Hickory` installed, running the analysis is pretty straightforward.
+
+```{r}
+library("Hickory")
+
+## This line allows Hickory to run four chains simultaneously (assuming that your computer has at least)
+## four cores
+##
+options(mc.cores = parallel::detectCores())
+
+genos <- read_marker_data("http://darwin.eeb.uconn.edu/eeb348-resources/isotoma.csv")
+## The "refresh = 0" prevents a lot of messages from being printed in this document. You probably will want
+## to leave it out when you run your analyses so that you can see the progress messages and be reassured
+## that there's something going on.
+##
+fit <- analyze_codominant(genos, refresh = 0)
+```
+
+If you compare those numbers with the numbers I reported in lecture, you'll see that they are very close. They aren't exactly the same because we're simulating samples from the posterior distribution rather than calculating it exactly. The figure shows the median (the dot), the 50 percent credible interval (the thick dark blue line), and the 90 percent credible interval (the thin light blue line) for each of the parameters.
+
+## Lab exercise #2
+
+We are going to use a subset of the data that Rachel Prunier and collaborators (including me) used to analyze the genetic structure of *Protea repens* [https://doi.org/10.3732/ajb.1600232](https://doi.org/10.3732/ajb.1600232). You'll find the data on the course website at [http://darwin.eeb.uconn.edu/eeb348-resources/repens-outliers.csv](http://darwin.eeb.uconn.edu/eeb348-resources/repens-outliers.csv).
+
+1. Using the code we used above, convert the *Protea repens* data into a format that `varcomp` can use. Then use `varcomp` to estimate $F_{IS}$, $F_{ST}$, and $F_{IT}$, and report the estimates. 
+
+2. Use `Hickory` and the data as provided to estimate $F_{IS}$ and $F_{ST}$. Report both the posterior mean and the 95 percent credible intervals.
+
+Feel free simply to embed the `R` code in a copy of this notebook if you're so inclined. ***but*** if you do, be sure to state explicitly what numbers in the `hierfstat` table correspond to each $F$-statistic and what numbers in the table from `Hickory` correspond to $F_{IS}$ and $F_{ST}$. 
