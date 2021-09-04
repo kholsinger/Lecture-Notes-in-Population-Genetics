@@ -1,0 +1,37 @@
+---
+title: "Using subset() in R"
+output: html_notebook
+---
+
+Often we want to use only part of the data that are available for further analysis. The `subset()` function in base `R` provides a convenient way to do that. I'll illustrate with a simple example using data from *Protea repens* that will be part of the lab exercise for week 2.
+
+```{r}
+library(tidyverse)
+
+## I almost always begin my work with this line. rm() removes objects 
+## from memory. list = ls() specifies all of the objects in memory. The
+## effect is to remove all objects from memory so that I begin with a 
+## clean slate.
+##
+rm(list = ls())
+
+dat <- read_csv("http://darwin.eeb.uconn.edu/eeb348-resources/repens-outliers.csv")
+```
+
+If you look in the "Data" window in `RStudio` (probably the upper right window), you'll see that there's an object called `dat` that has 662 observations and 174 variables. For this example we'll work only with the first column. Let's see how many observations we have from each population.
+
+```{r}
+table(dat$pop)
+```
+
+Suppose we're interested only in individuals from `BRD`. We'll use `subset` to create a new object that includes only those individuals.
+
+```{r}
+brd <- subset(dat, pop == "BRD")
+```
+
+Now you'll see `brd` in the "Data" window. It has 46 observations (which matches the sample size we saw using `table()`) and 174 variables. `brd` retains all of the data, but only for individuals from BRD. We can verify that by running `table()` again.
+
+```{r}
+table(brd$pop)
+```
