@@ -3,7 +3,7 @@ title: "$F$-statistics with `hierfstat` and `Hickory`"
 output: html_notebook
 ---
 
-What you see here is an `R` notebook. We'll talk about how to use them in class on Tuesday. Let's start with a simple example. We'll use the data from *Isotoma petraea* that we discussed in class to illustrate `hierfstat` and Hickory. 
+What you see here is an `R` notebook. We'll talk about how to use them in class on Tuesday. Let's start with a simple example. We'll use the data from *Isotoma petraea* that we discussed in class to illustrate `hierfstat` and `Hickory`. 
 
 ## Converting the *Isotoma* data to a different format
 
@@ -43,36 +43,25 @@ dat$Location <- as.numeric(as.factor(dat$pop))
 ##
 dat <- relocate(dat, Location) %>%
   select(-pop)
+dat <- as.data.frame(dat)
 ```
 
 ## Using `hierfstat`
 
-We use `varcomp()` to estimate Weir and Cockerham's $F$-statistics.
+We use `wc()` to estimate Weir and Cockerham's $F$-statistics.^[You can probably guess why the function is called `wc()`.]
 
 ```{r}
 library(hierfstat)
 
-dat_fst <- varcomp(dat, diploid = TRUE)
-round(dat_fst$F, 4)
+dat_fst <- wc(dat, diploid = TRUE)
+dat_fst
 ```
 
-That's all there is to it. You don't need to include the `diploid = TRUE`, but it's good form to do so. If you happened to try this with the original file you downloaded, you'd get an error because the data aren't in the right format. The matrix format is a little confusing, but `varcomp` allows you to estimate $F$-statistics across an arbitrary number of levels. We won't explore that here. For more information, see the documentation for `hierfstat` and the following paper:
+That's all there is to it. You don't need to include the `diploid = TRUE`, but it's good form to do so. If you happened to try this with the original file you downloaded, you'd get an error because the data aren't in the right format. The numbers above match what I mentioned in lecture (with a small rounding error in the 4th decimal place for $F_{IS}$)
 
-Yang, R.C.  1998.  Estimating hierarchical $F$-statistics. *Evolution* 52:950-956.
+## Using `Hickory
 
-All you need to know for purposes of this exercise is that with a 2-level hierarchy (individuals within populations) the $F$-statistics appear in the matrix as follows:
-
-<pre>
-       [, 1] [, 2]
-[1, ]  F_st  F_it
-[2, ]  0     F_is
-</pre>
-
-Those numbers match what I mentioned in lecture (with a small rounding error in the 4th decimal place for $F_{IS}$)
-
-## Using `Hickory`
-
-Using `Hickory` is pretty straigthforward.^[Of course I'm probably biased. I wrote `Hickory`.] It is, however, a bit more challenging to install than a regular `R` package. It uses `RStan`, and you'll need to refer to [this guide](https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started) to install it. In particular, you'll need to "configure the C++ toolchain". If that sounds frightening, don't worry about it. You don't need to learn to program in C++, and you don't even have to know how to compile a C++ program. The links will walk you through installing a C++ compiler on your machine. Once you've done that, installing `Rstan` is straigtforward, and then you're ready to install `Hickory`. Just do the following:
+Using `Hickory` is pretty straigthforward.^[Of course I'm probably biased. I wrote `Hickory`.] It is, however, a bit more challenging to install than a regular `R` package. It uses `RStan`, and you'll need to refer to [this guide](https://github.com/stan-dev/rstan/wiki/RStan-Getting-Started) to install `RStan`. In particular, you'll need to "configure the C++ toolchain". If that sounds frightening, don't worry about it. You don't need to learn to program in C++, and you don't even have to know how to compile a C++ program. The links will walk you through installing a C++ compiler on your machine. Once you've done that, installing `Rstan` is straigtforward, and then you're ready to install `Hickory`. Just do the following:
 
 <pre>
 install.packages("devtools")
@@ -104,10 +93,34 @@ If you compare those numbers with the numbers I reported in lecture, you'll see 
 
 ## Lab exercise #2
 
-We are going to use a subset of the data that Rachel Prunier and collaborators (including me) used to analyze the genetic structure of *Protea repens* [https://doi.org/10.3732/ajb.1600232](https://doi.org/10.3732/ajb.1600232). You'll find the data on the course website at [http://darwin.eeb.uconn.edu/eeb348-resources/repens-outliers.csv](http://darwin.eeb.uconn.edu/eeb348-resources/repens-outliers.csv).
+We are going to use a subset of the data that Rachel Prunier and collaborators (including me) used to analyze the genetic structure of *Protea repens* [https://doi.org/10.3732/ajb.1600232](https://doi.org/10.3732/ajb.1600232). You'll find the data on the course website at [http://darwin.eeb.uconn.edu/eeb348-resources/repens-outliers.csv](http://darwin.eeb.uconn.edu/eeb348-resources/repens-outliers.csv) and at [http://darwin.eeb.uconn.edu/eeb348-resources/repens-outliers.stru](http://darwin.eeb.uconn.edu/eeb348-resources/repens-outliers.stru).^[I'll explain what the `.stru` extension refers to next week.]
 
-1. Using the code we used above, convert the *Protea repens* data into a format that `varcomp` can use. Then use `varcomp` to estimate $F_{IS}$, $F_{ST}$, and $F_{IT}$, and report the estimates. 
+1. Downlad the data in the `.stru` file. Then work through the following steps to analyze the data with `wc()`.^[You can also use the trick of simply using the URL above to read the data directly from the course website.]
 
-2. Use `Hickory` and the data as provided to estimate $F_{IS}$ and $F_{ST}$. Report both the posterior mean and the 95 percent credible intervals.
+    a. Convert the data to a form that `hierfstat` can use by running `read.structure()` from `adegenet`.^[You'll need to use `install.packages()` to install `adegenet`]. Note: There are 662 genotypes (individuals), 173 markers (loci), column 1 contains the labels for genotypes (individuals), column 2 contains the population factor (the population/locality from which a particular sample was collected), there are no optional columns, row 1 contains the marker (locus) names, and genotypes are coded in two rows. If everything worked properly, you'll see the following message:
+    
+    <pre>
+ Converting data from a STRUCTURE .stru file to a genind object... 
+    </pre>
+    
+    b. Now use `wc()` to produce estimates of $F_{IS}$ and $F_{ST}$.
+    
+    c. Now convert the `genind` object that you used with `wc()` to a `hierfstat` data frame (using `genind2hierfstat()`), and use that dataframe to construct 95 percent confidence intervals for $F_{IS}$ and $F_{ST}$
+    
+    <pre>
+    boot.vc(repens_df[, 1], repens_df[, -1], diploid = TRUE)$ci
+    </pre>
+    
+    `repens_df` is the name of the data frame I used. The first argument selects only the `pop` column (the one with the populations), and the second excludes the `pop` column, leaving a data frame with only the genotype data. 
+    
+2. Use `Hickory` and the data as provided in the `.csv` file to estimate $F_{IS}$ and $F_{ST}$. Report both the posterior mean and the 95 percent credible intervals. Note: The analysis took about 15 minutes on my MacBook. Be sure to plan ahead and leave yourself enough time to commplete the assignment.
 
-Feel free simply to embed the `R` code in a copy of this notebook if you're so inclined. ***but*** if you do, be sure to state explicitly what numbers in the `hierfstat` table correspond to each $F$-statistic and what numbers in the table from `Hickory` correspond to $F_{IS}$ and $F_{ST}$. 
+3. Is there evidence of inbreeding within populations? 
+
+4. Is there evidence of genetic differentiation among populations?
+
+5. Does your answer to #3 or #4 depend on whether you look at results from `hierfstat()` or `Hickory`.
+
+6. **BONUS QUESTION**: Take a look at the help for `analyze_codominant()` and see if you can explain why the estimates from `hierfstat` and `Hickory` look a bit different even though we have quite a bit of data available.
+
+Feel free simply to embed the `R` code in a copy of this notebook if you're so inclined. ***but*** if you do, be sure to state explicitly how to interpret the output.[^I know how to do it, of course, but I want to make sure you know how to do it too.] 
