@@ -1,0 +1,17 @@
+---
+title: "Hickory results"
+output: html_notebook
+---
+
+Just copy and paste the results. Don't worry about trying to run `Hickory`.
+
+```{r}
+library(Hickory)
+
+options(mc.cores = parallel::detectCores())
+
+genos <- read_marker_data("http://darwin.eeb.uconn.edu/eeb348-resources/repens-outliers.csv")
+fit <- analyze_codominant(genos, refresh = 0)
+```
+
+

@@ -36,3 +36,6 @@ Untitled.bib
 *.Rhistory
 *.Rproj
 .Rproj.user
+
+*snmfProject
+*.snmf*

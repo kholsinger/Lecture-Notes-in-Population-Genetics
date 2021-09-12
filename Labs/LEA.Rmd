@@ -1,0 +1,67 @@
+---
+title: "STRUCTURE"
+output: html_notebook
+---
+
+install.packages("BiocManager")
+BiocManager::install("LEA")
+
+Get STRUCTURE data in the format that LEA needs.
+```{r, message = FALSE}
+library(tidyverse)
+
+rm(list = ls())
+
+dat <- read_table("repens-outliers.stru", skip = 1, col_names = FALSE)
+## delete individual labels when writing out
+##
+write.table(dat[, -1], file = "repens-outliers.LEA", col.names = FALSE,
+            row.names = FALSE, quote = FALSE)
+```
+
+```{r}
+library(LEA)
+
+struct2geno("repens-outliers.LEA", ploidy = 2, FORMAT = 2, extra.row = 0, extra.column = 1)
+```
+
+Try K = 2...10
+
+The `message = FALSE` prevents the screen from filling up with a lot of text that we don't need...
+
+```{r, message = FALSE, warning = FALSE, results = "hide"}
+fit <- snmf("repens-outliers.LEA.geno", K = 2:10, alpha = 100, 
+            repetitions = 10, project = "new", entropy = TRUE)
+```
+
+Check cross-entropy criterion...
+
+```{r}
+plot(fit, pch = 19)
+```
+
+Plot the Q matrix for the best result.
+
+```{r}
+library(ggplot2)
+k = 10
+ce <- cross.entropy(fit, K = k)
+best <- which.min(ce)
+repens_q <- Q(fit, K = k, run = best)
+repens_q <- data.frame(individual = seq(from = 1, to = nrow(repens_q)),
+                       repens_q)
+colnames(repens_q) <- c("Individual", paste("Cluster_", 1:k, sep = ""))
+repens_df <- pivot_longer(repens_q, starts_with("Cluster"),
+                          names_to = "cluster")
+n_indiv <- floor(nrow(repens_q/100))
+for (i in hundreds <- seq(from = 1, to = n_indiv, by = 100)) {
+  p <- ggplot(repens_df[1:((k*100)+1), ], aes(x = Individual, y = value,
+                                              fill = cluster)) +
+    geom_bar(stat = "identity") +
+    xlab("Individual") +
+    ylab("Admixture proportion") +
+    guides(fill = "none") + 
+    theme_bw()
+  print(p)
+}
+```
