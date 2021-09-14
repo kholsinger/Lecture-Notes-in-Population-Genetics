@@ -1,0 +1,173 @@
+---
+title: "Getting the Gila trout data in shape"
+output: html_notebook
+---
+
+Data from Camak, David; Osborne, Megan; Turner, Thomas (2021), Gila Trout neutral and outlier SNP genotype matrices, Dryad, Dataset, [https://doi.org/10.5061/dryad.g79cnp5pk](https://doi.org/10.5061/dryad.g79cnp5pk)
+
+These data underlie a paper in *Conservation Genetics*: [https://doi.org/10.1007/s10592-021-01355-0](https://doi.org/10.1007/s10592-021-01355-0)
+
+`Gila-Trout_neutral-SNP.xlsx` is the neutral SNP sheet from the original data set - `Camak_Gila-Trout_SNP-Genotype-Table.xlsx`.
+```{r, message = FALSE}
+library(readxl)
+
+rm(list = ls())
+
+## to ensure reproducibility
+##
+set.seed(797184)
+
+dat <- read_excel("Gila-Trout_neutral-SNP.xlsx", range = "e4:fb2386")
+
+## dat <- dat[sample(2:2382, 250, replace = FALSE), ]
+```
+
+## LEA analysis
+
+Write out the individual data...
+
+```{r}
+if (file.exists("gila-trout.stru")) {
+   unlink("gila-trout.stru")
+}
+
+for (i in 1:ncol(dat)) {
+   ## first row of genotype output
+   ##
+   site <- gsub("([a-zA-Z]+\\s*[a-zA-Z]+).*", "\\1", colnames(dat)[i])
+   output <- paste(site, i, sep = " ")
+   for (j in 2:nrow(dat)) {
+    if (dat[j, i] == "NA") {
+       allele <- -9
+     } else if (dat[j, i] == "0") {
+       allele <- 0
+     } else if (dat[j, i] == "1") {
+       allele <- 0
+     } else if (dat[j, i] == "2") {
+       allele <- 1
+     } else {
+       cat(j, i, "\n")
+       stop("Something went wrong: first allele")
+     }
+     output <- paste(output, " ", allele, sep = "")
+   }
+   write(output, file = "gila-trout.stru", append = TRUE)
+   ## second row of genotype output
+   ##
+   output <- paste(site, i, sep = " ")
+   for (j in 2:nrow(dat)) {
+     if (dat[j, i] == "NA") {
+       allele <- -9
+     } else if (dat[j, i] == "0") {
+       allele <- 0
+     } else if (dat[j, i] == "1") {
+       allele <- 1
+     } else if (dat[j, i] == "2") {
+       allele <- 1
+     } else {
+       cat(j, i, "\n")
+       stop("Something went wrong: second allele")
+     }
+     output <- paste(output, " ", allele, sep = "")
+   }
+   write(output, file = "gila-trout.stru", append = TRUE)
+}
+```
+
+See if I can read the data into `LEA`...
+
+```{r}
+library(LEA)
+
+struct2geno("gila-trout.stru", ploidy = 2, FORMAT = 2, extra.row = 0,
+            extra.column = 3)
+
+```
+
+Testing the result...
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+start_time <- Sys.time()
+fit <- snmf("gila-trout.stru.geno", K = 2:10, alpha = 100, 
+            repetitions = 10, project = "new", entropy = TRUE)
+
+end_time <- Sys.time()
+end_time - start_time
+```
+
+Check cross-entropy criterion...
+
+```{r}
+plot(fit, pch = 19)
+```
+
+Plot the Q matrix for the best result.
+
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+
+plot_LEA <- function(fit, k, sites_table) {
+   sites_end <- cumsum(sites_table)
+   ce <- cross.entropy(fit, K = k)
+   best <- which.min(ce)
+   q <- Q(fit, K = k, run = best)
+   q <- data.frame(individual = seq(from = 1, to = nrow(q)), q)
+   colnames(q) <- c("Individual", paste("Cluster_", 1:k, sep = ""))
+   df <- pivot_longer(q, starts_with("Cluster"), names_to = "cluster")
+   p <- ggplot(df, aes(x = Individual, y = value, fill = cluster)) +
+      geom_bar(stat = "identity") +
+      xlab("Individual") +
+      ylab("Admixture proportion") +
+      ggtitle(paste("K = ", k, sep = ""))
+      guides(fill = "none") + 
+      theme_bw()
+   for (i in 1:length(sites_end)) {
+      x_increment <- ifelse(i > 1, cumsum(sites_table[2:i])[i-1], 0)
+      p <- p + geom_vline(xintercept = sites_end[i]) +
+         annotate("text", x = sites_end[1]/2 + x_increment, 
+                  y = 1.05, label = names(sites_table)[i])
+   }
+   print(p)
+}
+
+sites_table <- c(31, 31, 30, 31, 31)
+names(sites_table) <- c("Iron Creek", "Main Diamond", "South Diamond",
+                        "Spruce Creek", "Whiskey Creek")
+
+for (i in 3:7) {
+   plot_LEA(fit, i, sites_table)
+}
+```
+
+## Trying DAPC...
+
+```{r}
+library(adegenet)
+
+n_ind <- ncol(dat)
+n_loc <- nrow(dat)
+gila_dat <- read.structure(file = "gila-trout.stru",
+                           n.ind = n_ind,
+                           n.loc = n_loc,
+                           onerowperind = FALSE,
+                           col.lab = 3,
+                           col.pop = 1,
+                           col.others = 2,
+                           row.marknames = 0,
+                           NA.char = "-9",
+                           pop = NULL,
+                           sep = NULL,
+                           ask = FALSE,
+                           quiet = TRUE)
+```
+
+Run this code interactively. `find.clusters()` will display a plot before asking how many PCs to retain, and it will then display another plot before asking how many clusters to use for the grouping. Use the same answers when `dapc()` asks the same question.
+
+<pre>
+gila_grp <- find.clusters(gila_dat, max.n.clust = 10)
+gila_dapc <- dapc(gila_dat, gila_grp$grp)
+scatter(gila_dapc, pch = 20, cell = 0, cstar = 0, clab = 0, leg = TRUE,
+        posi.leg = "topleft", posi.da = "none")
+</pre>

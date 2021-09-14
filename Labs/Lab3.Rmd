@@ -1,0 +1,90 @@
+---
+title: "Individual assignment with `LEA`"
+output: html_notebook
+---
+
+We will discuss `STRUCTURE` in lecture on Thursday. Unfortunately, I have not been able to get `STRUCTURE` to run under Mac OS X Big Sur (v11.5.2). Those of you who use Windows may be able to install and run `STRUCTURE`. Those of you running earlier versions of Mac OS X may also be able to install and run it. If you can, and you'd like to play around with it, let me know and I'll arrange a time to walk you through how to use it.[^`ADMIXTURE` provides maximum likelihood estimates of individual assignment using the same sampling model as `STRUCTURE`. Binaries are available for Mac OS X and Linux, but not for Windows. I haven't checked to see whether the Mac OS X binaries work on my machine.] 
+
+Fortunately, there is an `R` package that we can use to explore the properties of individual assignement methods, although the mathematical approach it uses is quite different from `STRUCTURE`. We'll get to that a bit later. First, a bit about the data we'll be using this week and next.
+
+## The data
+
+Many species of trout and salmon are found in fragmented populations. Some of them persist only as relicts. Gila trout (*Onchorhyncus gilae*), for example, is restricted to a few relict populations in the southwestern United States where it is threatened by hybridization from non-native rainbow trout (*O. mykiss*). Camak et al. (2021)^[Camak, D.T., M.J. Osborne, and T.F. Turner. 2021. Population genomics and conservation of Gila trout (*Onchorhyncus gilae*). *Conservation Genetics* [https://doi.org/10.1007/s10592-021-01355-0](https://doi.org/10.1007/s10592-021-01355-0).] collected samples from five populations of *O. gilae* in southwestern New Mexico and genotyped those samples at 2381 SNP loci. We will use these data to explore population structure in *O. gilae* this week. In Project #1 (next week) we'll extend the analysis to address some aspects of the conservation questions that motivated this study.
+
+## Introducing `LEA`
+
+### The ugly math
+
+We will be using the package `LEA` to explore individual assignment. The principles behind this approach are described in Frichot et al. (2014).^[Frichot, E., F. Mathieu, T. Trouillon, G. Bouchard and O. François. 2014. Fast and efficient estimation of individual ancestry coefficients. *Genetics* 196:973–983. [https://doi.org/10.1534/genetics.113.160572](https://doi.org/10.1534/genetics.113.160572)] Briefly, Frichot et al. note that the ancestry proportions for any individual can be written in matrix form as
+$$
+{\bf P} = {\bf Q}{\bf G} \quad ,
+$$
+where $\bf Q$ is the ancestry proportion for each individual and $\bf G$ describes the genotype frequencies in the base populations. So far, this is equivalent to what `STRUCTURE` does. Where `LEA` differs is that Frichot et al. use a special form of least squares optimization where $\bf Q$ and $\bf G$ are constrained to be non-negative their rows  are constrained to sum to one. 
+
+If none of that makes sense, don't worry about it. All you really need to know is that `LEA` is trying to estimate the same thing as `STRUCTURE` and that it's taking a different approach.
+
+### Installing LEA
+
+`LEA` is not available on `CRAN`. It is a `Bioconductor` package. The good news is that it's less difficult to install that `Hickory`. Here's what you do. First, install `BiocManager`.
+
+<pre>
+install.packages("BiocManager")
+</pre>
+
+Then install `LEA`.
+
+<pre>
+BiocManager::install("LEA")
+</pre>
+
+As always, let me know if you run into difficulties and I'll do what I can to help.
+
+## Lab exercise 3
+
+1. Read through section 3.2 of the tutorial on `LEA`: [https://bioconductor.org/packages/release/bioc/vignettes/LEA/inst/doc/LEA.pdf](https://bioconductor.org/packages/release/bioc/vignettes/LEA/inst/doc/LEA.pdf).
+
+2. Use `snmf()` to identify the best choice for $K$ (or the best choices if there are several that seem pretty similar).^[You may not see a clear minimum in the cross-entropy. If not, pick a $K$ where it seems as if the cross-entropy begins to plateau and examine the results for values of $K$ one or two steps smaller and one or two steps greater.] Use values of $K$ from 2 to 10, by specifying `K = 2:10` in the call to `snmf()`. Here's a link to the data: [http://darwin.eeb.uconn.edu/eeb348-resources/gila-trout.stru.geno](http://darwin.eeb.uconn.edu/eeb348-resources/gila-trout.stru.geno).
+
+3. Visualize the results from #2 using the function below.^[The easiest way to do this is to copy and paste it to an editor and save it in a file named `plot_LEA.R`.^[Be sure to save it as a plain text file, not as a Word document. It's easiest to do this if you use Notepad in Windows or Textedit on a Mac.] Then from the console window in `RStudio` type `source("plot_LEA.R")`]. This will put the function `plot_LEA.R` in your workspace, and you can call it to plot the results as follows:
+<pre>
+sites_table <- c(31, 31, 30, 31, 31)
+names(sites_table) <- c("Iron Creek", "Main Diamond", "South Diamond",
+                        "Spruce Creek", "Whiskey Creek")
+plot_LEA("your_object_name_here", "your K here", sites_table)
+</pre>
+where you substitute the name you used to store the results from `snmf()` and the `K` you want to visualize.
+
+4. Do you see substantial evidence of admixture? If so, in which populations? How are you recognizing the presence or absence of admixture?
+
+### `plot_LEA`
+
+Here's the plotting code that I promised above.
+
+<pre>
+library(tidyverse)
+library(ggplot2)
+
+plot_LEA <- function(fit, k, sites_table) {
+   sites_end <- cumsum(sites_table)
+   ce <- cross.entropy(fit, K = k)
+   best <- which.min(ce)
+   q <- Q(fit, K = k, run = best)
+   q <- data.frame(individual = seq(from = 1, to = nrow(q)), q)
+   colnames(q) <- c("Individual", paste("Cluster_", 1:k, sep = ""))
+   df <- pivot_longer(q, starts_with("Cluster"), names_to = "cluster")
+   p <- ggplot(df, aes(x = Individual, y = value, fill = cluster)) +
+      geom_bar(stat = "identity") +
+      xlab("Individual") +
+      ylab("Admixture proportion") +
+      ggtitle(paste("K = ", k, sep = ""))
+      guides(fill = "none") + 
+      theme_bw()
+   for (i in 1:length(sites_end)) {
+      x_increment <- ifelse(i > 1, cumsum(sites_table[2:i])[i-1], 0)
+      p <- p + geom_vline(xintercept = sites_end[i]) +
+         annotate("text", x = sites_end[1]/2 + x_increment, 
+                  y = 1.05, label = names(sites_table)[i])
+   }
+   print(p)
+}
+</pre>
