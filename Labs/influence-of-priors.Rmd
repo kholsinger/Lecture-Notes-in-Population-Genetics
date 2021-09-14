@@ -1,0 +1,88 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+## Illustrating the influence of priors
+
+We'll go back to our really simple example of binomial sampling.
+
+```{r}
+rm(list = ls())
+
+N <- 20
+k <- 2
+## Load the rstan library
+##
+library(rstan)
+
+## set the number of chains to the number of cores in the computer
+##
+options(mc.cores = parallel::detectCores())
+rstan_options(auto_write = TRUE)
+
+## set up the data
+##   N: sample size
+##   k: number of A1 alleles
+stan_data <- list(N = N,
+                  k = k)
+
+## Invoke stan
+##
+fit <- stan("binomial-model.stan",
+            data = stan_data,
+            refresh = 0)
+
+## print the results on the console with 3 digits after the decimal
+##
+print(fit, digits = 3)
+```
+
+## Looking at the posterior distribution
+
+What you see in the table above is a *summary* of the posterior distribution. If you read the text on top of the table, you'll see that there were 
+
+<pre>
+4 chains, each with iter=2000; warmup=1000; thin=1; 
+post-warmup draws per chain=1000, total post-warmup draws=4000.
+</pre>
+
+What I haven't described so far is how `Stan` (or `Hickory`) produces estimates. It does a fancy random walk in such a way that the number of times it visits a point is proportional to the posterior probability associated with that point.^[Technically, it's a bit more complicated than that, but the way I described it is close enough for our purposes.] 
+
+But you want to be sure that you haven't wandered off somewhere strange. That's why we do it 4 times - the 4 chains. And you want to be sure you've taken enough steps so that you have a good sense of what those probabilities are - the iter = 2000.
+
+You also want to be sure that you only pay attention *after* you're in the right neighborhood. You may be starting somewhere a long way from where you want to be. So you only start paying attention to where you are after a while - after the warmup = 1000. 
+
+Since we take a total of 2000 steps per chain and we ignore the first 1000, that leaves 1000 post-warmup steps we're paying attention to in any one chain, or a total of 4000 steps across all four.
+
+We can visualize what the posterior distribution looks like pretty easily. The filled area in blue is the distribution we got from our sample. The black line shows the theoretical expectation.
+
+```{r}
+library(bayesplot)
+
+p <- mcmc_dens(fit, pars = "p") +
+  geom_function(fun = dbeta, args = list(k+1, N-k+1))
+print(p)    
+```
+
+## Visualizing the results
+
+```{r}
+library(ggplot2)
+
+p <- ggplot(data.frame(x = c(0, 1)), aes(x = x)) +
+  geom_function(fun = dbeta, args = list(k, N-k)) +
+  geom_function(fun = dbeta, args = list(1, 1), color = "blue") +
+  geom_function(fun = dbeta, args = list(k+1, N-k+1), 
+                color = "salmon") +
+  geom_vline(xintercept = (k-1)/(N-2), linetype = "dashed") +
+  geom_vline(xintercept = (k+1)/(N+2), color = "red", 
+             linetype = "dashed") +
+  annotate("text", x = 0.75, y = 6, label = "Likelihood") +
+  annotate("text", x = 0.75, y = 4, label = "prior", 
+           color = "blue") +
+  annotate("text", x = 0.75, y = 5, label = "posterior",
+           color = "red") +
+  theme_bw()
+p
+```
