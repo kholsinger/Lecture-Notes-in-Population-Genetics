@@ -50,8 +50,8 @@ x_{11,i} &=& p_{i}^2 + fp_{i}(1-p_{i}) \\
 x_{12,i} &=& 2p_{i}(1-p_{i})(1-f) \\
 x_{22,i} &=& (1-p_{i})^2 + fp_{i}(1-p_{i})
 \end{eqnarray*}
-So we can express the likelihood of our sample as a product of
-multinomial probabilities
+So we can express the likelihood %of our sample 
+as a product of multinomial probabilities
 \[
 P({\bf n}|{\bf p},f) \propto \prod_{i=1}^I x_{11,i}^{n_{11,i}}
 x_{12,i}^{n_{12,i}} x_{22,i}^{n_{22,i}} \quad .
@@ -183,7 +183,7 @@ populations ($f = 0.344$) and a small to moderate amount of among
 population differentiation ($\theta = 0.075$). In contrast to the Weir
 and Cockerham method, we also have estimates of uncertainty associated
 with both $f$ and $\theta$.\footnote{It's not too difficult to get
-  estimates of uncertainty usins the Weir and Cockerham approach, but
+  estimates of uncertainty using the Weir and Cockerham approach, but
   it takes some additional work.} Since you've probably forgotten what
 the other estimates look like, Table~\ref{table:hickory-comparison}
 compares all of the approaches we've considered.
@@ -311,7 +311,7 @@ see whether the credible intervals overlap $0$. Why? because $f$ and
 $\theta$ are defined to lie between 0 and 1 in {\tt Hickory} so they
 can't overlap 0.\footnote{We noted a couple of lectures ago that $f$
   can be negative when it's understood as a measure of departure from
-  Hardy-Weinber, but for computational reasons, {\tt Hickory}
+  Hardy-Weinberg, but for computational reasons, {\tt Hickory}
   restricts it to $[0,1]$. If you're interested in the gory details of
   why, feel free to ask me.} In some data sets the posterior mean for
 either or both may be substantially larger than 0, and the lower bound
@@ -359,7 +359,7 @@ we say something more?\footnote{Would I be asking this question if the
 
 We could simply do Hardy-Weinberg tests at every locus in every
 population, but that could get pretty tedious. If we did that, we'd
-also run into problemms with multiple tests, which inconvenient to
+also run into problems with multiple tests, which are inconvenient to
 deal with. We'll take a different approach. Namely, we'll compare the
 model we just fit with one that {\it assumes\/} there is no inbreeding
 within populations, i.e., $f = 0$. The criterion we'll use to compare
@@ -388,7 +388,7 @@ and Rhat is the potential scale reduction factor on split chains (at
 convergence, Rhat=1).
 \end{verbatim}
 Notice that the estimate for $f$ is 0, as expected. Now we can
-commpare the two models using {\tt loo()}.\footnote{I call the first
+compare the two models using {\tt loo()}.\footnote{I call the first
   object {\tt loo\_free} because in that model $f$ was free to vary.}
 \begin{verbatim}
 loo_free <- loo(fit)
@@ -416,7 +416,7 @@ model. What all of this means is that
 \begin{itemize}
 
   \item Model 2, the $f=0$ model, is more strongly supported than
-    Model 2, the model in which we estimated $f$, {\it but}
+    Model 1, the model in which we estimated $f$, {\it but}
 
   \item The difference between the two models, -1.8, is substantially
     less than twice the standard error of the difference (3.4),
