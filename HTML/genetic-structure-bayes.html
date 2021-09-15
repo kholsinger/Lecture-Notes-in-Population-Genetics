@@ -35,6 +35,7 @@
 <li><a href="#thinking-about-priors">Thinking about priors</a></li>
 </ul></li>
 <li><a href="#assessing-evidence-for-inbreeding-and-population-differentiation">Assessing evidence for inbreeding and population differentiation</a></li>
+<li><a href="#extending-the-model">Extending the model</a></li>
 </ul></li>
 <li><a href="#creative-commons-license">Creative Commons License</a></li>
 </ul>
@@ -56,7 +57,10 @@ I         &amp;=&amp; \hbox{number of populations} \\\end{aligned}\]</span> Thes
 x_{11,i} &amp;=&amp; p_{i}^2 + fp_{i}(1-p_{i}) \\
 x_{12,i} &amp;=&amp; 2p_{i}(1-p_{i})(1-f) \\
 x_{22,i} &amp;=&amp; (1-p_{i})^2 + fp_{i}(1-p_{i})\end{aligned}\]</span> So we can express the likelihood of our sample as a product of multinomial probabilities <span class="math display">\[P({\bf n}|{\bf p},f) \propto \prod_{i=1}^I x_{11,i}^{n_{11,i}}
-x_{12,i}^{n_{12,i}} x_{22,i}^{n_{22,i}} \quad .\]</span> Notice that I am assuming here that we have the same <span class="math inline">\(f\)</span> in every population. It’s easy enough to relax that assumption, but we won’t worry about it for now. To complete the Bayesian model, all we need are some appropriate priors. We’ll discuss them a little later.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
+x_{12,i}^{n_{12,i}} x_{22,i}^{n_{22,i}} \quad .\]</span> Notice that I am assuming here that we have the same <span class="math inline">\(f\)</span> in every population. It’s easy enough to relax that assumption, but we won’t worry about it for now.</p>
+<p>The next step is to describe how allele frequencies are distributed among populations. I’ll leave out the details, but broadly speaking all we do is to define a probability distribution <span class="math display">\[P\left(\bf p|{\bf\bar p}, \theta\right) \quad ,\]</span> where <span class="math inline">\(\bf\bar p\)</span> is the average allele frequency across populations, and <span class="math inline">\(\theta\)</span> is <span class="math inline">\(F_{ST}\)</span>.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> To complete the Bayesian model, all we need are some appropriate priors. We’ll discuss them a little later, but we can now write down the complete model as <span class="math display">\[P(f,\theta|{\bf\bar p},\theta,f) \propto
+P({\bf n}|{\bf p},f) P({\bf p}|{\bf\bar p},\theta) P({\bf\bar
+  p})P(\theta)P(f) \quad .\]</span></p>
 <h2 class="unnumbered" id="using-hickory-to-analyze-f-statistics">Using <span><code>Hickory</code></span> to analyze <span class="math inline">\(F\)</span>-statistics</h2>
 <p>As I said earlier, the good news is that you don’t have to write any code to run an analysis of <span class="math inline">\(F\)</span>-statistics using a Bayesian approach. All you have to do is to download and install the package <span><code>Hickory</code></span> in <span><code>R</code></span>. Doing this isn’t quite as simple as typing <span><code>install.packages("Hickory")</code></span> in <span><code>R</code></span>, but it’s not too much worse.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
 <pre><code>install.packages(&quot;devtools&quot;)
@@ -240,6 +244,13 @@ model1 -1.8       3.4   </code></pre>
 </tbody>
 </table>
 </div>
+<h2 class="unnumbered" id="extending-the-model">Extending the model</h2>
+<p>It is relatively straightforward to extend the basic model above to account for the possibility that the amount of differentiation at some loci is much greater (or much smaller) than it is as most loci. Similarly, it is relatively straightfoward to extend the model to allow some populations to be much more similar to (or much more different from) the average population allele frequencies than others. All we need to do is to allow <span class="math inline">\(\theta\)</span> to reflect locus- and population-specific effects.</p>
+<p><span class="math display">\[\begin{aligned}
+  \theta_i &amp;=&amp; \mbox{locus-specific $\theta$} \\
+  \theta_k &amp;=&amp; \mbox{population-specific $\theta$} \\
+  \theta_{ik} &amp;=&amp; \mbox{population- and locus-specific $\theta$} \\
+  &amp;=&amp; (\theta_i + \theta_k)/2 \quad .\end{aligned}\]</span> You can read more about estimating locus- and population-specific effects in the documentation for <span><code>Hickory</code></span> if you’re interested.</p>
 <h1 class="unnumbered" id="creative-commons-license">Creative Commons License</h1>
 <p>These notes are licensed under the Creative Commons Attribution License. To view a copy of this license, visit https://creativecommons.org/licenses/by/4.0/ or send a letter to Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305, USA.</p>
 <section class="footnotes" role="doc-endnotes">
@@ -247,7 +258,7 @@ model1 -1.8       3.4   </code></pre>
 <ol>
 <li id="fn1" role="doc-endnote"><p>The terms “statistical sampling” and “genetic sampling” are due to Weir <span class="citation" data-cites="Weir-1996"></span>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2" role="doc-endnote"><p>The good news is that to do the Bayesian analyses you don’t have to write any code. All you have to do is download an <span><code> R</code></span> package in a slightly strange way, but we’ll get to that.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3" role="doc-endnote"><p>And you’ll be relieved to know that we’re going to ignore most of the mathematical details when we do.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3" role="doc-endnote"><p>I call it <span class="math inline">\(\theta\)</span> rather than <span class="math inline">\(F_{ST}\)</span>, because this parameter is conceptually equivalent to Weir and Cockerham’s <span class="math inline">\(\theta\)</span> even though I use a different method to estimate it.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn4" role="doc-endnote"><p>One of these days I’ll get around to cleaning <span><code> Hickory</code></span> up a bit more and submit it to <span><code>CRAN</code></span>. Then installing it will be as simple as <span><code> install.packages("Hickory")</code></span><a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn5" role="doc-endnote"><p>Don’t worry about <span><code>lp__</code></span> for the time being.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn6" role="doc-endnote"><p>Corresponding to 95% of the posterior probabiity.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>

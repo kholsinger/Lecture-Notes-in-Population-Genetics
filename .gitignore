@@ -27,15 +27,18 @@
 ##
 *.pl
 
-## Miscellaneous files to ignore
+## R/Stan files to ignore
 ##
-Untitled.bib
-.DS_Store
-
 *.Rproj.user
 *.Rhistory
 *.Rproj
 .Rproj.user
+*.rds
+
+## Miscellaneous files to ignore
+##
+Untitled.bib
+.DS_Store
 
 *snmfProject
 *.snmf*
