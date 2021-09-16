@@ -1,0 +1,33 @@
+---
+title: "Gila trout workaround"
+output: html_notebook
+---
+
+## What you need to do
+
+1. Download [gila-trout.zip](http://darwin.eeb.uconn.edu/eeb348-resources/gila-trout.zip)
+
+2. Unizip it in the directory where you want to work. Make sure that it creates a directory called `gila-trout.stru.snmf`. If it does, check to make sure that it has directories K2 through K110. If it does, you should be all set.
+
+3. Download [trout.Rsave](http://darwin.eeb.uconn.edu/eeb348-resources/trout.Rsave) and save it in the directory where you plan to work. `gila-trout.stru.snmf` should be in this directory.
+
+Now you should be able to plot the cross-entropy graph using `plot()` as described in the documentation for `LEA`, and you should be able to use `plot_LEA()` to produce the barplot.
+
+## What I did to produce the files
+
+Here's how I run the data
+
+```{r}
+library(LEA)
+trout <- snmf("gila-trout.stru.geno", K = 2:10, repetitions = 10, 
+              project = "new", 
+              entropy = TRUE)
+```
+
+I'm going to save the results in an `.Rsave` file. That's what I'll give you, so that you can load it and use the results as if you'd run `snmf()` yourself.
+
+```{r}
+save(trout, file = "trout.Rsave")
+```
+
+Then I zipped all of the files in the `gila-trout.stru.snmf` directory.
