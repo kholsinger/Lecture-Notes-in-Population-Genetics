@@ -1,0 +1,30 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+## PCA
+
+<pre>
+trout <- read.structure("gila-trout.stru")
+</pre>. 
+
+```{r}
+library(adegenet)
+library(RColorBrewer)
+
+trout_mod <- tab(trout, freq = TRUE, NA.method = "mean")
+trout_pca <- dudi.pca(trout_mod, scale = FALSE, scannf = FALSE, nf = 2)
+colors <- brewer.pal(5, "Set2")
+s.class(trout_pca$l1, pop(trout), grid = FALSE, col = colors)
+```
+
+## DAPC
+
+```{r}
+clusters <- find.clusters(trout, n.pca = 25)
+trout_dapc <- dapc(trout, pop = pop(trout), n.pca = 25)
+summary(trout_dapc)
+scatter(trout_dapc)
+compoplot(trout_dapc)
+```
