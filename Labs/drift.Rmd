@@ -1,0 +1,90 @@
+---
+title: "Understanding effective population size"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+
+rm(list = ls())
+
+simulate <- function(n_f, n_m, p_0, n_samp, n_pop) {
+  ## genotype frequenies in Hardy-Weinberg
+  ##
+  x <- c(p_0^2, 2*p_0*(1-p_0), (1-p_0)^2)
+  p <- numeric(n_samp)
+  for (i in 1:n_samp) {
+    ## construct female genotypes at random given H-W
+    ##
+    f <- numeric(n_f)
+    for (j in 1:n_f) {
+      tmp <- rmultinom(1, 1, x)
+      f[j] <- which(tmp[, 1] == 1)
+    }
+    ## construct male genotypes at random given H-W
+    ##
+    m <- numeric(n_m)
+    for (j in 1:n_m) {
+      tmp <- rmultinom(1, 1, x)
+      m[j] <- which(tmp[, 1] == 1)
+    }
+    ## construct offspring as average of mom and dad
+    ##
+    p[i] <- 0
+    for (j in 1:n_pop) {
+      p_f <- (sample(f, 1) - 1)/2
+      p_m <- (sample(m, 1) - 1)/2
+      p[i] <- p[i] + (p_f + p_m)/2
+    }
+    p[i] <- p[i]/n_pop
+  }
+  return(p)
+}
+
+result <- simulate(10, 20, 0.5, 100, 100)
+
+p <- ggplot(tibble(p = result), aes(x = p)) + 
+  geom_histogram(binwidth = 0.01) + 
+  theme_bw() +
+  ggtitle("One replication of sampling")
+p
+
+p_mean <- numeric(100)
+p_var <- numeric(100)
+for (i in 1:1000) {
+  p <- simulate(10, 20, 0.5, 100, 100)
+  p_mean[i] <- mean(p)
+  p_var[i] <- var(p)
+}
+
+p_dat <- tibble(p_mean = p_mean, p_var = p_var)
+p <- ggplot(p_dat, aes(x = p_mean)) +
+  geom_histogram(bins = 25) +
+  geom_vline(xintercept = 0.5, linetype = "dashed") +
+  ggtitle("Distribution of mean allele frequencies") +
+  theme_bw()
+p
+ne <- 4*10*20/(10 + 20)
+p <- ggplot(p_dat, aes(x = p_var)) +
+  geom_histogram(bins = 25) +
+  geom_vline(xintercept = 0.5*0.5/(2*ne), linetype = "dashed") +
+  ggtitle("Distribution of variance in allele frequencies") +
+  theme_bw()
+p
+```
+
+$$
+\begin{eqnarray*}
+N_e &=& \frac{4N_fN_m}{N_f + N_m} \\
+log(N_e) &=& log(4) + log(N_f) + log(N_m) - log(N_f + N_m) \\
+log(p) + log(1-p) - log(2) - log(Var(p)) &=& log(4) + log(N_f) + log(N_m) - log(N_f + N_m) \\
+log(Var(p)) &=& log(\beta_0) + \beta_1log(N_f) + \beta_2log(N_m) + \beta_3log(N_f + N_m)
+\end{eqnarray*}
+$$
+
+Simulate $N_f = (5, 10, 25, 50, 100)$, $N_m = (5, 10, 25, 50, 100)$. Record $Var(p)$ from each combination. Fit regression of $log(Var(p))$ to $log(N_f)$, $log(N_m)$, and $log(N_f + N_m)$. Compare estimates for $\beta_i$ with expectations from formula.
