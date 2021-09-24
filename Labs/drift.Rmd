@@ -83,8 +83,56 @@ $$
 N_e &=& \frac{4N_fN_m}{N_f + N_m} \\
 log(N_e) &=& log(4) + log(N_f) + log(N_m) - log(N_f + N_m) \\
 log(p) + log(1-p) - log(2) - log(Var(p)) &=& log(4) + log(N_f) + log(N_m) - log(N_f + N_m) \\
-log(Var(p)) &=& log(\beta_0) + \beta_1log(N_f) + \beta_2log(N_m) + \beta_3log(N_f + N_m)
+log(Var(p)) &=& \beta_0 + \beta_1log(N_f) + \beta_2log(N_m) + \beta_3log(N_f + N_m)
 \end{eqnarray*}
 $$
 
 Simulate $N_f = (5, 10, 25, 50, 100)$, $N_m = (5, 10, 25, 50, 100)$. Record $Var(p)$ from each combination. Fit regression of $log(Var(p))$ to $log(N_f)$, $log(N_m)$, and $log(N_f + N_m)$. Compare estimates for $\beta_i$ with expectations from formula.
+
+$$
+\begin{eqnarray*}
+\beta_0 &=& log(p) + log(1-p) - log(2) - log(4) \\
+&=& -3.465736 \quad \mbox{for p = 0.5} \\
+\beta_1 &=& 1 \\
+\beta_2 &=& 1 \\
+\beta_3 &=& 1
+\end{eqnarray*}
+$$
+
+```{r}
+library(tictoc)
+
+tic("Running simulation")
+dat <- data.frame(n_f = NA, n_m = NA, n_e = NA, n_e_obs = NA, var_p = NA, var_p_obs = NA)
+for (n_f in c(5, 10, 25, 50, 100)) {
+  for (n_m in c(5, 10, 25, 50, 100)) {
+    p <- simulate(n_f, n_m, 0.5, 100, 100)
+    ## calculate Ne and Var(p) from formulas
+    ##
+    n_e <- 4.0*n_f*n_m/(n_f + n_m)
+    var_p <- 0.5*0.5/(2*n_e)
+    ## calculate observed Ne from observed variance
+    ##
+    n_e_obs <- 0.5*0.5/(2*var(p))
+    dat <- add_row(dat, n_f = n_f, n_m = n_m, n_e = n_e, n_e_obs = n_e_obs, 
+                   var_p = var_p, var_p_obs = var(p))
+  }
+}
+dat <- subset(dat, !is.na(n_f))
+
+dat_lm <- lm(log(var_p) ~ log(n_f) + log(n_m) + log(n_m+n_f), data = dat)
+summary(dat_lm)
+dat_lm <- lm(n_e_obs ~ n_e, data = dat)
+summary(dat_lm)
+p <- ggplot(dat, aes(x = n_e, y = n_e_obs)) +
+  geom_point() +
+  geom_abline(slope = 1, intercept = 0) +
+  theme_bw()
+p
+p <- ggplot(dat, aes(x = var_p, y = var_p_obs)) +
+  geom_point() +
+  geom_abline(slope = 1, intercept = 0) +
+  theme_bw()
+p
+toc()
+```
