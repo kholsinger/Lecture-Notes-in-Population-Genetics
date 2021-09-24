@@ -44,6 +44,11 @@
 <li><a href="#disruptive-selection">Disruptive selection</a></li>
 <li><a href="#stabilizing-selection">Stabilizing selection</a></li>
 </ul></li>
+<li><a href="#fertility-selection">Fertility selection</a>
+<ul>
+<li><a href="#formulation-of-fertility-selection">Formulation of fertility selection</a></li>
+<li><a href="#conditions-for-protected-polymorphism">Conditions for protected polymorphism</a></li>
+</ul></li>
 <li><a href="#creative-commons-license">Creative Commons License</a></li>
 </ul>
 </nav>
@@ -118,7 +123,7 @@
 <li><p>The algebra associated with understanding viability selection is a <span><em>lot</em></span> simpler than the algebra associated with understanding any other type of selection, and the dynamics are simpler and easier to understand.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></p></li>
 </ol>
 <h2 class="unnumbered" id="the-basic-framework">The basic framework</h2>
-<p>To understand the basics, we’ll start with a numerical example using some data on <span><em>Drosophila pseudoobscura</em></span> that Theodosius Dobzhansky collected more than 70 years ago. You may remember that this species has chromosome inversion polymorphisms. Although these inversions involve many genes, they are inherited as if they were single Mendelian loci, so we can treat the karyotypes as single-locus genotypes and study their evolutionary dynamics. We’ll be considering two inversion types the Standard inversion type, <span class="math inline">\(ST\)</span>, and the Chiricahua inversion type, <span class="math inline">\(CH\)</span>. We’ll use the following notation throughout our discussion:</p>
+<p>To understand the basics, we’ll start with a numerical example using some data on <span><em>Drosophila pseudoobscura</em></span> that Theodosius Dobzhansky collected more than 70 years ago. You may remember that this species has chromosome inversion polymorphisms. Although these inversions involve many genes, they are inherited as if they were single Mendelian loci, so we can treat the karyotypes as single-locus genotypes and study their evolutionary dynamics. We’ll be considering two inversion types: the Standard inversion type, <span class="math inline">\(ST\)</span>, and the Chiricahua inversion type, <span class="math inline">\(CH\)</span>. We’ll use the following notation throughout our discussion:</p>
 <table>
 <thead>
 <tr class="header">
@@ -336,7 +341,7 @@ w_{12}\)</span> and <span class="math inline">\(w_{22} &gt; w_{12}\)</span>) via
   &gt; w_{22}\)</span>; also called balancing selection or heterozygote advantage) viability selection will lead to a stable polymorphism. All three genotypes will be present at equilibrium.</figcaption>
 </figure>
 <h2 class="unnumbered" id="disruptive-selection">Disruptive selection</h2>
-<p>If we plot <span class="math inline">\(\bar w\)</span> as a function of <span class="math inline">\(p\)</span> when <span class="math inline">\(w_{11} &gt; w_{12}\)</span> and <span class="math inline">\(w_{22} &gt; w_{12}\)</span>, we wee a very different pattern (Figure <a href="#fig:wbar" data-reference-type="ref" data-reference="fig:wbar">1</a>(c)). Since the Fundamental Theorem tells us that <span class="math inline">\(\bar w&#39; \ge \bar w\)</span>, we know that if the population starts with an allele on one side of the bowl <span class="math inline">\(A_1\)</span>, will be lost. If it starts on the other side of the bowl, <span class="math inline">\(A_2\)</span> will be lost.<a href="#fn17" class="footnote-ref" id="fnref17" role="doc-noteref"><sup>17</sup></a></p>
+<p>If we plot <span class="math inline">\(\bar w\)</span> as a function of <span class="math inline">\(p\)</span> when <span class="math inline">\(w_{11} &gt; w_{12}\)</span> and <span class="math inline">\(w_{22} &gt; w_{12}\)</span>, we see a very different pattern (Figure <a href="#fig:wbar" data-reference-type="ref" data-reference="fig:wbar">1</a>(c)). Since the Fundamental Theorem tells us that <span class="math inline">\(\bar w&#39; \ge \bar w\)</span>, we know that if the population starts with an allele on one side of the bowl <span class="math inline">\(A_1\)</span>, will be lost. If it starts on the other side of the bowl, <span class="math inline">\(A_2\)</span> will be lost.<a href="#fn17" class="footnote-ref" id="fnref17" role="doc-noteref"><sup>17</sup></a></p>
 <p>Let’s explore this example a little further. To do so, I’m going to set <span class="math inline">\(w_{11} = 1 + s_1\)</span>, <span class="math inline">\(w_{12} = 1\)</span>, and <span class="math inline">\(w_{22} = 1+
 s_2\)</span>.<a href="#fn18" class="footnote-ref" id="fnref18" role="doc-noteref"><sup>18</sup></a> When fitnesses are written this way <span class="math inline">\(s_1\)</span> and <span class="math inline">\(s_2\)</span> are referred to as <span><em>selection coefficients</em></span>. Notice also with these definitions that the fitnesses of the homozygotes are greater than 1.<a href="#fn19" class="footnote-ref" id="fnref19" role="doc-noteref"><sup>19</sup></a> Using these definitions and plugging them into (<a href="#eq:absolute" data-reference-type="ref" data-reference="eq:absolute">[eq:absolute]</a>), <span class="math display">\[\begin{aligned}
 p&#39; &amp;=&amp; \frac{p^2(1+s_1) + pq}{p^2(1+s_1) + 2pq + q^2(1+s_2)} \nonumber
@@ -355,11 +360,70 @@ pq(-ps_q + qs_2) &amp;=&amp; 0 \quad .\end{aligned}\]</span> So the population i
 <p>Fisher’s Fundamental Theorem tells us which of these equilibria matter. I’ve already mentioned that depending on which side of the bowl you start, you’ll either lose the <span class="math inline">\(A_1\)</span> allele or the <span class="math inline">\(A_2\)</span> allele. But suppose you happen to start <span><em>exactly</em></span> at the bottom of the bowl. That corresponds to the equilibrium with <span class="math inline">\(\hat p =
 s_2/(s_1+s_2)\)</span>. What happens then?</p>
 <p>Well, if you start <span><em>exactly</em></span> there, you’ll stay there forever (in an infinite population). But if you start ever so slightly off the equilibrium, you’ll move farther and farther away. It’s what mathematicians call an <span><em>unstable equilibrium</em></span>. Any departure from that equilibrium gets larger and larger. For evolutionary purposes, we don’t have to worry about a population getting to an unstable equilibrium. It never will. Unstable equilibria are ones that populations evolve away from.</p>
-<p>When a population has only one allele present it is said to be <span> <em>fixed</em></span> for that allele. Since having only one allele is also an equilibrium (in the absence of mutation), we can also call it a <span> <em>monomorphic equilibrium</em></span>. When a population has more than one allele present, it is said to be <span><em>polymoprhic</em></span>. If two or more alleles are present at an equilibrium, we can call it a <span><em>polymorphic equilibrium</em></span>. Thus, another way to describe the results of disruptive selection is to say that the monomorphic equilibria are stable, but that the polymorphic equilibrium is not.<a href="#fn21" class="footnote-ref" id="fnref21" role="doc-noteref"><sup>21</sup></a></p>
+<p>When a population has only one allele present it is said to be <span> <em>fixed</em></span> for that allele. Since having only one allele is also an equilibrium (in the absence of mutation), we can also call it a <span> <em>monomorphic equilibrium</em></span>. When a population has more than one allele present, it is said to be <span><em>polymorphic</em></span>. If two or more alleles are present at an equilibrium, we can call it a <span><em>polymorphic equilibrium</em></span>. Thus, another way to describe the results of disruptive selection is to say that the monomorphic equilibria are stable, but that the polymorphic equilibrium is not.<a href="#fn21" class="footnote-ref" id="fnref21" role="doc-noteref"><sup>21</sup></a></p>
 <h2 class="unnumbered" id="stabilizing-selection">Stabilizing selection</h2>
 <p>If we plot <span class="math inline">\(\bar w\)</span> as a function of <span class="math inline">\(p\)</span> when <span class="math inline">\(w_{11} &lt; w_{12}\)</span> and <span class="math inline">\(w_{22} &lt; w_{12}\)</span>, we see a third pattern. The plot is shaped like an upside down bowl (Figure <a href="#fig:wbar" data-reference-type="ref" data-reference="fig:wbar">1</a>).</p>
 <p>In this case we can see that no matter what allele frequency the population starts with, the only way that <span class="math inline">\(\bar w&#39; \ge \bar w\)</span> can hold is if the allele frequency changes in such a way that in every generation it gets closer to the value where <span class="math inline">\(\bar w\)</span> is maximized. Unlike directional selection or disruptive selection, in which natural selection tends to eliminate one allele or the other, stabilizing selection tends to keep both alleles in the population. You’ll also see this pattern of selection referred to as balancing selection, because the selection on each allele is “balanced” at the polymorphic equilibria.<a href="#fn22" class="footnote-ref" id="fnref22" role="doc-noteref"><sup>22</sup></a> We can summarize the results by saying that the monomorphic equilibria are unstable and that the polymorphic equilibrium is stable. By the way, if we write the fitness as <span class="math inline">\(w_{11} = 1 - s_1\)</span>, <span class="math inline">\(w_{12}=1\)</span>, and <span class="math inline">\(w_{22}=1-s_2\)</span>, then the allele frequency at the polymorphic equilibrium is <span class="math inline">\(\hat
 p=s_2/(s_1+s_2)\)</span>.<a href="#fn23" class="footnote-ref" id="fnref23" role="doc-noteref"><sup>23</sup></a> Notice that <span class="math inline">\(\hat p\)</span> depends only on the ratio of <span class="math inline">\(s_1\)</span> to <span class="math inline">\(s_2\)</span>, not the magnitude. Again, it is only <span><em>relative</em></span> fitnesses that matter.</p>
+<h1 class="unnumbered" id="fertility-selection">Fertility selection</h1>
+<p>So far we’ve been talking about natural selection that occurs as a result of differences in the probability of survival, i.e., viability selection. There are, of course, other ways in which natural selection can occur:</p>
+<ul>
+<li><p>Heterozygotes may produce gametes in unequal frequencies, <span> <em>segregation distortion</em></span>, or gametes may differ in their ability to participate in fertilization, <span><em>gametic selection</em></span>.<a href="#fn24" class="footnote-ref" id="fnref24" role="doc-noteref"><sup>24</sup></a></p></li>
+<li><p>Some genotypes may be more successful in finding mates than others, <span><em>sexual selection</em></span>.</p></li>
+<li><p>The number of offspring produced by a mating may depend on maternal and paternal genotypes, <span><em>fertility selection</em></span>.</p></li>
+</ul>
+<p>In fact, most studies that have measured components of selection have identified far larger differences due to fertility than to viability. Thus, fertility selection is a very important component of natural selection in most populations of plants and animals. As we’ll see a little later, it turns out that sexual selection is mathematically equivalent to a particular type of fertility selection. But before we get to that, let’s look carefully at the mechanics of fertility selection.</p>
+<h2 class="unnumbered" id="formulation-of-fertility-selection">Formulation of fertility selection</h2>
+<p>I introduced the idea of a fitness matrix earlier when we were discussing selection at one locus with more than two alleles. Even if we have only two alleles, it becomes useful to describe patterns of fertility selection in terms of a fitness matrix. Describing the matrix is easy. Writing it down gets messy. Each element in the table is simply the average number of offspring produced by a given mated pair. We write down the table with paternal genotypes in columns and maternal genotypes in rows:</p>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Maternal genotype</td>
+<td style="text-align: center;"><span class="math inline">\(A_1A_1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(A_1A_2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(A_2A_2\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(A_1A_1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(F_{11,11}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(F_{11,12}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(F_{11,22}\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(A_1A_2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(F_{12,11}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(F_{12,12}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(F_{12,22}\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(A_2A_2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(F_{22,11}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(F_{22,12}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(F_{22,22}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Then the frequency of genotype <span class="math inline">\(A_1A_1\)</span> after one generation of fertility selection is:<a href="#fn25" class="footnote-ref" id="fnref25" role="doc-noteref"><sup>25</sup></a> <span class="math display">\[x_{11}&#39; = \frac{x_{11}^2F_{11,11} + x_{11}x_{12}(F_{11,12} +
+                F_{12,11})/2 + (x_{12}^2/4)F_{12,12}}{\bar F} \quad ,
+\label{eq:fertility}\]</span> where <span class="math inline">\(\bar F\)</span> is the mean fecundity of all matings in the population.<a href="#fn26" class="footnote-ref" id="fnref26" role="doc-noteref"><sup>26</sup></a></p>
+<p>It probably won’t surprise you to learn that it’s very difficult to say anything very general about how genotype frequenices will change when there’s fertility selection. Not only are there nine different fitness parameters to worry about, but since genotypes are never guaranteed to be in Hardy-Weinberg proportion, all of the algebra has to be done on a system of three simultaneous equations.<a href="#fn27" class="footnote-ref" id="fnref27" role="doc-noteref"><sup>27</sup></a> There are three weird properties that I’ll mention:</p>
+<ol>
+<li><p><span class="math inline">\(\bar F&#39;\)</span> may be smaller than <span class="math inline">\(\bar F\)</span>. Unlike selection on viabilities in which fitness evolved to the maximum possible value, there are situations in which fitness will evolve to the <span> <em>minimum</em></span> possible value when there’s selection on fertilities.<a href="#fn28" class="footnote-ref" id="fnref28" role="doc-noteref"><sup>28</sup></a></p></li>
+<li><p>A high fertility of heterozygote <span class="math inline">\(\times\)</span> heterozygote matings is not sufficient to guarantee that the population will remain polymorphic.</p></li>
+<li><p>Selection may prevent loss of either allele, but there may be no stable equilibria.</p></li>
+</ol>
+<h2 class="unnumbered" id="conditions-for-protected-polymorphism">Conditions for protected polymorphism</h2>
+<p>There is one case in which it’s fairly easy to understand the consequences of selection, and that’s when one of the two alleles is very rare. Suppose, for example, that <span class="math inline">\(A_1\)</span> is very rare, then a little algebraic trickery<a href="#fn29" class="footnote-ref" id="fnref29" role="doc-noteref"><sup>29</sup></a> shows that <span class="math display">\[\begin{aligned}
+x_{11}&#39; &amp;\approx&amp; 0 \\
+x_{12}&#39; &amp;\approx&amp; \frac{x_{12}(F_{12,22} + F_{22,12})/2}{F_{22,22}}\end{aligned}\]</span> So <span class="math inline">\(A_1\)</span> will become more frequent if <span class="math display">\[(F_{12,22} + F_{22,12})/2 &gt; F_{22,22} \label{eq:a-1}\]</span> Similarly, <span class="math inline">\(A_2\)</span> will become more frequent when it’s very rare when <span class="math display">\[(F_{11,12} + F_{12,11})/2 &gt; F_{11,11} \label{eq:a-2} \quad .\]</span> If both equation (<a href="#eq:a-1" data-reference-type="ref" data-reference="eq:a-1">[eq:a-1]</a>) and (<a href="#eq:a-2" data-reference-type="ref" data-reference="eq:a-2">[eq:a-2]</a>) are satisfied, natural selection will tend to prevent either allele from being eliminated. We have what’s known as a <span><em>protected polymorphism</em></span>.</p>
+<p>Conditions (<a href="#eq:a-1" data-reference-type="ref" data-reference="eq:a-1">[eq:a-1]</a>) and (<a href="#eq:a-2" data-reference-type="ref" data-reference="eq:a-2">[eq:a-2]</a>) are fairly easy to interpret intuitively: There is a protected polymorphism if the average fecundity of matings involving a heterozygote and the “resident” homozygote exceeds that of matings of the resident homozygote with itself.<a href="#fn30" class="footnote-ref" id="fnref30" role="doc-noteref"><sup>30</sup></a></p>
+<p><span><strong>NOTE:</strong></span> It’s entirely possible for neither inequality to be satisfied <span><em>and</em></span> for their to be a stable polymorphism. In other words, depending on where a population starts, selection may eliminate one allele or the other or keep both segregating in the population in a stable polymorphism.<a href="#fn31" class="footnote-ref" id="fnref31" role="doc-noteref"><sup>31</sup></a></p>
 <h1 class="unnumbered" id="creative-commons-license">Creative Commons License</h1>
 <p>These notes are licensed under the Creative Commons Attribution License. To view a copy of this license, visit https://creativecommons.org/licenses/by/4.0/ or send a letter to Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305, USA.</p>
 <section class="footnotes" role="doc-endnotes">
@@ -370,12 +434,12 @@ p=s_2/(s_1+s_2)\)</span>.<a href="#fn23" class="footnote-ref" id="fnref23" role=
 <li id="fn3" role="doc-endnote"><p>To keep things <span> <em>relatively</em></span> simple we’re not even going to discuss differences in fitness that may be associated with different ages. We’ll assume a really simple life-cycle in which there are non-overlapping generations. So we don’t need to distinguish between fitness components that differ among age categories.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn4" role="doc-endnote"><p>Strictly speaking pollen competition isn’t gamete competition, although the evolutionary dynamics are the same. I’ll leave it to the botanists among you to explain to the zoologists why pollen competition would be more properly called <span><em>gametophytic</em></span> competition.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn5" role="doc-endnote"><p>There are some important differences, however, and I hope we have time to discuss a couple of them.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6" role="doc-endnote"><p>Once you’ve seen what you’re in for you may think I’ve lied about this. But if you really think I have, just ask me to illustrate some of the algebra necessary for understanding viability selection when males and females differ in fitness. That’s about as simple an extension as you can imagine, and things start to get pretty complicated even then.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6" role="doc-endnote"><p>Once you’ve seen what you’re in for, you may think I’ve lied about this. But if you really think I have, just ask me to illustrate some of the algebra necessary for understanding viability selection when males and females differ in fitness. That’s about as simple an extension as you can imagine, and things start to get pretty complicated even then.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn7" role="doc-endnote"><p>Don’t worry for the moment about how the viabilities were estimated.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn8" role="doc-endnote"><p>At least it should be easy for you to calculate the frequencies using the numbers. It may not be so easy to do it with the symbols.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn9" role="doc-endnote"><p>Okay, “probably” is an overstatement. “May be” would have been a better guess.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn10" role="doc-endnote"><p>I’m dividing by 1, in case you hadn’t noticed. When I’m not adding zero to an equation, I’m dividing by one. If you’re not used to that yet, you will be in a few more weeks.<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn11" role="doc-endnote"><p>We’ll also see when we get to studying the interaction between natural selection and drift that this statement is no longer true. To understand how drift and selection interact we have to know something about <span><em>absolute</em></span> viabilities.<a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn11" role="doc-endnote"><p>We’ll also see when we get to studying the interaction between natural selection and drift that this statement is no longer true. To understand how drift and selection interact, we have to know something about <span><em>absolute</em></span> viabilities.<a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn12" role="doc-endnote"><p>And you won’t have noticed this and may not believe me when I tell you, but I’m <span><em>not</em></span> showing you every possible way to write these equations.<a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn13" role="doc-endnote"><p>But remember this definition of marginal viability anyway. You’ll see it return in a few weeks when we talk about the additive effect of an allele and about Fisher’s Fundamental Theorem of Natural Selection.<a href="#fnref13" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn14" role="doc-endnote"><p>Well, it was fun for me at least. Wasn’t it fun for you, too?<a href="#fnref14" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
@@ -389,6 +453,14 @@ p=s_2/(s_1+s_2)\)</span>.<a href="#fn23" class="footnote-ref" id="fnref23" role=
 <li id="fn21" role="doc-endnote"><p>Notice that a polymorphic equilibrium doesn’t even exist when selection is directional.<a href="#fnref21" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn22" role="doc-endnote"><p>In fact, the marginal fitnesses are equal, i.e., <span class="math inline">\(w_1=w_2\)</span>.<a href="#fnref22" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn23" role="doc-endnote"><p>I’m not showing the algebra that justifies this conclusion on the off chance that you may want to test your understanding by verifying it yourself.<a href="#fnref23" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn24" role="doc-endnote"><p>For the botanists in the room, I should point out that selection on the gametophyte stage of the life cycle (in plants with alternation of generations) is mathematically equivalent to gametic selection.<a href="#fnref24" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn25" role="doc-endnote"><p>I didn’t say it, but you can probably guess that I’m assuming that all of the conditions for Hardy-Weinberg apply, except for the assumption that all matings leave the same number of offspring, on average.<a href="#fnref25" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn26" role="doc-endnote"><p>As an exercise you might want to see if you can derive the corresponding equations for <span class="math inline">\(x_{12}&#39;\)</span> and <span class="math inline">\(x_{22}&#39;\)</span>.<a href="#fnref26" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn27" role="doc-endnote"><p>And you thought that dealing with one was bad enough!<a href="#fnref27" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn28" role="doc-endnote"><p>Fortunately, it takes rather weird fertility schemes to produce such a result.<a href="#fnref28" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn29" role="doc-endnote"><p>The trickery isn’t hard, just tedious. Justifying the trickery is a little more involved, but not too bad. If you’re interested, drop by my office and I’ll show you.<a href="#fnref29" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn30" role="doc-endnote"><p>A “resident” homozygote is the one of which the populations is almost entirely composed when all but one allele is rare.<a href="#fnref30" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn31" role="doc-endnote"><p>Can you guess what pattern of fertilities is consistent with both a stable polymorphism and the <span><em>lack of</em></span> a protected polymorphism?<a href="#fnref31" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 </body>
