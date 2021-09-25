@@ -124,7 +124,7 @@ For example,
 Project1_Kent_Holsinger.nb.html
 </pre>
 
-1. Use the data from [http://darwin.eeb.uconn.edu/eeb348-resources/gila-trout.stru](http://darwin.eeb.uconn.edu/eeb348-resources/gila-trout.stru) to perform a principal components analysis and a DAPC of genetic variation in gila trout from southwestern New Mexico. To read the data from this file you'll need to know that rhere are 154 individuals, the genotype ID is in column 3, and the population ID is in column 1. There is one extra column : column 2. There is not a row of allele names. Individuals appear on two lines rather than one. Be sure to say how many PCs you retained for the DAPC analysis and why you picked that number. Also be sure to say how many clusters you picked and how many discriminant functions you used.
+1. Use the data from [http://darwin.eeb.uconn.edu/eeb348-resources/gila-trout.stru](http://darwin.eeb.uconn.edu/eeb348-resources/gila-trout.stru) to perform a principal components analysis and a DAPC of genetic variation in gila trout from southwestern New Mexico. To read the data from this file you'll need to know that there are 154 individuals, 2381 markers (loci), the genotype ID is in column 3, and the population ID is in column 1. There is one extra column : column 2. There is not a row of allele names. Individuals appear on two lines rather than one. Be sure to say how many PCs you retained for the DAPC analysis and why you picked that number. Also be sure to say how many clusters you picked and how many discriminant functions you used.
 
 2. Compare your results from this week's PCA and DAPC with last week's `LEA` analysis. Do you see noticeable differences among the patterns of genetic structure depending on the type of analysis you perform?
 
