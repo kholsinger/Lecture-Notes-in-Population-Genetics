@@ -39,9 +39,9 @@ To explore this relationship we will simulate the process of mating and reproduc
 
 3. We construct allele frequencies in an offspring population by picking one female and one male at random, averaging the allele frequency within them to produce the allele frequency in their offspring, and repeating until we've constructed $N_{pop}$ offspring. Then we take the average allele frequency across all of these offspring and we have the allele frequency in the offspring population.
 
-4. We then repeat that process to produce $N_samp$ different offspring populations. 
+4. We then repeat that process to produce $N_{samp}$ different offspring populations. 
 
-Here's an example using $p_0 = 0.5$, $N_f = 10, $N_m = 20$, $N_{pop} = 100$, and $N_{samp} = 100.
+Here's an example using $p_0 = 0.5$, $N_f = 10, $N_m = 20$, $N_{pop} = 100$, and $N_{samp} = 100$.
 
 ```{r}
 library(tidyverse)
@@ -199,4 +199,4 @@ $n_obs = 100$. The dashed line is the 1:1 line. If the simulations matched expec
 
 3. Summarize any overall pattern you see. In particular, how do different choices for the parameters affect the extent of the discrepancy you see, if at all?
 
-We'll discuss any general patterns that emerge and explore explanations for in lecture on 5 October.
+We'll discuss any general patterns that emerge and explore explanations for them in lecture on 5 October.
