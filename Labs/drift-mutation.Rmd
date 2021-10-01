@@ -1,0 +1,56 @@
+---
+title: "Drift and mutation"
+output: html_notebook
+---
+
+exact calculations^[Fu, R., A.E. Gelfand, and K.E. Holsinger.  2003.  Exact moment calculations for genetic models with migration, mutation, and drift. *Theoretical Population Biology* 63:231-243 doi: [10.1016/s0040-5809(03)00003-0 ](https://dx.doi.org/10.1016/s0040-5809(03)00003-0)]
+
+```{r}
+rm(list = ls())
+
+infinite_island <- function(n_e, m, mu) {
+  return(1/(4*n_e*(m + mu) + 1))
+}
+
+r_mk <- function(m, k) {
+  return((2*m - (m^2)*k)/(k-1))
+}
+
+## Note: assumes symmetric mutation
+##
+rho_k <- function(m, mu, k) {
+  r <- r_mk(m, k)
+  rho <- (r/(k-1))*(1 - 2*mu)^2/(1 - ((1 - 2*mu)^2)*(1 - r/(k-1)))
+  return(rho)
+}
+
+## Note: assumes symmetric mutation
+##
+variance <- function(n_e, m, mu, n_islands) {
+  p <- 1/2
+  r <- r_mk(m, n_islands)
+  rho <- rho_k(m, mu, n_islands) 
+  s_squared <- p*(1-p)/(2*n_e - (2*n_e - 1)*((1 - 2*mu)^2)*(1 - r + r*rho))
+  return(s_squared)
+}
+
+## Note: assumes symmetric mutation
+##
+finite_island <- function(n_e, m, mu, n_islands) {
+  sigma_squared <- variance(n_e, m, mu, n_islands)
+  rho <- rho_k(m, mu, n_islands)
+  num <- ((n_islands - 1)/n_islands)*sigma_squared*(1 - rho)
+  den <- (1/4) - (1/n_islands)*sigma_squared*(1 + (n_islands - 1)*rho)
+  return(num/den)
+}
+
+infinite_island(100, 0.05, 0.000005)
+finite_island(100, 0.05, 0.000005, 25)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
