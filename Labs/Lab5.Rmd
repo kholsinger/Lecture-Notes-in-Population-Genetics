@@ -41,7 +41,7 @@ To explore this relationship we will simulate the process of mating and reproduc
 
 4. We then repeat that process to produce $N_{samp}$ different offspring populations. 
 
-Here's an example using $p_0 = 0.5$, $N_f = 10, $N_m = 20$, $N_{pop} = 100$, and $N_{samp} = 100$.
+Here's an example using $p_0 = 0.5$, $N_f = 10$, $N_m = 20$, $N_{pop} = 100$, and $N_{samp} = 100$.
 
 ```{r}
 library(tidyverse)
@@ -193,7 +193,7 @@ run_simulation <- function(p_0, n_samp, n_pop) {
 ```
 
 1. Execute `run_simulation()` with $p_0 = 0.5$, $n_{samp} = 100$, and 
-$n_obs = 100$. The dashed line is the 1:1 line. If the simulations matched expectations, all of the points would lie on the line (with a bit of statistical sampling error). With these parameters, you'll see that there's a large mismatch between the observed and expected $N_e$. There's a smaller mismatch between the observed and expected variance, but it's consistently in one direction.
+$n_{obs} = 100$. The dashed line is the 1:1 line. If the simulations matched expectations, all of the points would lie on the line (with a bit of statistical sampling error). With these parameters, you'll see that there's a large mismatch between the observed and expected $N_e$. There's a smaller mismatch between the observed and expected variance, but it's consistently in one direction.
 
 2. Try some different combinations of $p_0$, $n_{samp}$, and $n_{obs}$ and report your results. I am looking for a minimum of 10 combinations, but if you'd like to try more, feel free. Either way include the plots that your simulations produce. Treat your exploration of different combinations of parameters like an experiment, i.e., only change one at a time (at least at first) so that you can isolate the effect of changes in that parameter. If you're feeling ambitious you can try to look at combinations, but that could become challenging pretty quickly. See if you can find a combination of parameters where the fit of observed to expected is reasonably good.
 
