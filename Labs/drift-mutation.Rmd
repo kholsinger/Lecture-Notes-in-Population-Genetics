@@ -206,10 +206,11 @@ n_sample <- 25
 n_gen <- 1000
 n_repetitions <- 10
 tic()
-df <- data.frame(N_e = NA, m = NA, mu = NA, n_islands = NA, f_st = NA)
+df <- data.frame(N_e = NA, m = NA, mu = NA, n_islands = NA, observed = NA,
+                 Infinite = NA, Finite = NA)
 for (n_e in c(25, 100, 250, 500)) {
   for (m in c(0.05, 0.01, 0.005, 0.001)) {
-    for (mu in c(0.001, 1e-5)) {
+    for (mu in c(0.001, 1e-4)) {
       for (n_islands in c(10, 25, 50)) {
         cat("N_e = ", n_e, ", m = ", m, ", mu = ", mu, 
             "n_islands = ", n_islands, "\n" )
@@ -220,7 +221,9 @@ for (n_e in c(25, 100, 250, 500)) {
                       m = rep(m, n_repetitions), 
                       mu = rep(mu, n_repetitions), 
                       n_islands = rep(n_islands, n_repetitions),
-                      f_st = f_st)
+                      Observed = f_st,
+                      Infinite = infinite_island(n_e, m, mu),
+                      Finite = latter(n_e, m, mu, n_islands))
       }
     }
   }
@@ -243,10 +246,23 @@ Thus, if we do a linear regression of $\frac{1}{F_{ST}}$ on $4N_e(m + \mu)$ we e
 
 ```{r}
 df$N_e_m_plus_mu <- df$N_e*(df$m + df$mu)
-summary(lm(1/f_st ~ N_e_m_plus_mu, data = df))
-p <- ggplot(df, aes(x = N_e_m_plus_mu, y = 1/f_st)) + 
+summary(lm(1/Observed ~ N_e_m_plus_mu, data = df))
+p <- ggplot(df, aes(x = N_e_m_plus_mu, y = 1/Observed)) + 
      geom_point() + 
      geom_smooth(method = "lm", formula = "y ~ x") + 
      theme_bw()
 p
+p <- ggplot(df, aes(x = Infinite, y = Observed)) +
+  geom_point() +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", 
+              color = "red") + theme_bw()
+p
+p <- ggplot(df, aes(x = Finite, y = Observed)) +
+  geom_point() +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", 
+              color = "red") + theme_bw()
+p
+
+summary(lm(Observed ~ Infinite, data = df))
+summary(lm(Observed ~ Finite, data = df))
 ```
