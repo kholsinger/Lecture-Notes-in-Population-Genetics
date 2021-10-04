@@ -1,0 +1,44 @@
+---
+title: "Coalescent"
+output: html_notebook
+---
+
+```{r}
+library(ape)
+library(phyclust)
+
+ms_out <- ms(nsam = 250, opts = "-T")
+ms_tree <- read.tree(text = ms_out)
+plot(ms_tree)
+nodelabels()
+```
+
+Notice that the node at the base is numbered as the number of tips plus 1. And the branching time at that node is the first branching time reported by `branching.times()`.
+
+```{r}
+branching.times(ms_tree)
+```
+
+This suggests that `branching.times()[1]` contains the time to the base (in coalescent units). Let's check that with a quick simulation.
+
+```{r}
+library(ggplot2)
+
+N_e = 250
+c_time <- numeric(1000)
+for (i in 1:1000) {
+  ms_out <- ms(nsam = N_e, opts = "-T")
+  ms_tree <- read.tree(text = ms_out)
+  c_time[i] <- 4*N_e*branching.times(ms_tree)[1]
+}
+mean(c_time)
+var(c_time)
+quantile(c_time, c(0.025, 0.975))
+p <- ggplot(data.frame(t = c_time), aes(x = t)) +
+  geom_histogram(bins = 50, alpha = 0.6) +
+  geom_vline(xintercept = 4*N_e, linetype = "dashed", color = "red") + 
+  theme_bw()
+p
+```
+
+Documentation on `ms`: [https://uchicago.app.box.com/s/l3e5uf13tikfjm7e1il1eujitlsjdx13/file/245765534272](https://uchicago.app.box.com/s/l3e5uf13tikfjm7e1il1eujitlsjdx13/file/245765534272)
