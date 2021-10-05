@@ -41,4 +41,74 @@ p <- ggplot(data.frame(t = c_time), aes(x = t)) +
 p
 ```
 
+## Island model with `ms()`
+
 Documentation on `ms`: [https://uchicago.app.box.com/s/l3e5uf13tikfjm7e1il1eujitlsjdx13/file/245765534272](https://uchicago.app.box.com/s/l3e5uf13tikfjm7e1il1eujitlsjdx13/file/245765534272)
+
+```{r}
+library(tidyverse)
+library(RColorBrewer)
+
+get_pop <- function(tree, pop_sizes, k) {
+  idx <- as.numeric(gsub("^s(.*)$", "\\1", tree$tip.label))
+  cum <- 0
+  for (i in 1:length(pop_sizes)) {
+    if (idx[k] < cum + pop_sizes[i] + 1) {
+      retval <- i
+      break
+    } else {
+      cum <- cum + pop_sizes[i]
+    }
+  }
+  return(i)
+}
+
+tipcolors <- function(tree, pop_sizes) {
+  my_colors <- brewer.pal(length(pop_sizes), "Set1")
+  colors <- numeric(length(pop_sizes))
+  for (i in 1:sum(pop_sizes)) {
+    colors[i] <- my_colors[get_pop(tree, pop_sizes, i)]
+  }
+  return(colors)
+}
+
+migrate <- function(t_opt, pop_sizes, ne_m) {
+  pop_sizes <- 2*pop_sizes
+  opt_string <- paste(t_opt, " -I ", length(pop_sizes), " ", sep = "")
+  for (i in 1:length(pop_sizes)) {
+    opt_string <- paste(opt_string, pop_sizes[i], " ", sep = "")
+  }
+  opt_string <- paste(opt_string, ne_m, "\n", sep = "")
+  ms_out <- ms(nsam = sum(pop_sizes), nreps = 1, opts = opt_string)
+  if (t_opt == "-T") {
+    ms_tree <- read.tree(text = ms_out)
+    plot(ms_tree, 
+         show.tip.label = FALSE)
+    tiplabels(pch = 19, col = tipcolors(ms_tree, pop_sizes))
+  } else {
+    return(ms_out)  
+  }
+}
+
+seg_sites_to_df <- function(seg_sites, pop_sizes) {
+  haplos <- seg_sites[grepl("^[0-9]+$", seg_sites)]
+  n_sites <- nchar(haplos[1])
+  n_haplo <- length(haplos)
+  genos <- matrix(nrow = n_haplo/2, ncol = n_sites)
+  for (i in 1:(n_haplo/2)) {
+    haplo_1 <- haplos[(i-1)*2 + 1]
+    haplo_2 <- haplos[(i-1)*2 + 2]
+    for (j in 1:n_sites) {
+      genos[i, j] <- as.numeric(substr(haplo_1, j, j))  + as.numeric(substr(haplo_2, j, j))
+    }
+  }
+  df <- data.frame(genos)
+  colnames(df) <- paste("Locus", 1:n_sites, sep = "")
+  df$Population <- paste("Population", rep(1:length(pop_sizes), pop_sizes), sep = "")
+  df <- relocate(df, Population)
+}
+
+migrate("-T", c(25, 10, 5), 2.0)
+seg_sites <- migrate("-t 2.0", c(25, 10, 5), 2.0)
+df <- seg_sites_to_df(seg_sites, c(25, 10, 5))
+```
