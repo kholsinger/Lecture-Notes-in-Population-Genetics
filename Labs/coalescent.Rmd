@@ -43,6 +43,8 @@ p
 
 ## Island model with `ms()`
 
+I didn't read the documentation carefully. `ms()` is producing *chromosomes*. I can't get different loci from them in the way I've been doing it here. IGNORE EVERYTHING BELOW.
+
 Documentation on `ms`: [https://uchicago.app.box.com/s/l3e5uf13tikfjm7e1il1eujitlsjdx13/file/245765534272](https://uchicago.app.box.com/s/l3e5uf13tikfjm7e1il1eujitlsjdx13/file/245765534272)
 
 ```{r}
@@ -160,7 +162,9 @@ df <- seg_sites_to_df(seg_sites, rep(25, 3))
 Quick comparison of "equivalent" finite island and one-dimensional stepping stone models
 
 ```{r}
+library(hierfstat)
 library(tictoc)
+
 plot_pointwise <- function(pwise) {
   n_pops <- nrow(pwise)
   df <- data.frame(dist = NA, Fst = NA)
@@ -180,7 +184,7 @@ plot_pointwise <- function(pwise) {
 
 n_e <- 25
 m <- 0.1
-mu <- 0.1
+mu <- 0.01
 n_pops <- 100
 
 t_opts <- paste("-t ", 4*n_e*mu, sep = "")
