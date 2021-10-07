@@ -72,7 +72,7 @@ tipcolors <- function(tree, pop_sizes) {
   return(colors)
 }
 
-migrate <- function(t_opt, pop_sizes, ne_m) {
+island <- function(t_opt, pop_sizes, ne_m) {
   pop_sizes <- 2*pop_sizes
   opt_string <- paste(t_opt, " -I ", length(pop_sizes), " ", sep = "")
   for (i in 1:length(pop_sizes)) {
@@ -99,7 +99,8 @@ seg_sites_to_df <- function(seg_sites, pop_sizes) {
     haplo_1 <- haplos[(i-1)*2 + 1]
     haplo_2 <- haplos[(i-1)*2 + 2]
     for (j in 1:n_sites) {
-      genos[i, j] <- as.numeric(substr(haplo_1, j, j))  + as.numeric(substr(haplo_2, j, j))
+      genos[i, j] <- (as.numeric(substr(haplo_1, j, j)) + 1)*10 + 
+        as.numeric(substr(haplo_2, j, j)) + 1
     }
   }
   df <- data.frame(genos)
@@ -108,7 +109,180 @@ seg_sites_to_df <- function(seg_sites, pop_sizes) {
   df <- relocate(df, Population)
 }
 
-migrate("-T", c(25, 10, 5), 2.0)
-seg_sites <- migrate("-t 2.0", c(25, 10, 5), 2.0)
+island("-T", c(25, 10, 5), 2.0)
+seg_sites <- island("-t 2.0", c(25, 10, 5), 2.0)
 df <- seg_sites_to_df(seg_sites, c(25, 10, 5))
 ```
+
+Next task: Construct a function producing a one- or two-dimensional stepping stone. Specify a 2-d matrix as a list using `-ma` p. 9 of [https://uchicago.app.box.com/s/l3e5uf13tikfjm7e1il1eujitlsjdx13/file/245765534272](https://uchicago.app.box.com/s/l3e5uf13tikfjm7e1il1eujitlsjdx13/file/245765534272) 
+
+```{r}
+## one-dimensional stepping stone
+##
+one_d_stepping_stone <- function(t_opt, n_e, m, n_pops) {
+  stopifnot((m > 0) && (m < 1))
+  m_matrix <- diag(1 - m, nrow = n_pops)
+  m_matrix[1, 2] <- m
+  m_matrix[n_pops, n_pops - 1] <- m
+  for (i in 2:(n_pops - 1)) {
+    m_matrix[i, i - 1] <- m/2
+    m_matrix[i, i + 1] <- m/2
+  }
+  opt_string <- paste(t_opt, " -I ", n_pops, " ", sep = "")
+  for (i in 1:n_pops) {
+    opt_string <- paste(opt_string, 2*n_e, " ", sep = "")
+  }
+  opt_string <- paste(opt_string, "-ma", sep = "")
+  ## transpose m_matrix before converting to vector to get vector from matrix
+  ## by row instead of by column
+  ##
+  m_vector <- 4*n_e*c(t(m_matrix))
+  for ( i in 1:length(m_vector)) {
+    opt_string <- paste(opt_string, " ", m_vector[i], sep = "")
+  }
+  ms_out <- ms(nsam = 2*n_e*n_pops, nreps = 1, opts = opt_string)
+  if (t_opt == "-T") {
+    ms_tree <- read.tree(text = ms_out)
+    plot(ms_tree, 
+         show.tip.label = FALSE)
+    pop_sizes <- rep(2*n_e, n_pops)
+    tiplabels(pch = 19, col = tipcolors(ms_tree, pop_sizes))
+  } else {
+    return(ms_out)  
+  }
+}
+
+one_d_stepping_stone("-T", 3, 0.1, 3)
+seg_sites <- one_d_stepping_stone("-t 2.0", 25, 0.1, 3)
+df <- seg_sites_to_df(seg_sites, rep(25, 3))
+
+```
+Quick comparison of "equivalent" finite island and one-dimensional stepping stone models
+
+```{r}
+library(tictoc)
+plot_pointwise <- function(pwise) {
+  n_pops <- nrow(pwise)
+  df <- data.frame(dist = NA, Fst = NA)
+  for (i in 1:(n_pops - 1)) {
+    for (j in (i+1):n_pops) {
+      dist <- j - i
+      Fst <- pwise[i, j]
+      df <- add_row(df, dist = dist, Fst = Fst)
+    }
+  }
+  df <- filter(df, !is.na(dist))
+  ggplot(df, aes(x = dist, y = Fst)) +
+    geom_point() +
+    geom_smooth() +
+    theme_bw()
+}
+
+n_e <- 25
+m <- 0.1
+mu <- 0.1
+n_pops <- 100
+
+t_opts <- paste("-t ", 4*n_e*mu, sep = "")
+tic()
+seg_sites <- island(t_opts, rep(n_e, n_pops), 4*n_e*m)
+df_island <- seg_sites_to_df(seg_sites, rep(n_e, n_pops))
+seg_sites <- one_d_stepping_stone(t_opts, n_e, m, n_pops)
+df_one_d <- seg_sites_to_df(seg_sites, rep(n_e, n_pops))
+toc()
+tic()
+wc(df_island)
+wc(df_one_d)
+toc()
+## pairwise takes too long
+##
+##tic()
+##pwise_island <- pairwise.WCfst(df_island)
+##pwise_one_d <- pairwise.WCfst(df_one_d)
+##toc()
+##plot_pointwise(pwise_island)
+##plot_pointwise(pwise_one_d)
+```
+
+```{r}
+allele_sum <- function(x) {
+  p <- ((x %/% 10 - 1) + (x %% 10 - 1))/2
+  return(p)
+}
+
+plot_frequencies <- function(df, range = 1:10) {
+  df <- select(df, Population, num_range("Locus", range)) %>%
+    pivot_longer(num_range("Locus", range), names_to = "Locus", values_to = "Genotype") %>%
+    group_by(Population, Locus, Genotype) %>%
+    summarize(N = n(), .groups = "keep")
+  n_pops <- length(unique(df$Population))
+  n_loci <- length(unique(df$Locus))
+  pop <- gsub("Population([0-9]+)", "\\1", df$Population)
+  loc <- gsub("Locus([0-9]+)", "\\1", df$Locus)
+  alleles <- numeric(nrow(df))
+  for (i in 1:nrow(df)) {
+    alleles[i] <- allele_sum(df$Genotype[i])
+  }
+  df$Population <- as.numeric(pop)
+  df$Alleles <- alleles
+  df$allele_count <- df$Alleles*df$N
+  df <- group_by(df, Population, Locus) %>%
+    summarize(N_sample = sum(N), allele_sample = sum(allele_count), .groups = "keep") %>%
+    mutate(p = allele_sample/N_sample) %>%
+    select(Population, Locus, p) 
+  p <- ggplot(df, aes(x = Population, y = p, color = Locus, fill = Locus)) +
+    geom_line() +
+    xlab("Position") +
+    theme_bw()
+  print(p)
+}
+
+plot_correlation <- function(df, n_loci = 100) {
+  loci <- sample(1:(ncol(df) - 1), n_loci)
+  df <- select(df, c(1, all_of(loci + 1)))
+  df <- pivot_longer(df, starts_with("Locus"), names_to = "Locus", values_to = "Genotype") %>%
+    group_by(Population, Locus, Genotype) %>%
+    summarize(N = n(), .groups = "keep")
+  n_pops <- length(unique(df$Population))
+  n_loci <- length(unique(df$Locus))
+  pop <- gsub("Population([0-9]+)", "\\1", df$Population)
+  loc <- gsub("Locus([0-9]+)", "\\1", df$Locus)
+  alleles <- numeric(nrow(df))
+  for (i in 1:nrow(df)) {
+    alleles[i] <- allele_sum(df$Genotype[i])
+  }
+  df$Population <- as.numeric(pop)
+  df$Alleles <- alleles
+  df$allele_count <- df$Alleles*df$N
+  df <- group_by(df, Population, Locus) %>%
+    summarize(N_sample = sum(N), allele_sample = sum(allele_count), .groups = "keep") %>%
+    mutate(p = allele_sample/N_sample) %>%
+    select(Population, Locus, p) %>%
+    pivot_wider(names_from = Locus, values_from = p)
+  corr_mat <- cor(t(df[, -1]))
+  corr <- numeric(n_pops*(n_pops - 1))
+  dist <- numeric(n_pops*(n_pops - 1))
+  ct <- 0
+  for (i in 1:(n_pops-1)) {
+    for (j in (i+1):n_pops) {
+      ct <- ct + 1
+      corr[ct] <- corr_mat[i, j]
+      dist[ct] <- j - i
+    }
+  }
+  corr_df <- tibble(Distance = dist, Correlation = corr)
+  p <- ggplot(corr_df, aes(x = Distance, y = Correlation)) +
+    geom_point() +
+    geom_smooth() +
+    theme_bw()
+  print(p)
+  return(list(df = df, corr_df = corr_df))
+}
+
+f <- plot_frequencies(df_one_d)
+g <- plot_correlation(df_one_d, n_loci = 1000)
+```
+
+
+OR
+Construct a function producing a bottleneck followed by exponential growth to the present - HOLD THIS for next week. Simulate some data and ask students to explore when the bottleneck occurred. 
