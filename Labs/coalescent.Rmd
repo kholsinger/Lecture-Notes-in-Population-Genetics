@@ -43,8 +43,6 @@ p
 
 ## Island model with `ms()`
 
-I didn't read the documentation carefully. `ms()` is producing *chromosomes*. I can't get different loci from them in the way I've been doing it here. IGNORE EVERYTHING BELOW.
-
 Documentation on `ms`: [https://uchicago.app.box.com/s/l3e5uf13tikfjm7e1il1eujitlsjdx13/file/245765534272](https://uchicago.app.box.com/s/l3e5uf13tikfjm7e1il1eujitlsjdx13/file/245765534272)
 
 ```{r}
@@ -159,6 +157,10 @@ seg_sites <- one_d_stepping_stone("-t 2.0", 25, 0.1, 3)
 df <- seg_sites_to_df(seg_sites, rep(25, 3))
 
 ```
+## IGNORE EVERYTHING BELOW THIS
+
+I didn't read the documentation carefully. `ms()` is producing *chromosomes*. I can't get different loci from them in the way I've been doing it here. 
+
 Quick comparison of "equivalent" finite island and one-dimensional stepping stone models
 
 ```{r}
