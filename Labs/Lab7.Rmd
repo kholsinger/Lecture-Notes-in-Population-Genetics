@@ -1,167 +1,216 @@
 ---
-title: "Exploring isolation by distance"
-output: html_notebook
+title: "Exploring the coalescent"
+output: 
+  html_notebook:
+    toc: yes
+    toc_float: true
 ---
 
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+We use `ms()` from `phyclust` to simulate samples from the coalescent and various functions from `ape` to display the coalescent tree and calculate statistics from it. Let's start with a really simple example of constructing a coalescent sample of size 10. The `nsam` argument is the number of samples, and the `opts = "-T"` argument tell `ms()` to return a coalescent tree. We then convert it, using `read.tree()` to a format that we can `plot()`  
 
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+## The coalescent in `R`
 
 ```{r}
-library(tidyverse)
-library(hierfstat)
+library(ape)
+library(phyclust)
+
+rm(list = ls())
+
+ms_out <- ms(nsam = 10, opts = "-T")
+ms_tree <- read.tree(text = ms_out)
+plot(ms_tree)
+```
+You'll notice that the tip labels run from `s1` through `s25`. Each corresponds to a different allele. That was pretty easy, but we can do a bit more. We can ask how "deep" the tree is, i.e., how far back in time we have to go to find the most recent common ancestor of all the alleles in our sample.
+
+### Branching times
+
+```{r}
+branching.times(ms_tree)[1]
+```
+
+You're probably wondering about the `[1]` after `branching.times()`. Well, `branching.times()` returns a vector of *all* of the branching times in the tree.
+
+```{r}
+branching.times(ms_tree)
+```
+
+The numbers 11-19 are the node numbers in the tree above.
+
+```{r}
+plot(ms_tree)
+nodelabels()
+```
+
+As you can see, node 11 (which is the first one in the list), is the deepest node, i.e., the most recent common ancestor of all of the alleles in our sample. 
+
+### Scaling of branching times
+
+The other thing you may be wondering is how to interpret the number `r branching.times(ms_tree)[1]` that corresponds to the time of the most recent common ancestor.^[Remember that when using the coalescent, time runs backwards. So the time of the most recent common ancestor is a time in the past.] To explain that I have to point out something that you may have missed when we called `ms()`: We didn't specify a population size. How can we get away with that, since I told you that drift *always* depends on the population size.
+
+Well, remember what you know about the coalesenct process. The expected time to coalescence of all alleles is $4N_e$. `ms()` reports branching time in "coalescent units" where 1 unit equals $4N_e$. So if `branching.times(ms_tree)[1]` is `r branching.times(ms_tree)[1]` and the effective size of our population is 25, then the time (number of generations before the present) to the most recent common ancestor is `r 4*25*branching.times(ms_tree)[1]`. Notice that the time isn't an integer the way you'd expect it to be. That's because of an approximation that is generally used in implementing the coalescent in software. If you want to turn it into an integer, you can do this:
+
+```{r}
+round(4*25*branching.times(ms_tree)[1])
+```
+
+Whether you round it or not, you'll see that the most recent common ancestor of the alleles in our sample didn't occur exactly 100 generations ago as we'd expect. If, however, we repeat that simulation a bunch of times, you can see that we come pretty close - on average.
+
+```{r}
 library(ggplot2)
-library(tictoc)
 
-initialize <- function(k, n_loci) {
-  p <- array(dim = c(n_loci, k, 2))
-  for (j in 1:n_loci) {
-    for (i in 1:k) {
-      p[j, i, 1] <- runif(n = 1, min = 0, max = 1)
-      p[j, i, 2] <- 1 - p[j, i, 1]
-    }
-  }
-  return(p)
-}
+N_e = 25
 
-make_symmetric_matrix <- function(m, k) {
-  M <- diag(x = 1 - m, nrow = k)
-  for (i in 1:(k - 1)) {
-    for (j in (i+1):k) {
-      M[i, j] <- m/(k-1)
-      M[j, i] <- M[i, j]
-    }
-  }
-  return(M)
+c_time <- numeric(0)
+for (i in 1:1000) {
+  ms_out <- ms(nsam = N_e, opts = "-T")
+  ms_tree <- read.tree(text = ms_out)
+  c_time[i] <- 4*N_e*branching.times(ms_tree)[1]
 }
-
-make_1_d_steppingstone_matrix <- function(m, k) {
-  M <- diag(x = 1 - m, nrow = k)
-  M[1, 2] <- m
-  M[k, k - 1] <- m
-  for (i in 2:(k - 1)) {
-    M[i, i - 1] <- m/2
-    M[i, i + 1] <- m/2
-  }
-  return(M)
-}
-
-sample_two_alleles <- function(p) {
-  allele_1 <- ((runif(1) < p) + 1)*10
-  allele_2 <- (runif(1) < p) + 1
-  return(allele_1 + allele_2)
-}
-
-make_sample <- function(p, n_sample) {
-  n_pops <- dim(p)[2]
-  n_loci <- dim(p)[1]
-  names <- paste("Locus", seq(1:n_loci), sep = "")
-  pops <- numeric(n_pops*n_sample)
-  ct <- 1
-  for (k in 1:n_pops) {
-    population <- paste("Population", k, sep = "")
-    for (i in 1:n_sample) {
-      pops[ct] <- population
-      ct <- ct + 1
-    }
-  }
-  locus_data <- matrix(nrow = n_pops*n_sample, ncol = n_loci)
-  for (i in 1:n_loci) {
-   ct <- 1
-    for (k in 1:n_pops) {
-      for (n in 1:n_sample) {
-        locus_data[ct, i] <- sample_two_alleles(p[i, k, 1])
-        ct <- ct + 1
-      }
-    }
-  }
-  df <- data.frame(locus_data)
-  colnames(df) <- paste("Locus", seq(1:n_loci), sep = "")
-  df$Population <- pops
-  df <- relocate(df, Population)
-  return(df)
-}
-
-simulate <- function(n_e, m, mu, n_islands, n_loci, n_gen, n_sample, type = "island") {
-  p <- initialize(n_islands, n_loci)
-  if (type == "island") {
-    M <- make_symmetric_matrix(m, n_islands)
-  } else if (type == "1-d") {
-    M <- make_1_d_steppingstone_matrix(m, n_islands)
-  } else {
-    stop("Only \"island\" and \"1-d\" supported")
-  }
-  V <- make_symmetric_matrix(mu, 2)
-  g_st <- numeric(n_loci)
-  p_star <- array(dim = c(n_loci, n_islands, 2))
-  for (i in 1:n_gen) {
-    for (k in 1:n_loci) {
-      p_star[k, , ] <- M %*% p[k, , ] %*% V
-      for (j in 1:n_islands) {
-        p[k, j, ] <- rmultinom(1, 2*n_e, p_star[k, j, ])/(2*n_e)
-      }
-      mu_p <- mean(p[k, , 1])
-      g_st[k] <- ((n_islands - 1)/n_islands)*var(p[k, , 1])/(mu_p*(1 - mu_p))
-    }
-  }
-  df <- make_sample(p, n_sample)
-  return(wc(df)$FST)
-}
-
-run_simulation <- function(n_e, m, mu, n_islands, n_loci, n_gen, 
-                           n_sample, n_repetitions)
-{
-  f_st <- numeric(n_repetitions)
-  for (i in 1:n_repetitions) {
-    if (n_repetitions > 50) {
-      cat(".", sep="")
-      if ((i %% 50) == 0) {
-        cat(i, "\n", sep ="")
-      }
-    }
-    f_st[i] <-simulate(n_e, m, mu, n_islands, n_loci, n_gen, n_sample)
-  }
-  return(f_st)
-}
-
-plot_simulation <- function(f_st, n_e, m, mu, n_islands) {
-  df <- data.frame(F_st = f_st)
-  p <- ggplot(df, aes(x = F_st)) +
-    geom_histogram(bins = 20, alpha = 0.4) +
-    geom_vline(xintercept = infinite_island(n_e, m, mu),
-               linetype = "dashed",
-               color = "red") +
-    geom_vline(xintercept = finite_island(n_e, m, mu, n_islands),
-               linetype = "dashed",
-               color = "blue") +
-    ggtitle(paste("N_e = ", n_e, ", m = ", m, ", mu = ", mu, 
-                  ", n_islands = ", n_islands, sep = "")) +
-    theme_bw()
-  return(p)
-}
-
-tic()
-df <- tibble(Type = NA, F_st = NA)
-for (i in 1:100) {
-  f_st <- simulate(n_e = 25, m = 0.1, mu=1.0e-4, n_islands = 100, n_loci = 100, n_gen = 1000, n_sample = 25,
-                   type = "island")
-  df <- add_row(df, Type = "Island", F_st = f_st)
-  f_st <- simulate(n_e = 25, m = 0.1, mu=1.0e-4, n_islands = 100, n_loci = 100, n_gen = 1000, n_sample = 25,
-                   type = "1-d")
-  df <- add_row(df, Type = "1-d", F_st = f_st)
-}
-df <- filter(df, !is.na(Type))
-toc()
-p <- ggplot(df, aes(x = F_st, fill = Type, color = Type)) +
-  geom_histogram(bins = 10) +
-  ggtitle(paste("Number of populations: ", 100, sep = "")) +
+p <- ggplot(data.frame(t = c_time), aes(x = t)) +
+  geom_histogram(bins = 50, alpha = 0.6) +
+  geom_vline(xintercept = 4*N_e, linetype = "dashed", color = "red") + 
   theme_bw()
 p
 ```
 
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+We expect a coalescence time of `r 4*N_e` and our observed average coalescence time is `r mean(c_time)`. Not too bad.
 
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+### The coalescent with migration
 
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+What happens when we have a subdivided population so that we have several populations exchanging genes? Here's how we simulate a finite island model with three populations, local population sizes of 10 in each population, and $N_em = 2$.^[Note: You'll need to install `RColorBrewer` if you want to run this code.]
 
+```{r}
+library(tidyverse)
+library(RColorBrewer)
+
+get_pop <- function(tree, sample_sizes, k) {
+  idx <- as.numeric(gsub("^s(.*)$", "\\1", tree$tip.label))
+  cum <- 0
+  for (i in 1:length(sample_sizes)) {
+    if (idx[k] < cum + sample_sizes[i] + 1) {
+      retval <- i
+      break
+    } else {
+      cum <- cum + sample_sizes[i]
+    }
+  }
+  return(i)
+}
+
+tipcolors <- function(tree, sample_sizes) {
+  my_colors <- brewer.pal(length(sample_sizes), "Set1")
+  colors <- numeric(length(sample_sizes))
+  for (i in 1:sum(sample_sizes)) {
+    colors[i] <- my_colors[get_pop(tree, sample_sizes, i)]
+  }
+  return(colors)
+}
+
+## Note: sample sizes should be multiplied by 2 before calling
+## island for diploid samples
+##
+island <- function(sample_sizes, ne_m) {
+  opt_string <- paste("-T -I ", length(sample_sizes), " ", sep = "")
+  for (i in 1:length(sample_sizes)) {
+    opt_string <- paste(opt_string, sample_sizes[i], " ", sep = "")
+  }
+  opt_string <- paste(opt_string, ne_m, "\n", sep = "")
+  ms_out <- ms(nsam = sum(sample_sizes), nreps = 1, opts = opt_string)
+  return(ms_out)  
+}
+
+plot_island <- function(sample_sizes, ne_m) {
+  sample_sizes <- 2*sample_sizes
+  ms_out <- island(sample_sizes, ne_m)
+  ms_tree <- read.tree(text = ms_out)
+  plot(ms_tree, 
+       show.tip.label = FALSE)
+  tiplabels(pch = 19, cex = 0.75, 
+            col = tipcolors(ms_tree, 
+                            sample_sizes))
+  return(branching.times(ms_tree)[1])
+}
+
+time <- plot_island(sample_sizes = c(5, 5, 5), ne_m = 2)
+```
+The colors correspond to the population from which each sample was collected. `plot_island()` returns the scaled time to the most recent common ancestor, `r time`. We are implicitly assuming that the effective population size is the same in each local population.^[There is a way to relax this assumption, but we won't take advantage of it here.] The scaling is in terms of the product of the local effective population size and the number of populations, i.e., 1 coalescent unit = $4N_ek$, where $k$ is the number of populations.
+
+## Lab 7
+
+You will be performing another set of simulations this week to compare coalescence times in two scenarios:
+
+1. A finite island model of migration.
+2. A one-dimensional stepping stone model of migration.
+
+You are already familiar with the finite island model. In a one-dimensional stepping stone model, the populations are arranged in a lineary array and only those populations that are adjacent to one another can exchange migrants. If $m$ is the migration rate, i.e., the fraction of a population composed of migrants then the fraction of population $i$ derived from population $i-1$ is $\frac{m}{2}$ and the fraction of population $i$ derived from population $i+1$ is $\frac{m}{2}$.^[Note: For the first population in the array, i.e., population 1, the fraction of the population derived from population 2 is $m$. Similarly, if there are $k$ populations in the arry, the fraction of population $k$ that is derived from population $k-1$ is $m$.]
+
+Use the functions below to explore the difference in coalescence times for finite island models and one-dimensional stepping stone models of migration, and answer the following questions:
+
+1. How does the number of populations included affect the avearge time to coalescence of all alleles?
+
+2. How does the migration rate affect the average time to coalescence of all alleles?
+
+3. Are there consistent differences between the average time to coalescence in a finite island model and a one-dimensional stepping stone model? If there are, what might explain the difference that you see?
+
+### Hints
+
+`run_simulations()` will automatically keep the number of populations in both models the same to ensure that you can always make appropriate comparisons of the models. It will also set the local effective population size to 25, and it sets the number of replications to 1000 by default. You might want to run the function once with `n_reps = 100` to get a feel for how long it will take the simulation to run on your computer before you begin the full-scale simulations 
+
+`run_simulations()` returns a data frame^[Well, actually a tibble] with two columns: `Model` and `Time`. If you're interested, you can use that to examine the median time to coalescence (rather than the mean) and the variance (or standard deviation) in coalescence times. You'll notice that `run_simulation()` automatically prints out the mean coalesence times for you.
+
+```{r}
+## one-dimensional stepping stone
+##
+one_d_stepping_stone <- function(n_e, m, n_pops) {
+  stopifnot((m > 0) && (m < 1))
+  m_matrix <- diag(1 - m, nrow = n_pops)
+  m_matrix[1, 2] <- m
+  m_matrix[n_pops, n_pops - 1] <- m
+  for (i in 2:(n_pops - 1)) {
+    m_matrix[i, i - 1] <- m/2
+    m_matrix[i, i + 1] <- m/2
+  }
+  opt_string <- paste("-T -I ", n_pops, " ", sep = "")
+  for (i in 1:n_pops) {
+    opt_string <- paste(opt_string, 2*n_e, " ", sep = "")
+  }
+  opt_string <- paste(opt_string, "-ma", sep = "")
+  ## transpose m_matrix before converting to vector to get vector from matrix
+  ## by row instead of by column
+  ##
+  m_vector <- 4*n_e*c(t(m_matrix))
+  for ( i in 1:length(m_vector)) {
+    opt_string <- paste(opt_string, " ", m_vector[i], sep = "")
+  }
+  ms_out <- ms(nsam = 2*n_e*n_pops, nreps = 1, opts = opt_string)
+  return(ms_out)
+}
+
+run_simulation <- function(n_pops, m, n_reps = 1000) {
+  N_e = 25
+  pop_sizes <- rep(N_e, n_pops)
+  df <- tibble(Model = NA, Time = NA)
+  for (i in 1:n_reps) {
+    ms_out <- island(pop_sizes, N_e*m)
+    ms_tree <- read.tree(text = ms_out)
+    df <- add_row(df,
+                  Model = "Island",
+                  Time = (4*N_e*n_pops)*branching.times(ms_tree)[1])
+    ms_out <- one_d_stepping_stone(N_e, m, n_pops)
+    ms_tree <- read.tree(text = ms_out)
+    df <- add_row(df,
+                  Model = "1-d",
+                  Time = (4*N_e*n_pops)*branching.times(ms_tree)[1])
+  }
+  df <- filter(df, !is.na(Model))
+  p <- ggplot(df, aes(x = Time, fill = Model)) +
+    geom_histogram(position = "identity", bins = n_reps/10, alpha = 0.4) +
+    ggtitle(paste("n_pops = ", n_pops, ", m = ", m)) +
+    theme_bw()
+  print(p)
+  sum <- df %>% group_by(Model) %>%
+    summarize(Mean_Time = mean(Time))
+  print(sum)
+  return(df)
+}
+```

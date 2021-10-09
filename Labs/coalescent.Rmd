@@ -90,6 +90,9 @@ island <- function(t_opt, pop_sizes, ne_m) {
   }
 }
 
+## DO NOT USE THIS FUNCTION. IT'S ALL WRONG. I DIDN'T READ THE
+## DOCUMENTATION FOR MS() PROPERLY.
+##
 seg_sites_to_df <- function(seg_sites, pop_sizes) {
   haplos <- seg_sites[grepl("^[0-9]+$", seg_sites)]
   n_sites <- nchar(haplos[1])
