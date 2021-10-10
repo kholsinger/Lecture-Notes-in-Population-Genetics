@@ -17,27 +17,27 @@ library(phyclust)
 rm(list = ls())
 
 ms_out <- ms(nsam = 10, opts = "-T")
-ms_tree <- read.tree(text = ms_out)
-plot(ms_tree)
+ms_tree_1 <- read.tree(text = ms_out)
+plot(ms_tree_1)
 ```
 You'll notice that the tip labels run from `s1` through `s25`. Each corresponds to a different allele. That was pretty easy, but we can do a bit more. We can ask how "deep" the tree is, i.e., how far back in time we have to go to find the most recent common ancestor of all the alleles in our sample.
 
 ### Branching times
 
 ```{r}
-branching.times(ms_tree)[1]
+branching.times(ms_tree_1)[1]
 ```
 
 You're probably wondering about the `[1]` after `branching.times()`. Well, `branching.times()` returns a vector of *all* of the branching times in the tree.
 
 ```{r}
-branching.times(ms_tree)
+branching.times(ms_tree_1)
 ```
 
 The numbers 11-19 are the node numbers in the tree above.
 
 ```{r}
-plot(ms_tree)
+plot(ms_tree_1)
 nodelabels()
 ```
 
@@ -45,12 +45,12 @@ As you can see, node 11 (which is the first one in the list), is the deepest nod
 
 ### Scaling of branching times
 
-The other thing you may be wondering is how to interpret the number `r branching.times(ms_tree)[1]` that corresponds to the time of the most recent common ancestor.^[Remember that when using the coalescent, time runs backwards. So the time of the most recent common ancestor is a time in the past.] To explain that I have to point out something that you may have missed when we called `ms()`: We didn't specify a population size. How can we get away with that, since I told you that drift *always* depends on the population size.
+The other thing you may be wondering is how to interpret the number `r branching.times(ms_tree_1)[1]` that corresponds to the time of the most recent common ancestor.^[Remember that when using the coalescent, time runs backwards. So the time of the most recent common ancestor is a time in the past.] To explain that I have to point out something that you may have missed when we called `ms()`: We didn't specify a population size. How can we get away with that, since I told you that drift *always* depends on the population size?
 
-Well, remember what you know about the coalesenct process. The expected time to coalescence of all alleles is $4N_e$. `ms()` reports branching time in "coalescent units" where 1 unit equals $4N_e$. So if `branching.times(ms_tree)[1]` is `r branching.times(ms_tree)[1]` and the effective size of our population is 25, then the time (number of generations before the present) to the most recent common ancestor is `r 4*25*branching.times(ms_tree)[1]`. Notice that the time isn't an integer the way you'd expect it to be. That's because of an approximation that is generally used in implementing the coalescent in software. If you want to turn it into an integer, you can do this:
+Well, remember what you know about the coalesenct process. The expected time to coalescence of all alleles is $4N_e$. `ms()` reports branching time in "coalescent units" where 1 unit equals $4N_e$. So if `branching.times(ms_tree_1)[1]` is `r branching.times(ms_tree_1)[1]` and the effective size of our population is 25, then the time (number of generations before the present) to the most recent common ancestor is `r 4*25*branching.times(ms_tree_1)[1]`. Notice that the time isn't an integer the way you'd expect it to be. That's because of an approximation that is generally used in implementing the coalescent in software. If you want to turn it into an integer, you can do this:
 
 ```{r}
-round(4*25*branching.times(ms_tree)[1])
+round(4*25*branching.times(ms_tree_1)[1])
 ```
 
 Whether you round it or not, you'll see that the most recent common ancestor of the alleles in our sample didn't occur exactly 100 generations ago as we'd expect. If, however, we repeat that simulation a bunch of times, you can see that we come pretty close - on average.
