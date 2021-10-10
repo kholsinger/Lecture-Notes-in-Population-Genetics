@@ -28,7 +28,10 @@ not maintaining these notes any more. They were useful and accurate
 the last time I used them (so far as I know), but I make no promises
 for them now.
 
-Files in the Labs directory are associated with labs from Fall 2021
-onwards. They aren't compiled into the "book", but they include all of
-the data and any code that's needed for the analyses - other than the
-code I expect students to write themselves.
+Files in the <tt>Labs</tt> directory are associated with labs from
+Fall 2021 onwards. They aren't compiled into the "book", but they
+include all of the data and any code that's needed for the analyses -
+other than the code I expect students to write themselves.
+
+Files in the <tt>Slides</tt> directory are the LaTeX source and
+associated figures for the PDF slides I use during lectures.

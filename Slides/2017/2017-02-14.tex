@@ -1,0 +1,195 @@
+\documentclass[titlepage,landscape]{seminar}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage[pdftex]{color}
+\usepackage{hyperref}
+\usepackage{epstopdf}
+\usepackage{slides}
+
+\newcommand{\frack}{\frac{1}{k}}
+
+\begin{document}
+
+\myslide{
+\begin{center}
+\begin{tabular}{l|ccc}
+\hline\hline
+Genotype & $A_1A_1$ & $A_1A_2$ & $A_2A_2$ \\
+\hline
+Number in zygotes & $n_{11}^{(z)}$ & $n_{12}^{(z)}$ & $n_{22}^{(z)}$ \\
+Viability         & $w_{11}$ & $w_{12}$ & $w_{22}$ \\
+Number in adults  & $n_{11}^{(a)} = w_{11}n_{11}^{(z)}$ & $n_{12}^{(a)} = w_{12}n_{12}^{(z)}$ & $n_{22}^{(a)} = w_{22}n_{22}^{(z)}$ \\
+\hline
+\end{tabular}
+\end{center}
+}
+
+\myslide{
+\begin{center}
+\begin{tabular}{l|ccc}
+\hline\hline
+Genotype & $A_1A_1$ & $A_1A_2$ & $A_2A_2$ \\
+\hline
+Frequency in zygotes & $x_{11}^{(z)}$ & $x_{12}^{(z)}$ &
+$x_{22}^{(z)}$ \\
+Frequency in adults  & $x_{11}^{(a)}$ & $x_{12}^{(a)}$ &
+$x_{22}^{(a)}$ \\
+\hline
+\end{tabular}
+\end{center}
+\vfill
+\begin{eqnarray*}
+x_{11}^{(a)} &=& w_{11}x_{11}^{(z)}/\bar w \\
+x_{12}^{(a)} &=& w_{12}x_{12}^{(z)}/\bar w \\
+x_{22}^{(a)} &=& w_{22}x_{22}^{(z)}/\bar w 
+\end{eqnarray*}
+\vfill
+\begin{eqnarray*}
+x_{11}^{(a)}/x_{12}^{(a)} &=& w_{11}x_{11}^{(z)}/w_{12}x_{12}^{(z)} \\
+1 &=& 1 \\
+x_{22}^{(a)}/x_{12}^{(a)} &=& w_{22}x_{22}^{(z)}/w_{12}x_{12}^{(z)}
+\end{eqnarray*}
+\begin{eqnarray*}
+\frac{w_{11}}{w_{12}} &=& \left(\frac{x_{11}^{(a)}}{x_{12}^{(a)}}\right)
+                          \left(\frac{x_{12}^{(z)}}{x_{11}^{(z)}}\right) \\
+\frac{w_{22}}{w_{12}} &=& \left(\frac{x_{22}^{(a)}}{x_{12}^{(a)}}\right)
+                          \left(\frac{x_{12}^{(z)}}{x_{22}^{(z)}}\right)
+\end{eqnarray*}
+}
+
+\myslide{
+\begin{center}
+\begin{tabular}{l|ccc|c}
+\hline\hline
+Genotype & $ST/ST$ & $ST/CH$ & $CH/CH$ & Total \\
+\hline
+Number in larvae & 41 & 82 & 27 & 150 \\
+Number in adults & 57 & 169 & 29 & 255 \\
+\hline
+\end{tabular}
+\end{center}
+\vfill
+\begin{eqnarray*}
+\frac{w_{11}}{w_{12}} &=& \left(\frac{x_{11}^{(a)}}{x_{12}^{(a)}}\right)
+                          \left(\frac{x_{12}^{(z)}}{x_{11}^{(z)}}\right)
+= \left(\frac{57/255}{169/255}\right)
+  \left(\frac{82/150}{41/150}\right)
+= 0.67 \\
+\frac{w_{22}}{w_{12}} &=& \left(\frac{x_{22}^{(a)}}{x_{12}^{(a)}}\right)
+                          \left(\frac{x_{12}^{(z)}}{x_{22}^{(z)}}\right)
+= \left(\frac{29/255}{169/255}\right)
+  \left(\frac{82/150}{27/150}\right)
+= 0.52 \quad .
+\end{eqnarray*}
+}
+
+\myslide{
+\begin{center}
+\begin{tabular}{l|ccc}
+\hline\hline
+Genotype & $ST/ST$ & $ST/CH$ & $CH/CH$ \\
+\hline
+Expected & $\left(\frac{41}{150}\right)255$ &
+  $\left(\frac{82}{150}\right)255$ & $\left(\frac{27}{150}\right)255$ \\
+         & 69.7    & 139.4   & 45.9 \\
+Observed & 57      & 169     & 29 \\
+\hline
+\multicolumn{4}{l}{$\chi^2_2 = 14.82$, $P < 0.001$}
+\end{tabular}
+\end{center}
+\vfill
+\begin{eqnarray*}
+\frac{w_{11}}{w_{12}} &=& 1 - s_1 \\
+\frac{w_{22}}{w_{12}} &=& 1 - s_2 \quad .
+\end{eqnarray*}
+}
+
+\myslide{
+\begin{center}
+\begin{tabular}{c|ccc}
+\hline\hline
+                  & \multicolumn{3}{c}{Paternal genotype} \\
+Maternal genotype & $A_1A_1$ & $A_1A_2$ & $A_2A_2$ \\
+\hline
+$A_1A_1$ & $F_{11,11}$ & $F_{11,12}$ & $F_{11,22}$ \\
+$A_1A_2$ & $F_{12,11}$ & $F_{12,12}$ & $F_{12,22}$ \\
+$A_2A_2$ & $F_{22,11}$ & $F_{22,12}$ & $F_{22,22}$ \\
+\hline
+\end{tabular}
+\end{center}
+\vfill
+\begin{equation}
+x_{11}' = \frac{x_{11}^2F_{11,11} + x_{11}x_{12}(F_{11,12} +
+                F_{12,11})/2 + (x_{12}^2/4)F_{12,12}}{\bar F} \quad ,
+\label{eq:fertility}
+\end{equation}
+}
+
+\myslide{
+\begin{enumerate}
+
+\item $\bar F'$ may be smaller than $\bar F$. Unlike selection on
+viabilities in which fitness evolved to the maximum possible value,
+there are situations in which fitness will evolve to the {\it
+minimum\/} possible value when there's selection on
+fertilities.\footnote{Fortunately, it takes rather weird fertility
+schemes to produce such a result.}
+
+\item A high fertility of heterozygote $\times$ heterozygote matings
+is not sufficient to guarantee that the population will remain
+polymorphic.
+
+\item Selection may prevent loss of either allele, but there may be no
+stable equilibria.
+
+\end{enumerate}
+}
+
+\myslide{
+\begin{center}
+\begin{tabular}{rcccc}
+                       &           & \multicolumn{3}{c}{Offsrping genotype} \\
+Mating                 & Frequency     & $A_1A_1$ & $A_1A_2$ & $A_2A_2$ \\
+\hline
+$A_1A_1 \times A_1A_1$ & $x_{11}^fx_{11}^m$     &        1 &        0 &        0 \\
+              $A_1A_2$ & $x_{11}^fx_{12}^m$ &    $\half$ &    $\half$ &        0 \\
+              $A_2A_2$ & $x_{11}^fx_{22}^m$ &        0 &        1 &        0 \\
+$A_1A_2 \times A_1A_1$ & $x_{12}^fx_{11}^m$ &    $\half$ &    $\half$ &        0 \\
+              $A_1A_2$ & $x_{12}^fx_{12}^m$     &  $\fourth$ &    $\half$ &  $\fourth$ \\
+              $A_1A_2$ & $x_{12}^fx_{22}^m$ &        0 &    $\half$ &    $\half$ \\
+$A_2A_2 \times A_1A_1$ & $x_{22}^fx_{11}^m$ &        0 &        1 &        0 \\
+              $A_1A_2$ & $x_{22}^fx_{12}^m$ &        0 &    $\half$ &    $\half$ \\
+              $A_2A_2$ & $x_{22}^fx_{22}^m$     &        0 &
+0 & 1 \\
+\end{tabular}
+\end{center}
+}
+
+\myslide{
+\begin{eqnarray*}
+x_{11}^m &=& \frac{x_{11}a_{11}}{\bar a} \\
+x_{12}^m &=& \frac{x_{12}a_{12}}{\bar a} \\
+x_{22}^m &=& \frac{x_{22}a_{22}}{\bar a} \quad ,
+\end{eqnarray*}
+\vfill
+\begin{equation}
+x_{11}' = \frac{x_{11}^2a_{11} + x_{11}x_{12}(a_{12} + a_{11})/2
+                + x_{12}^2a_{12}/4}{\bar a} \label{eq:sexual}
+\end{equation}
+\vfill
+\[
+\begin{array}{cccc}
+       & A_1A_1 & A_1A_2 & A_2A_2 \\
+A_1A_1 & a_{11} & a_{12} & a_{22} \\
+A_1A_2 & a_{11} & a_{12} & a_{22} \\
+A_2A_2 & a_{11} & a_{12} & a_{22}
+\end{array}
+\]
+}
+
+\end{document}
+
+
+
+\end{document}
+

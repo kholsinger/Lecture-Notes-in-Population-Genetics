@@ -1,0 +1,415 @@
+\documentclass[titlepage,landscape]{seminar}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage[pdftex]{color}
+\usepackage{hyperref}
+\usepackage{epstopdf}
+\usepackage{slides}
+
+\begin{document}
+
+\myslide{
+\noindent Definition: $X$ phenotype of an individual
+\[
+\mbox{P}_{ij}(X < x) = dF_{ij}(x) 
+\]
+\vfill
+\noindent Genotypic value:
+\[
+x_{ij} = \int_{-\infty}^\infty x \mbox{\rm dF}_{ij}(x)
+\]
+\vfill
+\noindent Fitness: $w(x)$ fitness of individual with phenotype $x$
+\[
+w_{ij} = \int_{-\infty}^\infty w(x) \mbox{\rm dF}_{ij}(x)
+\]
+}
+
+\myslide{
+\begin{eqnarray*}
+{\bar x}(p') &=& {\bar x}(p) + (p' - p)\left({d{\bar x} \over dp}\right)
+             + o(p^2) \\
+\\
+{\bar x}(p) &=& p^2x_{11} + 2pqx_{12} + q^2x_{22} \\
+\\
+\frac{d{\bar x(p)}}{dp}
+         &=& 2px_{11} + 2qx_{12} - 2px_{12} - 2qx_{22} \\
+         &=& 2\left\{
+             \left(px_{11} + qx_{12} - {\bar x}/2\right) +
+             \left(px_{12} + qx_{22} - {\bar x}/2\right)\right\} \\
+         &=& 2\left(\alpha_1 - \alpha_2\right) \\
+\\
+{\bar x}(p') &\approx& {\bar x}(p) + (p' - p)\left(2(\alpha_1 - \alpha_2)\right) \\
+\\
+\Delta{\bar x} &=& (\Delta p)\left(2(\alpha_1 - \alpha_2)\right)
+\end{eqnarray*}
+}
+
+\myslide{
+\[
+p' = {p^2w_{11} + pqw_{12} \over \bar w} \quad .
+\]
+Thus,
+\begin{eqnarray*}
+   \Delta p &=& p' - p \\ 
+            &=& {p^2w_{11} + pqw_{12} \over \bar w} - p \\ 
+            &=& {p^2w_{11} + pqw_{12} - p\bar w \over \bar w} \\ 
+            &=& p\left(pw_{11} + qw_{12} - \bar w \over \bar w \right) \quad .
+\end{eqnarray*}
+}
+
+\myslide{
+\noindent Linear regression of fitness on phenotype:
+
+\noindent Slope:
+\[
+\beta_1 = {\Cov(w,x) \over \Var(x)}
+\]
+Intercept
+\[
+\beta_0 = \bar w - \beta_1 \bar x \quad .
+\]
+\vfill
+Fitnesses:
+\begin{eqnarray*}
+w_{ij} &=& \int_{-\infty}^\infty w(x) \mbox{\rm dF}_{ij}(x) \\
+       &\approx& \int_{-\infty}^\infty (\beta_0 + \beta_1x) \mbox{\rm dF}_{ij}(x) \\
+       &=& \beta_0 + \beta_1x_{ij} \\
+\bar w &=& \beta_0 + \beta_1\bar x \quad .
+\end{eqnarray*}
+}
+
+\myslide{ 
+\begin{eqnarray*}
+   \Delta p &=& p\left(pw_{11} + qw_{12} - \bar w \over \bar w \right) \\
+            &=& p\left(p(\beta_0 + \beta_1x_{11}) 
+                      + q(\beta_0 + \beta_1x_{12})
+                      - (\beta_0 + \beta_1\bar x) \over \bar w \right) \\
+            &=& p\beta_1\left(px_{11} + qx_{12} - \bar x \over 
+                             \bar w \right) \\
+            &=& p\beta_1\left(\alpha_1 - \bar x/2 \over \bar w \right) \\
+            &=& p\beta_1\left(\alpha_1 - (p\alpha_1 + q\alpha_2) \over
+                             \bar w \right) \\
+            &=& {pq\beta_1(\alpha_1 - \alpha_2) \over \bar w} \quad .
+\end{eqnarray*}
+}
+
+\myslide{
+\begin{eqnarray*}
+\Cov(w,x) &=& p^2\int_{-\infty}^\infty x w(x) \mbox{\rm dF}_{11}(x)
+            + 2pq\int_{-\infty}^\infty x w(x) \mbox{\rm dF}_{12}(x) \\
+         && \qquad + q^2\int_{-\infty}^\infty x w(x) \mbox{\rm dF}_{22}(x)
+            - \bar x \bar w \\
+         &=& p^2\left(\int_{-\infty}^\infty x w(x) \mbox{dF}_{11}(x) - 
+            x_{11}\bar w\right) \\
+         && \quad + 2pq\left(\int_{-\infty}^\infty x w(x)
+            \mbox{dF}_{11}(x) -
+            x_{12}\bar w\right) \\
+         && \quad + q^2\left(\int_{-\infty}^\infty x w(x) \mbox{dF}_{22}(x) - 
+            x_{22}\bar w\right) \quad .
+\end{eqnarray*}
+}
+
+\myslide{
+\begin{eqnarray*}
+\int_{-\infty}^\infty x w(x) \mbox{\rm dF}_{ij}(x) - x_{ij}\bar w 
+              &=& \bar w \left(
+                 \int_{-\infty}^\infty {x w(x) \over \bar w} \mbox{\rm
+                 dF}_{ij}(x)
+                 - x_{ij}
+                 \right) \\
+              &=& \bar w (x_{ij}^* - x_{ij})
+\end{eqnarray*}
+\vfill
+\begin{eqnarray*}
+\Cov(w,x) &=& p^2\bar w(x_{11}^* - x_{11}) + 2pq\bar w(x_{12}^* - x_{12})
+              q^2\bar w(x_{22}^* - x_{22}) \\
+&=& \bar w(\bar x^* - \bar x)
+\end{eqnarray*}
+\vfill
+\begin{eqnarray*}
+\Delta\bar x &=& V_a \left({\bar w(\bar x^* - \bar x) \over
+                               V_p} \over \bar w \right) \cr 
+             &=& h^2_N (\bar x^* - \bar x) \cr
+\end{eqnarray*}
+}
+
+\myslide{
+\begin{center}
+\begin{tabular}{l|ccc}
+\hline\hline
+Genotype  & $A_1A_1$ & $A_1A_2$ & $A_2A_2$ \\
+Phenotype & 1.303  & 1.249  & 0.948 \\
+\hline
+\end{tabular}
+\end{center}
+\vfill
+\noindent Assume $p=0.25$, $V_p=0.16$. This implies ${\bar x}=1.08$
+and $h^2_N=0.1342$.
+\begin{eqnarray*}
+S &=& \bar x^* - \bar x \\
+  &=& 1.544 - 1.08 \\
+  &=& 0.464 \\
+\Delta\bar x &=& h^2_N S \\
+         &=& (0.1342)(0.464) \\
+         &=& 0.06 \\
+\bar x' &=& \bar x + \Delta\bar x \\
+        &=& 1.08 + 0.06 \\
+        &=& 1.14 
+\end{eqnarray*}
+}
+
+\myslide{
+\begin{center}
+\begin{tabular}{l|ccc}
+\hline\hline
+Genotype                 & $A_1A_1$ & $A_1A_2$ & $A_2A_2$ \\
+\hline
+Frequency                & $p^2$    & $2pq$    & $q^2$ \\
+Fitness                  & $w_{11}$ & $w_{12}$ & $w_{22}$ \\
+Additive fitness value   & $2\alpha_1$ & $\alpha_1 + \alpha_2$ &
+$2\alpha_2$ \\
+\hline
+\end{tabular}
+\end{center}
+\vfill
+\[
+\Delta p = \left({{pq} \over 2{\bar w}}\right)
+           \left({{d{\bar w}} \over {dp}}\right) \quad .
+\]
+\vfill
+\[
+{\bar w}' = {\bar w} + \left(\Delta p\right)\left({{d{\bar w}} \over {dp}}\right)
+            + \left({{(\Delta p)^2} \over 2}\right)
+              \left({{d^2{\bar w}} \over {dp^2}}\right) \quad .
+\]
+Or, equivalently
+\[
+\Delta {\bar w} = \left(\Delta p\right)\left({{d{\bar w}} \over {dp}}\right)
+            + \left({{(\Delta p)^2} \over 2}\right)
+              \left({{d^2{\bar w}} \over {dp^2}}\right) \quad .
+\]
+}
+
+\myslide{
+\begin{eqnarray*}
+\frac{d{\bar w}}{dp}
+ &=& 2pw_{11} + 2(1-p)w_{12} - 2pw_{12} - 2(1-p)w_{22} \\
+ &=& 2[(pw_{11}+qw_{12}) - (pw_{12}+qw_{22})] \\
+ &=& 2[(pw_{11}+qw_{12}-{\bar w}/2) - (pw_{12}+qw_{22}-{\bar w}/2)] \\
+ &=& 2[\alpha_1 - \alpha_2] \\
+ &=& 2\alpha
+\end{eqnarray*}
+\vfill
+\begin{eqnarray*}
+\frac{d^2{\bar w}}{dp^2}
+ &=& 2w_{11} - 2w_{12} - 2w_{12} + 2w_{22} \\
+ &=& 2(w_{11} - 2w_{12} + w_{22}) \\
+\end{eqnarray*}
+\vfill
+\begin{eqnarray*}
+\Delta {\bar w}
+ &=& \left\{\left({{pq} \over {2{\bar w}}}\right)\left({{d{\bar w}} \over {dp}}\right)
+      \right\}
+    \left({{d{\bar w}} \over {dp}}\right)
+    + {{ \left\{\left({{pq} \over {2{\bar w}}}\right)\left({{d{\bar w}} \over {dp}}\right)
+      \right\}^2} \over 2}
+    [2(w_{11} - 2w_{12} + w_{22})] \\
+ &=& \left\{\left({{pq} \over {2{\bar w}}}\right)\left(2\alpha\right)\right\}\left(2\alpha\right)
+    + \left\{\left({{pq} \over {2{\bar w}}}\right)\left(2\alpha\right)\right\}^2
+    (w_{11} - 2w_{12} + w_{22}) \\
+ &=& {{2pq\alpha^2} \over {\bar w}}
+    + {{p^2q^2\alpha^2} \over {{\bar w}^2}}(w_{11} - 2w_{12} + w_{22}) \\
+ &=& {V_a \over {\bar w}}
+    \left\{1 + {{pq} \over {2{\bar w}}}(w_{11} - 2w_{12} + w_{22})\right\} \\
+ &\approx& {V_a \over {\bar w}}
+\end{eqnarray*}
+}
+
+\myslide{
+\noindent Selective differential:
+\[
+{\bf s} = \bar{\bf z}^* - \bar{\bf z}
+\]
+\vfill
+\noindent $W({\bf z})$ is absolute fitness of individual
+with phenotype $\bf z$
+\[
+\bar W = \int W({\bf z})p({\bf z})d{\bf z} \quad .
+\]
+\noindent Relative fitness (mean relative fitness $=$ 1)
+\[
+w({\bf z}) = {W({\bf z}) \over \bar W} \quad .
+\]
+\vfill
+\[
+\bar{\bf z}^* = \int {\bf z}w({\bf z})p({\bf z})d{\bf z} \quad .
+\]
+}
+
+\myslide{
+\begin{eqnarray*}
+{\bf s} &=& \bar{\bf z}^* - \bar{\bf z} \\
+        &=& \int {\bf z}w({\bf z})p({\bf z})d{\bf z} - \bar {\bf z} \\
+        &=& E(w,z) - \bar w\bar {\bf z} \\
+        &=& \Cov(w,z)
+\end{eqnarray*}
+}
+
+\myslide{
+\[
+{\bf P} = {\bf G} + {\bf E} \quad .
+\]
+\vfill
+\begin{eqnarray*}
+\bar{\bf x}^* - \bar{\bf x} &=& {\bf GP}^{-1}(\bar{\bf z}^* - \bar{\bf z}) \\
+\bar{\bf z}'  - \bar{\bf z} &=& {\bf GP}^{-1}(\bar{\bf z}^* - \bar{\bf z}) \\
+\Delta\bar{\bf z} &=& {\bf GP}^{-1}{\bf s}
+\end{eqnarray*}
+\vfill
+\[
+{\bf \beta} = {\bf P}^{-1}{\bf s}
+\]
+\begin{eqnarray*}
+s_i &=& \sum_{j=1}^n \beta_jP_{ij} \\
+    &=& \beta_1P_{i1} + \cdots + \beta_iP_{ii} + \cdots + \beta_nP_{in}
+\end{eqnarray*}
+}
+
+\myslide{
+\begin{center}
+\begin{tabular}{l|cc}
+\hline\hline
+Character & Mean before selection & standard deviation \\
+\hline
+head      & 0.880                 & 0.034 \\
+thorax    & 2.038                 & 0.049 \\
+scutellum & 1.526                 & 0.057 \\
+wing      & 2.337                 & 0.043 \\
+\hline
+\end{tabular}
+\vskip 4pt
+\begin{tabular}{l|cccc}
+\hline\hline
+          & head & thorax & scutellum & wing \\
+\hline
+head      & 1.00 & 0.72   & 0.50      & 0.60 \\
+thorax    &      & 1.00   & 0.59      & 0.71 \\
+scutellum &      &        & 1.00      & 0.62 \\
+wing      &      &        &           & 1.00 \\
+\hline
+\end{tabular}
+\vskip 4pt
+\begin{tabular}{l|cccc}
+\hline\hline
+Character & $s$    & $s'$  & $\beta$ & $\beta'$ \\
+\hline
+head      & -0.004 & -0.11 & -0.7 $\pm$ 4.9 & -0.03 $\pm$ 0.17 \\
+thorax    & -0.003 & -0.06 & 11.6 $\pm$ 3.9$^{**}$ & 0.58 $\pm$ 0.19$^{**}$
+\\
+scutellum & -0.16$^*$ & -0.28$^*$ & -2.8 $\pm$ 2.7 & -0.17 $\pm$ 0.15 \\
+wing      & -0.019$^{**}$ & -0.43$^{**}$ & -16.6 $\pm$ 4.0$^{**}$ & -0.74 $\pm$
+0.18$^{**}$ \\
+\hline
+\end{tabular}
+\end{center}
+}
+
+\myslide{
+\begin{eqnarray*}
+\Delta\bar{\bf z} &=& {\bf G\beta} \\
+\sum_{k=1}^n \Delta\bar{\bf z} &=& {\bf G}\sum_{k=1}^n\beta \\
+\sum_{k=1}^n\beta &=& {\bf G}^{-1}\sum_{k=1}^n \Delta\bar{\bf z}
+\end{eqnarray*}
+}
+
+\myslide{
+\begin{center}
+\begin{tabular}{l|cc}
+\hline\hline
+     & body    & tail \\
+\hline
+body & 35.4606 & 11.3530 \\
+tail & 11.3530 & 37.2973 \\
+\hline
+\end{tabular}
+\end{center}
+\begin{eqnarray*}
+\mbox{body}_{\mbox{inland}} - \mbox{body}_{\mbox{coastal}} &=& 16.21 \\
+\mbox{tail}_{\mbox{inland}} - \mbox{tail}_{\mbox{coastal}} &=& 9.69
+\end{eqnarray*}
+\begin{eqnarray*}
+\beta_{\mbox{body}} &=& 0.414 \\
+\beta_{\mbox{tail}} &=& 0.134
+\end{eqnarray*}
+}
+
+\myslide{
+\noindent Inland vs.\ coastal:
+\begin{eqnarray*}
+\beta_{\mbox{body}} &=& 0.414 \\
+\beta_{\mbox{tail}} &=& 0.134
+\end{eqnarray*}
+\noindent Within coastal:
+\begin{eqnarray*}
+\beta_{\mbox{body}} &=& 0.035 \\
+\beta_{\mbox{tail}} &=& 0.038
+\end{eqnarray*}
+\noindent Within inland:
+\begin{eqnarray*}
+\beta_{\mbox{body}} &=& 0.035 \\
+\beta_{\mbox{tail}} &=& -0.004
+\end{eqnarray*}
+}
+
+\myslide{
+\vfill
+\[
+r_{AC} = r_{AB}(1-r_{BC}) + (1-r_{AB})r_{BC}
+\]
+\begin{eqnarray*}
+r_{AC} &=& \sum_{k=0}^\infty \frac{e^{-m} m^{(2k+1)}}{(2k+1)!} \\
+       &=& \frac{1 - e^{-2m}}{2} \qquad .
+\end{eqnarray*}
+\[
+m = -\ln (1-2r) /2 \qquad .
+\]
+}
+
+\myslide{
+\noindent Mean distance between QTL and closest marker:
+\[
+E(m) = {L \over 2(n+1)} \qquad ,
+\]
+\noindent Upper 95\% confidence limit:
+\[
+{L \over 2}\left(1 - 0.05^{(1/n)}\right) \qquad .
+\]
+\vfill
+Human genome: 33M, ca. 30K genes, 10 genes/cM
+\begin{itemize}
+\item 110 markers: 14.9cM, upper 95\% CI: 44.3cM
+\item 150-400 genes within QTL interval
+\end{itemize}
+}
+
+\myslide{
+\begin{eqnarray*}
+P(M_1QM_2/M_1QM_2) &=& \left((1-r_{1Q})(1-r_{Q2})/2\right)^2 \\
+P(M_1QM_2/M_1qM_2) &=& 2\left((1-r_{1Q})(1-r_{Q2})/2\right)
+                       \left(r_{1Q}r_{Q2}/2\right) \\
+P(M_1qM_2/M_1qM_2) &=& \left(r_{1Q}r_{Q2}/2\right)^2
+\end{eqnarray*}
+\begin{eqnarray*}
+P(QQ|M_1M_2/M_1M_2) &= {(1-r_{1Q})^2(1-r_{Q2})^2 \over (1-r_{12})^2} \\
+P(Qq|M_1M_2/M_1M_2) &= {2r_{1Q}r_{Q2}(1-r_{1Q})(1-r_{Q2})
+                       \over (1-r_{12})^2} \\
+P(qq|M_1M_2/M_1M_2) &= {r_{1Q}^2 r_{Q2}^2 \over (1-r_{12})^2} 
+\end{eqnarray*}
+\[
+L(x|M_j) = \sum_{k=1}^N \phi (x|\mu_{Q_k}, \sigma^2) P(Q_k|M_k)
+\]
+}
+
+\end{document}
+

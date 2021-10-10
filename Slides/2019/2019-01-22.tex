@@ -1,0 +1,312 @@
+\documentclass[titlepage,landscape]{seminar}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage[pdftex]{color}
+\usepackage{hyperref}
+\usepackage{epstopdf}
+\usepackage{slides}
+
+\begin{document}
+
+\myslide{
+\heading{Mother-offspring combinations}
+\begin{center}
+\begin{tabular}{lrrr}
+\hline\hline
+                  & \multicolumn{3}{c}{Genotype of offspring} \\
+Maternal genotype & $A_1A_1$ & $A_1A_2$ & $A_2A_2$ \\
+\hline
+$A_1A_1$          &      305 &      516 & \\
+$A_1A_2$          &      459 &     1360 & 877 \\
+$A_2A_2$          &          &      877 & 1541 \\
+\hline
+\end{tabular}
+\end{center}
+
+}
+
+
+\myslide {
+\heading{Genotypes and allele frequencies}
+\begin{center}
+\begin{tabular}{ccr}
+\hline\hline
+Genotype & Number & Sex \\
+\hline
+$A_1A_1$ & $F_{11}$ & female \\
+$A_1A_2$ & $F_{12}$ & female \\
+$A_2A_2$ & $F_{22}$ & female \\
+$A_1A_1$ & $M_{11}$ & male \\
+$A_1A_2$ & $M_{12}$ & male \\
+$A_2A_2$ & $M_{22}$ & male \\
+\hline
+\end{tabular}
+\end{center}
+
+$$\begin{array}{cc}
+p_f = \frac{2F_{11}+F_{12}}{2F_{11}+2F_{12}+2F_{22}} &
+q_f = \frac{2F_{22}+F_{12}}{2F_{11}+2F_{12}+2F_{22}} \\
+ & \\
+p_m = \frac{2M_{11}+M_{12}}{2M_{11}+2M_{12}+2M_{22}} &
+q_m = \frac{2M_{22}+M_{12}}{2M_{11}+2M_{12}+2M_{22}}
+\end{array}$$
+
+$$p = \frac{1}{2}(p_f+p_m)$$
+}
+
+\myslide{
+\heading{Maternal genotypes and allele frequencies}
+$$\begin{array}{lll}
+F_{11} &= 305 + 516 &= 821 \\
+F_{12} &= 459 + 1360 + 877 &= 2696 \\
+F_{22} &= 877 + 1541 &= 2418
+\end{array}$$
+\vfil
+$$\begin{array}{lll}
+p_f &= \frac{2(821) + 2696}{2(821) + 2(2696) + 2(2418)} &= 0.37 \\
+q_f &= \frac{2(2418) + 2696}{2(821) + 2(2696) + 2(2418)} &= 0.63
+\end{array}$$
+Let's define
+\begin{eqnarray*}
+F_1 &=& 2F_{11} + F_{12} \\
+F_2 &=& 2F_{22} + F_{12} \\
+F   &=& 2F_{11} + 2F_{12} + 2F_{22}
+\end{eqnarray*}
+Then $p_f = F_1/F$ and $q_f = F_2/F$.
+}
+
+\myslide{
+\heading{Binomial probability}
+\[
+\mbox{P}(K=k|p) = {N \choose k}p^k(1-p)^{N-k}
+\]
+Maximum likelihood estimate of $p$
+\[
+\hat p = \frac{k}{N}
+\]
+}
+
+\myslide{
+\vfil
+\heading{Bayes' Theorem}
+\begin{eqnarray*}
+\mbox{P}(\phi|x) &=&
+                     \frac{\mbox{P}(x|\phi)\mbox{P}(\phi)}{\mbox{P}(x)} \\
+\\
+\mbox{P}(x|\phi) &=& \mbox{likelihood} \\
+\mbox{P}(\phi) &=& \mbox{prior distribution} \\
+\mbox{P}(\phi|x) &=& \mbox{posterior distribution}
+\end{eqnarray*}
+\vfil
+\[
+\mbox{P}(p_f|F_1,F) = \frac{\mbox{P}(F_1|p_f,F)\mbox{P}(p_f)}{\mbox{P}(F_1)}
+\]
+}
+
+\myslide{
+\heading{Genotype vs. allele frequencies}
+\begin{center}
+\begin{tabular}{lrrr}
+\hline\hline
+& $A_1A_1$ & $A_1A_2$ & $A_2A_2$ \\
+\hline
+Population 1 & 50 & 0 & 50 \\
+Population 2 & 25 & 50 & 25 \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{eqnarray*}
+p_1 &=& (2*50)/(2*100) \\
+    &=& 0.5 \\
+p_2 &=& (2*25 + 50)/(2*100) \\
+    &=& 0.5
+\end{eqnarray*}
+}
+
+\myslide{
+\heading{Mating table}
+\begin{center}
+\begin{tabular}{rcccc}
+\hline\hline
+                       &           & \multicolumn{3}{c}{Offsrping genotype} \\
+Mating                 & Frequency     & $A_1A_1$ & $A_1A_2$ & $A_2A_2$ \\
+\hline
+$A_1A_1 \times A_1A_1$ & $x_{11}^2$     &        1 &        0 &        0 \\
+              $A_1A_2$ & $x_{11}x_{12}$ &    $\half$ &    $\half$ &        0 \\
+              $A_2A_2$ & $x_{11}x_{22}$ &        0 &        1 &        0 \\
+$A_1A_2 \times A_1A_1$ & $x_{12}x_{11}$ &    $\half$ &    $\half$ &        0 \\
+              $A_1A_2$ & $x_{12}^2$     &  $\fourth$ &    $\half$ &  $\fourth$ \\
+              $A_2A_2$ & $x_{12}x_{22}$ &        0 &    $\half$ &    $\half$ \\
+$A_2A_2 \times A_1A_1$ & $x_{22}x_{11}$ &        0 &        1 &        0 \\
+              $A_1A_2$ & $x_{22}x_{12}$ &        0 &    $\half$ &    $\half$ \\
+              $A_2A_2$ & $x_{22}^2$     &        0 &         0 &
+                       1 \\
+\hline
+\end{tabular}
+\end{center}
+}
+
+\myslide{
+\heading{Offspring genotype frequencies}
+\begin{eqnarray*}
+\hbox{freq.}(A_1A_1\hbox{ in zygotes}) &=&
+   x_{11}^2 + \frac{1}{2}x_{11}x_{12} + \frac{1}{2}x_{12}x_{11}
+   + \frac{1}{4}x_{12}^2 \\
+&=& x_{11}^2 + x_{11}x_{12} + \frac{1}{4}x_{12}^2 \\
+&=& (x_{11} + x_{12}/2)^2 \\
+&=& p^2 \\
+\hbox{freq.}(A_1A_2\hbox{ in zygotes}) &=& 2pq \\
+\hbox{freq.}(A_2A_2\hbox{ in zygotes}) &=& q^2 \\
+\end{eqnarray*}
+}
+
+\myslide{
+\heading{Genotypes and phenotypes in the ABO blood group}
+\begin{center}
+\begin{tabular}{l|r|r|r|r}
+\hline\hline
+Phenotype      & A      & AB       & B       & O  \\
+\hline
+Genotype(s)    & aa\ ao & ab       & bb\ bo  & oo \\
+No.\ in sample & $N_A$  & $N_{AB}$ & $N_{B}$ & $N_O$ \\
+\hline
+\end{tabular}
+\end{center}
+}
+
+\myslide{
+\heading{Expected phenotype numbers and allele frequencies}
+\begin{eqnarray*}
+N_{aa} &=& n_A \left({p_a^2 \over p_a^2 + 2p_ap_o}\right) \\
+N_{ao} &=& n_A \left({2p_ap_o \over p_a^2 + 2p_ap_o}\right) \\
+N_{bb} &=& n_B \left({p_b^2 \over p_b^2 + 2p_bp_o}\right) \\
+N_{bo} &=& n_B \left({2p_bp_o \over p_b^2 + 2p_bp_o}\right)
+\end{eqnarray*}
+\begin{eqnarray*}
+p_a &=& {2N_{aa} + N_{ao} + N_{ab} \over 2N} \\
+p_b &=& {2N_{bb} + N_{bo} + N_{ab} \over 2N} \\
+p_o &=& {2N_{oo} + N_{ao} + N_{bo} \over 2N}
+\end{eqnarray*}
+}
+
+\myslide{
+\heading{Multinomial probability}
+\[
+\mbox{P}(K_1=k_1, K_2=k_2, K_3=k_3|p_1,p_2,p_3) = {N \choose k_1 k_2 k_3}p_1^{k_1}p_2^{k_2}p_3^{k_3}
+\]
+\vfil
+For ABO
+\[
+{N \choose N_A N_{AB} N_B N_O}
+\left(p_a^2 + 2p_ap_o\right)^{N_A}
+2p_ap_b^{N_{AB}}
+\left(p_b^2 + 2p_bp_o\right)^{N_B}
+\left(p_o^2\right)^{N_O}
+\]
+\vfill
+No simple formula that will allow you to calculate $p_a$, $p_b$, and
+$p_o$.
+}
+
+\myslide{
+\heading{Mating table with complete self-fertilization}
+\begin{center}
+\begin{tabular}{ccccc}
+\hline\hline
+&&\multicolumn{3}{c}{Offsrping genotype} \\
+Mating & frequency & $A_1A_1$ & $A_1A_2$ & $A_2A_2$ \\
+\hline
+$A_1A_1 \times A_1A_1$ & $x_{11}$ & 1 & 0 & 0 \\
+$A_1A_2 \times A_1A_2$ & $x_{12}$ & $\fourth$ & $\half$ & $\fourth$ \\
+$A_2A_2 \times A_2A_2$ & $x_{22}$ & 0 & 0 & 1 \\
+\hline
+\end{tabular}
+\end{center}
+\begin{eqnarray*}
+x_{11}' &=& x_{11} + x_{12}/4 \\
+x_{12}' &=& x_{12}/2 \\
+x_{22}' &=& x_{22} + x_{12}/4 \\
+\end{eqnarray*}
+}
+
+\myslide{
+\heading{Offspring genotype and allele frequencies}
+\begin{eqnarray*}
+x_{11}' &=& x_{11} + x_{12}/4 \\
+x_{12}' &=& x_{12}/2 \\
+x_{22}' &=& x_{22} + x_{12}/4 \\
+\end{eqnarray*}
+\vfil
+\begin{eqnarray*}
+p' &=& x_{11}' + x_{12}'/2 \\
+   &=& x_{11} + x_{12}/4 + x_{12} /4 \\
+   &=& x_{11} + x_{12}/2 \\
+   &=& p
+\end{eqnarray*}
+}
+
+\myslide{
+\heading{Partial self-fertilization}
+\begin{eqnarray*}
+x_{11}' &=& p^2(1-\sigma) + (x_{11} + x_{12}/4)\sigma \\
+x_{12}' &=& 2pq(1-\sigma) + (x_{12}/2)\sigma  \label{eq:het} \\
+x_{22}' &=& q^2(1-\sigma) + (x_{22} + x_{12}/4)\sigma
+\end{eqnarray*}
+\begin{eqnarray*}
+\hat x_{12} &=& 2pq(1-\sigma) + (\hat x_{12}/2)\sigma \\
+\hat x_{12}(1 - \sigma/2) &=& 2pq(1-\sigma) \\
+\hat x_{12} &=& \frac{2pq(1-\sigma)}{(1-\sigma/2)}
+\end{eqnarray*}
+\begin{eqnarray*}
+\hat x_{11} &=& p^2 + fpq \\
+\hat x_{12} &=& 2pq(1-f) \\
+\hat x_{22} &=& q^2 + fpq
+\end{eqnarray*}
+}
+
+\myslide{
+\heading{Identity by descent}
+\begin{center}
+\begin{tabular}{rcccc}
+      &            & $A_1$ & $\rightarrow$ & $A_1$ \\
+      & $\nearrow$ &       &               & \\
+$A_1$ &            &       &               & \\
+      & $\searrow$ &       &               & \\
+      &            & $A_1$ & $\rightarrow$ & $A_1$
+\end{tabular}
+\end{center}
+}
+
+\myslide{
+\heading{Identity by type}
+\begin{center}
+\begin{tabular}{rcccc}
+      &            & $A_1$ & $\rightarrow$ & $A_1$ \\
+      & $\nearrow$ &       &               & \\
+$A_1$ &            &       &               & \\
+      & $\searrow$ &       &               & \\
+      &            & $A_2$ & $\rightarrow$ & $A_1$ \\
+      & $\uparrow$ &       & $\uparrow$    & \\
+      & mutation   &       & mutation      &
+\end{tabular}
+\end{center}
+}
+
+\myslide{
+\heading{Genotype frequencies with inbreeding}
+\begin{eqnarray*}
+x_{11} &=& p^2(1-f) + fp \\
+x_{12} &=& 2pq(1-f) \\
+x_{22} &=& q^2(1-f) + fq
+\end{eqnarray*}
+\begin{eqnarray*}
+x_{11} &=& p^2 + fpq \\
+x_{12} &=& 2pq(1-f) \\
+x_{22} &=& q^2 + fpq
+\end{eqnarray*}
+}
+
+
+\end{document}
+

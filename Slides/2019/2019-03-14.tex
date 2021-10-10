@@ -1,0 +1,142 @@
+\documentclass[titlepage,landscape]{seminar}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage[pdftex]{color}
+\usepackage{hyperref}
+\usepackage{epstopdf}
+\usepackage{slides}
+
+\newcommand{\frack}{\frac{1}{k}}
+\newcommand{\quarter}{\frac{1}{4}}
+
+\begin{document}
+
+\myslide{
+\heading{Divergence of nucleotide sequences}
+{\small
+\begin{eqnarray*}
+q_{t+\Delta t} &=& (1 - \lambda\Delta t)^2q_t
+                  + 2\left(1 - \lambda\Delta t\right)\left({1 \over
+                           3}\lambda\Delta t\right)(1 - q_t)
+                  + \hbox{o}(\Delta t^2) \\
+               &=& (1 - 2\lambda\Delta t)q_t + \left({2 \over 3}\lambda
+                                                    \Delta t\right)
+                                              (1 - q_t) 
+                  + \hbox{o}(\Delta t^2) \\
+q_{t+\Delta t} - q_t &=& {2 \over 3}\lambda\Delta t - {8 \over
+                           3}\lambda\Delta tq_t + \hbox{o}(\Delta t^2) \\
+{q_{t+\Delta t} - q_t \over \Delta t} &=& {2 \over 3}\lambda - {8 \over
+3}\lambda q_t + \hbox{o}(\Delta t) \\
+\lim_{\Delta t\to 0}{q_{t+\Delta t} - q_t \over \Delta t}  = {dq_t \over dt} &=& {2 \over 3}\lambda - {8
+\over 3}\lambda q_t \\
+q_t &=& 1 - {3 \over 4}\left(1 - e^{-8\lambda t/3}\right) \\
+&& \\
+d &=& 2\lambda t \\
+  &=& -{3 \over 4}\ln\left[1 - {4 \over 3}(1 - q_t)\right]
+\end{eqnarray*}
+}
+}
+
+\myslide{
+\heading{Neutral theory of molecular evolution}
+{\scriptsize
+\begin{eqnarray*}
+\mbox{\# of substitutions/generation} &=& (\mbox{\# of mutations/generation})\times(\mbox{probability
+  of fixation}) \\
+\lambda &=& \mu_0p_0 \\
+\mu_0 &=& 2N\mu \\
+p_0 &=& \frac{1}{2N} \\
+\lambda &=& \mu_0p_0 \\
+        &=& (2N\mu)\left(\frac{1}{2N}\right) \\
+        &=& \mu 
+\end{eqnarray*}
+}\vfill
+\[
+f = \frac{1}{4N_e\mu + 1} \quad .
+\]
+}
+
+\myslide{
+\heading{Genetic code}
+\tiny
+\begin{center}
+\begin{tabular}{llllllll}
+\hline\hline
+      & Amino &       & Amino &       & Amino &       & Amino \\
+Codon & Acid  & Codon & Acid  & Codon & Acid  & Codon & Acid \\
+\hline
+UUU   & Phe   & UCU   & Ser   & UAU   & Tyr   & UGU   & Cys \\
+UUC   & Phe   & UCC   & Ser   & UAC   & Tyr   & UGC   & Cys \\
+UUA   & Leu   & UCA   & Ser   & UAA   & Stop  & UGA   & Stop \\
+UUG   & Leu   & UCG   & Ser   & UAG   & Stop  & UGG   & Trp \\
+      &       &       &       &       &       &       & \\
+CUU   & Leu   & CCU   & Pro   & CAU   & His   & CGU   & Arg \\
+CUC   & Leu   & CCC   & Pro   & CAC   & His   & CGC   & Arg \\
+CUA   & Leu   & CCA   & Pro   & CAA   & Gln   & CGA   & Arg \\
+CUG   & Leu   & CCG   & Pro   & CAG   & Gln   & CGG   & Arg \\
+      &       &       &       &       &       &       & \\
+AUU   & Ile   & ACU   & Thr   & AAU   & Asn   & AGU   & Ser \\
+AUC   & Ile   & ACC   & Thr   & AAC   & Asn   & AGC   & Ser \\
+AUA   & Ile   & ACA   & Thr   & AAA   & Lys   & AGA   & Arg \\
+AUG   & Met   & ACG   & Thr   & AAG   & Lys   & AGG   & Arg \\
+      &       &       &       &       &       &       & \\
+GUU   & Val   & GCU   & Ala   & GAU   & Asp   & GGU   & Gly \\
+GUC   & Val   & GCC   & Ala   & GAC   & Asp   & GGC   & Gly \\
+GUA   & Val   & GCA   & Ala   & GAA   & Glu   & GGA   & Gly \\
+GUG   & Val   & GCG   & Ala   & GAG   & Glu   & GGG   & Gly \\
+\hline
+\end{tabular}
+\end{center}
+}
+
+\myslide{
+\heading{Types of redundancy}
+\begin{center}
+\begin{tabular}{lll}
+\hline\hline
+      & Amino & \\
+Codon & Acid  & Redundancy \\
+\hline
+CCU   & Pro   & 4-fold \\
+CCC \\
+CCA \\
+CCG \\
+\hline
+AAU   & Asn   & 2-fold \\
+AAC \\
+AAA   & Lys   & 2-fold \\
+AAG \\
+\hline
+\end{tabular}
+\end{center}
+}
+
+\myslide{
+\heading{Rates of synonymous and non-synonymous substitution}
+\scriptsize
+\begin{center}
+\begin{tabular}{lcc}
+\hline\hline
+Locus     & Non-synonymous rate & Synonymous rate \\
+\hline
+Histone \\
+\quad H4  & 0.00                & 3.94 \\
+\quad H2  & 0.00                & 4.52 \\ 
+Ribosomal proteins \\
+\quad S17 & 0.06                & 2.69 \\
+\quad S14 & 0.02                & 2.16 \\
+Hemoglobins \& myoglobin \\
+\quad $\alpha$-globin & 0.56    & 4.38 \\
+\quad $\beta$-globin  & 0.78    & 2.58 \\
+\quad Myoglobin       & 0.57    & 4.10 \\
+Interferons \\
+\quad $\gamma$  & 3.06          & 5.50 \\
+\quad $\alpha$1 & 1.47          & 3.24 \\
+\quad $\beta$1  & 2.38          & 5.33 \\
+\hline
+\end{tabular}
+\end{center}
+}
+
+\end{document}
+

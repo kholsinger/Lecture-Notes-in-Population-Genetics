@@ -1,0 +1,98 @@
+\documentclass[titlepage,landscape]{seminar}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage[pdftex]{color}
+\usepackage{hyperref}
+\usepackage{epstopdf}
+\usepackage{slides}
+
+\begin{document}
+
+\myslide{
+\begin{center}
+\begin{tabular}{lcccc}
+Gamete    & $A_1B_1$ & $A_1B_2$ & $A_2B_1$ & $A_2B_2$ \\
+Frequency & $x_{11}$ & $x_{12}$ & $x_{21}$ & $x_{22}$
+\end{tabular}
+\end{center}
+\vfill
+\begin{eqnarray*}
+x_{11} &=& p_1p_2 \\
+x_{12} &=& p_1q_2 \\
+x_{21} &=& q_1p_2 \\
+x_{22} &=& q_1q_2
+\end{eqnarray*}
+\vfill
+\begin{eqnarray*}
+x_{11} &=& p_1p_2 + D \\
+x_{12} &=& p_1q_2 - D \\
+x_{21} &=& q_1p_2 - D \\
+x_{22} &=& q_1q_2 + D
+\end{eqnarray*}
+}
+
+\myslide{
+\begin{center}
+\begin{tabular}{lcccc}
+Gamete    & $A_1B_1$ & $A_1B_2$ & $A_2B_1$ & $A_2B_2$ \\
+Frequency & $x_{11}$ & $x_{12}$ & $x_{21}$ & $x_{22}$
+\end{tabular}
+\end{center}
+\vfill
+\begin{eqnarray*}
+x_{11} &=& p_1p_2 + D \\
+x_{12} &=& p_1q_2 - D \\
+x_{21} &=& q_1p_2 - D \\
+x_{22} &=& q_1q_2 + D
+\end{eqnarray*}
+\vfill
+\[D = x_{11}x_{22} - x_{12}x_{21}\]
+}
+
+\myslide{
+\begin{eqnarray*}
+x_{11}' &=& x_{11} - rD \\
+x_{12}' &=& x_{12} + rD \\
+x_{21}' &=& x_{21} + rD \\
+x_{22}' &=& x_{22} - rD
+\end{eqnarray*}
+\vfill
+\[D' = D(1-r)\]
+}
+
+\myslide{
+\[
+\begin{array}{ccccccc}
+    &\mu_1            &     &      &     &\mu_2 \\
+A_1 &\rightleftharpoons& A_2 &\qquad& B_1 &\rightleftharpoons& B_2 \\
+    &\nu_1            &     &      &     &\nu_2 
+\end{array}
+\]
+\vfill
+\[
+\frac{\mbox{E}(D^2)}{\mbox{E}(p_1(1-p_1)p_2(1-p_2))}
+\approx \frac{1}{3 + 4N_er}
+\]
+}
+
+\myslide{
+\begin{eqnarray*}
+\mbox{\boldmath$y$} &=& \mbox{\boldmath$X$}\beta +
+\mbox{\boldmath$Z$}\gamma + \epsilon \\
+\mbox{\boldmath$X$} &=& \mbox{how each individual is assigned to a
+  genetic grouping} \\
+\beta &=& \mbox{mean phenotype of each group} \\
+\mbox{\boldmath$Z$} &=& \mbox{genotype of each individual at each
+  locus} \\
+\gamma &=& \mbox{genotypic effect at each locus} \\
+\epsilon &=& \mbox{residuals}
+\end{eqnarray*}
+\vfill
+Ignoring structure: $\epsilon \sim
+\mbox{N}(0, \sigma^2\mbox{\boldmath$I$})$
+
+With structure: $\epsilon \sim \mbox{N}(0, \sigma^2\mbox{\boldmath$R$})$
+}
+
+\end{document}
+

@@ -1,0 +1,227 @@
+\documentclass[titlepage,landscape]{seminar}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage[pdftex]{color}
+\usepackage{hyperref}
+\usepackage{epstopdf}
+\usepackage{slides}
+
+\newcommand{\frack}{\frac{1}{k}}
+
+\begin{document}
+
+\myslide{
+\begin{center}
+\begin{tabular}{cc}
+\hline\hline
+Symbol  & Definition \\
+\hline
+$N$      & number of individuals in the population \\
+$x_{11}$ & frequency of $ST/ST$ genotype \\
+$x_{12}$ & frequency of $ST/CH$ genotype \\
+$x_{22}$ & frequency of $CH/CH$ genotype \\
+$w_{11}$ & fitness of $ST/ST$ genotype \\
+$w_{12}$ & fitness of $ST/CH$ genotype \\
+$w_{22}$ & fitness of $CH/CH$ genotype \\
+\hline
+\end{tabular}
+\end{center}
+}
+
+\myslide{
+\begin{center}
+\begin{tabular}{l|ccc}
+\hline\hline
+Genotype         & $ST/ST$    & $ST/CH$    & $CH/CH$    \\
+\hline
+Number in eggs   & 41       & 82       & 27       \\
+                 & $Nx_{11}$  & $Nx_{12}$  & $Nx_{22}$  \\
+viability        & 0.6      & 0.9      & 0.45     \\
+                 & $w_{11}$   & $w_{12}$   & $w_{22}$   \\
+Number in adults & 25       & 74       & 12       \\
+                 & $w_{11}x_{11}N$ & $w_{12}x_{12}N$ & $w_{22}x_{22}N$ \\
+\hline
+\end{tabular}
+\end{center}
+}
+
+\myslide{
+\begin{eqnarray*}
+\mbox{freq($ST/ST$) before selection} 
+ &=& \frac{41}{41 + 82 + 27} \\
+ &=& 0.27 \\
+\mbox{freq($ST/ST$) before selection} 
+ &=& \frac{Nx_{11}}{Nx_{11} + Nx_{12} + Nx_{22}} \\
+ &=& x_{11} \\
+ && \\
+\mbox{freq($ST/ST$) after selection}
+ &=& \frac{25}{25 + 74 +12} \\
+ &=& 0.23 \\
+\mbox{freq($ST/ST$) after selection}
+ &=& \frac{w_{11}x_{11}N}{w_{11}x_{11}N + w_{12}x_{12}N + w_{22}x_{22}N} \\
+ &=& \frac{w_{11}x_{11}}{w_{11}x_{11} + w_{12}x_{12} +
+ w_{22}x_{22}} \\
+ &=& \frac{w_{11}x_{11}}{\bar w} \\
+ \bar w &=& w_{11}x_{11} + w_{12}x_{12} + w_{22}x_{22}
+\end{eqnarray*}
+}
+
+\myslide{
+\begin{eqnarray*}
+\hbox{freq($ST$) before selection}
+ &=& \frac{2(41) + 82}{2(41 + 82 + 27)} \\
+ &=& 0.55 \\
+\hbox{freq($ST$) before selection}
+ &=& \frac{2(Nx_{11}) + Nx_{12}}{2(Nx_{11} + Nx_{12} + Nx_{22})} \\
+ &=& x_{11} + x_{12}/2 \\
+&& \\
+\hbox{freq($ST$) after selection}
+ &=& \frac{2(25) + 74}{2(25 + 74 + 12)} \\
+ &=& 0.56 \\
+\hbox{freq($ST$) after selection}
+ &=& \frac{2w_{11}x_{11}N + w_{12}x_{12}N}{2(w_{11}x_{11}N + w_{12}x_{12}N + w_{22}x_{22}N)} \\
+ &=& \frac{2w_{11}x_{11} + w_{12}x_{12}}{2(w_{11}x_{11} + w_{12}x_{12} + w_{22}x_{22})} \\
+p' &=& \frac{w_{11}x_{11} + w_{12}x_{12}/2}{w_{11}x_{11} +
+ w_{12}x_{12} + w_{22}x_{22}} 
+\end{eqnarray*}
+}
+
+\myslide{
+\begin{eqnarray*}
+p' &=& \frac{w_{11}x_{11} + w_{12}x_{12}/2}{w_{11}x_{11} +
+ w_{12}x_{12} + w_{22}x_{22}} \\
+x_{11} &=& p^2, \quad x_{12} = 2pq, \quad x_{22} = q^2 \\
+p' &=& \frac{w_{11}p^2 + w_{12}pq}{w_{11}p^2 + w_{12}2pq + w_{22}q^2} \\
+\bar w &=& w_{11}x_{11} + w_{12}x_{12} + w_{22}x_{22} \\
+       &=& p^2w_{11} + 2pqw_{12} + q^2w_{22}
+\end{eqnarray*}
+}
+
+\myslide{
+\begin{eqnarray*}
+p' &=& \frac{w_{11}p^2 + w_{12}pq}{\bar w} \\
+   &=& \frac{p^2 + (w_{12}/w_{11})pq}{(\bar w/w_{11})} 
+\end{eqnarray*}
+
+\begin{center}
+\begin{tabular}{ccc}
+\hline\hline
+\multicolumn{3}{c}{Fitnesses} \\
+$A_1A_1$ & $A_1A_2$ & $A_2A_2$ \\
+\hline
+$w_{11}$ & $w_{12}$ & $w_{22}$ \\
+1 & $w_{12}/w_{11}$ & $w_{22}/w_{11}$ \\
+\hline
+\end{tabular}
+\end{center}
+}
+
+\myslide{
+\begin{eqnarray*}
+\Delta p &=& p' - p \\
+&=& \frac{w_{11}p^2 + w_{12}pq}{\bar w} - p \\
+&=& \frac{w_{11}p^2 + w_{12}pq - \bar wp}{\bar w} \\
+&=& \frac{p(w_{11}p + w_{12}q - \bar w)}{\bar w} \\
+&=& \frac{p(w_1 - \bar w)}{\bar w} 
+\end{eqnarray*}
+}
+
+\myslide{
+\begin{center}
+\begin{tabular}{cc}
+\hline\hline
+Pattern & Description \\
+\hline
+Directional & $w_{11} > w_{12} > w_{22}$ \\
+            & or \\
+            & $w_{11} < w_{12} < w_{22}$ \\
+Disruptive  & $w_{11} > w_{12}$, $w_{22} > w_{12}$ \\
+                                         
+Stabiliizing& $w_{11} < w_{12}$, $w_{22} < w_{12}$ \\
+\hline
+\end{tabular}
+\end{center}
+}
+
+\myslide{
+\begin{center}
+\begin{tabular}{l|ccc}
+\hline\hline
+Genotype & $A_1A_1$ & $A_1A_2$ & $A_2A_2$ \\
+\hline
+Number in zygotes & $n_{11}^{(z)}$ & $n_{12}^{(z)}$ & $n_{22}^{(z)}$ \\
+Viability         & $w_{11}$ & $w_{12}$ & $w_{22}$ \\
+Number in adults  & $n_{11}^{(a)} = w_{11}n_{11}^{(z)}$ & $n_{12}^{(a)} = w_{12}n_{12}^{(z)}$ & $n_{22}^{(a)} = w_{22}n_{22}^{(z)}$ \\
+\hline
+\end{tabular}
+\end{center}
+\[
+w_{ij} = \frac{n_{ij}^{(a)}}{n_{ij}^{(z)}}
+\]
+}
+
+\myslide{
+\begin{center}
+\begin{tabular}{l|ccc}
+\hline\hline
+Genotype & $A_1A_1$ & $A_1A_2$ & $A_2A_2$ \\
+\hline
+Frequency in zygotes & $x_{11}^{(z)}$ & $x_{12}^{(z)}$ &
+$x_{22}^{(z)}$ \\
+Frequency in adults  & $x_{11}^{(a)}$ & $x_{12}^{(a)}$ &
+$x_{22}^{(a)}$ \\
+\hline
+\end{tabular}
+\end{center}
+\begin{eqnarray*}
+x_{11}^{(a)} &=& w_{11}x_{11}^{(z)}/\bar w \\
+x_{12}^{(a)} &=& w_{12}x_{12}^{(z)}/\bar w \\
+x_{22}^{(a)} &=& w_{22}x_{22}^{(z)}/\bar w 
+\end{eqnarray*}
+}
+
+
+\myslide{
+\begin{eqnarray*}
+x_{11}^{(a)} &=& w_{11}x_{11}^{(z)}/\bar w \\
+x_{12}^{(a)} &=& w_{12}x_{12}^{(z)}/\bar w \\
+x_{22}^{(a)} &=& w_{22}x_{22}^{(z)}/\bar w 
+\end{eqnarray*}
+\begin{eqnarray*}
+x_{11}^{(a)}/x_{12}^{(a)} &=& w_{11}x_{11}^{(z)}/w_{12}x_{12}^{(z)} \\
+1 &=& 1 \\
+x_{22}^{(a)}/x_{12}^{(a)} &=& w_{22}x_{22}^{(z)}/w_{12}x_{12}^{(z)} 
+\end{eqnarray*}
+}
+
+\myslide{
+\begin{eqnarray*}
+x_{11}^{(a)}/x_{12}^{(a)} &=& w_{11}x_{11}^{(z)}/w_{12}x_{12}^{(z)} \\
+1 &=& 1 \\
+x_{22}^{(a)}/x_{12}^{(a)} &=& w_{22}x_{22}^{(z)}/w_{12}x_{12}^{(z)} 
+\end{eqnarray*}
+\begin{eqnarray*}
+\frac{w_{11}}{w_{12}} &=& \left(\frac{x_{11}^{(a)}}{x_{12}^{(a)}}\right)
+                          \left(\frac{x_{12}^{(z)}}{x_{11}^{(z)}}\right) \\
+\frac{w_{22}}{w_{12}} &=& \left(\frac{x_{22}^{(a)}}{x_{12}^{(a)}}\right)
+                          \left(\frac{x_{12}^{(z)}}{x_{22}^{(z)}}\right) 
+\end{eqnarray*}
+}
+
+\myslide{
+\begin{center}
+\begin{tabular}{l|ccc}
+\hline\hline
+Genotype & $A_1A_1$ & $A_1A_2$ & $A_2A_2$ \\
+\hline
+\\
+Relative viability & $\frac{w_{11}}{w_{12}}$ & 1 &
+$\frac{w_{22}}{w_{12}}$ \\
+\\
+\hline
+\end{tabular}
+\end{center}
+}
+
+\end{document}
+

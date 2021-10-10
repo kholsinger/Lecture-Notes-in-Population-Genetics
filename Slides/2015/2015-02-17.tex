@@ -1,0 +1,299 @@
+\documentclass[titlepage,landscape]{seminar}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage[pdftex]{color}
+\usepackage{hyperref}
+\usepackage{epstopdf}
+\usepackage{slides}
+
+\newcommand{\frack}{\frac{1}{k}}
+
+\begin{document}
+
+\myslide{
+\begin{eqnarray*}
+\mbox{freq}(A_iA_j) &=& x_{ij} \\
+x_{ij} &=& \left\{
+\begin{array}{ll}
+p_i^2   & \mbox{if $i = j$} \\
+2p_ip_j & \mbox{if $i \ne j$}
+\end{array}
+\right.
+\end{eqnarray*}
+\vfil
+With viability selection, where the fitness of genotype $A_iA_j$ is $w_{ij}$
+\begin{eqnarray*}
+p_i' &=& \frac{p_iw_i}{\bar w} \\
+w_i &=& \sum_j w_{ij}p_j
+\end{eqnarray*}
+}
+
+\myslide{
+Fitness matrix
+\[
+\begin{array}{cccc}
+  & A     & S     & C \\
+A & 0.976 & 1.138 & 1.103 \\
+S &       & 0.192 & 0.407 \\
+C &       &       & 0.550
+\end{array}
+\]
+\vfill
+Stable polymorphic equilibrium
+\begin{eqnarray*}
+p_A &=& 0.83 \\
+p_S &=& 0.07 \\
+p_C &=& 0.10 
+\end{eqnarray*}
+}
+
+\myslide{
+Fitness matrix
+\[
+\begin{array}{cccc}
+  & A     & S     & C \\
+A & 0.976 & 1.138 & 1.103 \\
+S &       & 0.192 & 0.407 \\
+C &       &       & 0.550
+\end{array}
+\]
+\vfill
+Allele $A$ absent? %$\longrightarrow$ fixation on $C$.
+}
+
+\myslide{
+Fitness matrix
+\[
+\begin{array}{cccc}
+  & A     & S     & C \\
+A & 0.976 & {\bf\textcolor{blue}{1.138}} & 1.103 \\
+S &       & 0.192 & 0.407 \\
+C &       &       & 0.550
+\end{array}
+\]
+Stable complete polymorphism
+\vfil
+\[
+\begin{array}{cccc}
+  & A     & S     & C \\
+A & 0.976 & {\bf\textcolor{blue}{1.6}} & 1.103 \\
+S &       & 0.192 & 0.407 \\
+C &       &       & 0.550
+\end{array}
+\]
+Result?
+}
+
+\myslide{
+\begin{center}
+{\large\bf Fertility selection}
+\begin{tabular}{c|ccc}
+\hline\hline
+                  & \multicolumn{3}{c}{Paternal genotype} \\
+Maternal genotype & $A_1A_1$ & $A_1A_2$ & $A_2A_2$ \\
+\hline
+$A_1A_1$ & $F_{11,11}$ & $F_{11,12}$ & $F_{11,22}$ \\
+$A_1A_2$ & $F_{12,11}$ & $F_{12,12}$ & $F_{12,22}$ \\
+$A_2A_2$ & $F_{22,11}$ & $F_{22,12}$ & $F_{22,22}$ \\
+\hline
+\end{tabular}
+\end{center}
+}
+
+\myslide{
+\begin{center}
+\begin{tabular}{c|ccc}
+\hline\hline
+                  & \multicolumn{3}{c}{Paternal genotype} \\
+Maternal genotype & $A_1A_1$ & $A_1A_2$ & $A_2A_2$ \\
+\hline
+$A_1A_1$ & $F_{11,11}$ & $F_{11,12}$ & $F_{11,22}$ \\
+$A_1A_2$ & $F_{12,11}$ & $F_{12,12}$ & $F_{12,22}$ \\
+$A_2A_2$ & $F_{22,11}$ & $F_{22,12}$ & $F_{22,22}$ \\
+\hline
+\end{tabular}
+\end{center}
+\vfill
+\[
+x_{11}' = \frac{x_{11}^2F_{11,11} + x_{11}x_{12}(F_{11,12} +
+                F_{12,11})/2 + (x_{12}^2/4)F_{12,12}}{\bar F}
+\]
+}
+
+\myslide{
+If $A_1$ is rare,
+\begin{eqnarray*}
+x_{11}' &\approx& 0 \\
+x_{12}' &\approx& \frac{x_{12}(F_{12,22} + F_{22,12})/2}{F_{22,22}}
+\end{eqnarray*}
+So $A_1$ will become more frequent if
+\[
+(F_{12,22} + F_{22,12})/2 > F_{22,22}
+\]
+}
+
+\myslide{
+If $A_1$ is rare,
+\begin{eqnarray*}
+x_{11}' &\approx& 0 \\
+x_{12}' &\approx& \frac{x_{12}(F_{12,22} + F_{22,12})/2}{F_{22,22}}
+\end{eqnarray*}
+So $A_1$ will become more frequent if
+\[
+(F_{12,22} + F_{22,12})/2 > F_{22,22}
+\]
+Similarly, $A_2$ will become more frequent when it's rare if
+\[
+(F_{11,12} + F_{12,11})/2 > F_{11,11}
+\]
+}
+
+\myslide{
+\begin{center}
+\begin{tabular}{rcccc}
+\hline\hline
+                       &           & \multicolumn{3}{c}{Offsrping genotype} \\
+Mating                 & Frequency     & $A_1A_1$ & $A_1A_2$ & $A_2A_2$ \\
+\hline
+$A_1A_1 \times A_1A_1$ & $x_{11}^fx_{11}^m$     &        1 &        0 &        0 \\
+              $A_1A_2$ & $x_{11}^fx_{12}^m$ &    $\half$ &    $\half$ &        0 \\
+              $A_2A_2$ & $x_{11}^fx_{22}^m$ &        0 &        1 &        0 \\
+$A_1A_2 \times A_1A_1$ & $x_{12}^fx_{11}^m$ &    $\half$ &    $\half$ &        0 \\ 
+              $A_1A_2$ & $x_{12}^fx_{12}^m$     &  $\fourth$ &    $\half$ &  $\fourth$ \\
+              $A_1A_2$ & $x_{12}^fx_{22}^m$ &        0 &    $\half$ &    $\half$ \\
+$A_2A_2 \times A_1A_1$ & $x_{22}^fx_{11}^m$ &        0 &        1 &        0 \\
+              $A_1A_2$ & $x_{22}^fx_{12}^m$ &        0 &    $\half$ &    $\half$ \\   
+              $A_2A_2$ & $x_{22}^fx_{22}^m$     &        0 &
+0 & 1 \\
+\hline
+\end{tabular}
+\end{center}
+}
+
+\myslide{
+\begin{eqnarray*}
+x_{11}^m &=& \frac{x_{11}a_{11}}{\bar a} \\
+x_{12}^m &=& \frac{x_{12}a_{12}}{\bar a} \\
+x_{22}^m &=& \frac{x_{22}a_{22}}{\bar a}
+\end{eqnarray*}
+\vfil
+\[
+x_{11}' = \frac{x_{11}^2a_{11} + x_{11}x_{12}(a_{12} + a_{11})/2
+                + x_{12}^2a_{12}/4}{\bar a}
+\]
+\vfil
+Evolutionary dynamics the same as fertility selection where only the
+male genotype matters in determining the number of offspring.
+}
+
+\myslide{
+\begin{eqnarray*}
+\mbox{Probability that both offspring are $A_1$} &=& p^2 \\
+\mbox{Probability that one offspring is $A_1$ and one is $A_2$} &=& 2pq \\
+\mbox{Probability that both offspring are $A_2$} &=& q^2
+\end{eqnarray*}
+\vfill
+\begin{eqnarray*}
+P(p'=1) &=& p^2  \\
+P(p'=1/2) &=& 2pq \\
+P(p'=0) &=& q^2 
+\end{eqnarray*}
+}
+
+\myslide{
+\begin{eqnarray*}
+P(p_1=1|p_0) &=& p_0^2  \\
+P(p_1=1/2|p_0) &=& 2p_0q_0 \\
+P(p_1=0|p_0) &=& q_0^2  
+\end{eqnarray*}
+}
+
+\myslide{
+\begin{eqnarray*}
+P(p_1=1|p_0) &=& p_0^2  \\
+P(p_1=1/2|p_0) &=& 2p_0q_0 \\
+P(p_1=0|p_0) &=& q_0^2  
+\end{eqnarray*}
+\vfil
+\begin{eqnarray*}
+P(p_2=1|p_1) &=& p_1^2 \\
+P(p_2=1/2|p_1) &=& 2p_1q_1 \\
+P(p_2=0|p_1) &=& q_1^2 
+\end{eqnarray*}
+}
+
+\myslide{
+\footnotesize
+\begin{eqnarray*}
+P(p_2=1|p_0) &=& P(p_2=1|p_1=1)P(p_1=1|p_0) + P(p_2=1|p_1=1/2)P(p_1=1/2|p_0) \\
+             &=& (1)(p_0^2) + (1/4)(2p_0q_0) \\
+             &=& p_0^2 + (1/2)p_0q_0 \\
+P(p_2=1/2|p_0) &=& P(p_2=1/2|p_1=1/2)P(p_1=1/2|p_0) \\
+               &=& (1/2)(2p_0q_0) \\
+               &=& p_0q_0 \\
+P(p_2=0|p_0) &=& P(p_2=0|p_1=0)P(p_1=0|p_0) + P(p_2=0|p_1=1/2)P(p_1=1/2|p_0) \\
+             &=& (1)(q_0^2) + (1/4)(2p_0q_0) \\
+             &=& q_0^2 + (1/2)p_0q_0 
+\end{eqnarray*}
+}
+
+\myslide{
+\begin{eqnarray*}
+P(p_t=1|p_0) &=& p_0^2 + \left(1 - (1/2)^{t-1}\right)p_0q_0 \\
+P(p_t=1/2|p_0) &=& p_0q_0(1/2)^{t-2} \\
+P(p_t=0|p_0) &=& q_0^2 + \left(1 - (1/2)^{t-1}\right)p_0q_0
+\end{eqnarray*}
+}
+
+\myslide{
+\[
+P(\hbox{$j$ $A_1$ in offspring $|$ $i$ $A_1$ in parents}) =
+{2N \choose j}\left(\frac{i}{2N}\right)\left(1 - \frac{i}{2N}\right)
+\]
+\vfil
+\[
+\hbox{Var}(p_{t+1}) = \frac{p_t(1-p_t)}{2N}
+\]
+}
+
+\myslide{
+\begin{eqnarray*}
+f_{t+1} &=& \mbox{Prob. ibd from preceding generation} \\
+        &&  + (\mbox{Prob. not ibd from prec. gen.}) \times (\mbox{Prob. ibd from
+          earlier gen.}) \\
+   &=& \frac{1}{2N} + \left(1 - \frac{1}{2N}\right)f_t
+\end{eqnarray*}
+\vfil
+\[
+f_{t+1} = 1 - \left(1 - \frac{1}{2N}\right)^t(1-f_0)
+\]
+}
+
+\myslide{
+\[
+Var(p_{t+1}) = \frac{p_t(1-p_t)}{2N} \quad.
+\]
+\vfil
+\[
+N_e^{(v)} = \frac{p(1-p)}{2\widehat{Var}(p)}
+\]
+}
+
+\myslide{
+\[
+f_{t+1}
+   = \frac{1}{2N} + \left(1 - \frac{1}{2N}\right)f_t
+\]
+\vfil
+\[
+N_e^{(f)} = \frac{1 - \hat f_t}{2(\hat f_{t+1} - \hat f_t)}
+\]
+\vfil
+Assume $\hat f_t = 0$
+\[
+N_e^{(f)} = \frac{1}{2\hat f_{t+1}}
+\]
+}
+
+\end{document}
+

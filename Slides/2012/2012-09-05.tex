@@ -1,0 +1,201 @@
+\documentclass[titlepage,landscape]{seminar}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage[pdftex]{color}
+\usepackage{hyperref}
+\usepackage{epstopdf}
+\usepackage{slides}
+
+\newcommand{\frack}{\frac{1}{k}}
+
+\begin{document}
+
+\myslide{
+\begin{eqnarray*}
+\hat x_{11} &=& p^2 + fpq \\
+\hat x_{12} &=& 2pq(1-f) \\
+\hat x_{22} &=& q^2 + fpq
+\end{eqnarray*}
+}
+
+\myslide{
+\begin{center}
+\begin{tabular}{rcccc}
+Identity by descent \\
+      &            & $A_1$ & $\rightarrow$ & $A_1$ \\
+      & $\nearrow$ &       &               & \\
+$A_1$ &            &       &               & \\
+      & $\searrow$ &       &               & \\
+      &            & $A_1$ & $\rightarrow$ & $A_1$ 
+\end{tabular}
+\end{center}
+}
+
+\myslide{
+\begin{center}
+\begin{tabular}{rcccc}
+Identity by type \\
+      &            & $A_1$ & $\rightarrow$ & $A_1$ \\
+      & $\nearrow$ &       &               & \\
+$A_1$ &            &       &               & \\
+      & $\searrow$ &       &               & \\
+      &            & $A_2$ & $\rightarrow$ & $A_1$ \\
+      & $\uparrow$ &       & $\uparrow$    & \\
+      & mutation   &       & mutation      & 
+\end{tabular}
+\end{center}
+}
+
+\myslide{
+\begin{eqnarray*}
+x_{11} &=& p^2(1-f) + fp \\
+x_{12} &=& 2pq(1-f) \\
+x_{22} &=& q^2(1-f) + fq 
+\end{eqnarray*}
+\begin{eqnarray*}
+x_{11} &=& p^2 + fpq \\
+x_{12} &=& 2pq(1-f) \\
+x_{22} &=& q^2 + fpq 
+\end{eqnarray*}
+}
+
+\myslide{
+\begin{center}
+\begin{tabular}{cccc}
+\hline\hline
+          &          & Observed & Expected \\
+Phenotype & Genotype & Number   & Number   \\
+\hline
+M         & mm       & 298      & 294.3 \\
+MN        & mn       & 489      & 496.3 \\
+N         & nn       & 213      & 209.3 \\
+\hline
+\end{tabular}
+\end{center}
+}
+
+\myslide{
+\begin{center}
+\begin{tabular}{lcccc}
+\hline\hline
+Phenotype &   A &  AB &   B &   O \\
+\hline
+Observed  & 862 & 131 & 365 & 702 \\
+Expected  & 846 & 150 & 348 & 617 \\
+\hline
+\multicolumn{5}{l}{$\chi^2_1 = 3.8$, $0.05 < p < 0.1$.}
+\end{tabular}
+\end{center}
+}
+
+\myslide{
+\begin{center}
+\begin{tabular}{c|cccc}
+\hline\hline
+Model   & Dbar   & Dhat   & pD    & DIC \\
+\hline
+$f > 0$ & 24.900 & 22.319 & 2.581 & 24.480 \\
+$f = 0$ & 27.827 & 25.786 & 2.041 & 29.869 \\
+\hline
+\end{tabular}
+\end{center}
+}
+
+\myslide{
+\begin{center}
+\begin{tabular}{l|rrr}
+\hline\hline
+       & $A_1A_1$ & $A_1A_2$ & $A_2A_2$ \\
+\hline
+From forest & 16  & 48       & 36 \\
+From meadow & 49  & 42       & 9 \\
+\hline
+Total       & 65  & 90       & 45 \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{eqnarray*}
+p &=& \frac{2(65) + 90}{2(65 + 90 + 45)} \\ 
+  &=& 0.55 \\
+  &=& 0.5(0.4 + 0.7)
+\end{eqnarray*}
+}
+
+\myslide{
+\begin{center}
+\begin{tabular}{l|rrr}
+\hline\hline
+       & $A_1A_1$ & $A_1A_2$ & $A_2A_2$ \\
+\hline
+From forest & 16  & 48       & 36 \\
+From meadow & 49  & 42       & 9 \\
+\hline
+Total       & 65  & 90       & 45 \\
+Expected (from $p=0.55$)    & (0.3025)200 & (0.4950)200 & (0.2025)200 \\
+                            & 60.5     & 99.0     & 40.5 \\
+\hline
+\end{tabular}
+\end{center}
+}
+
+\myslide{
+\begin{center}
+\begin{tabular}{l|rrr}
+\hline\hline
+         & $A_1A_1$       & $A_1A_2$         & $A_2A_2$ \\
+\hline
+Expected & $\bar p^2$     & $2\bar p\bar q$  & $\bar q^2$ \\
+Observed & $\frack\sum p_i^2$ & $\frack\sum 2p_iq_i$ & $\frack\sum q_i^2$ \\
+\hline
+\end{tabular}
+\end{center}
+}
+
+\myslide{
+\begin{eqnarray*}
+\frack\sum p_i^2 &=& \frack\sum (p_i - \bar p + \bar p)^2 \\
+&=& \frack\sum \left((p_i - \bar p)^2 + 2\bar p(p_i - \bar p)
+                            + \bar p^2\right) \\
+             &=& \frack\sum (p_i - \bar p)^2 + \bar p^2 \\
+             &=& \hbox{Var}(p) + \bar p^2 \label{eq:p2} \\
+\frack\sum 2p_iq_i &=& 2\bar p\bar q - 2\hbox{Var}(p) \label{eq:2pq} \\
+\frack\sum q_i^2   &=& \bar q^2 + \hbox{Var}(p) \label{eq:q2}
+\end{eqnarray*}
+}
+
+\myslide{
+\begin{center}
+\begin{tabular}{l|rcrcr}
+\hline\hline
+         & Expected &   &           &   & Observed \\
+\hline
+$A_1A_1$ &   0.3025 & + &   0.0225  & = &   0.3250 \\
+$A_1A_2$ &   0.4950 & - & 2(0.0225) & = &   0.4500 \\
+$A_2A_2$ &   0.2025 & + &   0.0225  & = &   0.2250 \\
+\hline
+\end{tabular}
+\end{center}
+}
+
+\myslide{
+\begin{eqnarray*}
+\frack\sum p_i^2 &=& \bar p^2 + F_{st}\bar p \bar q \label{eq:p2-f} \\
+\frack\sum 2p_iq_i &=& 2\bar p\bar q(1 - F_{st}) \label{eq:2pq-f} \\
+\frack\sum q_i^2   &=& \bar q^2 + F_{st}\bar p \bar q \label{eq:q2-f}
+\end{eqnarray*}
+}
+
+\myslide{
+\[
+F_{it} = 1 - \frac{H_i}{H_t}
+\]
+\begin{eqnarray*}
+1 - F_{it} &=& \frac{H_i}{H_t} \\
+           &=& \left(\frac{H_i}{H_s}\right)\left(\frac{H_s}{H_t}\right) \\
+           &=& (1 - F_{is})(1 - F_{st}) 
+\end{eqnarray*}
+}
+
+\end{document}
+
