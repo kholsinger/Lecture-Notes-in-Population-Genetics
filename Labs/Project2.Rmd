@@ -1,167 +1,46 @@
 ---
-title: "Exploring isolation by distance"
-output: html_notebook
+title: "Project 2"
+output:
+  html_notebook:
+    toc: yes
+    toc_float: true
 ---
 
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+# Introduction
 
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+A little over 30 years ago Waples and Teel^[Waples, R.S., and D.J. Teel.  1990.  Conservation Genetics of Pacific Salmon I. Temporal Changes in Allele Frequency. *Conservation Biology*  4:144-156 [https://doi.org/10.1111/j.1523-1739.1990.tb00103.x](https://doi.org/10.1111/j.1523-1739.1990.tb00103.x) ***NOTE*** You'll find a freely available version of the paper at [https://digitalcommons.unl.edu/cgi/viewcontent.cgi?article=1431&context=usdeptcommercepub](https://digitalcommons.unl.edu/cgi/viewcontent.cgi?article=1431&context=usdeptcommercepub).] reported a remarkable pattern in genetic samples of Pacific Coast salmon: 
 
-```{r}
-library(tidyverse)
-library(hierfstat)
-library(ggplot2)
-library(tictoc)
+- In nine wild populations sampled in two different years, only 8 percent of allele frequency comparisons between years were statistically significant - only a little more than what you'd expect given that they used a 5 percent threshold to determine statistical significance.
 
-initialize <- function(k, n_loci) {
-  p <- array(dim = c(n_loci, k, 2))
-  for (j in 1:n_loci) {
-    for (i in 1:k) {
-      p[j, i, 1] <- runif(n = 1, min = 0, max = 1)
-      p[j, i, 2] <- 1 - p[j, i, 1]
-    }
-  }
-  return(p)
-}
+- In eight of nine hatchery populations, on the other hand, the proportion of statisticaly significant changes ranged from 22-63 percent. Only in one was the fraction of statisticaly significant changes similar to that in wild populations.^[It's a little hard to be sure given the way that the data are summarize, but it appears that the hatchery where the proportion of significant tests is similar to wild population is Cole Rivers (spring), where there is a very small number of individuals in 1980 and the largest sample of all in 1984.]
 
-make_symmetric_matrix <- function(m, k) {
-  M <- diag(x = 1 - m, nrow = k)
-  for (i in 1:(k - 1)) {
-    for (j in (i+1):k) {
-      M[i, j] <- m/(k-1)
-      M[j, i] <- M[i, j]
-    }
-  }
-  return(M)
-}
+Their paper goes beyond simply noting that conservationists need to monitor the genetic impact of hatchery populations on wild populations. They construct a relatively simple model to explore the magnitude of allele frequency changes you'd expect to see as a result of genetic drift and they extend it to see whether natural selection in the hatchery environment could account for the large number of allele frequency changes observed there.
 
-make_1_d_steppingstone_matrix <- function(m, k) {
-  M <- diag(x = 1 - m, nrow = k)
-  M[1, 2] <- m
-  M[k, k - 1] <- m
-  for (i in 2:(k - 1)) {
-    M[i, i - 1] <- m/2
-    M[i, i + 1] <- m/2
-  }
-  return(M)
-}
+# Questions
 
-sample_two_alleles <- function(p) {
-  allele_1 <- ((runif(1) < p) + 1)*10
-  allele_2 <- (runif(1) < p) + 1
-  return(allele_1 + allele_2)
-}
+This project will be different from any of the lab exercises you've done so far. I'm not going to ask you to analyze any data,^[I haven't looked really hard and I didn't contact Robin Waples, but I don't think the data underlying this paper is easily available.] and I'm not going to ask you to run any simulations.^[It would be fairly easy, however, to code up their simulation in `R` if you wanted to. I don't expect you to do so, though, and I won't even give you any extra credit if you do. You'd be doing it only for your own interest to see if you could get results comparable to those that Waples and Teel report. If you're interested in coding it up and need a little help, feel free to ask.] Instead, I want you to read Waples and Teel carefully and use what you've learned about genetic drift and natural selection to answer the following questions. I'm not looking for lengthy answers - a paragraph, maybe two, for each will be sufficient. What I'm looking for is that you can can apply what you've learned to evaluate research done by a pair of very talented population geneticists.
 
-make_sample <- function(p, n_sample) {
-  n_pops <- dim(p)[2]
-  n_loci <- dim(p)[1]
-  names <- paste("Locus", seq(1:n_loci), sep = "")
-  pops <- numeric(n_pops*n_sample)
-  ct <- 1
-  for (k in 1:n_pops) {
-    population <- paste("Population", k, sep = "")
-    for (i in 1:n_sample) {
-      pops[ct] <- population
-      ct <- ct + 1
-    }
-  }
-  locus_data <- matrix(nrow = n_pops*n_sample, ncol = n_loci)
-  for (i in 1:n_loci) {
-   ct <- 1
-    for (k in 1:n_pops) {
-      for (n in 1:n_sample) {
-        locus_data[ct, i] <- sample_two_alleles(p[i, k, 1])
-        ct <- ct + 1
-      }
-    }
-  }
-  df <- data.frame(locus_data)
-  colnames(df) <- paste("Locus", seq(1:n_loci), sep = "")
-  df$Population <- pops
-  df <- relocate(df, Population)
-  return(df)
-}
+* Waples and Teel point out that "Temporally spaced samples will on average differ more than independent binomial samples drawn from the same population..." (p. 149). 
 
-simulate <- function(n_e, m, mu, n_islands, n_loci, n_gen, n_sample, type = "island") {
-  p <- initialize(n_islands, n_loci)
-  if (type == "island") {
-    M <- make_symmetric_matrix(m, n_islands)
-  } else if (type == "1-d") {
-    M <- make_1_d_steppingstone_matrix(m, n_islands)
-  } else {
-    stop("Only \"island\" and \"1-d\" supported")
-  }
-  V <- make_symmetric_matrix(mu, 2)
-  g_st <- numeric(n_loci)
-  p_star <- array(dim = c(n_loci, n_islands, 2))
-  for (i in 1:n_gen) {
-    for (k in 1:n_loci) {
-      p_star[k, , ] <- M %*% p[k, , ] %*% V
-      for (j in 1:n_islands) {
-        p[k, j, ] <- rmultinom(1, 2*n_e, p_star[k, j, ])/(2*n_e)
-      }
-      mu_p <- mean(p[k, , 1])
-      g_st[k] <- ((n_islands - 1)/n_islands)*var(p[k, , 1])/(mu_p*(1 - mu_p))
-    }
-  }
-  df <- make_sample(p, n_sample)
-  return(wc(df)$FST)
-}
+  1. Why will independent samples from the same population taken at different times differ more, on average, than independent samples from the same population taken at the same time?
+  
+* Waples and Teel show that the average magnitude of allele frequency change drops at year 4 and increases from there.^[They summarize the result differently. They write "[T]he change in allele frequencies over 10-25 years was not much larger than the change over shorter periods" (p. 149).] 
 
-run_simulation <- function(n_e, m, mu, n_islands, n_loci, n_gen, 
-                           n_sample, n_repetitions)
-{
-  f_st <- numeric(n_repetitions)
-  for (i in 1:n_repetitions) {
-    if (n_repetitions > 50) {
-      cat(".", sep="")
-      if ((i %% 50) == 0) {
-        cat(i, "\n", sep ="")
-      }
-    }
-    f_st[i] <-simulate(n_e, m, mu, n_islands, n_loci, n_gen, n_sample)
-  }
-  return(f_st)
-}
+  2. What might explain the drop at year 4 and the increase from there. 
+  
+* Waples and Teel note that the fraction of significant tests for comparisons of allele frequencies between samples taken at different times depends neither on the sample size, $S$, nor the effective number of breeders, $N_b$,^[$N_b$ is equivalent to the effective population size.], but on the ratio $S/N_b$ (see Figure 4, p. 149).
 
-plot_simulation <- function(f_st, n_e, m, mu, n_islands) {
-  df <- data.frame(F_st = f_st)
-  p <- ggplot(df, aes(x = F_st)) +
-    geom_histogram(bins = 20, alpha = 0.4) +
-    geom_vline(xintercept = infinite_island(n_e, m, mu),
-               linetype = "dashed",
-               color = "red") +
-    geom_vline(xintercept = finite_island(n_e, m, mu, n_islands),
-               linetype = "dashed",
-               color = "blue") +
-    ggtitle(paste("N_e = ", n_e, ", m = ", m, ", mu = ", mu, 
-                  ", n_islands = ", n_islands, sep = "")) +
-    theme_bw()
-  return(p)
-}
+  3. Why does the fraction of significant tests become so large when the sample size is large relative to the effective number of breeders, i.e., when $S/N_b$ is large?
+  
+* Waples and Teel used the following set of fitnesses in their simulation to study the effect of selection:
 
-tic()
-df <- tibble(Type = NA, F_st = NA)
-for (i in 1:100) {
-  f_st <- simulate(n_e = 25, m = 0.1, mu=1.0e-4, n_islands = 100, n_loci = 100, n_gen = 1000, n_sample = 25,
-                   type = "island")
-  df <- add_row(df, Type = "Island", F_st = f_st)
-  f_st <- simulate(n_e = 25, m = 0.1, mu=1.0e-4, n_islands = 100, n_loci = 100, n_gen = 1000, n_sample = 25,
-                   type = "1-d")
-  df <- add_row(df, Type = "1-d", F_st = f_st)
-}
-df <- filter(df, !is.na(Type))
-toc()
-p <- ggplot(df, aes(x = F_st, fill = Type, color = Type)) +
-  geom_histogram(bins = 10) +
-  ggtitle(paste("Number of populations: ", 100, sep = "")) +
-  theme_bw()
-p
-```
+| $A_1A_1$ | $A_1A_2$ | $A_2A_2$ |
+|:--------:|:--------:|:--------:|
+| $1$      | $1 - s$  | $1 - 2s$ |
 
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+They note that $s > 0.2$ would be necessary for 36 percent of allele frequency comparisons to be statistically significant after 4 years (Figure 5, p. 151). I agree that this magnitude of selection is unrealistic. They did not note that small populations show a higher proportion of significant tests than larger ones unless $s$ is very large.
 
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
-
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
-
+  4. Given what you know about drift and selection, why do you think there are fewer significant changes in allele frequency detected when populations are large than when they are small?
+  
+  5. If you were extending this simulation study, do you think it would be more useful to (a) calculate the fraction of allele frequency comparisons that show statisticaly significant differences between time periods or (b) study how the mean and variance of allele frequency differences changes over time?
+  
