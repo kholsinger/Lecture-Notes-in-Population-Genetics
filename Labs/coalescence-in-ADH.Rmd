@@ -1,0 +1,65 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+library(ape)
+library(phyclust)
+library(tidyverse)
+```
+
+24 ADH sequences from Genbank. Aligned using default parameters in Muscle [https://www.ebi.ac.uk/Tools/services/web_muscle/toolform.ebi](https://www.ebi.ac.uk/Tools/services/web_muscle/toolform.ebi)
+
+```{r}
+adh <- read.dna("Drosophila-ADH-aligned.clw", format = "clustal")
+adh_distances <- dist.dna(adh)
+adh_tree <- nj(adh_distances)
+adh_tree$tip.label <- paste(1:length(adh_tree$tip.label))
+plot(adh_tree)
+adh_trimmed <- drop.tip(adh_tree, c(22, 19, 17, 16, 14, 23, 20, 18, 12, 24, 3:6, 21, 13, 15, 8, 2))
+plot(adh_trimmed)
+adh_chrono <- chronos(adh_trimmed)
+plot(adh_chrono)
+nodelabels()
+
+n_reps <- 1000
+n_taxa <- length(adh_chrono$tip.label)
+coal_times <- matrix(nrow = n_reps, ncol = n_taxa - 1)
+for (i in 1:n_reps) {
+  ms_out <- ms(nsam = n_taxa, opts = "-T")
+  ms_tree <- read.tree(text = ms_out)
+  coal_times[i, ] <- branching.times(ms_tree)
+  for (j in 1:(n_taxa - 1)) {
+    coal_times[i, j] <- coal_times[i, j]/coal_times[i, 1]
+  }
+}
+result <- data.frame(Observed = branching.times(adh_chrono),
+                     Expected = apply(coal_times, 2, mean),
+                     Lower_2.5 = apply(coal_times, 2, quantile, 0.025),
+                     Upper_97.5 = apply(coal_times, 2, quantile, 0.975))
+result
+for_plot <- data.frame(t(cbind(branching.times(adh_chrono), t(coal_times))))
+colnames(for_plot) <- c(paste("Node", (n_taxa+1):(2*n_taxa-1), sep = ""))
+for_plot$Replicate <- paste(rep("Replicate", nrow(for_plot), sep = ""))
+for_plot <- for_plot %>%
+  pivot_longer(starts_with("Node"), values_to = "Time") %>%
+  filter(name != paste("Node", n_taxa+1, sep = ""))
+p <- ggplot(for_plot, aes(x = name, y = Time)) +
+  geom_violin() +
+  xlab("Observed time of coalescence") +
+  ylab("Expected time of coalescence") + 
+  theme_bw()
+p
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
