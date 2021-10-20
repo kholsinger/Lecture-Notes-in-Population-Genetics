@@ -1,7 +1,6 @@
 \documentclass[titlepage,landscape]{seminar}
 \usepackage{url}
 \usepackage{graphicx}
-\usepackage[pdftex]{color}
 \usepackage{hyperref}
 \usepackage{epstopdf}
 \usepackage{slides}
@@ -136,6 +135,151 @@ Interferons \\
 \hline
 \end{tabular}
 \end{center}
+}
+
+\myslide{
+\heading{Kreitman and Aquad\'e} \\
+{\small
+If mutations are neutral:
+
+\begin{itemize}
+
+\item The substitution rate equals the mutation rate.
+
+\item Diversity within populations will be $\frac{4N_e\mu}{4N_e\mu + 1}$
+
+\item Therefore, the amount of divergence between two species should
+  be related to the amount of diversity within each.
+
+\end{itemize}
+
+Example: The {\it ADH\/} locus in {\it Drosophila melanogaster\/} and
+{\it D. simulans}
+
+\begin{itemize}
+
+\item Calculate the number of ``site equivalents'' in each region of
+  the locus.
+
+\item Calculate the number of polymorphic site equivalents
+
+\[
+\frac{25}{414+411+129} \approx 0.026
+\]
+
+\item Calculate the expected number of polymorphic sites within a
+  region assuming the same fraction of polymorphic sites in each
+  region. 
+
+\end{itemize}
+}
+}
+
+\myslide{
+\heading{Kreitman and Aguad\'e}
+
+{\small
+\begin{center}
+\begin{tabular}{l|ccc}
+\hline\hline
+         & 5' flanking & {\it Adh\/} locus & 3' flanking \\
+\hline
+Diversity$^1$ \\
+\quad Observed & 9     & \color{red}{\bf 14}   & 2    \\
+\quad Expected & 10.8  & 10.8 & 3.4  \\
+Divergence$^2$ \\
+\quad Observed & 86    & 48   & 31   \\
+\quad Expected & 55    & \color{red}{\bf 76.9} & 33.1 \\
+\hline
+\multicolumn{4}{l}{$^1$Number of polymorphic sites within {\it
+         D. melanogaster\/}} \\
+\multicolumn{4}{l}{$^2$Number of nucleotide differences between {\it
+         D. melanogaster\/} and {\it D. simulans}}
+\end{tabular}
+\end{center}
+}
+
+}
+
+\myslide{
+\heading{Kreitman and Hudson}
+
+\begin{center}
+\resizebox{\textwidth}{!}{\includegraphics{kreitman-hudson.eps}}
+\end{center}
+
+}
+
+\myslide{
+\heading{$F_{ST}$ outliers}
+
+\begin{center}
+\resizebox{\textwidth}{!}{\includegraphics{outlier.eps}}
+\end{center}
+
+}
+
+\myslide{
+\heading{$F_{ST}$ outliers}
+
+\begin{center}
+\resizebox{0.9\textwidth}{!}{\includegraphics[angle=270]{outlier-high.eps}}
+\end{center}
+
+}
+
+\myslide{
+\heading{Segregating sites and nucleotide diversity}
+
+\begin{eqnarray*}
+k &=& \mbox{number of segregating sites} \\
+\hat \pi &=& \sum x_ix_j\delta_{ij}/N ,
+\end{eqnarray*}
+where $x_i$ is the frequency of haplotype $i$, $\delta_{ij}$ is the
+number of nucleotide differences between $i$ and $j$, and $N$ is the
+sequence length.
+}
+
+\myslide{
+\heading{Tajima's $D$}
+
+Let $\theta = 4N_e\mu$. {\bf NOTE}: This is not the same $\theta$ we
+encountered when we were doing $F$-statistics.
+
+\begin{eqnarray*}
+\mbox{E}(k) &=& \theta \sum_i^{n-1} \frac{1}{i} \\
+\mbox{E}(\pi) &=& \theta
+\end{eqnarray*}
+
+Two estimates of $\theta$:
+
+\begin{eqnarray*}
+\hat\theta_{\pi} &=& \hat \pi \\
+\hat\theta_k &=& \frac{k}{\sum_i^{n-1} \frac{1}{i}}
+\end{eqnarray*}
+}
+
+\myslide{
+\heading{Tajima's $D$}
+
+\[
+\hat D = \theta_{\pi} - \theta_k
+\]
+
+\begin{description}
+
+\item[Neutral variation] $\hat D \approx 0$ 
+
+\item[Overdominant selection] $\hat D > 0$
+
+\item[Population bottleneck] $\hat D > 0$
+
+\item[Purifying selection] $\hat D < 0$
+
+\item[Population expansion] $\hat D < 0$
+
+\end{description}
+
 }
 
 \end{document}
