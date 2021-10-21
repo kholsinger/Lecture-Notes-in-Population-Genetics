@@ -3,9 +3,6 @@ title: "R Notebook"
 output: html_notebook
 ---
 
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
-
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
 
 ```{r}
 library(ape)
@@ -17,9 +14,9 @@ library(tidyverse)
 
 ```{r}
 adh <- read.dna("Drosophila-ADH-aligned.clw", format = "clustal")
+rownames(adh) <- paste("Seq", 1:nrow(adh), sep = "")
 adh_distances <- dist.dna(adh)
 adh_tree <- nj(adh_distances)
-adh_tree$tip.label <- paste(1:length(adh_tree$tip.label))
 plot(adh_tree)
 adh_trimmed <- drop.tip(adh_tree, c(22, 19, 17, 16, 14, 23, 20, 18, 12, 24, 3:6, 21, 13, 15, 8, 2))
 plot(adh_trimmed)
@@ -55,11 +52,120 @@ p <- ggplot(for_plot, aes(x = name, y = Time)) +
   ylab("Expected time of coalescence") + 
   theme_bw()
 p
+p <- ggplot(result, aes(x = Expected, y = Observed)) +
+  geom_point() +
+  geom_errorbar(aes(xmin = Lower_2.5, xmax = Upper_97.5)) +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "red") +
+  xlim(0, 1) +
+  ylim(0, 1) +
+  theme_bw()
+p
 ```
 
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
 
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
+13 sRNAse sequences from *Solanum carolinense*. Aligned using default parameters in Muscle [https://www.ebi.ac.uk/Tools/services/web_muscle/toolform.ebi](https://www.ebi.ac.uk/Tools/services/web_muscle/toolform.ebi) 
 
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+See Richman et al. (1995) doi: [10.1038/hdy.1995.153](https://dx.doi.org/10.1038/hdy.1995.153)
 
+```{r}
+rnase <- read.dna("sRNAse-Solanum-carolinense.clw", format = "clustal")
+rownames(rnase) <- paste("Seq", 1:nrow(rnase), sep = "")
+rnase_distances <- dist.dna(rnase)
+rnase_tree <- nj(rnase_distances)
+plot(rnase_tree)
+rnase_trimmed <- drop.tip(rnase_tree, c(5, 11))
+rnase_chrono <- chronos(rnase_trimmed, model = "relaxed")
+plot(rnase_chrono)
+nodelabels()
+
+n_reps <- 1000
+n_taxa <- length(rnase_chrono$tip.label)
+coal_times <- matrix(nrow = n_reps, ncol = n_taxa - 1)
+for (i in 1:n_reps) {
+  ms_out <- ms(nsam = n_taxa, opts = "-T")
+  ms_tree <- read.tree(text = ms_out)
+  coal_times[i, ] <- branching.times(ms_tree)
+  for (j in 1:(n_taxa - 1)) {
+    coal_times[i, j] <- coal_times[i, j]/coal_times[i, 1]
+  }
+}
+plot(ms_tree)
+nodelabels()
+result <- data.frame(Observed = branching.times(rnase_chrono),
+                     Expected = apply(coal_times, 2, mean),
+                     Lower_2.5 = apply(coal_times, 2, quantile, 0.025),
+                     Upper_97.5 = apply(coal_times, 2, quantile, 0.975))
+result
+p <- ggplot(result, aes(x = Expected, y = Observed)) +
+  geom_point() +
+  geom_errorbar(aes(xmin = Lower_2.5, xmax = Upper_97.5)) +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "red") +
+  xlim(0, 1) +
+  ylim(0, 1) +
+  theme_bw()
+p
+
+rnase_trimmed <- drop.tip(rnase_tree, c(6, 7, 8, 9))
+rnase_chrono <- chronos(rnase_trimmed, model = "relaxed")
+plot(rnase_chrono)
+nodelabels()
+
+n_reps <- 1000
+n_taxa <- length(rnase_chrono$tip.label)
+coal_times <- matrix(nrow = n_reps, ncol = n_taxa - 1)
+for (i in 1:n_reps) {
+  ms_out <- ms(nsam = n_taxa, opts = "-T")
+  ms_tree <- read.tree(text = ms_out)
+  coal_times[i, ] <- branching.times(ms_tree)
+  for (j in 1:(n_taxa - 1)) {
+    coal_times[i, j] <- coal_times[i, j]/coal_times[i, 1]
+  }
+}
+plot(ms_tree)
+nodelabels()
+result <- data.frame(Observed = branching.times(rnase_chrono),
+                     Expected = apply(coal_times, 2, mean),
+                     Lower_2.5 = apply(coal_times, 2, quantile, 0.025),
+                     Upper_97.5 = apply(coal_times, 2, quantile, 0.975))
+result
+p <- ggplot(result, aes(x = Expected, y = Observed)) +
+  geom_point() +
+  geom_errorbar(aes(xmin = Lower_2.5, xmax = Upper_97.5)) +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "red") +
+  xlim(0, 1) +
+  ylim(0, 1) +
+  theme_bw()
+p
+
+rnase_trimmed <- drop.tip(rnase_tree, c(4, 5, 10, 11, 12))
+rnase_chrono <- chronos(rnase_trimmed, model = "relaxed")
+plot(rnase_chrono)
+nodelabels()
+
+n_reps <- 1000
+n_taxa <- length(rnase_chrono$tip.label)
+coal_times <- matrix(nrow = n_reps, ncol = n_taxa - 1)
+for (i in 1:n_reps) {
+  ms_out <- ms(nsam = n_taxa, opts = "-T")
+  ms_tree <- read.tree(text = ms_out)
+  coal_times[i, ] <- branching.times(ms_tree)
+  for (j in 1:(n_taxa - 1)) {
+    coal_times[i, j] <- coal_times[i, j]/coal_times[i, 1]
+  }
+}
+plot(ms_tree)
+nodelabels()
+result <- data.frame(Observed = branching.times(rnase_chrono),
+                     Expected = apply(coal_times, 2, mean),
+                     Lower_2.5 = apply(coal_times, 2, quantile, 0.025),
+                     Upper_97.5 = apply(coal_times, 2, quantile, 0.975))
+result
+p <- ggplot(result, aes(x = Expected, y = Observed)) +
+  geom_point() +
+  geom_errorbar(aes(xmin = Lower_2.5, xmax = Upper_97.5)) +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "red") +
+  xlim(0, 1) +
+  ylim(0, 1) +
+  theme_bw()
+p
+```
