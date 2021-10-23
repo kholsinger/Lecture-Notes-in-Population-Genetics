@@ -1,5 +1,5 @@
 ---
-title: "R Notebook"
+title: "Coalescence in real data"
 output: html_notebook
 ---
 
@@ -7,25 +7,53 @@ output: html_notebook
 ```{r}
 library(ape)
 library(phyclust)
-library(tidyverse)
+library(ggplot2)
+
+rm(list = ls())
 ```
 
 24 ADH sequences from Genbank. Aligned using default parameters in Muscle [https://www.ebi.ac.uk/Tools/services/web_muscle/toolform.ebi](https://www.ebi.ac.uk/Tools/services/web_muscle/toolform.ebi)
 
+Eliminat identical sequences. Write out NEXUS file for analysis in Mr. Bayse.
 ```{r}
 adh <- read.dna("Drosophila-ADH-aligned.clw", format = "clustal")
-rownames(adh) <- paste("Seq", 1:nrow(adh), sep = "")
-adh_distances <- dist.dna(adh)
-adh_tree <- nj(adh_distances)
-plot(adh_tree)
-adh_trimmed <- drop.tip(adh_tree, c(22, 19, 17, 16, 14, 23, 20, 18, 12, 24, 3:6, 21, 13, 15, 8, 2))
-plot(adh_trimmed)
-adh_chrono <- chronos(adh_trimmed)
-plot(adh_chrono)
-nodelabels()
 
+distinct <- logical(nrow(adh))
+distinct[1] <- TRUE
+for (i in 1:(nrow(adh) - 1)) {
+  for (j in (i+1):nrow(adh)) {
+    distinct[j] <- (dist.dna(adh[c(i,j), ]) > 0)
+  }
+}
+cat("Number (total):   ", nrow(adh), "\n", sep = "")
+cat("Number distinct:  ", sum(distinct), "\n", sep = "")
+cat("Number identical: ", length(distinct[!distinct]), "\n", sep = "")
+rownames(adh) <- gsub("^.*lcl\\|(.*)$", "\\1", rownames(adh))
+write.nexus.data(adh[distinct, ], file = "Drosophila-ADH-distinct.nex")
+```
+
+```{r}
+adh_bayes <- read.nexus("Drosophila-ADH.clock.con.tre")
+plot(adh_bayes)
+```
+Eliminate polytomy
+
+```{r}
+adh_distinct <- adh[distinct, ]
+distinct <- !grepl("40648|40650|40649|40647|40641|40643|40635", 
+                   rownames(adh_distinct))
+write.nexus.data(adh_distinct[distinct, ], file = "Drosophila-ADH-distinct-2.nex")
+```
+
+
+```{r}
+adh_bayes <- read.nexus("Drosophila-ADH.clock.con.tre")
+plot(adh_bayes)
+```
+
+```{r}
 n_reps <- 1000
-n_taxa <- length(adh_chrono$tip.label)
+n_taxa <- length(adh_bayes$tip.label)
 coal_times <- matrix(nrow = n_reps, ncol = n_taxa - 1)
 for (i in 1:n_reps) {
   ms_out <- ms(nsam = n_taxa, opts = "-T")
@@ -35,26 +63,25 @@ for (i in 1:n_reps) {
     coal_times[i, j] <- coal_times[i, j]/coal_times[i, 1]
   }
 }
-result <- data.frame(Observed = branching.times(adh_chrono),
+max_time <- max(branching.times(adh_bayes))
+observed <- sort(branching.times(adh_bayes), decreasing = TRUE)
+observed <- observed/max_time
+result <- data.frame(Observed = observed,
                      Expected = apply(coal_times, 2, mean),
                      Lower_2.5 = apply(coal_times, 2, quantile, 0.025),
                      Upper_97.5 = apply(coal_times, 2, quantile, 0.975))
 result
-for_plot <- data.frame(t(cbind(branching.times(adh_chrono), t(coal_times))))
-colnames(for_plot) <- c(paste("Node", (n_taxa+1):(2*n_taxa-1), sep = ""))
-for_plot$Replicate <- paste(rep("Replicate", nrow(for_plot), sep = ""))
-for_plot <- for_plot %>%
-  pivot_longer(starts_with("Node"), values_to = "Time") %>%
-  filter(name != paste("Node", n_taxa+1, sep = ""))
-p <- ggplot(for_plot, aes(x = name, y = Time)) +
-  geom_violin() +
-  xlab("Observed time of coalescence") +
-  ylab("Expected time of coalescence") + 
-  theme_bw()
-p
 p <- ggplot(result, aes(x = Expected, y = Observed)) +
   geom_point() +
-  geom_errorbar(aes(xmin = Lower_2.5, xmax = Upper_97.5)) +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "red") +
+  xlim(0, 1) +
+  ylim(0, 1) +
+  theme_bw()
+p
+
+p <- ggplot(result, aes(x = Expected, y = Observed)) +
+  geom_point() +
+  geom_errorbar(aes(xmin = Lower_2.5, xmax = Upper_97.5, width = 0.02)) +
   geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "red") +
   xlim(0, 1) +
   ylim(0, 1) +
@@ -62,110 +89,102 @@ p <- ggplot(result, aes(x = Expected, y = Observed)) +
 p
 ```
 
-
-13 sRNAse sequences from *Solanum carolinense*. Aligned using default parameters in Muscle [https://www.ebi.ac.uk/Tools/services/web_muscle/toolform.ebi](https://www.ebi.ac.uk/Tools/services/web_muscle/toolform.ebi) 
-
-See Richman et al. (1995) doi: [10.1038/hdy.1995.153](https://dx.doi.org/10.1038/hdy.1995.153)
+67 sRNase sequences from *Solanum*: Richman and Kohn
 
 ```{r}
-rnase <- read.dna("sRNAse-Solanum-carolinense.clw", format = "clustal")
-rownames(rnase) <- paste("Seq", 1:nrow(rnase), sep = "")
+rnase <- read.dna("sRNase.fasta", format = "fasta")
 rnase_distances <- dist.dna(rnase)
 rnase_tree <- nj(rnase_distances)
 plot(rnase_tree)
-rnase_trimmed <- drop.tip(rnase_tree, c(5, 11))
-rnase_chrono <- chronos(rnase_trimmed, model = "relaxed")
-plot(rnase_chrono)
-nodelabels()
+```
 
+```{r}
+distinct <- logical(nrow(rnase))
+distinct[1] <- TRUE
+for (i in 1:(nrow(rnase) - 1)) {
+  for (j in (i+1):nrow(rnase)) {
+    distinct[j] <- (dist.dna(rnase[c(i,j), ]) > 0)
+  }
+}
+cat("Number (total):   ", nrow(rnase), "\n", sep = "")
+cat("Number distinct:  ", sum(distinct), "\n", sep = "")
+cat("Number identical: ", length(distinct[!distinct]), "\n", sep = "")
+rnase_subset <- rnase[distinct, ]
+rnase_distances <- dist.dna(rnase_subset)
+rnase_tree <- nj(rnase_distances)
+plot(rnase_tree)
+```
+
+```{r}
+rnase <- read.dna("sRNase.clw", format = "clustal")
+rnase_distances <- dist.dna(rnase)
+rnase_tree <- nj(rnase_distances)
+plot(rnase_tree)
+```
+
+```{r}
+distinct <- logical(nrow(rnase))
+distinct[1] <- TRUE
+for (i in 1:(nrow(rnase) - 1)) {
+  for (j in (i+1):nrow(rnase)) {
+    distinct[j] <- (dist.dna(rnase[c(i,j), ]) > 0)
+  }
+}
+cat("Number (total):   ", nrow(rnase), "\n", sep = "")
+cat("Number distinct:  ", sum(distinct), "\n", sep = "")
+cat("Number identical: ", length(distinct[!distinct]), "\n", sep = "")
+rnase_subset <- rnase[distinct, ]
+rnase_distances <- dist.dna(rnase_subset)
+rnase_tree <- nj(rnase_distances)
+plot(rnase_tree)
+rownames(rnase[!distinct, ])
+write.nexus.data(rnase[distinct, ], file = "sRNase-distinct.nex")
+```
+
+```{r}
+rnase_bayes <- read.nexus("sRNase.clock.con.tre")
+plot(rnase_bayes)
+```
+
+```{r}
+library(phytools)
+
+rnase_rooted <- midpoint.root(rnase_bayes)
+plot(rnase_rooted)
+```
+
+```{r}
 n_reps <- 1000
-n_taxa <- length(rnase_chrono$tip.label)
+n_taxa <- length(rnase_bayes$tip.label)
 coal_times <- matrix(nrow = n_reps, ncol = n_taxa - 1)
 for (i in 1:n_reps) {
   ms_out <- ms(nsam = n_taxa, opts = "-T")
   ms_tree <- read.tree(text = ms_out)
   coal_times[i, ] <- branching.times(ms_tree)
+  coal_times[i, ] <- sort(coal_times[i, ], decreasing = TRUE)
   for (j in 1:(n_taxa - 1)) {
     coal_times[i, j] <- coal_times[i, j]/coal_times[i, 1]
   }
 }
-plot(ms_tree)
-nodelabels()
-result <- data.frame(Observed = branching.times(rnase_chrono),
+max_time <- max(branching.times(rnase_bayes))
+observed <- sort(branching.times(rnase_bayes), decreasing = TRUE)
+observed <- observed/max_time
+result <- data.frame(Observed = observed,
                      Expected = apply(coal_times, 2, mean),
                      Lower_2.5 = apply(coal_times, 2, quantile, 0.025),
                      Upper_97.5 = apply(coal_times, 2, quantile, 0.975))
 result
 p <- ggplot(result, aes(x = Expected, y = Observed)) +
   geom_point() +
-  geom_errorbar(aes(xmin = Lower_2.5, xmax = Upper_97.5)) +
-  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "red") +
-  xlim(0, 1) +
-  ylim(0, 1) +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", 
+              color = "red") +
   theme_bw()
 p
-
-rnase_trimmed <- drop.tip(rnase_tree, c(6, 7, 8, 9))
-rnase_chrono <- chronos(rnase_trimmed, model = "relaxed")
-plot(rnase_chrono)
-nodelabels()
-
-n_reps <- 1000
-n_taxa <- length(rnase_chrono$tip.label)
-coal_times <- matrix(nrow = n_reps, ncol = n_taxa - 1)
-for (i in 1:n_reps) {
-  ms_out <- ms(nsam = n_taxa, opts = "-T")
-  ms_tree <- read.tree(text = ms_out)
-  coal_times[i, ] <- branching.times(ms_tree)
-  for (j in 1:(n_taxa - 1)) {
-    coal_times[i, j] <- coal_times[i, j]/coal_times[i, 1]
-  }
-}
-plot(ms_tree)
-nodelabels()
-result <- data.frame(Observed = branching.times(rnase_chrono),
-                     Expected = apply(coal_times, 2, mean),
-                     Lower_2.5 = apply(coal_times, 2, quantile, 0.025),
-                     Upper_97.5 = apply(coal_times, 2, quantile, 0.975))
-result
 p <- ggplot(result, aes(x = Expected, y = Observed)) +
   geom_point() +
-  geom_errorbar(aes(xmin = Lower_2.5, xmax = Upper_97.5)) +
-  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "red") +
-  xlim(0, 1) +
-  ylim(0, 1) +
-  theme_bw()
-p
-
-rnase_trimmed <- drop.tip(rnase_tree, c(4, 5, 10, 11, 12))
-rnase_chrono <- chronos(rnase_trimmed, model = "relaxed")
-plot(rnase_chrono)
-nodelabels()
-
-n_reps <- 1000
-n_taxa <- length(rnase_chrono$tip.label)
-coal_times <- matrix(nrow = n_reps, ncol = n_taxa - 1)
-for (i in 1:n_reps) {
-  ms_out <- ms(nsam = n_taxa, opts = "-T")
-  ms_tree <- read.tree(text = ms_out)
-  coal_times[i, ] <- branching.times(ms_tree)
-  for (j in 1:(n_taxa - 1)) {
-    coal_times[i, j] <- coal_times[i, j]/coal_times[i, 1]
-  }
-}
-plot(ms_tree)
-nodelabels()
-result <- data.frame(Observed = branching.times(rnase_chrono),
-                     Expected = apply(coal_times, 2, mean),
-                     Lower_2.5 = apply(coal_times, 2, quantile, 0.025),
-                     Upper_97.5 = apply(coal_times, 2, quantile, 0.975))
-result
-p <- ggplot(result, aes(x = Expected, y = Observed)) +
-  geom_point() +
-  geom_errorbar(aes(xmin = Lower_2.5, xmax = Upper_97.5)) +
-  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "red") +
-  xlim(0, 1) +
-  ylim(0, 1) +
+  geom_errorbar(aes(xmin = Lower_2.5, xmax = Upper_97.5, width = 0.02)) +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", 
+              color = "red") +
   theme_bw()
 p
 ```

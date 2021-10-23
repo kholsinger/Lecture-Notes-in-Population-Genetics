@@ -1,0 +1,108 @@
+#NEXUS
+[Data written by write.nexus.data.R, Sat Oct 23 13:57:05 2021]
+BEGIN DATA;
+  DIMENSIONS NTAX=9 NCHAR=771;
+  FORMAT DATATYPE=DNA MISSING=? GAP=- INTERLEAVE=YES;
+  MATRIX
+    AF284477.1_cds_AAG28710.1_1      --------------------------------------------------------------------------------
+    AF284479.1_cds_AAG28712.1_1      --------------------------------------------------------------------------------
+    AF284474.1_cds_AAG28707.1_1      --------------------------------------------------------------------------------
+    X57362.1_cds_CAA40636.1_1        atggcgtttactttgaccaacaagaacgtgattttcgttgccggtctgggaggcattggtctggacaccagcaaggagct
+    AF284480.1_cds_AAG28713.1_1      --------------------------------------------------------------------------------
+    X57364.1_cds_CAA40638.1_1        atggcgtttactttgaccaacaagaacgtgattttcgttgccggtctgggaggcatcggtctggacaccagcaaggagct
+    X57363.1_cds_CAA40637.1_1        atggcgtttactttgaccaacaagaacgtgattttcgttgccggtctgggaggcattggtctggacaccagcaaggagct
+    X57370.1_cds_CAA40644.1_1        atggcgtttaccttgaccaacaagaacgtggttttcgtggccggtctgggaggcattggtctggacaccagcaaggagct
+    X57368.1_cds_CAA40642.1_1        atggcgtttaccttgaccaacaagaacgtggttttcgtggccggtctgggaggcattggtctggacaccagcaaggagct
+
+    AF284477.1_cds_AAG28710.1_1      -------------ctgnagaacctggtgatcctcgaccgcattgagaaccctgctgccattgccgagctgcaggcaatca
+    AF284479.1_cds_AAG28712.1_1      -------------ctgaagaacctggtgatcctcgaccgcattgagaaccctgctgccattgccgagctgcaggcaatca
+    AF284474.1_cds_AAG28707.1_1      -------------ctgaagaacctggtgatcctcgaccgcattgagaaccctgctgccattgccgagctgcaggcaatca
+    X57362.1_cds_CAA40636.1_1        gctcaagcgcgacctgaagaacctggtgatcctcgaccgcattgagaaccctgctgccattgccgagctgaaggcaatca
+    AF284480.1_cds_AAG28713.1_1      -------------ctgaagaacctggtgatcctcgaccgcattgagaacccggctgccattgccgagctgaaggcaatca
+    X57364.1_cds_CAA40638.1_1        gctcaagcgcgacctgaagaacctggtgatcctcgaccgcattgagaaccctgctgccattgccgagctgaaggcaatca
+    X57363.1_cds_CAA40637.1_1        gctcaagcgcgacctgaagaacctggtgatcctcgaccgcattgagaaccctgctgccattgccgagctgaaggcaatca
+    X57370.1_cds_CAA40644.1_1        ggtcaagcgmgacctgaagaacctggtgatcctcgaccgcattgagaacccggctgccatcgccgagctgaaggcaatca
+    X57368.1_cds_CAA40642.1_1        ggtcaagcgggacctgaagaacctggtgatcctcgaccgcattgagaacccggctgccatcgccgagctgaaggcaatca
+
+    AF284477.1_cds_AAG28710.1_1      atccaaaggtgaccgtcaccttctacccctatgatgtgaccgtgcccattgccgagaccaccaagctgctgaagaccatc
+    AF284479.1_cds_AAG28712.1_1      atccaaaggtgaccgtcaccttctacccctatgatgtgaccgtgcccattgccgagaccaccaagctgctgaagaccatc
+    AF284474.1_cds_AAG28707.1_1      atccaaaggtgaccgtcaccttctacccctatgatgtgaccgtgcccattgccgagaccaccaagctgctgaagaccatc
+    X57362.1_cds_CAA40636.1_1        atccaaaggtgaccgtcaccttctacccctatgatgtgaccgtgcccattgccgagaccaccaagctgctgaagaccatc
+    AF284480.1_cds_AAG28713.1_1      atccaaaggtgacggtcaccttctacccctatgatgtgaccgtgcccattgccgagaccaccaagctgctgaagaccatc
+    X57364.1_cds_CAA40638.1_1        atccaaaggtgaccgtcaccttctacccctatgatgtgaccgtgcccattgccgagaccaccaagctgctgaagaccatc
+    X57363.1_cds_CAA40637.1_1        atccaaaggtgaccgtcaccttctacccctatgatgtgaccgtgcccattgccgagaccaccaagctgctgaagaccatc
+    X57370.1_cds_CAA40644.1_1        atccaaaggtgaccgtcaccttctacccctaygatgtgaccgtgcccattgccgagaccaccaagctgctgaagaccatc
+    X57368.1_cds_CAA40642.1_1        atccaaaggtgaccgtcaccttctacccctaygatgtgaccgtgcccattgccgagaccaccaagctgctgaagaccatc
+
+    AF284477.1_cds_AAG28710.1_1      ttcgccaagctgaagaccgtcgatgtcctgatcaacggagctggtatcctggacgatcaccagatcgagcgcaccattgc
+    AF284479.1_cds_AAG28712.1_1      ttcgccaagctgaagaccgtcgatgtcctgatcaacggagctggtatcctggacgatcaccagatcgagcgcaccattgc
+    AF284474.1_cds_AAG28707.1_1      ttcgccaagctgaagaccgtcgatgtcctgatcaacggagctggtatcctggacgatcaccagatcgagcgcaccattgc
+    X57362.1_cds_CAA40636.1_1        ttcgccaagctgaagaccgtcgatgtcctgatcaacggagctggtatcctggacgatcaccagatcgagcgcaccattgc
+    AF284480.1_cds_AAG28713.1_1      ttcgccaagctgaagaccgtcgatgtcctgatcaacggagctggtatcctggacgatcaccagatcgagcgcaccattgc
+    X57364.1_cds_CAA40638.1_1        ttcgccaagctgaagaccgtcgatgtcctgatcaacggagctggtatcctggacgatcaccagatcgagcgcaccattgc
+    X57363.1_cds_CAA40637.1_1        ttcgccaagctgaagaccgtcgatgtcctgatcaacggagctggtatcctggacgatcaccagatcgagcgcaccattgc
+    X57370.1_cds_CAA40644.1_1        ttcgcccagctgaagaccatcgatgtcctgatcaacggagctggcatcctggacgatcaccagatcgagcgcaccatcgc
+    X57368.1_cds_CAA40642.1_1        ttcgcccagctgaagaccatcgatgtcctgatcaacggagctggcatcctggacgatcaccagatcgagcgcaccatcgc
+
+    AF284477.1_cds_AAG28710.1_1      cgtcaactacactggcctggtcaacaccacgacggccattctggacttctgggacaagcgcaagggtggtcccggtggta
+    AF284479.1_cds_AAG28712.1_1      cgtcaactacactggcctggtcaacaccacgacggccattctggacttctgggacaagcgcaagggtggtcccggtggta
+    AF284474.1_cds_AAG28707.1_1      cgtcaactacactggcctggtcaacaccacgacggccattctggacttctgggacaagcgcaagggtggtcccggtggta
+    X57362.1_cds_CAA40636.1_1        cgtcaactacactggcctggtcaacaccacgacggccattctggacttctgggacaagcgcaagggtggtcccggtggta
+    AF284480.1_cds_AAG28713.1_1      cgtcaactacactggcctggtcaacaccacgacggccattctggacttctgggacaagcgcaagggtggtcccggtggta
+    X57364.1_cds_CAA40638.1_1        cgtcaactacactggcctggtcaacaccacgacggccattctggacttctgggacaagcgcaagggtggtcccggtggta
+    X57363.1_cds_CAA40637.1_1        cgtcaactacactggcctggtcaacaccacgacggccattctggacttctgggacaagcgcaagggtggtcccggtggta
+    X57370.1_cds_CAA40644.1_1        cgtcaactacaccggcctggtgaacaccacgackgccatcctggacttctgggacaagcgcaagggtggacccggtggta
+    X57368.1_cds_CAA40642.1_1        cgtcaactacaccggcctggtgaacaccacgactgccatcctggacttctgggacaagcgcaagggtggacccggtggta
+
+    AF284477.1_cds_AAG28710.1_1      tcatctgcaacattggatccgtcactggtttcaatgccatctaccaggtgcccgtctactccggcaccaaggccgccgta
+    AF284479.1_cds_AAG28712.1_1      tcatctgcaacattggatccgtcactggtttcaatgccatctaccaggtgcccgtctactccggcaccaaggccgccgtg
+    AF284474.1_cds_AAG28707.1_1      tcatctgcaacattggatccgtcactggtttcaatgccatctaccaggtgcccgtctactccggcaccaaggccgccgta
+    X57362.1_cds_CAA40636.1_1        tcatctgcaacattggatccgtcactggtttcaatgccatctaccaggtgcccgtctactccggcaccaaggctgccgtg
+    AF284480.1_cds_AAG28713.1_1      tcatctgcaacattggatccgtcactggattcaatgccatctaccaggtgcccgtctactctggcaccaaggccgccgtg
+    X57364.1_cds_CAA40638.1_1        tcatctgcaacattggatccgtcactggattcaatgccatctaccaggtgcccgtctactccggcaccaaggccgccgtg
+    X57363.1_cds_CAA40637.1_1        tcatctgcaacattggatccgtcactggattcaatgccatctaccaggtgcccgtctactctggcaccaaggccgccgtg
+    X57370.1_cds_CAA40644.1_1        tcatctgcaacattggatccgtgactggattcaacgccatctaccaggtgcccgtttactccggcaccaaggctgccgtg
+    X57368.1_cds_CAA40642.1_1        tcatctgcaacattggatccgtgactggattcaacgccatctaccaggtgcccgtttactccggcaccaaggctgccgtg
+
+    AF284477.1_cds_AAG28710.1_1      gtcaacttcaccagctccctggcgaaactggcccccattaccggcgtgaccgcttacaccgtgaaccccggcatcacccg
+    AF284479.1_cds_AAG28712.1_1      gtcaacttcaccagctccctggcgaaactggcccccattaccggcgtgaccgcttacaccgtgaaccccggcatcacccg
+    AF284474.1_cds_AAG28707.1_1      gtcaacttcaccagctccctggcgaaactggcccccattaccggcgtgaccgcttacaccgtgaaccccggcatcacccg
+    X57362.1_cds_CAA40636.1_1        gtcaacttcaccagctccctggcgaaactggcccccattaccggcgtgaccgcttacaccgtgaaccccggcatcacccg
+    AF284480.1_cds_AAG28713.1_1      gtcaacttcaccagctccctggcgaaactggcccccattaccggcgtgaccgcttacaccgtgaaccccggcatcacccg
+    X57364.1_cds_CAA40638.1_1        gtcaacttcaccagctccctggcgaaactggcccccattaccggcgtgaccgcttacaccgtgaaccccggcatcacccg
+    X57363.1_cds_CAA40637.1_1        gtcaacttcaccagctccctggcgaaactggcccccattaccggcgtgaccgcttacaccgtgaaccccggcatcacccg
+    X57370.1_cds_CAA40644.1_1        gtcaacttcaccagctccctggcgaaactggcccccatyaccggcgtgaccgcttacaccgtgaaccccggcatcacccg
+    X57368.1_cds_CAA40642.1_1        gtcaacttcaccagctccctggcgaaactggcccccatcaccggcgtgaccgcttacaccgtgaaccccggcatcacccg
+
+    AF284477.1_cds_AAG28710.1_1      caccaccctggtgcacaagttcaactcatggctggatgttgagccccaggttgccgagaagctcctggctcatcccaccc
+    AF284479.1_cds_AAG28712.1_1      caccaccctggtgcacaagttcaactcatggctggatgttgagccccaggttgccgagaagctcctggctcatcccaccc
+    AF284474.1_cds_AAG28707.1_1      caccaccctggtgcacaagttcaactcatggctggatgttgagccccaggttgccgagaagctcctggctcatcccaccc
+    X57362.1_cds_CAA40636.1_1        caccaccctggtgcacaagttcaactcctggctggatgttgagccccaggttgccgagaagctcctggctcatcccactc
+    AF284480.1_cds_AAG28713.1_1      caccaccctggtgcacaagttcaactcctggttggatgttgagccccaggttgccgagaagctcctggctcatcccaccc
+    X57364.1_cds_CAA40638.1_1        caccaccctggtgcacaagttcaactcctggctggatgttgagccccaggttgccgagaagctcctggctcatcccaccc
+    X57363.1_cds_CAA40637.1_1        caccaccctggtgcacaagttcaactcctggctggatgttgagccccaggttgccgagaagctcctggctcatcccaccc
+    X57370.1_cds_CAA40644.1_1        caccaccctggtgcacaagttcaactcctggctggatgttgagccccaggtggccgagaagctcctggctcaccccaccc
+    X57368.1_cds_CAA40642.1_1        caccaccctggtgcacaagttcaactcctggctggatgttgagccccaggtggccgaraagctcctggctcaccccaccc
+
+    AF284477.1_cds_AAG28710.1_1      agccctcattggcctgcgccg-----------------------------------------------------------
+    AF284479.1_cds_AAG28712.1_1      agccctcattggcctgcgccg-----------------------------------------------------------
+    AF284474.1_cds_AAG28707.1_1      agccctcattggcctgcgccg-----------------------------------------------------------
+    X57362.1_cds_CAA40636.1_1        agccctcattggcctgcgccgagaacttcgtcaaggccatcgagctgaaccagaacggagccatctggaaactggacttg
+    AF284480.1_cds_AAG28713.1_1      agccctcgttggcctgcgccg-----------------------------------------------------------
+    X57364.1_cds_CAA40638.1_1        agccctcgttggcctgcgccgagaacttcgtcaaggccatcgagctgaaccagaacggagccatctggaaactggacttg
+    X57363.1_cds_CAA40637.1_1        agccctcgttggcctgcgccgagaacttcgtcaaggccatcgagctgaaccagaacggagccatctggaaactggacttg
+    X57370.1_cds_CAA40644.1_1        agccctcgttggcctgcgcccagaactttgtgaaggccatcgagctgaaccagaacggtgccatctggaaactggacttg
+    X57368.1_cds_CAA40642.1_1        agccctcgttggcctgcgcccagaactttgtgaaggccatcgagctgaaccagaacggtgccatctggaaactggacttg
+
+    AF284477.1_cds_AAG28710.1_1      ---------------------------------------------------
+    AF284479.1_cds_AAG28712.1_1      ---------------------------------------------------
+    AF284474.1_cds_AAG28707.1_1      ---------------------------------------------------
+    X57362.1_cds_CAA40636.1_1        ggcaccctggaggccatccagtggaccaagcactgggactccggcatctaa
+    AF284480.1_cds_AAG28713.1_1      ---------------------------------------------------
+    X57364.1_cds_CAA40638.1_1        ggcaccctggaggccatccagtggaccaagcactgggactccggcatctaa
+    X57363.1_cds_CAA40637.1_1        ggcaccctggaggccatccagtggaccaagcactgggactccggcatctaa
+    X57370.1_cds_CAA40644.1_1        ggcaccctggaggccatccagtggtccaagcactgggactccggcatctaa
+    X57368.1_cds_CAA40642.1_1        ggcaccctggaggccatccagtggtccaagcactgggactccggcatctaa
+  ;
+END;
+
