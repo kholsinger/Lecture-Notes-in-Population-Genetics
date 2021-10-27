@@ -54,6 +54,8 @@ For this lab exercise you'll be exploring genetic variation at four loci in lobl
 
 One data set for each locus, the `Pinus-taeda-<gene name>-coding.fasta` data set, includes only the coding portion of the nucleotide sequence as downloaded from Genbank. The other data set, the `Pinus-taeda-<gene name>.fasta` data set, includes the complete nucleotide sequence as downloaded from Genbank. Each data set contains 32 sequences that were aligned using [Muscle](http://www.ebi.ac.uk/Tools/msa/muscle). The following table shows the number of nucleotides included in each data set.
 
+NOTE: You'll need to specify `format = "fasta"` when you call `read.dna()`.
+
 ```{r, echo = FALSE}
 library(htmlTable)
 
