@@ -1,0 +1,75 @@
+---
+title: "Tajima's D"
+output: 
+  html_notebook:
+    toc: yes
+    toc_float: true
+---
+
+# Introduction
+
+Last week we explored the coalescence times we expect to see if sequences are neutral with those we estimated from nucleotide sequence data. As we discussed in class, under an infinite sites model of evolution we can derive estimates of $\theta = 4N_e\mu$ from either the number of segregating sites, $k$, or from the nucleotide diversity, $\pi$.
+
+$$
+\begin{eqnarray*}
+\hat\theta_\pi &=& \hat\pi \\
+\hat\theta_k &=& \frac{k}{\sum_i^{n-1}\frac{1}{i}} \quad ,
+\end{eqnarray*}
+$$
+
+where $n$ is the number of sequences in our sample. Since $\hat\theta_\pi$ and $\hat\theta_k$ are both estimates of $\theta$, they should be equal if sequences are evolving neutrally^[Remember that when we say that sequences are evolving neutrally, we really mean that any fitness differences are effectively neutral because $N_es < 1$.] and the population is at a drift-mutation equilibrium. Tajima's $D$ is defined as
+
+$$
+D = \hat\theta_\pi - \hat\theta_k \quad .
+$$
+If $D \ne 0$, then we know either that fitness differences among the sequences are ***not*** effectively neutral or that the population is not at a drift-mutation equilibrium.
+
+## Esitmating Tajima's D
+
+It is quite straightforward to estimate Tajima's $D$ and to assess whether it is different from 0 in `R`. Here's how we'd do it with an sRNase data set from *Solanum peruvianum*.^[Miller, J.S., and J. Kostyun.  2010.  Functional gametophytic self-incompatibility in a peripheral population of Solanum peruvianum (Solanaceae). *Heredity*  107:30-39.  doi: [https://doi.org/10.1038/hdy.2010.151](https://doi.org/10.1038/hdy.2010.151)]
+
+```{r, message = FALSE}
+library(adegenet)
+library(pegas)
+
+rm(list = ls())
+
+solanum <- read.dna("solanum-peruvianum.clw.clwstrict", format = "clustal")
+solanum_taj <- tajima.test(solanum)
+solanum_taj
+```
+
+The output is pretty easy to intepret. `D` is our estimate of Tajima's $D$, `PVal.normal` is the probability of getting the observed value of $D$ if the sequence variation were neutral and the population was at a drift-mutation equilibrium assuming that $D$ follows a normal distribution with mean zero and variance one. `Pval.beta` is the probability of getting the observed value of $D$ if the sequence variation were neutral and the population was at a drift-mutation equilibrium assuming that $D$ follows a beta distribution, which was Tajima's original proposal.
+
+Here we have a positive $D$, suggesting that there might be diversifying selection, but the support for that suggestion is very weak. There's about a 62 percent chance we'd get a value of $D$ as large as what we observe here even if there were no selection acting on these sequences and the population were at a drift-mutation equilibrium.^[Note: Miller and Kostyun use more sophisticated methods to explore site-specific patterns of selection and find evidence that selection favors diversity in regions of the gene associated with determining the specificity of self-incompatibility reactions and that there is purifying selection in other parts of the gene. Sounds a bit like ADH in *Drosophila melanogaster*, doesn't it?]
+
+# Lab 10
+
+For this lab exercise you'll be exploring genetic variation at four loci in loblolly pine. The data are derived from Gonzalez-Martinez and colleagues.^[Gonzalez-Martinez, S.C., E. Ersoz, G.R. Brown, N.C. Wheeler, and D.B. Neale.  2006.  DNA sequence fariation and selection of tag single-nucleotide polymorphisms at candidate genes for drought-stress response in *Pinus taeda* L.  *Genetics*  172:1915-1926.  doi: [https://doi.org/10.1534/genetics.105.047126](https://doi.org/10.1534/genetics.105.047126)] There are two data sets for each of the loci included in the analysis:
+
+- *ccoaomt-1* : caffeoyl-CoA-O-methyltransferase 1
+- *cpk3* : calcium-dependent protein kinase
+- *erd3* : early response to drought 3
+- *pp2c*: protein phosphatase 2C-like protein
+
+One data set for each locus, the `Pinus-taeda-<gene name>-coding.fasta` data set, includes only the coding portion of the nucleotide sequence as downloaded from Genbank. The other data set, the `Pinus-taeda-<gene name>.fasta` data set, includes the complete nucleotide sequence as downloaded from Genbank. Each data set contains 32 sequences that were aligned using [Muscle](http://www.ebi.ac.uk/Tools/msa/muscle). The following table shows the number of nucleotides included in each data set.
+
+```{r, echo = FALSE}
+library(htmlTable)
+
+df <- data.frame(Locus = c("ccoaomt-1", "cpk3", "erd3", "pp2c"),
+                 Coding = c(258, 378, 625, 461),
+                 Complete = c(517, 630, 882, 634))
+htmlTable(df, 
+          cgroup = c("", "Nucleotide sequence length"),
+          n.cgroup = c(1, 2),
+          rnames = FALSE)
+```
+
+Using these data, answer the following questions:
+
+1. Is there evidence for selection, a recent population expansion, or a recent population bottleneck at any locus when the complete sequence is considered?
+
+2. Is there evidence for selection, a recent population expansion, or a recent population bottleneck at any locus when only the coding sequence is considered?
+
+3. Assume that there has not been a recent population expansion, a recent bottleneck, or a recent change in range size. What kind of selection might account for the patterns revealed in your answers? Are the patterns of selection you detect consistent with these loci being adaptively important in drought responses?
