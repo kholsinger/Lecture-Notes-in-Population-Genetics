@@ -35,27 +35,32 @@ library(phyclust)
 
 rm(list = ls())
 
+
 solanum <- read.dna("solanum-peruvianum.clw.clwstrict", format = "clustal")
+
 solanum_taj <- tajima.test(solanum)
 solanum_taj
 
 k <- length(seg.sites(solanum))
-theta_k <- k/sum(seq(1/(1:(ncol(solanum)-1))))
+tmp <- 1:nrow(solanum)
+theta_k <- k/sum(1/tmp)
 
 n_taxa <- nrow(solanum)
-n_reps <- 1000
+n_reps <- 10
 D <- numeric(n_reps)
+ms_opts <- paste("-mHKY -t0.5 -fe -l", ncol(solanum), " -d", theta_k, sep = "")
+print(ms_opts)
 for (i in 1:n_reps) {
   ms_out <- ms(nsam = n_taxa, opts = "-T")
   ms_tree <- read.tree(text = ms_out)
-  ms_seq <- seqgen(opts = "-mHKY -l509 -s0.002769", rooted.tree = ms_tree)
+  ms_seq <- seqgen(opts = ms_opts, rooted.tree = ms_tree)
   for (j in 2:(nrow(solanum)+1)) {
     tmp <- strsplit(ms_seq[j], "\\s+")
     cat(">", tmp[[1]][1], "\n", tmp[[1]][2], "\n", file = "tmp.fasta", sep = "", append = TRUE)
   }
   dna <- read.dna("tmp.fasta", format = "fasta")
   if (length(seg.sites(dna)) > 0) {
-    theta_pi <- mean(dist.dna(dna, "N"))/ncol(solanum)
+    theta_pi <- mean(dist.dna(dna, "N"))
     D[i] <- theta_pi - theta_k
   } else {
     D[i] <- NA
