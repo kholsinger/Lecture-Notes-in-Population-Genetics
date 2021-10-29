@@ -1,0 +1,54 @@
+---
+title: "An alternative approach to Tajima's D"
+output: html_notebook
+---
+
+Estimate $\theta$ from number of segrating sites. Simulate sequences using `ms()` and `seqgen()`. Compare $\theta$ estimate from nucleotide diversity with initial estimate.
+
+```{r, message = FALSE}
+library(adegenet)
+library(pegas)
+library(phyclust)
+
+rm(list = ls())
+
+solanum <- read.dna("solanum-peruvianum.clw.clwstrict", format = "clustal")
+
+solanum_taj <- tajima.test(solanum)
+solanum_taj
+
+k <- length(seg.sites(solanum))
+tmp <- 1:nrow(solanum)
+theta_k <- k/sum(1/tmp)
+theta_pi <- mean(dist.dna(solanum, "N"))
+D_obs <- theta_pi - theta_k
+
+n_taxa <- nrow(solanum)
+n_reps <- 1000
+D <- numeric(n_reps)
+ms_opts <- paste("-q -mHKY -t0.5 -fe -l", ncol(solanum), " -d", theta_k, sep = "")
+print(ms_opts)
+for (i in 1:n_reps) {
+  ms_out <- ms(nsam = n_taxa, opts = "-T")
+  ms_tree <- read.tree(text = ms_out)
+  ms_seq <- seqgen(opts = ms_opts, rooted.tree = ms_tree)
+  for (j in 2:(nrow(solanum)+1)) {
+    tmp <- strsplit(ms_seq[j], "\\s+")
+    cat(">", tmp[[1]][1], "\n", tmp[[1]][2], "\n", file = "tmp.fasta", sep = "", append = TRUE)
+  }
+  dna <- read.dna("tmp.fasta", format = "fasta")
+  if (length(seg.sites(dna)) > 0) {
+    k <- length(seg.sites(dna))
+    tmp <- 1:nrow(dna)
+    theta_k <- k/sum(1/tmp)
+    theta_pi <- mean(dist.dna(dna, "N"))
+    D[i] <- theta_pi - theta_k
+  } else {
+    D[i] <- NA
+  }
+  unlink("tmp.fasta")
+}
+cat("D_obs: ", round(D_obs, 3), "\n")
+cat("D: ", round(mean(D, na.rm = TRUE)), 
+    round(quantile(D, c(0.025, 0.975), na.rm = TRUE)), "\n")
+```
