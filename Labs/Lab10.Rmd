@@ -17,12 +17,16 @@ $$
 \end{eqnarray*}
 $$
 
-where $n$ is the number of sequences in our sample. Since $\hat\theta_\pi$ and $\hat\theta_k$ are both estimates of $\theta$, they should be equal if sequences are evolving neutrally^[Remember that when we say that sequences are evolving neutrally, we really mean that any fitness differences are effectively neutral because $N_es < 1$.] and the population is at a drift-mutation equilibrium. Tajima's $D$ is defined as
+where $n$ is the number of sequences in our sample. Since $\hat\theta_\pi$^[***IMPORTANT NOTE  #1***: I realized when I was putting this lab exercise together, that I've been getting a couple of details about Tajima's $D$ wrong for several years. The definition of $\theta_pi$ is the first example. In the notes and in lecture I defined $\hat\pi$ as
+$$
+\hat\pi = \sum_{ij}x_ix_j\delta_{ij}/N \quad ,
+$$
+where $\delta_{ij}$ is the number of nucleotide differences between haplotypes $i$ and $j$, and $N$ is the length of the sequence. I should have left off the division by $N$. $\pi$ then becomes the average number of nucleotide differences between two randomly chosen haplotypes.] and $\hat\theta_k$ are both estimates of $\theta$, they should be equal if sequences are evolving neutrally^[Remember that when we say that sequences are evolving neutrally, we really mean that any fitness differences are effectively neutral because $N_es < 1$.] and the population is at a drift-mutation equilibrium. Tajima's $D$ is defined as
 
 $$
-D = \hat\theta_\pi - \hat\theta_k \quad .
+\hat D = \frac{\hat\theta_\pi - \hat\theta_k}{\mbox{Var}(\hat\theta_\pi - \hat\theta_k)} \quad .
 $$
-If $D \ne 0$, then we know either that fitness differences among the sequences are ***not*** effectively neutral or that the population is not at a drift-mutation equilibrium.
+If $D \ne 0$, then we know either that fitness differences among the sequences are ***not*** effectively neutral or that the population is not at a drift-mutation equilibrium.^[***IMPORTANT NOTE #2***: This is the second way I have been getting things wrong. Our estimate of $D$ isn't simply the difference between $\theta_pi$ and $\theta_k$. That difference is divided by the corresponding variance, giving $\hat D$ a mean of zero and a variance of one if the sequences are evolving neutrally and the population is at a drift-mutation equilibrium. This scaling allows us to use a normal distributiion with a mean of zero and a variance of one or a beta distribution to calculate the probability of getting the observed value of $\hat D$. I've updated the online notes to reflect these corrections. If you've already downloaded a copy, you might want to download them again and throw out the old version.]
 
 ## Esitmating Tajima's D
 
@@ -57,7 +61,7 @@ One data set for each locus, the `Pinus-taeda-<gene name>-coding.fasta` data set
 
 NOTE: You'll need to specify `format = "fasta"` when you call `read.dna()`.
 
-```{r, echo = FALSE}
+```{r, message = FALSE, echo = FALSE}
 library(htmlTable)
 
 df <- data.frame(Locus = c("ccoaomt-1", "cpk3", "erd3", "pp2c"),

@@ -294,7 +294,7 @@ selection pressures at many different loci~\cite{Guo-etal-2009}.\index{F-statist
 
 \begin{figure}
 \begin{center}
-\resizebox{\textwidth}{!}{\includegraphics[angle=270]{outlier-high.eps}}
+\resizebox{0.7\textwidth}{!}{\includegraphics[angle=270]{outlier-high.eps}}
 \end{center}
 \caption{Single-locus estimates of $F_{ST}$ along a portion of
   chromosome 7 in the HapMap data set. Black dots denote
@@ -330,25 +330,26 @@ are two statistics of potential interest:
   polymorphism is found or, equivalently, the number of segregating
   sites, $k$.\index{segregating sites}
 
-\item The average per nucleotide diversity, $\pi$, where $\pi$ is
-  estimated as\index{nucleotide diversity}
+\item The average number of nucleotide differences between two
+  sequences, $\pi$, where $\pi$ is estimated as\index{nucleotide diversity}
 \[
-\pi = \sum x_ix_j\delta_{ij}/N \quad .
+\pi = \sum x_ix_j\delta_{ij} \quad .
 \]
-In this expression, $x_i$ is the frequency of the $i$th haplotype,
+In this expression, $x_i$ is the frequency of the $i$th haplotype and
 $\delta_{ij}$ is the number of nucleotide sequence differences between
-haplotypes $i$ and $j$, and $N$ is the total length of the
-sequence.\footnote{I lied, but you must be getting used to that by
-  now. This isn't quite the way you estimate it. To get an unbiased
-  estimate of $\pi$, you have to multiply this equation by $n/(n-1)$,
-  where $n$ is the number of haplotypes in your sample. And, of
-  course, if you're Bayesian you'll be even a little more
-  careful. You'll estimate $x_i$ using an appropriate prior on
+haplotypes $i$ and $j$.\footnote{I lied, but you must be getting used
+  to that by now. This isn't quite the way you estimate it. To get an
+  unbiased estimate of $\pi$, you have to multiply this equation by
+  $n/(n-1)$, where $n$ is the number of haplotypes in your
+  sample. And, of course, if you're Bayesian you'll be even a little
+  more careful. You'll estimate $x_i$ using an appropriate prior on
   haplotype frequencies and you'll estimate the probability that
   haplotypes $i$ and $j$ are different at a randomly chosen position
-  given the observed number of differences and the sequence
-  length. That probability will be close to $\delta_{ij}/N$, but it
-  won't be identical.}
+  given the observed number of differences and the sequence length and
+  multiply that probability by the sequence length giving you the
+  expected number of differences between those two haplotypes. The
+  expected number of differences will be close $\delta_{ij}$, but it
+  won't be identical and it won't be a single number.}
 
 \end{itemize}
 
@@ -391,13 +392,20 @@ with respect to drift and mutation, then $\hat\theta_\pi$ and
 $\hat\theta_k$ should be statistically indistinguishable from one
 another. In other words,
 \[
-\hat D = \hat\theta_\pi - \hat\theta_k
+\hat D = \frac{\hat\theta_\pi -
+  \hat\theta_k}{\mbox{Var}(\hat\theta_\pi - \hat\theta_k)} 
 \]
-should be indistinguishable from zero. If it is either negative or
-positive, we can infer that there's some departure from the
-assumptions of neutrality and/or equilibrium. Thus, $\hat D$ can be
-used as a test statistic to assess whether the data are consistent
-with the population being at a neutral mutation-drift
+should be indistinguishable from zero.\footnote{Dividing the
+  difference between $\hat\theta_\pi$ and $\hat\theta_k$ by its
+  variance makes the expectation of $\hat D$ zero and gives it a
+  variance of one. This allows us to construct a statistical test of
+  the difference between the observed $\hat D$ and the expectation if
+  sequences are evolving neutrally and if the population is at a
+  drift-mutation equilibrium. See~\cite{Tajima89} for details.} If it
+is either negative or positive, we can infer that there's some
+departure from the assumptions of neutrality and/or equilibrium. Thus,
+$\hat D$ can be used as a test statistic to assess whether the data
+are consistent with the population being at a neutral mutation-drift
 equilibrium. Consider the value of $D$ under following
 scenarios:\index{Tajima's $D$!interpretation}
 
