@@ -1,0 +1,129 @@
+---
+title: "Lab 7 - exploring small numbers of populations"
+output: 
+  html_notebook:
+    toc: yes
+    toc_float: true
+---
+
+# Overview
+
+Several of you reported that with a small number of populations the coalescence time of the 1-d stepping stone model was less than that of the island model. Since your simulations showed that pattern, I gave you full credit even though I thought the result might be a statistical artifact rather than real. But since it was several of you who saw the phenomenon, I decided to check further by significantly increasing the number of replications, which makes it much less likely that any differences would be a statisctical artifact. I also modified `run_simulation()` to report both the mean and the median time to coalescence to see if it made a difference which measure of central tendency we used.^[NOTE: I used options in the R notebook that suppress display of the startup code. If you're interested in seeing it, hit the `Code` button in the top right and download it.] 
+
+# Results
+
+```{r, message = FALSE, echo = FALSE}
+library(ape)
+library(phyclust)
+library(ggplot2)
+library(tidyverse)
+
+rm(list = ls())
+
+## Note: sample sizes should be multiplied by 2 before calling
+## island for diploid samples
+##
+island <- function(sample_sizes, ne_m) {
+  opt_string <- paste("-T -I ", length(sample_sizes), " ", sep = "")
+  for (i in 1:length(sample_sizes)) {
+    opt_string <- paste(opt_string, sample_sizes[i], " ", sep = "")
+  }
+  opt_string <- paste(opt_string, ne_m, "\n", sep = "")
+  ms_out <- ms(nsam = sum(sample_sizes), nreps = 1, opts = opt_string)
+  return(ms_out)  
+}
+
+## one-dimensional stepping stone
+##
+one_d_stepping_stone <- function(n_e, m, n_pops) {
+  stopifnot((m > 0) && (m < 1))
+  m_matrix <- diag(1 - m, nrow = n_pops)
+  m_matrix[1, 2] <- m
+  m_matrix[n_pops, n_pops - 1] <- m
+  for (i in 2:(n_pops - 1)) {
+    m_matrix[i, i - 1] <- m/2
+    m_matrix[i, i + 1] <- m/2
+  }
+  opt_string <- paste("-T -I ", n_pops, " ", sep = "")
+  for (i in 1:n_pops) {
+    opt_string <- paste(opt_string, 2*n_e, " ", sep = "")
+  }
+  opt_string <- paste(opt_string, "-ma", sep = "")
+  ## transpose m_matrix before converting to vector to get vector from matrix
+  ## by row instead of by column
+  ##
+  m_vector <- 4*n_e*c(t(m_matrix))
+  for ( i in 1:length(m_vector)) {
+    opt_string <- paste(opt_string, " ", m_vector[i], sep = "")
+  }
+  ms_out <- ms(nsam = 2*n_e*n_pops, nreps = 1, opts = opt_string)
+  return(ms_out)
+}
+
+run_simulation <- function(n_pops, m, n_reps = 1000) {
+  N_e = 25
+  pop_sizes <- rep(N_e, n_pops)
+  df <- tibble(Model = NA, Time = NA)
+  for (i in 1:n_reps) {
+    ms_out <- island(pop_sizes, N_e*m)
+    ms_tree <- read.tree(text = ms_out)
+    df <- add_row(df,
+                  Model = "Island",
+                  Time = (4*N_e*n_pops)*branching.times(ms_tree)[1])
+    ms_out <- one_d_stepping_stone(N_e, m, n_pops)
+    ms_tree <- read.tree(text = ms_out)
+    df <- add_row(df,
+                  Model = "1-d",
+                  Time = (4*N_e*n_pops)*branching.times(ms_tree)[1])
+  }
+  df <- filter(df, !is.na(Model))
+  p <- ggplot(df, aes(x = Time, fill = Model)) +
+    geom_histogram(position = "identity", bins = n_reps/10, alpha = 0.4) +
+    ggtitle(paste("n_pops = ", n_pops, ", m = ", m)) +
+    theme_bw()
+  print(p)
+  sum <- df %>% group_by(Model) %>%
+    summarize(Mean_Time = mean(Time),
+              Median_Time = median(Time))
+  print(sum)
+  return(df)
+}
+
+n_reps <- 10000
+```
+
+NOTE: I store the result of `run_simulation()` in result not because I'm going to use it, but to suppress output of all of the individual simulation results. The table that is printed after each simulation provides the mean and median coalescence time for each model.
+
+I set `n_reps` to 10,000 in the code that's hidden. That's 10 times greater than the default.
+
+## n_pops = 5
+
+```{r}
+result <- run_simulation(n_pops = 5, m = 0.01, n_reps = n_reps)
+result <- run_simulation(n_pops = 5, m = 0.1, n_reps = n_reps)
+result <- run_simulation(n_pops = 5, m = 0.5, n_reps = n_reps)
+```
+
+## n_pops = 10
+
+```{r}
+result <- run_simulation(n_pops = 10, m = 0.01, n_reps = n_reps)
+result <- run_simulation(n_pops = 10, m = 0.1, n_reps = n_reps)
+result <- run_simulation(n_pops = 10, m = 0.5, n_reps = n_reps)
+```
+
+## n_pops = 15
+
+```{r}
+result <- run_simulation(n_pops = 15, m = 0.01, n_reps = n_reps)
+result <- run_simulation(n_pops = 15, m = 0.1, n_reps = n_reps)
+result <- run_simulation(n_pops = 15, m = 0.5, n_reps = n_reps)
+```
+
+## n_pops = 20
+
+```{r}
+result <- run_simulation(n_pops = 20, m = 0.01, n_reps = n_reps)
+result <- run_simulation(n_pops = 20, m = 0.1, n_reps = n_reps)
+result <- run_simulation(n_pops = 20, m = 0.5, n_reps = n_reps)
+```
