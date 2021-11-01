@@ -1,0 +1,96 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+library(adegenet)
+library(phyclust)
+library(tidyverse)
+library(hierfstat)
+library(tictoc)
+
+rm(list = ls())
+
+repens <- read.structure("repens-outliers.stru", n.ind = 662, n.loc = 173, onerowperind = FALSE, col.lab = 1,
+                        col.pop = 2, row.marknames = 1, NA.char = "-9", ask = FALSE, quiet = TRUE)
+
+n_indivs <- dim(repens@tab)[1]
+n_loci <- length(repens@all.names)
+pop_labels <- repens@pop
+n_pops <- length(pop_labels)
+sample_size <- 25 
+N_e_m <- 0.8
+N_e_mu <- 0.01
+```
+
+
+```{r}
+island <- function(sample_sizes, ne_m) {
+  opt_string <- paste("-T -I ", length(sample_sizes), " ", sep = "")
+  for (i in 1:length(sample_sizes)) {
+    opt_string <- paste(opt_string, sample_sizes[i], " ", sep = "")
+  }
+  opt_string <- paste(opt_string, 2*ne_m, "\n", sep = "")
+  ms_out <- ms(nsam = sum(sample_sizes), nreps = 1, opts = opt_string)
+  return(ms_out)  
+}
+
+one_d_stepping_stone <- function(n_e, m, n_pops) {
+  stopifnot((m > 0) && (m < 1))
+  m_matrix <- diag(1 - m, nrow = n_pops)
+  m_matrix[1, 2] <- m
+  m_matrix[n_pops, n_pops - 1] <- m
+  for (i in 2:(n_pops - 1)) {
+    m_matrix[i, i - 1] <- m/2
+    m_matrix[i, i + 1] <- m/2
+  }
+  opt_string <- paste("-T -I ", n_pops, " ", sep = "")
+  for (i in 1:n_pops) {
+    opt_string <- paste(opt_string, 2*n_e, " ", sep = "")
+  }
+  opt_string <- paste(opt_string, "-ma", sep = "")
+  ## transpose m_matrix before converting to vector to get vector from matrix
+  ## by row instead of by column
+  ##
+  m_vector <- 4*n_e*c(t(m_matrix))
+  for ( i in 1:length(m_vector)) {
+    opt_string <- paste(opt_string, " ", m_vector[i], sep = "")
+  }
+  ms_out <- ms(nsam = 2*n_e*n_pops, nreps = 1, opts = opt_string)
+  return(ms_out)
+}
+
+sg_opts <- paste("-q -mHKY -t0.5 -fe -l1 -d", N_e_mu, sep = "")
+genotypes <- matrix(nrow = n_indivs, ncol = n_loci*2)
+allele_ct <- 0
+tic()
+for (i in 1:n_loci) {
+  for (k in 1:2) {
+    allele_ct <- allele_ct + 1
+    ms_out <- island(rep(sample_size, n_pops), ne_m = N_e_m)
+    ms_tree <- read.tree(text = ms_out)
+    ms_seq <- seqgen(opts = sg_opts, rooted.tree = ms_tree)
+    for (j in 2:(n_indivs+1)) {
+      tmp <- strsplit(ms_seq[j], "\\s+")
+      cat(">", tmp[[1]][1], "\n", tmp[[1]][2], "\n", file = "tmp.fasta", sep = "", append = TRUE)
+    }
+    dna <- read.dna("tmp.fasta", format = "fasta")
+    unlink("tmp.fasta")
+    genotypes[, allele_ct] <- as.character(dna)
+  }
+}
+genotypes <- data.frame(genotypes)
+genotypes$label <- paste("Individual", 1:n_indivs, sep = "")
+genotypes$pop <- pop_labels
+genotypes <- relocate(genotypes, label, pop)
+write.table(genotypes, file = "genotypes.stru", quote = FALSE, row.names = FALSE, col.names = FALSE)
+genos <- read.structure("genotypes.stru", n.ind = 243, n.loc = 174, onerowperind = TRUE, col.lab = 1,
+                        col.pop = 2, row.marknames = NULL, NA.char = "-9", ask = FALSE, quiet = TRUE)
+unlink("genotypes.stru")
+toc()
+
+wc(repens)
+wc(genos)
+```
