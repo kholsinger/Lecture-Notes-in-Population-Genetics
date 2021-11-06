@@ -20,7 +20,7 @@ n_indivs <- dim(repens@tab)[1]
 n_loci <- length(repens@all.names)
 pop_labels <- repens@pop
 n_pops <- length(pop_labels)
-sample_size <- 25 
+sample_sizes <- table(repens@pop)
 N_e_m <- 0.8
 N_e_mu <- 0.01
 ```
@@ -69,7 +69,7 @@ tic()
 for (i in 1:n_loci) {
   for (k in 1:2) {
     allele_ct <- allele_ct + 1
-    ms_out <- island(rep(sample_size, n_pops), ne_m = N_e_m)
+    ms_out <- island(sample_sizes, ne_m = N_e_m)
     ms_tree <- read.tree(text = ms_out)
     ms_seq <- seqgen(opts = sg_opts, rooted.tree = ms_tree)
     for (j in 2:(n_indivs+1)) {
