@@ -21,8 +21,8 @@ n_loci <- length(repens@all.names)
 pop_labels <- repens@pop
 n_pops <- length(pop_labels)
 sample_sizes <- table(repens@pop)
-N_e_m <- 0.8
-N_e_mu <- 0.01
+N_e_m <- 0.62
+N_e_mu <- 0.1
 ```
 
 
@@ -62,31 +62,30 @@ one_d_stepping_stone <- function(n_e, m, n_pops) {
   return(ms_out)
 }
 
-sg_opts <- paste("-q -mHKY -t0.5 -fe -l1 -d", N_e_mu, sep = "")
-genotypes <- matrix(nrow = n_indivs, ncol = n_loci*2)
+sg_opts <- paste("-q -mHKY -t0.5 -fe -l1 -s", N_e_mu, sep = "")
+genotypes <- matrix(nrow = 2*n_indivs, ncol = n_loci*2)
 allele_ct <- 0
 tic()
 for (i in 1:n_loci) {
   for (k in 1:2) {
     allele_ct <- allele_ct + 1
-    ms_out <- island(sample_sizes, ne_m = N_e_m)
-    ms_tree <- read.tree(text = ms_out)
-    ms_seq <- seqgen(opts = sg_opts, rooted.tree = ms_tree)
-    for (j in 2:(n_indivs+1)) {
+    ms_out <- island(2*sample_sizes, ne_m = N_e_m)
+    ms_seq <- seqgen(opts = sg_opts, newick.tree = ms_out)
+    for (j in 2:(2*n_indivs+1)) {
       tmp <- strsplit(ms_seq[j], "\\s+")
-      cat(">", tmp[[1]][1], "\n", tmp[[1]][2], "\n", file = "tmp.fasta", sep = "", append = TRUE)
+      genotypes[j-1, allele_ct] <- tmp[[1]][2]
     }
-    dna <- read.dna("tmp.fasta", format = "fasta")
-    unlink("tmp.fasta")
-    genotypes[, allele_ct] <- as.character(dna)
   }
 }
 genotypes <- data.frame(genotypes)
-genotypes$label <- paste("Individual", 1:n_indivs, sep = "")
-genotypes$pop <- pop_labels
+## the "each = 2" argument to rep causes each element in the preceding vector to be repeated
+## twice
+##
+genotypes$label <- paste("Individual", rep(1:n_indivs, each = 2), sep = "")
+genotypes$pop <- rep(pop_labels, each = 2)
 genotypes <- relocate(genotypes, label, pop)
 write.table(genotypes, file = "genotypes.stru", quote = FALSE, row.names = FALSE, col.names = FALSE)
-genos <- read.structure("genotypes.stru", n.ind = 243, n.loc = 174, onerowperind = TRUE, col.lab = 1,
+genos <- read.structure("genotypes.stru", n.ind = n_indivs, n.loc = n_loci, onerowperind = FALSE, col.lab = 1,
                         col.pop = 2, row.marknames = NULL, NA.char = "-9", ask = FALSE, quiet = TRUE)
 unlink("genotypes.stru")
 toc()

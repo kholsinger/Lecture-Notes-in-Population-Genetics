@@ -52,10 +52,18 @@ Here we have a positive $D$, suggesting that there might be diversifying selecti
 
 For this lab exercise you'll be exploring genetic variation at four loci in loblolly pine. The data are derived from Gonzalez-Martinez and colleagues.^[Gonzalez-Martinez, S.C., E. Ersoz, G.R. Brown, N.C. Wheeler, and D.B. Neale.  2006.  DNA sequence fariation and selection of tag single-nucleotide polymorphisms at candidate genes for drought-stress response in *Pinus taeda* L.  *Genetics*  172:1915-1926.  doi: [https://doi.org/10.1534/genetics.105.047126](https://doi.org/10.1534/genetics.105.047126)] There are two data sets for each of the loci included in the analysis:
 
-- *ccoaomt-1* : caffeoyl-CoA-O-methyltransferase 1
+- *ccoaomt-1* : caffeoyl-CoA-O-methyltransferase 1:
+  - [Full sequence](http://darwin.eeb.uconn.edu/eeb348-resources/Pinus-taeda-ccoaomt-1.fasta)
+  - [Coding sequence](http://darwin.eeb.uconn.edu/eeb348-resources/Pinus-taeda-ccoaomt-1-coding.fasta)
 - *cpk3* : calcium-dependent protein kinase
+  - [Full sequence](http://darwin.eeb.uconn.edu/eeb348-resources/Pinus-taeda-cpk3.fasta)
+  - [Coding sequence](http://darwin.eeb.uconn.edu/eeb348-resources/Pinus-taeda-cpk3-coding.fasta)
 - *erd3* : early response to drought 3
+  - [Full sequence](http://darwin.eeb.uconn.edu/eeb348-resources/Pinus-taeda-erd3.fasta)
+  - [Coding sequence](http://darwin.eeb.uconn.edu/eeb348-resources/Pinus-taeda-erd3-coding.fasta)
 - *pp2c*: protein phosphatase 2C-like protein
+  - [Full sequence](http://darwin.eeb.uconn.edu/eeb348-resources/Pinus-taeda-pp2c.fasta)
+  - [Coding sequence](http://darwin.eeb.uconn.edu/eeb348-resources/Pinus-taeda-pp2c-coding.fasta)
 
 One data set for each locus, the `Pinus-taeda-<gene name>-coding.fasta` data set, includes only the coding portion of the nucleotide sequence as downloaded from Genbank. The other data set, the `Pinus-taeda-<gene name>.fasta` data set, includes the complete nucleotide sequence as downloaded from Genbank. Each data set contains 32 sequences that were aligned using [Muscle](http://www.ebi.ac.uk/Tools/msa/muscle). The following table shows the number of nucleotides included in each data set.
 
