@@ -1,0 +1,44 @@
+---
+title: "Estimating heritability from half-siblings"
+output: 
+  html_notebook:
+    toc: yes
+    toc_float: true
+---
+
+# Introduction
+
+Simulate some mother-offspring data and illustrate partitioning of variance into additive and environmental components using `rstanarm` assuming that offspring are half siblings
+
+```{r}
+plot(cars)
+```
+
+# Lab 12
+
+As part of her [dissertation](https://opencommons.uconn.edu/dissertations/1370/), Nora Mitchell measured
+
+![_Protea punctata_](Protea_punctata.png)
+
+![_Protea venusta_](Protea_venusta.png)
+
+
+1. What is the heritability of each trait in each species? (3 traits, 2 species)
+
+2. What is the estimated selection differential in each species? (3 traits, 2 species)
+
+3. What is the predicted response to selection in each species? (3 traits, 2 species)
+
+
+## Just for me while I'm getting this ready
+
+```{r}
+library(tidyverse)
+
+rm(list = ls())
+
+field <- read_csv("Protea_field.csv")
+table(field$species)
+greenhouse <- read_csv("Protea_greenhouse.csv")
+table(greenhouse$species)
+```
