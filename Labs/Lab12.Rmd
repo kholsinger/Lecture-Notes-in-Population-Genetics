@@ -209,7 +209,7 @@ heritability <- function(fit, dat) {
 heritability(lwr, venusta)
 ```
 
-## Just for me while I'm getting this ready
+## Some further exploration with `Stan`
 
 ```{r}
 library(rstan)
@@ -232,4 +232,19 @@ print(fit, digits = 3, pars = c("sigma_w", "sigma_s", "h_2",
                                 "sigma_s_2"))
 ```
 
-`sigma_w` here corresponds to `sigma` from `stan_glmer()`, and `sigma_s_2` here corresponds to `Sigma[pat_ID:(Intercept),(Intercept)]`.The `Sigma[pat_ID:(Intercept),(Intercept)]` term from `stan_glmer()` is the ***variance*** among intercepts, not the standard deviation. Notice how closely the posterior means from `Stan` match crude estimates calculated directly from the data.
+`sigma_w` here corresponds to `sigma` from `stan_glmer()`, and `sigma_s_2` here corresponds to `Sigma[pat_ID:(Intercept),(Intercept)]`.The `Sigma[pat_ID:(Intercept),(Intercept)]` term from `stan_glmer()` is the ***variance*** among intercepts, not the standard deviation. Notice how closely the posterior means from `Stan` match crude estimates calculated directly from the data as well as the estimates from `stan_glmer()`.
+
+```{r}
+fit_df <- as.data.frame(fit)
+dat_sum <- dat %>%
+  group_by(pat_ID) %>%
+  summarize(pat_mean = mean(off_p), pat_sd = sd(off_p))
+result <- tibble(Estimate = c("Stan", "Direct", "stan_glmer()"),
+                 sigma_w = c(mean(fit_df$sigma_w),
+                             mean(dat_sum$pat_sd),
+                             mean(off_h_mat$sigma)),
+                 sigma_s = c(mean(fit_df$sigma_s),
+                             sd(dat_sum$pat_mean),
+                             mean(sqrt(off_h_mat$`Sigma[pat_ID:(Intercept),(Intercept)]`))))
+result
+```
