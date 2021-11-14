@@ -8,37 +8,251 @@ output:
 
 # Introduction
 
-Simulate some mother-offspring data and illustrate partitioning of variance into additive and environmental components using `rstanarm` assuming that offspring are half siblings
+We will simulate some data to illustrate the relationship between heritability estimates derived from a regression of offspring phenotype on mid-parent value and those derived from analysis of half-sibs. To do the simulation, we'll assume that there are a large number of loci that affect the trait and that each locus has a small effect. With this assumption, we can approximate the genotype of each individual as a random variable drawn from a normal distribution. The `R` code below implements the folloowing simple algorithm:
 
-```{r}
-plot(cars)
-```
+1. Select a genotype for the sire at random from a normal distribution with mean $mu$ and variance $\sigma^2_g$. Call that genotype $x_p$.
 
-# Lab 12
+2. Select a genotype for the dam at random from a normal distribution with the same mean and variance. Call that genotype $x_m$.
 
-As part of her [dissertation](https://opencommons.uconn.edu/dissertations/1370/), Nora Mitchell measured
+3. Calculate the mid-parent genotypic value as $x_{mp} = \frac{x_m + x_p}{2}$.
 
-![_Protea punctata_](Protea_punctata.png)
+4. Set the offspring genotype to $x_{mp}$.
 
-![_Protea venusta_](Protea_venusta.png)
+5. Repeat steps #2 and #3 `n_dams` times.
 
+6. Repeat steps #1-#5 `n_sires` times.
 
-1. What is the heritability of each trait in each species? (3 traits, 2 species)
+7. Set phenotypes for the maternal parent, the paternal parent, and the offspring by drawing them from normal distributions with the appropriate means and varience $\sigma^2_e$
 
-2. What is the estimated selection differential in each species? (3 traits, 2 species)
+8. Record the paternal ID, the genotype of each parent, the mid-parent genotypic value, the phenotype of each parent, the mid-parent phenotypic value, and the offspring phenotype. 
 
-3. What is the predicted response to selection in each species? (3 traits, 2 species)
-
-
-## Just for me while I'm getting this ready
+NOTE: I am using `set.seed(1234)` to ensure that if you run this code on your own, you'll get the same results as I do. If you erase or comment out that line and rund the code, your results will differ slightly from mine.
 
 ```{r}
 library(tidyverse)
 
 rm(list = ls())
 
-field <- read_csv("Protea_field.csv")
-table(field$species)
-greenhouse <- read_csv("Protea_greenhouse.csv")
-table(greenhouse$species)
+set.seed(1234)
+
+n_sires <- 100
+n_dams <- 10
+mu <- 50
+sigma_2_g <- 25
+sigma_2_e <- 9
+
+dat <- tibble(pat_ID = NA,
+              ind_ID = NA,
+              mat_g = NA,
+              pat_g = NA,
+              mid_g = NA,
+              mat_p = NA,
+              pat_p = NA,
+              mid_p = NA,
+              off_p = NA)
+ct <- 0
+for (i in 1:n_sires) {
+  patg <- rnorm(1, mu, sqrt(sigma_2_g))
+  patp <- rnorm(1, patg, sqrt(sigma_2_e))
+  for (j in 1:n_dams) {
+    ct <- ct + 1
+    matg <- rnorm(1, mu, sqrt(sigma_2_g))
+    matp <- rnorm(1, matg, sqrt(sigma_2_e))
+    midg <- (matg + patg)/2
+    offp <- rnorm(1, midg, sqrt(sigma_2_e))
+    dat <- add_row(dat,
+                   pat_ID = i,
+                   ind_ID = ct,
+                   mat_g = matg,
+                   pat_g = patg,
+                   mid_g = midg,
+                   mat_p = matp,
+                   pat_p = patp,
+                   mid_p = (matp + patp)/2,
+                   off_p = offp)
+  }
+}
+dat <- dat %>%
+  filter(!is.na(pat_ID)) %>%
+  mutate(pat_ID = factor(pat_ID),
+         ind_ID = factor(ind_ID))
+pat_g_var <- var(unique(dat[, c("pat_ID", "pat_g")])$pat_g)
+pat_p_var <- var(unique(dat[, c("pat_ID", "pat_p")])$pat_p)
+variances <- tibble(Parent = c("Sire", "Dam"),
+                    Genotypic = round(c(pat_g_var, var(dat$mat_g)), 3),
+                    Environmental = round(c(pat_p_var - pat_g_var,
+                                            var(dat$mat_p) -
+                                              var(dat$mat_g)), 3),
+                    Phenotypic = round(c(pat_p_var, var(dat$mat_p)),
+                                      3))
+knitr::kable(variances)
+```
+
+As you can see the simulated genotypic and environmental variances are pretty close to what we specified, i.e., $\sigma^2_g = `r sigma_2_g`$ and $\sigma^2_e = `r sigma_2_e`$.^[Notice that the environmental variance for sires isn't too close to what we expect. That's because there are only 100 sires, and there are 1000 dams. This difference will become important later.] You can also see that the phenotypic variance is pretty close to $\sigma^2_g + \sigma^2_e$, as we expect.
+
+## Offspring-midparent regression
+
+If you're familiar with regression in `R`, you know about `lm()` and `glm()`. I'm going to use a similar function from `rstanarm`, namely `stan_glm()` to run a Bayesian linear regression. In addition to providing an estimate of the slope of the regression of offspring on mid-parent value, it provides a sense of how precise that estimate is in the form of 90 percent credible intervals.^[NOTE: The `refresh = 0` in the call to `stan_glm()` prevents us from seeing a large number of messages about the progress of the analysis.]
+
+```{r}
+library(rstanarm)
+
+## This line allows rstanarm to run several chains at the same time
+## instead of running them sequentially
+options(mc.cores = parallel::detectCores())
+
+off_r <- stan_glm(off_p ~ mid_p,
+                  data = dat,
+                  refresh = 0)
+summary(off_r, digits = 3)
+```
+
+We see that the slope of the regression, the `mid_p` line, is 0.740 (0.708, 0.775), while we expect to see $\frac{\sigma^2_g}{\sigma^2_g + \sigma^2_p} = \frac{`r sigma_2_g`}{`r sigma_2_g + sigma_2_e`}  = `r round(sigma_2_g/(sigma_2_g + sigma_2_e), 3)`$. That's not bad at all. Now let's look at the half sib analysis.
+
+## Half-sib analysis
+
+Besides the fact that `stan_glm()` provides both point estimates and estimates of uncertainty it also sets us up nicely for using `stan_glmer()`, which sets us up for doing the same thing with variance components. That's what we'll be doing here. We are fitting a model in which each offspring's phenotype is drawn from a normal distribution with a mean that depends on `pat_ID`.^[We're estimating the broad-sense heritabiity, because we don't know how much of the variation among fathers is due to differences in their additive genotype. The estimated differences in genotype include both additive and dominance components.] 
+
+```{r}
+off_h <- stan_glmer(off_p ~ (1|pat_ID),
+                    data = dat,
+                    refresh = 0)
+summary(off_h, digits = 3, 
+        pars = c("sigma", "Sigma[pat_ID:(Intercept),(Intercept)]"))
+```
+
+`sigma` is the standard deviation within a sibship, $\sigma_w$, and `Sigma[pat_ID:(Intercept),(Intercept)]` is the variance among half-sib families, $\sigma^2_{hs}$. The variance among half-sib families is the variance among mothers, which is the genetic variance. There are, however, `r n_dams` offspring in each half-sib family. Thus, we can estimate the broad-sense heritability with this little function.^[It's the broad-sense heritability because differences among fathers may include both additive and dominance components.] 
+
+```{r}
+heritability <- function(sigma_w, sigma_hs, n_off) {
+  h_2 = sigma_hs*n_off/(sigma_hs*n_off + sigma_w^2)
+  return(h_2)
+}
+
+off_h_mat <- as.data.frame(off_h)
+h_2 <- heritability(off_h_mat$sigma, 
+                    off_h_mat$`Sigma[pat_ID:(Intercept),(Intercept)]`,
+                    n_dams)
+off_h_mat$h_2 <- h_2
+
+library(ggplot2)
+p <- ggplot(off_h_mat, aes(x = h_2)) +
+  geom_histogram(bins = 100, alpha = 0.4) +
+  geom_vline(xintercept = mean(off_h_mat$h_2), 
+             color = "red",
+             linetype = "dashed") +
+  xlab("Heritability") +
+  theme_bw()
+p
+```
+
+As you can see, in this simulation the half-sib estimate is pretty close to what we expect to see, `r round(mean(h_2), 3)`.^[I spent most of Saturday and Sunday reassuring myself that I'd interpreted things correctly. I wrote a small script in `Stan` where I know exactly what's going on and compared my results to those from `stan_glmer()`. You can see the results below the hints, and you can download the `Stan` code and run it yourself, if you're interested. [http://darwin.eeb.uconn.edu/eeb348-resources/heritability.stan](http://darwin.eeb.uconn.edu/eeb348-resources/heritability.stan)]
+
+# Lab 12
+
+As part of her [dissertation](https://opencommons.uconn.edu/dissertations/1370/), Nora Mitchell measured several traits in two closely related species of _Protea_
+
+_Protea punctata_ is a large, upright shrub. ![_Protea punctata_](Protea_punctata.png) 
+
+_Protea venusta_ is forms low, spreading mats. ![_Protea venusta_](Protea_venusta.png)
+
+She collected seed in the field from 20 individuals of _P. punctata_ and 13 individuals of _P. venusta_. She brought the seed back to UConn and grew the offspring in our greenhouses, a total of 245 _P. punctata_ and 192 _P. venusta_. It is reasonable to treat the offspring from a single mother as members of a half-sib family as in the simulation above. Using these data estimate the heritability of each trait in each species (3 traits, 2 species), and note any species/trait combinations where the heritability appears to be unusually high or unusually low.
+
+## Hints
+
+- [Data file](http://darwin.eeb.uconn.edu/eeb348-resources/Protea_greenhouse.csv): The data file has 437 rows, one for each seedling that was measured, and 5 columns.
+  - `species`: The species to which the seedling belongs (`punctata` or `venusta`).
+  - `mom_id`: A number identifying the mother of the seedling. Seedlings sharing a `mom_id` had the same mother. IMPORTANT NOTE: You'll need to specify `as.factor(mom_id)` in your analyses. Here's how to do that if you have downloaded `Protea_greenhouse.csv` to your hard drive:
+```{r}
+greenhouse <- read_csv("Protea_greenhouse.csv") %>%
+  mutate(mom_id = as.factor(paste(species, mom_id, sep = "")))
+```
+  - `lma`: Leaf mass per area, a widely used measure of the "toughness" of leaves.
+  - `fwc`: Fresh water content, the amount of fresh water in leaves.
+  - `lwr`: Leaf length-width ratio.
+- Remember that you can take a subset of the data using `subset()`. [Using `subset()` in `R`](http://darwin.eeb.uconn.edu/eeb348-resources/subsetting.nb.html) and you can select a column of data using `$`.
+  - For example, if you've read `Protea_greenhouse.csv` into `greenhouse` you can run an analysis of `lwr` in _Protea venusta_ like this:^[Depending on which trait/species combination you are examining, you may need to increase digits to 8 or 9 in order to see what's going on.]
+```{r}
+venusta <- subset(greenhouse, species == "venusta")
+lwr <- stan_glmer(lwr ~ (1|mom_id),
+                  data = venusta,
+                  refresh = 0)
+summary(lwr, 
+        digits = 3,
+        pars = c("sigma", "Sigma[mom_id:(Intercept),(Intercept)]"))
+```
+
+
+
+- Once you have run an analysis for a particular species/trait combination, you can use the following function to report the heritability (including the 90 percent credible interval):
+
+```{r}
+heritability <- function(fit, dat) {
+  dat_sum <- dat %>%
+    group_by(mom_id) %>%
+    summarize(count = n())
+  n_off <- mean(dat_sum$count)
+  df <- as.data.frame(fit)
+  sigma_hs <- df$`Sigma[mom_id:(Intercept),(Intercept)]`
+  sigma_w <- df$sigma
+  h_2 = sigma_hs*n_off/(sigma_hs*n_off + sigma_w^2)
+  h_2_df <- tibble(Mean = mean(h_2),
+                   lo = quantile(h_2, 0.05),
+                   hi = quantile(h_2, 0.95))
+  return(h_2_df)
+}
+
+## I'm using the lwr object produced by the analysis in the last bullet
+## point to provide the variance component estimates. I'm using venusta
+## to calculate the average number of progeny in each family.
+##
+heritability(lwr, venusta)
+```
+
+## Just for me while I'm getting this ready
+
+```{r}
+library(rstan)
+
+dat_sum <- dat %>%
+  group_by(pat_ID) %>%
+  summarize(pat_mean = mean(off_p), pat_sd = sd(off_p))
+
+stan_data <- list(n_indiv = nrow(dat),
+                  n_sires = length(unique(dat$pat_ID)),
+                  mu_prior = mean(dat$off_p),
+                  prior_within = 1/mean(dat_sum$pat_sd),
+                  prior_among = 1/sd(dat_sum$pat_mean),
+                  sire = as.numeric(dat$pat_ID),
+                  pheno = dat$off_p)
+fit <- stan("heritability.stan",
+            data = stan_data,
+            refresh = 0)
+print(fit, digits = 3, pars = c("sigma_w", "sigma_s", "h_2", 
+                                "sigma_s_2"))
+```
+
+`sigma_w` here corresponds to `sigma` from `stan_glmer()`, and `sigma_s_2` here corresponds to `Sigma[pat_ID:(Intercept),(Intercept)]`.The `Sigma[pat_ID:(Intercept),(Intercept)]` term from `stan_glmer()` is the ***variance*** among intercepts, not the standard deviation. Notice how closely the posterior means from `Stan` match crude estimates calculated directly from the data.
+
+```{r}
+library(rstan)
+
+venusta <- subset(greenhouse, species == "venusta") %>%
+  filter(!is.na(lwr))
+venusta$mom_id <- factor(venusta$mom_id)
+ven_sum <- venusta %>%
+  group_by(mom_id) %>%
+  summarize(mom_mean = mean(lwr), within_sd = sd(lwr))
+stan_data <- list(n_indiv = nrow(venusta),
+                  n_sires = length(unique(venusta$mom_id)),
+                  mu_prior = mean(venusta$lwr),
+                  prior_within = 1/mean(ven_sum$within_sd),
+                  prior_among = 1/sd(ven_sum$mom_mean),
+                  sire = as.numeric(venusta$mom_id),
+                  pheno = venusta$lwr)
+fit <- stan("heritability.stan",
+            data = stan_data,
+            refresh = 0)
+print(fit, digits = 3, pars = c("sigma_w", "sigma_s", "h_2", 
+                                "sigma_s_2"))
 ```
