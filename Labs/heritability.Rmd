@@ -1,0 +1,358 @@
+---
+title: "Estimating heritability from half-siblings"
+output: 
+  html_notebook:
+    toc: yes
+    toc_float: true
+---
+
+# Try #1: n_sires = 100, n_dams = 10
+
+Checking to make sure that results for Lab 12 hold up with different number of dams per sire.
+
+```{r}
+library(tidyverse)
+library(rstanarm)
+library(rstan)
+
+rm(list = ls())
+
+set.seed(1234)
+
+n_sires <- 100
+n_dams <- 10
+mu <- 50
+sigma_2_g <- 25
+sigma_2_e <- 9
+
+dat <- tibble(pat_ID = NA,
+              ind_ID = NA,
+              mat_g = NA,
+              pat_g = NA,
+              mid_g = NA,
+              mat_p = NA,
+              pat_p = NA,
+              mid_p = NA,
+              off_p = NA)
+ct <- 0
+for (i in 1:n_sires) {
+  patg <- rnorm(1, mu, sqrt(sigma_2_g))
+  patp <- rnorm(1, patg, sqrt(sigma_2_e))
+  for (j in 1:n_dams) {
+    ct <- ct + 1
+    matg <- rnorm(1, mu, sqrt(sigma_2_g))
+    matp <- rnorm(1, matg, sqrt(sigma_2_e))
+    midg <- (matg + patg)/2
+    offp <- rnorm(1, midg, sqrt(sigma_2_e))
+    dat <- add_row(dat,
+                   pat_ID = i,
+                   ind_ID = ct,
+                   mat_g = matg,
+                   pat_g = patg,
+                   mid_g = midg,
+                   mat_p = matp,
+                   pat_p = patp,
+                   mid_p = (matp + patp)/2,
+                   off_p = offp)
+  }
+}
+dat <- dat %>%
+  filter(!is.na(pat_ID)) %>%
+  mutate(pat_ID = factor(pat_ID),
+         ind_ID = factor(ind_ID))
+pat_g_var <- var(unique(dat[, c("pat_ID", "pat_g")])$pat_g)
+pat_p_var <- var(unique(dat[, c("pat_ID", "pat_p")])$pat_p)
+variances <- tibble(Parent = c("Sire", "Dam"),
+                    Genotypic = round(c(pat_g_var, var(dat$mat_g)), 3),
+                    Environmental = round(c(pat_p_var - pat_g_var,
+                                            var(dat$mat_p) -
+                                              var(dat$mat_g)), 3),
+                    Phenotypic = round(c(pat_p_var, var(dat$mat_p)),
+                                      3))
+```
+
+```{r}
+off_h <- stan_glmer(off_p ~ (1|pat_ID),
+                    data = dat,
+                    refresh = 0)
+summary(off_h, digits = 3, 
+        pars = c("sigma", "Sigma[pat_ID:(Intercept),(Intercept)]"))
+
+
+heritability <- function(sigma_w, sigma_hs, n_off) {
+  h_2 = sigma_hs*n_off/(sigma_hs*n_off + sigma_w^2)
+  return(h_2)
+}
+
+off_h_mat <- as.data.frame(off_h)
+h_2 <- heritability(off_h_mat$sigma, 
+                    off_h_mat$`Sigma[pat_ID:(Intercept),(Intercept)]`,
+                    n_dams)
+off_h_mat$h_2 <- h_2
+
+library(ggplot2)
+p <- ggplot(off_h_mat, aes(x = h_2)) +
+  geom_histogram(bins = 100, alpha = 0.4) +
+  geom_vline(xintercept = sigma_2_g/(sigma_2_g + sigma_2_e), 
+             color = "red",
+             linetype = "dashed") +
+  xlim(0, 1) +
+  xlab("Heritability") +
+  theme_bw()
+p
+```
+
+```{r}
+dat_sum <- dat %>%
+  group_by(pat_ID) %>%
+  summarize(pat_mean = mean(off_p), pat_sd = sd(off_p))
+
+stan_data <- list(n_indiv = nrow(dat),
+                  n_sires = length(unique(dat$pat_ID)),
+                  mu_prior = mean(dat$off_p),
+                  prior_within = 1/mean(dat_sum$pat_sd),
+                  prior_among = 1/sd(dat_sum$pat_mean),
+                  sire = as.numeric(dat$pat_ID),
+                  pheno = dat$off_p)
+fit <- stan("heritability.stan",
+            data = stan_data,
+            refresh = 0)
+print(fit, digits = 3, pars = c("sigma_w", "sigma_s", "h_2", 
+                                "sigma_s_2"))
+```
+
+# Try #2: n_sires = 10, n_dams = 100
+
+Checking to make sure that results for Lab 12 hold up with different number of dams per sire.
+
+```{r}
+library(tidyverse)
+library(rstanarm)
+library(rstan)
+
+rm(list = ls())
+
+set.seed(1234)
+
+n_sires <- 10
+n_dams <- 100
+mu <- 50
+sigma_2_g <- 25
+sigma_2_e <- 9
+
+dat <- tibble(pat_ID = NA,
+              ind_ID = NA,
+              mat_g = NA,
+              pat_g = NA,
+              mid_g = NA,
+              mat_p = NA,
+              pat_p = NA,
+              mid_p = NA,
+              off_p = NA)
+ct <- 0
+for (i in 1:n_sires) {
+  patg <- rnorm(1, mu, sqrt(sigma_2_g))
+  patp <- rnorm(1, patg, sqrt(sigma_2_e))
+  for (j in 1:n_dams) {
+    ct <- ct + 1
+    matg <- rnorm(1, mu, sqrt(sigma_2_g))
+    matp <- rnorm(1, matg, sqrt(sigma_2_e))
+    midg <- (matg + patg)/2
+    offp <- rnorm(1, midg, sqrt(sigma_2_e))
+    dat <- add_row(dat,
+                   pat_ID = i,
+                   ind_ID = ct,
+                   mat_g = matg,
+                   pat_g = patg,
+                   mid_g = midg,
+                   mat_p = matp,
+                   pat_p = patp,
+                   mid_p = (matp + patp)/2,
+                   off_p = offp)
+  }
+}
+dat <- dat %>%
+  filter(!is.na(pat_ID)) %>%
+  mutate(pat_ID = factor(pat_ID),
+         ind_ID = factor(ind_ID))
+pat_g_var <- var(unique(dat[, c("pat_ID", "pat_g")])$pat_g)
+pat_p_var <- var(unique(dat[, c("pat_ID", "pat_p")])$pat_p)
+variances <- tibble(Parent = c("Sire", "Dam"),
+                    Genotypic = round(c(pat_g_var, var(dat$mat_g)), 3),
+                    Environmental = round(c(pat_p_var - pat_g_var,
+                                            var(dat$mat_p) -
+                                              var(dat$mat_g)), 3),
+                    Phenotypic = round(c(pat_p_var, var(dat$mat_p)),
+                                      3))
+```
+
+```{r}
+library(rstanarm)
+
+off_h <- stan_glmer(off_p ~ (1|pat_ID),
+                    data = dat,
+                    refresh = 0)
+summary(off_h, digits = 3, 
+        pars = c("sigma", "Sigma[pat_ID:(Intercept),(Intercept)]"))
+
+
+heritability <- function(sigma_w, sigma_hs, n_off) {
+  h_2 = sigma_hs*n_off/(sigma_hs*n_off + sigma_w^2)
+  return(h_2)
+}
+
+off_h_mat <- as.data.frame(off_h)
+h_2 <- heritability(off_h_mat$sigma, 
+                    off_h_mat$`Sigma[pat_ID:(Intercept),(Intercept)]`,
+                    n_dams)
+off_h_mat$h_2 <- h_2
+
+library(ggplot2)
+p <- ggplot(off_h_mat, aes(x = h_2)) +
+  geom_histogram(bins = 100, alpha = 0.4) +
+  geom_vline(xintercept = sigma_2_g/(sigma_2_g + sigma_2_e), 
+             color = "red",
+             linetype = "dashed") +
+  xlim(0, 1) +
+  xlab("Heritability") +
+  theme_bw()
+p
+```
+
+```{r}
+dat_sum <- dat %>%
+  group_by(pat_ID) %>%
+  summarize(pat_mean = mean(off_p), pat_sd = sd(off_p))
+
+stan_data <- list(n_indiv = nrow(dat),
+                  n_sires = length(unique(dat$pat_ID)),
+                  mu_prior = mean(dat$off_p),
+                  prior_within = 1/mean(dat_sum$pat_sd),
+                  prior_among = 1/sd(dat_sum$pat_mean),
+                  sire = as.numeric(dat$pat_ID),
+                  pheno = dat$off_p)
+fit <- stan("heritability.stan",
+            data = stan_data,
+            refresh = 0)
+print(fit, digits = 3, pars = c("sigma_w", "sigma_s", "h_2", 
+                                "sigma_s_2"))
+```
+
+# Try #3: n_sires = 50, n_dams = 20
+
+Checking to make sure that results for Lab 12 hold up with different number of dams per sire.
+
+```{r}
+library(tidyverse)
+library(rstanarm)
+library(rstan)
+
+rm(list = ls())
+
+set.seed(1234)
+
+n_sires <- 50
+n_dams <- 20
+mu <- 50
+sigma_2_g <- 25
+sigma_2_e <- 9
+
+dat <- tibble(pat_ID = NA,
+              ind_ID = NA,
+              mat_g = NA,
+              pat_g = NA,
+              mid_g = NA,
+              mat_p = NA,
+              pat_p = NA,
+              mid_p = NA,
+              off_p = NA)
+ct <- 0
+for (i in 1:n_sires) {
+  patg <- rnorm(1, mu, sqrt(sigma_2_g))
+  patp <- rnorm(1, patg, sqrt(sigma_2_e))
+  for (j in 1:n_dams) {
+    ct <- ct + 1
+    matg <- rnorm(1, mu, sqrt(sigma_2_g))
+    matp <- rnorm(1, matg, sqrt(sigma_2_e))
+    midg <- (matg + patg)/2
+    offp <- rnorm(1, midg, sqrt(sigma_2_e))
+    dat <- add_row(dat,
+                   pat_ID = i,
+                   ind_ID = ct,
+                   mat_g = matg,
+                   pat_g = patg,
+                   mid_g = midg,
+                   mat_p = matp,
+                   pat_p = patp,
+                   mid_p = (matp + patp)/2,
+                   off_p = offp)
+  }
+}
+dat <- dat %>%
+  filter(!is.na(pat_ID)) %>%
+  mutate(pat_ID = factor(pat_ID),
+         ind_ID = factor(ind_ID))
+pat_g_var <- var(unique(dat[, c("pat_ID", "pat_g")])$pat_g)
+pat_p_var <- var(unique(dat[, c("pat_ID", "pat_p")])$pat_p)
+variances <- tibble(Parent = c("Sire", "Dam"),
+                    Genotypic = round(c(pat_g_var, var(dat$mat_g)), 3),
+                    Environmental = round(c(pat_p_var - pat_g_var,
+                                            var(dat$mat_p) -
+                                              var(dat$mat_g)), 3),
+                    Phenotypic = round(c(pat_p_var, var(dat$mat_p)),
+                                      3))
+```
+
+```{r}
+off_h <- stan_glmer(off_p ~ (1|pat_ID),
+                    data = dat,
+                    refresh = 0)
+summary(off_h, digits = 3, 
+        pars = c("sigma", "Sigma[pat_ID:(Intercept),(Intercept)]"))
+
+
+heritability <- function(sigma_w, sigma_hs, n_off) {
+  h_2 = sigma_hs*n_off/(sigma_hs*n_off + sigma_w^2)
+  return(h_2)
+}
+
+off_h_mat <- as.data.frame(off_h)
+h_2 <- heritability(off_h_mat$sigma, 
+                    off_h_mat$`Sigma[pat_ID:(Intercept),(Intercept)]`,
+                    n_dams)
+off_h_mat$h_2 <- h_2
+
+library(ggplot2)
+p <- ggplot(off_h_mat, aes(x = h_2)) +
+  geom_histogram(bins = 100, alpha = 0.4) +
+  geom_vline(xintercept = sigma_2_g/(sigma_2_g + sigma_2_e), 
+             color = "red",
+             linetype = "dashed") +
+  xlim(0, 1) +
+  xlab("Heritability") +
+  theme_bw()
+p
+```
+
+```{r}
+dat_sum <- dat %>%
+  group_by(pat_ID) %>%
+  summarize(pat_mean = mean(off_p), pat_sd = sd(off_p))
+
+stan_data <- list(n_indiv = nrow(dat),
+                  n_sires = length(unique(dat$pat_ID)),
+                  mu_prior = mean(dat$off_p),
+                  prior_within = 1/mean(dat_sum$pat_sd),
+                  prior_among = 1/sd(dat_sum$pat_mean),
+                  sire = as.numeric(dat$pat_ID),
+                  pheno = dat$off_p)
+fit <- stan("heritability.stan",
+            data = stan_data,
+            refresh = 0)
+print(fit, digits = 3, pars = c("sigma_w", "sigma_s", "h_2", 
+                                "sigma_s_2"))
+```
+
+# Conclusion
+
+It looks as if I have things figured out, but there also appears to be (based on a ***very*** small sample size) a bias towards overestimating the heritability.

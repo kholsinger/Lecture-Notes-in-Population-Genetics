@@ -233,26 +233,3 @@ print(fit, digits = 3, pars = c("sigma_w", "sigma_s", "h_2",
 ```
 
 `sigma_w` here corresponds to `sigma` from `stan_glmer()`, and `sigma_s_2` here corresponds to `Sigma[pat_ID:(Intercept),(Intercept)]`.The `Sigma[pat_ID:(Intercept),(Intercept)]` term from `stan_glmer()` is the ***variance*** among intercepts, not the standard deviation. Notice how closely the posterior means from `Stan` match crude estimates calculated directly from the data.
-
-```{r}
-library(rstan)
-
-venusta <- subset(greenhouse, species == "venusta") %>%
-  filter(!is.na(lwr))
-venusta$mom_id <- factor(venusta$mom_id)
-ven_sum <- venusta %>%
-  group_by(mom_id) %>%
-  summarize(mom_mean = mean(lwr), within_sd = sd(lwr))
-stan_data <- list(n_indiv = nrow(venusta),
-                  n_sires = length(unique(venusta$mom_id)),
-                  mu_prior = mean(venusta$lwr),
-                  prior_within = 1/mean(ven_sum$within_sd),
-                  prior_among = 1/sd(ven_sum$mom_mean),
-                  sire = as.numeric(venusta$mom_id),
-                  pheno = venusta$lwr)
-fit <- stan("heritability.stan",
-            data = stan_data,
-            refresh = 0)
-print(fit, digits = 3, pars = c("sigma_w", "sigma_s", "h_2", 
-                                "sigma_s_2"))
-```
