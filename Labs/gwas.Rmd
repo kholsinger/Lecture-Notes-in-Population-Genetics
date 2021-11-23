@@ -1,0 +1,15 @@
+---
+title: "Genome-wide association studies"
+output: 
+  html_notebook:
+    toc: yes
+    toc_float: true
+---
+
+# Simulate data
+
+Cribbed from [https://onunicornsandgenes.blog/2019/10/13/using-r-animal-model-with-simulated-data/](https://onunicornsandgenes.blog/2019/10/13/using-r-animal-model-with-simulated-data/)
+[https://onunicornsandgenes.blog/tag/brms/](https://onunicornsandgenes.blog/tag/brms/)
+
+```{r}
+```
