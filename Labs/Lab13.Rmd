@@ -13,10 +13,12 @@ library(popkin)
 
 rm(list = ls())
 
-genos <- read_tsv("gypsymoth_genotypes_012_final_5122017.txt",
+genos <- read_tsv("gm_genotypes_012_final_5122017.txt",
                   col_names = FALSE,
-                  na = "-1")
-phenos <- read_csv("gypsymoth_phenotypes.csv")
+                  na = "-1",
+                  show_col_types = FALSE)
+phenos <- read_csv("gm_phenotypes.csv",
+                   show_col_types = FALSE)
 
 ## keep only loci scored in more than 100 individuals
 ##
@@ -41,6 +43,8 @@ pops <- gsub("_.*", "", phenos$sample)
 dat <- cbind(pops, phenos, genos)
 write_csv(dat, 
           file = "gypsymoth.csv")
+write_csv(phenos,
+          file = "gypsymoth_phenotypes.csv")
 
 ## estimate the kinship among individuals and save it in a CSV file
 ##
@@ -55,15 +59,61 @@ write_csv(as.data.frame(L),
 
 ```{r}
 library(tidyverse)
-library(brms)
+library(rstan)
 
 rm(list = ls())
 
-dat <- read_csv("gypsymoth.csv")
-A <- read_csv("gypsymoth_relatedness.csv")
+options(mc.cores = parallel::detectCores())
 
-fit <- brm(Mass ~ (1|gr(sample, cov = A)),
-           data = dat, 
-           family = gaussian(),
-           data2 = list(A = A))
+dat <- read_csv("gypsymoth.csv")
+pheno <- read_csv("gypsymoth_phenotypes.csv")
+L <- read_csv("gypsymoth_relatedness.csv")
+
+analyze_trait <- function(dat, pheno, L, trait, n_loci = NA) {
+  ## convert dat to data frame for subscripting
+  ##
+  dat <- as.data.frame(dat)
+
+  if (is.na(n_loci)) {
+    n_loci <- ncol(dat) - 5
+  }
+  n_samples <- 4000
+  p <- matrix(nrow = n_loci, ncol = n_samples)
+  mean_p <- numeric(n_loci)
+  mu <- array(dim = c(n_loci, n_samples, nrow(dat)))
+  for (i in 1:n_loci) {
+    cat("Checking locus ", i, "\n", sep = "")
+    stan_data <- list(n_indiv = nrow(dat),
+                      geno = dat[, i+5],
+                      pheno = pheno[[trait]],
+                      L = L)
+    stan_pars <- c("p", "mu")
+    fit <- stan("gwas.stan",
+                data = stan_data,
+                pars = stan_pars,
+                refresh = 0)
+    x <- as.data.frame(fit)
+    p[i,] <- x$p
+    mean_p[i] <- mean(x$p)
+  }
+  loci <- data.frame(locus = seq(from = 1, to = n_loci, by = 1),
+                     p_mean = mean_p)
+  loci <- loci[order(abs(loci$p_mean), decreasing = TRUE), ]
+  return(list(loci = loci, p = p))
+}
+
+summarize_analysis <- function(results, n_report = 20) {
+  if (n_report > nrow(results$loci)) {
+    n_report <- nrow(results$loci)
+  }
+  for (i in 1:n_report) {
+    ci <- quantile(results$p[results$loci$locus[i], ], c(0.025, 0.975))
+    output <- sprintf("Locus %3d: %8.5f (%8.5f, %8.5f)\n", results$loci$locus[i], 
+                      results$loci$p_mean[i], ci[1], ci[2])
+    cat(output)
+  }
+}
+
+results <- analyze_trait(dat, pheno, L, "Mass", n_loci = 25)
+summarize_analysis(results)
 ```
