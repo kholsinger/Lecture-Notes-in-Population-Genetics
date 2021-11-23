@@ -1,0 +1,69 @@
+---
+title: "GWAS in gypsy moths"
+output: html_notebook
+---
+
+Data from: [https://doi.org/10.5061/dryad.8ts2867](https://doi.org/10.5061/dryad.8ts2867)
+
+# Prepare data for analysis
+
+```{r}
+library(tidyverse)
+library(popkin)
+
+rm(list = ls())
+
+genos <- read_tsv("gypsymoth_genotypes_012_final_5122017.txt",
+                  col_names = FALSE,
+                  na = "-1")
+phenos <- read_csv("gypsymoth_phenotypes.csv")
+
+## keep only loci scored in more than 100 individuals
+##
+n_scored <- apply(genos, 2, sum, na.rm = TRUE)
+genos <- genos[, n_scored > 100]
+
+## keep only individuals scored at more than 4000 loci
+##
+n_scored <- apply(genos, 1, sum, na.rm = TRUE)
+genos <- genos[n_scored > 4000, ]
+phenos <- phenos[n_scored > 4000, ]
+## and exclude any remaining loci where one or more individuals isn't scored
+##
+genos <- genos[, !is.na(apply(genos, 2, sum))]
+
+## strip off the individual ids to identify populations
+##
+pops <- gsub("_.*", "", phenos$sample)
+
+## bind the poopulation, phenotype, and genotype information together and save it in a CSV file
+##
+dat <- cbind(pops, phenos, genos)
+write_csv(dat, 
+          file = "gypsymoth.csv")
+
+## estimate the kinship among individuals and save it in a CSV file
+##
+phi <- popkin(t(as.matrix(genos)), 
+              subpops = pops)
+L <- t(chol(phi))
+write_csv(as.data.frame(L),
+          file = "gypsymoth_relatedness.csv")
+```
+
+# GWAS with `Stan`
+
+```{r}
+library(tidyverse)
+library(brms)
+
+rm(list = ls())
+
+dat <- read_csv("gypsymoth.csv")
+A <- read_csv("gypsymoth_relatedness.csv")
+
+fit <- brm(Mass ~ (1|gr(sample, cov = A)),
+           data = dat, 
+           family = gaussian(),
+           data2 = list(A = A))
+```
