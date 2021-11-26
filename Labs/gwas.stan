@@ -27,6 +27,10 @@ transformed parameters {
 }
 
 model {
+  // prior on intercept
+  //
+  a ~ normal(0.0, 1.0);
+  
   // prior on random effect
   //
   sigma_ran ~ inv_gamma(2.0, 1.0);

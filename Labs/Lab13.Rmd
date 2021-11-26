@@ -3,9 +3,118 @@ title: "GWAS in gypsy moths"
 output: html_notebook
 ---
 
-Data from: [https://doi.org/10.5061/dryad.8ts2867](https://doi.org/10.5061/dryad.8ts2867)
+# GWAS with `Stan`
 
-# Prepare data for analysis
+Friedline et al.^[Friedline, C.J., T.M. Faske, B.M. Lind, E.M. Hobson, D. Parry, R.J. Dyer, D.M. Johnson, L.M. Thompson, K.L. Grayson, and A.J. Eckert.  2019.  Evolutionary genomics of gypsy moth populations sampled along a latitudinal gradient. _Molecular Ecology_ 28:2206-2223 doi: [https://doi.org/10.1111/mec.15069](https://doi.org/10.1111/mec.15069)] investigated the role of natural selection in the rapid spread of gypsy moth (_Lymantria dispar_) across Eastern North America. Their analysis focused on analysis of polymorphisms at 91,468 SNPs identified through double digest restriction-site associated DNA sequencing (ddRADseq). As part of their work, they also collected data on pupal mass (Mass), pupal development time (PD), and total development time (TDT). This allows us to perform a genome-wide association analysis that assesses the relationship, if any, between individual SNP loci and each of the phenotypes. You’ll find two data sets on the course web site:
+
+- gypsymoth.csv: A CSV file containing information about each individual in the sample (population of origin, sample label, phenotype, genotype at each SNP locus).
+- gypsymoth-relatedness.csv: A CSV file containing the relatedness matrix for indi- viduals included in the data set.
+
+The data set is a subset of the data included in the paper. Specifically, I filtered the data to include only (a) loci that were scored in more than 100 individuals, (b) individuals that had more than 4000 of the remaing SNP loci scored, and (c) loci that were scored in all of the remaining individuals. The resulting data set includes 141 individuals scored at 218 loci. Using these data, answer the following questions:
+
+1. What loci (if any) are associated with each of the three traits (pupal mass, pupal development time, and total development time)?
+
+2. Is there evidence that any of the SNP loci are associated with variation in more than one of the traits?
+
+3. Given your answer to #2, would you expect to see a change in pupal development time, total development time, or both if natural selection led to a change in pupal mass? Why or why not?
+
+# Short example of an analysis
+
+I suggest running the code below as is so that you get a sense of how long the analyses will take. Once you've run this code, you can run other analyses simply by running `analyze_trait()`. If you leave off the `num_loci` argument, it will perform an analysis for all of the loci in the data set. For example,
+
+```{r}
+results <- analyze_trait(dat, L, "Mass")
+```
+
+Will analyze the association between each of the 218 loci in the data set and Mass, and the results will be stored in `results`. Then if you
+
+```{r}
+summarize_analysis(results)
+```
+
+You'll get a report with the estimated effect at the 20 loci having the largest effect on the phenotype (sorted by largest effect to smallest). The first number is the posterior mean of the estimated effect and the numbers in parentheses are the lower and upper bound of the 95% credible interval.
+
+If you'd like to see the effects for all of the loci, simply use
+
+```{r}
+summarize_analysis(results, n_report = 218)
+```
+
+The `n_report` argument is the number of loci on which to report. With these data you can select any number between 1 and 218.
+
+```{r}
+library(tidyverse)
+library(rstan)
+
+rm(list = ls())
+
+options(mc.cores = parallel::detectCores())
+
+dat <- read_csv("gypsymoth.csv",
+                show_col_types = FALSE)
+L <- read_csv("gypsymoth_relatedness.csv",
+                show_col_types = FALSE)
+
+analyze_trait <- function(dat, L, trait, n_loci = NA) {
+  ## convert dat to data frame for subscripting
+  ##
+  dat <- as.data.frame(dat)
+
+  if (is.na(n_loci)) {
+    n_loci <- ncol(dat) - 5
+  }
+  n_chains <- 4
+  n_iter <- 5000
+  n_samples <- n_iter*n_chains
+  p <- matrix(nrow = n_loci, ncol = n_samples)
+  mean_p <- numeric(n_loci)
+  mu <- array(dim = c(n_loci, n_samples, nrow(dat)))
+  for (i in 1:n_loci) {
+    cat("Checking locus ", i, "\n", sep = "")
+    stan_data <- list(n_indiv = nrow(dat),
+                      geno = dat[, i+5],
+                      pheno = dat[[trait]],
+                      L = L)
+    stan_pars <- c("p", "mu")
+    fit <- stan("gwas.stan",
+                data = stan_data,
+                pars = stan_pars,
+                iter = n_iter,
+                chains = n_chains,
+                refresh = 0)
+    x <- as.data.frame(fit)
+    p[i,] <- x$p
+    mean_p[i] <- mean(x$p)
+  }
+  loci <- data.frame(locus = colnames(dat)[(1:n_loci) + 5],
+                     p_mean = mean_p)
+  loci <- loci[order(abs(loci$p_mean), decreasing = TRUE), ]
+  rownames(p) <- loci$locus
+  return(list(loci = loci, p = p))
+}
+
+summarize_analysis <- function(results, n_report = 20) {
+  if (n_report > nrow(results$loci)) {
+    n_report <- nrow(results$loci)
+  }
+  for (i in 1:n_report) {
+    ci <- quantile(results$p[results$loci$locus[i], ], c(0.025, 0.975))
+    output <- sprintf("%6s: %8.5f (%8.5f, %8.5f)\n", 
+                      results$loci$locus[i], 
+                      results$loci$p_mean[i], ci[1], ci[2])
+    cat(output)
+  }
+}
+
+results <- analyze_trait(dat, L, "Mass", n_loci = 10)
+summarize_analysis(results)
+```
+
+# How I prepared the data for analysis
+
+If you're interested in seeing how I prepared the data from the version on Dryad. Here's what I did. 
+
+First, I downloaded the data from Dryad: [https://doi.org/10.5061/dryad.8ts2867](https://doi.org/10.5061/dryad.8ts2867). Then I renamed the phenotype filename so that it begins with `gm`. The rest is pretty straightforward, except that you haven't seen `popkin()` before, which produces the relatedness matrix. I also fiddle a bit with the results from `popkin()` to get them in the form that's most convenient for analysis in `Stan`.
 
 ```{r}
 library(tidyverse)
@@ -43,8 +152,6 @@ pops <- gsub("_.*", "", phenos$sample)
 dat <- cbind(pops, phenos, genos)
 write_csv(dat, 
           file = "gypsymoth.csv")
-write_csv(phenos,
-          file = "gypsymoth_phenotypes.csv")
 
 ## estimate the kinship among individuals and save it in a CSV file
 ##
@@ -55,65 +162,3 @@ write_csv(as.data.frame(L),
           file = "gypsymoth_relatedness.csv")
 ```
 
-# GWAS with `Stan`
-
-```{r}
-library(tidyverse)
-library(rstan)
-
-rm(list = ls())
-
-options(mc.cores = parallel::detectCores())
-
-dat <- read_csv("gypsymoth.csv")
-pheno <- read_csv("gypsymoth_phenotypes.csv")
-L <- read_csv("gypsymoth_relatedness.csv")
-
-analyze_trait <- function(dat, pheno, L, trait, n_loci = NA) {
-  ## convert dat to data frame for subscripting
-  ##
-  dat <- as.data.frame(dat)
-
-  if (is.na(n_loci)) {
-    n_loci <- ncol(dat) - 5
-  }
-  n_samples <- 4000
-  p <- matrix(nrow = n_loci, ncol = n_samples)
-  mean_p <- numeric(n_loci)
-  mu <- array(dim = c(n_loci, n_samples, nrow(dat)))
-  for (i in 1:n_loci) {
-    cat("Checking locus ", i, "\n", sep = "")
-    stan_data <- list(n_indiv = nrow(dat),
-                      geno = dat[, i+5],
-                      pheno = pheno[[trait]],
-                      L = L)
-    stan_pars <- c("p", "mu")
-    fit <- stan("gwas.stan",
-                data = stan_data,
-                pars = stan_pars,
-                refresh = 0)
-    x <- as.data.frame(fit)
-    p[i,] <- x$p
-    mean_p[i] <- mean(x$p)
-  }
-  loci <- data.frame(locus = seq(from = 1, to = n_loci, by = 1),
-                     p_mean = mean_p)
-  loci <- loci[order(abs(loci$p_mean), decreasing = TRUE), ]
-  return(list(loci = loci, p = p))
-}
-
-summarize_analysis <- function(results, n_report = 20) {
-  if (n_report > nrow(results$loci)) {
-    n_report <- nrow(results$loci)
-  }
-  for (i in 1:n_report) {
-    ci <- quantile(results$p[results$loci$locus[i], ], c(0.025, 0.975))
-    output <- sprintf("Locus %3d: %8.5f (%8.5f, %8.5f)\n", results$loci$locus[i], 
-                      results$loci$p_mean[i], ci[1], ci[2])
-    cat(output)
-  }
-}
-
-results <- analyze_trait(dat, pheno, L, "Mass", n_loci = 25)
-summarize_analysis(results)
-```

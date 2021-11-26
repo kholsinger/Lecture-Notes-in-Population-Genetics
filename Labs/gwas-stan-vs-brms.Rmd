@@ -1,0 +1,151 @@
+---
+title: "Checking `Stan` GWAS against `brms`"
+output: html_notebook
+---
+# Prepare data for analysis
+
+```{r}
+library(tidyverse)
+library(popkin)
+
+rm(list = ls())
+
+genos <- read_tsv("gm_genotypes_012_final_5122017.txt",
+                  col_names = FALSE,
+                  na = "-1",
+                  show_col_types = FALSE)
+phenos <- read_csv("gm_phenotypes.csv",
+                   show_col_types = FALSE)
+
+## keep only loci scored in more than 100 individuals
+##
+n_scored <- apply(genos, 2, sum, na.rm = TRUE)
+genos <- genos[, n_scored > 100]
+
+## keep only individuals scored at more than 4000 loci
+##
+n_scored <- apply(genos, 1, sum, na.rm = TRUE)
+genos <- genos[n_scored > 4000, ]
+phenos <- phenos[n_scored > 4000, ]
+## and exclude any remaining loci where one or more individuals isn't scored
+##
+genos <- genos[, !is.na(apply(genos, 2, sum))]
+
+## strip off the individual ids to identify populations
+##
+pops <- gsub("_.*", "", phenos$sample)
+
+## bind the poopulation, phenotype, and genotype information together
+##
+dat <- cbind(pops, phenos, genos)
+
+## estimate the kinship among individuals
+##
+A <- popkin(t(as.matrix(genos)), 
+              subpops = pops)
+colnames(A) <- dat$sample
+rownames(A) <- dat$sample
+L <- t(chol(A))
+```
+
+# `Stan` analysis
+
+```{r}
+library(rstan)
+
+options(mc.cores = parallel::detectCores())
+
+analyze_trait <- function(dat, L, trait, n_loci = NA) {
+  ## convert dat to data frame for subscripting
+  ##
+  dat <- as.data.frame(dat)
+
+  if (is.na(n_loci)) {
+    n_loci <- ncol(dat) - 5
+  }
+  n_chains <- 4
+  n_iter <- 5000
+  n_samples <- n_iter*n_chains
+  p <- matrix(nrow = n_loci, ncol = n_samples)
+  mean_p <- numeric(n_loci)
+  mu <- array(dim = c(n_loci, n_samples, nrow(dat)))
+  for (i in 1:n_loci) {
+    cat("Checking locus ", i, "\n", sep = "")
+    stan_data <- list(n_indiv = nrow(dat),
+                      geno = dat[, i+5],
+                      pheno = dat[[trait]],
+                      L = L)
+    stan_pars <- c("p", "mu")
+    fit <- stan("gwas.stan",
+                data = stan_data,
+                pars = stan_pars,
+                iter = n_iter,
+                chains = n_chains,
+                refresh = 0)
+    x <- as.data.frame(fit)
+    p[i,] <- x$p
+    mean_p[i] <- mean(x$p)
+  }
+  loci <- data.frame(locus = seq(from = 1, to = n_loci, by = 1),
+                     p_mean = mean_p)
+  return(list(loci = loci, p = p))
+}
+
+summarize_analysis <- function(results, n_report = 20) {
+  if (n_report > nrow(results$loci)) {
+    n_report <- nrow(results$loci)
+  }
+  for (i in 1:n_report) {
+    ci <- quantile(results$p[results$loci$locus[i], ], c(0.025, 0.975))
+    output <- sprintf("Locus %3d: %8.5f (%8.5f, %8.5f)\n", results$loci$locus[i], 
+                      results$loci$p_mean[i], ci[1], ci[2])
+    cat(output)
+  }
+}
+
+results_stan <- analyze_trait(dat, L, "Mass", n_loci = 2)
+```
+
+# `brms` analysis
+
+```{r}
+library(brms)
+
+analyze_trait_brms <- function(dat, A, trait, locus) {
+  locus_id <- colnames(dat)[locus + 5]
+  brm_formula <- paste(trait, " ~ ", locus_id, " + ", 
+                       " (1|gr(sample, cov = A))",
+                       sep = "")
+  fit <- brm(as.formula(brm_formula),
+    data = dat,
+    family = gaussian(),
+    data2 = list(A = A),
+    refresh = 0)  
+}
+
+summarize_analysis_brms <- function(results, n) {
+  tmp <- as.data.frame(results)
+  locus <- colnames(tmp)[grep("b_X", colnames(tmp))]
+  output <- sprintf("Locus %3d: %8.5f (%8.5f, %8.5f)\n",
+                    n,
+                    mean(tmp[[locus]]), 
+                    quantile(tmp[[locus]], c(0.025)), 
+                    quantile(tmp[[locus]], c(0.975)))
+  cat(output)
+}
+
+results_brms_1 <- analyze_trait_brms(dat, A, "Mass",
+                                     results_stan$loci$locus[1])
+results_brms_2 <- analyze_trait_brms(dat, A, "Mass",
+                                     results_stan$loci$locus[2])
+```
+
+# Compare results
+
+```{r}
+cat("Stan...\n")
+summarize_analysis(results_stan)
+cat("brms...\n")
+summarize_analysis_brms(results_brms_1, 1)
+summarize_analysis_brms(results_brms_2, 2)
+```
