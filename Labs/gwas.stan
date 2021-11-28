@@ -5,6 +5,15 @@ data {
   cholesky_factor_cov[n_indiv] L;  // covariance of multivariate normal model
 }
 
+transformed data {
+  real mean_pheno;            // sample mean
+  real<lower=0> sd_pheno;     // sample standard deviation
+  
+  mean_pheno = mean(pheno);
+  sd_pheno = sd(pheno);
+  
+}
+
 parameters {
   vector[n_indiv] z;          // random effect primitive
   real p;                     // variant effect
@@ -29,14 +38,14 @@ transformed parameters {
 model {
   // prior on intercept
   //
-  a ~ normal(0.0, 1.0);
+  a ~ normal(mean_pheno, 4*sd_pheno);
   
   // prior on random effect
   //
   sigma_ran ~ inv_gamma(2.0, 1.0);
   z ~ normal(0, sigma_ran);
   
-  p ~ normal(0.0, 1.0);
+  p ~ normal(0.0, 4*sd_pheno);
 
   // prior on sigma
   //

@@ -14,6 +14,10 @@ The data set is a subset of the data included in the paper. Specifically, I filt
 
 1. What loci (if any) are associated with each of the three traits (pupal mass, pupal development time, and total development time)?
 
+IMPORTANT NOTE: The loci are ordered from the strongest estimated effect (mean) to the weakest, but loci showing a weaker estimated effect may have stronger evidence for them, i.e., the credible interval may not overlap zero. Because of the small sample size, I recommend considering both the 80% and the 95% credible intervals whenn answering these questions. 
+
+In the example below you'll see that X4293 has the largest estimated effect, 0.01318, but that both the 80% and the 95% credible intervals overlap zero, meaning that we the evidence supporting a positive effect at this locus is weak. In contrast, the magnitude of the estimated effect at X2841 is smaller, -0.00853,^[Note that we are comparing magnitudes, so take the absolute value of numbers before comparing them.] but the 80 percent credible interval, (0.00115,  0.02514), does not overlap zero. You're probably wondering why the mean isn't inside the credible interval. It's because the distribution is very skewed the median is 0.01325. Even though I've ordered the loci by the mean, it's probably better to focus on the median, i.e., the 50% quantile. If you do that, you can see that for X4293, the magnitude of the estimated effect, -0.00827, is smaller than for X2841, which is consistent with us having stronger evidence for an effect at X2841.
+
 2. Is there evidence that any of the SNP loci are associated with variation in more than one of the traits?
 
 3. Given your answer to #2, would you expect to see a change in pupal development time, total development time, or both if natural selection led to a change in pupal mass? Why or why not?
@@ -32,7 +36,7 @@ Will analyze the association between each of the 218 loci in the data set and Ma
 summarize_analysis(results)
 ```
 
-You'll get a report with the estimated effect at the 20 loci having the largest effect on the phenotype (sorted by largest effect to smallest). The first number is the posterior mean of the estimated effect and the numbers in parentheses are the lower and upper bound of the 95% credible interval.
+You'll get a report with the estimated effect at the 20 loci having the largest effect on the phenotype (sorted by largest effect to smallest). The first number is the posterior mean of the estimated effect and the numbers in parentheses are the 2.5%, 10%, 50%, 90%, and 97.5% quantiles. The lower bound of the 95% credible interval is given by the 2.5% quantile, and the upper bound is given by the 97.5% quantile. The lower bound of the 80% credible interval is given by the 10% quantile, and the upper bound is given by the 90% quantile.
 
 If you'd like to see the effects for all of the loci, simply use
 
@@ -97,11 +101,14 @@ summarize_analysis <- function(results, n_report = 20) {
   if (n_report > nrow(results$loci)) {
     n_report <- nrow(results$loci)
   }
+  cat("Mean: (2.5%, 10%, 50%, 90%, 97.5%)\n")
   for (i in 1:n_report) {
-    ci <- quantile(results$p[results$loci$locus[i], ], c(0.025, 0.975))
-    output <- sprintf("%6s: %8.5f (%8.5f, %8.5f)\n", 
-                      results$loci$locus[i], 
-                      results$loci$p_mean[i], ci[1], ci[2])
+    ci <- quantile(results$p[results$loci$locus[i], ],
+                   c(0.025, 0.1, 0.5, 0.9, 0.975))
+    output <- sprintf("%6s: %8.5f (%8.5f, %8.5f, %8.5f, %8.5f, %8.5f)\n",
+                      results$loci$locus[i],
+                      results$loci$p_mean[i],
+                      ci[1], ci[2], ci[3], ci[4], ci[5])
     cat(output)
   }
 }
