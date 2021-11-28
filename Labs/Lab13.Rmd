@@ -24,6 +24,12 @@ In the example below you'll see that X4293 has the largest estimated effect, 0.0
 
 # Short example of an analysis
 
+NOTE: To run this code you will also have to download [gwas.stan](http://darwin.eeb.uconn.edu/eeb348-resources/gwas.stan) from the course website using the link here. Save it in the same directory as you save the data files. Then run the code. Here are links to the files you'll need:
+
+- [gwas.stan](http://darwin.eeb.uconn.edu/eeb348-resources/gwas.stan)
+- [gypsymoth.csv](http://darwin.eeb.uconn.edu/eeb348-resources/gypsymoth.csv)
+- [gypsymoth_relatedness.csv](http://darwin.eeb.uconnn.edu/eeb348-resources/gypsymoth_relatedness.csv)
+
 I suggest running the code below as is so that you get a sense of how long the analyses will take. Once you've run this code, you can run other analyses simply by running `analyze_trait()`. If you leave off the `num_loci` argument, it will perform an analysis for all of the loci in the data set. For example,
 
 ```{r}
