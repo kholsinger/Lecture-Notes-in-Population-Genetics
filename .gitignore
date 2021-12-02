@@ -35,6 +35,7 @@
 .Rproj.user
 *.rds
 *.Rsave
+*.Rapp.history*
 
 ## Miscellaneous files to ignore
 ##

@@ -33,8 +33,8 @@ analyze_trait <- function(dat, L, trait, n_loci = NA) {
                 data = stan_data,
                 pars = stan_pars,
                 iter = n_iter,
-                chains = n_chains,
-                refresh = 0)
+                chains = n_chains)#,
+#                refresh = 0)
     x <- as.data.frame(fit)
     p[i,] <- x$p
     mean_p[i] <- mean(x$p)
@@ -50,10 +50,10 @@ summarize_analysis <- function(results, n_report = 20) {
   if (n_report > nrow(results$loci)) {
     n_report <- nrow(results$loci)
   }
+  cat("Mean: (2.5%, 10%, 50%, 90%, 97.5%)\n")
   for (i in 1:n_report) {
     ci <- quantile(results$p[results$loci$locus[i], ],
                    c(0.025, 0.1, 0.5, 0.9, 0.975))
-    cat("Mean: (2.5%, 10%, 50%, 90%, 97.5%)\n")
     output <- sprintf("%6s: %8.5f (%8.5f, %8.5f, %8.5f, %8.5f, %8.5f)\n",
                       results$loci$locus[i],
                       results$loci$p_mean[i],
@@ -62,13 +62,18 @@ summarize_analysis <- function(results, n_report = 20) {
   }
 }
 
-results_Mass <- analyze_trait(dat, L, "Mass")
-results_PD <- analyze_trait(dat, L, "PD")
-results_TDT <- analyze_trait(dat, L, "TDT")
-
+results <- analyze_trait(dat, L, "Mass")
+sink(file = "gypsymoth-Mass.txt")
 cat("Mass...\n")
-summarize_analysis(results_Mass)
+summarize_analysis(results)
+sink()
+results <- analyze_trait(dat, L, "PD")
+sink(file = "gypsymoth-PD.txt")
 cat("PD...\n")
-summarize_analysis(results_PD)
+summarize_analysis(results)
+sink()
+results <- analyze_trait(dat, L, "TDT")
+sink(file = "gypsymoth-TDT.txt")
 cat("TDT...\n")
-summarize_analysis(results_TDT)
+summarize_analysis(results)
+sink()
