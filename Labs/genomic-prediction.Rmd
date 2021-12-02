@@ -1,0 +1,119 @@
+---
+title: "Checking genomic prediction with brms"
+output: html_notebook
+---
+
+# Getting the data ready
+
+```{r}
+library(tidyverse)
+library(popkin)
+
+rm(list = ls())
+
+genos <- read_tsv("gm_genotypes_012_final_5122017.txt",
+                  col_names = FALSE,
+                  na = "-1",
+                  show_col_types = FALSE)
+phenos <- read_csv("gm_phenotypes.csv",
+                   show_col_types = FALSE)
+
+## keep only loci scored in more than 100 individuals
+##
+n_scored <- apply(genos, 2, sum, na.rm = TRUE)
+genos <- genos[, n_scored > 100]
+
+## keep only individuals scored at more than 4000 loci
+##
+n_scored <- apply(genos, 1, sum, na.rm = TRUE)
+genos <- genos[n_scored > 4000, ]
+phenos <- phenos[n_scored > 4000, ]
+## and exclude any remaining loci where one or more individuals isn't scored
+##
+genos <- genos[, !is.na(apply(genos, 2, sum))]
+
+## strip off the individual ids to identify populations
+##
+pops <- gsub("_.*", "", phenos$sample)
+
+## bind the poopulation, phenotype, and genotype information together
+##
+dat <- cbind(pops, phenos, genos)
+
+## estimate the kinship among individuals
+##
+A <- popkin(t(as.matrix(genos)), 
+              subpops = pops)
+colnames(A) <- dat$sample
+rownames(A) <- dat$sample
+write_tsv(as.data.frame(A),
+          file = "gypsymoth_relatedness_for_brms.txt")
+```
+
+# Run brms
+
+## Mass
+```{r}
+library(tidyverse)
+library(brms)
+library(ggplot2)
+
+rm(list = ls())
+
+options(mc.cores = parallel::detectCores())
+
+dat <- read_csv("gypsymoth.csv")
+A <- read_tsv("gypsymoth_relatedness_for_brms.txt")
+
+fit <- brm(Mass ~ X34862 + X29507 + X44522 + X40856 + X89362 + (1|gr(sample, cov = A)),
+           data = dat,
+           family = gaussian(),
+           data2 = list(A = A),
+           refresh = 0)  
+summary(fit)
+bayes_R2(fit)
+predicted_Mass <- predict(fit)
+
+for_plot <- tibble(Predicted = predicted_Mass[, "Estimate"],
+                   Observed = dat$Mass)
+p <- ggplot(for_plot, aes(x = Predicted, y = Observed)) +
+  geom_point() +
+  geom_abline(slope = 1, intercept = 0, color = "red", linetype = "dashed") +
+  theme_bw()
+p
+```
+
+## PD
+
+```{r}
+fit <- brm(PD ~ X10472 + X66820 + X13105 + X79056 + X86539 + X86541 + X86543 + (1|gr(sample, cov = A)),
+           data = dat,
+           family = gaussian(),
+           data2 = list(A = A),
+           refresh = 0)  
+summary(fit)
+bayes_R2(fit)
+predicted_PD <- predict(fit)
+
+for_plot <- tibble(Predicted = predicted_PD[, "Estimate"],
+                   Observed = dat$PD)
+p <- ggplot(for_plot, aes(x = Predicted, y = Observed)) +
+  geom_point() +
+  geom_abline(slope = 1, intercept = 0, color = "red", linetype = "dashed") +
+  theme_bw()
+p
+```
+
+## Mass vs. PD
+
+```{r}
+for_plot <- tibble(Type = c(rep("Predicted", nrow(dat)), rep("Observed", nrow(dat))),
+                   Mass = c(predicted_Mass[, "Estimate"], dat$Mass),
+                   PD = c(predicted_PD[, "Estimate"], dat$PD))
+p <- ggplot(for_plot, aes(x = Mass, y = PD)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  facet_wrap(~ Type, scales = "free_x") +
+  theme_bw()
+p
+```
