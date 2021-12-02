@@ -1,0 +1,30 @@
+---
+title: "GWAS in gypsy moths - UPDATE"
+output: html_notebook
+---
+
+As I mentioned in lecture this morning, something strange is going on in the interaction between the `R` and `Stan` scripts I wrote and RStudio. They work fine for me so long as I don't try running analyses on too many loci, but some people haven't been able to run them at all, and they often blow up the entire `R` session when I try to run the full set of analyses. I found a workaround and I've now uploaded three text files containing results of the analysis for the 20 loci with the largest estimated mean effect for each of the three traits. They are creatively named
+
+- [gypsymoth-Mass.txt](http://darwin.eeb.uconn.edu/eeb348-resources/gypsymoth-Mass.txt)
+- [gypsymoth-PD.txt](http://darwin.eeb.uconn.edu/eeb348-resources/gypsymoth-PD.txt)
+- [gypsymoth-TDT.txt](http://darwin.eeb.uconn.edu/eeb348-resources/gypsymoth-TDT.txt)
+
+Use the output from these files to answer the questions in [Lab13](http://darwin.eeb.uconn.edu/Lab13.nb.html).
+
+# How I got it to work
+
+I don't fully understand the problem, but it seems to have something to do with (a) an interaction among `R`, `Stan`, and `RStudio` and (b) running `Stan` many times in quick succession. I managed to escape those problems by
+
+1. Using [gwas.R](http://darwin.eeb.uconn.edu/eeb348-resources/gwas.R) to run the analyses, commenting out the lines for two of the three traits each time.^[`R` invariably blew up on me if I tried to run all three in succession.]
+
+2. Running `R` outside `RStudio` from a terninal window on my Mac. If you're interested in trying this on your own and don't know how to get to a terminal window or what to do once you're there, let me know and I'll walk you through it. It's been a long time since I've worked on Windows, but if you know how to get a command prompt in Windows, I should be able to help with the rest.
+
+3. To run the analysis in `R` is relatively simple. Make sure you're in the same directory/folder as the data files, the `R` script, and the `Stan` script and start `R` in a terminal window. Then you simply type
+
+```{r}
+source("gwas.R")
+```
+
+at the command prompt. You'll start getting messages about compiling and sampling, and it will churn for awhile. When it's done you'll have a new "gypsymoth-TDT.txt" file in your directory/folder with results of the analysis. To try it with a different trait comment out the lines at the bottom of the script that refer to TDT and uncomment those that refer to the trait you want to analyze. Then repeat step #3 and you'll have a new ".txt" file with the trait that you just analyzed.
+
+For purposes of this exercise, don't worry about any warnings you see.
