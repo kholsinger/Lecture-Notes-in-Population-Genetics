@@ -63,16 +63,21 @@ rm(list = ls())
 options(mc.cores = parallel::detectCores())
 
 dat <- read_csv("gypsymoth.csv")
-A <- read_tsv("gypsymoth_relatedness_for_brms.txt")
+A <- read_tsv("gypsymoth_relatedness_for_brms.txt",
+              show_col_types = FALSE)
 
-fit <- brm(Mass ~ X34862 + X29507 + X44522 + X40856 + X89362 + (1|gr(sample, cov = A)),
-           data = dat,
-           family = gaussian(),
-           data2 = list(A = A),
-           refresh = 0)  
-summary(fit)
-bayes_R2(fit)
-predicted_Mass <- predict(fit)
+fit_Mass <- brm(Mass ~ X34862 + X29507 + X44522 + X40856 + X89362 + 
+                  X65887 + X36978 + X89363 + X89364 + X17757 +
+                  (1|gr(sample, cov = A)),
+                data = dat,
+                family = gaussian(),
+                set_prior(horseshoe(df = 3, par_ratio = 0.5)),
+                data2 = list(A = A),
+                iter = 5000,
+                refresh = 0)  
+summary(fit_Mass)
+bayes_R2(fit_Mass)
+predicted_Mass <- predict(fit_Mass)
 
 for_plot <- tibble(Predicted = predicted_Mass[, "Estimate"],
                    Observed = dat$Mass)
@@ -81,39 +86,125 @@ p <- ggplot(for_plot, aes(x = Predicted, y = Observed)) +
   geom_abline(slope = 1, intercept = 0, color = "red", linetype = "dashed") +
   theme_bw()
 p
+
+save(dat, fit_Mass, file = "gypsymoth_predictions.Rsave")
 ```
 
-## PD
+## TDT
 
 ```{r}
-fit <- brm(PD ~ X10472 + X66820 + X13105 + X79056 + X86539 + X86541 + X86543 + (1|gr(sample, cov = A)),
-           data = dat,
-           family = gaussian(),
-           data2 = list(A = A),
-           refresh = 0)  
-summary(fit)
-bayes_R2(fit)
-predicted_PD <- predict(fit)
+library(tidyverse)
+library(brms)
+library(ggplot2)
 
-for_plot <- tibble(Predicted = predicted_PD[, "Estimate"],
-                   Observed = dat$PD)
+rm(list = ls())
+
+load(file = "gypsymoth_predictions.Rsave")
+
+options(mc.cores = parallel::detectCores())
+
+dat <- read_csv("gypsymoth.csv")
+A <- read_tsv("gypsymoth_relatedness_for_brms.txt")
+
+fit_TDT <- brm(TDT ~ X4162 + X36798 + X16239 + X71725 + X16238 + 
+                 X54640 + X44522 + X65887 + X86539 + X58326 +
+                 (1|gr(sample, cov = A)),
+               data = dat,
+               family = gaussian(),
+               set_prior(horseshoe(df = 3, par_ratio = 0.5)),
+               data2 = list(A = A),
+               iter = 5000,
+               refresh = 0)  
+summary(fit_TDT)
+bayes_R2(fit_TDT)
+predicted_TDT <- predict(fit_TDT)
+
+for_plot <- tibble(Predicted = predicted_TDT[, "Estimate"],
+                   Observed = dat$TDT)
 p <- ggplot(for_plot, aes(x = Predicted, y = Observed)) +
   geom_point() +
   geom_abline(slope = 1, intercept = 0, color = "red", linetype = "dashed") +
   theme_bw()
 p
+
+save(dat, fit_Mass, fit_PD, fit_TDT, file = "gypsymoth_predictions.Rsave")
 ```
 
-## Mass vs. PD
+## Mass vs. PD vs. TDT
 
 ```{r}
+library(tidyverse)
+library(brms)
+library(ggplot2)
+
+rm(list = ls())
+options(mc.cores = parallel::detectCores())
+
+load(file = "gypsymoth_predictions.Rsave")
+
+predicted_Mass <- predict(fit_Mass)
+predicted_PD <- predict(fit_PD)
+predicted_TDT <- predict(fit_TDT)
+
 for_plot <- tibble(Type = c(rep("Predicted", nrow(dat)), rep("Observed", nrow(dat))),
                    Mass = c(predicted_Mass[, "Estimate"], dat$Mass),
-                   PD = c(predicted_PD[, "Estimate"], dat$PD))
+                   PD = c(predicted_PD[, "Estimate"], dat$PD),
+                   TDT = c(predicted_TDT[, "Estimate"], dat$TDT))
 p <- ggplot(for_plot, aes(x = Mass, y = PD)) +
   geom_point() +
   geom_smooth(method = "lm") +
   facet_wrap(~ Type, scales = "free_x") +
+  theme_bw()
+p
+p <- ggplot(for_plot, aes(x = Mass, y = TDT)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  facet_wrap(~ Type, scales = "free_x") +
+  theme_bw()
+p
+p <- ggplot(for_plot, aes(x = TDT, y = PD)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  facet_wrap(~ Type, scales = "free_x") +
+  theme_bw()
+p
+```
+
+
+# Extrapolating to a new populations
+
+```{r}
+library(tidyverse)
+library(brms)
+library(ggplot2)
+
+rm(list = ls())
+options(mc.cores = parallel::detectCores())
+
+dat <- read_csv("gypsymoth.csv")
+A <- read_tsv("gypsymoth_relatedness_for_brms.txt",
+              show_col_types = FALSE)
+
+dat_sub <- subset(dat, pops != "VA2")
+
+fit_Mass <- brm(Mass ~ X34862 + X29507 + X44522 + X40856 + X89362 + 
+                  X65887 + X36978 + X89363 + X89364 + X17757 +
+                  (1|gr(sample, cov = A)),
+                data = dat_sub,
+                family = gaussian(),
+                set_prior(horseshoe(df = 3, par_ratio = 0.5)),
+                data2 = list(A= A),
+                iter = 5000,
+                refresh = 0)  
+new_predict <- predict(fit_Mass, 
+                       newdata = subset(dat, pops == "VA2"), 
+                       allow_new_levels = TRUE)
+
+for_plot <- tibble(Predicted = new_predict[, "Estimate"],
+                   Observed = dat$Mass[dat$pops == "VA2"])
+p <- ggplot(for_plot, aes(x = Predicted, y = Observed)) +
+  geom_point() +
+  geom_abline(slope = 1, intercept = 0, color = "red", linetype = "dashed") +
   theme_bw()
 p
 ```
