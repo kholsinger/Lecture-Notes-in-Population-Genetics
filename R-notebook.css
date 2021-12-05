@@ -1,0 +1,21 @@
+h1 {
+    font-size: 2vw;
+}
+
+h2 {
+    font-size: 1.75vw;
+}
+
+p, li {
+    font-size: 1.25vw;
+}
+
+.caption {
+    font-size: 1.25vw;
+    font-weight: bold;
+    font-style: italic;
+}
+
+blockquote{
+    font-size: 1.25vw;
+}

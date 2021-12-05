@@ -1,0 +1,221 @@
+---
+title: "Exploring genomic prediction"
+output: 
+  html_notebook:
+    toc: yes
+    toc_float: true
+    css: "R-notebook.css"
+---
+
+# Overview
+
+This `R` notebook may be a simpler way to follow along with the lecture notes that introduce the idea of genomic prediction ([HTML](http://darwin.eeb.uconn.edu/eeb348-notes/genomic-prediction.html), [PDF](http://darwin.eeb.uconn.edu/eeb348-notes/genomic-prediction.pdf)). Much of the code is taken directly from [http://darwin.eeb.uconn.edu/eeb348-resources/genomic-prediction.R](http://darwin.eeb.uconn.edu/eeb348-resources/genomic-prediction.R) with some minor modifications to reflect things I've learned about coding in `R` in the last two and a half years. The final part ([Comparing one-locus GWAS and genomic predictions](#comparing-one-locus-gwas-and-genomic-predictions)) includes some new code.
+
+# Generating the data for analysis
+
+The first step in exploring genomic prediction is to generate data where we know the answer so that we can compare our estimate from the data with the truth. `generate_data()` does this by following these steps.
+
+1. Generate an genotype at each locus for an individual. By default, `generate_data()` generates genotypes at 20 loci, but you can change that when you call it by changing `n_loci_total` in the call. The genotype at each locus is generated randomly assuming that the genotypes are in proportions 0.25, 0.5, and 0.25 for one homozygote, the heterozygote, and the other homozygote respectively.
+
+2. Generate a phenotype for this individual.
+
+    a. Calculate the genotypic mean at each locus from the specified allelic effect and the genotype at that locus. By default the allelic effects are 1.0, -1.0, 0.5, -0.5, and 0.25 at loci 1-5 and 0.0 at the remaining 15 loci. You can change that by changing `effect` when you call `generate_data()`.
+    b. Generate a phenotypic contribution each locus as a random variable having a normal distribution with the genotypic mean and a specified standard deviation. By default the standard deviation is 0.2. You can change that by changing `s_dev` when you call `generate_data()`.
+    c. Sum the phenotypic contribution across all of the loci.^[Since we're assuming that only loci 1-5 influence the phenotype, we only do this sum across loci 1-5.]
+  
+3. Repeat #1 and #2 until you have the number of individuals in the sample data set that you want. By default that's 100, but you can change that by changing `n_indiv` when you call `generate_data`.
+
+`generate_data()` returns the results of the simulation as a data frame with each individual on a row and with the phenotype in the first column and the genotypes at each locus in the remaining columns.
+
+NOTE: I'm using `set.seed()` to ensure that you get the same sequence of random numbers that I do if you run this code on your own. You can delete that line or comment it out if you want to see what happens with different randomly generated data sets.
+
+```{r}
+set.seed(12345)
+
+generate_genotypes <- function(n) {
+  x <- rmultinom(n, 1, c(0.25, 0.5, 0.25))
+  return(apply(x == 1, 2, which) - 1)
+}
+
+generate_data <- function(n_indiv = 100,
+                          n_loci_total = 20,
+                          effect = c(1, -1, 0.5, -0.5, 0.25),
+                          s_dev = 0.2)
+{
+  pheno <- numeric(n_indiv)
+  geno <- matrix(nrow = n_indiv, ncol = n_loci_total)
+  for (i in 1:n_indiv) {
+    for (j in 1:n_loci_total) {
+      x <- generate_genotypes(n_loci_total)
+    }
+    geno[i, ] <- x
+    pheno[i] <- 0.0
+    n_loci_assoc <- length(effect)
+    for (j in 1:n_loci_assoc) {
+      pheno[i] <- pheno[i] + rnorm(1, effect[j]*geno[i,j], s_dev)
+    }
+  }
+  dat <- cbind(pheno, geno)
+  colnames(dat) <- c("pheno", paste("locus_", 1:n_loci_total, sep = ""))
+  return(as.data.frame(dat))
+}
+
+dat <- generate_data()
+loci <- colnames(dat)[-1]
+n_loci <- length(loci)
+```
+
+# Running the analysis
+
+We generated the data assuming that the individuals are all part of one, very large, well-mixed population. As a result, we don't need to worry about relatedness as we did in [Lab 13](http://darwin.eeb.uconn.edu/eeb348-resources/Lab13.nb.html). We'll use `stan_lm()` for the analysis. It does a simple linear regression of phenotype on genotype, but as you can probably guess from the "stan" in its name, it uses `Stan` as a backend to give is not only a posterior mean, but also credible intervals.
+
+## Locus-by-locus GWAS
+
+We'll start with a locus-by-locus GWAS like the one in [Lab 13](http://darwin.eeb.uconn.edu/eeb348-resources/Lab13.nb.html). 
+
+```{r}
+library(tidyverse)
+library(rstanarm)
+
+options(mc.cores = parallel::detectCores())
+
+results <- tibble(Locus = NA,
+                  Mean = NA,
+                  `2.5%` = NA,
+                  `97.5%` = NA)
+for (locus in 1:n_loci) {
+  fit <- stan_lm(paste("pheno ~ ", loci[locus], sep=""),
+                 prior = R2(0.5, what = "mean"),
+                 data = dat,
+                 refresh = 0)
+  tmp <- data.frame(fit)
+  effect <- tmp[[loci[locus]]]
+  conf <- quantile(effect, c(0.025, 0.975))
+  results <- add_row(results,
+                     Locus = locus,
+                     Mean = round(mean(effect), 3),
+                     `2.5%` = round(conf[1], 3),
+                     `97.5%` = round(conf[2], 3))
+}
+results %>%
+  filter(!is.na(Mean)) %>%
+  arrange(desc(abs(Mean)))
+```
+
+Notice that locus 5, which we know has an allelic effect of 0.25 doesn't appear among the top 5 in this list. In fact, it has the *smallest* estimated effect. It comes in at number 20. Similarly, locus 15, which we know doesn't have an effect, appears in the top 5.
+
+## Genomic prediction
+
+Genomic prediction is very similar to what we've just seen. We simply do one multiple regression in which all of the genotypes are included rather than doing a series of regressions separately for each locus. We start by construction the `regression_formula`, which looks pretty strange. We wouldn't have to do this, but it's easier than constructing the multiple regression formula by typing every locus into the formula.
+
+```{r}
+regression_formula <- paste("pheno ~ ", 
+                            paste("locus_", 1:n_loci, sep = "",
+                                  collapse = " + "))
+regression_formula
+```
+Now we're ready to run the analysis and display the results. We're going to use `stan_glm()` with a `gaussian()` family instead of `stan_lm()`, because we want to use what's known as a "shrinkage prior". That's a prior with the interesting property that either a covariate is included in the regression and the prior is fairly vague or it's not included and the prior is tightly constrained around zero. It's a way of letting the data tell us which covariates have strong associations and which don't and simultaneously limiting the influence of those that don't have strong associations on the results. But it does this without forcing us to pick particular covariates for the analysis.
+
+The particular tool we use is what's called a "horseshoe prior". We only need to tell it one thing: How many coefficients we think might be important. The data will tell us how many actually are. `p0`, which I set to 10 in this example is merely our best guess before we start the analysis.
+
+```{r}
+n <- nrow(dat)
+D <- ncol(dat) - 1
+p0 <- 10
+tau0 <- p0/(D - p0) * 1/sqrt(n)
+prior_coeff <- hs(global_scale = tau0, slab_scale = 1)
+
+fit <- stan_glm(as.formula(regression_formula),
+                family = gaussian(),
+                prior = prior_coeff,
+                data = dat,
+                refresh = 0)
+fit_df <- as.data.frame(fit)
+
+results_gp <- tibble(Locus = NA,
+                     Mean = NA,
+                     `2.5%` = NA,
+                     `97.5%` = NA)
+for (locus in 1:n_loci) {
+  tmp <- data.frame(fit)
+  effect <- tmp[[loci[locus]]]
+  conf <- quantile(effect, c(0.025, 0.975))
+  results_gp <- add_row(results_gp,
+                        Locus = locus,
+                        Mean = round(mean(effect), 3),
+                       `2.5%` = round(conf[1], 3),
+                       `97.5%` = round(conf[2], 3))
+}
+results_gp %>%
+  filter(!is.na(Mean)) %>%
+  arrange(desc(abs(Mean)))
+```
+
+Notice that with the genomic prediction approach we get the estimated allelic effects in the right order and roughly right in magnitude. This is only one example, and it is dangerous to extrapolate from one example, but if you're familiar with multiple regression and its advantages, you're probably wondering, "Why didn't we just go directly with genomic prediction in [Lab 13](http://darwin.eeb.uconn.edu/eeb348-resources/Lab13.nb.html)?" 
+
+Well, look at those data again. Even after severe filtering to remove loci that weren't scored in at least 100 individuals, keeping only individuals scored at more than 4000 of the remaining loci, and excluding any loci where one or more of the remaining individuals wasn't scored we had data from 218 loci and 141 individuals. That means we have 141 observations that we are trying to "predict" from 218 covariates. We have more covariates than observations, and for multiple linear regression to work we need more observations than covariates. To get good estimates of regression coefficients you need several observations per coefficient. Here we did pretty well with 5 observations per coefficient. You might want to try increasing the number of loci included in the data set to 50, keeping `effect` set at the default and tyring the simulation again to see what you get.
+
+# Comparing one-locus GWAS and genomic predictions
+
+Let's first look at the locus-by-locus estimates of allelic effects.
+
+```{r}
+for_plot <- tibble(GWAS = results$Mean,
+                   GP = results_gp$Mean) %>%
+  filter(!is.na(GWAS))
+p <- ggplot(for_plot, aes(x = GWAS, y = GP)) +
+  geom_point() +
+  geom_abline(slope = 1, intercept = 0, color = "red",
+              linetype = "dashed") +
+  theme_bw()
+p
+```
+They are broadly similar, but there are also clearly some differences. Now let's see how well we can predict the phenotypes.
+
+```{r}
+predictions <- tibble(Observed = NA,
+                      Model = NA,
+                      Predicted = NA,
+                      Error = NA)
+for (i in 1:nrow(dat)) {
+  predicted <-0.0
+  for (j in 1:n_loci) {
+    predicted <- predicted + results$Mean[i]*dat[i, j+1]
+  }
+  predictions <- add_row(predictions,
+                         Observed = dat$pheno[i],
+                         Model = "GWAS",
+                         Predicted = predicted,
+                         Error = Predicted - Observed)
+  predicted <-0.0
+  for (j in 1:n_loci) {
+    predicted <- predicted + results_gp$Mean[i]*dat[i, j+1]
+  }
+  predictions <- add_row(predictions,
+                         Observed = dat$pheno[i],
+                         Model = "GP",
+                         Predicted = predicted,
+                         Error = Predicted - Observed)
+}
+predictions <- filter(predictions, !is.na(Predicted))
+p <- ggplot(predictions, aes(x = Observed, y = Predicted)) +
+  geom_point() +
+  geom_abline(slope = 1, intercept = 0, color = "red", 
+              linetype = "dashed") +
+  facet_wrap(~ Model) +
+  theme_bw()
+p
+```
+
+You can see that there's a cluster of points close to the 1:1 line with genomic prediction, and that the points seem to be a bit farther from the 1:1 line with the locus by locus GWAS. We can check that by calculating the mean squared error.
+
+```{r}
+cat("Mean squared error:\n",
+    "   GWAS: ", round(sum(subset(predictions, Model == "GWAS")$Error^2),
+                       3)/nrow(dat), "\n",
+    "     GP: ", round(sum(subset(predictions, Model == "GP")$Error^2),
+                       3)/nrow(dat), "\n",
+    sep = "")
+```
+
+As you can see, our (or at least my) subjective impression was wrong. If we were to use all 20 loci, the locus by locus GWAS would, on average, be closer to the "truth" than the genomic prediction approach -- even though we know that it got the effects wrong.

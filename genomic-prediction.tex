@@ -7,7 +7,7 @@
 
 \newcommand{\copyrightYears}{2019-2021}
 
-\title{Genomic prediction: an {\it extremely\/} brief overview}
+\title{Genomic prediction: a brief overview}
 
 \begin{document}
 
@@ -41,7 +41,7 @@ are actually done.\footnote{Remember, also, that in analyses of human
   regression approach I've been focusing on.} If you want to do GWAS
 for real, you should take a look at
 GEMMA~(\url{http://www.xzlab.org/software.html})\index{GEMMA} or
-TASSEL~(https://www.maizegenetics.net/tassel).\index{TASSEL} One
+TASSEL~(\url{https://www.maizegenetics.net/tassel}).\index{TASSEL} One
 important way in which what I've presented is a simplification is that
 in a real GWAS analysis, you'd estimate the effects of every locus
 simultaneously, which raises an interesting problem.
@@ -142,10 +142,14 @@ prediction enhanced by non-genetic group information.
 To make all of this more concrete, we'll explore a toy example using
 the highly simplified one locus at a time approach to GWAS with a
 highly simplified example of the multiple regression approach to
-GWAS. You'll find the {\tt R} code used to create and analyze this
-simple example at
-\url{http://darwin.eeb.uconn.edu/eeb348-resources/genomic-prediction.R}
-If you {\tt source("genomic-prediction.R")} it will
+GWAS. You'll find an {\tt R} notebook that implements all of these
+analyses at
+\url{http://darwin.eeb.uconn.edu/eeb348-notes/Exploring-genomic-prediction.nb.html}. I
+encourage you to download the notebook as you follow along. You will
+find it especially useful if you try some different scenarios by
+changing {\tt nloci} and {\tt effect} when you generate the data that
+you later analyze locus by locus or with genomic prediction. Here's
+what the code as written does:
 
 \begin{itemize}
 
@@ -153,16 +157,16 @@ If you {\tt source("genomic-prediction.R")} it will
   which influence the phenotype. The effect of one ``1'' allele at
   locus 1 is 1, at locus 2 -1, at locus 3 0.5, at locus 4 -0.5, and at
   locus 5 0.25. The standard deviation of the phenotype around the
-  predicted mean is 0.1.
+  predicted mean is 0.2.
 
 \item Run the locus-by-locus regression for each locus and store the
-  results (mean and 95\% credible interval) in ``results.csv'' and
-  retain the results in {\tt results}. {\tt results} is sorted in by
-  the magnitude of the posterior mean, so that loci with the largest
-  estimated effect occur at the top and loci with the smallest effect
-  occur at the bottom.
+  results (mean and 95\% credible interval) in {\tt results}. {\tt
+    results} is sorted in by the magnitude of the posterior mean, so
+  that loci with the largest estimated effect occur at the top and
+  loci with the smallest effect occur at the bottom.
 
-\item Run the multiple regression and store the results in {\tt fit}. 
+\item Run the multiple regression and store the results in {\tt
+    results\_gp}.  
     
 \end{itemize}
 
@@ -171,194 +175,120 @@ than using {\tt stan\_lmer()}. That's because I simulate the data without
 family structure, so there's no need to include the family random
 effect.
 
-Table~\ref{table:single} shows results of the locus by locus analysis
-from my run of {\tt genomic-prediction.R}. Your results will vary a
-bit, both because the Monte Carlo analysis of the data won't be
-precisely the same every time and because the data you generate in the
-simulation will be a bit different from the data I generated for this
-analysis.
+Table~\ref{table:single} shows results of the locus by locus analysis.
 
-% latex table generated in R 3.5.3 by xtable 1.8-3 package
-% Sun Apr 28 11:27:43 2019
-\begin{table}[ht]
-\centering
+\begin{table}
+  \centering
 \begin{tabular}{rrrr}
   \hline
  & mean & 2.5\% & 97.5\% \\ 
   \hline
-locus\_1 & 1.01 & 0.76 & 1.27 \\ 
-  locus\_2 & -0.97 & -1.12 & -0.82 \\ 
-  locus\_3 & 0.63 & 0.34 & 0.91 \\ 
-  locus\_4 & -0.42 & -0.71 & -0.13 \\ 
-  locus\_5 & 0.42 & 0.11 & 0.72 \\ 
-  locus\_14 & 0.23 & -0.07 & 0.52 \\ 
-  locus\_8 & -0.17 & -0.47 & 0.13 \\ 
-  locus\_6 & -0.14 & -0.47 & 0.18 \\ 
-  locus\_20 & -0.13 & -0.46 & 0.18 \\ 
-  locus\_19 & -0.12 & -0.44 & 0.20 \\ 
-  locus\_10 & 0.11 & -0.22 & 0.44 \\ 
-  locus\_18 & 0.09 & -0.22 & 0.40 \\ 
-  locus\_9 & -0.09 & -0.39 & 0.22 \\ 
-  locus\_12 & -0.09 & -0.41 & 0.26 \\ 
-  locus\_15 & -0.07 & -0.37 & 0.23 \\ 
-  locus\_11 & -0.07 & -0.40 & 0.27 \\ 
-  locus\_7 & -0.04 & -0.34 & 0.27 \\ 
-  locus\_16 & -0.04 & -0.35 & 0.28 \\ 
-  locus\_13 & 0.03 & -0.29 & 0.36 \\ 
-  locus\_17 & 0.01 & -0.32 & 0.35 \\ 
-   \hline
+locus\_2  & -0.939 & -1.185 & -0.695 \\
+locus\_1  & 0.747  & 0.491  & 0.951 \\
+locus\_3  & 0.395  & 0.097  & 0.696 \\
+locus\_15 & 0.312  & 0.031  & 0.587 \\
+locus\_4  & -0.206 & -0.497 & 0.086 \\
+locus\_11 & -0.182 & -0.494 & 0.136 \\
+locus\_7  & -0.149 & -0.445 & 0.136 \\
+locus\_12 & -0.123 & -0.439 & 0.176 \\
+locus\_6  & -0.102 & -0.362 & 0.169 \\
+locus\_19 & -0.086 & -0.379 & 0.214 \\
+locus\_13 & -0.073 & -0.369 & 0.229 \\
+locus\_17 & -0.072 & -0.397 & 0.264 \\
+locus\_14 & 0.068  & -0.230 & 0.359 \\
+locus\_10 & -0.065 & -0.334 & 0.208 \\
+locus\_20 & -0.053 & -0.334 & 0.231 \\
+locus\_18 & 0.040  & -0.261 & 0.337 \\
+locus\_8  & 0.017  & -0.257 & 0.309 \\
+locus\_9  & -0.010 & -0.310 & 0.302 \\
+locus\_16 & -0.006 & -0.275 & 0.274 \\
+locus\_5  & -0.005 & -0.315 & 0.28 \\
+  \hline
 \end{tabular}
 \caption{Sample results for locus by locus analysis of genetic
   associations using {\tt genomic-prediction.R}}\label{table:single}
 \end{table}
 
-For this simulated data set the 5 loci with the largest estimated
-effect are the 5 loci for which I specified an effect, but that isn't
-always the case. You may well find that a locus that didn't have a
-specified effect is one of the top 5. Furthermore, even though this
-time the locus by locus approach picked out the right top 5 loci, {\tt
-  locus\_14} has an effect that is quite large, the the credible
-interval associated with it only overlaps 0, by a bit. It would be
-tempting to think that it is worth investigating further. It wouldn't
-be as tempting to look at any of the other loci, but a lot of them
-have fairly large effects given that the entire observed range of
-phenotypes in this data set is -2.8 to 3.2.
-
-Since you've already run {\tt source("genomic-predicition.R")}, you
-can now run {\tt plot\_posterior\_predict(fit\_list[[1]])} to plot
-phenotype predictions at locus 1 versus the observed phenotype for
-each individual~(Figure~\ref{fig:locus-1}). You can see that there is
-a relationship between an individual's genotype at this locus, but you
-can also see that it's pretty weak. Compare that to the relationship
-between phenotype and genotype at {\tt locus\_17}, though, and you'll
-see that the genotype at locus 17 doesn't give you any information
-about phenotype while the genotype at locus 1 at least gives you a
-little~(Figure~\ref{fig:locus-17}).
-
-\begin{figure}
-  \begin{center}
-    \includegraphics[height=6cm]{genomic-prediction-locus-1.eps}
-  \end{center}
-  \caption{Posterior prediction for locus 1. Small black dots indicate
-    observed phenotypes. Large gray dots indicate the corresponding
-    posterior prediction. The darker gray lines show the location of
-    50\% credible intervals, and the lighter gray lines show the
-    location of 90\% credible intervals.}\label{fig:locus-1}
-\end{figure}
-
-\begin{figure}
-  \begin{center}
-    \includegraphics[height=6cm]{genomic-prediction-locus-17.eps}
-  \end{center}
-  \caption{Posterior prediction for locus 17.}\label{fig:locus-17}
-\end{figure}
+For this simulated data set 4 of the 5 loci with the largest estimated
+effect are the 5 loci for which I specified an effect, one of them
+(locus 15) did not have a specified effect and locus 5, which had a
+specified effect, has the lowest estimated effect of all. 
 
 What about the multiple regression approach? First, take a look at the
 estimated effects~(Table~\ref{table:multiple}). Not only does this
 approach pick out the right loci, the first five, none of the other
 loci have particularly large estimated effects. The largest, {\tt
-  locus\_6} and {\tt locus\_8} are both only 0.07, as opposed to 0.14
-in the locus by locus analysis. It would take much more extensive
-simulation to demonstrate the advantage empirically, but it is clear
-from first principles that multiple regression analyses will be more
-reliable than locus by locus analyses because a multiple regression
-analysis take account of random associations among loci.
+  locus\_17} is only about 0.07, about the same as in the locus by
+locus analysis. It would take much more extensive simulation to
+demonstrate the advantage empirically, but it is clear from first
+principles that multiple regression analyses will be more reliable
+than locus by locus analyses because a multiple regression analysis
+takes account of random associations among loci.
 
-Now compare phenotype predictions from the first five loci when each
-effect is taken individually from Table~\ref{table:single} with the
-prediction derived from the multple regression
-approach~(Figure~\ref{fig:multiple}).\footnote{Use {\tt
-    compare\_posterior\_predictions(fit\_list[1:5], fit)} to produce a
-  similar plot using your results.} As you can see, using all 5 loci
-together to predict phenotypes does a very good job of recovering
-them. 
-
-\begin{table}[ht]
+\begin{table}
 \centering
 \begin{tabular}{rrrr}
   \hline
  & mean & 2.5\% & 97.5\% \\ 
   \hline
-locus\_2 & -0.96 & -1.07 & -0.86 \\ 
-  locus\_1 & 0.92 & 0.84 & 1.00 \\ 
-  locus\_3 & 0.48 & 0.39 & 0.56 \\ 
-  locus\_4 & -0.44 & -0.52 & -0.36 \\ 
-  locus\_5 & 0.23 & 0.15 & 0.32 \\ 
-  locus\_6 & 0.07 & -0.03 & 0.16 \\ 
-  locus\_8 & -0.07 & -0.15 & 0.02 \\ 
-  locus\_11 & 0.06 & -0.03 & 0.15 \\ 
-  locus\_14 & -0.06 & -0.14 & 0.03 \\ 
-  locus\_20 & -0.06 & -0.14 & 0.03 \\ 
-  locus\_12 & 0.05 & -0.04 & 0.14 \\ 
-  locus\_7 & -0.04 & -0.12 & 0.04 \\ 
-  locus\_18 & -0.03 & -0.10 & 0.06 \\ 
-  locus\_16 & 0.02 & -0.07 & 0.10 \\ 
-  locus\_10 & 0.02 & -0.07 & 0.11 \\ 
-  locus\_19 & -0.02 & -0.10 & 0.06 \\ 
-  locus\_17 & 0.01 & -0.08 & 0.09 \\ 
-  locus\_9 & 0.01 & -0.08 & 0.09 \\ 
-  locus\_15 & 0.00 & -0.07 & 0.08 \\ 
-  locus\_13 & -0.00 & -0.09 & 0.09 \\ 
-   \hline
+locus\_1  & 0.979  & 0.840  & 1.116 \\
+locus\_2  & -0.882 & -1.016 & -0.742 \\
+locus\_3  & 0.614 &  0.465  & 0.762 \\
+locus\_4  & -0.514 & -0.656 & -0.373 \\
+locus\_5  & 0.246  & 0.086  & 0.389 \\
+locus\_17 & -0.070 & -0.217 & 0.028 \\
+locus\_7  & -0.058 & -0.198 & 0.031 \\
+locus\_18 & 0.053  & -0.037 & 0.196 \\
+locus\_6  & 0.052  & -0.030 & 0.176 \\
+locus\_8  & 0.042  & -0.037 & 0.159 \\
+locus\_16 & 0.039  & -0.038 & 0.156 \\
+locus\_10 & -0.034 & -0.147 & 0.044 \\
+locus\_9  & 0.013  & -0.076 & 0.126 \\
+locus\_11 & -0.010 & -0.119 & 0.082 \\
+locus\_15 & 0.006  & -0.080 & 0.107 \\
+locus\_12 & 0.005  & -0.086 & 0.106 \\
+locus\_19 & -0.005 & -0.104 & 0.083 \\
+locus\_20 & 0.003  & -0.082 & 0.095 \\
+locus\_13 & -0.001 & -0.093 & 0.086 \\
+locus\_14 & 0.001  & -0.091 & 0.093 \\
+  \hline
 \end{tabular}
 \caption{Results from multiple regression analysis of simulated
   data.}\label{table:multiple} 
 \end{table}
 
-\begin{figure}
-  \begin{center}
-    \includegraphics[height=6cm]{genomic-prediction-multiple.eps}
-  \end{center}
-  \caption{Posterior predictions for loci 1-5 from locus by locus
-    regressions and the posterior preduction for the multiple
-    regression.}\label{fig:multiple}
-\end{figure}
+\section*{Comparing the results}
 
-\subsection*{CAUTION: Danger ahead!}\index{genomic prediction!caveats}
-
-This all seems very promising, but a word of caution is in
-order. Several papers, including one by Peter Turchin, have suggested
-that there is strong evidence for selection on polygenic scores
-associated with height using the same data set of 253,288 individuals
-I referred to earlier~(references in Berg et
-al.~\cite{Berg-etal-2018}). Specifically, these studies suggested (a)
-that there is a cline in polygenic scores from south-to-north in
-Europe (taller phenotypes predicted in the north) and (b) that the
-cline is too steep to be accounted for by neutrual evolution. Berg et
-al.~\cite{Berg-etal-2018} re-examined these claims using new data
-available from the UK
-Biobank~(\url{https://www.bdi.ox.ac.uk/research/uk-biobank}), which
-includes a host of information on individual phenotypes as well as
-genome-wide genotypes for the 500,000 individuals included in the
-sample.\footnote{Although all of the samples are from the UK, one of
-  the data sets Berg et al.~\cite{Berg-etal-2018} studied included
-  individuals of European, but non-UK, ancestry.} They failed to
-detect evidence of a cline in polygenic scores in their
-analysis~(Figure~\ref{fig:UK-biobank}).
+Let's see what other differences we find when we compare the two
+approaches more directly. First, let's look at the estimated allelic
+effects themselves~(Figure~\ref{fig:gwas-vs-gp}). As you can see, they
+are broadly similar, but if you look closely, they are most similar
+when the estimated allelic effects are small.
 
 \begin{figure}
   \begin{center}
-    \includegraphics[width=\textwidth]{UK-biobank.eps}
+    \includegraphics[width=10cm]{gwas-vs-gp.eps}
   \end{center}
-  \caption{Polygenic score as a function of latitude and longitude for
-    several different GWAS data sets.}\label{fig:UK-biobank}
+  \caption{Estimated allelic effects from locus-by-locus GWAS (x-axis)
+    and genomic prediction (y-axis).}\label{fig:gwas-vs-gp}
 \end{figure}
 
-In thinking about this result, it's important to understand that Berg
-et al.~\cite{Berg-etal-2018} did something a bit different from what
-we did, but it's exactly what you'd want to do if polygenic scores
-worked. They estiamted polygenic scores from each of the data sets
-identified in the figure. Then they used those scores to estimate
-polygenic scores for a new set of samples derived from the 1000
-Genomes and Human Origins projects.\footnote{See Berg et
-  al.~\cite{Berg-etal-2018} for details.} Think about it. A polygenic
-score doesn't do us a whole lot of good if all it lets us do is to
-predict (with uncertainty) a phenotype we already know. The hope is
-that we can use the polygenic score to predict phenotypes for
-individuals when we know their genotype but not their phenotype. What
-this result shows is that extrapolation of a regression beyond the
-range of variation included in the sample from which it was estimated
-can be very problematic.
+More interesting than whether the estimated allelic effects are
+similar is whether the predicted phenotypes are similar to the
+observed phenotypes~(Figure~ref{fig:gwas-obs-vs-predicted}). As you
+can see, in this simple simulated data set both approaches work
+reasonably well, even though the estimated allelic effects are rather
+different. In fact, the estimated mean squared error of the
+locus-by-locus prediction is actually smaller than for the genomic
+prediction~(6.02 vs. 8.02).
+
+\begin{figure}
+  \begin{center}
+    \includegraphics[width=10cm]{gwas-obs-vs-predicted.eps}
+  \end{center}
+  \caption{Predicted phenotypes {\it versus\/} observed phenotypes for
+    locus-by-locus GWAS and genomic prediction.}\label{fig:gwas-obs-vs-predicted}
+\end{figure}
 
 \bibliography{popgen}
 \bibliographystyle{plain}
