@@ -106,7 +106,7 @@ Notice that locus 5, which we know has an allelic effect of 0.25 doesn't appear 
 
 ## Genomic prediction
 
-Genomic prediction is very similar to what we've just seen. We simply do one multiple regression in which all of the genotypes are included rather than doing a series of regressions separately for each locus. We start by construction the `regression_formula`, which looks pretty strange. We wouldn't have to do this, but it's easier than constructing the multiple regression formula by typing every locus into the formula.
+Genomic prediction is very similar to what we've just seen. We simply do one multiple regression in which all of the genotypes are included rather than doing a series of regressions separately for each locus. We start by constructing the `regression_formula`, which looks pretty strange. We wouldn't have to do this, but it's easier than constructing the multiple regression formula by typing every locus into the formula.
 
 ```{r}
 regression_formula <- paste("pheno ~ ", 

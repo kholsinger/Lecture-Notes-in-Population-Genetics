@@ -1,0 +1,176 @@
+---
+title: "Genomic prediction in gypsy moths"
+output: 
+  html_notebook:
+    toc: yes
+    toc_float: true
+    css: "R-notebook.css"
+---
+
+# Genomic prediction with `brms`
+
+Recall that our basic approach to genomic prediction is to do a multiple regression of a trait on a genotypes at a set of loci that we've identified. In lecture we used `stan_lm()` and `stan_glm()` from `rstanarm`, because we simulated the data without any population structure.
+
+For this week's lab, we're going to reuse the gypsy moth (_Lymantria dispar_) data that we used [last week](http://darwin.eeb.uconn.edu/eeb348-resources/Lab13.nb.html). Since it has population structure, we need to take account of it. Rather than writing another script in `Stan`, we're going to use `brms` which makes the whole process a lot easier.^[It is probably also a ***lot*** more reliable than anything I'd write, since the author is a real expert on Bayesian inference, and I am merely a reasonably competent user.]
+
+## Fitting the model
+
+Here's an example of an analysis of mass using the five loci that had the largest magnitude of effects in our analysis last week. You'll notice that I'm using a different relatedness file than last week. It's calculated in the same way (as you'll see [below](#how-i-prepared-the-data-for-analysis)), but `brms` expects to see it in a different format from the one used in the `Stan` program I wrote.
+
+```{r}
+library(tidyverse)
+library(brms)
+
+rm(list = ls())
+
+options(mc.cores = parallel::detectCores())
+
+dat <- read_csv("gypsymoth.csv")
+A <- read_tsv("gypsymoth_relatedness_for_brms.txt",
+              show_col_types = FALSE)
+
+fit_Mass <- brm(Mass ~ X34862 + X29507 + X44522 + X40856 + X89362 + 
+                  (1|gr(sample, cov = A)),
+                data = dat,
+                family = gaussian(),
+                set_prior(horseshoe(df = 3, par_ratio = 0.5)),
+                data2 = list(A = A),
+                iter = 5000,
+                refresh = 0)  
+summary(fit_Mass)
+```
+
+The `(1|gr(sample, cov = A))` is where the relatedness comes in. `sample` identifies the particular individual, and `A` is the genetic relatedness matrix. `set_prior(horseshoe(df = 3, par_ratio = 0.5))` sets the horseshoe prior as described in the [lecture notes](http://darwin.eeb.uconn.edu/eeb348-notes/genomic-prediction.html), where `par_ratio` is our prior guess at what fraction of the loci might be important. You'll notice that if we compare the estimates from this analysis with those from the locus-by-locus analysis last week, they seem to be smaller in magnitude but to have the same sign.
+
+## Assessing model fit
+
+Now that we've estimated allelic effects at these five loci we can ask how well they account for variation in mass. We'll do so by estimating $R^2$, the proportion of variation in mass that is accounted for by the model. The $R^2$ we'll calculate is a bit different from those you may have encountered with other multiple regression models, because it's a Bayesian $R^2$. We have an estimate both of the mean $R^2$ and credible intervals for that estimate.
+
+```{r}
+bayes_R2(fit_Mass)
+```
+
+So with only five loci we've accounted for about 20% of the variation, although there is quite a bit of uncertainty around that estimate.
+
+We can also visualize the fit by plotting the observed values against those predicted from the model.
+
+```{r}
+predicted_Mass <- predict(fit_Mass)
+
+library(ggplot2)
+
+for_plot <- tibble(Predicted = predicted_Mass[, "Estimate"],
+                   Observed = dat$Mass)
+p <- ggplot(for_plot, aes(x = Predicted, y = Observed)) +
+  geom_point() +
+  geom_abline(slope = 1, intercept = 0, color = "red", 
+              linetype = "dashed") +
+  theme_bw()
+p
+```
+
+You can see that there's one outlier on mass that we probably should have eliminated before analyzing the data, but we won't worry about that for our purposes.
+
+## How much of the prediction is due to background genetic variation
+
+When we predicted the trait in the last bit of code, we included all of the information about how individuals are related to one another. It's quite easy to leave that information out to see how well a pure genomic prediction would work with these data.
+
+```{r}
+predict_reduced <- predict(fit_Mass, 
+                           re_formula = NA)
+```
+
+With that prediction in hand, it's easy to compare the predictions to one another. "Full" in the following plot refers to the model that includes relatedness information. "Reduced" refers to the model that doesn't include it.
+
+```{r}
+for_plot <- tibble(Predicted = c(predicted_Mass[, "Estimate"],
+                                 predict_reduced[, "Estimate"]),
+                   Observed = c(dat$Mass,
+                                dat$Mass),
+                   Source = c(rep("Full", nrow(dat)), 
+                               rep("Reduced", nrow(dat)))
+                   )
+p <- ggplot(for_plot, aes(x = Predicted, y = Observed)) +
+  geom_point() +
+  geom_abline(slope = 1, intercept = 0, color = "red", 
+              linetype = "dashed") +
+  theme_bw() +
+  facet_wrap(~ Source)
+p
+```
+
+It looks as if points in the reduced model are not quite as tightly grouped around the 1:1 line as they are in the full model, but let's compare the $R^2$ of the two models to see if that impression is right.
+
+```{r}
+cat("Full model...\n")
+bayes_R2(fit_Mass)
+cat("Reduced model...\n")
+bayes_R2(fit_Mass, 
+         re_formula = NA)
+```
+
+Our visual impression was right the full model accounts for about 20% of the variation, while the reduced model accounts for only about 9%. In other words, about half of the predictive power from the model is coming from relatedness among individuals rather than the allelic effects themselves.
+
+# Problems and questions
+
+Data files
+
+- [gypsymoth.csv](http://darwin.eeb.uconn.edu/eeb348-resources/gypsymoth.csv)
+- [gypsymoth_relatedness_for_brms.txt](http://darwin.eeb.uconn.edu/eeb348-resources/gypsymoth_relatedness_for_brms.txt)
+
+1. Perform a genomic prediction analysis for mass, PD, and TDT using the 10 loci having the largest estimated allelic effects on each trait.
+
+2. Assess how well the model accounts for variation in each trait.
+
+3. Assess how much additional information the allelic effects provide in predicting each trait beyond the information already provided in the relationship matrix.
+
+4. ***BONUS QUESTION (UNGRADED)***: How might including the relationship matrix in this kind of analysis limit your ability to use the allelic effects estimated in these populations to predict traits in populations that weren't included in the analysis.
+
+# How I prepared the data for analysis
+
+See last week's lab for the data sources. Here's the code, which is nearly identical to what I used last week.
+
+```{r}
+library(tidyverse)
+library(popkin)
+
+rm(list = ls())
+
+genos <- read_tsv("gm_genotypes_012_final_5122017.txt",
+                  col_names = FALSE,
+                  na = "-1",
+                  show_col_types = FALSE)
+phenos <- read_csv("gm_phenotypes.csv",
+                   show_col_types = FALSE)
+
+## keep only loci scored in more than 100 individuals
+##
+n_scored <- apply(genos, 2, sum, na.rm = TRUE)
+genos <- genos[, n_scored > 100]
+
+## keep only individuals scored at more than 4000 loci
+##
+n_scored <- apply(genos, 1, sum, na.rm = TRUE)
+genos <- genos[n_scored > 4000, ]
+phenos <- phenos[n_scored > 4000, ]
+## and exclude any remaining loci where one or more individuals isn't scored
+##
+genos <- genos[, !is.na(apply(genos, 2, sum))]
+
+## strip off the individual ids to identify populations
+##
+pops <- gsub("_.*", "", phenos$sample)
+
+## bind the poopulation, phenotype, and genotype information together
+##
+dat <- cbind(pops, phenos, genos)
+
+## estimate the kinship among individuals
+##
+A <- popkin(t(as.matrix(genos)), 
+              subpops = pops)
+colnames(A) <- dat$sample
+rownames(A) <- dat$sample
+write_tsv(as.data.frame(A),
+          file = "gypsymoth_relatedness_for_brms.txt")
+```

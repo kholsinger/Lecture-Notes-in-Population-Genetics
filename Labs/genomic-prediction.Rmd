@@ -195,16 +195,101 @@ fit_Mass <- brm(Mass ~ X34862 + X29507 + X44522 + X40856 + X89362 +
                 set_prior(horseshoe(df = 3, par_ratio = 0.5)),
                 data2 = list(A= A),
                 iter = 5000,
+                control = list(adapt_delta = 0.99),
                 refresh = 0)  
-new_predict <- predict(fit_Mass, 
+out_predict <- predict(fit_Mass, 
                        newdata = subset(dat, pops == "VA2"), 
                        allow_new_levels = TRUE)
 
-for_plot <- tibble(Predicted = new_predict[, "Estimate"],
-                   Observed = dat$Mass[dat$pops == "VA2"])
+dat_sub <- subset(dat, pops == "VA2")
+
+fit_Mass <- brm(Mass ~ X34862 + X29507 + X44522 + X40856 + X89362 + 
+                  X65887 + X36978 + X89363 + X89364 + X17757 +
+                  (1|gr(sample, cov = A_sub)),
+                data = dat_sub,
+                family = gaussian(),
+                set_prior(horseshoe(df = 3, par_ratio = 0.5)),
+                data2 = list(A_sub = A),
+                iter = 5000,
+                control = list(adapt_delta = 0.99),
+                refresh = 0)
+in_predict <- predict(fit_Mass)
+
+for_plot <- tibble(Predicted = c(in_predict[, "Estimate"],
+                                 out_predict[, "Estimate"]),
+                   Observed = c(dat$Mass[dat$pops == "VA2"],
+                                dat$Mass[dat$pops == "VA2"]),
+                   Source = c(rep("In", nrow(dat[dat$pops == "VA2", ])), 
+                               rep("Out", nrow(dat[dat$pops == "VA2", ])))
+                   )
 p <- ggplot(for_plot, aes(x = Predicted, y = Observed)) +
   geom_point() +
   geom_abline(slope = 1, intercept = 0, color = "red", linetype = "dashed") +
+  theme_bw() +
+  facet_wrap(~ Source)
+p
+```
+
+# Comparing predictions with and without the relatedness matrix
+
+```{r}
+library(tidyverse)
+library(brms)
+library(ggplot2)
+
+rm(list = ls())
+options(mc.cores = parallel::detectCores())
+
+dat <- read_csv("gypsymoth.csv")
+A <- read_tsv("gypsymoth_relatedness_for_brms.txt",
+              show_col_types = FALSE)
+
+fit_Mass <- brm(Mass ~ X34862 + X29507 + X44522 + X40856 + X89362 + 
+                  X65887 + X36978 + X89363 + X89364 + X17757 +
+                  (1|gr(sample, cov = A)),
+                data = dat,
+                family = gaussian(),
+                set_prior(horseshoe(df = 3, par_ratio = 0.5)),
+                data2 = list(A= A),
+                iter = 5000,
+                control = list(adapt_delta = 0.99),
+                refresh = 0)  
+predict_full <- predict(fit_Mass)
+
+## predict without the individual adjustments
+##
+predict_reduced <- predict(fit_Mass, 
+                           re_formula = NA)
+
+for_plot <- tibble(Predicted = c(predict_full[, "Estimate"],
+                                 predict_reduced[, "Estimate"]),
+                   Observed = c(dat$Mass,
+                                dat$Mass),
+                   Source = c(rep("Full", nrow(dat)), 
+                               rep("Reduced", nrow(dat)))
+                   )
+p <- ggplot(for_plot, aes(x = Predicted, y = Observed)) +
+  geom_point() +
+  geom_abline(slope = 1, intercept = 0, color = "red", 
+              linetype = "dashed") +
+  theme_bw() +
+  facet_wrap(~ Source)
+p
+
+for_plot <- tibble(Full = predict_full[, "Estimate"],
+                   Reduced = predict_reduced[, "Estimate"])
+p <- ggplot(for_plot, aes(x = Full, y = Reduced)) +
+  geom_point() +
+  geom_abline(slope = 1, intercept = 0, color = "red", 
+              linetype = "dashed") +
+  geom_smooth(method = "lm")
   theme_bw()
 p
+
+summary(lm(Reduced ~ Full, data = for_plot))
+cat("Full model...\n")
+bayes_R2(fit_Mass)
+cat("Reduced model...\n")
+bayes_R2(fit_Mass, 
+         re_formula = NA)
 ```
