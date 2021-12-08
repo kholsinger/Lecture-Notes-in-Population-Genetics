@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Genomic prediction: some caveats</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="pandoc.css" />
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Genomic prediction: some caveats</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#introduction">Introduction</a>
+<ul>
+<li><a href="#allele-frequency-comparisons">Allele frequency comparisons</a></li>
+</ul></li>
+<li><a href="#second-thoughts">Second thoughts</a>
+<ul>
+<li><a href="#within-sample-stratification">Within sample stratification</a></li>
+<li><a href="#difficulties-extrapolating-polygenic-scores">Difficulties extrapolating polygenic scores</a></li>
+</ul></li>
+<li><a href="#creative-commons-license">Creative Commons License</a></li>
+</ul>
+</nav>
+<h1 class="unnumbered" id="introduction">Introduction</h1>
+<p>In the early 2010s, Turchin and colleagues <span class="citation" data-cites="Turchin-etal-2012"></span><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> studied the association between variation at SNP loci and height in humans. They showed that both individual alleles known to be associated with increased height and in genome-wide analysis are elevated in northern European populations compared to populations from southern Europe. They argued that these differences were consistent with weak selection at each of the loci (<span class="math inline">\(s \approx [10^{-3}, 10^{-5}]\)</span>) rather than genetic drift alone.</p>
+<h2 class="unnumbered" id="allele-frequency-comparisons">Allele frequency comparisons</h2>
+<p>Turchin et al. used allele frequency estimates from the Myocardial Infarction Genetics consortium (MIGen) <span class="citation" data-cites="MIGen-2009"></span> and the Population Reference Sample (POPRES) <span class="citation" data-cites="Nelson-etal-2008"></span>. For the MIGen analysis, they compared allele frequencies in 257 US individuals of northern European ancestry with those in 254 Spanish individusls at loci that are known to be associated with height based on GWAS analysis<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> and found differences greater than those expected based on 10,000 SNPs drawn at random and matched to allele frequencies at the target loci in each population. They performed a similar analysis with the POPRES sample and found similar results.</p>
+<p>Turchin et al. were aware that the association could be spurious if ancestry was not fully accounted for in these analyses, so they also used data collected by the Genetic Investigation of ANthropometric Traits consortium (GIANT) <span class="citation" data-cites="LangoAllen-etal-2010"></span>.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> They noted that “control” SNPs used in the preceding analysis, i.e., the 10,000 SNPs drawn at random from the genome, with a tendency to increase height in the GIANT analysis also tended to be more frequent in the northern European sample.</p>
+<p>They compared the magnitude of the observed differences at the most strongly associated 1400 SNPs with what would be expected if they were due entirely to drift and what would be expected if they were due to a combination of drift and selection. A likelihood-ratio test of the drift alone model <span><em>versus</em></span> the drift-selection model provided strong support for the drift-model.</p>
+<h1 class="unnumbered" id="second-thoughts">Second thoughts</h1>
+<h2 class="unnumbered" id="within-sample-stratification">Within sample stratification</h2>
+<p>This all seems very promising, but a word of caution is in order. Berg et al. <span class="citation" data-cites="Berg-etal-2018"></span> re-examined these claims using new data available from the UK Biobank (<a href="https://www.bdi.ox.ac.uk/research/uk-biobank">https://www.bdi.ox.ac.uk/research/uk-biobank</a>), which includes a host of information on individual phenotypes as well as genome-wide genotypes for the 500,000 individuals included in the sample.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> They failed to detect evidence of a cline in polygenic scores in their analysis (Figure <a href="#fig:UK-biobank" data-reference-type="ref" data-reference="fig:UK-biobank">2</a>).</p>
+<figure>
+<img src="UK-biobank.png" id="fig:UK-biobank" alt="" /><figcaption>Polygenic score as a function of latitude and longitude for several different GWAS data sets. Each vertical column corresponds to a different data source. Notice that all of the UK Biobank samples fail to show either a latitudinal or a longitudinal cline in polygenic height score (from <span class="citation" data-cites="Berg-etal-2018"></span>).</figcaption>
+</figure>
+<p>In thinking about this result, it’s important to understand that Berg et al. <span class="citation" data-cites="Berg-etal-2018"></span> did something a bit different from what we did, but it’s exactly what you’d want to do if polygenic scores worked. They estimated polygenic scores from each of the data sets identified in the figure. Then they used those scores to estimate polygenic scores for a new set of samples derived from the 1000 Genomes and Human Origins projects.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> Since they did the same thing with all of the data sets, this difference from what we did doesn’t account for the differences among data sets. As Berg et al. dug more deeply into the data, they concluded that all of the data sets “primarily capture real signals of association with height” but that the GIANT and R-15 sibs data sets, the ones that show the latitudinal (and longitudinal in the case of GIANT) associations do so because the estimated allelic effects in those data sets failed to fully remove confounding variation along the major geographic axes in Europe.</p>
+<p>The Berg et al. analysis illustrates how difficult it is to remove confounding factors from GWAS and genomic prediction analyses. Turchin et al. are highly skilled population geneticists. If they weren’t able to recognize the problem with stratification in the GIANT consortium data set, all of us should be concerned about recognizing it in our own. Indeed, I wonder whether the stratification within GIANT would ever have come to light had Berg et al. not had additional large data sets at there disposal in which they could try to replicate the results.</p>
+<h2 class="unnumbered" id="difficulties-extrapolating-polygenic-scores">Difficulties extrapolating polygenic scores</h2>
+<p>In one way the Berg et al. results are actually encouraging. They estimated effects in one set of data and used the genomic regressions estimated from those data to predict polygenic scores in a new data pretty successfully. Maybe it’s difficult to be sure that the polygenic scores we estimate are useful for inferring anything about natural selection on the traits they predict, but if we could be sure that they allow us to predict phenotypes in populations we haven’t studied yet, they could still be very useful. Can we trust them that far?</p>
+<p>Unfortunately, the answer appears to be “No.” Yair and Coop <span class="citation" data-cites="Yair-Coop-2021"></span> recently studied the relationship between phenotypic stabilizing selection and genetic differentiation in isolated populations. They showed that even in a very simple model in which allelic effects at each locus are the same in both populations, polygenic scores estimated from one population may not perform very well in the other. Interestingly, as you can see in Figure <a href="#fig:yair-coop-predictions" data-reference-type="ref" data-reference="fig:yair-coop-predictions">[fig:yair-coop-predictions]</a>, the stronger the selection and the more stronly allelic differences influence the phenotype, the less well genomic predictions in one population work in the other.</p>
+<figure>
+<img src="yair-coop-predictions.png" id="fig:UK-biobank" alt="" /><figcaption>Polygenic score as a function of latitude and longitude for several different GWAS data sets. Each vertical column corresponds to a different data source. Notice that all of the UK Biobank samples fail to show either a latitudinal or a longitudinal cline in polygenic height score (from <span class="citation" data-cites="Yair-Coop-2021"></span>).</figcaption>
+</figure>
+<p>That seems paradoxical, but interestingly it’s not too difficult to understand if we think about what happens when we combine stabilizing selection with geographical isolation.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> First, let’s remind ourselves of a fundamental property of polygenic variation: Different genotypes can produce the same phenotype. Figure <a href="#fig:redundancy" data-reference-type="ref" data-reference="fig:redundancy">3</a>, which you’ve seen before, illustrates this when three loci influence the trait. While there is only one genotype that produces the dark red phenotype and only one that produces the white phenotype, there are four genotypes that produce the light red phenotype, four that produce the medium dark red phenotype, and six that produce the medium red phenotype. Goldstein and Holsinger <span class="citation" data-cites="Goldstein-Holsinger-1992"></span> called this phenomenon <span><em>genetic redundancy</em></span>. As you can imagine, the number of redundant genotypes increases dramatically as the number of loci involved increases.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
+<figure>
+<img src="Nilsson-Ehle.png" id="fig:redundancy" style="width:10cm" alt="" /><figcaption>Results from one of Nilsson-Ehle’s crosses illustrating polygenic inhertance of kernel color in wheat (from <span><code> http://www.biology-pages.info/Q/QTL.html</code></span>, accessed 9 April 2017).</figcaption>
+</figure>
+<p>Why does this redundancy matter? Let’s consider what happens when we impose stabilizing selection on a polygenic trait, where <span class="math display">\[w(z) = \mbox{exp}\left(\frac{-(z - z_0)^2}{2V_s}\right) \quad ,\]</span> where <span class="math inline">\(z_0\)</span> is the intermediate phenotype favored by selection, <span class="math inline">\(z\)</span> is the phenotype of a particular individual, and <span class="math inline">\(V_s\)</span> is the variance of the fitness function. If selection is weak (<span class="math inline">\(V_s = 115.2\)</span>), then the relative fitness of a genotype 1 unit away from the optimum is 0.9957 while that of a genotype 8 units away is only 0.7575. If 16 loci influence the trait, there are 601,080,390 genotypes that produce the optimum phenotype and have the same fitness. There are another 1,131,445,440 genotypes whose fitness within one percent of the optimum. Not only are there a lot of different genotypes with roughly the same fitness, the selection at any one locus is very weak.</p>
+<p>Now suppose these genotypes are distributed in a large, continuous population. Because selection is pretty weak and because mating is primarily with close neighbors, allele frequency changes at each locus will be close to what they would be if the loci were neutral. The result is that the genetic correlation between individuals drops off rapidly as a function of the distance between them (Figure <a href="#fig:isolation-by-distance" data-reference-type="ref" data-reference="fig:isolation-by-distance">4</a>). Notice that in the simulation illustrated individuals separated by more than about 20 distance units are effectively uncorrelated. That means that their genotypes are essentially random with respect to one another, even though their phenotypes are similar because of the stabilizing selection.</p>
+<figure>
+<img src="isolation-by-distance.png" id="fig:isolation-by-distance" alt="" /><figcaption>Isolation by distance with weak selection (from <span class="citation" data-cites="Goldstein-Holsinger-1992"></span>).</figcaption>
+</figure>
+<p>Now think about what that means for polygenic scores. Imagine that we sampled two ends of a large, continuously distributed population. To make things concrete, let’s imagine that the population is distributed primarily North-South so that our samples come from a northern population and a southern one. Now imagine that we’ve done a GWAS in the northern population and we want to use the genomic predictions from that population to predict phenotypes in the southern population. What’s going to happen?</p>
+<p>The genotypes in the southern population will be a random sample from all of the possible genotypes that could produce the same optimal phenotype (or something close to the optimum) and that sample will be independent of the sample of genotypes represented in our northern population. As a result, there are sure to be loci that are useful for predicting phenotype in the northern population that aren’t variable in the southern population, which will reduce the accuracy of our genomic prediction. That’s precisely what Yair and Coop show.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></p>
+<p>In short, it’s to be expected that genomic predictions will be useful only within the population for which they are constructed. They can be very useful in plant and animal breeding, for example, but any attempt to use them in other contexts must be alert to the ways in which extrapolation from one population to another will be problematic.</p>
+<h1 class="unnumbered" id="creative-commons-license">Creative Commons License</h1>
+<p>These notes are licensed under the Creative Commons Attribution License. To view a copy of this license, visit https://creativecommons.org/licenses/by/4.0/ or send a letter to Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305, USA.</p>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p><span><em>Michael</em></span> Turchin, not <span><em>Peter</em></span> Turchin of UConn’s EEB department.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>See Turchin et al. for details.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3" role="doc-endnote"><p>This includes the GWAS on height that I mentioned in the last lecture.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4" role="doc-endnote"><p>Although all of the samples are from the UK, one of the data sets Berg et al. <span class="citation" data-cites="Berg-etal-2018"></span> studied included individuals of European, but non-UK, ancestry.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5" role="doc-endnote"><p>See Berg et al. <span class="citation" data-cites="Berg-etal-2018"></span> for details.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6" role="doc-endnote"><p>And the fun thing for me about this is that we get to finish out the course by returning to a paper I wrote with my first master’s student more than 30 years ago.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7" role="doc-endnote"><p>If the allelic effects are strictly additive, the number of genotypes corresponding to the intermediate phenotype is <span class="math inline">\(2N \choose N\)</span> where <span class="math inline">\(N\)</span> is the number of loci. For <span class="math inline">\(N=10\)</span>, <span class="math inline">\({2N \choose N} = 184,756\)</span>. For <span class="math inline">\(N=100\)</span>, <span class="math inline">\({2N \choose
+  N} = 9.05 \times 10^{58}\)</span>.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8" role="doc-endnote"><p>Although their results go much farther than Goldstein and Holsinger who did their simulations long before anyone was thinking about GWAS, much less genomic prediction and polygenic scores.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+</body>
+</html>

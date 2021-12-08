@@ -61,7 +61,7 @@ strong support for the drift-model.
 
 \section*{Second thoughts}
 
-\subsection*{Within sample stratification}
+\subsection*{Within sample stratification}\index{genomic prediction!sample stratification}
 
 This all seems very promising, but a word of caution is in order. Berg
 et al.~\cite{Berg-etal-2018} re-examined these claims using new data
@@ -83,7 +83,7 @@ analysis~(Figure~\ref{fig:UK-biobank}).
     several different GWAS data sets. Each vertical column corresponds
   to a different data source. Notice that all of the UK Biobank
   samples fail to show either a latitudinal or a longitudinal cline in
-  polygenic height score.}\label{fig:UK-biobank} 
+  polygenic height score~(from \cite{Berg-etal-2018}).}\label{fig:UK-biobank} 
 \end{figure}
 
 In thinking about this result, it's important to understand that Berg
@@ -145,7 +145,7 @@ well genomic predictions in one population work in the other.
     several different GWAS data sets. Each vertical column corresponds
   to a different data source. Notice that all of the UK Biobank
   samples fail to show either a latitudinal or a longitudinal cline in
-  polygenic height score.}\label{fig:UK-biobank} 
+  polygenic height score~(from~\cite{Yair-Coop-2021}).}\label{fig:UK-biobank} 
 \end{figure}
 
 That seems paradoxical, but interestingly it's not too difficult to
@@ -153,7 +153,96 @@ understand if we think about what happens when we combine stabilizing
 selection with geographical isolation.\footnote{And the fun thing for
   me about this is that we get to finish out the course by returning
   to a paper I wrote with my first master's student more than 30 years
-  ago.} 
+  ago.} First, let's remind ourselves of a fundamental property of
+polygenic variation: Different genotypes can produce the same
+phenotype. Figure~\ref{fig:redundancy}, which you've seen before,
+illustrates this when three loci influence the trait. While there is
+only one genotype that produces the dark red phenotype and only one
+that produces the white phenotype, there are four genotypes that
+produce the light red phenotype, four that produce the medium dark red
+phenotype, and six that produce the medium red phenotype. Goldstein
+and Holsinger~\cite{Goldstein-Holsinger-1992} called this phenomenon
+{\it genetic redundancy}.\index{genetic redundancy} As you can
+imagine, the number of redundant genotypes increases dramatically as
+the number of loci involved increases.\footnote{If the allelic effects
+  are strictly additive, the number of genotypes corresponding to the
+  intermediate phenotype is $2N \choose N$ where $N$ is the number of
+  loci. For $N=10$, ${2N \choose N} = 184,756$. For $N=100$, ${2N \choose
+  N} = 9.05 \times 10^{58}$.}
+
+\begin{figure}
+  \begin{center}
+    \includegraphics[width=10cm]{Nilsson-Ehle.eps}
+  \end{center}
+  \caption{Results from one of Nilsson-Ehle's crosses illustrating
+    polygenic inhertance of kernel color in wheat~(from {\tt
+      http://www.biology-pages.info/Q/QTL.html}, accessed 9 April 2017).}\label{fig:redundancy}
+\end{figure}
+
+Why does this redundancy matter? Let's consider what happens when we
+impose stabilizing selection on a polygenic trait, where
+$$
+w(z) = \mbox{exp}\left(\frac{-(z - z_0)^2}{2V_s}\right) \quad ,
+$$
+where $z_0$ is the intermediate phenotype favored by selection, $z$ is
+the phenotype of a particular individual, and $V_s$ is the variance of
+the fitness function. If selection is weak ($V_s = 115.2$), then the
+relative fitness of a genotype 1 unit away from the optimum is 0.9957
+while that of a genotype 8 units away is only 0.7575. If 16 loci
+influence the trait, there are 601,080,390 genotypes that produce the
+optimum phenotype and have the same fitness. There are another
+1,131,445,440 genotypes whose fitness within one percent of the
+optimum. Not only are there a lot of different genotypes with roughly
+the same fitness, the selection at any one locus is very weak.
+
+Now suppose these genotypes are distributed in a large, continuous
+population. Because selection is pretty weak and because mating is
+primarily with close neighbors, allele frequency changes at each locus
+will be close to what they would be if the loci were neutral. The
+result is that the genetic correlation between individuals drops off
+rapidly as a function of the distance between
+them~(Figure~\ref{fig:isolation-by-distance}). Notice that in the
+simulation illustrated individuals separated by more than about 20
+distance units are effectively uncorrelated. That means that their
+genotypes are essentially random with respect to one another, even
+though their phenotypes are similar because of the stabilizing
+selection. 
+
+\begin{figure}
+\begin{center}
+\resizebox{!}{10cm}{\includegraphics{isolation-by-distance.eps}}
+\end{center}
+\caption{Isolation by distance with weak
+  selection~(from~\cite{Goldstein-Holsinger-1992}).}\label{fig:isolation-by-distance}
+\end{figure}
+
+Now think about what that means for polygenic scores. Imagine that we
+sampled two ends of a large, continuously distributed population. To
+make things concrete, let's imagine that the population is distributed
+primarily North-South so that our samples come from a northern
+population and a southern one. Now imagine that we've done a GWAS in
+the northern population and we want to use the genomic predictions
+from that population to predict phenotypes in the southern
+population. What's going to happen?
+
+The genotypes in the southern population will be a random sample from
+all of the possible genotypes that could produce the same optimal
+phenotype (or something close to the optimum) and that sample will be
+independent of the sample of genotypes represented in our northern
+population. As a result, there are sure to be loci that are useful for
+predicting phenotype in the northern population that aren't variable
+in the southern population, which will reduce the accuracy of our
+genomic prediction. That's precisely what Yair and Coop
+show.\footnote{Although their results go much farther than Goldstein
+  and Holsinger who did their simulations long before anyone was
+  thinking about GWAS, much less genomic prediction and polygenic
+  scores.}
+
+In short, it's to be expected that genomic predictions will be useful
+only within the population for which they are constructed. They can be
+very useful in plant and animal breeding, for example, but any attempt
+to use them in other contexts must be alert to the ways in which
+extrapolation from one population to another will be problematic.
 
 \bibliography{popgen}
 \bibliographystyle{plain}
