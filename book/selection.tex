@@ -170,7 +170,7 @@ We're going to focus on viability selection for two reasons:\index{viability sel
 \item The algebra associated with understanding viability selection is
   a {\it lot\/} simpler than the algebra associated with understanding
   any other type of selection, and the dynamics are simpler and
-  easier to understand.\footnote{Once you've seen what you're in for
+  easier to understand.\footnote{Once you've seen what you're in for,
     you may think I've lied about this. But if you really think I
     have, just ask me to illustrate some of the algebra necessary for
     understanding viability selection when males and females differ in
@@ -188,7 +188,7 @@ this species has chromosome inversion polymorphisms. Although these
 inversions involve many genes, they are inherited as if they were
 single Mendelian loci, so we can treat the karyotypes as single-locus
 genotypes and study their evolutionary dynamics. We'll be considering
-two inversion types the Standard inversion type, $ST$, and the
+two inversion types: the Standard inversion type, $ST$, and the
 Chiricahua inversion type, $CH$. We'll use the following notation
 throughout our discussion:\index{Drosophila@\textit{Drosophila}!\textit{pseudoobscura}}
 
@@ -355,7 +355,7 @@ to the probability that other genotypes will survive, i.e., their {\it
 estimate the relative viabilities than to estimate absolute
 viabilities.\footnote{We'll also see when we get to studying the
   interaction between natural selection and drift that this statement
-  is no longer true. To understand how drift and selection interact we
+  is no longer true. To understand how drift and selection interact, we
   have to know something about {\it absolute\/}
   viabilities.}\index{viability!absolute}\index{viability!relative}
 
@@ -406,7 +406,7 @@ we could plug into a computer to figure out exactly how. One of the
 reasons that it's useful\footnote{If not exactly fun.} to go through
 all of that algebra is that it's possible to make predictions about
 the consequences of natural selection simply by knowing the pattern of
-viaiblity differences. What do I mean by pattern? Funny you should
+viability differences. What do I mean by pattern? Funny you should
 ask~(Table~\ref{table:patterns}).\index{natural selection!patterns}
 
 \begin{table}
@@ -484,7 +484,7 @@ an increasing   frequency of the $A$ allele or to a decreasing frequency.
 \subsection*{Disruptive selection}
 
 If we plot $\bar w$ as a function of $p$ when $w_{11} > w_{12}$ and
-$w_{22} > w_{12}$, we wee a very different
+$w_{22} > w_{12}$, we see a very different
 pattern~(Figure~\ref{fig:wbar}(c)). Since the Fundamental Theorem
 tells us that $\bar w' \ge \bar w$, we know that if the population
 starts with an allele on one side of the bowl $A_1$, will be lost. If
@@ -552,7 +552,7 @@ When a population has only one allele present it is said to be {\it
   fixed\/} for that allele. Since having only one allele is also an
 equilibrium (in the absence of mutation), we can also call it a {\it
   monomorphic equilibrium}. When a population has more than one allele
-present, it is said to be {\it polymoprhic}. If two or more alleles
+present, it is said to be {\it polymorphic}. If two or more alleles
 are present at an equilibrium, we can call it a {\it polymorphic
   equilibrium}. Thus, another way to describe the results of
 disruptive selection is to say that the monomorphic equilibria are
@@ -586,4 +586,142 @@ p=s_2/(s_1+s_2)$.\footnote{I'm not showing the algebra that justifies
   understanding by verifying it yourself.} Notice that $\hat p$
 depends only on the ratio of $s_1$ to $s_2$, not the magnitude. Again,
 it is only {\it relative\/} fitnesses that matter.
+
+\section*{Fertility selection}\index{natural selection!fertility selection}
+
+So far we've been talking about natural selection that occurs as a
+result of differences in the probability of survival, i.e., viability
+selection. There are, of course, other ways in which natural selection
+can occur:
+
+\begin{itemize}
+
+\item Heterozygotes may produce gametes in unequal frequencies, {\it
+  segregation distortion}, or gametes may differ in their ability to
+  participate in fertilization, {\it gametic selection}.\footnote{For
+    the botanists in the room, I should point out that selection on
+    the gametophyte stage of the life cycle (in plants with
+    alternation of generations) is mathematically equivalent to
+    gametic selection.}
+
+\item Some genotypes may be more successful in finding mates than
+  others, {\it sexual selection}.
+
+\item The number of offspring produced by a mating may depend on
+  maternal and paternal genotypes, {\it fertility selection}.
+
+\end{itemize}
+
+\noindent In fact, most studies that have measured components of
+selection have identified far larger differences due to fertility than
+to viability. Thus, fertility selection is a very important component
+of natural selection in most populations of plants and animals. As
+we'll see a little later, it turns out that sexual selection is
+mathematically equivalent to a particular type of fertility
+selection. But before we get to that, let's look carefully at the
+mechanics of fertility selection.
+
+\subsection*{Formulation of fertility selection}\index{natural selection!fertility selection, fertility matrix}
+
+I introduced the idea of a fitness matrix earlier when we were
+discussing selection at one locus with more than two alleles. Even if
+we have only two alleles, it becomes useful to describe patterns of
+fertility selection in terms of a fitness matrix. Describing the
+matrix is easy. Writing it down gets messy. Each element in the table
+is simply the average number of offspring produced by a given mated
+pair. We write down the table with paternal genotypes in columns and
+maternal genotypes in rows:
+\begin{center}
+\begin{tabular}{c|ccc}
+\hline\hline
+                  & \multicolumn{3}{c}{Paternal genotype} \\
+Maternal genotype & $A_1A_1$ & $A_1A_2$ & $A_2A_2$ \\
+\hline
+$A_1A_1$ & $F_{11,11}$ & $F_{11,12}$ & $F_{11,22}$ \\
+$A_1A_2$ & $F_{12,11}$ & $F_{12,12}$ & $F_{12,22}$ \\
+$A_2A_2$ & $F_{22,11}$ & $F_{22,12}$ & $F_{22,22}$ \\
+\hline
+\end{tabular}
+\end{center}
+Then the frequency of genotype $A_1A_1$ after one generation of
+fertility selection is:\footnote{I didn't say it, but you can probably
+  guess that I'm assuming that all of the conditions for
+  Hardy-Weinberg apply, except for the assumption that all matings
+  leave the same number of offspring, on average.}
+\begin{equation}
+x_{11}' = \frac{x_{11}^2F_{11,11} + x_{11}x_{12}(F_{11,12} +
+                F_{12,11})/2 + (x_{12}^2/4)F_{12,12}}{\bar F} \quad ,
+\label{eq:fertility}
+\end{equation}
+where $\bar F$ is the mean fecundity of all matings in the
+population.\footnote{As an exercise you might want to see if you can
+derive the corresponding equations for $x_{12}'$ and $x_{22}'$.}
+
+It probably won't surprise you to learn that it's very difficult to
+say anything very general about how genotype frequenices will change
+when there's fertility selection. Not only are there nine different
+fitness parameters to worry about, but since genotypes are never
+guaranteed to be in Hardy-Weinberg proportion, all of the algebra has
+to be done on a system of three simultaneous equations.\footnote{And
+you thought that dealing with one was bad enough!} There are three
+weird properties that I'll mention:\index{natural selection!fertility selection, properties}
+
+\begin{enumerate}
+
+\item $\bar F'$ may be smaller than $\bar F$. Unlike selection on
+viabilities in which fitness evolved to the maximum possible value,
+there are situations in which fitness will evolve to the {\it
+minimum\/} possible value when there's selection on
+fertilities.\footnote{Fortunately, it takes rather weird fertility
+schemes to produce such a result.}
+
+\item A high fertility of heterozygote $\times$ heterozygote matings
+is not sufficient to guarantee that the population will remain
+polymorphic.
+
+\item Selection may prevent loss of either allele, but there may be no
+stable equilibria.
+
+\end{enumerate}
+
+\subsection*{Conditions for protected polymorphism}\index{natural selection!fertility selection, protected polymorphism}
+
+There is one case in which it's fairly easy to understand the
+consequences of selection, and that's when one of the two alleles is
+very rare. Suppose, for example, that $A_1$ is very rare, then a
+little algebraic trickery\footnote{The trickery isn't hard, just
+tedious. Justifying the trickery is a little more involved, but not
+too bad. If you're interested, drop by my office and I'll show you.}
+shows that
+\begin{eqnarray*}
+x_{11}' &\approx& 0 \\
+x_{12}' &\approx& \frac{x_{12}(F_{12,22} + F_{22,12})/2}{F_{22,22}}
+\end{eqnarray*}
+So $A_1$ will become more frequent if
+\begin{equation}
+(F_{12,22} + F_{22,12})/2 > F_{22,22} \label{eq:a-1}
+\end{equation}
+Similarly, $A_2$ will become more frequent when it's very rare when
+\begin{equation}
+(F_{11,12} + F_{12,11})/2 > F_{11,11} \label{eq:a-2} \quad .
+\end{equation}
+If both equation (\ref{eq:a-1}) and (\ref{eq:a-2}) are satisfied,
+natural selection will tend to prevent either allele from being
+eliminated. We have what's known as a {\it protected polymorphism}.
+
+Conditions~(\ref{eq:a-1}) and~(\ref{eq:a-2}) are fairly easy to
+interpret intuitively: There is a protected polymorphism if the
+average fecundity of matings involving a heterozygote and the
+``resident'' homozygote exceeds that of matings of the resident
+homozygote with itself.\footnote{A ``resident'' homozygote is the one
+  of which the populations is almost entirely composed when all but
+  one allele is rare.}
+
+{\bf NOTE:} It's entirely possible for neither inequality to be
+satisfied {\it and\/} for their to be a stable polymorphism. In other
+words, depending on where a population starts, selection may eliminate
+one allele or the other or keep both segregating in the population in
+a stable polymorphism.\footnote{Can you guess what pattern of
+  fertilities is consistent with both a stable polymorphism and the
+  {\it lack of\/} a protected polymorphism?}
 

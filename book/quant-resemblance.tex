@@ -37,7 +37,7 @@ measured.\footnote{Assuming that we've randomized siblings across
 
 The offspring of different dams mated to a single sire are
 half-sibs. Differences among the offspring of sires indicates that
-thee are differences in paternal ``genotype'' in the trait being
+there are differences in paternal ``genotype'' in the trait being
 measured.\footnote{You'll see the reason for the quotes around
   genotype in this paragraph and the last a little later. It's a
   little more complex than what I've suggested.}
@@ -132,7 +132,7 @@ $A_1A_2$), and $x_{22}$ (corresponding to the genotype $A_2A_2$).  So
 all we need to do to calculate the covariance between half-sibs is to
 write down all possible pairs of phenotypes and the frequency with
 which they will occur in our sample of randomly chosen half-sibs based
-on the frequenices in Table~\ref{table:half-sib} above and the
+on the frequencies in Table~\ref{table:half-sib} above and the
 frequency of maternal genotypes.  It's actually a bit easier to keep
 track of it all if we write down the frequency of each maternal
 genotype and the frequency with which each possible phenotypic
@@ -147,9 +147,10 @@ combination will occur in her progeny.
              &&\ \ + {1 \over 4}(x_{12} - {\bar x})^2
                   + {1 \over 2}q(x_{12} - {\bar x})(x_{22} - {\bar x})
                   + {1 \over 4}q^2(x_{22} - {\bar x})^2] \\
-             &&+ q^2[p^2(x_{12} - {\bar x})^2 + 2pq(x_{12} - {\bar x})
+             &&+ q^2[p^2(x_{12} - {\bar x})^2 + 2pq(x_{12} - {\bar
+                x})(x_{22} - {\bar x})
                                                  + q^2(x_{22} - {\bar
-                                                x})] \\
+                                                x})^2] \\
    &=&\ p^2[p(x_{11} - {\bar x}) + q(x_{12} - {\bar x})]^2 \\
    &&+ 2pq[{1 \over 2}p(x_{11} - {\bar x}) +
          {1 \over 2}q(x_{12} - {\bar x}) +
@@ -276,7 +277,7 @@ functional relationship between two~variables.
 \subsection*{Regression analysis}\index{parent-offspring regression}
 
 Measure the parents.  Regress the offspring phenotype on: (1) the
-phenotype of one parent or (2) the mean of the parental parental
+phenotype of one parent or (2) the mean of the parental
 phenotypes.  In either case, the covariance between the parental
 phenotype and the offspring genotype is $\left({1 \over 2}\right)V_a$.
 Now the regression coefficient between one parent and offspring, $b_{P
@@ -340,14 +341,14 @@ $V_e$.\footnote{$\sigma^2_W$, $\sigma^2_D$, and $\sigma^2_S$ are often
   because they are estimated from observations we make on phenotypic
   variation. $V_a$, $V_d$, and $V_e$ are often referred to as the {\it
     causal\/} components of variance, because they represent the
-  gentic and environmental influences on trait
+  genetic and environmental influences on trait
   expression.}\index{components of variance!observational}\index{components of variance!causal} How do we
 do that?  Well,
 \[
 V_p = \sigma^2_T = \sigma^2_S + \sigma^2_D + \sigma^2_W \quad .
 \]
 $\sigma^2_S$ estimates the variance among the means of the half-sib
-familes fathered by each of the different sires or, equivalently, the
+families fathered by each of the different sires or, equivalently, the
 covariance among half-sibs.\footnote{To see why consider this is so,
   consider the following: The mean genotypic value of half-sib
   families with an $A_1A_1$ mother is $px_{11} + qx_{12}$; with an

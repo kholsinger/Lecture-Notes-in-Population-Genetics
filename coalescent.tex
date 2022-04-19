@@ -253,9 +253,13 @@ when there are $k$ alleles.\footnote{Remember, I'm using ``alleles''
   with this footnote than I would have if I'd just written ``allele
   copies'' in the text).} So
 \[
-t_k = \left(\frac{k(k-1)}{4N_e}\right)e^{{(t-1)}{\frac{k(k-1)}{4N_e}}} \quad .
+\mbox{P}(T = t) = \left(\frac{k(k-1)}{4N_e}\right)e^{t\frac{k(k-1)}{4N_e}} \quad .
 \]
-
+If you're wondering why there's a $t$ in that equation instead of the
+$t-1$ you'd get from substituting direclty into equation
+(\ref{eq:multi-allele}), it's because the exponential distribution
+here is the limit of the geometric distribution in
+(\ref{eq:multi-allele}) as the coalescence time grows large.
 
 \subsection*{An example: Mitochondrial
   Eve}\index{coalescent!mitochondrial Eve}
