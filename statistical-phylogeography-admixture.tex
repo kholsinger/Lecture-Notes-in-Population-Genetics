@@ -115,7 +115,7 @@ population associated with branch $i$. It's obvious from looking at
 the tree that populations 1 and 2 have been evolving independently
 from populations 3 and 4 from the start, while 1 and 2 have been
 evolving independently of one another for a shorter period of time. As
-a result, we expect allele frequencies in pouplations 1 and 2 to be
+a result, we expect allele frequencies in populations 1 and 2 to be
 more similar than those in populations 3 and 4. In fact, Pickrell and
 Pritchard point out that we can write the various covariances down
 pretty simply too:
@@ -184,7 +184,7 @@ any of your work.
 As you can see, admixture graphs provide a very flexible approach to
 understanding the history of populations. But they do have one
 significant limitation. We have to know ahead of time which
-indivdiuals belong in which populations, just as we did with
+individuals belong in which populations, just as we did with
 $F$-statistics,\index{F-statistics@$F$-statistics} and just as with
 {\tt STRUCTURE} gave us a way to look at population structure without
 pre-assigning individuals to populations, there's a way of looking at
@@ -205,7 +205,7 @@ idea is pretty simple~(Figure~\ref{fig:sparg-overview}).
 \begin{itemize}
 
   \item At any position along a genome, we can construct a
-    phylogeneitc tree showing the genealogical relationship among all
+    phylogenetic tree showing the genealogical relationship among all
     chromosomes in the sample at that location.\footnote{Notice that I
       wrote ``chromosomes'', not individuals, because the different
       allele copies within an individual may have different
@@ -220,10 +220,10 @@ idea is pretty simple~(Figure~\ref{fig:sparg-overview}).
     by this model of Brownian motion, so we only use parts of the tree
     from the first step that are more recent than these events to
     estimate dispersal parameters.\footnote{Notice that while this
-      approach means that the Brownian motion model for disperal is a
+      approach means that the Brownian motion model for dispersal is a
       better fit to the data, it also means that we can't use this
       approach to study events that involve ancient dispersal, like
-      early modern human movemeents out of Africa.}
+      early modern human movements out of Africa.}
 
   \item Given the estimates of time to a common ancestor between two
     individuals, the spatial location of those individuals, and the
@@ -253,7 +253,7 @@ locations rather than a single estimate. Osmond and Coop also point
 out that we can define different ``epochs'' in which to estimate
 dispersal rates and ancestors. This allows the dispersal rate to vary
 over time. All of this is available in a Python package, {\tt sparg},
-which should run on any platfrom with
+which should run on any platform with
 phython3~(\url{https://github.com/mmosmond/sparg}).
 
 \subsection*{An example from {\it Arabidopsis}}\index{Arabidopsis@{\it Arabidopsis thaliana}} 
@@ -262,13 +262,13 @@ Plant geneticists have studied {\it Arabidopsis thaliana\/}
 extensively. Alonso-Blanco et al.~\cite{AlonsoBlanco-etal-2016}
 reported results derived from sequencing 1135 different wild
 accessions derived from Eurasia and North Africa. Osmond and Coop used
-{\tt sparg} to explore historical patterns of disperal and the
+{\tt sparg} to explore historical patterns of dispersal and the
 geographical location of ancestors using this data set. They first
 estimated dispersal rates in both a one-epoch model and in multi-epoch
 models. As you can see in Figure~\ref{fig:arabidopsis-epochs}), the
 estimates of dispersal rates are very similar across all of the
 loci. In addition, the per-generation rate of east-west dispersal
-($\sigma^2_{long}$) is about 10 times higher than north-sourth
+($\sigma^2_{long}$) is about 10 times higher than north-south
 dispersal ($\sigma^2_{lat}$), and the correlation between the two
 rates ($\rho$) is relatively small. Comparison among the scenarios
 suggests that the 4-epoch model is the best fit to the data,
