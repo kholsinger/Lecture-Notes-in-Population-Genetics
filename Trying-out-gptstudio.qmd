@@ -1,0 +1,48 @@
+---
+title: "Trying out gptstudio"
+format: html
+editor: visual
+---
+
+# About gptstudio
+
+From <https://github.com/MichelNivard/gptstudio>:
+
+::: {.callout-note} The goal of gptstudio is for R programmers to easily incorporate use of large language models (LLMs) into their project workflows. These models appear to be a step change in our use of text for knowledge work, but you should carefully consider ethical implications of using these models. Ethics of LLMs (also called Foundation Models) is an area of very active discussion.
+:::
+
+# Installing `gptstudio`
+
+```{r}
+require(devtools)
+install_github("MichelNivard/gptstudio")
+```
+
+# Prerequisites
+
+1.  Make an OpenAI account. As of now, the free one will do.
+2.  Create an OpenAI API key to use {openai} package within Rstudio
+3.  Set the API key up in Rstudio:
+
+```{r}
+Sys.setenv(OPENAI_API_KEY = "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")
+```
+
+# Trying it out
+
+```{r}
+set.seed(1234)
+x <- rnorm(100)
+mu <- 0.5 + 0.25*x
+y <- numeric(length(x))
+for (i in 1:length(x)) {
+  y[i] <- rnorm(1, mu[i], 0.25)
+}
+dat <- tibble(x = x, y = y)
+```
+
+## Plotting
+
+```{# use ggplot to make a scatterplot of y versus x. Color the points blue.}
+# Add a regression line. Use the bw theme
+```
