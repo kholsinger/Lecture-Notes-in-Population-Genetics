@@ -28,7 +28,7 @@ $$
 $$
 If $D \ne 0$, then we know either that fitness differences among the sequences are ***not*** effectively neutral or that the population is not at a drift-mutation equilibrium.^[***IMPORTANT NOTE #2***: This is the second way I have been getting things wrong. Our estimate of $D$ isn't simply the difference between $\theta_pi$ and $\theta_k$. That difference is divided by the corresponding variance, giving $\hat D$ a mean of zero and a variance of one if the sequences are evolving neutrally and the population is at a drift-mutation equilibrium. This scaling allows us to use a normal distributiion with a mean of zero and a variance of one or a beta distribution to calculate the probability of getting the observed value of $\hat D$. I've updated the online notes to reflect these corrections. If you've already downloaded a copy, you might want to download them again and throw out the old version.]
 
-## Esitmating Tajima's D
+## Estimating Tajima's D
 
 It is quite straightforward to estimate Tajima's $D$ and to assess whether it is different from 0 in `R`. Here's how we'd do it with an sRNase data set from *Solanum peruvianum*.^[Miller, J.S., and J. Kostyun.  2010.  Functional gametophytic self-incompatibility in a peripheral population of Solanum peruvianum (Solanaceae). *Heredity*  107:30-39.  doi: [https://doi.org/10.1038/hdy.2010.151](https://doi.org/10.1038/hdy.2010.151)]
 
@@ -44,7 +44,7 @@ solanum_taj <- tajima.test(solanum)
 solanum_taj
 ```
 
-The output is pretty easy to intepret. `D` is our estimate of Tajima's $D$, `PVal.normal` is the probability of getting the observed value of $D$ if the sequence variation were neutral and the population was at a drift-mutation equilibrium assuming that $D$ follows a normal distribution with mean zero and variance one. `Pval.beta` is the probability of getting the observed value of $D$ if the sequence variation were neutral and the population was at a drift-mutation equilibrium assuming that $D$ follows a beta distribution, which was Tajima's original proposal.
+The output is pretty easy to interpret. `D` is our estimate of Tajima's $D$, `PVal.normal` is the probability of getting the observed value of $D$ if the sequence variation were neutral and the population was at a drift-mutation equilibrium assuming that $D$ follows a normal distribution with mean zero and variance one. `Pval.beta` is the probability of getting the observed value of $D$ if the sequence variation were neutral and the population was at a drift-mutation equilibrium assuming that $D$ follows a beta distribution, which was Tajima's original proposal.
 
 Here we have a positive $D$, suggesting that there might be diversifying selection, but the support for that suggestion is very weak. There's about a 62 percent chance we'd get a value of $D$ as large as what we observe here even if there were no selection acting on these sequences and the population were at a drift-mutation equilibrium.^[Note: Miller and Kostyun use more sophisticated methods to explore site-specific patterns of selection and find evidence that selection favors diversity in regions of the gene associated with determining the specificity of self-incompatibility reactions and that there is purifying selection in other parts of the gene. Sounds a bit like ADH in *Drosophila melanogaster*, doesn't it?]
 

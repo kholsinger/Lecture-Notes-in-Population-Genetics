@@ -22,7 +22,7 @@ $$
 
 A more realistic model of migration is the ***finite*** island model of migration.^[Latter, B.D.H.  1973.  The island model of population differentiation: a general solution.  *Genetics*  73:147-157 doi: [10.1093/genetics/73.1.147](https://doi.org/10.1093/genetics/73.1.147)]  It's still very simple, but it adds one thing that makes it a bit more realistic:
 
-> It assumes that there are a finite number of populations exchanging migrants with one another. Every population still receives the same fraction of migrants, $m$, but we now also specify that the fraction of migrants coming from any one population into this one is $m/(k - 1)$, where $k$ is the number of popuations.
+> It assumes that there are a finite number of populations exchanging migrants with one another. Every population still receives the same fraction of migrants, $m$, but we now also specify that the fraction of migrants coming from any one population into this one is $m/(k - 1)$, where $k$ is the number of populations.
 
 The formula for $F_{ST}$ under the finite island model is a lot more complicated than the one above. If you're interested, you can look in the `R` code below.^[You won't find the formula for $F_{ST}$ in Latter, but the formulas in the `R` code follow from the results there.] Let's compare the predictions for a few values of $m$ and $k$ with $N_e = 100$ and $\mu = 10^{-3}$.
 
@@ -200,7 +200,7 @@ The dashed red line is the prediction from the infinite island model. The dashed
 
 ## Exercise 6
 
-The last plot shows that neither the infinite island nor the finite island prediction captures the results of this particular simulation very well, it only does so on average and there's a lot of variation from one replicate to the next. This outcome reflects the "evolutionary" or "genetic" sampling we discussed when comparing Nei's $G_{ST}$ with Weir and Cockerham's $\theta$. This weeks lab exercise will explore that variability a bit further and explore condidtions that affect the amount of variability and how useful the infinite island approximation is. To do so, you'll want to use the following code.^[Notice that in order to run this code, you'll also need to run the code above so that the relevant functions are loaded in `R`'s memory.] You'll be changing some or all of 
+The last plot shows that neither the infinite island nor the finite island prediction captures the results of this particular simulation very well, it only does so on average and there's a lot of variation from one replicate to the next. This outcome reflects the "evolutionary" or "genetic" sampling we discussed when comparing Nei's $G_{ST}$ with Weir and Cockerham's $\theta$. This week's lab exercise will explore that variability a bit further and explore conditions that affect the amount of variability and how useful the infinite island approximation is. To do so, you'll want to use the following code.^[Notice that in order to run this code, you'll also need to run the code above so that the relevant functions are loaded in `R`'s memory.] You'll be changing some or all of 
 
 * `n_loci` - The number of loci included in the genetic sample, 
 * `n_sample` - The number of (diploid) individuals sampled in each population, 
@@ -252,7 +252,7 @@ df <- filter(df, !is.na(N_e))
 
 The easiest way to run different combinations of parameters is to copy the code block above and replace `n_loci`, `n_sample`, `n_gen`, and `n_repetitions` with new choices. To keep track of what you're doing, I recommend doing that for one combination of parameters, examining the results as described below, and moving on to a new set of parameter (with a new code block) after that.
 
-You can plot the observed $F_{ST}$ versus the $F_{ST}$ predicted from either model using the code below.^[The diagonal red dashed line is the 1:1 line. Every point should fall on this line if observed exactly matches the prediction.] In addition to showing how well the simulations match the predictions, you can get a feel for how much variabiity there is among the simulations by seeing how scatterd the points are.
+You can plot the observed $F_{ST}$ versus the $F_{ST}$ predicted from either model using the code below.^[The diagonal red dashed line is the 1:1 line. Every point should fall on this line if observed exactly matches the prediction.] In addition to showing how well the simulations match the predictions, you can get a feel for how much variability there is among the simulations by seeing how scattered the points are.
 
 ```{r}
 ## for the infinite island model

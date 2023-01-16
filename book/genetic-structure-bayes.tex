@@ -58,10 +58,27 @@ x_{12,i}^{n_{12,i}} x_{22,i}^{n_{22,i}} \quad .
 \]
 Notice that I am assuming here that we have the same $f$ in every
 population. It's easy enough to relax that assumption, but we won't
-worry about it for now. To complete the Bayesian model, all we need
+worry about it for now.
+
+The next step is to describe how allele frequencies are distributed
+among populations. I'll leave out the details, but broadly speaking
+all we do is to define a probability distribution
+\[
+P\left(\bf p|{\bf\bar p}, \theta\right) \quad ,
+\]
+where $\bf\bar p$ is the average allele frequency across populations,
+and $\theta$ is $F_{ST}$.\footnote{I call it $\theta$ rather than
+  $F_{ST}$, because this parameter is conceptually equivalent to Weir
+  and Cockerham's $\theta$ even though I use a different method to
+  estimate it.}
+To complete the Bayesian model, all we need
 are some appropriate priors. We'll discuss them a little
-later.\footnote{And you'll be relieved to know that we're going to
-  ignore most of the mathematical details when we do.}
+later, but we can now write down the complete model as
+\[
+P(f,\theta|{\bf\bar p},\theta,f) \propto
+P({\bf n}|{\bf p},f) P({\bf p}|{\bf\bar p},\theta) P({\bf\bar
+  p})P(\theta)P(f) \quad .
+\]
 
 \subsection*{Using {\tt Hickory} to analyze $F$-statistics}\index{{\tt Hickory}}\index{{\tt $F$-statistics}}
 
@@ -452,4 +469,24 @@ between any of the scenarios that seem compatible with the data.
     credible interval) from the {\it Protea repens\/} data distributed
     with {\tt Hickory}.}\label{table:f-model-comparison}
 \end{table}
+
+\subsection*{Extending the model}
+
+It is relatively straightforward to extend the basic model above to
+account for the possibility that the amount of differentiation at some
+loci is much greater (or much smaller) than it is as most
+loci. Similarly, it is relatively straightfoward to extend the model
+to allow some populations to be much more similar to (or much more
+different from) the average population allele frequencies than
+others. All we need to do is to allow $\theta$ to reflect locus- and
+population-specific effects.
+
+\begin{eqnarray*}
+  \theta_i &=& \mbox{locus-specific $\theta$} \\
+  \theta_k &=& \mbox{population-specific $\theta$} \\
+  \theta_{ik} &=& \mbox{population- and locus-specific $\theta$} \\
+  &=& (\theta_i + \theta_k)/2 \quad .
+\end{eqnarray*}
+You can read more about estimating locus- and population-specific
+effects in the documentation for {\tt Hickory} if you're interested.
 
