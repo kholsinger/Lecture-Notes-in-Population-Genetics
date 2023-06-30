@@ -23,10 +23,6 @@
 ##
 *.pdf
 
-## Don't sync local Perl scripts
-##
-*.pl
-
 ## R/Stan files to ignore
 ##
 *.Rproj.user
