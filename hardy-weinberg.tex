@@ -4,7 +4,7 @@
 \usepackage{graphicx}
 \usepackage{epstopdf}
 
-\newcommand{\copyrightYears}{2001-2021}
+\newcommand{\copyrightYears}{2001-2023}
 
 \title{The Hardy-Weinberg Principle and estimating allele frequencies}
 
@@ -19,10 +19,16 @@
 To keep things relatively simple, we'll spend much of our time in the
 first part of this course talking about variation at a single genetic
 locus, even though alleles at many different loci are involved in
-expression of most morphological or physiological traits. Towards the
-end of the course, we'll study the genetics of continuous
-(quantitative) variation, but until then you can asssume that I'm
-talking about variation at a single locus unless I specifically say
+expression of most morphological or physiological traits. We'll also
+spend most of our time thinking about only two alleles at that one
+locus.\footnote{I used to apologize for spending so much time thinking
+  about loci that had only two alleles, but I feel less apologetic
+  now. Much of the population genetic data that is now being gathered
+  derives from single-nucleotide polymorphisms, which are typically
+  polymorphisms involving only two alleles.} Towards the end of the
+course, we'll study the genetics of continuous (quantitative)
+variation, but until then you can asssume that I'm talking about
+variation at a single locus unless I specifically say
 otherwise.\footnote{You'll see in a week or a week and a half when we
   talk about analysis of population structure that we start discussing
   variation at many loci. But you'll also see that in spite of
@@ -37,7 +43,8 @@ referring to three aspects of genetic variation within that
 population:\footnote{At each locus I'm talking about. Remember, I'm
   only talking about one locus at a time, unless I specifically say
   otherwise. We'll see why this matters when I outline the ideas
-  behind genome-wide association mapping.}\index{genetic composition of populations} 
+  behind genome-wide association mapping towards the end of the
+  course.}\index{genetic composition of populations}
 \begin{enumerate}
 
 \item The number of alleles at a locus.
@@ -129,7 +136,8 @@ variation from one generation to the next:\index{Hardy-Weinberg
   both males and females.\footnote{It would be easy enough to relax
     this assumption, but it makes the algebra more complicated without
     providing any new insight, so we won't bother with relaxing it
-    unless someone asks.}
+    unless someone asks. This is just the first of many examples where
+    I present the math, but I keep it as simple as I possibly can.}
 
 \item[Assumption \#2] Genotypes mate at random {\it with respect to
   their genotype at this particular locus}.
@@ -270,8 +278,8 @@ No.\ in sample & $N_A$  & $N_{AB}$ & $N_{B}$ & $N_O$ \\
 \end{tabular}
 \end{center}
 Now we can't directly count the number of $a$, $b$, and $o$
-alleles. What do we do? Well, more than 50 years ago, some geneticists
-figured out how with a method they called ``gene
+alleles. What do we do? Well, nearly 70 years ago, some geneticists
+figured out one approach with a method they called ``gene
 counting''~\cite{Ceppellini-etal-1955} and that statisticians later
 generalized for a wide variety of purposes and called the EM
 algorithm~\cite{Dempster-etal-1977}. It uses a trick you'll see
@@ -284,8 +292,9 @@ know. Make sense? Probably not. Let's try an example and see if that
 helps.\index{EM algorithm}
 
 If we knew $p_a$, $p_b$, and $p_o$, we could figure out how many
-individuals with the $A$ phenotype have the $aa$ genotype and how many
-have the $ao$ genotype, namely
+individuals with the $A$ phenotype we {\it expect\/} to have the $aa$
+genotype and how many we {\it expect\/} to have the $ao$ genotype,
+namely
 \begin{eqnarray*}
 N_{aa} &=& n_A \left({p_a^2 \over p_a^2 + 2p_ap_o}\right) \\
 N_{ao} &=& n_A \left({2p_ap_o \over p_a^2 + 2p_ap_o}\right) \quad .
@@ -295,15 +304,19 @@ Obviously we could do the same thing for the $B$ phenotype:
 N_{bb} &=& n_B \left({p_b^2 \over p_b^2 + 2p_bp_o}\right) \\
 N_{bo} &=& n_B \left({2p_bp_o \over p_b^2 + 2p_bp_o}\right) \quad .
 \end{eqnarray*}
-Notice that $N_{ab} = N_{AB}$ and $N_{oo} = N_O$~(lowercase
-subscripts refer to genotypes, uppercase to phenotypes). If we knew
+Notice that $N_{ab} = N_{AB}$ and $N_{oo} = N_O$~(lowercase subscripts
+refer to genotypes, uppercase to phenotypes). What we've just done is
+the ``E'' part of the EM algorithm, E for ``expectation.'' If we knew
 all this, then we could calculate $p_a$, $p_b$, and $p_o$ from
 \begin{eqnarray*}
 p_a &=& {2N_{aa} + N_{ao} + N_{ab} \over 2N} \\
 p_b &=& {2N_{bb} + N_{bo} + N_{ab} \over 2N} \\
 p_o &=& {2N_{oo} + N_{ao} + N_{bo} \over 2N} \quad ,
 \end{eqnarray*}
-where $N$ is the total sample size.
+where $N$ is the total sample size. That's the ``M'' part of rhe EM
+algorithm, M for ``maximization.''\footnote{``Maximization of what?''
+  you may ask. ``Maximization of the likelihood is the answer, which
+  probably isn't helpful now, but should be soon.}
 
 Surprisingly enough we can actually estimate the allele frequencies by
 using this trick. Just take a guess at the allele frequencies. Any
@@ -379,13 +392,14 @@ variable takes on is $k$ or putting it in an equation: $K=k$. If we
 knew $p$, the proportion of red socks in the drawer, we could
 calculate the probability of getting the data we observed, namely
 \begin{equation}
-\mbox{P}(K=k|p) = {N \choose k} p^k (1-p)^{(N-k)} \quad . \label{eq:binomial}
+\mbox{P}(K=k|p, N) = {N \choose k} p^k (1-p)^{(N-k)} \quad . \label{eq:binomial}
 \end{equation}
 This is the {\it binomial probability distribution}. The part on the
 left side of the equation is read as ``The probability that we get $k$
-red socks in our sample {\it given\/} the value of $p$.'' The word
-``given'' means that we're calculating the probability of our data
-conditional on the (unknown) value $p$.
+red socks in our sample {\it given\/} the value of $p$ and the sample
+size $N$.'' The word ``given'' means that we're calculating the
+probability of our data conditional on the (unknown) value $p$ and the
+(known) sample size $N$.
 
 Of course we don't know $p$, so what good does
 writing~(\ref{eq:binomial}) do? Well, suppose we reverse the question
@@ -393,11 +407,11 @@ to which equation~(\ref{eq:binomial}) is an answer and call the
 expression in~(\ref{eq:binomial}) the ``likelihood of the data.''
 Suppose further that we find the value of $p$ that makes the
 likelihood bigger than any other value we could
-pick.\footnote{Technically, we treat $\mbox{P}(K=k|p)$ as a function
+pick.\footnote{Technically, we treat $\mbox{P}(K=k|p,N)$ as a function
   of $p$, find the value of $p$ that maximizes it, and call that value
   $\hat p$.} Then $\hat p$ is the maximum-likelihood estimate of
-$p$.\footnote{You'll be relieved to know that in this case, $\hat p =
-  k/N$.}
+$p$.\footnote{You'll be relieved to know that in this case,
+  $\hat p = k/N$.}
 
 In the case of the ABO blood group that we just talked about, the
 likelihood is a bit more complicated
@@ -593,8 +607,7 @@ Observed  & 862 & 131 & 365 & 702 & 2060 \\
 \end{center}
 To estimate the underlying allele frequencies, $p_A$, $p_B$, and
 $p_O$, we have to remember how the allele frequencies map to phenotype
-frequencies:\footnote{Assuming genotypes are in Hardy-Weinberg
-  proportions. We'll relax that assumption later.}
+frequencies:
 \begin{eqnarray*}
 \hbox{Freq}(A) &=& p_A^2 + 2p_Ap_O \\
 \hbox{Freq}(AB) &=& 2p_Ap_B \\

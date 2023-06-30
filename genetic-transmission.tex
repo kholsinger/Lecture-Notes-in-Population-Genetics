@@ -4,7 +4,7 @@
 \usepackage{graphicx}
 \usepackage{epstopdf}
 
-\newcommand{\copyrightYears}{2001-2021}
+\newcommand{\copyrightYears}{2001-2023}
 
 \title{Genetic transmission in populations}
 
@@ -16,8 +16,9 @@
 
 \section*{Introduction}
 
-Mendel's rules describe how genetic transmission happens between
-parents and offspring. Consider a monohybrid cross:
+Transmission genetics is exemplified by Mendel's rules, which describe
+how genetic information is transmitted from parents to
+offspring. Consider a monohybrid cross:
 
 \begin{center}
 \begin{tabular}{ccc}
@@ -27,12 +28,13 @@ $\frac{1}{4}A_1A_1$ & $\frac{1}{2}A_1A_2$ & $\frac{1}{4}A_2A_2$ \\
 \end{tabular}
 \end{center}
 
-\noindent Population genetics describes how genetic transmission
-happens between a {\it population\/} of parents and a population of
+\noindent Population genetics describes how genetic information is
+transmitted from a {\it population\/} of parents to a population of
 offspring.  Consider, for example, the following data from the {\it
-  Est\/}-3 locus of {\it Zoarces
-  viviparus}:\footnote{Only one offspring from each mother is included
-  in these data (from~\cite{Christiansen-1980}).}\index{Zoarces viviparus@\textit{Zoarces viviparus}}
+  Est\/}-3 locus of {\it Zoarces viviparus}:\footnote{Only one
+  offspring from each mother is included in these data
+  (from~\cite{Christiansen-1980}).}\index{Zoarces
+  viviparus@\textit{Zoarces viviparus}}
 
 \begin{center}
 \begin{tabular}{lrrr}
@@ -46,9 +48,12 @@ $A_2A_2$          &          &      877 & 1541 \\
 \end{center}
 
 \noindent This table describes, empirically, the relationship between
-the genotypes of mothers and the genotypes of their offspring. We can
-also make some inferences about the genotypes of the fathers in this
-population, even though we didn't see them.
+the genotypes of mothers and the genotypes of their offspring. Using
+these data we can also make some inferences about the genotypes of the
+fathers in this population, even though we didn't collect
+them.\footnote{As you'll see, we can't actually say much about {\it
+    fathers}, but we can make inferences about the genes they
+  contributed to the offspring.}
 
 \begin{enumerate}
 
@@ -111,7 +116,11 @@ father?
 The above calculations tell us what's happening for this particular
 data set, but those of you who know me know that there has to be a
 little math coming so that we can describe the situation more
-generally. Here's the notation:
+generally.\footnote{Those of you who don't know me will soon come to
+  expect that there is (almost always) more math coming. But don't get
+  scared. I don't expect you to reproduce the match. I show it to you
+  so that you understand where the tools we will use come from.}
+Here's the notation:
 
 \begin{center}
 \begin{tabular}{ccr}
@@ -176,7 +185,7 @@ line. An object at rest tends to remain at rest.
 \end{quotation}
 or (as you may remember from introductory physics)\footnote{Don't
   worry if you're not good at physics. I'm probably worse. What I'm
-  about to tell you is almost the only thing about physics I can
+  telling you now is almost the only thing about physics I can
   remember. I graduated from college with only one semester of college
   physics, and it didn't even require calculus as a pre-requisite. My
   brother is an electrical engineer, and he is appalled by my
