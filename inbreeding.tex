@@ -3,7 +3,7 @@
 \usepackage{html}
 \usepackage{graphics}
 
-\newcommand{\copyrightYears}{2001-2021}
+\newcommand{\copyrightYears}{2001-2023}
 \newcommand{\htmladdlinktext}[1]{\htmladdnormallink{#1}{#1}}
 
 \title{Inbreeding and self-fertilization}
@@ -123,9 +123,12 @@ every generation, that the frequency of homozygotes would increase,
 and that the allele frequencies wouldn't change,\footnote{Since half
   of the homozygous offspring carry one of the two alleles and the
   other half carry the other one, the overall frequency of alleles
-  doesn't change.} and you'd be right. To see why, consider the
-following mating table:\footnote{Note: The ``missing'' entries in the
-  mating table are mating events that never happen.}\index{mating table!self-fertilization}
+  doesn't change. The alleles in heterozygotes are simply sorted into
+  homozygous and heterozygous progeny in a 1:2:1 ratio. The frequency
+  of the two homozygotes is increased equally.} and you'd be right. To
+see why, consider the following mating table:\footnote{Note: The
+  ``missing'' entries in the mating table are mating events that never
+  happen.}\index{mating table!self-fertilization}
 
 \begin{center}
 \begin{tabular}{ccccc}
@@ -285,11 +288,11 @@ equations:
   be nearly this simple.
 
 \item The equilibrium is approached gradually (or asymptotically as
-  mathematicians would say). A single generation of random mating will
-  put genotypes in Hardy-Weinberg proportions (assuming all the other
-  conditions are satisfied), but many generations may be required for
-  genotypes to approach their equilibrium frequency with partial
-  self-fertilization.
+  mathematicians would say). While a single generation of random
+  mating will put genotypes in Hardy-Weinberg proportions (assuming
+  all the other conditions are satisfied), many generations may be
+  required for genotypes to approach their equilibrium frequency with
+  partial self-fertilization.
 
 \end{enumerate}
 
@@ -318,7 +321,8 @@ Hardy-Weinberg in this population.\footnote{In both cases, I'm
   assuming that we have observed the genotype and allele frequencies
   without error. When we talk about estimating $f$ a little later,
   you'll see how things work in the real world~(as opposed to how they
-  work in the imaginary world I'm fond of spending my time in).} So
+  work in the imaginary world I'm fond of spending my time in).} So if
+we divide both sides of equation (22) by $2pq$, we get
 
 \begin{eqnarray}
 1-f &=& \frac{\hat x_{12}}{2pq} \\
@@ -348,8 +352,8 @@ $\sigma/(2(1-\sigma/2))$. When regarded as the inbreeding coefficient
 predicted by a particular system of mating, I refer to it as the {\it
   equilibrium inbreeding coefficient}.\index{inbreeding coefficient!equilibrium}
 
-We'll encounter at least two more definitions for $f$ once I've
-introduced idea of identity by descent.
+We'll encounter one more definition for $f$ once I've introduced idea
+of identity by descent.
 
 \section*{Identity by descent}
 
@@ -464,8 +468,10 @@ x_{12} &=& 2pq(1-f) \\
 x_{22} &=& q^2 + fpq \quad .
 \end{eqnarray}
 
-Now you can probably see why population geneticists tend to play fast
-and loose with the definitions. {\it If\/} we ignore the distinction
+This is the third way in which $f$ can be defined and used that we
+will discuss,\footnote{There are others we won't discuss.} and you can
+now probably see why population geneticists tend to play fast and
+loose with the definitions. {\it If\/} we ignore the distinction
 between identity by type and identity by descent, then the equations
 we used earlier to show the relationship between genotype frequencies,
 allele frequencies, and $f$ (defined as a measure of departure from
