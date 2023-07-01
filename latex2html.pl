@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/local/bin/perl
 
 ## Usage: latex2html.pl <filename>
 ##
