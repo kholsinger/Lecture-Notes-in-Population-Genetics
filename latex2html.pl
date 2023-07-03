@@ -13,6 +13,8 @@ use strict;
 use File::Temp qw/:POSIX/;
 use File::Copy;
 
+use constant DEBUG => 1;
+
 my $latex_file = shift or die error();
 
 my $tmp_fh;
@@ -42,8 +44,13 @@ while (my $line = <$fh>) {
     my $png_file = $line;
     $png_file =~ s/^.*\{(.*)\.eps\}/$1.png/;
     my @args = ("magick", "convert", $eps_file, $png_file);
-    system(@args) == 0 or
-      die "system @args failed: $?";
+    if (DEBUG) {
+      system(@args);
+      printf "magick exited with value %d\n", $? >> 8;
+    } else {
+      system(@args) == 0 or
+        die "system @args failed: $?";
+    }
     $line =~ s/$eps_file/$png_file/;
     push(@png_files, $png_file);
   }
@@ -56,8 +63,13 @@ move($tmp_file, $pandoc_file);
 
 my @args = ("pandoc", "--standalone", "--mathjax", "--table-of-contents",
            "--css=pandoc.css", "-o", $html_file, $pandoc_file);
-system(@args) == 0 or
-  die "system @args failed: $?";
+if (DEBUG) {
+  system(@args);
+  printf "pandoc exited with value %d\n", $? >> 8;
+} else {
+  system(@args) == 0 or
+    die "system @args failed: $?";
+}
 
 unlink($pandoc_file) or
   die "Could not delete $pandoc_file: $!";
