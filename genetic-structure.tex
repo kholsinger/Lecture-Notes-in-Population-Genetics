@@ -4,7 +4,7 @@
 \usepackage{url}
 \usepackage{graphicx}
 
-\newcommand{\copyrightYears}{2001-2021}
+\newcommand{\copyrightYears}{2001-2023}
 
 \title{Analyzing the genetic structure of populations}
 
@@ -281,7 +281,7 @@ $f$, and $F_{st}$ has the same definition as before.\footnote{It takes
   take my word for it.} $H_t$ is often referred to as the genetic
 diversity in a population. So another way of thinking about $F_{st} =
 (H_t - H_s)/H_t$ is that it's the proportion of the diversity in the
-sample that's due to allele frequency differences among populations.\footnote{}
+sample that's due to allele frequency differences among populations.
 
 \section*{Estimating $F$-statistics}
 
@@ -320,13 +320,14 @@ available:\index{F-statistics@$F$-statistics}\footnote{And as we'll
 \item Weir and Cockerham's $\theta$-statistics, and
 
 \item A Bayesian analog of $\theta$.\footnote{This is, as you have
-  probably already guessed, my personal favorite. We'll talk about
-  it next time.  I should also tell you that Gregory Owens pointed out on
-  Twitter that arguments about genetic differentiation can get a
-  little heated
-  (\url{https://twitter.com/Greg_Owens/status/1582104811629346817}). They
-  may not turn into an actual fistfight, but there have been some
-  pretty extreme statements made.
+    probably already guessed, my personal favorite. We don't have time
+    to discuss it in lecture, but if you're interested, ask me about
+    it. I should also tell you that Gregory Owens pointed out on
+    Twitter that arguments about genetic differentiation can get a
+    little heated
+    (\url{https://twitter.com/Greg_Owens/status/1582104811629346817}). They
+    may not turn into an actual fistfight, but there have been some
+    pretty extreme statements made.
   \begin{center}
     \includegraphics[height=2.5cm]{Fst-fight.eps}
   \end{center}}
@@ -434,13 +435,12 @@ So far I've assumed that we know the allele frequencies without error,
 but of course that's never the case unless we've created experimental
 populations. We are always taking a sample from a population and
 inferring{\dash}estimating{\dash}allele frequencies from our
-sample. Similarly, we are {\it estimating\/} $F_{ST}$ and our estimate
-of $F_{ST}$ needs to take account of the imprecision in the allele
-frequency estimates on which it was based. To understand one approach
-to dealing with this uncertainty I need to introduce two new concepts:
-{\it statistical expectation\/}\index{statistical expectation} and {\it
-  unbiased
-estimates}.\index{unbiased estimates}
+sample. Similarly, we are {\it estimating\/} $F_{ST}$ and our {\it
+  estimate\/} of $F_{ST}$ needs to take account of the imprecision in
+the allele frequency estimates on which it was based. To understand
+one approach to dealing with this uncertainty I need to introduce two
+new concepts: {\it statistical expectation\/}\index{statistical
+  expectation} and {\it unbiased estimates}.\index{unbiased estimates}
 
 The concept of statistical expectation is actually quite an easy
 one. It is an arithmetic average, just one calculated from
@@ -553,11 +553,11 @@ accounting for sampling error. So far as I've been able to determine,
 there aren't any currently supported programs\footnote{{\tt Popgene}
   estimates $G_{st}$, but I don't think it's been updated since
   2000. {\tt FSTAT} also estimates gene diversities, but the most
-  recent version is from 2002.}
-that calculate the bias-corrected versions of
-$G_{st}$.\footnote{There's a reason for this that we'll get to in a
-  moment. It's alluded to in the last footnote.} I calculated the
-results in Table~\ref{table:fst-comparison} by hand.
+  recent version is from 2002.}  that calculate the bias-corrected
+versions of $G_{st}$.\footnote{There's a reason for this that we'll
+  get to in a moment. It's alluded to in the footnote before the last
+  one.} I calculated the results in Table~\ref{table:fst-comparison}
+by hand.
 
 The calculations are tedious, which is why you'll want to find some
 way of automating the calculations if you want to do them.\footnote{It
@@ -745,6 +745,96 @@ differentiation among the subdivisions ($F_{ST} = 0.15$).
 Thus, an explanation for the chromosomal diversity that predicted
 great local differentiation and little or no differentiation at a
 large scale would be inconsistent with these observations.
+
+\section*{Reich's $f$-statistics}\index{$F$-statistics!Reich}
+
+No, that heading isn't a typo. I've described Wright's $F$-statistics
+to you, but there are some other $f$-statistics you may encounter and
+should know about.\footnote{Remember when I told you that population
+  geneticists commonly use the same symbol or letter to refer to
+  different things. This is another example of that. At least in this
+  case one uses an uppercase $F$ and the other uses a lowercase $f$.}
+The $f$-statistics I'll describe briefly now were introduced by Reich
+and colleagues~\cite{Reich-etal-2009} in the context of estimating the
+populaton history and admixture of human populations on the Indian
+subcontinent.\footnote{The software that makes $f$-statistics useful
+  in admixture analysis, {\tt AdmixTools\/}
+  (\url{https://github.com/DReichLab/AdmixTools}), requires that you
+  have a C compiler, that you know how to use make to compile
+  executables from C source code, and that you know how to install the
+  libraries on which AdmixTools depends. Because of all of those
+  requirements, we won't be using {\tt AdmixTools\/} in this
+  course. If you have data where it might be useful, I encourage you
+  to explore it and to explore the {\tt R\/} package {\tt admixr},
+  which provides a convenient interface for it.} If you read the
+paper, you won't find the definitions in the main text. They're in
+Supplement~1.
+
+Reich's $f$-statistics are defined only for markers that have two
+alleles, like SNP loci. I'm going to use notation that's a bit
+different from that in~\cite{Reich-etal-2009}, but it will match more
+closely what we've been using here, and it should be easier to
+follow. Let $m_k$ be the number of 0 alleles in the sample from
+population $k$ and let $m_k$ be the number of 1 alleles in the sample
+from population $k$. $p_k = n_k/(n_k + m_k)$ is both an unbiased and a
+maximum-llikelihood estimate of $p_k$. Let's define
+\[
+  f_4(1,2,3,4) = (p_1 - p_2)(p_3 -  p_4) \quad .
+\]
+If you stare at that a bit,\footnote{And if you remember how a
+  correlation coefficient is defined.} you may recognize that $f_4$
+looks like a correlation coefficient. In fact, as Reich et al. point
+out, if the true population phylogeny looks like the one in
+Figure~\ref{fig:f4-phylogeny}, then the expected value of $f_4$ is
+0. Looking at the figure you can see that populations 1 and 2 have a
+common history that is independent of populations 3 and 4 (and vice
+versa). As a result, if you calculate $f_4$ statistics from a large
+number of loci, you can see whether the relationship among four
+populations is consistent with the phylogeny in
+Figure~\ref{fig:f4-phylogeny}.
+
+\begin{figure}
+  \begin{center}
+    \includegraphics[width=15cm]{f4-phylogeny.eps}
+  \end{center}
+  \caption{Hypothetical phylogeny for four populations. If you're
+    wondering why it's upside down, I warned you. Population
+    geneticists look at the world backward from other people. It's
+    conventional to draw phylogenies this way in population genetics,
+    probably because, being geneticists, population geneticists tend
+    to think of them as pedigrees.}\label{fig:f4-phylogeny}
+
+\end{figure}
+
+We can also define
+\[
+  f_3(1,2,3) = (p_1 - p_2)(p_1 - p_3) - \frac{p_1(1 - p_1)}{n_1} \quad ,
+\]
+where $n_1$ is the sample size in population 1. The extra term,
+$\frac{p_1(1 - p_1)}{n_1}$ makes $f_3$ an unbiased estimator. $f_3$
+measures how much common history $p_2$ and $p_3$ share that is
+independent of $p_1$. If the true population phylogeny looks like the
+one in Figure~\ref{fig:f3-phylogeny}, then
+\begin{eqnarray*}
+  \mbox{E}\left(f_3(1,2,3)\right) &>& \mbox{E}\left(f_3(2,1,3)\right) \\
+  \mbox{E}\left(f_3(1,2,3)\right) &>& \mbox{E}\left(f_3(3,1,2)\right)
+  \quad . \\
+\end{eqnarray*}
+Finally we can define
+\[
+  f_2(1,2) = (p_1 - p_2)^2 - \frac{p_1(1 - p_1)}{n_1} - \frac{p_1(1 -
+    p_1)}{n_1} \quad ,
+\]
+which gives an unbiased estimate of squared allele frequency
+differences between populations, analogous to pairwise
+$F$-statistics. 
+
+\begin{figure}
+  \begin{center}
+    \includegraphics[width=15cm]{f3-phylogeny.eps}
+  \end{center}
+  \caption{Hypothetical phylogeny for three populations.}\label{fig:f3-phylogeny}
+\end{figure}
 
 \bibliography{popgen}
 \bibliographystyle{plain}

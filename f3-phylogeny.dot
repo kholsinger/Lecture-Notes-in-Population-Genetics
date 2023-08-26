@@ -1,0 +1,21 @@
+digraph f3 {
+  node [ shape =  oval ];
+  edge [ dir = none ];
+
+  pop4 [ label  = "", width  = 0, height = 0 ];
+  pop5 [ label  = "", width  = 0, height = 0 ];
+
+  subgraph pops {
+    rank = same;
+
+    pop1;
+    pop2;
+    pop3;
+  }
+
+  pop5 -> pop1;
+  pop5 -> pop4;
+
+  pop4 -> pop2;
+  pop4 -> pop3;
+}

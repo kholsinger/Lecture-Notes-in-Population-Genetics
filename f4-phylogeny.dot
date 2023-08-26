@@ -1,0 +1,19 @@
+digraph f4 {
+  node [ shape =  oval ];
+  edge [ dir = none ];
+
+  pop5 [ label  = "", width  = 0, height = 0 ];
+  pop6 [ label  = "", width  = 0, height = 0 ];
+  pop7 [ label  = "", width  = 0, height = 0 ];
+
+  
+  pop7 -> pop6;
+  pop7 -> pop5;
+
+  pop6 -> pop3;
+  pop6 -> pop4;
+
+  pop5 -> pop1;
+  pop5 -> pop2;
+
+}
