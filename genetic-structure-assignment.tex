@@ -4,7 +4,7 @@
 \usepackage{graphics}
 \usepackage{epstopdf}
 
-\newcommand{\copyrightYears}{2004-2021}
+\newcommand{\copyrightYears}{2004-2023}
 
 \title{Analyzing the genetic structure of populations: individual assignment}
 
@@ -37,27 +37,32 @@ assignment.\index{individual assignment} Although the implementation
 details get a little hairy,\footnote{OK, to be fair. They get {\it
     very\/} hairy.} the basic idea is fairly simple. I'll give an
 outline of the math in a moment, but let's do this in words
-first. Suppose we have data on a series of individuals. If two
-individuals are part of the same population, we expect them to be more
-similar to one another than they are to individuals in other
-populations. So if we ``cluster'' individuals that are ``genetically
-similar'' to one another, those clusters should correspond to
-populations. Rather than pre-defining the populations, we will have
-allowed the data to tell us what the populations are. We haven't even
-required {\it a priori\/} that individuals be grouped according to
-their geographic proximity. Instead, we can examine the clusters we
-find and see if they make any sense geographically.
+first. Suppose we have genetic data on a series of individuals at
+several to many (or very many) loci. If two individuals are part of
+the same population, we expect them to be more similar to one another
+than they are to individuals in other populations. So if we
+``cluster'' individuals that are ``genetically similar'' to one
+another, those clusters should correspond to populations. Rather than
+pre-defining the populations, we will have allowed the data to tell us
+what the populations are.\footnote{I'm playing fast and loose with
+  words here. The data haven't actually told us what the {\it
+    populations\/} are. They've told us what {\it clusters\/} are
+  found in the data.} We haven't even required {\it a priori\/} that
+individuals be grouped according to their geographic
+proximity. Instead, we can examine the clusters we find and see if
+they make any sense geographically.
 
 Now for an outline of the math. Label the data we have for each
 individual $x_i$. Suppose that all individuals belong to one of $K$
 populations\footnote{Remember the peculiar thing I mentioned about
   population geneticists earlier? We like to imagine we know something
   even when we don't. In this case, I'm imagining we know that there
-  are $K$ even though we don't. If we knew $K$, we'd probably already
-  know which individual belonged in which population. We'll get to the
-  problem of determining what $K$ is later.} and let the genotype
-frequencies in population $k$ be represented by $\gamma_k$. Then the
-likelihood that individual $i$ comes from population $k$ is just
+  are $K$ populations even though we don't. If we knew $K$, we'd
+  probably already know which individual belonged in which
+  population. We'll get to the problem of determining what $K$ is
+  later.} and let the genotype frequencies in population $k$ be
+represented by $\gamma_k$. Then the likelihood that individual $i$
+comes from population $k$ is just
 \[
 \mbox{P}(i|k) = \frac{\mbox{P}(x_i|\gamma_k)}{\sum_k
   \mbox{P}(x_i|\gamma_k)} \quad .
@@ -72,24 +77,34 @@ with some measure of its reliability.\footnote{You can find details
   populations are, so we don't even know how many populations there
   are. Then we have to find a way of estimating allele frequencies
   (and genotype frequencies) in populations when we don't even know
-  which populations individuals in our sample belong in.}  Remember,
+  which populations individuals in our sample belong in. Estimating
+  the genotype frequencies is straightforward, because we assume the
+  genotype frequencies at every locus are in Hardy-Weinberg. Think
+  about that for a bit. It means we really shouldn't be using {\tt
+    Structure} if we think that populations are~inbred.}  Remember,
 though, that we've arrived at the assignment by {\it assuming\/} that
-there are $K$ populations. Since we don't know $K$, we have to find a
-way of estimating it. Different choices of $K$ may lead to different
-patterns of individual assignment, which complicates our
-interpretation of the results.\footnote{This is an example of the ``no
-  free lunch'' principle. You don't get something for nothing. Here we
-  gained the ability to have the data tell us what the populations
-  are, but we made interpreting the results more difficult.}
+there are $K$ populations and that the genotype frequencies are in
+Hardy-Weinberg in all of those populations.\footnote{Did you read the
+  last footnote?} Since we don't know $K$, we have to find a way of
+estimating it. Different choices of $K$ may lead to different patterns
+of individual assignment, which complicates our interpretation of the
+results.\footnote{This is an example of the ``no free lunch''
+  principle. You don't get something for nothing. Here we gained the
+  ability to have the data tell us what the populations are, but we
+  made interpreting the results more~difficult.} We'll discuss both of
+these challenges in a simple, but real, data set to illustrate
+the~principles.
 
 \section*{Applying assignment to understand invasions}
 
 To see a simple example of how {\tt
   Structure}\index{Structure@\texttt{Structure}} can be used, we'll
-use it to assess whether cultivated genotypes of {\it Berberis
-  thunbergii\/}\index{Berberis@\textit{Berberis}!\textit{thunbergii}}
+use it to assess whether cultivated genotypes of Japanese barberry,
+{\it Berberis
+  thunbergii\/},\index{Berberis@\textit{Berberis}!\textit{thunbergii}}
 contribute to ongoing invasions in Connecticut and
-Massachusetts~\cite{Lubell-etal-2008}.\index{individual assignment!application} The first problem is to determine what $K$
+Massachusetts~\cite{Lubell-etal-2008}.\index{individual
+  assignment!application} The first problem is to determine what $K$
 to use, because $K$ doesn't necessarily have to equal the number of
 populations we sample from. Some populations may not be distinct from
 one another. There are a couple of ways to estimate $K$. The most

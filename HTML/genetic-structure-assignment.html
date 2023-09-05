@@ -8,43 +8,145 @@
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
   </style>
   <link rel="stylesheet" href="pandoc.css" />
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
 </head>
 <body>
 <header id="title-block-header">
-<h1 class="title">Analyzing the genetic structure of populations: individual assignment</h1>
+<h1 class="title">Analyzing the genetic structure of populations:
+individual assignment</h1>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
-<li><a href="#introduction">Introduction</a></li>
-<li><a href="#applying-assignment-to-understand-invasions">Applying assignment to understand invasions</a></li>
-<li><a href="#genetic-diversity-in-human-populations">Genetic diversity in human populations</a>
+<li><a href="#introduction" id="toc-introduction">Introduction</a></li>
+<li><a href="#applying-assignment-to-understand-invasions"
+id="toc-applying-assignment-to-understand-invasions">Applying assignment
+to understand invasions</a></li>
+<li><a href="#genetic-diversity-in-human-populations"
+id="toc-genetic-diversity-in-human-populations">Genetic diversity in
+human populations</a>
 <ul>
-<li><a href="#a-non-bayesian-look-at-individual-based-analysis-of-genetic-structure">A non-Bayesian look at individual-based analysis of genetic structure</a></li>
+<li><a
+href="#a-non-bayesian-look-at-individual-based-analysis-of-genetic-structure"
+id="toc-a-non-bayesian-look-at-individual-based-analysis-of-genetic-structure">A
+non-Bayesian look at individual-based analysis of genetic
+structure</a></li>
 </ul></li>
-<li><a href="#other-approaches">Other approaches</a></li>
-<li><a href="#creative-commons-license">Creative Commons License</a></li>
+<li><a href="#other-approaches" id="toc-other-approaches">Other
+approaches</a></li>
+<li><a href="#creative-commons-license"
+id="toc-creative-commons-license">Creative Commons License</a></li>
 </ul>
 </nav>
 <h1 class="unnumbered" id="introduction">Introduction</h1>
-<p>Although <span class="math inline">\(F\)</span>-statistics are widely used and very informative, they suffer from one fundamental limitation: We have to know what the populations are before we can estimate them.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> They are based on a conceptual model in which organisms occur in discrete populations, populations that are both (1) well mixed within themselves (so that we can regard our sample of individuals as a random sample from within each population) and (2) clearly distinct from others. What if we want to use the genetic data itself to help us figure out what the populations actually are? Can we do that?<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
-<p>A little over 20 years ago a different approach to the analysis of genetic structure began to emerge: analysis of individual assignment. Although the implementation details get a little hairy,<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> the basic idea is fairly simple. I’ll give an outline of the math in a moment, but let’s do this in words first. Suppose we have data on a series of individuals. If two individuals are part of the same population, we expect them to be more similar to one another than they are to individuals in other populations. So if we “cluster” individuals that are “genetically similar” to one another, those clusters should correspond to populations. Rather than pre-defining the populations, we will have allowed the data to tell us what the populations are. We haven’t even required <span><em>a priori</em></span> that individuals be grouped according to their geographic proximity. Instead, we can examine the clusters we find and see if they make any sense geographically.</p>
-<p>Now for an outline of the math. Label the data we have for each individual <span class="math inline">\(x_i\)</span>. Suppose that all individuals belong to one of <span class="math inline">\(K\)</span> populations<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> and let the genotype frequencies in population <span class="math inline">\(k\)</span> be represented by <span class="math inline">\(\gamma_k\)</span>. Then the likelihood that individual <span class="math inline">\(i\)</span> comes from population <span class="math inline">\(k\)</span> is just <span class="math display">\[\mbox{P}(i|k) = \frac{\mbox{P}(x_i|\gamma_k)}{\sum_k
-  \mbox{P}(x_i|\gamma_k)} \quad .\]</span> So if we can specify prior probabilities for <span class="math inline">\(\gamma_k\)</span>, we can use Bayesian methods to estimate the posterior probability that individual <span class="math inline">\(i\)</span> belongs to population <span class="math inline">\(k\)</span>, and we can associate that assignment with some measure of its reliability.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> Remember, though, that we’ve arrived at the assignment by <span><em>assuming</em></span> that there are <span class="math inline">\(K\)</span> populations. Since we don’t know <span class="math inline">\(K\)</span>, we have to find a way of estimating it. Different choices of <span class="math inline">\(K\)</span> may lead to different patterns of individual assignment, which complicates our interpretation of the results.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></p>
-<h1 class="unnumbered" id="applying-assignment-to-understand-invasions">Applying assignment to understand invasions</h1>
-<p>To see a simple example of how <span><code> Structure</code></span> can be used, we’ll use it to assess whether cultivated genotypes of <span><em>Berberis thunbergii</em></span> contribute to ongoing invasions in Connecticut and Massachusetts <span class="citation" data-cites="Lubell-etal-2008"></span>. The first problem is to determine what <span class="math inline">\(K\)</span> to use, because <span class="math inline">\(K\)</span> doesn’t necessarily have to equal the number of populations we sample from. Some populations may not be distinct from one another. There are a couple of ways to estimate <span class="math inline">\(K\)</span>. The most straightforward is to run the analysis for a range of plausible values, repeat it 10-20 times for each value, calculate the mean “log probability of the data” for each value of <span class="math inline">\(K\)</span>, and pick the value of <span class="math inline">\(K\)</span> that is the biggest, i.e., the least negative (Table <a href="#table:berberis-k" data-reference-type="ref" data-reference="table:berberis-k">1</a>). For the barberry data, <span class="math inline">\(K=3\)</span> is the obvious choice.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
+<p>Although <span class="math inline">\(F\)</span>-statistics are widely
+used and very informative, they suffer from one fundamental limitation:
+We have to know what the populations are before we can estimate them.<a
+href="#fn1" class="footnote-ref" id="fnref1"
+role="doc-noteref"><sup>1</sup></a> They are based on a conceptual model
+in which organisms occur in discrete populations, populations that are
+both (1) well mixed within themselves (so that we can regard our sample
+of individuals as a random sample from within each population) and (2)
+clearly distinct from others. What if we want to use the genetic data
+itself to help us figure out what the populations actually are? Can we
+do that?<a href="#fn2" class="footnote-ref" id="fnref2"
+role="doc-noteref"><sup>2</sup></a></p>
+<p>A little over 20 years ago a different approach to the analysis of
+genetic structure began to emerge: analysis of individual assignment.
+Although the implementation details get a little hairy,<a href="#fn3"
+class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> the
+basic idea is fairly simple. I’ll give an outline of the math in a
+moment, but let’s do this in words first. Suppose we have genetic data
+on a series of individuals at several to many (or very many) loci. If
+two individuals are part of the same population, we expect them to be
+more similar to one another than they are to individuals in other
+populations. So if we “cluster” individuals that are “genetically
+similar” to one another, those clusters should correspond to
+populations. Rather than pre-defining the populations, we will have
+allowed the data to tell us what the populations are.<a href="#fn4"
+class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> We
+haven’t even required <span><em>a priori</em></span> that individuals be
+grouped according to their geographic proximity. Instead, we can examine
+the clusters we find and see if they make any sense geographically.</p>
+<p>Now for an outline of the math. Label the data we have for each
+individual <span class="math inline">\(x_i\)</span>. Suppose that all
+individuals belong to one of <span class="math inline">\(K\)</span>
+populations<a href="#fn5" class="footnote-ref" id="fnref5"
+role="doc-noteref"><sup>5</sup></a> and let the genotype frequencies in
+population <span class="math inline">\(k\)</span> be represented by
+<span class="math inline">\(\gamma_k\)</span>. Then the likelihood that
+individual <span class="math inline">\(i\)</span> comes from population
+<span class="math inline">\(k\)</span> is just <span
+class="math display">\[\mbox{P}(i|k) =
+\frac{\mbox{P}(x_i|\gamma_k)}{\sum_k
+  \mbox{P}(x_i|\gamma_k)} \quad .\]</span> So if we can specify prior
+probabilities for <span class="math inline">\(\gamma_k\)</span>, we can
+use Bayesian methods to estimate the posterior probability that
+individual <span class="math inline">\(i\)</span> belongs to population
+<span class="math inline">\(k\)</span>, and we can associate that
+assignment with some measure of its reliability.<a href="#fn6"
+class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>
+Remember, though, that we’ve arrived at the assignment by
+<span><em>assuming</em></span> that there are <span
+class="math inline">\(K\)</span> populations and that the genotype
+frequencies are in Hardy-Weinberg in all of those populations.<a
+href="#fn7" class="footnote-ref" id="fnref7"
+role="doc-noteref"><sup>7</sup></a> Since we don’t know <span
+class="math inline">\(K\)</span>, we have to find a way of estimating
+it. Different choices of <span class="math inline">\(K\)</span> may lead
+to different patterns of individual assignment, which complicates our
+interpretation of the results.<a href="#fn8" class="footnote-ref"
+id="fnref8" role="doc-noteref"><sup>8</sup></a> We’ll discuss both of
+these challenges in a simple, but real, data set to illustrate
+the principles.</p>
+<h1 class="unnumbered"
+id="applying-assignment-to-understand-invasions">Applying assignment to
+understand invasions</h1>
+<p>To see a simple example of how <span><code> Structure</code></span>
+can be used, we’ll use it to assess whether cultivated genotypes of
+Japanese barberry, <span><em>Berberis thunbergii</em></span>, contribute
+to ongoing invasions in Connecticut and Massachusetts <span
+class="citation" data-cites="Lubell-etal-2008"></span>. The first
+problem is to determine what <span class="math inline">\(K\)</span> to
+use, because <span class="math inline">\(K\)</span> doesn’t necessarily
+have to equal the number of populations we sample from. Some populations
+may not be distinct from one another. There are a couple of ways to
+estimate <span class="math inline">\(K\)</span>. The most
+straightforward is to run the analysis for a range of plausible values,
+repeat it 10-20 times for each value, calculate the mean “log
+probability of the data” for each value of <span
+class="math inline">\(K\)</span>, and pick the value of <span
+class="math inline">\(K\)</span> that is the biggest, i.e., the least
+negative (Table <a href="#table:berberis-k" data-reference-type="ref"
+data-reference="table:berberis-k">1</a>). For the barberry data, <span
+class="math inline">\(K=3\)</span> is the obvious choice.<a href="#fn9"
+class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a></p>
+<div class="center">
 <div id="table:berberis-k">
 <table>
-<caption>Mean log probability of the data for <span class="math inline">\(K=2,3,4,5\)</span> in the <span> <em>Berberis thunbergii</em></span> data (adapted from <span class="citation" data-cites="Lubell-etal-2008"></span>).</caption>
+<caption>Mean log probability of the data for <span
+class="math inline">\(K=2,3,4,5\)</span> in the <span> <em>Berberis
+thunbergii</em></span> data (adapted from <span class="citation"
+data-cites="Lubell-etal-2008"></span>).</caption>
 <thead>
 <tr class="header">
 <th style="text-align: center;">K</th>
@@ -58,7 +160,8 @@
 </tr>
 <tr class="even">
 <td style="text-align: center;">3</td>
-<td style="text-align: center;"><span><strong>-2331.9</strong></span></td>
+<td
+style="text-align: center;"><span><strong>-2331.9</strong></span></td>
 </tr>
 <tr class="odd">
 <td style="text-align: center;">4</td>
@@ -71,44 +174,216 @@
 </tbody>
 </table>
 </div>
-<p>Having determined that the data support <span class="math inline">\(K=3\)</span>, the results of the analysis are displayed in Figure <a href="#fig:lubell-structure" data-reference-type="ref" data-reference="fig:lubell-structure">1</a>. Each vertical bar corresponds to an individual in the sample, and the proportion of each bar that is of a particular color tells us the posterior probability that the individual belongs to the cluster with that color.</p>
-<figure>
-<img src="lubell-structure.png" id="fig:lubell-structure" alt="" /><figcaption>Analysis of AFLP data from <span><em>Berberis thunbergii</em></span> <span class="citation" data-cites="Lubell-etal-2008"></span>.</figcaption>
+</div>
+<p>Having determined that the data support <span
+class="math inline">\(K=3\)</span>, the results of the analysis are
+displayed in Figure <a href="#fig:lubell-structure"
+data-reference-type="ref" data-reference="fig:lubell-structure">1</a>.
+Each vertical bar corresponds to an individual in the sample, and the
+proportion of each bar that is of a particular color tells us the
+posterior probability that the individual belongs to the cluster with
+that color.</p>
+<figure id="fig:lubell-structure">
+<img src="lubell-structure.png" />
+<figcaption>Analysis of AFLP data from <span><em>Berberis
+thunbergii</em></span> <span class="citation"
+data-cites="Lubell-etal-2008"></span>.</figcaption>
 </figure>
-<p>Figure <a href="#fig:lubell-structure" data-reference-type="ref" data-reference="fig:lubell-structure">1</a> may not look terribly informative, but actually it is. Look at the labels beneath the figure. You’ll see that with the exception of individual 17 from Beaver Brook Park, all the of the individuals that are solid blue are members of the cultivated <span><em>Berberis thunbergii</em></span> var. <span><em>atropurpurea</em></span>. The solid red bar corresponds to <span><em>Berberis vulgaris</em></span> ’Atropurpurea’, a different modern cultivar.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> You’ll notice that individuals 1, 2, 18, and 19 from Beaver Brook Park and individual 1 from Bluff Point State Park fall into the same genotypic cluster as this cultivar. <span><em>Berberis <span class="math inline">\(\times\)</span>ottawensis</em></span> is a hybrid cultivar whose parents are <span><em>Berberis thunbergii</em></span> and <span> <em>Berberis vulgaris</em></span>, so it makes sense that individuals of this cultivar would be half blue and half red. The solid green bars are feral individuals from long-established populations. Notice that the cultivars are distinct from all but a few of the individuals in the long-established feral populations, suggesting that contemporary cultivars are doing relatively little to maintain the invasion in areas where it is already established.</p>
-<h1 class="unnumbered" id="genetic-diversity-in-human-populations">Genetic diversity in human populations</h1>
-<p>A much more interesting application of <span><code>Structure</code></span> appeared a shortly after <span><code>Structure</code></span> was introduced. The Human Genome Diversity Cell Line Panel (HGDP-CEPH) consisted at the time of data from 1056 individuals in 52 geographic populations. Each individual was genotyped at 377 autosomal loci. If those populations are grouped into 5 broad geographical regions (Africa, [Europe, the Middle East, and Central/South Asia], East Asia, Oceania, and the Americas), we find that about 93% of genetic variation is found within local populations and only about 4% is a result of allele frequency differences between regions <span class="citation" data-cites="Rosenberg-etal-2002"></span>. You might wonder why Europe, the Middle East, and Central/South Asia were grouped together for that analysis. The reason becomes clearer when you look at a <span><code> Structure</code></span> analysis of the data (Figure <a href="#fig:HGDP-CEPH" data-reference-type="ref" data-reference="fig:HGDP-CEPH">2</a>).</p>
-<figure>
-<img src="HGDP-CEPH.png" id="fig:HGDP-CEPH" alt="" /><figcaption><span><code>Structure</code></span> analysis of microsatellite diversity in the Human Genome Diversity Cell Line Panel (from <span class="citation" data-cites="Rosenberg-etal-2002"></span>).</figcaption>
+<p>Figure <a href="#fig:lubell-structure" data-reference-type="ref"
+data-reference="fig:lubell-structure">1</a> may not look terribly
+informative, but actually it is. Look at the labels beneath the figure.
+You’ll see that with the exception of individual 17 from Beaver Brook
+Park, all the of the individuals that are solid blue are members of the
+cultivated <span><em>Berberis thunbergii</em></span> var.
+<span><em>atropurpurea</em></span>. The solid red bar corresponds to
+<span><em>Berberis vulgaris</em></span> ’Atropurpurea’, a different
+modern cultivar.<a href="#fn10" class="footnote-ref" id="fnref10"
+role="doc-noteref"><sup>10</sup></a> You’ll notice that individuals 1,
+2, 18, and 19 from Beaver Brook Park and individual 1 from Bluff Point
+State Park fall into the same genotypic cluster as this cultivar.
+<span><em>Berberis <span
+class="math inline">\(\times\)</span>ottawensis</em></span> is a hybrid
+cultivar whose parents are <span><em>Berberis thunbergii</em></span> and
+<span> <em>Berberis vulgaris</em></span>, so it makes sense that
+individuals of this cultivar would be half blue and half red. The solid
+green bars are feral individuals from long-established populations.
+Notice that the cultivars are distinct from all but a few of the
+individuals in the long-established feral populations, suggesting that
+contemporary cultivars are doing relatively little to maintain the
+invasion in areas where it is already established.</p>
+<h1 class="unnumbered"
+id="genetic-diversity-in-human-populations">Genetic diversity in human
+populations</h1>
+<p>A much more interesting application of
+<span><code>Structure</code></span> appeared a shortly after
+<span><code>Structure</code></span> was introduced. The Human Genome
+Diversity Cell Line Panel (HGDP-CEPH) consisted at the time of data from
+1056 individuals in 52 geographic populations. Each individual was
+genotyped at 377 autosomal loci. If those populations are grouped into 5
+broad geographical regions (Africa, [Europe, the Middle East, and
+Central/South Asia], East Asia, Oceania, and the Americas), we find that
+about 93% of genetic variation is found within local populations and
+only about 4% is a result of allele frequency differences between
+regions <span class="citation" data-cites="Rosenberg-etal-2002"></span>.
+You might wonder why Europe, the Middle East, and Central/South Asia
+were grouped together for that analysis. The reason becomes clearer when
+you look at a <span><code> Structure</code></span> analysis of the
+data (Figure <a href="#fig:HGDP-CEPH" data-reference-type="ref"
+data-reference="fig:HGDP-CEPH">2</a>).</p>
+<figure id="fig:HGDP-CEPH">
+<img src="HGDP-CEPH.png" />
+<figcaption><span><code>Structure</code></span> analysis of
+microsatellite diversity in the Human Genome Diversity Cell Line
+Panel (from <span class="citation"
+data-cites="Rosenberg-etal-2002"></span>).</figcaption>
 </figure>
-<h2 class="unnumbered" id="a-non-bayesian-look-at-individual-based-analysis-of-genetic-structure">A non-Bayesian look at individual-based analysis of genetic structure</h2>
-<p><span><code>Structure</code></span> has a lot of nice features, but you’ll discover a couple of things about it if you begin to use it seriously: (1) It often isn’t obvious what the “right” <span><code>K</code></span> is.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> (2) It requires a <span><em>lot</em></span> of computational resources, especially with datasets that include a few thousand SNPs, as is becoming increasingly common. An alternative is to use principal component analysis directly on genotypes. There are technical details associated with estimating the principal components and interpreting them that we won’t discuss,<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a>, but the results can be pretty striking. Figure <a href="#fig:human-PCA" data-reference-type="ref" data-reference="fig:human-PCA">3</a> shows the results of a PCA on data derived from 3192 Europeans at 500,568 SNP loci. The correspondence between the position of individuals in PCA space and geographical space is remarkable.</p>
-<figure>
-<img src="human-PCA.png" id="fig:human-PCA" alt="" /><figcaption>Principal components analysis of genetic diversity in Europe corresponds with geography (from <span class="citation" data-cites="Novembre-etal-2008"></span>). Panel b is a close-up view of the area around Switzerland (CH).</figcaption>
+<h2 class="unnumbered"
+id="a-non-bayesian-look-at-individual-based-analysis-of-genetic-structure">A
+non-Bayesian look at individual-based analysis of genetic structure</h2>
+<p><span><code>Structure</code></span> has a lot of nice features, but
+you’ll discover a couple of things about it if you begin to use it
+seriously: (1) It often isn’t obvious what the “right”
+<span><code>K</code></span> is.<a href="#fn11" class="footnote-ref"
+id="fnref11" role="doc-noteref"><sup>11</sup></a> (2) It requires a
+<span><em>lot</em></span> of computational resources, especially with
+datasets that include a few thousand SNPs, as is becoming increasingly
+common. An alternative is to use principal component analysis directly
+on genotypes. There are technical details associated with estimating the
+principal components and interpreting them that we won’t discuss,<a
+href="#fn12" class="footnote-ref" id="fnref12"
+role="doc-noteref"><sup>12</sup></a>, but the results can be pretty
+striking. Figure <a href="#fig:human-PCA" data-reference-type="ref"
+data-reference="fig:human-PCA">3</a> shows the results of a PCA on data
+derived from 3192 Europeans at 500,568 SNP loci. The correspondence
+between the position of individuals in PCA space and geographical space
+is remarkable.</p>
+<figure id="fig:human-PCA">
+<img src="human-PCA.png" />
+<figcaption>Principal components analysis of genetic diversity in Europe
+corresponds with geography (from <span class="citation"
+data-cites="Novembre-etal-2008"></span>). Panel b is a close-up view of
+the area around Switzerland (CH).</figcaption>
 </figure>
 <h1 class="unnumbered" id="other-approaches">Other approaches</h1>
-<p>Jombart et al. <span class="citation" data-cites="Jombart-etal-2010"></span> describe a related method known as discriminant analysis of principal components. They also provide an <span><code>R</code></span> package, <span><code>dapc</code></span>, that implements the method. I prefer <span><code>Structure</code></span> because its approach to individual assignment is based directly on population genetic principles, and since computers are getting so fast (especially when you have a computational cluster available) that I worry less about how long it takes to run an analysis on large datasets.<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a> That being said, Gopalan et al. <span class="citation" data-cites="Gopalan-etal-2016"></span> released <span><code>teraStructure</code></span> about five years ago, which can analyze data sets consisting of 10,000 individuals scored at a million SNPs in less than 10 hours. I haven’t tried it myself, because I haven’t had a large data set to try it on, but you should keep it in mind if you collect SNP data on a large number of loci. Here are a couple more alternatives to consider that I haven’t investigated yet:</p>
+<p>Jombart et al. <span class="citation"
+data-cites="Jombart-etal-2010"></span> describe a related method known
+as discriminant analysis of principal components. They also provide an
+<span><code>R</code></span> package, <span><code>dapc</code></span>,
+that implements the method. I prefer <span><code>Structure</code></span>
+because its approach to individual assignment is based directly on
+population genetic principles, and since computers are getting so
+fast (especially when you have a computational cluster available) that I
+worry less about how long it takes to run an analysis on large
+datasets.<a href="#fn13" class="footnote-ref" id="fnref13"
+role="doc-noteref"><sup>13</sup></a> That being said, Gopalan et
+al. <span class="citation" data-cites="Gopalan-etal-2016"></span>
+released <span><code>teraStructure</code></span> about five years ago,
+which can analyze data sets consisting of 10,000 individuals scored at a
+million SNPs in less than 10 hours. I haven’t tried it myself, because I
+haven’t had a large data set to try it on, but you should keep it in
+mind if you collect SNP data on a large number of loci. Here are a
+couple more alternatives to consider that I haven’t investigated
+yet:</p>
 <ul>
-<li><p><span><code>sNMF</code></span> estimates individual admixture coefficients. It is reportedly 10-30 faster than the likelihood based <span><code>ADMIXTURE</code></span>, which is itself faster than <span><code>Structure</code></span>. <span><code>sNMF</code></span> is part of the <span><code>R</code></span> package <span><code>LEA</code></span>.</p></li>
-<li><p>Meisner and Albrecthsen <span class="citation" data-cites="Meisner-Albrechtsen-2018"></span> present both a principal components method and an admixture method that accounts for sequencing errors inherent in low-coverage next generation DNA sequencing data.</p></li>
+<li><p><span><code>sNMF</code></span> estimates individual admixture
+coefficients. It is reportedly 10-30 faster than the likelihood based
+<span><code>ADMIXTURE</code></span>, which is itself faster than
+<span><code>Structure</code></span>. <span><code>sNMF</code></span> is
+part of the <span><code>R</code></span> package
+<span><code>LEA</code></span>.</p></li>
+<li><p>Meisner and Albrecthsen <span class="citation"
+data-cites="Meisner-Albrechtsen-2018"></span> present both a principal
+components method and an admixture method that accounts for sequencing
+errors inherent in low-coverage next generation DNA sequencing
+data.</p></li>
 </ul>
-<h1 class="unnumbered" id="creative-commons-license">Creative Commons License</h1>
-<p>These notes are licensed under the Creative Commons Attribution License. To view a copy of this license, visit https://creativecommons.org/licenses/by/4.0/ or send a letter to Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305, USA.</p>
-<section class="footnotes" role="doc-endnotes">
+<h1 class="unnumbered" id="creative-commons-license">Creative Commons
+License</h1>
+<p>These notes are licensed under the Creative Commons Attribution
+License. To view a copy of this license, visit or send a letter to
+Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305,
+USA.</p>
+<aside id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1" role="doc-endnote"><p>To be a little more precise (and more than a little pedantic), we have to <span> <em>assume</em></span> that the sample locations we decide to treat as populations are discrete, well-mixed populations that are distinct from others.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2" role="doc-endnote"><p>Would I be asking this question if the answer were “No?”<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3" role="doc-endnote"><p>OK, to be fair. They get <span> <em>very</em></span> hairy.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4" role="doc-endnote"><p>Remember the peculiar thing I mentioned about population geneticists earlier? We like to imagine we know something even when we don’t. In this case, I’m imagining we know that there are <span class="math inline">\(K\)</span> even though we don’t. If we knew <span class="math inline">\(K\)</span>, we’d probably already know which individual belonged in which population. We’ll get to the problem of determining what <span class="math inline">\(K\)</span> is later.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5" role="doc-endnote"><p>You can find details in <span class="citation" data-cites="Pritchard-etal-2000"></span>. If you think about that equation a bit, you can begin to see why the details get <span><em>very</em></span> hairy. First, we’re trying to get the data to tell us what the populations are, so we don’t even know how many populations there are. Then we have to find a way of estimating allele frequencies (and genotype frequencies) in populations when we don’t even know which populations individuals in our sample belong in.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6" role="doc-endnote"><p>This is an example of the “no free lunch” principle. You don’t get something for nothing. Here we gained the ability to have the data tell us what the populations are, but we made interpreting the results more difficult.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn7" role="doc-endnote"><p>As part of her dissertation, Nora Mitchell used <span><code>Structure</code></span> to study a hybrid zone between two species of <span><em>Protea</em></span> <span class="citation" data-cites="Mitchell-Holsinger-2018"></span>. Nora was interested in determining the extent to which individuals reflected ancestry from one of the two species involved. She set <span class="math inline">\(K=2\)</span> to separate individuals as cleanly into two categories as possible and used the individual assignment score as an index of hybridity. There wasn’t any reason to attempt to infer <span class="math inline">\(K\)</span> from the data.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn8" role="doc-endnote"><p>I find it very confusing that <span><em>Berberis thunbergii</em></span> var. <span><em>atropurpurea</em></span> and <span> <em>Berberis vulgaris</em></span> ’Atropurpurea’ both have “atropurpurea” associated with their names, but that’s the way life is.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn9" role="doc-endnote"><p>In fact, it’s not clear that there <span><em>is</em></span> such a thing as the “right” <span><code>K</code></span>. If you’re interested in hearing more about that. Feel free to ask.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn10" role="doc-endnote"><p>See <span class="citation" data-cites="Novembre-Stephens-2008"></span> for details<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn11" role="doc-endnote"><p>I also remember that a very long time ago when systematists were complaining that likelihood analyses of their data sets were taking a couple of weeks, Joe Felsenstein was reported to have said “Why are you complaining that your analysis is taking a couple of weeks when you spent a couple of years collecting the data?”<a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>To be a little more precise (and more than a little
+pedantic), we have to <span> <em>assume</em></span> that the sample
+locations we decide to treat as populations are discrete, well-mixed
+populations that are distinct from others.<a href="#fnref1"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Would I be asking this question if the answer were
+“No?”<a href="#fnref2" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>OK, to be fair. They get <span> <em>very</em></span>
+hairy.<a href="#fnref3" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>I’m playing fast and loose with words here. The data
+haven’t actually told us what the <span> <em>populations</em></span>
+are. They’ve told us what <span><em>clusters</em></span> are found in
+the data.<a href="#fnref4" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>Remember the peculiar thing I mentioned about population
+geneticists earlier? We like to imagine we know something even when we
+don’t. In this case, I’m imagining we know that there are <span
+class="math inline">\(K\)</span> populations even though we don’t. If we
+knew <span class="math inline">\(K\)</span>, we’d probably already know
+which individual belonged in which population. We’ll get to the problem
+of determining what <span class="math inline">\(K\)</span> is later.<a
+href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>You can find details in <span class="citation"
+data-cites="Pritchard-etal-2000"></span>. If you think about that
+equation a bit, you can begin to see why the details get
+<span><em>very</em></span> hairy. First, we’re trying to get the data to
+tell us what the populations are, so we don’t even know how many
+populations there are. Then we have to find a way of estimating allele
+frequencies (and genotype frequencies) in populations when we don’t even
+know which populations individuals in our sample belong in. Estimating
+the genotype frequencies is straightforward, because we assume the
+genotype frequencies at every locus are in Hardy-Weinberg. Think about
+that for a bit. It means we really shouldn’t be using
+<span><code> Structure</code></span> if we think that populations
+are inbred.<a href="#fnref6" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>Did you read the last footnote?<a href="#fnref7"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p>This is an example of the “no free lunch” principle. You
+don’t get something for nothing. Here we gained the ability to have the
+data tell us what the populations are, but we made interpreting the
+results more difficult.<a href="#fnref8" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p>As part of her dissertation, Nora Mitchell used
+<span><code>Structure</code></span> to study a hybrid zone between two
+species of <span><em>Protea</em></span> <span class="citation"
+data-cites="Mitchell-Holsinger-2018"></span>. Nora was interested in
+determining the extent to which individuals reflected ancestry from one
+of the two species involved. She set <span
+class="math inline">\(K=2\)</span> to separate individuals as cleanly
+into two categories as possible and used the individual assignment score
+as an index of hybridity. There wasn’t any reason to attempt to infer
+<span class="math inline">\(K\)</span> from the data.<a href="#fnref9"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10"><p>I find it very confusing that <span><em>Berberis
+thunbergii</em></span> var. <span><em>atropurpurea</em></span> and
+<span> <em>Berberis vulgaris</em></span> ’Atropurpurea’ both have
+“atropurpurea” associated with their names, but that’s the way life
+is.<a href="#fnref10" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn11"><p>In fact, it’s not clear that there
+<span><em>is</em></span> such a thing as the “right”
+<span><code>K</code></span>. If you’re interested in hearing more about
+that. Feel free to ask.<a href="#fnref11" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn12"><p>See <span class="citation"
+data-cites="Novembre-Stephens-2008"></span> for details<a
+href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn13"><p>I also remember that a very long time ago when
+systematists were complaining that likelihood analyses of their data
+sets were taking a couple of weeks, Joe Felsenstein was reported to have
+said “Why are you complaining that your analysis is taking a couple of
+weeks when you spent a couple of years collecting the data?”<a
+href="#fnref13" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
-</section>
+</aside>
 </body>
 </html>
