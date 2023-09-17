@@ -5,7 +5,7 @@
 \usepackage{graphics}
 \usepackage{epstopdf}
 
-\newcommand{\copyrightYears}{2001-2021}
+\newcommand{\copyrightYears}{2001-2023}
 
 \title{The Genetics of Natural Selection}
 
@@ -166,12 +166,15 @@ happen that corresponds to violating
 
 That's a pretty exhaustive (and exhausting) list of the ways in which
 selection can happen. We could spend the entire semester exploring
-each of those. Instead, we're going to focus on viability
-selection, but it's important to remember that any or all of the other
+each of those, but we're going to focus in detail only on viability
+selection. Although I will say only a little about other forms of
+selection, it's important to remember that any or all of the other
 forms of selection may be operating simultaneously on the genes or the
 traits that we're studying, and the direction of selection due to
 these other components may be the same or different from the direction
-of viability selection.
+of viability selection. Remembering this is particularly important
+because there's a tendency to think that viability selection is the
+only kind of natural selection there is.
 
 We're going to focus on viability selection for two reasons:\index{viability selection!genetics}
 
@@ -236,8 +239,10 @@ Genotype         & $ST/ST$    & $ST/CH$    & $CH/CH$    \\
 \hline
 Number in eggs   & 41       & 82       & 27       \\
                  & $x_{11}N$  & $x_{12}N$  & $x_{22}N$  \\
+\hline
 viability        & 0.6      & 0.9      & 0.45     \\
                  & $w_{11}$   & $w_{12}$   & $w_{22}$   \\
+\hline
 Number in adults & 25       & 74       & 12       \\
                  & $w_{11}x_{11}N$ & $w_{12}x_{12}N$ & $w_{22}x_{22}N$ \\
 \hline
@@ -331,18 +336,24 @@ means.
 \begin{equation}
 p' = \frac{w_{11}p^2 + w_{12}pq}{\bar w} \quad . \label{eq:absolute}
 \end{equation}
-Suppose, for example, that we were to divide the numerator and
-denominator of~(\ref{eq:absolute}) by $w_{11}$.\footnote{I'm dividing
-  by 1, in case you hadn't noticed. When I'm not adding zero to an
-  equation, I'm dividing by one. If you're not used to that yet, you
-  will be in a few more weeks.} We'd then have
+Suppose that instead of the fitnesses being $w_{11}$, $w_{12}$, and
+$w_{22}$ they were 1, $w_{12}/w_{11}$, and $w_{22}/w_{11}$. We'd then
+have the following equation:
 \begin{equation}
 p' = \frac{p^2 + (w_{12}/w_{11})pq}{(\bar w/w_{11})} \quad . \label{eq:relative}
 \end{equation}
-Why did I bother to do that? Well, notice that we start with the same
-allele frequency, $p$, in the parental generation in both equations
-and that we end up with the same allele frequency in the offspring
-generation, $p'$, in both equations, but the fitnesses are different:
+If you stare at that a bit, you'll realize that
+equation~(\ref{eq:relative}) is equivalent to
+equation~(\ref{eq:absolute}), i.e., the way in which allele
+frequencies change from one generation to the next is identical in the
+two cases.\footnote{If you don't see why that's true, it might help to
+  realize that you could get equation~(\ref{eq:relative}) from
+  equation~(\ref{eq:absolute}) by dividing the numerator and
+  denominator in equation~(\ref{eq:absolute}) by $w_{11}$, i.e.,
+  multiplying equation~(\ref{eq:absolute}) by 1.} I won't write out
+all of the equations, but all these sets of fitnesses are equivalent
+to one another:\footnote{And there are many more sets fitnesses that
+  are equivalent to these.}
 \begin{center}
 \begin{tabular}{c|ccc}
 \hline\hline
@@ -351,13 +362,12 @@ Equation & $A_1A_1$ & $A_1A_2$ & $A_2A_2$ \\
 \hline
 \ref{eq:absolute} & $w_{11}$ & $w_{12}$ & $w_{22}$ \\
 \ref{eq:relative} & 1 & $w_{12}/w_{11}$ & $w_{22}/w_{11}$ \\
+                  & $w_{11}/w_{12}$ & 1 & $w_{22}/w_{12}$ \\
+                  & $w_{11}/w_{22}$ & $w_{12}/w_{22}$ & 1 \\
 \hline
 \end{tabular}
 \end{center}
-I could have, of course, divided the numerator and denominator by
-$w_{12}$ or $w_{22}$ intead and ended up with yet other sets of
-fitnesses that produce exactly the same change in allele
-frequency. This illustrates the following general principle:
+These observations illustrate the following general principle:
 \begin{quote}
 The consequences of natural selection (in an infinite population)
 depend only on the {\it relative\/} magnitude of fitnesses, not on
@@ -371,9 +381,11 @@ to the probability that other genotypes will survive, i.e., their {\it
   relative viabilities}. As we'll see later, it's sometimes easier to
 estimate the relative viabilities than to estimate absolute
 viabilities.\footnote{We'll also see when we get to studying the
-  interaction between natural selection and drift that this statement
-  is no longer true. To understand how drift and selection interact, we
-  have to know something about {\it absolute\/}
+  interaction between natural selection and drift that the principle
+  no longer holds, which is why I put the caveat about an infinite
+  population in there. To understand how drift and selection interact,
+  we have to know something about {\it absolute\/} viabilities, not
+  just relative
   viabilities.}\index{viability!absolute}\index{viability!relative}
 
 \subsection*{Marginal fitnesses}
@@ -421,7 +433,7 @@ surprisingly), that allele frequencies are likely to change as a
 result of viability selection, and it gives us a nice little formula
 we could plug into a computer to figure out exactly how. One of the
 reasons that it's useful\footnote{If not exactly fun.} to go through
-all of that algebra is that it's possible to make predictions about
+all of that algebra is that it allows  us to make predictions about
 the consequences of natural selection simply by knowing the pattern of
 viability differences. What do I mean by pattern? Funny you should
 ask~(Table~\ref{table:patterns}).\index{natural selection!patterns}
@@ -484,18 +496,14 @@ homozygous genotype with the highest fitness.\footnote{A population is
 \caption{With {\it directional selection\/} (panel (a) $w_{11} > w_{12} >
 w_{22}$, panel (b) $w_{11} > w_{12} > w_{22}$) viability selection
 leads to an ever increasing frequency of
-the favored allele.  Ultimately, the population will be monomorphic
-for the homozygous genotype with the highest
-fitness. With {\it disruptive selection\/} (panel (c) $w_{11} >
+the favored allele. With {\it disruptive selection\/} (panel (c) $w_{11} >
 w_{12}$ and $w_{22} > w_{12}$) viability selection may lead either to
-an increasing   frequency of the $A$ allele or to a decreasing frequency.
-  Ultimately, the population will be monomorphic for one of the
-  homozygous genotypes.  Which homozygous genotype comes to
-  predominate, however, depends on the initial allele frequencies in
+an increasing frequency of the $A_1$ allele or to a decreasing frequency.
+  Which homozygous genotype comes to
+  predominate depends on the initial allele frequency in
   the population. With {\it stabilizing selection\/} (panel (d) $w_{11} < w_{12}
   > w_{22}$; also called balancing selection or heterozygote
-  advantage) viability selection will lead to a stable polymorphism.
-  All three genotypes will be present at equilibrium.}\label{fig:wbar}
+  advantage) viability selection leas to a stable polymorphism.}\label{fig:wbar}
 \end{figure}
 
 \subsection*{Disruptive selection}
@@ -504,8 +512,8 @@ If we plot $\bar w$ as a function of $p$ when $w_{11} > w_{12}$ and
 $w_{22} > w_{12}$, we see a very different
 pattern~(Figure~\ref{fig:wbar}(c)). Since the Fundamental Theorem
 tells us that $\bar w' \ge \bar w$, we know that if the population
-starts with an allele on one side of the bowl $A_1$, will be lost. If
-it starts on the other side of the bowl, $A_2$ will be
+starts with an allele on the left side of the bowl $A_1$, will be lost. If
+it starts on the right side of the bowl, $A_2$ will be
 lost.\footnote{Strictly speaking, we need to know more than $\bar w'
   \ge \bar w$, but we do know the other things we need to know in this
   case. Trust me. Have I ever lied to you? (Don't answer
@@ -640,14 +648,11 @@ mechanics of fertility selection.
 
 \subsection*{Formulation of fertility selection}\index{natural selection!fertility selection, fertility matrix}
 
-I introduced the idea of a fitness matrix earlier when we were
-discussing selection at one locus with more than two alleles. Even if
-we have only two alleles, it becomes useful to describe patterns of
-fertility selection in terms of a fitness matrix. Describing the
-matrix is easy. Writing it down gets messy. Each element in the table
-is simply the average number of offspring produced by a given mated
-pair. We write down the table with paternal genotypes in columns and
-maternal genotypes in rows:
+It is useful to describe patterns of fertility selection in terms of a
+fitness matrix. Describing the matrix is easy. Writing it down gets
+messy. Each element in the table is simply the average number of
+offspring produced by a given mated pair. We write down the table with
+paternal genotypes in columns and maternal genotypes in rows:
 \begin{center}
 \begin{tabular}{c|ccc}
 \hline\hline

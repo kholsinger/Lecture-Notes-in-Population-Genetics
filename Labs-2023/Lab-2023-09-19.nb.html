@@ -11,7 +11,7 @@
 
 
 
-<title>Evaluating population structure</title>
+<title>Estimating relative viabilities</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -1746,294 +1746,230 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Evaluating population structure</h1>
+<h1 class="title toc-ignore">Estimating relative viabilities</h1>
 
 </div>
 
 
 <!-- rnb-text-begin -->
-<div id="in-lab-exercise" class="section level1">
-<h1>In lab exercise</h1>
-<p>For the in lab exercise we’ll use two data sets that are relatively
-small, 200 individuals and 100 loci. The relatively small number of loci
-will allow you to explore the data during the lab period, meaning that
-you will have run all of the software commands that you’ll need to run
-for the assignment and that you will also have a chance to compare
-results and discuss what they mean. Before you can run the lab exercise,
-you’ll need to download and install two thing:</p>
-<ol style="list-style-type: decimal">
-<li><code>Structure</code>: The underlying software that will run the
-analysis.</li>
-<li><code>ParallelStructure</code>: An <code>R</code> package that is a
-convenient way to run <tt>Structure</tt>.</li>
-</ol>
-<div id="installing-structure" class="section level2">
-<h2>Installing <code>Structure</code></h2>
-<p>The instructions for installing <code>Structure</code> depend on
-whether you are running on Windows or on Mac OS X.</p>
-<div id="installing-structure-on-windows" class="section level3">
-<h3>Installing <code>Structure</code> on Windows<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></h3>
-<p>Nick is running a Windows machine. If you have problems with
-installation, he should be able to help you, but installation should be
-very straightforward. Simply click on the link to download
-<tt>Structure</tt> for Windows XP/Vista/Windows 7[^As you can tell from
-those version numbers, the softward hasn’t been updated in a while.]
-under “Download package with graphical front end.” Once you’ve done
-that, simply find the installation package, double click on it, and
-follow any instructions. You should be all set.</p>
-</div>
-<div id="installing-structure-on-macos" class="section level3">
-<h3>Installing <code>Structure</code> on macOS</h3>
-<p>The approach I just described <em>should</em> work on macOS, but I
-haven’t been able to get it to.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> What I did manage to do is to download the
-<code>C</code> source code and compile it on my MacBook Pro. I’ve
-uploaded a <a href="https://darwin.eeb.uconn.edu/eeb348-resources/Structure.dmg">disk
-image</a> to the course website. Once you’ve clicked on the link, wait
-for the disk image to download, open it, and drag the file called
-“structure” to your “Applications” directory.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> Once you’ve done that,
-you should be all set.</p>
-</div>
-<div id="installing-parallelstructure" class="section level3">
-<h3>Installing <code>ParallelStructure</code></h3>
-<p>Installing <code>ParallelStructure</code> is done in a slightly
-different way than installing a standard <code>R</code> package. Here’s
-how you do it:</p>
+<div id="example-from-lecture" class="section level2">
+<h2>Example from lecture</h2>
+<p>The lab exercise will present you with some new data on genotypes
+before and after selection and ask you both to estimate relative
+viabilities and to answer some questions about them. To illustrate how
+to do the analysis, I’ll use the data we covered in lecture.</p>
+<p>First, we load the “before selection” and “after selection data into
+variables I creatively named <code>before</code> and
+<code>after</code>.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaW5zdGFsbC5wYWNrYWdlcyhcIlBhcmFsbGVsU3RydWN0dXJlXCIsIHJlcG9zID0gXCJodHRwOi8vUi1Gb3JnZS5SLXByb2plY3Qub3JnXCIpXG5gYGAifQ== -->
-<pre class="r"><code>install.packages(&quot;ParallelStructure&quot;, repos = &quot;http://R-Forge.R-project.org&quot;)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYmVmb3JlIDwtIGMoNDEsIDgyLCAyNylcbmFmdGVyIDwtIGMoNTcsIDE2OSwgMjkpXG5gYGAifQ== -->
+<pre class="r"><code>before &lt;- c(41, 82, 27)
+after &lt;- c(57, 169, 29)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>The only difference from the usual approach is specifying a specific
-repository at <code>R</code> Forge.</p>
-</div>
-</div>
-<div id="running-structure" class="section level2">
-<h2>Running <code>Structure</code></h2>
-<p>Now that you have <code>Structure</code> and
-<code>ParallelStructure</code> you’re ready to try them out. For the lab
-exercise, download the following two files and save them somewhere that
-you can find them:</p>
-<ul>
-<li><a href="https://darwin.eeb.uconn.edu/eeb348-resources/m-0.1-0.01-100-loci.stru">m-0.1-0.01-100-loci.stru</a></li>
-<li><a href="https://darwin.eeb.uconn.edu/eeb348-resources/m-0.2-0.01-100-loci.stru">m-0.2-0.01-100-loci.stru</a></li>
-</ul>
-<p>In addition, download the following file and put it in the same
-directory as the files you just downloaded:</p>
-<ul>
-<li><a href="https://darwin.eeb.uconn.edu/eeb348-resources/joblist.txt">joblist.txt</a></li>
-</ul>
-<p>Once you’ve done that, start up <code>R</code> Studio and use
-“Session -&gt; Set Working Directory -&gt; Choose Directory” to select
-the directory in which you saved the files. Now you’re ready to run the
-analysis using data from the first file,
-<code>m-0.1-0.01-100-loci.stru</code>:</p>
-<p><strong><em>NOTE TO NICK</em></strong>: Since you have Structure
-installed in Windows, we’ll need to use your machine to figure out the
-path for Windoze machines.</p>
+<p>Now that we have the data loaded, we can use the function
+<code>relative()</code> in the code block below to estimate and report
+the fitnesses. By setting <code>print = TRUE</code> the results are
+automatically reported for us.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShQYXJhbGxlbFN0cnVjdHVyZSlcblxuIyMgZm9yIG1hY09TOiBJZiB5b3UncmUgcnVubmluZyBXaW5kb3dzLCBjb21tZW50IG91dCB0aGUgZGVmaW5pdGlvbiBvZiBhcmNoaXRlY3R1cmUgZm9yXG4jIyBtYWNPUyBhbmQgdW5jb21tZW50IHRoZSBkZWZpbml0aW9uIGZvciBXaW5kb3dzXG4jI1xuYXJjaGl0ZWN0dXJlIDwtIFwibWFjT1NcIlxuIyMgZm9yIFdpbmRvd3NcbiMjXG4jIyBhcmNoaXRlY3R1cmUgPC0gXCJXaW5kb3dzXCJcblxuaWYgKGFyY2hpdGVjdHVyZSA9PSBcIm1hY09TXCIpIHtcbiAgbXlfcGF0aCA8LSBcIn4vQXBwbGljYXRpb25zL1wiXG59IGVsc2UgaWYgKGFyY2hpdGVjdHVyZSA9PSBcIldpbmRvd3NcIikge1xuICBteV9wYXRoIDwtIFwiXCJcbn0gZWxzZSB7XG4gIHN0b3AoXCJBcmNoaXRlY3R1cmUgbm90IHJlY29nbml6ZWQuXCIpXG59XG5cbiMjIFVzZSBwYXJhbGxlbF9zdHJ1Y3R1cmUoKSB0byBydW4gdGhlIGFuYWx5c2lzXG4jI1xucGFyYWxsZWxfc3RydWN0dXJlKHN0cnVjdHVyZV9wYXRoID0gbXlfcGF0aCxcbiAgICAgICAgICAgICAgICAgICBqb2JsaXN0ID0gXCJqb2JsaXN0LnR4dFwiLFxuICAgICAgICAgICAgICAgICAgIG5fY3B1ID0gNCxcbiAgICAgICAgICAgICAgICAgICBpbmZpbGUgPSBcIm0tMC4xLTAuMDEtMTAwLWxvY2kuc3RydVwiLFxuICAgICAgICAgICAgICAgICAgIG91dHBhdGggPSBcIlwiLFxuICAgICAgICAgICAgICAgICAgIG51bWluZHMgPSAyMCoxMCxcbiAgICAgICAgICAgICAgICAgICBudW1sb2NpID0gMTAwMCxcbiAgICAgICAgICAgICAgICAgICBwcmludHFoYXQgPSAwLFxuICAgICAgICAgICAgICAgICAgIHBsb3Rfb3V0cHV0ID0gMClcblxubGlicmFyeSh0aWR5dmVyc2UpXG5saWJyYXJ5KGdncGxvdDIpXG5cbnBhdGggPC0gXCJcIlxucmVzdWx0cyA8LSByZWFkX2NzdihwYXN0ZShwYXRoLCBcInJlc3VsdHNfc3VtbWFyeS5jc3ZcIiwgc2VwID0gXCJcIiksXG4gICAgICAgICAgICAgICAgICAgIHNraXAgPSAxLCBcbiAgICAgICAgICAgICAgICAgICAgY29sX3NlbGVjdCA9IGMoaywgbG5fcHJvYl9kYXRhKSxcbiAgICAgICAgICAgICAgICAgICAgc2hvd19jb2xfdHlwZXMgPSBGQUxTRSkgJT4lXG4gIGdyb3VwX2J5KGspICU+JVxuICBzdW1tYXJpemUobWVhbl9sbl9wcm9iX2RhdGEgPSBtZWFuKGxuX3Byb2JfZGF0YSksXG4gICAgICAgICAgICBzZF9sbl9wcm9iX2RhdGEgPSBzZChsbl9wcm9iX2RhdGEpLFxuICAgICAgICAgICAgbG8gPSBtZWFuX2xuX3Byb2JfZGF0YSAtIDIqc2RfbG5fcHJvYl9kYXRhLFxuICAgICAgICAgICAgaGkgPSBtZWFuX2xuX3Byb2JfZGF0YSArIDIqc2RfbG5fcHJvYl9kYXRhKVxucCA8LSBnZ3Bsb3QocmVzdWx0cywgYWVzKHggPSBrLCB5ID0gbWVhbl9sbl9wcm9iX2RhdGEsXG4gICAgICAgICAgICAgICAgICAgICAgICAgeW1pbiA9IGxvLCB5bWF4ID0gaGkpKSArXG4gIGdlb21fcG9pbnQoc2l6ZSA9IDMpICtcbiAgZ2VvbV9saW5lKCkgK1xuICBnZW9tX2Vycm9yYmFyKHdpZHRoID0gMC4yKSArXG4gIHRoZW1lX2J3KCkgK1xuICB4bGFiKFwiS1wiKSArXG4gIHlsYWIoXCJNZWFuIGxvZyBwcm9iYWJpbGl0eSBvZiBkYXRhXCIpXG5wXG5nZ3NhdmUocGFzdGUocGF0aCwgXCJsbl9wcm9iX29mX2RhdGEucGRmXCIsIHNlcCA9IFwiXCIpKVxuYGBgIn0= -->
-<pre class="r"><code>library(ParallelStructure)
-
-## for macOS: If you&#39;re running Windows, comment out the definition of architecture for
-## macOS and uncomment the definition for Windows
-##
-architecture &lt;- &quot;macOS&quot;
-## for Windows
-##
-## architecture &lt;- &quot;Windows&quot;
-
-if (architecture == &quot;macOS&quot;) {
-  my_path &lt;- &quot;~/Applications/&quot;
-} else if (architecture == &quot;Windows&quot;) {
-  my_path &lt;- &quot;&quot;
-} else {
-  stop(&quot;Architecture not recognized.&quot;)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmVsYXRpdmUgPC0gZnVuY3Rpb24oYmVmb3JlLCBhZnRlciwgcHJpbnQgPSBGQUxTRSkge1xuICB4X2EgPC0gYWZ0ZXIvc3VtKGFmdGVyKVxuICB4X3ogPC0gYmVmb3JlL3N1bShiZWZvcmUpXG4gIHdfMTEgPC0gKHhfYVsxXS94X2FbMl0pKih4X3pbMl0veF96WzFdKVxuICB3XzIyIDwtICh4X2FbM10veF9hWzJdKSooeF96WzJdL3hfelszXSlcbiAgaWYgKHByaW50KSB7XG4gICAgcmVzdWx0IDwtIHNwcmludGYoXCJWaWFiaWxpdHkgICAgJTAuMmYgICAgJTAuMmYgICAgJTAuMmZcIiwgd18xMSwgMSwgd18yMilcbiAgICBjYXQoXCJHZW5vdHlwZSAgICAgQTFBMSAgICBBMUEyICAgIEEyQTJcXG5cIiwgcmVzdWx0LCBcIlxcblwiLCBzZXAgPSBcIlwiKVxuICB9XG4gIHJldHVybihsaXN0KHdfMTEgPSB3XzExLCB3XzIyID0gd18yMikpXG59XG5cbmZpdG5lc3NlcyA8LSByZWxhdGl2ZShiZWZvcmUsIGFmdGVyLCBwcmludCA9IFRSVUUpXG5gYGAifQ== -->
+<pre class="r"><code>relative &lt;- function(before, after, print = FALSE) {
+  x_a &lt;- after/sum(after)
+  x_z &lt;- before/sum(before)
+  w_11 &lt;- (x_a[1]/x_a[2])*(x_z[2]/x_z[1])
+  w_22 &lt;- (x_a[3]/x_a[2])*(x_z[2]/x_z[3])
+  if (print) {
+    result &lt;- sprintf(&quot;Viability    %0.2f    %0.2f    %0.2f&quot;, w_11, 1, w_22)
+    cat(&quot;Genotype     A1A1    A1A2    A2A2\n&quot;, result, &quot;\n&quot;, sep = &quot;&quot;)
+  }
+  return(list(w_11 = w_11, w_22 = w_22))
 }
 
-## Use parallel_structure() to run the analysis
-##
-parallel_structure(structure_path = my_path,
-                   joblist = &quot;joblist.txt&quot;,
-                   n_cpu = 4,
-                   infile = &quot;m-0.1-0.01-100-loci.stru&quot;,
-                   outpath = &quot;&quot;,
-                   numinds = 20*10,
-                   numloci = 1000,
-                   printqhat = 0,
-                   plot_output = 0)
-
-library(tidyverse)
-library(ggplot2)
-
-path &lt;- &quot;&quot;
-results &lt;- read_csv(paste(path, &quot;results_summary.csv&quot;, sep = &quot;&quot;),
-                    skip = 1, 
-                    col_select = c(k, ln_prob_data),
-                    show_col_types = FALSE) %&gt;%
-  group_by(k) %&gt;%
-  summarize(mean_ln_prob_data = mean(ln_prob_data),
-            sd_ln_prob_data = sd(ln_prob_data),
-            lo = mean_ln_prob_data - 2*sd_ln_prob_data,
-            hi = mean_ln_prob_data + 2*sd_ln_prob_data)
-p &lt;- ggplot(results, aes(x = k, y = mean_ln_prob_data,
-                         ymin = lo, ymax = hi)) +
-  geom_point(size = 3) +
-  geom_line() +
-  geom_errorbar(width = 0.2) +
-  theme_bw() +
-  xlab(&quot;K&quot;) +
-  ylab(&quot;Mean log probability of data&quot;)
-p
-ggsave(paste(path, &quot;ln_prob_of_data.pdf&quot;, sep = &quot;&quot;))</code></pre>
+fitnesses &lt;- relative(before, after, print = TRUE)</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiR2Vub3R5cGUgICAgIEExQTEgICAgQTFBMiAgICBBMkEyXG5WaWFiaWxpdHkgICAgMC42NyAgICAxLjAwICAgIDAuNTJcbiJ9 -->
+<pre><code>Genotype     A1A1    A1A2    A2A2
+Viability    0.67    1.00    0.52</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>That code runs for about 30 minutes on my MacBook Pro. When it
-finishes, you’ll see a bunch of new files in the directory where you
-have the data: <code>ln_prob_of_data.pdf</code> shows the log
-probability of the data (with error bars) for each <code>K</code>
-(<code>K</code> = 2,…,9). This plot will help you identify the
-<code>K</code> or the set of <code>K</code>s that are reasonable for the
-data you’ve analyzed.</p>
-</div>
-<div id="preparing-for-clumppak" class="section level2">
-<h2>Preparing for CLUMPPAK</h2>
-<p>In addition you’ll find a lot of files named something like
-<code>results_job_T2_01_f</code>. Put all of those into a ZIP file. I
-suggest using the name <code>results.zip</code>, but the name doesn’t
-matter. Just remember the name and remember where the file is.</p>
-<p>On Windows you should be able to create the ZIP file using WinZIP.<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a> On macOS,
-open a terminal window in <code>R</code> Studio by selecting “Tools
--&gt; Terminal -&gt; New Terminal” from the menu. You’ll see a new tab
-open in the area where you previously saw the <code>R</code> console.<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a> Then
-simply type</p>
-<pre><code>zip -m9 results.zip results_job*</code></pre>
-<p>You’ll see it churn for a while, and you’ll notice that all of the
-<code>results</code> files you had before are gone and that you have a
-new <code>results.zip</code> file.</p>
-</div>
-<div id="running-clumppak" class="section level2">
-<h2>Running CLUMPPAK</h2>
-<p>Now it’s time to start up your browser of choice and point it to the
-<a href="https://clumpak.tau.ac.il/"><code>CLUMPPAK</code> server</a>.
-The <code>CLUMMPAK</code> server provides a lot of options, but we’ll
-use the main pipeline for our analyses. Once you’re there, scroll down
-to “Run Main Pipeline”, push the “Choose file” option and pick the copy
-of <code>results.zip</code> that you just made. Then scroll down a bit
-further and enter your email address. In 10-15 minutes, maybe less, you
-should receive an email with a link to view results of the analysis.
-When you follow that link there will be two file links on the page that
-you visit. One is a summary PDF and one is a ZIP file. We won’t bother
-with the ZIP file. Just download the PDF. It will show you
-<code>Structure</code> plots for each of the <code>K</code>s included in
-your analysis.</p>
-</div>
-<div id="suggestions-for-the-lab-exercise" class="section level2">
-<h2>Suggestions for the lab exercise</h2>
-<p>For the lab exercise, I suggest that roughly half of you run the code
-exactly as above and that the other half of you substitute
-<code>m-0.2-0.01-100-loci.stru</code> for the infile in the call to
-<code>parallel_structure()</code>. Once both sets of analyses are done,
-you should compare the results and discuss them. In discussing them,
-you’ll want to know a couple that:</p>
-<ul>
-<li>These are simulated data, and the simulations included the same
-number of actual populations, the same population size in every
-population, and the same mutation rate at every locus in both cases.
-They differ only in that the data set that begins with
-<code>m-0.1</code> had less migration among populations that the one
-that begins <code>m-0.2</code>.</li>
-<li>The actual number of populations is the same as the number of
-populations included in the sample.</li>
-<li>You might (or might not) also find it helpful to use
-<code>adegenet</code> to convert the <code>Structure</code> format file
-into a format that <code>hierfstat</code> can use to estimate
-<em>F<sub>ST</sub></em>. Comparing the <em>F</em>-statistics for the two
-data sets could be informative. If you use <code>hierfstat</code>,
-you’ll need to know that there are 200 (individuals), 100 markers
-(loci), column 1 contains the labels for genotypes (individuals), column
-2 contains the population factor (the population/locality from which a
-particular sample was collected), there are no optional columns, there
-isn’t a row with marker names, and genotypes are coded in two
-rows.^[Don’t be frightened when you get the following warning
-message:</li>
-</ul>
-<pre><code>In df2genind(X = X, pop = pop, ploidy = 2, sep = sep, ncode = ncode) :
-  duplicate labels detected for some individuals; using generic labels</code></pre>
-<p>That happens because individuals in different populations have the
-same label, e.g., there’s an <code>Ind-3</code> in every population, and
-the same is true for every individual label within a population. ]</p>
-</div>
-</div>
-<div id="project-1" class="section level1">
-<h1>Project #1</h1>
-<p>For Project #1 you’ll repeat exactly what you did in the lab
-exercise, except that you’ll use two different data sets:</p>
-<ul>
-<li><a href="https://darwin.eeb.uconn.edu/eeb348-resources/m-0.1-0.01-1000-loci.stru">m-0.1-0.01-1000-loci.stru</a></li>
-<li><a href="https://darwin.eeb.uconn.edu/eeb348-resources/m-0.2-0.01-1000-loci.stru">m-0.2-0.01-1000-loci.stru</a></li>
-</ul>
-<p>These data sets were generated under precisely the same set of
-conditions as the two data sets you looked at in lab, except that the
-sample includes data from 1000 loci in each case instead of only 100.
-Using results from your analyses of these two data sets<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a> answer the following
-questions:</p>
+<p>That’s great, but you’ve heard me harp on how important it is to get
+some sense of how reliable our estimates are. We know that the relative
+fitness of <code>A1A2</code> is 1, because we’re calculating the fitness
+of the other genotypes relative to it. We’ll get approximate 95 percent
+confidence intervals by bootstrapping our samples, recalculating the
+fitnesses for each sample, and summarizing the result. That sounds
+pretty complicated, but the <code>R</code> code to do it isn’t too bad.
+By default, this code will construct 5000 bootstrap samples. Here it
+is:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY29uc3RydWN0X3NhbXBsZSA8LSBmdW5jdGlvbih4KSB7XG4gIGsgPC0gYyhyZXAoMSwgeFsxXSksIHJlcCgyLCB4WzJdKSwgcmVwKDMsIHhbM10pKVxuICBrX25ldyA8LSBzYW1wbGUoaywgc2l6ZSA9IGxlbmd0aChrKSwgcmVwbGFjZSA9IFRSVUUpXG4gIHhfbmV3IDwtIGMobGVuZ3RoKGtfbmV3W2tfbmV3ID09IDFdKSwgbGVuZ3RoKGtfbmV3W2tfbmV3ID09IDJdKSwgbGVuZ3RoKGtfbmV3W2tfbmV3ID09IDNdKSlcbiAgcmV0dXJuKHhfbmV3KVxufVxuXG5ib290c3RyYXBfcmVsYXRpdmUgPC0gZnVuY3Rpb24oYmVmb3JlLCBhZnRlciwgcXRpbGUgPSAwLjA1LCBuX3NhbXBsZSA9IDUwMDApIHtcbiAgd18xMSA8LSBudW1lcmljKG5fc2FtcGxlKVxuICB3XzIyIDwtIG51bWVyaWMobl9zYW1wbGUpXG4gIGZvciAoaSBpbiAxOm5fc2FtcGxlKSB7XG4gICAgYWR1bHQgPC0gY29uc3RydWN0X3NhbXBsZShhZnRlcilcbiAgICB6eWdvdGUgPC0gY29uc3RydWN0X3NhbXBsZShiZWZvcmUpXG4gICAgZml0bmVzc2VzIDwtIHJlbGF0aXZlKHp5Z290ZSwgYWR1bHQpXG4gICAgd18xMVtpXSA8LSBmaXRuZXNzZXMkd18xMVxuICAgIHdfMjJbaV0gPC0gZml0bmVzc2VzJHdfMjJcbiAgfVxuICBoZWFkZXIgPC0gc3ByaW50ZihcIkZpdG5lc3MgICAlNC4xZiUlICAlNC4xZiUlXFxuXCIsIDEwMCpxdGlsZS8yLCAxMDAqKDEgLSBxdGlsZS8yKSlcbiAgcXRpbGVzIDwtIHF1YW50aWxlKHdfMTEsIGMocXRpbGUvMiwgMSAtIHF0aWxlLzIpKVxuICByb3dfMSA8LSBzcHJpbnRmKFwid18xMSAgICAgICUwLjJmICAgJTAuMmZcXG5cIiwgcXRpbGVzWzFdLCBxdGlsZXNbMl0pXG4gIHF0aWxlcyA8LSBxdWFudGlsZSh3XzIyLCBjKHF0aWxlLzIsIDEgLSBxdGlsZS8yKSlcbiAgcm93XzIgPC0gc3ByaW50ZihcIndfMjIgICAgICAlMC4yZiAgICUwLjJmXFxuXCIsIHF0aWxlc1sxXSwgcXRpbGVzWzJdKVxuICBjYXQoaGVhZGVyLCByb3dfMSwgcm93XzIpXG59XG5cbmJvb3RzdHJhcF9yZWxhdGl2ZShiZWZvcmUsIGFmdGVyKVxuYGBgIn0= -->
+<pre class="r"><code>construct_sample &lt;- function(x) {
+  k &lt;- c(rep(1, x[1]), rep(2, x[2]), rep(3, x[3]))
+  k_new &lt;- sample(k, size = length(k), replace = TRUE)
+  x_new &lt;- c(length(k_new[k_new == 1]), length(k_new[k_new == 2]), length(k_new[k_new == 3]))
+  return(x_new)
+}
+
+bootstrap_relative &lt;- function(before, after, qtile = 0.05, n_sample = 5000) {
+  w_11 &lt;- numeric(n_sample)
+  w_22 &lt;- numeric(n_sample)
+  for (i in 1:n_sample) {
+    adult &lt;- construct_sample(after)
+    zygote &lt;- construct_sample(before)
+    fitnesses &lt;- relative(zygote, adult)
+    w_11[i] &lt;- fitnesses$w_11
+    w_22[i] &lt;- fitnesses$w_22
+  }
+  header &lt;- sprintf(&quot;Fitness   %4.1f%%  %4.1f%%\n&quot;, 100*qtile/2, 100*(1 - qtile/2))
+  qtiles &lt;- quantile(w_11, c(qtile/2, 1 - qtile/2))
+  row_1 &lt;- sprintf(&quot;w_11      %0.2f   %0.2f\n&quot;, qtiles[1], qtiles[2])
+  qtiles &lt;- quantile(w_22, c(qtile/2, 1 - qtile/2))
+  row_2 &lt;- sprintf(&quot;w_22      %0.2f   %0.2f\n&quot;, qtiles[1], qtiles[2])
+  cat(header, row_1, row_2)
+}
+
+bootstrap_relative(before, after)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiRml0bmVzcyAgICAyLjUlICA5Ny41JVxuIHdfMTEgICAgICAwLjQyICAgMS4wOVxuIHdfMjIgICAgICAwLjI4ICAgMC45NVxuIn0= -->
+<pre><code>Fitness    2.5%  97.5%
+ w_11      0.42   1.09
+ w_22      0.28   0.95</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>As you can see, the 95 percent confidence interval for
+<code>w_11</code> includes values larger than 1, meaning that at this
+level of confidence we can’t exclude the possibility that A1A1 has a
+greater viability than A1A2. In contrast, we are quite confident that
+A2A2 is less viable than A1A2. If we examine results using the 80
+percent confidence intervals, we would conclude that A1A1 is less viable
+than A1A2.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYm9vdHN0cmFwX3JlbGF0aXZlKGJlZm9yZSwgYWZ0ZXIsIDAuMilcbmBgYCJ9 -->
+<pre class="r"><code>bootstrap_relative(before, after, 0.2)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiRml0bmVzcyAgIDEwLjAlICA5MC4wJVxuIHdfMTEgICAgICAwLjQ5ICAgMC45MlxuIHdfMjIgICAgICAwLjM1ICAgMC43N1xuIn0= -->
+<pre><code>Fitness   10.0%  90.0%
+ w_11      0.49   0.92
+ w_22      0.35   0.77</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>I interpret these results as follows:</p>
 <ol style="list-style-type: decimal">
-<li><p>What <code>K</code> (or <code>K</code>s) do you think best
-reflect the structure in each of the data sets?</p></li>
-<li><p>What do these results tell you about the genetic structure of the
-underlying population? To make that question a bit more explicit:
-<code>Structure</code> identifies genetic clusters <em>in the data it
-analyzes</em>. I’m asking you what can you infer about genetic clusters
-<em>in the populations from which the data were collected</em> based on
-the clusters <code>Structure</code> identified in the data.<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a> You might
-find it useful to think about how estimates of <span class="math inline">\(F_{ST}\)</span> differ when the different data
-sets are used.</p></li>
-<li><p>I told you that there is more migration, i.e., gene exchange,
-among populations in the <code>m-0.2</code> data set than in the
-<code>m-0.1</code> data set. How might this help you understand any
-differences between your results for the two data sets?<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a></p></li>
-<li><p>The only difference between the data sets you explored in lab and
-those that you analzed for this project is that those you explored for
-this project each had 1000 loci rather than 100 loci. Obviously, more
-loci means more data, but what does this comparison suggest about how
-you should approach interpreting the results of <code>Structure</code>
-analyses?</p></li>
+<li>Our best estimate is that both homozygotes have lower viabilities
+than the heterozygote.</li>
+<li>We are quite confident that A2A2 has a lower viability than the
+heterozygote, but we have only low confidence that A1A1 has lower
+viability than the heterozygote.</li>
+<li>On balance it appears that there is heterozygote advantage, and we
+would expect both alleles to persist in the population. But our
+confidence is low. There is a reasonable chance that there is
+directional selection for the A1 allele, which would lead to fixation on
+A1.</li>
+</ol>
+</div>
+<div id="lab-exercise" class="section level2">
+<h2>Lab exercise</h2>
+<p>Yoshiko Tobari and Ken-Ichi Kojima (Genetics 57:179-188; 1967)
+studied the evolutionary dynamics of an inversion polymorphism on
+chromosome 2 of <em>Drosophila ananassae</em> in a population cage.
+Through the standard sort of tricky genetic manipulations that
+<em>Drosophila</em> geneticists do, they derived two lines that were
+homozygous for each chromosome type. They then started different
+population cages with differing numbers of flies homozygous for each
+chromosomal arrangement. Specifically,</p>
+<table>
+<thead>
+<tr class="header">
+<th align="right">Population</th>
+<th align="center">AA</th>
+<th align="center">AB</th>
+<th align="center">BB</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="center">100</td>
+<td align="center">0</td>
+<td align="center">900</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="center">900</td>
+<td align="center">0</td>
+<td align="center">100</td>
+</tr>
+</tbody>
+</table>
+<p>After one generation of reproduction in the cage they took a sample
+of adults and obtained the following “genotype” counts:<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
+<table>
+<thead>
+<tr class="header">
+<th align="right">Population</th>
+<th align="center">AA</th>
+<th align="center">AB</th>
+<th align="center">BB</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="center">19</td>
+<td align="center">125</td>
+<td align="center">156</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="center">206</td>
+<td align="center">87</td>
+<td align="center">7</td>
+</tr>
+</tbody>
+</table>
+<p>Assume that newly formed zygotes in the generation from which the
+adult sample was taken are found in Hardy-Weinberg proportions with
+chromosome frequencies equal to those in the base populations<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>. Using
+these data answer the following questions:</p>
+<ol style="list-style-type: decimal">
+<li><p>What are the fitnesses of AA and BB relative to AB in each
+population, and what are the 95% credible limits on those
+fitnesses?</p></li>
+<li><p>How likely is it that there is heterozygote advantage in either
+population?</p></li>
+<li><p>Are the relative fitnesses of the genotypes the same or different
+in the two populations?</p></li>
+<li><p>Given your answers to (1) &amp; (2) and assuming that those
+fitnesses are the only evolutionary force acting, what do you predict
+about the equilibrium compositon of <em>Drosophila ananassae</em>
+populations. Will they be polymorphic? monomorphic for A? monomorphic
+for B? or will the result depend on initial frequencies? Be sure to
+explain your answer because (a) if you look up the original paper you
+will see the result and (b) the pattern of selection happening here is
+different from anything we’ve discussed in class.</p></li>
 </ol>
 <!-- rnb-text-end -->
 </div>
 <div class="footnotes footnotes-end-of-document">
 <hr />
 <ol>
-<li id="fn1"><p>This approach should work on Linux too, but I haven’t
-tried it in several years.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
-<li id="fn2"><p>It’s probably related to how old the software on the
-<code>Structure</code> page is.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
-<li id="fn3"><p>You’ll find a link to the Applications directory in the
-disk image. You can simply drag it there.<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
-<li id="fn4"><p>Nick will have to help you with this, since I don’t have
-access to a Windows machine.<a href="#fnref4" class="footnote-back">↩︎</a></p></li>
-<li id="fn5"><p>For any of you who care this terminal is equivalent to
-the one you’d get by running the Terminal application, but it drops you
-automatically into the right directory. You don’t have to use
-<code>cd</code> to get there.<a href="#fnref5" class="footnote-back">↩︎</a></p></li>
-<li id="fn6"><p>Each of which will probably take 3-4. hours, so plan
-ahead and leave yourself plenty of time to think about the results after
-the analyses are finished.<a href="#fnref6" class="footnote-back">↩︎</a></p></li>
-<li id="fn7"><p>This is analogous to asking what you can infer about
-<span class="math inline">\(F_{ST\)</span> in a set of populations from
-the <em>estimate</em> of <span class="math inline">\(F_{ST}\)</span>
-from a set of data.<a href="#fnref7" class="footnote-back">↩︎</a></p></li>
-<li id="fn8"><p>Remember, the simulations that produced these results
-had the same number of populations and the same size for every
-population when I produced both data sets.<a href="#fnref8" class="footnote-back">↩︎</a></p></li>
+<li id="fn1"><p>As usual, I’m treating a chromosome inversion type. I’ve
+also simplified these data a bit. The counts combine results from two
+replicate populations of each population configuration.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>In other words, the frequency of A in Population 1 is
+100/1000 = 0.1.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiRXZhbHVhdGluZyBwb3B1bGF0aW9uIHN0cnVjdHVyZSIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKIyBJbiBsYWIgZXhlcmNpc2UKCkZvciB0aGUgaW4gbGFiIGV4ZXJjaXNlIHdlJ2xsIHVzZSB0d28gZGF0YSBzZXRzIHRoYXQgYXJlIHJlbGF0aXZlbHkgc21hbGwsIDIwMCBpbmRpdmlkdWFscyBhbmQgMTAwIGxvY2kuIFRoZSByZWxhdGl2ZWx5IHNtYWxsIG51bWJlciBvZiBsb2NpIHdpbGwgYWxsb3cgeW91IHRvIGV4cGxvcmUgdGhlIGRhdGEgZHVyaW5nIHRoZSBsYWIgcGVyaW9kLCBtZWFuaW5nIHRoYXQgeW91IHdpbGwgaGF2ZSBydW4gYWxsIG9mIHRoZSBzb2Z0d2FyZSBjb21tYW5kcyB0aGF0IHlvdSdsbCBuZWVkIHRvIHJ1biBmb3IgdGhlIGFzc2lnbm1lbnQgYW5kIHRoYXQgeW91IHdpbGwgYWxzbyBoYXZlIGEgY2hhbmNlIHRvIGNvbXBhcmUgcmVzdWx0cyBhbmQgZGlzY3VzcyB3aGF0IHRoZXkgbWVhbi4gQmVmb3JlIHlvdSBjYW4gcnVuIHRoZSBsYWIgZXhlcmNpc2UsIHlvdSdsbCBuZWVkIHRvIGRvd25sb2FkIGFuZCBpbnN0YWxsIHR3byB0aGluZzoKCjEuIGBTdHJ1Y3R1cmVgOiBUaGUgdW5kZXJseWluZyBzb2Z0d2FyZSB0aGF0IHdpbGwgcnVuIHRoZSBhbmFseXNpcy4KMi4gYFBhcmFsbGVsU3RydWN0dXJlYDogQW4gYFJgIHBhY2thZ2UgdGhhdCBpcyBhIGNvbnZlbmllbnQgd2F5IHRvIHJ1biA8dHQ+U3RydWN0dXJlPC90dD4uCgojIyBJbnN0YWxsaW5nIGBTdHJ1Y3R1cmVgCgpUaGUgaW5zdHJ1Y3Rpb25zIGZvciBpbnN0YWxsaW5nIGBTdHJ1Y3R1cmVgIGRlcGVuZCBvbiB3aGV0aGVyIHlvdSBhcmUgcnVubmluZyBvbiBXaW5kb3dzIG9yIG9uIE1hYyBPUyBYLgoKIyMjIEluc3RhbGxpbmcgYFN0cnVjdHVyZWAgb24gV2luZG93c15bVGhpcyBhcHByb2FjaCBzaG91bGQgd29yayBvbiBMaW51eCB0b28sIGJ1dCBJIGhhdmVuJ3QgdHJpZWQgaXQgaW4gc2V2ZXJhbCB5ZWFycy5dCgpOaWNrIGlzIHJ1bm5pbmcgYSBXaW5kb3dzIG1hY2hpbmUuIElmIHlvdSBoYXZlIHByb2JsZW1zIHdpdGggaW5zdGFsbGF0aW9uLCBoZSBzaG91bGQgYmUgYWJsZSB0byBoZWxwIHlvdSwgYnV0IGluc3RhbGxhdGlvbiBzaG91bGQgYmUgdmVyeSBzdHJhaWdodGZvcndhcmQuIFNpbXBseSBjbGljayBvbiB0aGUgbGluayB0byBkb3dubG9hZCA8dHQ+U3RydWN0dXJlPC90dD4gZm9yIFdpbmRvd3MgWFAvVmlzdGEvV2luZG93cyA3W15BcyB5b3UgY2FuIHRlbGwgZnJvbSB0aG9zZSB2ZXJzaW9uIG51bWJlcnMsIHRoZSBzb2Z0d2FyZCBoYXNuJ3QgYmVlbiB1cGRhdGVkIGluIGEgd2hpbGUuXSB1bmRlciAiRG93bmxvYWQgcGFja2FnZSB3aXRoIGdyYXBoaWNhbCBmcm9udCBlbmQuIiBPbmNlIHlvdSd2ZSBkb25lIHRoYXQsIHNpbXBseSBmaW5kIHRoZSBpbnN0YWxsYXRpb24gcGFja2FnZSwgZG91YmxlIGNsaWNrIG9uIGl0LCBhbmQgZm9sbG93IGFueSBpbnN0cnVjdGlvbnMuIFlvdSBzaG91bGQgYmUgYWxsIHNldC4KCiMjIyBJbnN0YWxsaW5nIGBTdHJ1Y3R1cmVgIG9uIG1hY09TCgpUaGUgYXBwcm9hY2ggSSBqdXN0IGRlc2NyaWJlZCAqc2hvdWxkKiB3b3JrIG9uIG1hY09TLCBidXQgSSBoYXZlbid0IGJlZW4gYWJsZSB0byBnZXQgaXQgdG8uXltJdCdzIHByb2JhYmx5IHJlbGF0ZWQgdG8gaG93IG9sZCB0aGUgc29mdHdhcmUgb24gdGhlIGBTdHJ1Y3R1cmVgIHBhZ2UgaXMuXSBXaGF0IEkgZGlkIG1hbmFnZSB0byBkbyBpcyB0byBkb3dubG9hZCB0aGUgYENgIHNvdXJjZSBjb2RlIGFuZCBjb21waWxlIGl0IG9uIG15IE1hY0Jvb2sgUHJvLiBJJ3ZlIHVwbG9hZGVkIGEgW2Rpc2sgaW1hZ2VdKGh0dHBzOi8vZGFyd2luLmVlYi51Y29ubi5lZHUvZWViMzQ4LXJlc291cmNlcy9TdHJ1Y3R1cmUuZG1nKSB0byB0aGUgY291cnNlIHdlYnNpdGUuIE9uY2UgeW91J3ZlIGNsaWNrZWQgb24gdGhlIGxpbmssIHdhaXQgZm9yIHRoZSBkaXNrIGltYWdlIHRvIGRvd25sb2FkLCBvcGVuIGl0LCBhbmQgZHJhZyB0aGUgZmlsZSBjYWxsZWQgInN0cnVjdHVyZSIgdG8geW91ciAiQXBwbGljYXRpb25zIiBkaXJlY3RvcnkuXltZb3UnbGwgZmluZCBhIGxpbmsgdG8gdGhlIEFwcGxpY2F0aW9ucyBkaXJlY3RvcnkgaW4gdGhlIGRpc2sgaW1hZ2UuIFlvdSBjYW4gc2ltcGx5IGRyYWcgaXQgdGhlcmUuXSBPbmNlIHlvdSd2ZSBkb25lIHRoYXQsIHlvdSBzaG91bGQgYmUgYWxsIHNldC4KCiMjIyBJbnN0YWxsaW5nIGBQYXJhbGxlbFN0cnVjdHVyZWAKCkluc3RhbGxpbmcgYFBhcmFsbGVsU3RydWN0dXJlYCBpcyBkb25lIGluIGEgc2xpZ2h0bHkgZGlmZmVyZW50IHdheSB0aGFuIGluc3RhbGxpbmcgYSBzdGFuZGFyZCBgUmAgcGFja2FnZS4gSGVyZSdzIGhvdyB5b3UgZG8gaXQ6CgpgYGB7cn0KaW5zdGFsbC5wYWNrYWdlcygiUGFyYWxsZWxTdHJ1Y3R1cmUiLCByZXBvcyA9ICJodHRwOi8vUi1Gb3JnZS5SLXByb2plY3Qub3JnIikKYGBgCgpUaGUgb25seSBkaWZmZXJlbmNlIGZyb20gdGhlIHVzdWFsIGFwcHJvYWNoIGlzIHNwZWNpZnlpbmcgYSBzcGVjaWZpYyByZXBvc2l0b3J5IGF0IGBSYCBGb3JnZS4KCiMjIFJ1bm5pbmcgYFN0cnVjdHVyZWAKCk5vdyB0aGF0IHlvdSBoYXZlIGBTdHJ1Y3R1cmVgIGFuZCBgUGFyYWxsZWxTdHJ1Y3R1cmVgIHlvdSdyZSByZWFkeSB0byB0cnkgdGhlbSBvdXQuIEZvciB0aGUgbGFiIGV4ZXJjaXNlLCBkb3dubG9hZCB0aGUgZm9sbG93aW5nIHR3byBmaWxlcyBhbmQgc2F2ZSB0aGVtIHNvbWV3aGVyZSB0aGF0IHlvdSBjYW4gZmluZCB0aGVtOgoKLSBbbS0wLjEtMC4wMS0xMDAtbG9jaS5zdHJ1XShodHRwczovL2Rhcndpbi5lZWIudWNvbm4uZWR1L2VlYjM0OC1yZXNvdXJjZXMvbS0wLjEtMC4wMS0xMDAtbG9jaS5zdHJ1KQotIFttLTAuMi0wLjAxLTEwMC1sb2NpLnN0cnVdKGh0dHBzOi8vZGFyd2luLmVlYi51Y29ubi5lZHUvZWViMzQ4LXJlc291cmNlcy9tLTAuMi0wLjAxLTEwMC1sb2NpLnN0cnUpCgpJbiBhZGRpdGlvbiwgZG93bmxvYWQgdGhlIGZvbGxvd2luZyBmaWxlIGFuZCBwdXQgaXQgaW4gdGhlIHNhbWUgZGlyZWN0b3J5IGFzIHRoZSBmaWxlcyB5b3UganVzdCBkb3dubG9hZGVkOgoKLSBbam9ibGlzdC50eHRdKGh0dHBzOi8vZGFyd2luLmVlYi51Y29ubi5lZHUvZWViMzQ4LXJlc291cmNlcy9qb2JsaXN0LnR4dCkKCk9uY2UgeW91J3ZlIGRvbmUgdGhhdCwgc3RhcnQgdXAgYFJgIFN0dWRpbyBhbmQgdXNlICJTZXNzaW9uIC0+IFNldCBXb3JraW5nIERpcmVjdG9yeSAtPiBDaG9vc2UgRGlyZWN0b3J5IiB0byBzZWxlY3QgdGhlIGRpcmVjdG9yeSBpbiB3aGljaCB5b3Ugc2F2ZWQgdGhlIGZpbGVzLiBOb3cgeW91J3JlIHJlYWR5IHRvIHJ1biB0aGUgYW5hbHlzaXMgdXNpbmcgZGF0YSBmcm9tIHRoZSBmaXJzdCBmaWxlLCBgbS0wLjEtMC4wMS0xMDAtbG9jaS5zdHJ1YDoKCioqKk5PVEUgVE8gTklDSyoqKjogU2luY2UgeW91IGhhdmUgU3RydWN0dXJlIGluc3RhbGxlZCBpbiBXaW5kb3dzLCB3ZSdsbCBuZWVkIHRvIHVzZSB5b3VyIG1hY2hpbmUgdG8gZmlndXJlIG91dCB0aGUgcGF0aCBmb3IgV2luZG96ZSBtYWNoaW5lcy4KCmBgYHtyfQpsaWJyYXJ5KFBhcmFsbGVsU3RydWN0dXJlKQoKIyMgZm9yIG1hY09TOiBJZiB5b3UncmUgcnVubmluZyBXaW5kb3dzLCBjb21tZW50IG91dCB0aGUgZGVmaW5pdGlvbiBvZiBhcmNoaXRlY3R1cmUgZm9yCiMjIG1hY09TIGFuZCB1bmNvbW1lbnQgdGhlIGRlZmluaXRpb24gZm9yIFdpbmRvd3MKIyMKYXJjaGl0ZWN0dXJlIDwtICJtYWNPUyIKIyMgZm9yIFdpbmRvd3MKIyMKIyMgYXJjaGl0ZWN0dXJlIDwtICJXaW5kb3dzIgoKaWYgKGFyY2hpdGVjdHVyZSA9PSAibWFjT1MiKSB7CiAgbXlfcGF0aCA8LSAifi9BcHBsaWNhdGlvbnMvIgp9IGVsc2UgaWYgKGFyY2hpdGVjdHVyZSA9PSAiV2luZG93cyIpIHsKICBteV9wYXRoIDwtICIiCn0gZWxzZSB7CiAgc3RvcCgiQXJjaGl0ZWN0dXJlIG5vdCByZWNvZ25pemVkLiIpCn0KCiMjIFVzZSBwYXJhbGxlbF9zdHJ1Y3R1cmUoKSB0byBydW4gdGhlIGFuYWx5c2lzCiMjCnBhcmFsbGVsX3N0cnVjdHVyZShzdHJ1Y3R1cmVfcGF0aCA9IG15X3BhdGgsCiAgICAgICAgICAgICAgICAgICBqb2JsaXN0ID0gImpvYmxpc3QudHh0IiwKICAgICAgICAgICAgICAgICAgIG5fY3B1ID0gNCwKICAgICAgICAgICAgICAgICAgIGluZmlsZSA9ICJtLTAuMS0wLjAxLTEwMC1sb2NpLnN0cnUiLAogICAgICAgICAgICAgICAgICAgb3V0cGF0aCA9ICIiLAogICAgICAgICAgICAgICAgICAgbnVtaW5kcyA9IDIwKjEwLAogICAgICAgICAgICAgICAgICAgbnVtbG9jaSA9IDEwMDAsCiAgICAgICAgICAgICAgICAgICBwcmludHFoYXQgPSAwLAogICAgICAgICAgICAgICAgICAgcGxvdF9vdXRwdXQgPSAwKQoKbGlicmFyeSh0aWR5dmVyc2UpCmxpYnJhcnkoZ2dwbG90MikKCnBhdGggPC0gIiIKcmVzdWx0cyA8LSByZWFkX2NzdihwYXN0ZShwYXRoLCAicmVzdWx0c19zdW1tYXJ5LmNzdiIsIHNlcCA9ICIiKSwKICAgICAgICAgICAgICAgICAgICBza2lwID0gMSwgCiAgICAgICAgICAgICAgICAgICAgY29sX3NlbGVjdCA9IGMoaywgbG5fcHJvYl9kYXRhKSwKICAgICAgICAgICAgICAgICAgICBzaG93X2NvbF90eXBlcyA9IEZBTFNFKSAlPiUKICBncm91cF9ieShrKSAlPiUKICBzdW1tYXJpemUobWVhbl9sbl9wcm9iX2RhdGEgPSBtZWFuKGxuX3Byb2JfZGF0YSksCiAgICAgICAgICAgIHNkX2xuX3Byb2JfZGF0YSA9IHNkKGxuX3Byb2JfZGF0YSksCiAgICAgICAgICAgIGxvID0gbWVhbl9sbl9wcm9iX2RhdGEgLSAyKnNkX2xuX3Byb2JfZGF0YSwKICAgICAgICAgICAgaGkgPSBtZWFuX2xuX3Byb2JfZGF0YSArIDIqc2RfbG5fcHJvYl9kYXRhKQpwIDwtIGdncGxvdChyZXN1bHRzLCBhZXMoeCA9IGssIHkgPSBtZWFuX2xuX3Byb2JfZGF0YSwKICAgICAgICAgICAgICAgICAgICAgICAgIHltaW4gPSBsbywgeW1heCA9IGhpKSkgKwogIGdlb21fcG9pbnQoc2l6ZSA9IDMpICsKICBnZW9tX2xpbmUoKSArCiAgZ2VvbV9lcnJvcmJhcih3aWR0aCA9IDAuMikgKwogIHRoZW1lX2J3KCkgKwogIHhsYWIoIksiKSArCiAgeWxhYigiTWVhbiBsb2cgcHJvYmFiaWxpdHkgb2YgZGF0YSIpCnAKZ2dzYXZlKHBhc3RlKHBhdGgsICJsbl9wcm9iX29mX2RhdGEucGRmIiwgc2VwID0gIiIpKQpgYGAKClRoYXQgY29kZSBydW5zIGZvciBhYm91dCAzMCBtaW51dGVzIG9uIG15IE1hY0Jvb2sgUHJvLiBXaGVuIGl0IGZpbmlzaGVzLCB5b3UnbGwgc2VlIGEgYnVuY2ggb2YgbmV3IGZpbGVzIGluIHRoZSBkaXJlY3Rvcnkgd2hlcmUgeW91IGhhdmUgdGhlIGRhdGE6IGBsbl9wcm9iX29mX2RhdGEucGRmYCBzaG93cyB0aGUgbG9nIHByb2JhYmlsaXR5IG9mIHRoZSBkYXRhICh3aXRoIGVycm9yIGJhcnMpIGZvciBlYWNoIGBLYCAoYEtgID0gMiwuLi4sOSkuIFRoaXMgcGxvdCB3aWxsIGhlbHAgeW91IGlkZW50aWZ5IHRoZSBgS2Agb3IgdGhlIHNldCBvZiBgS2BzIHRoYXQgYXJlIHJlYXNvbmFibGUgZm9yIHRoZSBkYXRhIHlvdSd2ZSBhbmFseXplZC4gCgojIyBQcmVwYXJpbmcgZm9yIENMVU1QUEFLCgpJbiBhZGRpdGlvbiB5b3UnbGwgZmluZCBhIGxvdCBvZiBmaWxlcyBuYW1lZCBzb21ldGhpbmcgbGlrZSBgcmVzdWx0c19qb2JfVDJfMDFfZmAuIFB1dCBhbGwgb2YgdGhvc2UgaW50byBhIFpJUCBmaWxlLiBJIHN1Z2dlc3QgdXNpbmcgdGhlIG5hbWUgYHJlc3VsdHMuemlwYCwgYnV0IHRoZSBuYW1lIGRvZXNuJ3QgbWF0dGVyLiBKdXN0IHJlbWVtYmVyIHRoZSBuYW1lIGFuZCByZW1lbWJlciB3aGVyZSB0aGUgZmlsZSBpcy4gCgpPbiBXaW5kb3dzIHlvdSBzaG91bGQgYmUgYWJsZSB0byBjcmVhdGUgdGhlIFpJUCBmaWxlIHVzaW5nIFdpblpJUC5eW05pY2sgd2lsbCBoYXZlIHRvIGhlbHAgeW91IHdpdGggdGhpcywgc2luY2UgSSBkb24ndCBoYXZlIGFjY2VzcyB0byBhIFdpbmRvd3MgbWFjaGluZS5dIE9uIG1hY09TLCBvcGVuIGEgdGVybWluYWwgd2luZG93IGluIGBSYCBTdHVkaW8gYnkgc2VsZWN0aW5nICJUb29scyAtPiBUZXJtaW5hbCAtPiBOZXcgVGVybWluYWwiIGZyb20gdGhlIG1lbnUuIFlvdSdsbCBzZWUgYSBuZXcgdGFiIG9wZW4gaW4gdGhlIGFyZWEgd2hlcmUgeW91IHByZXZpb3VzbHkgc2F3IHRoZSBgUmAgY29uc29sZS5eW0ZvciBhbnkgb2YgeW91IHdobyBjYXJlIHRoaXMgdGVybWluYWwgaXMgZXF1aXZhbGVudCB0byB0aGUgb25lIHlvdSdkIGdldCBieSBydW5uaW5nIHRoZSBUZXJtaW5hbCBhcHBsaWNhdGlvbiwgYnV0IGl0IGRyb3BzIHlvdSBhdXRvbWF0aWNhbGx5IGludG8gdGhlIHJpZ2h0IGRpcmVjdG9yeS4gWW91IGRvbid0IGhhdmUgdG8gdXNlIGBjZGAgdG8gZ2V0IHRoZXJlLl0gVGhlbiBzaW1wbHkgdHlwZQoKYGBgCnppcCAtbTkgcmVzdWx0cy56aXAgcmVzdWx0c19qb2IqCmBgYApZb3UnbGwgc2VlIGl0IGNodXJuIGZvciBhIHdoaWxlLCBhbmQgeW91J2xsIG5vdGljZSB0aGF0IGFsbCBvZiB0aGUgYHJlc3VsdHNgIGZpbGVzIHlvdSBoYWQgYmVmb3JlIGFyZSBnb25lIGFuZCB0aGF0IHlvdSBoYXZlIGEgbmV3IGByZXN1bHRzLnppcGAgZmlsZS4KCiMjIFJ1bm5pbmcgQ0xVTVBQQUsKCk5vdyBpdCdzIHRpbWUgdG8gc3RhcnQgdXAgeW91ciBicm93c2VyIG9mIGNob2ljZSBhbmQgcG9pbnQgaXQgdG8gdGhlIFtgQ0xVTVBQQUtgIHNlcnZlcl0oaHR0cHM6Ly9jbHVtcGFrLnRhdS5hYy5pbC8pLiBUaGUgYENMVU1NUEFLYCBzZXJ2ZXIgcHJvdmlkZXMgYSBsb3Qgb2Ygb3B0aW9ucywgYnV0IHdlJ2xsIHVzZSB0aGUgbWFpbiBwaXBlbGluZSBmb3Igb3VyIGFuYWx5c2VzLiBPbmNlIHlvdSdyZSB0aGVyZSwgc2Nyb2xsIGRvd24gdG8gIlJ1biBNYWluIFBpcGVsaW5lIiwgcHVzaCB0aGUgIkNob29zZSBmaWxlIiBvcHRpb24gYW5kIHBpY2sgdGhlIGNvcHkgb2YgYHJlc3VsdHMuemlwYCB0aGF0IHlvdSBqdXN0IG1hZGUuIFRoZW4gc2Nyb2xsIGRvd24gYSBiaXQgZnVydGhlciBhbmQgZW50ZXIgeW91ciBlbWFpbCBhZGRyZXNzLiBJbiAxMC0xNSBtaW51dGVzLCBtYXliZSBsZXNzLCB5b3Ugc2hvdWxkIHJlY2VpdmUgYW4gZW1haWwgd2l0aCBhIGxpbmsgdG8gdmlldyByZXN1bHRzIG9mIHRoZSBhbmFseXNpcy4gV2hlbiB5b3UgZm9sbG93IHRoYXQgbGluayB0aGVyZSB3aWxsIGJlIHR3byBmaWxlIGxpbmtzIG9uIHRoZSBwYWdlIHRoYXQgeW91IHZpc2l0LiBPbmUgaXMgYSBzdW1tYXJ5IFBERiBhbmQgb25lIGlzIGEgWklQIGZpbGUuIFdlIHdvbid0IGJvdGhlciB3aXRoIHRoZSBaSVAgZmlsZS4gSnVzdCBkb3dubG9hZCB0aGUgUERGLiBJdCB3aWxsIHNob3cgeW91IGBTdHJ1Y3R1cmVgIHBsb3RzIGZvciBlYWNoIG9mIHRoZSBgS2BzIGluY2x1ZGVkIGluIHlvdXIgYW5hbHlzaXMuCgojIyBTdWdnZXN0aW9ucyBmb3IgdGhlIGxhYiBleGVyY2lzZQoKRm9yIHRoZSBsYWIgZXhlcmNpc2UsIEkgc3VnZ2VzdCB0aGF0IHJvdWdobHkgaGFsZiBvZiB5b3UgcnVuIHRoZSBjb2RlIGV4YWN0bHkgYXMgYWJvdmUgYW5kIHRoYXQgdGhlIG90aGVyIGhhbGYgb2YgeW91IHN1YnN0aXR1dGUgYG0tMC4yLTAuMDEtMTAwLWxvY2kuc3RydWAgZm9yIHRoZSBpbmZpbGUgaW4gdGhlIGNhbGwgdG8gYHBhcmFsbGVsX3N0cnVjdHVyZSgpYC4gT25jZSBib3RoIHNldHMgb2YgYW5hbHlzZXMgYXJlIGRvbmUsIHlvdSBzaG91bGQgY29tcGFyZSB0aGUgcmVzdWx0cyBhbmQgZGlzY3VzcyB0aGVtLiBJbiBkaXNjdXNzaW5nIHRoZW0sIHlvdSdsbCB3YW50IHRvIGtub3cgYSBjb3VwbGUgdGhhdDoKCi0gVGhlc2UgYXJlIHNpbXVsYXRlZCBkYXRhLCBhbmQgdGhlIHNpbXVsYXRpb25zIGluY2x1ZGVkIHRoZSBzYW1lIG51bWJlciBvZiBhY3R1YWwgcG9wdWxhdGlvbnMsIHRoZSBzYW1lIHBvcHVsYXRpb24gc2l6ZSBpbiBldmVyeSBwb3B1bGF0aW9uLCBhbmQgdGhlIHNhbWUgbXV0YXRpb24gcmF0ZSBhdCBldmVyeSBsb2N1cyBpbiBib3RoIGNhc2VzLiBUaGV5IGRpZmZlciBvbmx5IGluIHRoYXQgdGhlIGRhdGEgc2V0IHRoYXQgYmVnaW5zIHdpdGggYG0tMC4xYCBoYWQgbGVzcyBtaWdyYXRpb24gYW1vbmcgcG9wdWxhdGlvbnMgdGhhdCB0aGUgb25lIHRoYXQgYmVnaW5zIGBtLTAuMmAuCi0gVGhlIGFjdHVhbCBudW1iZXIgb2YgcG9wdWxhdGlvbnMgaXMgdGhlIHNhbWUgYXMgdGhlIG51bWJlciBvZiBwb3B1bGF0aW9ucyBpbmNsdWRlZCBpbiB0aGUgc2FtcGxlLgotIFlvdSBtaWdodCAob3IgbWlnaHQgbm90KSBhbHNvIGZpbmQgaXQgaGVscGZ1bCB0byB1c2UgYGFkZWdlbmV0YCB0byBjb252ZXJ0IHRoZSBgU3RydWN0dXJlYCBmb3JtYXQgZmlsZSBpbnRvIGEgZm9ybWF0IHRoYXQgYGhpZXJmc3RhdGAgY2FuIHVzZSB0byBlc3RpbWF0ZSA8ZW0+RjxzdWI+U1Q8L3N1Yj48L2VtPi4gQ29tcGFyaW5nIHRoZSA8ZW0+RjwvZW0+LXN0YXRpc3RpY3MgZm9yIHRoZSB0d28gZGF0YSBzZXRzIGNvdWxkIGJlIGluZm9ybWF0aXZlLiBJZiB5b3UgdXNlIGBoaWVyZnN0YXRgLCB5b3UnbGwgbmVlZCB0byBrbm93IHRoYXQgdGhlcmUgYXJlIDIwMCAoaW5kaXZpZHVhbHMpLCAxMDAgbWFya2VycyAobG9jaSksIGNvbHVtbiAxIGNvbnRhaW5zIHRoZSBsYWJlbHMgZm9yIGdlbm90eXBlcyAoaW5kaXZpZHVhbHMpLCBjb2x1bW4gMiBjb250YWlucyB0aGUgcG9wdWxhdGlvbiBmYWN0b3IgKHRoZSBwb3B1bGF0aW9uL2xvY2FsaXR5IGZyb20gd2hpY2ggYSBwYXJ0aWN1bGFyIHNhbXBsZSB3YXMgY29sbGVjdGVkKSwgdGhlcmUgYXJlIG5vIG9wdGlvbmFsIGNvbHVtbnMsIHRoZXJlIGlzbid0IGEgcm93IHdpdGggbWFya2VyIG5hbWVzLCBhbmQgZ2Vub3R5cGVzIGFyZSBjb2RlZCBpbiB0d28gcm93cy5eW0Rvbid0IGJlIGZyaWdodGVuZWQgd2hlbiB5b3UgZ2V0IHRoZSBmb2xsb3dpbmcgd2FybmluZyBtZXNzYWdlOgpgYGAKSW4gZGYyZ2VuaW5kKFggPSBYLCBwb3AgPSBwb3AsIHBsb2lkeSA9IDIsIHNlcCA9IHNlcCwgbmNvZGUgPSBuY29kZSkgOgogIGR1cGxpY2F0ZSBsYWJlbHMgZGV0ZWN0ZWQgZm9yIHNvbWUgaW5kaXZpZHVhbHM7IHVzaW5nIGdlbmVyaWMgbGFiZWxzCmBgYApUaGF0IGhhcHBlbnMgYmVjYXVzZSBpbmRpdmlkdWFscyBpbiBkaWZmZXJlbnQgcG9wdWxhdGlvbnMgaGF2ZSB0aGUgc2FtZSBsYWJlbCwgZS5nLiwgdGhlcmUncyBhbiBgSW5kLTNgIGluIGV2ZXJ5IHBvcHVsYXRpb24sIGFuZCB0aGUgc2FtZSBpcyB0cnVlIGZvciBldmVyeSBpbmRpdmlkdWFsIGxhYmVsIHdpdGhpbiBhIHBvcHVsYXRpb24uCl0KCiMgUHJvamVjdCAjMQoKRm9yIFByb2plY3QgIzEgeW91J2xsIHJlcGVhdCBleGFjdGx5IHdoYXQgeW91IGRpZCBpbiB0aGUgbGFiIGV4ZXJjaXNlLCBleGNlcHQgdGhhdCB5b3UnbGwgdXNlIHR3byBkaWZmZXJlbnQgZGF0YSBzZXRzOgoKLSBbbS0wLjEtMC4wMS0xMDAwLWxvY2kuc3RydV0oaHR0cHM6Ly9kYXJ3aW4uZWViLnVjb25uLmVkdS9lZWIzNDgtcmVzb3VyY2VzL20tMC4xLTAuMDEtMTAwMC1sb2NpLnN0cnUpCi0gW20tMC4yLTAuMDEtMTAwMC1sb2NpLnN0cnVdKGh0dHBzOi8vZGFyd2luLmVlYi51Y29ubi5lZHUvZWViMzQ4LXJlc291cmNlcy9tLTAuMi0wLjAxLTEwMDAtbG9jaS5zdHJ1KQoKVGhlc2UgZGF0YSBzZXRzIHdlcmUgZ2VuZXJhdGVkIHVuZGVyIHByZWNpc2VseSB0aGUgc2FtZSBzZXQgb2YgY29uZGl0aW9ucyBhcyB0aGUgdHdvIGRhdGEgc2V0cyB5b3UgbG9va2VkIGF0IGluIGxhYiwgZXhjZXB0IHRoYXQgdGhlIHNhbXBsZSBpbmNsdWRlcyBkYXRhIGZyb20gMTAwMCBsb2NpIGluIGVhY2ggY2FzZSBpbnN0ZWFkIG9mIG9ubHkgMTAwLiBVc2luZyByZXN1bHRzIGZyb20geW91ciBhbmFseXNlcyBvZiB0aGVzZSB0d28gZGF0YSBzZXRzXltFYWNoIG9mIHdoaWNoIHdpbGwgcHJvYmFibHkgdGFrZSAzLTQuIGhvdXJzLCBzbyBwbGFuIGFoZWFkIGFuZCBsZWF2ZSB5b3Vyc2VsZiBwbGVudHkgb2YgdGltZSB0byB0aGluayBhYm91dCB0aGUgcmVzdWx0cyBhZnRlciB0aGUgYW5hbHlzZXMgYXJlIGZpbmlzaGVkLl0gYW5zd2VyIHRoZSBmb2xsb3dpbmcgcXVlc3Rpb25zOgoKMS4gV2hhdCBgS2AgKG9yIGBLYHMpIGRvIHlvdSB0aGluayBiZXN0IHJlZmxlY3QgdGhlIHN0cnVjdHVyZSBpbiBlYWNoIG9mIHRoZSBkYXRhIHNldHM/IAoKMi4gV2hhdCBkbyB0aGVzZSByZXN1bHRzIHRlbGwgeW91IGFib3V0IHRoZSBnZW5ldGljIHN0cnVjdHVyZSBvZiB0aGUgdW5kZXJseWluZyBwb3B1bGF0aW9uPyBUbyBtYWtlIHRoYXQgcXVlc3Rpb24gYSBiaXQgbW9yZSBleHBsaWNpdDogYFN0cnVjdHVyZWAgaWRlbnRpZmllcyBnZW5ldGljIGNsdXN0ZXJzICppbiB0aGUgZGF0YSBpdCBhbmFseXplcyouIEknbSBhc2tpbmcgeW91IHdoYXQgY2FuIHlvdSBpbmZlciBhYm91dCBnZW5ldGljIGNsdXN0ZXJzICppbiB0aGUgcG9wdWxhdGlvbnMgZnJvbSB3aGljaCB0aGUgZGF0YSB3ZXJlIGNvbGxlY3RlZCogYmFzZWQgb24gdGhlIGNsdXN0ZXJzIGBTdHJ1Y3R1cmVgIGlkZW50aWZpZWQgaW4gdGhlIGRhdGEuXltUaGlzIGlzIGFuYWxvZ291cyB0byBhc2tpbmcgd2hhdCB5b3UgY2FuIGluZmVyIGFib3V0ICRGX3tTVCQgaW4gYSBzZXQgb2YgcG9wdWxhdGlvbnMgZnJvbSB0aGUgKmVzdGltYXRlKiBvZiAkRl97U1R9JCBmcm9tIGEgc2V0IG9mIGRhdGEuXSBZb3UgbWlnaHQgZmluZCBpdCB1c2VmdWwgdG8gdGhpbmsgYWJvdXQgaG93IGVzdGltYXRlcyBvZiAkRl97U1R9JCBkaWZmZXIgd2hlbiB0aGUgZGlmZmVyZW50IGRhdGEgc2V0cyBhcmUgdXNlZC4KCjMuIEkgdG9sZCB5b3UgdGhhdCB0aGVyZSBpcyBtb3JlIG1pZ3JhdGlvbiwgaS5lLiwgZ2VuZSBleGNoYW5nZSwgYW1vbmcgcG9wdWxhdGlvbnMgaW4gdGhlIGBtLTAuMmAgZGF0YSBzZXQgdGhhbiBpbiB0aGUgYG0tMC4xYCBkYXRhIHNldC4gSG93IG1pZ2h0IHRoaXMgaGVscCB5b3UgdW5kZXJzdGFuZCBhbnkgZGlmZmVyZW5jZXMgYmV0d2VlbiB5b3VyIHJlc3VsdHMgZm9yIHRoZSB0d28gZGF0YSBzZXRzP15bUmVtZW1iZXIsIHRoZSBzaW11bGF0aW9ucyB0aGF0IHByb2R1Y2VkIHRoZXNlIHJlc3VsdHMgaGFkIHRoZSBzYW1lIG51bWJlciBvZiBwb3B1bGF0aW9ucyBhbmQgdGhlIHNhbWUgc2l6ZSBmb3IgZXZlcnkgcG9wdWxhdGlvbiB3aGVuIEkgcHJvZHVjZWQgYm90aCBkYXRhIHNldHMuXQoKNC4gVGhlIG9ubHkgZGlmZmVyZW5jZSBiZXR3ZWVuIHRoZSBkYXRhIHNldHMgeW91IGV4cGxvcmVkIGluIGxhYiBhbmQgdGhvc2UgdGhhdCB5b3UgYW5hbHplZCBmb3IgdGhpcyBwcm9qZWN0IGlzIHRoYXQgdGhvc2UgeW91IGV4cGxvcmVkIGZvciB0aGlzIHByb2plY3QgZWFjaCBoYWQgMTAwMCBsb2NpIHJhdGhlciB0aGFuIDEwMCBsb2NpLiBPYnZpb3VzbHksIG1vcmUgbG9jaSBtZWFucyBtb3JlIGRhdGEsIGJ1dCB3aGF0IGRvZXMgdGhpcyBjb21wYXJpc29uIHN1Z2dlc3QgYWJvdXQgaG93IHlvdSBzaG91bGQgYXBwcm9hY2ggaW50ZXJwcmV0aW5nIHRoZSByZXN1bHRzIG9mIGBTdHJ1Y3R1cmVgIGFuYWx5c2VzPwoK</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRXN0aW1hdGluZyByZWxhdGl2ZSB2aWFiaWxpdGllcyIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKIyMgRXhhbXBsZSBmcm9tIGxlY3R1cmUKClRoZSBsYWIgZXhlcmNpc2Ugd2lsbCBwcmVzZW50IHlvdSB3aXRoIHNvbWUgbmV3IGRhdGEgb24gZ2Vub3R5cGVzIGJlZm9yZSBhbmQgYWZ0ZXIgc2VsZWN0aW9uIGFuZCBhc2sgeW91IGJvdGggdG8gZXN0aW1hdGUgcmVsYXRpdmUgdmlhYmlsaXRpZXMgYW5kIHRvIGFuc3dlciBzb21lIHF1ZXN0aW9ucyBhYm91dCB0aGVtLiBUbyBpbGx1c3RyYXRlIGhvdyB0byBkbyB0aGUgYW5hbHlzaXMsIEknbGwgdXNlIHRoZSBkYXRhIHdlIGNvdmVyZWQgaW4gbGVjdHVyZS4KCkZpcnN0LCB3ZSBsb2FkIHRoZSAiYmVmb3JlIHNlbGVjdGlvbiIgYW5kICJhZnRlciBzZWxlY3Rpb24gZGF0YSBpbnRvIHZhcmlhYmxlcyBJIGNyZWF0aXZlbHkgbmFtZWQgYGJlZm9yZWAgYW5kIGBhZnRlcmAuCgpgYGB7cn0KYmVmb3JlIDwtIGMoNDEsIDgyLCAyNykKYWZ0ZXIgPC0gYyg1NywgMTY5LCAyOSkKYGBgCgpOb3cgdGhhdCB3ZSBoYXZlIHRoZSBkYXRhIGxvYWRlZCwgd2UgY2FuIHVzZSB0aGUgZnVuY3Rpb24gYHJlbGF0aXZlKClgIGluIHRoZSBjb2RlIGJsb2NrIGJlbG93IHRvIGVzdGltYXRlIGFuZCByZXBvcnQgdGhlIGZpdG5lc3Nlcy4gQnkgc2V0dGluZyBgcHJpbnQgPSBUUlVFYCB0aGUgcmVzdWx0cyBhcmUgYXV0b21hdGljYWxseSByZXBvcnRlZCBmb3IgdXMuIAoKYGBge3J9CnJlbGF0aXZlIDwtIGZ1bmN0aW9uKGJlZm9yZSwgYWZ0ZXIsIHByaW50ID0gRkFMU0UpIHsKICB4X2EgPC0gYWZ0ZXIvc3VtKGFmdGVyKQogIHhfeiA8LSBiZWZvcmUvc3VtKGJlZm9yZSkKICB3XzExIDwtICh4X2FbMV0veF9hWzJdKSooeF96WzJdL3hfelsxXSkKICB3XzIyIDwtICh4X2FbM10veF9hWzJdKSooeF96WzJdL3hfelszXSkKICBpZiAocHJpbnQpIHsKICAgIHJlc3VsdCA8LSBzcHJpbnRmKCJWaWFiaWxpdHkgICAgJTAuMmYgICAgJTAuMmYgICAgJTAuMmYiLCB3XzExLCAxLCB3XzIyKQogICAgY2F0KCJHZW5vdHlwZSAgICAgQTFBMSAgICBBMUEyICAgIEEyQTJcbiIsIHJlc3VsdCwgIlxuIiwgc2VwID0gIiIpCiAgfQogIHJldHVybihsaXN0KHdfMTEgPSB3XzExLCB3XzIyID0gd18yMikpCn0KCmZpdG5lc3NlcyA8LSByZWxhdGl2ZShiZWZvcmUsIGFmdGVyLCBwcmludCA9IFRSVUUpCmBgYAoKVGhhdCdzIGdyZWF0LCBidXQgeW91J3ZlIGhlYXJkIG1lIGhhcnAgb24gaG93IGltcG9ydGFudCBpdCBpcyB0byBnZXQgc29tZSBzZW5zZSBvZiBob3cgcmVsaWFibGUgb3VyIGVzdGltYXRlcyBhcmUuIFdlIGtub3cgdGhhdCB0aGUgcmVsYXRpdmUgZml0bmVzcyBvZiBgQTFBMmAgaXMgMSwgYmVjYXVzZSB3ZSdyZSBjYWxjdWxhdGluZyB0aGUgZml0bmVzcyBvZiB0aGUgb3RoZXIgZ2Vub3R5cGVzIHJlbGF0aXZlIHRvIGl0LiBXZSdsbCBnZXQgYXBwcm94aW1hdGUgOTUgcGVyY2VudCBjb25maWRlbmNlIGludGVydmFscyBieSBib290c3RyYXBwaW5nIG91ciBzYW1wbGVzLCByZWNhbGN1bGF0aW5nIHRoZSBmaXRuZXNzZXMgZm9yIGVhY2ggc2FtcGxlLCBhbmQgc3VtbWFyaXppbmcgdGhlIHJlc3VsdC4gVGhhdCBzb3VuZHMgcHJldHR5IGNvbXBsaWNhdGVkLCBidXQgdGhlIGBSYCBjb2RlIHRvIGRvIGl0IGlzbid0IHRvbyBiYWQuIEJ5IGRlZmF1bHQsIHRoaXMgY29kZSB3aWxsIGNvbnN0cnVjdCA1MDAwIGJvb3RzdHJhcCBzYW1wbGVzLiBIZXJlIGl0IGlzOgoKYGBge3J9CmNvbnN0cnVjdF9zYW1wbGUgPC0gZnVuY3Rpb24oeCkgewogIGsgPC0gYyhyZXAoMSwgeFsxXSksIHJlcCgyLCB4WzJdKSwgcmVwKDMsIHhbM10pKQogIGtfbmV3IDwtIHNhbXBsZShrLCBzaXplID0gbGVuZ3RoKGspLCByZXBsYWNlID0gVFJVRSkKICB4X25ldyA8LSBjKGxlbmd0aChrX25ld1trX25ldyA9PSAxXSksIGxlbmd0aChrX25ld1trX25ldyA9PSAyXSksIGxlbmd0aChrX25ld1trX25ldyA9PSAzXSkpCiAgcmV0dXJuKHhfbmV3KQp9Cgpib290c3RyYXBfcmVsYXRpdmUgPC0gZnVuY3Rpb24oYmVmb3JlLCBhZnRlciwgcXRpbGUgPSAwLjA1LCBuX3NhbXBsZSA9IDUwMDApIHsKICB3XzExIDwtIG51bWVyaWMobl9zYW1wbGUpCiAgd18yMiA8LSBudW1lcmljKG5fc2FtcGxlKQogIGZvciAoaSBpbiAxOm5fc2FtcGxlKSB7CiAgICBhZHVsdCA8LSBjb25zdHJ1Y3Rfc2FtcGxlKGFmdGVyKQogICAgenlnb3RlIDwtIGNvbnN0cnVjdF9zYW1wbGUoYmVmb3JlKQogICAgZml0bmVzc2VzIDwtIHJlbGF0aXZlKHp5Z290ZSwgYWR1bHQpCiAgICB3XzExW2ldIDwtIGZpdG5lc3NlcyR3XzExCiAgICB3XzIyW2ldIDwtIGZpdG5lc3NlcyR3XzIyCiAgfQogIGhlYWRlciA8LSBzcHJpbnRmKCJGaXRuZXNzICAgJTQuMWYlJSAgJTQuMWYlJVxuIiwgMTAwKnF0aWxlLzIsIDEwMCooMSAtIHF0aWxlLzIpKQogIHF0aWxlcyA8LSBxdWFudGlsZSh3XzExLCBjKHF0aWxlLzIsIDEgLSBxdGlsZS8yKSkKICByb3dfMSA8LSBzcHJpbnRmKCJ3XzExICAgICAgJTAuMmYgICAlMC4yZlxuIiwgcXRpbGVzWzFdLCBxdGlsZXNbMl0pCiAgcXRpbGVzIDwtIHF1YW50aWxlKHdfMjIsIGMocXRpbGUvMiwgMSAtIHF0aWxlLzIpKQogIHJvd18yIDwtIHNwcmludGYoIndfMjIgICAgICAlMC4yZiAgICUwLjJmXG4iLCBxdGlsZXNbMV0sIHF0aWxlc1syXSkKICBjYXQoaGVhZGVyLCByb3dfMSwgcm93XzIpCn0KCmJvb3RzdHJhcF9yZWxhdGl2ZShiZWZvcmUsIGFmdGVyKQpgYGAKCkFzIHlvdSBjYW4gc2VlLCB0aGUgOTUgcGVyY2VudCBjb25maWRlbmNlIGludGVydmFsIGZvciBgd18xMWAgaW5jbHVkZXMgdmFsdWVzIGxhcmdlciB0aGFuIDEsIG1lYW5pbmcgdGhhdCBhdCB0aGlzIGxldmVsIG9mIGNvbmZpZGVuY2Ugd2UgY2FuJ3QgZXhjbHVkZSB0aGUgcG9zc2liaWxpdHkgdGhhdCBBMUExIGhhcyBhIGdyZWF0ZXIgdmlhYmlsaXR5IHRoYW4gQTFBMi4gSW4gY29udHJhc3QsIHdlIGFyZSBxdWl0ZSBjb25maWRlbnQgdGhhdCBBMkEyIGlzIGxlc3MgdmlhYmxlIHRoYW4gQTFBMi4gSWYgd2UgZXhhbWluZSByZXN1bHRzIHVzaW5nIHRoZSA4MCBwZXJjZW50IGNvbmZpZGVuY2UgaW50ZXJ2YWxzLCB3ZSB3b3VsZCBjb25jbHVkZSB0aGF0IEExQTEgaXMgbGVzcyB2aWFibGUgdGhhbiBBMUEyLiAgCgpgYGB7cn0KYm9vdHN0cmFwX3JlbGF0aXZlKGJlZm9yZSwgYWZ0ZXIsIDAuMikKYGBgCgpJIGludGVycHJldCB0aGVzZSByZXN1bHRzIGFzIGZvbGxvd3M6CgoxLiBPdXIgYmVzdCBlc3RpbWF0ZSBpcyB0aGF0IGJvdGggaG9tb3p5Z290ZXMgaGF2ZSBsb3dlciB2aWFiaWxpdGllcyB0aGFuIHRoZSBoZXRlcm96eWdvdGUuCjIuIFdlIGFyZSBxdWl0ZSBjb25maWRlbnQgdGhhdCBBMkEyIGhhcyBhIGxvd2VyIHZpYWJpbGl0eSB0aGFuIHRoZSBoZXRlcm96eWdvdGUsIGJ1dCB3ZSBoYXZlIG9ubHkgbG93IGNvbmZpZGVuY2UgdGhhdCBBMUExIGhhcyBsb3dlciB2aWFiaWxpdHkgdGhhbiB0aGUgaGV0ZXJvenlnb3RlLgozLiBPbiBiYWxhbmNlIGl0IGFwcGVhcnMgdGhhdCB0aGVyZSBpcyBoZXRlcm96eWdvdGUgYWR2YW50YWdlLCBhbmQgd2Ugd291bGQgZXhwZWN0IGJvdGggYWxsZWxlcyB0byBwZXJzaXN0IGluIHRoZSBwb3B1bGF0aW9uLiBCdXQgb3VyIGNvbmZpZGVuY2UgaXMgbG93LiBUaGVyZSBpcyBhIHJlYXNvbmFibGUgY2hhbmNlIHRoYXQgdGhlcmUgaXMgZGlyZWN0aW9uYWwgc2VsZWN0aW9uIGZvciB0aGUgQTEgYWxsZWxlLCB3aGljaCB3b3VsZCBsZWFkIHRvIGZpeGF0aW9uIG9uIEExLgoKIyMgTGFiIGV4ZXJjaXNlCgpZb3NoaWtvIFRvYmFyaSBhbmQgS2VuLUljaGkgS29qaW1hIChHZW5ldGljcyA1NzoxNzktMTg4OyAxOTY3KSBzdHVkaWVkIHRoZSBldm9sdXRpb25hcnkgZHluYW1pY3Mgb2YgYW4gaW52ZXJzaW9uIHBvbHltb3JwaGlzbSBvbiBjaHJvbW9zb21lIDIgb2YgX0Ryb3NvcGhpbGEgYW5hbmFzc2FlXyBpbiBhIHBvcHVsYXRpb24gY2FnZS4gVGhyb3VnaCB0aGUgc3RhbmRhcmQgc29ydCBvZiB0cmlja3kgZ2VuZXRpYyBtYW5pcHVsYXRpb25zIHRoYXQgX0Ryb3NvcGhpbGFfIGdlbmV0aWNpc3RzIGRvLCB0aGV5IGRlcml2ZWQgdHdvIGxpbmVzIHRoYXQgd2VyZSBob21venlnb3VzIGZvciBlYWNoIGNocm9tb3NvbWUgdHlwZS4gVGhleSB0aGVuIHN0YXJ0ZWQgZGlmZmVyZW50IHBvcHVsYXRpb24gY2FnZXMgd2l0aCBkaWZmZXJpbmcgbnVtYmVycyBvZiBmbGllcyBob21venlnb3VzIGZvciBlYWNoIGNocm9tb3NvbWFsIGFycmFuZ2VtZW50LiBTcGVjaWZpY2FsbHksCgoKfCBQb3B1bGF0aW9uIHwgIEFBIHwgIEFCIHwgIEJCIHwKfCAtLS06ICAgICAgIHw6LS0tOnw6LS0tOnw6LS0tOnwKfCAxICAgICAgICAgIHwgMTAwIHwgICAwIHwgOTAwIHwKfCAyICAgICAgICAgIHwgOTAwIHwgICAwIHwgMTAwIHwKCkFmdGVyIG9uZSBnZW5lcmF0aW9uIG9mIHJlcHJvZHVjdGlvbiBpbiB0aGUgY2FnZSB0aGV5IHRvb2sgYSBzYW1wbGUgb2YgYWR1bHRzIGFuZCBvYnRhaW5lZCB0aGUgZm9sbG93aW5nIOKAnGdlbm90eXBl4oCdIGNvdW50czpeW0FzIHVzdWFsLCBJ4oCZbSB0cmVhdGluZyBhIGNocm9tb3NvbWUgaW52ZXJzaW9uIHR5cGUuIEnigJl2ZSBhbHNvIHNpbXBsaWZpZWQgdGhlc2UgZGF0YSBhIGJpdC4gVGhlIGNvdW50cyBjb21iaW5lIHJlc3VsdHMgZnJvbSB0d28gcmVwbGljYXRlIHBvcHVsYXRpb25zIG9mIGVhY2ggcG9wdWxhdGlvbiBjb25maWd1cmF0aW9uLl0KCnwgUG9wdWxhdGlvbiB8ICBBQSB8ICBBQiB8ICBCQiB8CnwgLS0tOiAgICAgICB8Oi0tLTp8Oi0tLTp8Oi0tLTp8CnwgMSAgICAgICAgICB8IDE5ICB8IDEyNSB8IDE1NiB8CnwgMiAgICAgICAgICB8MjA2ICB8ICA4NyB8ICAgIDd8CgpBc3N1bWUgdGhhdCBuZXdseSBmb3JtZWQgenlnb3RlcyBpbiB0aGUgZ2VuZXJhdGlvbiBmcm9tIHdoaWNoIHRoZSBhZHVsdCBzYW1wbGUgd2FzIHRha2VuIGFyZSBmb3VuZCBpbiBIYXJkeS1XZWluYmVyZyBwcm9wb3J0aW9ucyB3aXRoIGNocm9tb3NvbWUgZnJlcXVlbmNpZXMgZXF1YWwgdG8gdGhvc2UgaW4gdGhlIGJhc2UgcG9wdWxhdGlvbnNeW0luIG90aGVyIHdvcmRzLCB0aGUgZnJlcXVlbmN5IG9mIEEgaW4gUG9wdWxhdGlvbiAxIGlzIDEwMC8xMDAwID0gMC4xLl0uIFVzaW5nIHRoZXNlIGRhdGEgYW5zd2VyIHRoZSBmb2xsb3dpbmcgcXVlc3Rpb25zOgoKMS4gV2hhdCBhcmUgdGhlIGZpdG5lc3NlcyBvZiBBQSBhbmQgQkIgcmVsYXRpdmUgdG8gQUIgaW4gZWFjaCBwb3B1bGF0aW9uLCBhbmQgd2hhdCBhcmUgdGhlIDk1JSBjcmVkaWJsZSBsaW1pdHMgb24gdGhvc2UgZml0bmVzc2VzPwoKMi4gSG93IGxpa2VseSBpcyBpdCB0aGF0IHRoZXJlIGlzIGhldGVyb3p5Z290ZSBhZHZhbnRhZ2UgaW4gZWl0aGVyIHBvcHVsYXRpb24/CgozLiBBcmUgdGhlIHJlbGF0aXZlIGZpdG5lc3NlcyBvZiB0aGUgZ2Vub3R5cGVzIHRoZSBzYW1lIG9yIGRpZmZlcmVudCBpbiB0aGUgdHdvIHBvcHVsYXRpb25zPwoKNC4gR2l2ZW4geW91ciBhbnN3ZXJzIHRvICgxKSAmICgyKSBhbmQgYXNzdW1pbmcgdGhhdCB0aG9zZSBmaXRuZXNzZXMgYXJlIHRoZSBvbmx5IGV2b2x1dGlvbmFyeSBmb3JjZSBhY3RpbmcsIHdoYXQgZG8geW91IHByZWRpY3QgYWJvdXQgdGhlIGVxdWlsaWJyaXVtIGNvbXBvc2l0b24gb2YgX0Ryb3NvcGhpbGEgYW5hbmFzc2FlXyBwb3B1bGF0aW9ucy4gV2lsbCB0aGV5IGJlIHBvbHltb3JwaGljPyBtb25vbW9ycGhpYyBmb3IgQT8gbW9ub21vcnBoaWMgZm9yIEI/IG9yIHdpbGwgdGhlIHJlc3VsdCBkZXBlbmQgb24gaW5pdGlhbCBmcmVxdWVuY2llcz8gQmUgc3VyZSB0byBleHBsYWluIHlvdXIgYW5zd2VyIGJlY2F1c2UgKGEpIGlmIHlvdSBsb29rIHVwIHRoZSBvcmlnaW5hbCBwYXBlciB5b3Ugd2lsbCBzZWUgdGhlIHJlc3VsdCBhbmQgKGIpIHRoZSBwYXR0ZXJuIG9mIHNlbGVjdGlvbiBoYXBwZW5pbmcgaGVyZSBpcyBkaWZmZXJlbnQgZnJvbSBhbnl0aGluZyB3ZeKAmXZlIGRpc2N1c3NlZCBpbiBjbGFzcy4=</div>
 
 
 
@@ -2080,7 +2016,7 @@ $(document).ready(function () {
 <!-- code folding -->
 <script>
 $(document).ready(function () {
-  window.initializeSourceEmbed("Project-#1-2023.Rmd");
+  window.initializeSourceEmbed("Lab-2023-09-19.Rmd");
   window.initializeCodeFolding("show" === "show");
 });
 </script>

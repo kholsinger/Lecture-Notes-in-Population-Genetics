@@ -1,0 +1,103 @@
+---
+title: "Estimating relative viabilities"
+output: html_notebook
+---
+
+## Example from lecture
+
+The lab exercise will present you with some new data on genotypes before and after selection and ask you both to estimate relative viabilities and to answer some questions about them. To illustrate how to do the analysis, I'll use the data we covered in lecture.
+
+First, we load the "before selection" and "after selection data into variables I creatively named `before` and `after`.
+
+```{r}
+before <- c(41, 82, 27)
+after <- c(57, 169, 29)
+```
+
+Now that we have the data loaded, we can use the function `relative()` in the code block below to estimate and report the fitnesses. By setting `print = TRUE` the results are automatically reported for us. 
+
+```{r}
+relative <- function(before, after, print = FALSE) {
+  x_a <- after/sum(after)
+  x_z <- before/sum(before)
+  w_11 <- (x_a[1]/x_a[2])*(x_z[2]/x_z[1])
+  w_22 <- (x_a[3]/x_a[2])*(x_z[2]/x_z[3])
+  if (print) {
+    result <- sprintf("Viability    %0.2f    %0.2f    %0.2f", w_11, 1, w_22)
+    cat("Genotype     A1A1    A1A2    A2A2\n", result, "\n", sep = "")
+  }
+  return(list(w_11 = w_11, w_22 = w_22))
+}
+
+fitnesses <- relative(before, after, print = TRUE)
+```
+
+That's great, but you've heard me harp on how important it is to get some sense of how reliable our estimates are. We know that the relative fitness of `A1A2` is 1, because we're calculating the fitness of the other genotypes relative to it. We'll get approximate 95 percent confidence intervals by bootstrapping our samples, recalculating the fitnesses for each sample, and summarizing the result. That sounds pretty complicated, but the `R` code to do it isn't too bad. By default, this code will construct 5000 bootstrap samples. Here it is:
+
+```{r}
+construct_sample <- function(x) {
+  k <- c(rep(1, x[1]), rep(2, x[2]), rep(3, x[3]))
+  k_new <- sample(k, size = length(k), replace = TRUE)
+  x_new <- c(length(k_new[k_new == 1]), length(k_new[k_new == 2]), length(k_new[k_new == 3]))
+  return(x_new)
+}
+
+bootstrap_relative <- function(before, after, qtile = 0.05, n_sample = 5000) {
+  w_11 <- numeric(n_sample)
+  w_22 <- numeric(n_sample)
+  for (i in 1:n_sample) {
+    adult <- construct_sample(after)
+    zygote <- construct_sample(before)
+    fitnesses <- relative(zygote, adult)
+    w_11[i] <- fitnesses$w_11
+    w_22[i] <- fitnesses$w_22
+  }
+  header <- sprintf("Fitness   %4.1f%%  %4.1f%%\n", 100*qtile/2, 100*(1 - qtile/2))
+  qtiles <- quantile(w_11, c(qtile/2, 1 - qtile/2))
+  row_1 <- sprintf("w_11      %0.2f   %0.2f\n", qtiles[1], qtiles[2])
+  qtiles <- quantile(w_22, c(qtile/2, 1 - qtile/2))
+  row_2 <- sprintf("w_22      %0.2f   %0.2f\n", qtiles[1], qtiles[2])
+  cat(header, row_1, row_2)
+}
+
+bootstrap_relative(before, after)
+```
+
+As you can see, the 95 percent confidence interval for `w_11` includes values larger than 1, meaning that at this level of confidence we can't exclude the possibility that A1A1 has a greater viability than A1A2. In contrast, we are quite confident that A2A2 is less viable than A1A2. If we examine results using the 80 percent confidence intervals, we would conclude that A1A1 is less viable than A1A2.  
+
+```{r}
+bootstrap_relative(before, after, 0.2)
+```
+
+I interpret these results as follows:
+
+1. Our best estimate is that both homozygotes have lower viabilities than the heterozygote.
+2. We are quite confident that A2A2 has a lower viability than the heterozygote, but we have only low confidence that A1A1 has lower viability than the heterozygote.
+3. On balance it appears that there is heterozygote advantage, and we would expect both alleles to persist in the population. But our confidence is low. There is a reasonable chance that there is directional selection for the A1 allele, which would lead to fixation on A1.
+
+## Lab exercise
+
+Yoshiko Tobari and Ken-Ichi Kojima (Genetics 57:179-188; 1967) studied the evolutionary dynamics of an inversion polymorphism on chromosome 2 of _Drosophila ananassae_ in a population cage. Through the standard sort of tricky genetic manipulations that _Drosophila_ geneticists do, they derived two lines that were homozygous for each chromosome type. They then started different population cages with differing numbers of flies homozygous for each chromosomal arrangement. Specifically,
+
+
+| Population |  AA |  AB |  BB |
+| ---:       |:---:|:---:|:---:|
+| 1          | 100 |   0 | 900 |
+| 2          | 900 |   0 | 100 |
+
+After one generation of reproduction in the cage they took a sample of adults and obtained the following “genotype” counts:^[As usual, I’m treating a chromosome inversion type. I’ve also simplified these data a bit. The counts combine results from two replicate populations of each population configuration.]
+
+| Population |  AA |  AB |  BB |
+| ---:       |:---:|:---:|:---:|
+| 1          | 19  | 125 | 156 |
+| 2          |206  |  87 |    7|
+
+Assume that newly formed zygotes in the generation from which the adult sample was taken are found in Hardy-Weinberg proportions with chromosome frequencies equal to those in the base populations^[In other words, the frequency of A in Population 1 is 100/1000 = 0.1.]. Using these data answer the following questions:
+
+1. What are the fitnesses of AA and BB relative to AB in each population, and what are the 95% credible limits on those fitnesses?
+
+2. How likely is it that there is heterozygote advantage in either population?
+
+3. Are the relative fitnesses of the genotypes the same or different in the two populations?
+
+4. Given your answers to (1) & (2) and assuming that those fitnesses are the only evolutionary force acting, what do you predict about the equilibrium compositon of _Drosophila ananassae_ populations. Will they be polymorphic? monomorphic for A? monomorphic for B? or will the result depend on initial frequencies? Be sure to explain your answer because (a) if you look up the original paper you will see the result and (b) the pattern of selection happening here is different from anything we’ve discussed in class.

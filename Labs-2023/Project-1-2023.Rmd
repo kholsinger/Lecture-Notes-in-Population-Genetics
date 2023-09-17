@@ -1,0 +1,177 @@
+---
+title: "Evaluating population structure"
+output: html_notebook
+---
+
+# In lab exercise
+
+For the in lab exercise we'll use results derived from. two data sets that are relatively small, 200 individuals and 100 loci. The relatively small number of loci will allow you to analyze the data yourself using `Structure` if you're interested in doing so. See the notes at the bottom of this notebook if you're interested in doing that.
+
+## Running Structure Harvester
+
+As you'll recall from lecture, one thing you'll need to do is to decide on the `K` that best describes the structure in your data, recalling that there might not be a single "best" `K`. There might be a range of them. The easiest way to produce the log probability of the data plot that we'll use for picking `K` is to use [Structure Harvester](https://taylor0.biology.ucla.edu/structureHarvester/), a web application hosted at UCLA. Using it is very simple. Just click on the link, click on the "Choose file" button and navigate to the ZIP file that includes the `Structure` results, hit the blue "Harvest!" button, wait a little while, and you'll get a the log proability of the data plat that we're interested in. You can save the file to a PDF by clicking on the PDF link at the lower left of the plot. You'll want to save that file in the same directory where you're writing the `R` notebook you'll be using for the lab exercise. 
+
+## Running CLUMPPAK
+
+To get the barplots of `Structure` plots point your browser of choice to the [`CLUMPPAK` server](https://clumpak.tau.ac.il/). The `CLUMMPAK` server provides a lot of options, but we'll use the main pipeline for our analyses. Once you're there, scroll down to "Run Main Pipeline", push the "Choose file" option and pick the ZIP file you want to analyze. Then scroll down a bit further and enter your email address. In 10-15 minutes, maybe less, you should receive an email with a link to view results of the analysis. When you follow that link there will be two file links on the page that you visit. One is a summary PDF and one is a ZIP file. We won't bother with the ZIP file. Just download the PDF and save it in the same directory where you saved the PDF from `Structure Harvester`. This PDF will show you `Structure` plots for each of the `K`s included in your analysis.^[It will actually show you a bit more than that. Nick will explain it during lab.]
+
+## Suggestions for the lab exercise
+
+For the lab exercise, download the following two ZIP files and put them on you computer somewhere where you can find them. A good approach might be to create a directory somewhere called "Structure-Lab" and put them in there. 
+
+- Low migration: [ZIP file](http://darwin.eeb.uconn.edu/eeb348-resources/m-0.1-100-loci_results.zip) - [Raw Structure data](http://darwin.eeb.uconn.edu/eeb348-resources/m-0.1-100-loci.stru)
+- High migration: [ZIP file](http://darwin.eeb.uconn.edu/eeb348-resources/m-0.2-100-loci_results.zip) - [Raw Structure data](http://darwin.eeb.uconn.edu/eeb348-resources/m-0.2-100-loci.stru)
+
+Once you've got the files there, run analyses for both files in `Structure Harvester` and `CLUMPPAK`. In discussing the results you get, you'll want to know that:
+
+- These are simulated data, and the simulations included the same number of actual populations, the same population size in every population, and the same mutation rate at every locus in both cases. They differ only in that the data set that begins with `m-0.1` had less migration among populations that the one that begins `m-0.2`.
+- The actual number of populations is the same as the number of populations included in the sample.
+- You might (or might not) also find it helpful to use `adegenet` to convert the `Structure` format file into a format that `hierfstat` can use to estimate <em>F<sub>ST</sub></em>. Comparing the <em>F</em>-statistics for the two data sets could be informative. If you use `hierfstat`, you'll need to know that there are 200 (individuals), 100 markers (loci), column 1 contains the labels for genotypes (individuals), column 2 contains the population factor (the population/locality from which a particular sample was collected), there are no optional columns, there isn't a row with marker names, and genotypes are coded in two rows.^[Don't be frightened when you get the following warning message:
+```
+In df2genind(X = X, pop = pop, ploidy = 2, sep = sep, ncode = ncode) :
+  duplicate labels detected for some individuals; using generic labels
+```
+That happens because individuals in different populations have the same label, e.g., there's an `Ind-3` in every population, and the same is true for every individual label within a population.
+]
+
+## One more thing
+
+When you turn in your project to Nick, you'll want to include the figures that support your conclusions. You have two choices in how to do that:
+
+1. The easiest is to give your PDFs an informative name like `low-migration-Structure-Harvester.pdf` and send the four PDFs to Nick along with your `R` notebook for the project. You can pick any name that you want, so long as all four PDFs have different names and you tell Nick which file corresponds to which result.
+
+2. The slightly more difficult, but more elegant, approach is to embed your figures in your `R` notebook. That's easier than it sounds. Simply make sure that your `R` notebook is in the same directory as your figures and include code that looks like this in your `R` notebook.
+
+```
+![Low migration Structure Harvester results](low-migration-Structure-Harvester.pdf)
+```
+The part in square brackets is the text that will appear in the HTML (or the preview in `R` Studio). The part in parentheses is the name of the file to embed.
+
+# Project #1
+
+For Project #1 you'll repeat exactly what you did in the lab exercise, except that you'll use two different data sets:
+
+- Low migration: [ZIP file](http://darwin.eeb.uconn.edu/eeb348-resources/m-0.1-1000-loci_results.zip) - [Raw Structure data](http://darwin.eeb.uconn.edu/eeb348-resources/m-0.1-1000-loci.stru)
+- High migration: [ZIP file](http://darwin.eeb.uconn.edu/eeb348-resources/m-0.2-1000-loci_results.zip) - [Raw Structure data](http://darwin.eeb.uconn.edu/eeb348-resources/m-0.2-1000-loci.stru)
+
+These data sets were generated under precisely the same set of conditions as the two data sets you looked at in lab, except that the sample includes data from 1000 loci in each case instead of only 100. Using results from your analyses of these two data sets answer the following questions:
+
+1. What `K` (or `K`s) do you think best reflect the structure in each of the data sets? 
+
+2. What do these results tell you about the genetic structure of the underlying population? To make that question a bit more explicit: `Structure` identifies genetic clusters *in the data it analyzes*. I'm asking you what can you infer about genetic clusters *in the populations from which the data were collected* based on the clusters `Structure` identified in the data.^[This is analogous to asking what you can infer about $F_{ST$ in a set of populations from the *estimate* of $F_{ST}$ from a set of data.] You might find it useful to think about how estimates of $F_{ST}$ differ when the different data sets are used.
+
+3. I told you that there is more migration, i.e., gene exchange, among populations in the `m-0.2` data set than in the `m-0.1` data set. How might this help you understand any differences between your results for the two data sets?^[Remember, the simulations that produced these results had the same number of populations and the same size for every population when I produced both data sets.]
+
+4. The only difference between the data sets you explored in lab and those that you analzed for this project is that those you explored for this project each had 1000 loci rather than 100 loci. Obviously, more loci means more data, but what does this comparison suggest about how you should approach interpreting the results of `Structure` analyses?
+
+
+
+# Generating the results you used in lab
+
+Before you can run the lab exercise, you'll need to download and install two things:
+
+1. `Structure`: The underlying software that will run the analysis.
+2. `ParallelStructure`: An `R` package that is a convenient way to run <tt>Structure</tt>.
+
+## Installing `Structure`
+
+The instructions for installing `Structure` depend on whether you are running on Windows or on Mac OS X.
+
+### Installing `Structure` on Windows^[This approach should work on Linux too, but I haven't tried it in several years.]
+
+Nick is running a Windows machine. If you have problems with installation, he should be able to help you, but installation should be very straightforward. Simply click on the link to download <tt>Structure</tt> for Windows XP/Vista/Windows 7[^As you can tell from those version numbers, the softward hasn't been updated in a while.] under "Download package with graphical front end." Once you've done that, simply find the installation package, double click on it, and follow any instructions. You should be all set.
+
+### Installing `Structure` on macOS
+
+The approach I just described *should* work on macOS, but I haven't been able to get it to.^[It's probably related to how old the software on the `Structure` page is.] What I did manage to do is to download the `C` source code and compile it on my MacBook Pro. I've uploaded a [disk image](http://darwin.eeb.uconn.edu/eeb348-resources/Structure.dmg) to the course website. Once you've clicked on the link, wait for the disk image to download, open it, and drag the folder called "Structure" to your "Applications" directory.^[You'll find a link to the Applications directory in the disk image. You can simply drag it there.] Once you've done that, you should be all set.
+
+### Installing `ParallelStructure`
+
+Installing `ParallelStructure` is done in a slightly different way than installing a standard `R` package. Here's how you do it:
+
+```{r}
+install.packages("ParallelStructure", repos = "http://R-Forge.R-project.org")
+```
+
+The only difference from the usual approach is specifying a specific repository at `R` Forge.
+
+## Running `Structure`
+
+Now that you have `Structure` and `ParallelStructure` you're ready to try them out. For the lab exercise, download the following two files and save them somewhere that you can find them:
+
+- [m-0.1-100-loci.stru](http://darwin.eeb.uconn.edu/eeb348-resources/m-0.1-0.01-loci.stru)
+- [m-0.2-100-loci.stru](http://darwin.eeb.uconn.edu/eeb348-resources/m-0.2-0.01-loci.stru)
+
+In addition, download the following file and put it in the same directory as the files you just downloaded:
+
+- [joblist.txt](http://darwin.eeb.uconn.edu/eeb348-resources/joblist.txt)
+
+Once you've done that, start up `R` Studio and use "Session -> Set Working Directory -> Choose Directory" to select the directory in which you saved the files. Now you're ready to run the analysis using data from the first file, `m-0.1-0.01-100-loci.stru`:
+
+**NOTE**: `ParallelStructure` doesn't seem to work properly from an `R` notebook. You'll need to copy the code below into a console window and run it from there.
+
+**FURTHER NOTE**: If you're running Windows, it's easier to use the graphical interface. Nick can show you how. If you think you'll use `Structure` in. the future, though, it's worth figuring out how to run `ParallelStructure`, since it will be very helpful with real data sets that you analyze on a computational cluster.
+
+```{r}
+library(ParallelStructure)
+
+## for macOS: If you're running Windows, comment out the definition of architecture for
+## macOS and uncomment the definition for Windows
+##
+architecture <- "macOS"
+## for Windows
+##
+## architecture <- "Windows"
+
+if (architecture == "macOS") {
+  my_path <- "/Applications/Structure/"
+} else if (architecture == "Windows") {
+  my_path <- ""
+} else {
+  stop("Architecture not recognized.")
+}
+
+## Use parallel_structure() to run the analysis
+##
+parallel_structure(structure_path = my_path,
+                   joblist = "joblist.txt",
+                   n_cpu = 4,
+                   infile = "m-0.2-100-loci.stru",
+                   outpath = "",
+                   numinds = 20*10,
+                   numloci = 100,
+                   printqhat = 0,
+                   plot_output = 0)
+
+## You don't need any of this code, since it simply produces the log probability of data
+## plot that StructureHarvester produces, but you might find it useful to have around.
+## NOTE: This code won't work with results from the Structure GUI on Windows. It assumes that
+## you've run the parallel_structure() code and that the CSV file with results are in the 
+## directory where you're working.
+##
+# library(tidyverse)
+# library(ggplot2)
+# 
+# path <- ""
+# results <- read_csv(paste(path, "results_summary.csv", sep = ""),
+#                     skip = 1, 
+#                     col_select = c(k, ln_prob_data),
+#                     show_col_types = FALSE) %>%
+#   group_by(k) %>%
+#   summarize(mean_ln_prob_data = mean(ln_prob_data),
+#             sd_ln_prob_data = sd(ln_prob_data),
+#             lo = mean_ln_prob_data - 2*sd_ln_prob_data,
+#             hi = mean_ln_prob_data + 2*sd_ln_prob_data)
+# p <- ggplot(results, aes(x = k, y = mean_ln_prob_data,
+#                          ymin = lo, ymax = hi)) +
+#   geom_point(size = 3) +
+#   geom_line() +
+#   geom_errorbar(width = 0.2) +
+#   theme_bw() +
+#   xlab("K") +
+#   ylab("Mean log probability of data")
+# p
+# ggsave(paste(path, "ln_prob_of_data.pdf", sep = ""))
+```
+That code runs for about 30 minutes on my MacBook Pro. When it finishes, you'll see a bunch of new files in the directory where you have the data. Put all of the `results_job_*f` files into a ZIP file and you'll be where we started the lab exercise and assignment. 
+
