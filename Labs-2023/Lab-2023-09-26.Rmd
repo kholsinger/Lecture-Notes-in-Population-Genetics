@@ -1,0 +1,205 @@
+---
+title: "Exploring the properties of effective population size"
+output: html_notebook
+---
+
+## Some preliminary notes
+
+A couple of important notes about this week's lab exercise:
+
+1. The next several weeks^[Until we get to the 17th of October] will involve further exploration of ideas that we cover in class rather than analysis of data sets.
+
+2. This week's exercise won't require you to answer any questions. It will simply ask you to explore (through simulations) some properties of genetic drift. If you show Nick the explorations I ask for, you'll get full credit for this exercise, i.e., 10 out of 10 possible points. The exercises for the next couple of weeks will be similar, but I'll ask you to stretch yourself a bit and explain the patterns you see.
+
+## The idea we want to explore^[More precisely, the idea I'm *assigning* you to explore.]
+
+In lecture we'll see that the variance effective size of a population is defined as the size of an ideal population that has the same variance in allele frequency among offspring populations as the actual population we're interested in, i.e.,
+
+$$
+N_e^{(v)} = \frac{p(1-p)}{2\widehat{Var(p)}}
+$$
+
+We will also see that for a population with separate sexes
+
+$$
+N_e \approx \frac{4N_fN_m}{N_f + N_m}
+$$
+
+We're going to explore how well the $N_e$ we expect based on the number of reproducing females and males predicts the $N_e$ we infer from the observed variance in allele frequency among offspring populations.
+
+### The basic simulation
+
+To explore this relationship we will simulate the process of mating and reproduction in a finite population with separate sexes. Here's the process:
+
+1. We calculate genotype frequencies in the base population given the allele frequency $p_0$.^[And assuming that the genotypes are in Hardy-Weinberg proportions.]
+
+2. We construct $N_f$ female genotypes and $N_m$ male genotypes at random given those genotype frequencies.^[Assuming that the genotype frequencies are the same in both sexes.]
+
+3. We construct allele frequencies in an offspring population by picking one female and one male at random, averaging the allele frequency within them to produce the allele frequency in their offspring, and repeating until we've constructed $N_{pop}$ offspring. Then we take the average allele frequency across all of these offspring and we have the allele frequency in the offspring population.
+
+4. We then repeat that process to produce $N_{samp}$ different offspring populations. 
+
+Here's an example using $p_0 = 0.5$, $N_f = 10$, $N_m = 20$, $N_{pop} = 100$, and $N_{samp} = 100$.
+
+```{r}
+## The options line is optional. (Do you like the pun?) It merely turns
+## off the verbose messages we'd otherwise get when loading the 
+## tidyverse
+##
+options(tidyverse.quiet = TRUE)
+library(tidyverse)
+library(ggplot2)
+
+rm(list = ls())
+
+## NOTE: Don't include this line in your code. I include it so that if 
+## you run the R code yourself, you'll get the same results that I do.
+## The random number generator in R (and in other programming languages
+## for that matter) is a pseudo-random number generator. The numbers it
+## produces appear random, but if you give it the same "seed", it will
+## generate the same sequence of numbers.
+##
+set.seed(1234)
+
+simulate <- function(n_f, n_m, p_0, n_samp, n_pop) {
+  ## genotype frequenies in Hardy-Weinberg
+  ##
+  x <- c(p_0^2, 2*p_0*(1-p_0), (1-p_0)^2)
+  p <- numeric(n_samp)
+  for (i in 1:n_samp) {
+    ## construct female genotypes at random given H-W
+    ##
+    f <- numeric(n_f)
+    for (j in 1:n_f) {
+      tmp <- rmultinom(1, 1, x)
+      f[j] <- which(tmp[, 1] == 1)
+    }
+    ## construct male genotypes at random given H-W
+    ##
+    m <- numeric(n_m)
+    for (j in 1:n_m) {
+      tmp <- rmultinom(1, 1, x)
+      m[j] <- which(tmp[, 1] == 1)
+    }
+    ## construct offspring as average of mom and dad
+    ##
+    p[i] <- 0
+    for (j in 1:n_pop) {
+      p_f <- (sample(f, 1) - 1)/2
+      p_m <- (sample(m, 1) - 1)/2
+      p[i] <- p[i] + (p_f + p_m)/2
+    }
+    p[i] <- p[i]/n_pop
+  }
+  return(p)
+}
+
+result <- simulate(n_f = 10, n_m = 20, p_0 = 0.5, n_samp = 100, 
+                   n_pop = 100)
+
+p <- ggplot(tibble(p = result), aes(x = p)) + 
+  geom_histogram(binwidth = 0.01) + 
+  theme_bw() +
+  ggtitle("One replication of sampling")
+p
+```
+
+As you can see, there's a lot of variation in allele frequency among the offspring populations, but the table below shows that both the mean and the variance of the allele frequency are pretty close to what we'd expect.
+
+```{r}
+p_0 <- 0.5
+n_e <- 4*10*20/(10 + 20)
+
+dat <- tibble(Category = c("Expected", "Observed"),
+              Mean = c(p_0, round(mean(result), 3)),
+              Variance = c(round(p_0*(1-p_0)/(2*n_e), 6),
+                           round(var(result), 6)))
+dat
+```
+
+### Extending the simulation
+
+What we've done so far is nice, but we've only looked at the results from one simulated base population. Maybe we were lucky in our choice of base population. Let's see what this looks like if we look at the mean and variance from 1000 simulated base populations. Here we don't want to look at 1000 graphs like the one above, so I'll keep track of the mean and variance of allele frequencies from each base population and display histograms of the means and variances and see where the values fall relative to the expectation.^[Note: If you run the following block of code, don't be worried if you don't see anything happening. It takes between 3-5 minutes to run on my MacBook]
+
+```{r}
+p_mean <- numeric(1000)
+p_var <- numeric(1000)
+for (i in 1:1000) {
+  p <- simulate(n_f = 10, n_m = 20, p_0 = 0.5, n_samp = 100, 
+                n_pop = 100)
+  p_mean[i] <- mean(p)
+  p_var[i] <- var(p)
+}
+
+p_dat <- tibble(p_mean = p_mean, p_var = p_var)
+p <- ggplot(p_dat, aes(x = p_mean)) +
+  geom_histogram(bins = 25) +
+  geom_vline(xintercept = 0.5, linetype = "dashed", 
+             color = "salmon") +
+  ggtitle("Distribution of mean allele frequencies") +
+  theme_bw()
+p
+p <- ggplot(p_dat, aes(x = p_var)) +
+  geom_histogram(bins = 25) +
+  geom_vline(xintercept = p_0*(1-p_0)/(2*n_e), linetype = "dashed",
+             color = "salmon") +
+  ggtitle("Distribution of variance in allele frequencies") +
+  theme_bw()
+p
+```
+
+There are two striking features of these distributions:
+
+1. There's a reasonable amount of variability in both the mean and the variance of allele frequency, and there's a lot more variability in the variance than in the mean.
+
+2. The average mean allele frequency across the 1000 simulations is pretty close to the expectation (the vertical dashed line), but the mean variance in allele frequency is noticeably larger in the simulations than we expect.
+
+## Exercise 5
+
+The lab exercise this week asks you to explore this discrepancy a bit further. To do so you can use the following function.^[Note that this function calls `simulate()`, so you'll need to execute `simulate()` in your R notebook before you run this function.]
+
+```{r}
+run_simulation <- function(p_0, n_samp, n_pop) {
+  dat <- data.frame(n_f = NA, n_m = NA, n_e = NA, n_e_obs = NA, 
+                    var_p = NA, var_p_obs = NA)
+  for (n_f in c(5, 10, 25, 50, 100)) {
+    for (n_m in c(5, 10, 25, 50, 100)) {
+      p <- simulate(n_f = n_f, n_m = n_m, p_0 = 0.5, n_samp = n_samp, 
+                    n_pop = n_pop)
+      ## calculate Ne and Var(p) from formulas
+      ##
+      n_e <- 4.0*n_f*n_m/(n_f + n_m)
+      var_p <- p_0*(1 - p_0)/(2*n_e)
+      ## calculate observed Ne from observed variance
+      ##
+      n_e_obs <- 0.5*0.5/(2*var(p))
+      dat <- add_row(dat, n_f = n_f, n_m = n_m, n_e = n_e, 
+                     n_e_obs = n_e_obs, var_p = var_p, 
+                     var_p_obs = var(p))
+    }
+  }
+  dat <- subset(dat, !is.na(n_f))
+
+  p <- ggplot(dat, aes(x = n_e, y = n_e_obs)) +
+    geom_point() +
+    geom_abline(slope = 1, intercept = 0, linetype = "dashed",
+                color = "salmon") +
+    theme_bw()
+  print(p)
+  p <- ggplot(dat, aes(x = var_p, y = var_p_obs)) +
+    geom_point() +
+    geom_abline(slope = 1, intercept = 0, linetype = "dashed",
+                color = "salmon") +
+    theme_bw()
+  print(p)
+}
+```
+
+1. Execute `run_simulation()` with $p_0 = 0.5$, $n_{samp} = 100$, and 
+$n_{obs} = 100$. The dashed line is the 1:1 line. If the simulations matched expectations, all of the points would lie on the line (with a bit of statistical sampling error). With these parameters, you'll see that there's a large mismatch between the observed and expected $N_e$. There's a smaller mismatch between the observed and expected variance, but it's consistently in one direction.
+
+2. Try some different combinations of $p_0$, $n_{samp}$, and $n_{obs}$ and report your results. I am looking for a minimum of 10 combinations, but if you'd like to try more, feel free. Either way include the plots that your simulations produce. Treat your exploration of different combinations of parameters like an experiment, i.e., only change one at a time (at least at first) so that you can isolate the effect of changes in that parameter. If you're feeling ambitious you can try to look at combinations, but that could become challenging pretty quickly. See if you can find a combination of parameters where the fit of observed to expected is reasonably good.
+
+3. Summarize any overall pattern you see. In particular, how do different choices for the parameters affect the extent of the discrepancy you see, if at all?
+
+We'll discuss any general patterns that emerge and explore explanations for them in lecture on 3 October.
