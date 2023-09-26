@@ -1,0 +1,41 @@
+---
+title: "Genetic drift"
+output: html_notebook
+---
+
+This notebook shows a simple, one-locus, two allele simulation of genetic drift 
+
+```{r}
+options(tidyverse.quiet = TRUE)
+library(tidyverse)
+library(ggplot2)
+
+## These are the parameters you can play with
+##
+n_gen <- 100
+n_e <- 100
+
+## This is the simulation
+##
+p <- numeric(n_gen)
+p[1] <- 0.5
+for (i in 2:n_gen) {
+  k <- rbinom(1, 2*n_e, p[i-1])
+  p[i] <- k/(2*n_e)
+}
+
+## This is the code to plot the results
+##
+dat <- tibble(generation = seq(1:n_gen),
+              p = p)
+p <- ggplot(dat, aes(x = generation, y = p)) +
+  geom_point() +
+  geom_line() +
+  theme_bw() +
+  xlab("Generation") +
+  ylab("p") +
+  ylim(0, 1)
+p
+```
+
+
