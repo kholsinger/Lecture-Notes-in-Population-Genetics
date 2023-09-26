@@ -1,0 +1,32 @@
+---
+title: "Binomial distribution"
+output: html_notebook
+---
+
+This code illustrates properties of the binomial distribution in the context of genetic drift. `p_0` is the allele frequency in the parental population, `n_e` is the effective size. Notice that the median outcome is the same as `p_0`, indicating that half of the time the allele frequency is less than or equal to `p_0` and half the time it is greater than or equal to `p_0`.
+
+Try some different values of `p_0` to convince yourself this is true. 
+
+```{r}
+options(tidyverse.quiet = TRUE)
+library(tidyverse)
+library(ggplot2)
+
+p_0 <- 0.99
+n_e <- 100
+
+## Take 10000 samples from a binomial distribution with number of gametes
+## equal to 2 times the effective population size and allele frequency p_0
+##
+dat <- tibble(p = rbinom(10000, 2*n_e, p_0)/(2*n_e))
+median <- quantile(dat$p, c(0.5))
+title <- sprintf("Median outcome: %4.2f", median)
+p <- ggplot(dat, aes(x = p)) +
+  geom_histogram(binwidth = 0.005) +
+  geom_vline(xintercept = p_0, color = "salmon", linetype = "dashed") +
+  xlab("p") +
+  ggtitle(title) + 
+  theme_bw()
+p
+```
+
