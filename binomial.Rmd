@@ -12,7 +12,7 @@ options(tidyverse.quiet = TRUE)
 library(tidyverse)
 library(ggplot2)
 
-p_0 <- 0.99
+p_0 <- 0.5
 n_e <- 100
 
 ## Take 10000 samples from a binomial distribution with number of gametes
@@ -22,7 +22,7 @@ dat <- tibble(p = rbinom(10000, 2*n_e, p_0)/(2*n_e))
 median <- quantile(dat$p, c(0.5))
 title <- sprintf("Median outcome: %4.2f", median)
 p <- ggplot(dat, aes(x = p)) +
-  geom_histogram(binwidth = 0.005) +
+  geom_histogram(binwidth = 1/(2*n_e)) +
   geom_vline(xintercept = p_0, color = "salmon", linetype = "dashed") +
   xlab("p") +
   ggtitle(title) + 
