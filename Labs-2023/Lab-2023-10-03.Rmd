@@ -6,6 +6,10 @@ output:
     toc_float: true
 ---
 
+## A note about these simulation exercises
+
+As I've tried to make clear in lecture, drift is complicated. As I'm sure you've noticed, it can also be confusing. The purpose of the simulations last week, this week, and next week is to let you explore the complications a bit more by presenting more realistic models of the drift process and comparing them to the analytical expectations we've derived (or I've presented in class).^[Notice that I said ***more*** realistic. There are still important ways in which these models are not entirely realistic. As the statistician, George Box, once put it "All models are wrong, but some are useful."]
+
 ## Background
 
 Although it is very simple, Sewall Wright's infinite island model of migration is a useful way to explore how drift, migration, and mutation interact to influence the genetic structure of populations that are divided into subpopulations. In this model we assume that
@@ -200,19 +204,27 @@ The dashed red line is the prediction from the infinite island model. The dashed
 
 ## Exercise 6
 
-The last plot shows that neither the infinite island nor the finite island prediction captures the results of this particular simulation very well, although the finite island prediction isn't too bad. Even so, it only predicts on average and there's a lot of variation from one replicate to the next. This outcome reflects the "evolutionary" or "genetic" sampling we discussed when comparing Nei's $G_{ST}$ with Weir and Cockerham's $\theta$. This week's lab exercise will explore that variability a bit further and explore conditions that affect the amount of variability and how useful the infinite island approximation is. To do so, you'll want to use the following code.^[Notice that in order to run this code, you'll also need to run the code above so that the relevant functions are loaded in `R`'s memory.] You'll be changing some or all of 
+The last plot shows that neither the infinite island nor the finite island prediction captures the results of this particular simulation very well, although the finite island prediction is reasonably close to the average outcome from the simulations. Even so, it only predicts on average and there's a lot of variation from one replicate to the next. This outcome reflects the "evolutionary" or "genetic" sampling we discussed when comparing Nei's $G_{ST}$ with Weir and Cockerham's $\theta$. This week's lab exercise will explore that variability a bit further and explore conditions that affect the amount of variability and how useful the infinite island approximation is. To do so, you'll want to use the following code.^[Notice that in order to run this code, you'll also need to run the code above so that the relevant functions are loaded in `R`'s memory.] You'll be changing 
 
-* `n_loci` - The number of loci included in the genetic sample, 
-* `n_sample` - The number of (diploid) individuals sampled in each population, 
-* `n_gen` - The number of generations for which to run the simulation, and
-* `n_repetitions` - The number of times to repeat the simulation for any set of the first three choices. This item corresponds to the number of evolutionary or genetic sampling events included in your simulation.
+* `n_loci` - The number of loci included in the genetic sample and  
+* `n_gen` - The number of generations for which to run the simulation. 
+
+In addition to `n_loci` and `n_gen` there are two more parameters
+
+* `n_sample` - The number of individuals sampled in each population (and used in making an estimate of $F_{ST}$) and
+* `n_repetitions` - The number of times that results from a particular combination of `N_e`, `m`, `mu`, and `n_islands` will be simulated for a particular choice of `n_loci`, `n_gen`, and `n_sample`.
 
 For each choice of these four parameters, the simulation will run through all combinations of `N_e = (25, 200, 250, 500)`, `m = (0.05, 0.01, 0.005, 0.001)`, `mu = (0.001, 0.0001)`, and `n_islands = (10, 25, 50)`.
 
 ```{r}
+## These are the parameters to change
+##
 n_loci <- 10
-n_sample <- 25
 n_gen <- 1000
+
+## Leave these parameters unchanged
+##
+n_sample <- 25
 n_repetitions <- 10
 
 df <- data.frame(N_e = NA, m = NA, mu = NA, n_islands = NA, Observed = NA,
@@ -240,7 +252,7 @@ for (n_e in c(25, 100, 250, 500)) {
 df <- filter(df, !is.na(N_e))
 ```
 
-Running one set of simulations for a particular choice of `n_loci`, `n_sample`, `n_gen`, and `n_repetitions` takes close to half an hour on my MacBook.^[`n_gen` and `n_repetitions` will affect how long simulations run more than `n_loci` and `n_sample`.] You'll get a printout periodically that lets you know what the current set of parameters being simulated is, and you'll see the set or parameters that's already been completed. Because running the simulation for one set of parameters takes so long, you can't possibly explore all of the combinations of those parameters you might be interested in, but I'd like you to explore at least five and address the following questions:^[Keep in mind that you'll only be able to answer these questions for the set of simulations that you complete. Nick will be grading your responses on the simulation results that you show, not on what an exhaustive examination of all possibilities might be.]
+Running one set of simulations for `n_loci` = 10 and `n_gen` = 1000 takes close to half an hour on my MacBook. You'll get a printout periodically that lets you know what the current set of parameters being simulated is, and you'll see the set of parameters that's already been completed. Because running the simulation for one set of parameters takes so long, you can't possibly explore all of the combinations of those parameters you might be interested in, but I'd like you to explore at least four combinations of `n_loci` and `n_gen`. Use the results from those simulations to address the following questions:^[Keep in mind that you'll only be able to answer these questions for the set of simulations that you complete. Nick will be grading your responses on the simulation results that you show, not on what an exhaustive examination of all possibilities might be.]
  
 1. Are there conditions under which the predictions of the infinite island and finite island model are similar enough that we don't need to worry about the added mathematical complexity of the finite island model?
 
@@ -250,7 +262,7 @@ Running one set of simulations for a particular choice of `n_loci`, `n_sample`, 
 
 ### A few hints
 
-The easiest way to run different combinations of parameters is to copy the code block above and replace `n_loci`, `n_sample`, `n_gen`, and `n_repetitions` with new choices. To keep track of what you're doing, I recommend doing that for one combination of parameters, examining the results as described below, and moving on to a new set of parameter (with a new code block) after that.
+The easiest way to run different combinations of parameters is to copy the code block above and replace `n_loci` and `n_gen` with new choices. To keep track of what you're doing, I recommend doing that for one, examining the results as described below, and moving on to a new set of parameter (with a new code block) after that.
 
 You can plot the observed $F_{ST}$ versus the $F_{ST}$ predicted from either model using the code below.^[The diagonal red dashed line is the 1:1 line. Every point should fall on this line if observed exactly matches the prediction.] In addition to showing how well the simulations match the predictions, you can get a feel for how much variability there is among the simulations by seeing how scattered the points are.
 
@@ -260,14 +272,18 @@ You can plot the observed $F_{ST}$ versus the $F_{ST}$ predicted from either mod
 p <- ggplot(df, aes(x = Infinite, y = Observed)) +
   geom_point() +
   geom_abline(intercept = 0, slope = 1, linetype = "dashed", 
-              color = "red") + theme_bw() + ggtitle("Infinite island model")
+              color = "red") + 
+  theme_bw() + 
+  ggtitle("Infinite island model")
 p
 ## for the finite island model
 ##
 p <- ggplot(df, aes(x = Finite, y = Observed)) +
   geom_point() +
   geom_abline(intercept = 0, slope = 1, linetype = "dashed", 
-              color = "red") + theme_bw() + ggtitle("Finite island model")
+              color = "red") + 
+  theme_bw() + 
+  ggtitle("Finite island model")
 p
 ```
 
@@ -280,3 +296,87 @@ summary(lm(Observed ~ Finite, data = df))
 If predictions were perfect the `(Intercept)` term in the regression would be 0, and the other term (`Infinite` in the first regression and `Finite` in the second) would be 1. Given the variability of the simulations, you won't see numbers that are exactly 0 or 1. You can judge whether they are "close" by noticing whether the number in the `Estimate` column is more than two standard errors away from what you predict.
 
 The `residual standard error` below the table measures how much error there is around the regression, i.e., it gives you a way to compare quantitatively how much variation there is in $F_{ST}$.
+
+## What follows isn't part of the lab exercise, but you might find it interesting if you have time
+
+Wright's island model, whether the infinite island model or the finite island model, is very unrealistic in one important respect. Populations close to one another are no more likely to exchange migrants than those that are far apart. Another model that Wright introduced is more realistic, the one-dimensional stepping stone model. In this model we assume that only adjacent populations can exchange migrants. It's still pretty unrealistic, but it may not be a bad approximation for a set of populations that are distributed along a stream, a narrow beach, or other habitat that is much narrower than it is long. Here's the code you'll need to simulate results from a one-dimensional stepping stone model.^[Note: It draws on some of the simulation code above, so you'll need to run the code that comes before Exercise #6 in order to run it.] Play around with different values of `n_pops`. Compare results from the finite island model and the stepping stone and see what you find. WARNING: This takes a long time to run. You might decide to stop after trying the default parameters.
+
+```{r}
+make_M_1d_stepping_stone <- function(m, k) {
+  M <- diag(1 - m, nrow = k)
+  M[1, 2] <- m
+  M[k, k - 1] <- m
+  for (i in 2:(k-1)) {
+    M[i, i - 1] <- m/2
+    M[i, i + 1] <- m/2
+  }
+  return(M)
+}
+
+simulate <- function(n_e, m, mu, n_pops, n_loci, n_gen, n_sample) {
+  ## the finite island model
+  ##
+  p <- initialize(n_pops, n_loci)
+  M <- make_symmetric_matrix(m, n_pops)
+  V <- make_symmetric_matrix(mu, 2)
+  g_st <- numeric(n_loci)
+  p_star <- array(dim = c(n_loci, n_pops, 2))
+  for (i in 1:n_gen) {
+    for (k in 1:n_loci) {
+      p_star[k, , ] <- M %*% p[k, , ] %*% V
+      for (j in 1:n_pops) {
+        p[k, j, ] <- rmultinom(1, 2*n_e, p_star[k, j, ])/(2*n_e)
+      }
+      mu_p <- mean(p[k, , 1])
+    }
+  }
+  df <- make_sample(p, n_sample)
+  fst_island <- wc(df)$FST
+
+  ## the stepping stone model
+  ##
+  p <- initialize(n_pops, n_loci)
+  M <- make_M_1d_stepping_stone(m, n_pops)
+  V <- make_symmetric_matrix(mu, 2)
+  g_st <- numeric(n_loci)
+  p_star <- array(dim = c(n_loci, n_pops, 2))
+  for (i in 1:n_gen) {
+    for (k in 1:n_loci) {
+      p_star[k, , ] <- M %*% p[k, , ] %*% V
+      for (j in 1:n_pops) {
+        p[k, j, ] <- rmultinom(1, 2*n_e, p_star[k, j, ])/(2*n_e)
+      }
+      mu_p <- mean(p[k, , 1])
+    }
+  }
+  df <- make_sample(p, n_sample)
+  fst_step <- wc(df)$FST
+  return(list(fst_step = fst_step, fst_island = fst_island))
+}
+
+run_simulation <- function(n_e, m, mu, n_pops, n_loci, n_gen, 
+                           n_sample, n_repetitions)
+{
+  df <- tibble(Island = NA, Step = NA)
+  for (i in 1:n_repetitions) {
+    if (n_repetitions > 50) {
+      cat(".", sep="")
+      if ((i %% 50) == 0) {
+        cat(i, "\n", sep ="")
+      }
+    }
+    f_st <-simulate(n_e, m, mu, n_pops, n_loci, n_gen, n_sample)
+    df <- add_row(df, 
+                  Island = f_st$fst_island,
+                  Step = f_st$fst_step)
+  }
+  df <- filter(df, !is.na(N_e))
+  return(df)
+}
+
+result <- run_simulation(100, 0.01, 0.0001, 100, 100, 1000, 25, 100)
+cat("Finite island:  ", round(mean(result$Island), 3), ", ", round(sd(result$Island), 3), "\n",
+    "Stepping stone: ", round(mean(result$Step), 3), ", ", round(sd(result$Step), 3), sep = "")
+```
+
+
