@@ -7,7 +7,7 @@
 
 \title{Mutation, Migration, and Genetic Drift}
 
-\newcommand{\copyrightYears}{2001-2021}
+\newcommand{\copyrightYears}{2001-2023}
 
 \begin{document}
 
@@ -117,9 +117,9 @@ the ``strength'' of the deterministic process.
 \subsection*{A two-allele model with recurrent mutation}\index{genetic drift!mutation, recurrent}
 
 There's another way of looking at the interaction between drift and
-mutation. Suppose we have a set of populations with two alleles, $A_1$
-and $A_2$. Suppose further that the rate of mutation from $A_1$ to
-$A_2$ is equal to the rate of mutation from $A_2$ to
+mutation. Suppose we have an infinite set of populations with two
+alleles, $A_1$ and $A_2$. Suppose further that the rate of mutation
+from $A_1$ to $A_2$ is equal to the rate of mutation from $A_2$ to
 $A_1$.\footnote{We don't have to make this assumption, but relaxing it
   makes an already fairly complicated scenario even more
   complicated. If you're really interested, ask me about it.} Call
@@ -127,7 +127,9 @@ that rate $\mu$. In the absence of mutation a fraction $p_0$ of the
 populations would fix on $A_1$ and the rest would fix on $A_2$, where
 $p_0$ is the original frequency of $A_1$. With recurrent mutation, no
 population will ever be permanently fixed for one allele or the
-other. Instead we see the pattern illustrated in Figure~\ref{fig:drift-mutation}\index{genetic drift!mutation, stationary distribtuion}
+other. Instead we see the pattern illustrated in
+Figure~\ref{fig:drift-mutation}\index{genetic drift!mutation,
+  stationary distribtuion}
 
 \begin{figure}
 \begin{center}
@@ -210,12 +212,12 @@ the {\it backward\/} migration rate.\index{migration rate!backward}
 It's the probability that a randomly chosen individual in this
 generation {\it came from\/} a population different from the one in
 which it is currently found in the preceding generation. Normally we'd
-think about the {\it forward\/} migration rate,\index{migration rate!forward}  i.e., the probability
-that a randomly chosen individual with {\it go to\/} a different
-population in the next generation, but backwards migration rates turn
-out to be more convenient to work with in most population genetic
-models.\footnote{I warned you weeks ago that population geneticists
-  tend to think backwards.}
+think about the {\it forward\/} migration rate,\index{migration rate!forward} i.e., the probability that a randomly chosen
+individual will {\it go to\/} a different population in the next
+generation, but backwards migration rates turn out to be more
+convenient to work with in most population genetic models.\footnote{I
+  warned you weeks ago that population geneticists tend to think
+  backwards. This is just one more example.}
 
 It shouldn't surprise you that if equations (\ref{eq:f-mu}) and
 (\ref{eq:f-m}) are so similar the equilibrium $f$ under drift and
