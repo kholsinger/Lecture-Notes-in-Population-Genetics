@@ -132,13 +132,21 @@ plot_island <- function(sample_sizes, ne_m) {
        show.tip.label = FALSE)
   tiplabels(pch = 19, cex = 0.75, 
             col = tipcolors(ms_tree, 
-                            sample_sizes))
+                            2*sample_sizes))
   return(branching.times(ms_tree)[1])
 }
 
-time <- plot_island(sample_sizes = c(5, 5, 5), ne_m = 2)
+time <- plot_island(sample_sizes = c(5, 5, 5), ne_m = 10)
 ```
 The colors correspond to the population from which each sample was collected. `plot_island()` returns the scaled time to the most recent common ancestor, `r time`. We are implicitly assuming that the effective population size is the same in each local population.^[There is a way to relax this assumption, but we won't take advantage of it here.] The scaling is in terms of the product of the local effective population size and the number of populations, i.e., 1 coalescent unit = $4N_ek$, where $k$ is the number of populations.
+
+Notice how different the result is if I set $N_em = 0.5$ instead of $N_em = 2$.
+
+```{r}
+time <- plot_island(sample_sizes = c(5, 5, 5), ne_m = 0.1)
+```
+The alleles are now nicely arranged into populations. Does it surprise you that the populations in which alleles occur form monophyletic groups when $N_em \ll 1$ and that they don't when $N_em \gg 1$.^[Note: Read $\ll$ as "much less than" and $\gg$ as "much greater than."]
+
 
 ## Lab 7
 
