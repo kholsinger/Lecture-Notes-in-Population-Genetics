@@ -212,9 +212,9 @@ The last plot shows that neither the infinite island nor the finite island predi
 In addition to `n_loci` and `n_gen` there are two more parameters
 
 * `n_sample` - The number of individuals sampled in each population (and used in making an estimate of $F_{ST}$) and
-* `n_repetitions` - The number of times that results from a particular combination of `N_e`, `m`, `mu`, and `n_islands` will be simulated for a particular choice of `n_loci`, `n_gen`, and `n_sample`.
+* `n_repetitions` - The number of times that results from a particular combination of `N_e`, `m`, `mu`, and `n_pops` will be simulated for a particular choice of `n_loci`, `n_gen`, and `n_sample`.
 
-For each choice of these four parameters, the simulation will run through all combinations of `N_e = (25, 200, 250, 500)`, `m = (0.05, 0.01, 0.005, 0.001)`, `mu = (0.001, 0.0001)`, and `n_islands = (10, 25, 50)`.
+For each choice of these four parameters, the simulation will run through all combinations of `N_e = (25, 200, 250, 500)`, `m = (0.05, 0.01, 0.005, 0.001)`, `mu = (0.001, 0.0001)`, and `n_pops = (10, 25, 50)`.
 
 ```{r}
 ## These are the parameters to change
@@ -227,24 +227,24 @@ n_gen <- 1000
 n_sample <- 25
 n_repetitions <- 10
 
-df <- data.frame(N_e = NA, m = NA, mu = NA, n_islands = NA, Observed = NA,
+df <- data.frame(N_e = NA, m = NA, mu = NA, n_pops = NA, Observed = NA,
                  Infinite = NA, Finite = NA)
 for (n_e in c(25, 100, 250, 500)) {
   for (m in c(0.05, 0.01, 0.005, 0.001)) {
     for (mu in c(0.001, 1e-4)) {
-      for (n_islands in c(10, 25, 50)) {
+      for (n_pops in c(10, 25, 50)) {
         cat("N_e = ", n_e, ", m = ", m, ", mu = ", mu, 
-            "n_islands = ", n_islands, "\n" )
-        f_st <- run_simulation(n_e, m, mu, n_islands, n_loci, n_gen, 
+            "n_pops = ", n_pops, "\n" )
+        f_st <- run_simulation(n_e, m, mu, n_pops, n_loci, n_gen, 
                                n_sample, n_repetitions)
         df <- add_row(df, 
                       N_e = rep(n_e, n_repetitions),
                       m = rep(m, n_repetitions), 
                       mu = rep(mu, n_repetitions), 
-                      n_islands = rep(n_islands, n_repetitions),
+                      n_pops = rep(n_pops, n_repetitions),
                       Observed = f_st,
                       Infinite = infinite_island(n_e, m, mu),
-                      Finite = finite_island(n_e, m, mu, n_islands))
+                      Finite = finite_island(n_e, m, mu, n_pops))
       }
     }
   }
@@ -252,13 +252,18 @@ for (n_e in c(25, 100, 250, 500)) {
 df <- filter(df, !is.na(N_e))
 ```
 
-Running one set of simulations for `n_loci` = 10 and `n_gen` = 1000 takes close to half an hour on my MacBook. You'll get a printout periodically that lets you know what the current set of parameters being simulated is, and you'll see the set of parameters that's already been completed. Because running the simulation for one set of parameters takes so long, you can't possibly explore all of the combinations of those parameters you might be interested in, but I'd like you to explore at least four combinations of `n_loci` and `n_gen`. Use the results from those simulations to address the following questions:^[Keep in mind that you'll only be able to answer these questions for the set of simulations that you complete. Nick will be grading your responses on the simulation results that you show, not on what an exhaustive examination of all possibilities might be.]
+Running one set of simulations for `n_loci` = 10 and `n_gen` = 1000 takes close to half an hour on my MacBook. If you increase the number of loci or the number of generations by a factor of two, it will take about twice as long for the simulations to finish. You'll get a printout periodically that lets you know what the current set of parameters being simulated is, and you'll see the set of parameters that's already been completed. Because running the simulation for one set of parameters takes so long, you can't possibly explore all of the combinations of those parameters you might be interested in, but I'd like you to explore at least four combinations of `n_loci` and `n_gen`. Use the results from those simulations to address the following questions:^[Keep in mind that you'll only be able to answer these questions for the set of simulations that you complete. Nick will be grading your responses on the simulation results that you show, not on what an exhaustive examination of all possibilities might be.]
  
-1. Are there conditions under which the predictions of the infinite island and finite island model are similar enough that we don't need to worry about the added mathematical complexity of the finite island model?
+1. Are there conditions under which the predictions of the infinite island and finite island model are similar enough that we don't need to worry about the added mathematical complexity of the finite island model? I suggest using the following combination of parameters:
+
+- `n_loci = 5`, `n_gen = 1000`
+- `n_loci = 15`, `n_gen = 1000`
+- `n_loci = 5`, `n_gen = 100`
+- `n_loci = 25`, `n_gen = 100`
 
 2. How close is the relationship between observed estimates of $F_{ST}$ from the simulations and those predicted from the infinite island model? from the finite island model?
 
-3. Under what conditions is the observed variation in $F_{ST}$ relatively small?
+3. Under what conditions, if any, is the observed variation in $F_{ST}$ relatively small?
 
 ### A few hints
 
@@ -297,9 +302,9 @@ If predictions were perfect the `(Intercept)` term in the regression would be 0,
 
 The `residual standard error` below the table measures how much error there is around the regression, i.e., it gives you a way to compare quantitatively how much variation there is in $F_{ST}$.
 
-## What follows isn't part of the lab exercise, but you might find it interesting if you have time
+## What follows isn't part of the lab exercise, but you might find it interesting to explore if you have time
 
-Wright's island model, whether the infinite island model or the finite island model, is very unrealistic in one important respect. Populations close to one another are no more likely to exchange migrants than those that are far apart. Another model that Wright introduced is more realistic, the one-dimensional stepping stone model. In this model we assume that only adjacent populations can exchange migrants. It's still pretty unrealistic, but it may not be a bad approximation for a set of populations that are distributed along a stream, a narrow beach, or other habitat that is much narrower than it is long. Here's the code you'll need to simulate results from a one-dimensional stepping stone model.^[Note: It draws on some of the simulation code above, so you'll need to run the code that comes before Exercise #6 in order to run it.] Play around with different values of `n_pops`. Compare results from the finite island model and the stepping stone and see what you find. WARNING: This takes a long time to run. You might decide to stop after trying the default parameters.
+Wright's island model, whether the infinite island model or the finite island model, is very unrealistic in one important respect. Populations close to one another are no more likely to exchange migrants than those that are far apart. Another model that Wright introduced is more realistic, the one-dimensional stepping stone model. In this model we assume that only adjacent populations can exchange migrants. It's still pretty unrealistic, but it may not be a bad approximation for a set of populations that are distributed along a stream, a narrow beach, or other habitat that is much narrower than it is long. Here's the code you'll need to simulate results from a one-dimensional stepping stone model.^[Note: It draws on some of the simulation code above, so you'll need to run the code that comes before Exercise #6 in order to run it.] Play around with different values of `n_pops`. Compare results from the finite island model and the stepping stone and see what you find. WARNING: This takes a long time to run. You might decide to stop after trying it once with the default parameters.
 
 ```{r}
 make_M_1d_stepping_stone <- function(m, k) {
@@ -370,13 +375,20 @@ run_simulation <- function(n_e, m, mu, n_pops, n_loci, n_gen,
                   Island = f_st$fst_island,
                   Step = f_st$fst_step)
   }
-  df <- filter(df, !is.na(N_e))
+  df <- filter(df, !is.na(Island))
   return(df)
 }
 
 result <- run_simulation(100, 0.01, 0.0001, 100, 100, 1000, 25, 100)
-cat("Finite island:  ", round(mean(result$Island), 3), ", ", round(sd(result$Island), 3), "\n",
-    "Stepping stone: ", round(mean(result$Step), 3), ", ", round(sd(result$Step), 3), sep = "")
+result_1 <- run_simulation(100, 0.1, 0.0001, 100, 100, 1000, 25, 100)
+cat("m = 0.01\n",
+    "  Finite island:  ", round(mean(result$Island), 3), ", ", round(sd(result$Island), 3), "\n",
+    "  Stepping stone: ", round(mean(result$Step), 3), ", ", round(sd(result$Step), 3), sep = "")
+cat("m = 0.1\n",
+    "  Finite island:  ", round(mean(result_1$Island), 3), ", ", round(sd(result_1$Island), 3), "\n",
+    "  Stepping stone: ", round(mean(result_1$Step), 3), ", ", round(sd(result_1$Step), 3), sep = "")
 ```
+
+
 
 
