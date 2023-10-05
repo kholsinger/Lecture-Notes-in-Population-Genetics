@@ -8,13 +8,24 @@
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
   </style>
   <link rel="stylesheet" href="pandoc.css" />
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
@@ -25,132 +36,379 @@
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
-<li><a href="#introduction">Introduction</a></li>
-<li><a href="#loss-of-beneficial-alleles">Loss of beneficial alleles</a></li>
-<li><a href="#fixation-of-detrimental-alleles">Fixation of detrimental alleles</a></li>
-<li><a href="#genetic-drift-and-heterozygote-advantage">Genetic drift and heterozygote advantage</a></li>
-<li><a href="#genetic-draft">Genetic draft</a></li>
-<li><a href="#conclusions">Conclusions</a></li>
-<li><a href="#creative-commons-license">Creative Commons License</a></li>
+<li><a href="#introduction" id="toc-introduction">Introduction</a></li>
+<li><a href="#loss-of-beneficial-alleles"
+id="toc-loss-of-beneficial-alleles">Loss of beneficial alleles</a></li>
+<li><a href="#fixation-of-detrimental-alleles"
+id="toc-fixation-of-detrimental-alleles">Fixation of detrimental
+alleles</a></li>
+<li><a href="#genetic-drift-and-heterozygote-advantage"
+id="toc-genetic-drift-and-heterozygote-advantage">Genetic drift and
+heterozygote advantage</a></li>
+<li><a href="#genetic-draft" id="toc-genetic-draft">Genetic
+draft</a></li>
+<li><a href="#conclusions" id="toc-conclusions">Conclusions</a></li>
+<li><a href="#creative-commons-license"
+id="toc-creative-commons-license">Creative Commons License</a></li>
 </ul>
 </nav>
 <h1 class="unnumbered" id="introduction">Introduction</h1>
-<p>There are three basic facts about genetic drift that I really want you to remember, even if you forget everything else I’ve told you about it:</p>
+<p>There are three basic facts about genetic drift that I really want
+you to remember, even if you forget everything else I’ve told you about
+it:</p>
 <ol>
-<li><p>Allele frequencies tend to change from one generation to the next purely as a result of random sampling error. We can specify a probability distribution for the allele frequency in the next generation, but we cannot specify the numerical value exactly.</p></li>
-<li><p>There is no systematic bias to the change in allele frequency, i.e., allele frequencies are as likely to increase from one generation to the next as to decrease.</p></li>
-<li><p>Populations will eventually fix for one of the alleles that is initially present unless mutation or migration introduces new alleles.</p></li>
+<li><p>Allele frequencies tend to change from one generation to the next
+purely as a result of random sampling error. We can specify a
+probability distribution for the allele frequency in the next
+generation, but we cannot specify the numerical value exactly.</p></li>
+<li><p>There is no systematic bias to the change in allele frequency,
+i.e., allele frequencies are as likely to increase from one generation
+to the next as to decrease.</p></li>
+<li><p>Populations will eventually fix for one of the alleles that is
+initially present unless mutation or migration introduces new
+alleles.</p></li>
 </ol>
-<p>Natural selection introduces a systematic bias in allele frequency changes. Alleles favored by natural selection <span><em>tend</em></span> to increase in frequency. Notice that word “tend.” It’s critical. Because there is a random component to allele frequency change when genetic drift is involved, we can’t say for sure that a selectively favored allele will increase in frequency. In fact, we can say that there’s a chance that a selectively favored allele <span><em>won’t</em></span> increase in frequency. There’s also a chance that a selectively <span><em>dis</em></span>favored allele will increase in frequency in spite of natural selection.</p>
-<h1 class="unnumbered" id="loss-of-beneficial-alleles">Loss of beneficial alleles</h1>
-<p>We’re going to confine our studies to our usual simple case: one locus, two alleles. We’re also going to consider a very simple form of directional viability selection in which the heterozygous genotype is exactly intermediate in fitness.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>Natural selection introduces a systematic bias in allele frequency
+changes. Alleles favored by natural selection <span><em>tend</em></span>
+to increase in frequency. Notice that word “tend.” It’s critical.
+Because there is a random component to allele frequency change when
+genetic drift is involved, we can’t say for sure that a selectively
+favored allele will increase in frequency. In fact, we can say that
+there’s a chance that a selectively favored allele
+<span><em>won’t</em></span> increase in frequency. There’s also a chance
+that a selectively <span><em>dis</em></span>favored allele will increase
+in frequency in spite of natural selection.</p>
+<h1 class="unnumbered" id="loss-of-beneficial-alleles">Loss of
+beneficial alleles</h1>
+<p>We’re going to confine our studies to our usual simple case: one
+locus, two alleles. We’re also going to consider a very simple form of
+directional viability selection in which the heterozygous genotype is
+exactly intermediate in fitness.<a href="#fn1" class="footnote-ref"
+id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<div class="center">
 <table>
 <tbody>
 <tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(A_1A_1\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(A_1A_2\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(A_2A_2\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(A_1A_1\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(A_1A_2\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(A_2A_2\)</span></td>
 </tr>
 <tr class="even">
 <td style="text-align: center;">1 + s</td>
-<td style="text-align: center;"><span class="math inline">\(1 + \frac{1}{2}s\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(1 +
+\frac{1}{2}s\)</span></td>
 <td style="text-align: center;">1</td>
 </tr>
 </tbody>
 </table>
-<p>After solving a reasonably complex partial differential equation, it can be shown that<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> the probability that allele <span class="math inline">\(A_1\)</span><a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> is fixed, given that its current frequency is <span class="math inline">\(p\)</span> is <span class="math display">\[P_1(p) = \frac{1 - e^{-2N_esp}}{1 - e^{-2N_es}} \quad .
-\label{eq:beneficial}\]</span> Now it won’t be immediately evident to you, but this equation actually confirms our intuition that even selectively favored alleles may sometimes be lost as a result of genetic drift. How does it do that? Well, it’s not too hard to verify that <span class="math inline">\(P_1(p) &lt; 1\)</span>.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> The probability that the beneficial allele is fixed is less than one meaning that the probability it is lost is greater than zero, i.e., there’s some chance it will be lost.</p>
-<p>How big is the chance that a favorable allele will be lost? Well, consider the case of a newly arisen allele with a beneficial effect. If it’s newly arisen, there is only one copy by definition. In a diploid population of <span class="math inline">\(N\)</span> individuals that means that the frequency of this allele is <span class="math inline">\(1/2N\)</span>. Plugging this into equation (<a href="#eq:beneficial" data-reference-type="ref" data-reference="eq:beneficial">[eq:beneficial]</a>) above we find <span class="math display">\[\begin{aligned}
+</div>
+<p>After solving a reasonably complex partial differential equation, it
+can be shown that<a href="#fn2" class="footnote-ref" id="fnref2"
+role="doc-noteref"><sup>2</sup></a> the probability that allele <span
+class="math inline">\(A_1\)</span><a href="#fn3" class="footnote-ref"
+id="fnref3" role="doc-noteref"><sup>3</sup></a> is fixed, given that its
+current frequency is <span class="math inline">\(p\)</span> is <span
+class="math display">\[P_1(p) = \frac{1 - e^{-2N_esp}}{1 - e^{-2N_es}}
+\quad .
+\label{eq:beneficial}\]</span> Now it won’t be immediately evident to
+you, but this equation actually confirms our intuition that even
+selectively favored alleles may sometimes be lost as a result of genetic
+drift. How does it do that? Well, it’s not too hard to verify that <span
+class="math inline">\(P_1(p) &lt; 1\)</span>.<a href="#fn4"
+class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> The
+probability that the beneficial allele is fixed is less than one meaning
+that the probability it is lost is greater than zero, i.e., there’s some
+chance it will be lost.</p>
+<p>How big is the chance that a favorable allele will be lost? Well,
+consider the case of a newly arisen allele with a beneficial effect. If
+it’s newly arisen, there is only one copy by definition. In a diploid
+population of <span class="math inline">\(N\)</span> individuals that
+means that the frequency of this allele is <span
+class="math inline">\(1/2N\)</span>. Plugging this into equation (<a
+href="#eq:beneficial" data-reference-type="ref"
+data-reference="eq:beneficial">[eq:beneficial]</a>) above we find <span
+class="math display">\[\begin{aligned}
 P_1(p) &amp;=&amp; \frac{1 - e^{-2N_es(1/2N)}}{1 - e^{-2N_es}} \\
-       &amp;\approx&amp; 1 - e^{-N_es(1/N)} \hbox{ if $2N_es$ is ``large&#39;&#39;} \\
+       &amp;\approx&amp; 1 - e^{-N_es(1/N)} \hbox{ if $2N_es$ is
+``large&#39;&#39;} \\
        &amp;=&amp; 1 - e^{s\left(\frac{N_e}{N}\right)} \\
        &amp;\approx&amp; s\left(\frac{N_e}{N}\right)
-                 \hbox{ if $s$ is ``small.&#39;&#39;}\end{aligned}\]</span> In other words, most beneficial mutations are lost from populations unless they are <span><em>very</em></span> beneficial.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> If <span class="math inline">\(s=0.2\)</span> in an ideal population, for example, a beneficial mutation will be lost about 80% of the time.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> Remember that in a strict harem breeding system with a single male <span class="math inline">\(N_e \approx 4\)</span> if the number of females with which the male breeds is large enough. Suppose that there are 99 females in the population. Then <span class="math inline">\(N_e/N = 0.04\)</span> and the probability that this beneficial mutation will be fixed is only 0.8%.</p>
-<p>Notice that unlike what we saw with natural selection when we were ignoring genetic drift, the strength of selection<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> affects the outcome of the interaction. The stronger selection is the more likely it is that the favored allele will be fixed. In the case of a newly arisen allele, it’s also <span><em>only</em></span> the strength of selection that matters. Since a newly arisen allele is, by definition exists as only a single copy, it is very likely to be lost by chance. Once an a favorable allele has reached an appreciable frequency, the larger the population is, the more likely the favored allele will be fixed.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> Size <span><em>does</em></span> matter. But most favorable alleles are lost before they increase in frequency enough for the population size to matter.</p>
-<h1 class="unnumbered" id="fixation-of-detrimental-alleles">Fixation of detrimental alleles</h1>
-<p>If drift can lead to the loss of beneficial alleles, it should come as no surprise that it can also lead to fixation of deleterious ones. In fact, we can use the same formula we’ve been using (equation (<a href="#eq:beneficial" data-reference-type="ref" data-reference="eq:beneficial">[eq:beneficial]</a>)) if we simply remember that for an allele to be deleterious <span class="math inline">\(s\)</span> will be negative. So we end up with <span class="math display">\[P_1(p) = \frac{1 - e^{2N_esp}}{1 - e^{2N_es}} \quad .
-\label{eq:deleterious}\]</span> One implication of equation (<a href="#eq:deleterious" data-reference-type="ref" data-reference="eq:deleterious">[eq:deleterious]</a>) that should not be surprising by now is that evan a deleterious allele can become fixed.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> Consider our two example populations again, an ideal population of size 100 (<span class="math inline">\(N_e = 100\)</span>) and a population with 1 male and 99 females (<span class="math inline">\(N_e = 4\)</span>). Remember, the probability of fixation for a newly arisen allele allele with no effect on fitness is <span class="math inline">\(1/2N = 5 \times
-10^{-3}\)</span> (Table <a href="#table:fixation" data-reference-type="ref" data-reference="table:fixation">1</a>).<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a></p>
+                 \hbox{ if $s$ is ``small.&#39;&#39;}
+\end{aligned}\]</span> In other words, most beneficial mutations are
+lost from populations unless they are <span><em>very</em></span>
+beneficial.<a href="#fn5" class="footnote-ref" id="fnref5"
+role="doc-noteref"><sup>5</sup></a> If <span
+class="math inline">\(s=0.2\)</span> in an ideal population, for
+example, a beneficial mutation will be lost about 80% of the time.<a
+href="#fn6" class="footnote-ref" id="fnref6"
+role="doc-noteref"><sup>6</sup></a> Remember that in a strict harem
+breeding system with a single male <span class="math inline">\(N_e
+\approx 4\)</span> if the number of females with which the male breeds
+is large enough. Suppose that there are 99 females in the population and
+one male. Then <span class="math inline">\(N_e/N = 0.04\)</span> and the
+probability that this beneficial mutation will be fixed is only
+0.8%.</p>
+<p>Notice that unlike what we saw with natural selection when we were
+ignoring genetic drift, the strength of selection<a href="#fn7"
+class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>
+affects the outcome of the interaction. The stronger selection is the
+more likely it is that the favored allele will be fixed. In the case of
+a newly arisen allele, it’s also <span><em>only</em></span> the strength
+of selection that matters. Since a newly arisen allele is, by definition
+exists as only a single copy, it is very likely to be lost by chance.
+Once an a favorable allele has reached an appreciable frequency, the
+larger the population is, the more likely the favored allele will be
+fixed.<a href="#fn8" class="footnote-ref" id="fnref8"
+role="doc-noteref"><sup>8</sup></a> Size <span><em>does</em></span>
+matter. But most favorable alleles are lost before they increase in
+frequency enough for the population size to matter.</p>
+<h1 class="unnumbered" id="fixation-of-detrimental-alleles">Fixation of
+detrimental alleles</h1>
+<p>If drift can lead to the loss of beneficial alleles, it should come
+as no surprise that it can also lead to fixation of deleterious ones. In
+fact, we can use the same formula we’ve been using (equation (<a
+href="#eq:beneficial" data-reference-type="ref"
+data-reference="eq:beneficial">[eq:beneficial]</a>)) if we simply
+remember that for an allele to be deleterious <span
+class="math inline">\(s\)</span> will be negative. So we end up with
+<span class="math display">\[P_1(p) = \frac{1 - e^{2N_esp}}{1 -
+e^{2N_es}} \quad .
+\label{eq:deleterious}\]</span> One implication of equation (<a
+href="#eq:deleterious" data-reference-type="ref"
+data-reference="eq:deleterious">[eq:deleterious]</a>) that should not be
+surprising by now is that even a deleterious allele can become fixed.<a
+href="#fn9" class="footnote-ref" id="fnref9"
+role="doc-noteref"><sup>9</sup></a> Consider our two example populations
+again, an ideal population of size 100 (<span class="math inline">\(N_e
+= 100\)</span>) and a population with 1 male and 99 females (<span
+class="math inline">\(N_e = 4\)</span>). Remember, the probability of
+fixation for a newly arisen allele allele with no effect on fitness is
+<span class="math inline">\(1/2N = 5 \times
+10^{-3}\)</span> (Table <a href="#table:fixation"
+data-reference-type="ref" data-reference="table:fixation">1</a>).<a
+href="#fn10" class="footnote-ref" id="fnref10"
+role="doc-noteref"><sup>10</sup></a></p>
+<div class="center">
 <div id="table:fixation">
 <table>
-<caption>Fixation probabilities for a deleterious mutation as a function of effective population size and selection coefficient for a newly arisen mutant (<span class="math inline">\(p=0.01\)</span>).</caption>
+<caption>Fixation probabilities for a deleterious mutation as a function
+of effective population size and selection coefficient for a newly
+arisen mutant (<span class="math inline">\(p=0.01\)</span>).</caption>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
+<td colspan="2" style="text-align: center;"><span
+class="math inline">\(N_e\)</span></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><span class="math inline">\(s\)</span></td>
+<td style="text-align: left;"><span
+class="math inline">\(s\)</span></td>
 <td style="text-align: center;">4</td>
 <td style="text-align: center;">100</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">0.001</td>
-<td style="text-align: center;"><span class="math inline">\(4.9 \times 10^{-3}\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(4.5 \times 10^{-3}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(4.9 \times
+10^{-3}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(4.5 \times
+10^{-3}\)</span></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">0.01</td>
-<td style="text-align: center;"><span class="math inline">\(4.8 \times 10^{-3}\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(1.5 \times 10^{-3}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(4.8 \times
+10^{-3}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(1.5 \times
+10^{-3}\)</span></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">0.1</td>
-<td style="text-align: center;"><span class="math inline">\(3.2 \times 10^{-3}\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(2.2 \times 10^{-10}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(3.2 \times
+10^{-3}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(2.2 \times
+10^{-10}\)</span></td>
 </tr>
 </tbody>
 </table>
 </div>
-<h1 class="unnumbered" id="genetic-drift-and-heterozygote-advantage">Genetic drift and heterozygote advantage</h1>
+</div>
+<h1 class="unnumbered"
+id="genetic-drift-and-heterozygote-advantage">Genetic drift and
+heterozygote advantage</h1>
 <ul>
-<li><p>Genetic drift leads to the loss of genetic diversity over time.</p></li>
-<li><p>Heterozygote advantage leads to the preservation of genetic diversity.</p></li>
+<li><p>Genetic drift leads to the loss of genetic diversity over
+time.</p></li>
+<li><p>Heterozygote advantage leads to the preservation of genetic
+diversity.</p></li>
 </ul>
-<p>You might think that those facts would lead to the conclusion that drift would cause there to be less diversity than expected as a result of selection, but that selection would maintain diversity. It would be nice if the world were that simple. Unfortunately, it’s not.</p>
-<p>The key to understanding why is to remember this basic fact: In a finite population there is a chance that in any generation one of the alleles that is segregating will be lost. In the absence of mutation or migration that introduces new genetic diversity into a finite population, that allele is lost forever. The end result is that <span> <em>any</em></span> finite population will eventually lose its genetic diversity in the absence of mutation or migration, even one in which selection is “trying” to maintain diversity. Once you realize that, then you realize that the question isn’t “Will heterozygote advantage maintain genetic diversity in spite of genetic drift?” but “Will heterozygote advantage retard the inevitable loss of genetic diversity due to genetic drift?” The answer to that second questions is “It depends.”</p>
-<p>Specifically, Robertson <span class="citation" data-cites="Robertson-1962"></span> showed that if selection would lead to an equilibrium allele frequency of between about 0.2 and 0.8, then it will tend to retard the loss of genetic diversity. If, however, selection would lead to a more extreme allele frequency, it will tend to increase the rate at which diversity is loss (Figure <a href="#fig:drift-heterozygote-advantage" data-reference-type="ref" data-reference="fig:drift-heterozygote-advantage">1</a>). While that results seems paradoxical at first, after a bit of reflection, it’s somewhat less surprising.</p>
+<p>You might think that those facts would lead to the conclusion that
+drift would cause there to be less diversity than expected as a result
+of selection, but that selection would maintain diversity. It would be
+nice if the world were that simple. Unfortunately, it’s not.</p>
+<p>The key to understanding why is to remember this basic fact: In a
+finite population there is a chance that in any generation one of the
+alleles that is segregating will be lost. In the absence of mutation or
+migration that introduces new genetic diversity into a finite
+population, that allele is lost forever. The end result is that <span>
+<em>any</em></span> finite population will eventually lose its genetic
+diversity in the absence of mutation or migration, even one in which
+selection is “trying” to maintain diversity. Once you realize that, then
+you realize that the question isn’t “Will heterozygote advantage
+maintain genetic diversity in spite of genetic drift?” but “Will
+heterozygote advantage retard the inevitable loss of genetic diversity
+due to genetic drift?” The answer to that second questions is “It
+depends.”</p>
+<p>Specifically, Robertson <span class="citation"
+data-cites="Robertson-1962"></span> showed that if selection would lead
+to an equilibrium allele frequency of between about 0.2 and 0.8, then it
+will tend to retard the loss of genetic diversity. If, however,
+selection would lead to a more extreme allele frequency, it will tend to
+increase the rate at which diversity is loss (Figure <a
+href="#fig:drift-heterozygote-advantage" data-reference-type="ref"
+data-reference="fig:drift-heterozygote-advantage">1</a>). While that
+result seems paradoxical at first, after a bit of reflection, it’s
+somewhat less surprising.</p>
 <ul>
-<li><p>If an allele is relatively rare, drift will tend to dominate the dynamics of allele frequency change, even if it’s under selection.</p></li>
-<li><p>If selection is “pushing” an allele to a relatively extreme frequency, it will get to the region where drift dominates the dynamics more rapidly than it would under drift alone.</p></li>
-<li><p>So heterozygote advantage in which the two homozygotes have very asymmetrical fitnesses is likely to increase the rate at which diversity is lost. As a corollary, the allele in the disfavored homozygote is the most likely to be lost.</p></li>
+<li><p>If an allele is relatively rare, drift will tend to dominate the
+dynamics of allele frequency change, even if it’s under
+selection.</p></li>
+<li><p>If selection is “pushing” an allele to a relatively extreme
+frequency, it will get to the region where drift dominates the dynamics
+more rapidly than it would under drift alone.</p></li>
+<li><p>So heterozygote advantage in which the two homozygotes have very
+asymmetrical fitnesses is likely to increase the rate at which diversity
+is lost. As a corollary, the allele in the disfavored homozygote is the
+most likely to be lost.</p></li>
 </ul>
-<figure>
-<img src="drift-heterozygote-advantage.png" id="fig:drift-heterozygote-advantage" alt="" /><figcaption>The “retardation factor” as a function of the equilibrium frequency under selection alone and the strength of selection, <span class="math inline">\(N(s_1+s_2)\)</span> (from <span class="citation" data-cites="Robertson-1962"></span>).</figcaption>
+<figure id="fig:drift-heterozygote-advantage">
+<div class="center">
+<img src="drift-heterozygote-advantage.png" />
+</div>
+<figcaption>The “retardation factor” as a function of the equilibrium
+frequency under selection alone and the strength of selection, <span
+class="math inline">\(N(s_1+s_2)\)</span> (from <span class="citation"
+data-cites="Robertson-1962"></span>).</figcaption>
 </figure>
 <h1 class="unnumbered" id="genetic-draft">Genetic draft</h1>
-<p>No. That’s not a typo. I meant to type “genetic draft.” Genetic draft is a term that John Gillespie coined <span class="citation" data-cites="Gillespie-2000"></span> to describe a phenomenon similar to genetic drift: If there is “a steady stream of adaptive substitutions at one locus<span class="math inline">\(\dots\)</span>, [then] the induced stochastic effects of the substitutions on [a linked] neutral locus can be faithfully captured in a one-locus model called the <span> <em>pseudohitchhiking model</em></span>” <span class="citation" data-cites="Gillespie-2000"></span> He shows that the neutral locus shows dynamics that are quite different from what would be expected if it were not linked to the selective locus. The effects are illustrated in Figure <a href="#fig:genetic-draft" data-reference-type="ref" data-reference="fig:genetic-draft">2</a></p>
-<figure>
-<img src="genetic-draft.png" id="fig:genetic-draft" alt="" /><figcaption>The color indicates the position on the genome, selected trajectories are in shown as dashed lines, neutral ones by solid lines. Neutral allele frequencies are most strongly perturbed by sweeps nearby on the chromosome, i.e., of similar color (from <span><code>http://webdav.tuebingen.mpg.de/interference/draft.html</code></span>; accessed 27 February 2017).</figcaption>
+<p>No. That’s not a typo. I meant to type “genetic draft.” Genetic draft
+is a term that John Gillespie coined <span class="citation"
+data-cites="Gillespie-2000"></span> to describe a phenomenon similar to
+genetic drift: If there is “a steady stream of adaptive substitutions at
+one locus<span class="math inline">\(\dots\)</span>, [then] the induced
+stochastic effects of the substitutions on [a linked] neutral locus can
+be faithfully captured in a one-locus model called the <span>
+<em>pseudohitchhiking model</em></span>” <span class="citation"
+data-cites="Gillespie-2000"></span> He shows that the neutral locus
+shows dynamics that are quite different from what would be expected if
+it were not linked to the selective locus. The effects are illustrated
+in Figure <a href="#fig:genetic-draft" data-reference-type="ref"
+data-reference="fig:genetic-draft">2</a></p>
+<figure id="fig:genetic-draft">
+<div class="center">
+<img src="genetic-draft.png" />
+</div>
+<figcaption>The color indicates the position on the genome, selected
+trajectories are in shown as dashed lines, neutral ones by solid lines.
+Neutral allele frequencies are most strongly perturbed by sweeps nearby
+on the chromosome, i.e., of similar color (from
+<span><code>http://webdav.tuebingen.mpg.de/interference/draft.html</code></span>;
+accessed 27 February 2017).</figcaption>
 </figure>
 <h1 class="unnumbered" id="conclusions">Conclusions</h1>
-<p>There are four properties of the interaction of drift and selection that I think you should take away from this brief discussion:</p>
+<p>There are four properties of the interaction of drift and selection
+that I think you should take away from this brief discussion:</p>
 <ol>
-<li><p>Most mutations, whether beneficial, deleterious, or neutral, are lost from the population in which they occurred.</p></li>
-<li><p>If selection against a deleterious mutation is weak or <span class="math inline">\(N_e\)</span> is small,<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a> a deleterious mutation is almost as likely to be fixed as neutral mutants. They are “effectively neutral.”<a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a></p></li>
-<li><p>If <span class="math inline">\(N_e\)</span> is large, deleterious mutations are much less likely to be fixed than neutral mutations.</p></li>
-<li><p>Even if <span class="math inline">\(N_e\)</span> is large, most favorable mutations are lost.</p></li>
-<li><p>If selection favors heterozygotes, it will retard the loss of genetic diversity only when the fitnesses of the two homozygotes are not greatly different from one another.</p></li>
+<li><p>Most mutations, whether beneficial, deleterious, or neutral, are
+lost from the population in which they occurred.</p></li>
+<li><p>If selection against a deleterious mutation is weak or <span
+class="math inline">\(N_e\)</span> is small,<a href="#fn11"
+class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a> a
+deleterious mutation is almost as likely to be fixed as neutral mutants.
+They are “effectively neutral.”<a href="#fn12" class="footnote-ref"
+id="fnref12" role="doc-noteref"><sup>12</sup></a></p></li>
+<li><p>If <span class="math inline">\(N_e\)</span> is large, deleterious
+mutations are much less likely to be fixed than neutral
+mutations.</p></li>
+<li><p>Even if <span class="math inline">\(N_e\)</span> is large, most
+favorable mutations are lost.</p></li>
+<li><p>If selection favors heterozygotes, it will retard the loss of
+genetic diversity only when the fitnesses of the two homozygotes are not
+greatly different from one another.</p></li>
 </ol>
-<h1 class="unnumbered" id="creative-commons-license">Creative Commons License</h1>
-<p>These notes are licensed under the Creative Commons Attribution License. To view a copy of this license, visit https://creativecommons.org/licenses/by/4.0/ or send a letter to Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305, USA.</p>
-<section class="footnotes" role="doc-endnotes">
+<h1 class="unnumbered" id="creative-commons-license">Creative Commons
+License</h1>
+<p>These notes are licensed under the Creative Commons Attribution
+License. To view a copy of this license, visit or send a letter to
+Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305,
+USA.</p>
+<aside id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1" role="doc-endnote"><p>Note that if the absolute viabilities of <span class="math inline">\(A_1A_1\)</span>, <span class="math inline">\(A_1A_2\)</span>, and <span class="math inline">\(A_2A_2\)</span> are <span class="math inline">\(w_{11}\)</span>, <span class="math inline">\(w_{12}\)</span>, and <span class="math inline">\(w_{22}\)</span> respectively, then we can write the relative fitnesses as <span class="math inline">\(1+s\)</span>, <span class="math inline">\(1+hs\)</span>, and <span class="math inline">\(1\)</span>. We’re considering the special case where <span class="math inline">\(h=1/2\)</span>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2" role="doc-endnote"><p>Remember, I told you that “it can be shown that” hides a <span><em>lot</em></span> of work.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3" role="doc-endnote"><p>The beneficial allele.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4" role="doc-endnote"><p>Unless <span class="math inline">\(p=1\)</span>.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5" role="doc-endnote"><p>Notice that it’s the product of <span class="math inline">\(N_e\)</span> and <span class="math inline">\(s\)</span> that matters, not either one by itself. Thus, a population is “large” with respect to selection if <span class="math inline">\(2N_es &gt; 1\)</span>.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6" role="doc-endnote"><p>The exact calculation from equation (<a href="#eq:beneficial" data-reference-type="ref" data-reference="eq:beneficial">[eq:beneficial]</a>) gives 82% for this probability.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn7" role="doc-endnote"><p>i.e., the magnitude of differences in relative viabilities<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn8" role="doc-endnote"><p>Because the larger the population, the smaller the effect of drift.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn9" role="doc-endnote"><p>You might be wondering why I’m not using the same approximation here as I did in equation (<a href="#eq:beneficial" data-reference-type="ref" data-reference="eq:beneficial">[eq:beneficial]</a>), since the equations look so similar. The reason is that the exponent on <span class="math inline">\(e\)</span> in the denominator is now positive. So <span class="math inline">\(e^{2N_es}\)</span> is the biggest term in the denominator instead of the smallest, meaning that we can’t neglect it.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn10" role="doc-endnote"><p>Because it’s probabliity of fixation is equal to its current frequency, i.e., <span class="math inline">\(1/2N\)</span>. We’ll return to this observation in a few weeks when we talk about the neutral theory of molecular evolution.<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn11" role="doc-endnote"><p>As with mutation and migration, what counts as large or small is determined by the product of <span class="math inline">\(N_e\)</span> and <span class="math inline">\(s\)</span>. If it’s bigger than one the population is regarded as large, because selective forces predominate. If it’s smaller than one, it’s regarded as small, because drift predominates.<a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn12" role="doc-endnote"><p>We’ll come back to “effectively neutral” when we discuss the neutral theory of molecular evolution. It’s a very important concept that has broader implications than you might guess.<a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>Note that if the absolute viabilities of <span
+class="math inline">\(A_1A_1\)</span>, <span
+class="math inline">\(A_1A_2\)</span>, and <span
+class="math inline">\(A_2A_2\)</span> are <span
+class="math inline">\(w_{11}\)</span>, <span
+class="math inline">\(w_{12}\)</span>, and <span
+class="math inline">\(w_{22}\)</span> respectively, then we can write
+the relative fitnesses as <span class="math inline">\(1+s\)</span>,
+<span class="math inline">\(1+hs\)</span>, and <span
+class="math inline">\(1\)</span>. We’re considering the special case
+where <span class="math inline">\(h=1/2\)</span>.<a href="#fnref1"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Remember, I told you that “it can be shown that” hides a
+<span><em>lot</em></span> of work.<a href="#fnref2"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>The beneficial allele.<a href="#fnref3"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Unless <span class="math inline">\(p=1\)</span>.<a
+href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>Notice that it’s the product of <span
+class="math inline">\(N_e\)</span> and <span
+class="math inline">\(s\)</span> that matters, not either one by itself.
+Thus, a population is “large” with respect to selection if <span
+class="math inline">\(2N_es &gt; 1\)</span>.<a href="#fnref5"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>The “exact” calculation from equation (<a
+href="#eq:beneficial" data-reference-type="ref"
+data-reference="eq:beneficial">[eq:beneficial]</a>) gives 82% for this
+probability. (I put “exact” in quotes, because there are several
+approximations involved in deriving that equation in the first place.)<a
+href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>i.e., the magnitude of differences in relative
+viabilities<a href="#fnref7" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p>Because the larger the population, the smaller the
+effect of drift.<a href="#fnref8" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p>You might be wondering why I’m not using the same
+approximation here as I did in equation (<a href="#eq:beneficial"
+data-reference-type="ref"
+data-reference="eq:beneficial">[eq:beneficial]</a>), since the equations
+look so similar. The reason is that the exponent on <span
+class="math inline">\(e\)</span> in the denominator is now positive.
+It’s now too big for us to ignore in the way that we did before.<a
+href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10"><p>Because it’s probability of fixation is equal to its
+current frequency, i.e., <span class="math inline">\(1/2N\)</span>.
+We’ll return to this observation in a few weeks when we talk about the
+neutral theory of molecular evolution.<a href="#fnref10"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn11"><p>As with mutation and migration, what counts as large or
+small is determined by the product of <span
+class="math inline">\(N_e\)</span> and <span
+class="math inline">\(s\)</span>. If it’s bigger than one the population
+is regarded as large, because selective forces predominate. If it’s
+smaller than one, it’s regarded as small, because drift predominates.<a
+href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn12"><p>We’ll come back to “effectively neutral” when we
+discuss the neutral theory of molecular evolution. It’s a very important
+concept that has broader implications than you might guess.<a
+href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
-</section>
+</aside>
 </body>
 </html>
