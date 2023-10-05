@@ -212,9 +212,9 @@ The last plot shows that neither the infinite island nor the finite island predi
 In addition to `n_loci` and `n_gen` there are two more parameters
 
 * `n_sample` - The number of individuals sampled in each population (and used in making an estimate of $F_{ST}$) and
-* `n_repetitions` - The number of times that results from a particular combination of `N_e`, `m`, `mu`, and `n_islands` will be simulated for a particular choice of `n_loci`, `n_gen`, and `n_sample`.
+* `n_repetitions` - The number of times that results from a particular combination of `N_e`, `m`, `mu`, and `n_pops` will be simulated for a particular choice of `n_loci`, `n_gen`, and `n_sample`.
 
-For each choice of these four parameters, the simulation will run through all combinations of `N_e = (25, 200, 250, 500)`, `m = (0.05, 0.01, 0.005, 0.001)`, `mu = (0.001, 0.0001)`, and `n_islands = (10, 25, 50)`.
+For each choice of these four parameters, the simulation will run through all combinations of `N_e = (25, 200, 250, 500)`, `m = (0.05, 0.01, 0.005, 0.001)`, `mu = (0.001, 0.0001)`, and `n_pops = (10, 25, 50)`.
 
 ```{r}
 ## These are the parameters to change
@@ -244,7 +244,7 @@ for (n_e in c(25, 100, 250, 500)) {
                       n_pops = rep(n_pops, n_repetitions),
                       Observed = f_st,
                       Infinite = infinite_island(n_e, m, mu),
-                      Finite = finite_island(n_e, m, mu, n_islands))
+                      Finite = finite_island(n_e, m, mu, n_pops))
       }
     }
   }
@@ -375,13 +375,18 @@ run_simulation <- function(n_e, m, mu, n_pops, n_loci, n_gen,
                   Island = f_st$fst_island,
                   Step = f_st$fst_step)
   }
-  df <- filter(df, !is.na(N_e))
+  df <- filter(df, !is.na(Island))
   return(df)
 }
 
 result <- run_simulation(100, 0.01, 0.0001, 100, 100, 1000, 25, 100)
-cat("Finite island:  ", round(mean(result$Island), 3), ", ", round(sd(result$Island), 3), "\n",
-    "Stepping stone: ", round(mean(result$Step), 3), ", ", round(sd(result$Step), 3), sep = "")
+result_1 <- run_simulation(100, 0.1, 0.0001, 100, 100, 1000, 25, 100)
+cat("m = 0.01\n",
+    "  Finite island:  ", round(mean(result$Island), 3), ", ", round(sd(result$Island), 3), "\n",
+    "  Stepping stone: ", round(mean(result$Step), 3), ", ", round(sd(result$Step), 3), sep = "")
+cat("m = 0.1\n",
+    "  Finite island:  ", round(mean(result_1$Island), 3), ", ", round(sd(result_1$Island), 3), "\n",
+    "  Stepping stone: ", round(mean(result_1$Step), 3), ", ", round(sd(result_1$Step), 3), sep = "")
 ```
 
 
