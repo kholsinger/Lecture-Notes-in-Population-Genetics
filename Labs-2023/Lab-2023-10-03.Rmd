@@ -384,7 +384,7 @@ result_1 <- run_simulation(100, 0.1, 0.0001, 100, 100, 1000, 25, 100)
 cat("m = 0.01\n",
     "  Finite island:  ", round(mean(result$Island), 3), ", ", round(sd(result$Island), 3), "\n",
     "  Stepping stone: ", round(mean(result$Step), 3), ", ", round(sd(result$Step), 3), sep = "")
-cat("m = 0.1\n",
+cat("\nm = 0.1\n",
     "  Finite island:  ", round(mean(result_1$Island), 3), ", ", round(sd(result_1$Island), 3), "\n",
     "  Stepping stone: ", round(mean(result_1$Step), 3), ", ", round(sd(result_1$Step), 3), sep = "")
 ```
