@@ -8,13 +8,24 @@
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
   </style>
   <link rel="stylesheet" href="pandoc.css" />
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
@@ -25,100 +36,561 @@
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
-<li><a href="#introduction">Introduction</a></li>
-<li><a href="#reconstructing-the-genealogy-of-a-sample-of-alleles">Reconstructing the genealogy of a sample of alleles</a></li>
-<li><a href="#mathematics-of-the-coalescent-two-alleles">Mathematics of the coalescent: two alleles</a></li>
-<li><a href="#mathematics-of-the-coalescent-multiple-alleles">Mathematics of the coalescent: multiple alleles</a>
+<li><a href="#introduction" id="toc-introduction">Introduction</a></li>
+<li><a href="#reconstructing-the-genealogy-of-a-sample-of-alleles"
+id="toc-reconstructing-the-genealogy-of-a-sample-of-alleles">Reconstructing
+the genealogy of a sample of alleles</a></li>
+<li><a href="#mathematics-of-the-coalescent-two-alleles"
+id="toc-mathematics-of-the-coalescent-two-alleles">Mathematics of the
+coalescent: two alleles</a></li>
+<li><a href="#mathematics-of-the-coalescent-multiple-alleles"
+id="toc-mathematics-of-the-coalescent-multiple-alleles">Mathematics of
+the coalescent: multiple alleles</a>
 <ul>
-<li><a href="#a-continuous-time-version-of-the-coalescent">A continuous time version of the coalescent</a></li>
-<li><a href="#an-example-mitochondrial-eve">An example: Mitochondrial Eve</a></li>
+<li><a href="#a-continuous-time-version-of-the-coalescent"
+id="toc-a-continuous-time-version-of-the-coalescent">A continuous time
+version of the coalescent</a></li>
+<li><a href="#an-example-mitochondrial-eve"
+id="toc-an-example-mitochondrial-eve">An example: Mitochondrial
+Eve</a></li>
 </ul></li>
-<li><a href="#the-coalescent-and-f-statistics">The coalescent and <span class="math inline">\(F\)</span>-statistics</a></li>
-<li><a href="#the-coalescent-and-natural-selection">The coalescent and natural selection</a></li>
-<li><a href="#creative-commons-license">Creative Commons License</a></li>
+<li><a href="#the-coalescent-and-f-statistics"
+id="toc-the-coalescent-and-f-statistics">The coalescent and <span
+class="math inline">\(F\)</span>-statistics</a></li>
+<li><a href="#the-coalescent-and-natural-selection"
+id="toc-the-coalescent-and-natural-selection">The coalescent and natural
+selection</a></li>
+<li><a href="#creative-commons-license"
+id="toc-creative-commons-license">Creative Commons License</a></li>
 </ul>
 </nav>
 <h1 class="unnumbered" id="introduction">Introduction</h1>
-<p>I’ve mentioned many times by now that population geneticists often look at the world backwards. To those of you who aren’t population geneticists,<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> looking at the world backwards is probably as awkwards as walking backwards. Sometimes, though, it turns out that walking backwards is useful, as when you’re trying to keep an eye on where you’ve been, not just where you’re going. That’s what we’re about to do with genetic drift. So far we’ve been trying to predict what will happen in a population given a particular effective population size. But when we collect data we are often more interested in understanding the processes that produced the pattern we find than in predicting what will happen in the future. We’re using data to provide insight about where we’ve been, not where we’re going. So let’s take a backward look at drift and see what we find.</p>
-<h1 class="unnumbered" id="reconstructing-the-genealogy-of-a-sample-of-alleles">Reconstructing the genealogy of a sample of alleles</h1>
-<p>Specifically, let’s keep track of the genealogy of alleles. In a finite population, two randomly chosen alleles will be identical by descent with respect to the immediately preceding generation with probability <span class="math inline">\(1/2N_e\)</span>. That means that there’s a chance that two alleles in generation <span class="math inline">\(t\)</span> are copies of the same allele in generation <span class="math inline">\(t-1\)</span>. If the population size is constant, meaning that the number of allele copies<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> is also constant, that also means that there’s a chance that some allele copies present in generation <span class="math inline">\(t-1\)</span> will not have descendants in generation <span class="math inline">\(t\)</span>. Looking backward, then, the number of allele copies in generation <span class="math inline">\(t-1\)</span> that have descendants in generation <span class="math inline">\(t\)</span> is always less than or equal to the number of allele copies in generation <span class="math inline">\(t\)</span>. That means if we trace the ancestry of allele copies in a sample back far enough, all of them will be descended from a single common ancestor.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> Figure <a href="#fig:coalescent" data-reference-type="ref" data-reference="fig:coalescent">1</a> provides a simple schematic illustrating how this might happen.</p>
-<figure>
-<img src="coalescent-figure.png" id="fig:coalescent" alt="" /><figcaption>A schematic depiction of one possible realization of the coalescent process in a population with 18 haploid gametes. There are four coalescent events in the generation immediately preceding the last one illustrated, one involving three alleles.</figcaption>
+<p>I’ve mentioned many times by now that population geneticists often
+look at the world backwards. To those of you who aren’t population
+geneticists,<a href="#fn1" class="footnote-ref" id="fnref1"
+role="doc-noteref"><sup>1</sup></a> looking at the world backwards is
+probably as awkwards as walking backwards. Sometimes, though, it turns
+out that walking backwards is useful, as when you’re trying to keep an
+eye on where you’ve been, not just where you’re going. That’s what we’re
+about to do with genetic drift. So far we’ve been trying to predict what
+will happen in a population given a particular effective population
+size. But when we collect data we are often more interested in using
+those data to understand the processes that produced the patterns we
+find in them than in predicting what will happen in the future. We’re
+using data to provide insight about where we’ve been, not where we’re
+going. So let’s take a backward look at drift and see what we find.</p>
+<h1 class="unnumbered"
+id="reconstructing-the-genealogy-of-a-sample-of-alleles">Reconstructing
+the genealogy of a sample of alleles</h1>
+<p>Specifically, let’s keep track of the genealogy of alleles. In a
+finite population, two randomly chosen alleles will be identical by
+descent with respect to the immediately preceding generation with
+probability <span class="math inline">\(1/2N_e\)</span>.<a href="#fn2"
+class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>
+That means that there’s a chance that two alleles in generation <span
+class="math inline">\(t\)</span> are copies of the same allele in
+generation <span class="math inline">\(t-1\)</span>. If the population
+size is constant, meaning that the number of allele copies<a href="#fn3"
+class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> is
+also constant, that also means that there’s a chance that some allele
+copies present in generation <span class="math inline">\(t-1\)</span>
+will not have descendants in generation <span
+class="math inline">\(t\)</span>. Looking backward, then, the number of
+allele copies in generation <span class="math inline">\(t-1\)</span>
+that have descendants in generation <span
+class="math inline">\(t\)</span> is always less than or equal to the
+number of allele copies in generation <span
+class="math inline">\(t\)</span>. That means if we trace the ancestry of
+allele copies in a sample back far enough, all of them will be descended
+from a single common ancestor.<a href="#fn4" class="footnote-ref"
+id="fnref4" role="doc-noteref"><sup>4</sup></a> Figure <a
+href="#fig:coalescent" data-reference-type="ref"
+data-reference="fig:coalescent">1</a> provides a simple schematic
+illustrating how this might happen.</p>
+<figure id="fig:coalescent">
+<div class="center">
+<img src="coalescent-figure.png" />
+</div>
+<figcaption>A schematic depiction of one possible realization of the
+coalescent process in a population with 18 haploid gametes. There are
+four coalescent events in the generation immediately preceding the last
+one illustrated, one involving three alleles.</figcaption>
 </figure>
-<p>Time runs from the top of Figure <a href="#fig:coalescent" data-reference-type="ref" data-reference="fig:coalescent">1</a> to the bottom, i.e., the current generation is represented by the circles in the botton row of the figure. Each circle represents an allele. The eighteen alleles in our current sample are descended from only four alleles that were present in the populations ten generations ago. The other fourteen alleles present in the population ten generations ago left no descendants. How far back in time we’d have to go before all alleles are descended from a single common ancestor depends on the effective size of the population, because how frequently two (or more) alleles are descended from the same allele in the preceding generation depends on the effective size of the population, too. But in any finite population the pattern will look something like the one I’ve illustrated here.</p>
-<h1 class="unnumbered" id="mathematics-of-the-coalescent-two-alleles">Mathematics of the coalescent: two alleles<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></h1>
-<p>The mathematician J. F. C. Kingman developed a convenient and powerful way to describe how the time to common ancestry is related to effective population size <span class="citation" data-cites="Kingman-1982-genealogy Kingman-1982-coalescent"></span>. The process he describes is referred to as the <span><em>coalescent</em></span>, because it is based on describing the probability of <span><em>coalescent events</em></span>, i.e., those points in the genealogy of a sample of alleles where two alleles are descended from the same allele in the immediately preceding generation.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> Let’s consider a simple case, one that we’ve already seen, first, i.e., two alleles drawn at random from a single population.</p>
-<p>The probability that two alleles drawn at random from a population are copies of the same allele in the preceding generation is also the probability that two alleles drawn at random from that population are identical by descent with respect to the immediately preceding generation. We know what that probability is,<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> namely <span class="math display">\[\frac{1}{2N_e^{(f)}} \quad .\]</span> I’ll just use <span class="math inline">\(N_e\)</span> from here on out, but keep in mind that the appropriate population size for use with the coalescent is the inbreeding effective size. Of course, this means that the probability that two alleles drawn at random from a population are <span><em>not</em></span> copies of the same allele in the preceding generation is <span class="math display">\[1 - \frac{1}{2N_e} \quad .\]</span> We’d like to calculate the probability that a coalescent event happened at a particular time <span class="math inline">\(t\)</span>, in order to figure out how far back in the ancestry of these two alleles we have to go before they have a common ancestor. How do we do that?</p>
-<p>Well, in order for a coalescent event to occur at time <span class="math inline">\(t\)</span>, the two alleles must have <span><em>not</em></span> have coalesced in the generations preceding that.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> The probability that they did not coalesce in the first <span class="math inline">\(t-1\)</span> generations is simply <span class="math display">\[\left(1 - \frac{1}{2N_e}\right)^{t-1} \quad .\]</span> Then after having remained distinct for <span class="math inline">\(t-1\)</span> generations, they have to coalesce in generation <span class="math inline">\(t\)</span>, which they do with probability <span class="math inline">\(1/2N_e\)</span>. So the probability that two alleles chosen at random coalesced <span class="math inline">\(t\)</span> generations ago is <span class="math display">\[P(T=t) = \left(1 -
+<p>Time runs from the top of Figure <a href="#fig:coalescent"
+data-reference-type="ref" data-reference="fig:coalescent">1</a> to the
+bottom, i.e., the current generation is represented by the circles in
+the botton row of the figure. Each circle represents an allele. The
+eighteen alleles in our current sample are descended from only four
+alleles that were present in the populations ten generations ago. The
+other fourteen alleles present in the population ten generations ago
+left no descendants. How far back in time we’d have to go before all
+alleles are descended from a single common ancestor depends on the
+effective size of the population, because how frequently two (or more)
+alleles are descended from the same allele in the preceding generation
+depends on the effective size of the population, too. But in any finite
+population the pattern will look something like the one I’ve illustrated
+here.</p>
+<h1 class="unnumbered"
+id="mathematics-of-the-coalescent-two-alleles">Mathematics of the
+coalescent: two alleles<a href="#fn5" class="footnote-ref" id="fnref5"
+role="doc-noteref"><sup>5</sup></a></h1>
+<p>The mathematician J. F. C. Kingman developed a convenient and
+powerful way to describe how the time to common ancestry is related to
+effective population size <span class="citation"
+data-cites="Kingman-1982-genealogy Kingman-1982-coalescent"></span>. The
+process he describes is referred to as the
+<span><em>coalescent</em></span>, because it is based on describing the
+probability of <span><em>coalescent events</em></span>, i.e., those
+points in the genealogy of a sample of alleles where two alleles are
+descended from the same allele in the immediately preceding
+generation.<a href="#fn6" class="footnote-ref" id="fnref6"
+role="doc-noteref"><sup>6</sup></a> Let’s consider a simple case, one
+that we’ve already seen, e.g., two alleles drawn at random from a single
+population.</p>
+<p>The probability that two alleles drawn at random from a population
+are copies of the same allele in the preceding generation is also the
+probability that two alleles drawn at random from that population are
+identical by descent with respect to the immediately preceding
+generation. We know what that probability is,<a href="#fn7"
+class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>
+namely <span class="math display">\[\frac{1}{2N_e^{(f)}} \quad
+.\]</span> I’ll just use <span class="math inline">\(N_e\)</span> from
+here on out, but keep in mind that the appropriate population size for
+use with the coalescent is the inbreeding effective size. Of course,
+this means that the probability that two alleles drawn at random from a
+population are <span><em>not</em></span> copies of the same allele in
+the preceding generation is <span class="math display">\[1 -
+\frac{1}{2N_e} \quad .\]</span> We’d like to calculate the probability
+that a coalescent event happened at a particular time <span
+class="math inline">\(t\)</span>, in order to figure out how far back in
+the ancestry of these two alleles we have to go before they have a
+common ancestor. How do we do that?</p>
+<p>Well, in order for a coalescent event to occur at time <span
+class="math inline">\(t\)</span>, the two alleles must have
+<span><em>not</em></span> have coalesced in the generations preceding
+that.<a href="#fn8" class="footnote-ref" id="fnref8"
+role="doc-noteref"><sup>8</sup></a> The probability that they did not
+coalesce in the first <span class="math inline">\(t-1\)</span>
+generations is simply <span class="math display">\[\left(1 -
+\frac{1}{2N_e}\right)^{t-1} \quad .\]</span> Then after having remained
+distinct for <span class="math inline">\(t-1\)</span> generations, they
+have to coalesce in generation <span class="math inline">\(t\)</span>,
+which they do with probability <span
+class="math inline">\(1/2N_e\)</span>. So the probability that two
+alleles chosen at random coalesced <span
+class="math inline">\(t\)</span> generations ago is <span
+class="math display">\[P(T=t) = \left(1 -
 \frac{1}{2N_e}\right)^{t-1}\left(\frac{1}{2N_e}\right) \quad .
-\label{eq:two-allele}\]</span> It’s not too hard to show, once we know the probability distribution in equation (<a href="#eq:two-allele" data-reference-type="ref" data-reference="eq:two-allele">[eq:two-allele]</a>), that the average time to coalescence for two randomly chosen alleles is <span class="math inline">\(2N_e\)</span>.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a></p>
-<h1 class="unnumbered" id="mathematics-of-the-coalescent-multiple-alleles">Mathematics of the coalescent: multiple alleles</h1>
-<p>It’s quite easy to extend this approach to multiple alleles.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> We’re interested in seeing how far back in time we have to go before all alleles are descended from a single common ancestor. We’ll assume that we have <span class="math inline">\(m\)</span> alleles in our sample. The first thing we have to calculate is the probability that any two of the alleles in our sample are identical by descent from the immediately preceding generation. To make the calculation easier, we assume that the effective size of the population is large enough that the probability of two coalescent events in a single generation is vanishingly small. We already know that the probability of a coalescence in the immediately preceding generation for two randomly chosen alleles is <span class="math inline">\(1/2N_e\)</span>. But there are <span class="math inline">\(m(m-1)/2\)</span> different pairs of alleles in our sample.<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a> So the probability that one pair of these alleles is involved in a coalescent event in the immediately preceding generation is <span class="math display">\[\left(\frac{1}{2N_e}\right)\left(\frac{m(m-1)}{2}\right) \quad .
-  \label{eq:multi-allele-first-event}\]</span> From this it follows<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a> that the probability that the first coalescent event involving this sample of alleles occurred <span class="math inline">\(t\)</span> generations ago is <span class="math display">\[P(T=t) =
+\label{eq:two-allele}\]</span> It’s not too hard to show, once we know
+the probability distribution in equation (<a href="#eq:two-allele"
+data-reference-type="ref"
+data-reference="eq:two-allele">[eq:two-allele]</a>), that the average
+time to coalescence for two randomly chosen alleles is <span
+class="math inline">\(2N_e\)</span>.<a href="#fn9" class="footnote-ref"
+id="fnref9" role="doc-noteref"><sup>9</sup></a></p>
+<p>It’s also not too hard to arrive at this conclusion intuitively. If I
+tell you, for example, that the probability that the UConn football team
+will win a football game is 10 percent, you’d probably guess that, on
+average, you’d have to wait 10 games before they won. Ten games is just
+one over the probability of winning any one game. In the case of the
+coalescent, the probability of a coalescent event in any generation is
+<span class="math inline">\(1/2N_e\)</span>, so the average time to a
+coalescent event is <span class="math inline">\(2N_e\)</span>.<a
+href="#fn10" class="footnote-ref" id="fnref10"
+role="doc-noteref"><sup>10</sup></a></p>
+<h1 class="unnumbered"
+id="mathematics-of-the-coalescent-multiple-alleles">Mathematics of the
+coalescent: multiple alleles</h1>
+<p>It’s quite easy to extend this approach to multiple alleles.<a
+href="#fn11" class="footnote-ref" id="fnref11"
+role="doc-noteref"><sup>11</sup></a> We’re interested in seeing how far
+back in time we have to go before all alleles are descended from a
+single common ancestor. We’ll assume that we have <span
+class="math inline">\(m\)</span> alleles in our sample. The first thing
+we have to calculate is the probability that any two of the alleles in
+our sample are identical by descent from the immediately preceding
+generation. To make the calculation easier, we assume that the effective
+size of the population is large enough that the probability of two
+coalescent events in a single generation is vanishingly small. We
+already know that the probability of a coalescence in the immediately
+preceding generation for two randomly chosen alleles is <span
+class="math inline">\(1/2N_e\)</span>. But there are <span
+class="math inline">\(m(m-1)/2\)</span> different pairs of alleles in
+our sample.<a href="#fn12" class="footnote-ref" id="fnref12"
+role="doc-noteref"><sup>12</sup></a> So the probability that one pair of
+these alleles is involved in a coalescent event in the immediately
+preceding generation is <span
+class="math display">\[\left(\frac{1}{2N_e}\right)\left(\frac{m(m-1)}{2}\right)
+\quad .
+  \label{eq:multi-allele-first-event}\]</span> From this it follows<a
+href="#fn13" class="footnote-ref" id="fnref13"
+role="doc-noteref"><sup>13</sup></a> that the probability that the first
+coalescent event involving this sample of alleles occurred <span
+class="math inline">\(t\)</span> generations ago is <span
+class="math display">\[P(T=t) =
 \left(1-\left(\frac{1}{2N_e}\right)\left(\frac{m(m-1)}{2}\right)\right)^{t-1}
 \left(\frac{1}{2N_e}\right)\left(\frac{m(m-1)}{2}\right)
 \quad .
-\label{eq:multi-allele}\]</span> So the mean time back to the first coalescent event is <span class="math display">\[\frac{2N_e}{m(m-1)/2} = \frac{4N_e}{m(m-1)} \hbox{ generations} \quad .\]</span></p>
-<p>But this is, of course, only the first coalescent event. We were interested in how long we have to wait until <span><em>all</em></span> alleles are descended from a single common ancestor. Now this is where Kingman’s sneaky trick comes in. After the first coalescent event, we have <span class="math inline">\(m-1\)</span> alleles in our sample, instead of <span class="math inline">\(m\)</span>. So the whole process starts over again with <span class="math inline">\(m-1\)</span> alleles instead of <span class="math inline">\(m\)</span>.<a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a> Since the time to the first coalescence depends only on the number of alleles in the sample and not on how long the first coalescence event took, we can calculate the average time until all coalescences have happened as <span class="math display">\[\begin{aligned}
+\label{eq:multi-allele}\]</span> So the mean time back to the first
+coalescent event is <span class="math display">\[\frac{2N_e}{m(m-1)/2} =
+\frac{4N_e}{m(m-1)} \hbox{ generations} \quad .\]</span> Remember,
+though, that most coalescent events happen before the mean coalescence
+time.<a href="#fn14" class="footnote-ref" id="fnref14"
+role="doc-noteref"><sup>14</sup></a></p>
+<p>But this is, of course, only the first coalescent event. We were
+interested in how long we have to wait until <span><em>all</em></span>
+alleles are descended from a single common ancestor. Now this is where
+Kingman’s sneaky trick comes in. After the first coalescent event, we
+have <span class="math inline">\(m-1\)</span> alleles in our sample,
+instead of <span class="math inline">\(m\)</span>. So the whole process
+starts over again with <span class="math inline">\(m-1\)</span> alleles
+instead of <span class="math inline">\(m\)</span>.<a href="#fn15"
+class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a>
+Since the time to the first coalescence depends only on the number of
+alleles in the sample and not on how long the first coalescence event
+took, we can calculate the average time until all coalescences have
+happened as <span class="math display">\[\begin{aligned}
 \bar t &amp;=&amp; \sum_{k=2}^m \bar t_k \\
        &amp;=&amp; \sum_{k=2}^m \frac{4N_e}{k(k-1)} \\
        &amp;&amp; \mbox{TAMO} \\
        &amp;=&amp; 4N_e\left(1 - \frac{1}{m}\right) \\
-       &amp;\approx&amp; 4N_e\end{aligned}\]</span></p>
-<h2 class="unnumbered" id="a-continuous-time-version-of-the-coalescent">A continuous time version of the coalescent</h2>
-<p>Since the effective size of a population has to be pretty big for the coalescent process to be a good representation, big enough that <span class="math inline">\((1/2N_e)^2\)</span> is negligible, <span class="math inline">\(4N_e\)</span> is generally in the hundreds or thousands. That means that even though the coalescent as I formulated it above is discrete time process, i.e., events happen at time 1, 2, 3, <span class="math inline">\(\dots\)</span>, it can be convenient to think of time as continuous, which is surprisingly easy to do. We start with the “well-known fact” that if <span class="math inline">\(p\)</span> is “small” <span class="math display">\[\log(1-p) \approx -p \quad .\]</span> As a result, <span class="math display">\[\begin{aligned}
+       &amp;\approx&amp; 4N_e
+\end{aligned}\]</span></p>
+<p>When all alleles have coalesced, there’s only one allele present.
+Since we haven’t introduced mutation into the coalescent process yet,
+that’s equivalent to saying that all of the <span
+class="math inline">\(m\)</span> alleles in our sample are identical by
+descent, i.e., that one particular allele that was present, on average,
+<span class="math inline">\(4N_e\)</span> generations ago is the
+ancestor of all of the alleles in our sample, i.e., it has been fixed.
+You’re unlikely to remember this, since we didn’t talk about it in
+lecture, but <span class="math inline">\(4N_e\)</span> as the time to
+coalescence may look vaguely familiar. Look at this formula for the time
+to fixation of one of two alleles present in a population from the notes
+on genetic drift: <span class="math display">\[\bar t \approx
+-4N\left(p\log p + (1-p)\log(1-p)\right) \quad .\]</span> Does it
+surprise you that the average time to fixation (going forward in time)
+looks a lot like the average time to coalescence (looking backward in
+time)? It shouldn’t. They’re opposite sides of the same coin.</p>
+<h2 class="unnumbered"
+id="a-continuous-time-version-of-the-coalescent">A continuous time
+version of the coalescent</h2>
+<p>Since the effective size of a population has to be pretty big for the
+coalescent process to be a good representation, big enough that <span
+class="math inline">\((1/2N_e)^2\)</span> is negligible, <span
+class="math inline">\(4N_e\)</span> is generally in the hundreds or
+thousands. That means that even though the coalescent as I formulated it
+above is a discrete time process, i.e., events happen at time 1, 2, 3,
+<span class="math inline">\(\dots\)</span>, it can be convenient to
+think of time as continuous, which is surprisingly easy to do. We start
+with the “well-known fact” that if <span
+class="math inline">\(p\)</span> is “small” <span
+class="math display">\[\log(1-p) \approx -p \quad .\]</span> As a
+result, <span class="math display">\[\begin{aligned}
 (1 - p)^t &amp;=&amp; e^{t \log(1-p)} \\
-          &amp;\approx&amp; e^{-pt} \quad .\end{aligned}\]</span> In our case, <span class="math display">\[p = \frac{k(k-1)}{4N_e} \quad ,\]</span> when there are <span class="math inline">\(k\)</span> alleles.<a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a> So <span class="math display">\[t_k = \left(\frac{k(k-1)}{4N_e}\right)e^{\frac{k(k-1)}{4N_e}} \quad .\]</span></p>
-<h2 class="unnumbered" id="an-example-mitochondrial-eve">An example: Mitochondrial Eve</h2>
-<p>Cann et al. <span class="citation" data-cites="Cann-etal-1987"></span> sampled mitochondrial DNA from 147 humans of diverse racial and geographic origins.<a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a> Based on the amount of sequence divergence they found among genomes in their sample and independent estimates of the rate of sequence evolution, they inferred that the mitochondria in their sample had their most recent common ancestor about 200,000 years ago. Because all of the most ancient lineages in their sample were from individuals of African ancestry, they also suggested that mitochondrial Eve lived in Africa. They used these arguments as evidence for the “Out of Africa” hypothesis for modern human origins, i.e., the hypothesis that anatomically modern humans arose in Africa about 200,000 years ago and displaced other members of the genus <span><em>Homo</em></span> in Europe and Asia as they spread. What does the coalescent tell us about their conclusion?</p>
-<p>Well, we expect all mitochondrial genomes in the sample to have had a common ancestor about <span class="math inline">\(2N_e\)</span> generations ago. Why <span class="math inline">\(2N_e\)</span> rather than <span class="math inline">\(4N_e\)</span>? Because mitochondrial genomes are haploid, not diploid. Furthermore, since we all get our mitochondria from our mothers,<a href="#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a> <span class="math inline">\(N_e\)</span> in this case refers to the effective number of <span> <em>females</em></span>.</p>
-<p>Given that a human generation is about 20 years, a coalescence time of 200,000 years implies that the mitochondrial genomes in the Cann et al. sample have their most recent common ancestor about 10,000 generations ago. If the effective number of females in the human populations is 5000, that’s exactly what we’d expect. While 5000 may sound awfully small, given that there are more than 3 billion women on the planet now, remember that until the recent historical past (no more than 500 generations ago) the human population was small and humans lived in small hunter-gatherer groups, so an effective number of females of 5000 and a total effective size of 10,000 may not be unreasonable. If that’s true, then the geographical location of mitochondrial Eve need not tell us anything about the origin of modern human populations, because there had to be a coalescence somewhere. There’s no guarantee, from this evidence alone, that the Y-chromosome Adam would have lived in Africa, too. Having said that, my limited reading of the literature suggests that more extensive recent dara are consistent with the “Out of Africa” scenario. Y-chromosome polymorphisms, for example, are also consistent with the “Out of Africa” hypothesis <span class="citation" data-cites="Underhill-etal-2000"></span>. Interestingly, dating of Y-chromosome polymorphisms suggetsts that Y-chromosome Adam left Africa only 35,000 – 89,000 years ago.</p>
-<h1 class="unnumbered" id="the-coalescent-and-f-statistics">The coalescent and <span class="math inline">\(F\)</span>-statistics</h1>
-<p>Suppose we have a sample of alleles from a structured population. For alleles chosen randomly within populations let the average time to coalescence be <span class="math inline">\(\bar t_0\)</span>. For alleles chosen randomly from different populations let the average time to coalescence be <span class="math inline">\(\bar t_1\)</span>. If there are <span class="math inline">\(k\)</span> populations in our sample, the average time to coalescence for two alleles drawn at random without respect to population is<a href="#fn16" class="footnote-ref" id="fnref16" role="doc-noteref"><sup>16</sup></a> <span class="math display">\[\begin{aligned}
+          &amp;\approx&amp; e^{-pt} \quad .
+\end{aligned}\]</span> In our case, <span class="math display">\[p =
+\frac{k(k-1)}{4N_e} \quad ,\]</span> when there are <span
+class="math inline">\(k\)</span> alleles.<a href="#fn16"
+class="footnote-ref" id="fnref16" role="doc-noteref"><sup>16</sup></a>
+So <span class="math display">\[\mbox{P}(T = t) =
+\left(\frac{k(k-1)}{4N_e}\right)e^{t\frac{k(k-1)}{4N_e}} \quad
+.\]</span> If you’re wondering why there’s a <span
+class="math inline">\(t\)</span> in that equation instead of the <span
+class="math inline">\(t-1\)</span> you’d get from substituting direclty
+into equation (<a href="#eq:multi-allele" data-reference-type="ref"
+data-reference="eq:multi-allele">[eq:multi-allele]</a>), it’s because
+the exponential distribution here is the limit of the geometric
+distribution in (<a href="#eq:multi-allele" data-reference-type="ref"
+data-reference="eq:multi-allele">[eq:multi-allele]</a>) as the
+coalescence time grows large.</p>
+<h2 class="unnumbered" id="an-example-mitochondrial-eve">An example:
+Mitochondrial Eve</h2>
+<p>Cann et al. <span class="citation"
+data-cites="Cann-etal-1987"></span> sampled mitochondrial DNA from 147
+humans of diverse racial and geographic origins.<a href="#fn17"
+class="footnote-ref" id="fnref17" role="doc-noteref"><sup>17</sup></a>
+Based on the amount of sequence divergence they found among genomes in
+their sample and independent estimates of the rate of sequence
+evolution, they inferred that the mitochondria in their sample had their
+most recent common ancestor about 200,000 years ago. Because all of the
+most ancient lineages in their sample were from individuals of African
+ancestry, they also suggested that mitochondrial Eve lived in Africa.
+They used these arguments as evidence for the “Out of Africa” hypothesis
+for modern human origins, i.e., the hypothesis that anatomically modern
+humans arose in Africa about 200,000 years ago and displaced other
+members of the genus <span><em>Homo</em></span> in Europe and Asia as
+they spread. What does the coalescent tell us about their
+conclusion?</p>
+<p>Well, we expect all mitochondrial genomes in the sample to have had a
+common ancestor about <span class="math inline">\(2N_e\)</span>
+generations ago. Why <span class="math inline">\(2N_e\)</span> rather
+than <span class="math inline">\(4N_e\)</span>? Because mitochondrial
+genomes are haploid, not diploid. Furthermore, since we all get our
+mitochondria from our mothers,<a href="#fn18" class="footnote-ref"
+id="fnref18" role="doc-noteref"><sup>18</sup></a> <span
+class="math inline">\(N_e\)</span> in this case refers to the effective
+number of <span> <em>females</em></span>.</p>
+<p>Given that a human generation is about 20 years, a coalescence time
+of 200,000 years implies that the mitochondrial genomes in the Cann et
+al. sample have their most recent common ancestor about 10,000
+generations ago. If the effective number of females in the human
+populations is 5000, that’s exactly what we’d expect. While 5000 may
+sound awfully small, given that there are more than 3 billion women on
+the planet now, remember that until the recent historical past (no more
+than 500 generations ago) the human population was small and humans
+lived in small hunter-gatherer groups, so an effective number of females
+of 5000 and a total effective size of 10,000 may not be unreasonable. If
+that’s true, then the geographical location of mitochondrial Eve need
+not tell us anything about the origin of modern human populations,
+because there had to be a coalescence somewhere. There’s no guarantee,
+from this evidence alone, that the Y-chromosome Adam would have lived in
+Africa, too. Having said that, my limited reading of the literature
+suggests that more extensive recent data are consistent with the “Out of
+Africa” scenario. Y-chromosome polymorphisms, for example, are also
+consistent with the “Out of Africa” hypothesis <span class="citation"
+data-cites="Underhill-etal-2000"></span>. Interestingly, dating of
+Y-chromosome polymorphisms suggests that Y-chromosome Adam left Africa
+only 35,000 – 89,000 years ago.</p>
+<h1 class="unnumbered" id="the-coalescent-and-f-statistics">The
+coalescent and <span class="math inline">\(F\)</span>-statistics</h1>
+<p>Suppose we have a sample of alleles from a structured population. For
+alleles chosen randomly within populations, let the average time to
+coalescence be <span class="math inline">\(\bar t_0\)</span>. For
+alleles chosen randomly from different populations, let the average time
+to coalescence be <span class="math inline">\(\bar t_1\)</span>. If
+there are <span class="math inline">\(k\)</span> populations in our
+sample, the average time to coalescence for two alleles drawn at random
+without respect to population is<a href="#fn19" class="footnote-ref"
+id="fnref19" role="doc-noteref"><sup>19</sup></a> <span
+class="math display">\[\begin{aligned}
   \bar t &amp;=&amp; \frac{1}{k}\bar t_0 + \frac{k-1}{k}\bar t_1 \\
   &amp;=&amp; \frac{\bar t_0 + (k-1)\bar t_1}
-              {k} \quad .\end{aligned}\]</span> Slatkin <span class="citation" data-cites="Slatkin-1991"></span> pointed out that <span class="math inline">\(F_{st}\)</span> bears a simple relationship to average coalescence times within and among populations. Given these definitions of <span class="math inline">\(\bar t\)</span> and <span class="math inline">\(\bar t_0\)</span>, <span class="math display">\[\begin{aligned}
-  F_{st} &amp;=&amp; \frac{\bar t - \bar t_0}{\bar t} \quad .\end{aligned}\]</span> So another way to think about <span class="math inline">\(F_{st}\)</span> is as a measure of the proportional increase in coalescence time that is due to populations being separate from one another. One way to think about that relationship is this: the longer it has been, on average, since alleles in different populations diverged from a common ancestor, the greater the chances that they have become different. An implication of this relationship is that <span class="math inline">\(F\)</span>-statistics, by themselves, can tell us something about how recently populations have been connected, relative to the within-population coalescence time, but they can’t distinguish between recent common ancestry that is due to migration among populations and recent common ancestry that is due to a split between populations.</p>
-<p>A given pattern of among-population relationships might reflect a migration-drift equilibrium, a sequence of population splits followed by genetic isolation, or any combination of the two. If we are willing to assume that populations in our sample have been exchanging genes long enough to reach stationarity in the drift-migration process, then <span class="math inline">\(F_{st}\)</span> may tell us something about migration. If we are willing to assume that there’s been no gene exchange among our populations, we can infer something about how recently they’ve diverged from one another. But unless we’re willing to make one of those assumptions, we can’t really say anything.<a href="#fn17" class="footnote-ref" id="fnref17" role="doc-noteref"><sup>17</sup></a></p>
-<h1 class="unnumbered" id="the-coalescent-and-natural-selection">The coalescent and natural selection</h1>
-<p>It shouldn’t surprise you that if we can study some of the properties of drift and selection, we can also use the coalescent to understand how natural selection works in a finite population. Even though the mathematics of the coalescent are ususally simpler than the older diffusion approach for studying allele frequency changes in a finite population, they are still very complicated. I’ll simply outline one approach here known as the <span><em>structured coalescent</em></span>.</p>
-<p>The idea is reasonably simple, especially if we think about selection involving only two alleles.<a href="#fn18" class="footnote-ref" id="fnref18" role="doc-noteref"><sup>18</sup></a> When you start to think about it, you should realize two things pretty quickly:</p>
+              {k} \quad .
+\end{aligned}\]</span> Slatkin <span class="citation"
+data-cites="Slatkin-1991"></span> pointed out that <span
+class="math inline">\(F_{st}\)</span> bears a simple relationship to
+average coalescence times within and among populations. Given these
+definitions of <span class="math inline">\(\bar t\)</span> and <span
+class="math inline">\(\bar t_0\)</span>, <span
+class="math display">\[\begin{aligned}
+  F_{st} &amp;=&amp; \frac{\bar t - \bar t_0}{\bar t} \\
+         &amp;=&amp; \frac{\left(\frac{k-1}{k}\right)\bar t_1}{\bar t}
+\\
+         &amp;\approx&amp; \frac{\bar t_1}{\bar t} \quad .
+\end{aligned}\]</span> So another way to think about <span
+class="math inline">\(F_{st}\)</span> is as a measure of the
+proportional increase in coalescence time that is due to populations
+being separate from one another. One way to think about that
+relationship is this: the longer it has been, on average, since alleles
+in different populations diverged from a common ancestor, the greater
+the chance that they have become different. An implication of this
+relationship is that <span class="math inline">\(F\)</span>-statistics,
+by themselves, can tell us something about how recently populations have
+been connected, relative to the within-population coalescence time, but
+they can’t distinguish between recent common ancestry that is due to
+migration among populations and recent common ancestry that is due to a
+split between populations.</p>
+<p>A given pattern of among-population relationships might reflect a
+migration-drift equilibrium, a sequence of population splits followed by
+genetic isolation, or any combination of the two. If we are willing to
+assume that populations in our sample have been exchanging genes long
+enough to reach stationarity in the drift-migration process, then <span
+class="math inline">\(F_{st}\)</span> may tell us something about
+migration. If we are willing to assume that there’s been no gene
+exchange among our populations, we can infer something about how
+recently they’ve diverged from one another. But unless we’re willing to
+make one of those assumptions, we can’t really say anything.<a
+href="#fn20" class="footnote-ref" id="fnref20"
+role="doc-noteref"><sup>20</sup></a></p>
+<h1 class="unnumbered" id="the-coalescent-and-natural-selection">The
+coalescent and natural selection</h1>
+<p>It shouldn’t surprise you that if we can study some of the properties
+of drift and selection, we can also use the coalescent to understand how
+natural selection works in a finite population. Even though the
+mathematics of the coalescent are ususally simpler than the older
+diffusion approach for studying allele frequency changes in a finite
+population, they are still very complicated. I’ll simply outline one
+approach here known as the <span><em>structured
+coalescent</em></span>.</p>
+<p>The idea is reasonably simple, especially if we think about selection
+involving only two alleles.<a href="#fn21" class="footnote-ref"
+id="fnref21" role="doc-noteref"><sup>21</sup></a> When you start to
+think about it, you should realize two things pretty quickly:</p>
 <ol>
-<li><p>Coalescent events will happen only <span><em>within</em></span> each of the two allele classes. If we were to trace the history back far enough, to the point where the mutation leading to a second allele occurred, then there might be coalescence involving the two classesexcept that there wouldn’t be two classes, only one.</p></li>
-<li><p>The allele copies<a href="#fn19" class="footnote-ref" id="fnref19" role="doc-noteref"><sup>19</sup></a> within one of the two allele classes will all have the same fitness properties. That means that the genealogy within each allele classs will behave just like the coalescent you’ve already seen.</p></li>
+<li><p>Coalescent events will happen only <span><em>within</em></span>
+each of the two allele classes. If we were to trace the history back far
+enough, to the point where the mutation leading to a second allele
+occurred, then there might be coalescence involving the two
+classesexcept that there wouldn’t be two classes, only one.</p></li>
+<li><p>The allele copies<a href="#fn22" class="footnote-ref"
+id="fnref22" role="doc-noteref"><sup>22</sup></a> within one of the two
+allele classes will all have the same fitness properties. That means
+that the genealogy within each allele classs will behave just like the
+coalescent you’ve already seen.</p></li>
 </ol>
-<p>There are a couple of further complications. The first one is that the probability of a coalescent event between two alleles belonging to an allele class whose frequency is <span class="math inline">\(p_t\)</span> is <span class="math display">\[\frac{\frac{m(m-1)}{2}}{2N_ep_t} \quad .\]</span> If you think about it a bit, that my look reasonably familiar. If it doesn’t look back at equation (<a href="#eq:multi-allele-first-event" data-reference-type="ref" data-reference="eq:multi-allele-first-event">[eq:multi-allele-first-event]</a>). All we’ve done is to reduce the effective size of the population by a factor <span class="math inline">\(p_t\)</span>, which is the fraction of total allele copies that belong to the allele class we’re focusing on.</p>
-<p>The second complication is hidden in the first one. Notice that subscript on <span class="math inline">\(p_t\)</span>. Since we’re assuming that natural selection is going on, we expect the allele frequencies to change over time. This is where the mathematics gets really complicated. Since the population is finite, we can’t simply calculate the trajectory. We have to simulate it. That’s OK because when applying coalescent ideas to make inferences from data, we’re always simulating anyway. It’s just that simulating a sample when there is selection is a bit more complicated.</p>
+<p>There are a couple of further complications. The first one is that
+the probability of a coalescent event between two alleles belonging to
+an allele class whose frequency is <span
+class="math inline">\(p_t\)</span> is <span
+class="math display">\[\frac{\frac{m(m-1)}{2}}{2N_ep_t} \quad .\]</span>
+If you think about it a bit, that may look reasonably familiar. If it
+doesn’t, look back at equation (<a href="#eq:multi-allele-first-event"
+data-reference-type="ref"
+data-reference="eq:multi-allele-first-event">[eq:multi-allele-first-event]</a>).
+All we’ve done is to reduce the effective size of the population by a
+factor <span class="math inline">\(p_t\)</span>, which is the fraction
+of total allele copies that belong to the allele class we’re focusing
+on.</p>
+<p>The second complication is hidden in the first one. Notice that
+subscript on <span class="math inline">\(p_t\)</span>. Since we’re
+assuming that natural selection is going on, we expect the allele
+frequencies to change over time. This is where the mathematics get
+really complicated. Since the population is finite, we can’t simply
+calculate the trajectory. We have to simulate it. That’s OK because when
+applying coalescent ideas to make inferences from data, we’re always
+simulating anyway. It’s just that simulating a sample when there is
+selection is a bit more complicated.</p>
 <ol>
-<li><p>We first simulate the allele frequency trajectory, typically using our estimate of the current allele frequency as a starting point.</p></li>
-<li><p>The we simulate the coalescent history within each allele class.</p></li>
-<li><p>The result is a <span><em>structured coalescent</em></span> sample that we can use for further analyses. We’ll talk more about how to use these simulated samples when we get to phylogeography.</p></li>
+<li><p>We first simulate the allele frequency trajectory, typically
+using our estimate of the current allele frequency as a starting
+point.</p></li>
+<li><p>Then we simulate the coalescent history within each allele
+class.</p></li>
+<li><p>The result is a <span><em>structured coalescent</em></span>
+sample that we can use for further analyses. We’ll talk more about how
+to use these simulated samples when we get to phylogeography.</p></li>
 </ol>
-<h1 class="unnumbered" id="creative-commons-license">Creative Commons License</h1>
-<p>These notes are licensed under the Creative Commons Attribution License. To view a copy of this license, visit https://creativecommons.org/licenses/by/4.0/ or send a letter to Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305, USA.</p>
-<section class="footnotes" role="doc-endnotes">
+<h1 class="unnumbered" id="creative-commons-license">Creative Commons
+License</h1>
+<p>These notes are licensed under the Creative Commons Attribution
+License. To view a copy of this license, visit or send a letter to
+Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305,
+USA.</p>
+<aside id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1" role="doc-endnote"><p>i.e., virtually everyone who is reading these notes.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2" role="doc-endnote"><p>I’m using the phrase “allele copy” here to refer to distinct physical alleles. Allele copies may or may not be identical by type or identical by descent. If a diploid population has effective size <span class="math inline">\(N_e\)</span>, then the number of allele <span><em>copies</em></span> is <span class="math inline">\(2N_e\)</span>. The number of allele types may be 1, 2, or any other integer less than or equal to <span class="math inline">\(2N_e\)</span>. Similarly, the number of identity by descent categories among the alleles may be anything rom 1 to <span class="math inline">\(2N_e\)</span>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3" role="doc-endnote"><p>As you can see, it quickly becomes tedious to write “allele copies.” I’m going to write “allele” throughout the rest of this discussion. Just remember that when I do, I’m really referring to an allele copy.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4" role="doc-endnote"><p>Remember, I’m talking about allele copies here.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5" role="doc-endnote"><p>An important assumption of the coalescent is that populations are large enough that we can ignore the possibility that there is more than one coalescent event in a single generation. That also means that we also only allow coalescence between a pair of alleles, not three or more. In both ways the mathematical model of the process differs from the diagram in Figure <a href="#fig:coalescent" data-reference-type="ref" data-reference="fig:coalescent">1</a>.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6" role="doc-endnote"><p>Though you may not remember it.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn7" role="doc-endnote"><p>Remember that we’re counting generations backward in time, so when I say that a coalescent event occurred at time <span class="math inline">\(t\)</span> I mean that it occurred <span class="math inline">\(t\)</span> generations ago.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn8" role="doc-endnote"><p>If you’ve had a little bit of probability theory, you’ll notice that equation <a href="#eq:two-allele" data-reference-type="ref" data-reference="eq:two-allele">[eq:two-allele]</a> shows that the coalescence time is a geometric random variable.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn9" role="doc-endnote"><p>Okay, okay. What I should really have said is “It’s not <span><em>too</em></span> hard to extend this approach to multiple alleles, if you are comfortable with probability thinking.” Rembmer: I don’t expect you to be able to derive these results on your own. Don’t worry if you can’t see how you could have come up with the mathematics that follow. Unless you want to make contributions to developing new theory in population genetics, you don’t need to do derivations like these. Nonetheless, I think it’s useful for you to see them. That way you have a better chance of understanding the limitations of coalescence approaches if you use them in analyzing your own data.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn10" role="doc-endnote"><p>Where did I get that <span class="math inline">\(m(m-1)/2\)</span>? You can either take my word for it as “a well known fact,” or you can ask me about it, and I’ll show you where it comes from.<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn11" role="doc-endnote"><p>Using logic just like what we used in the two allele case.<a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn12" role="doc-endnote"><p>For anyone who cares, this is another example of the Markov property of genetic drift.<a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn13" role="doc-endnote"><p>Remember, I’m using “alleles” as shorthand for “allele copies” (and wasting a lot more space with this footnote than I would have if I’d just written “allele copies” in the text).<a href="#fnref13" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn14" role="doc-endnote"><p>That may seem like a pretty small sammple to you, but the technology available to analyze genomes has advanced tremendously since Cann et al. did their work. To sequence a segment of DNA for example required, among other things, running samples on a polyacrylamide gel, producing an autoradiogram, and manually reading the results. The process took about 2 weeks per sequence.<a href="#fnref14" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn15" role="doc-endnote"><p>Luo et al. <span class="citation" data-cites="Luo-etal-2018"></span> recently presented data suggesting that mitochondria may sometimes be biparentally inherited in humans and that whether or not biparental inheritance occurs seems to be determined by the nuclear genotype of the mother.<a href="#fnref15" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn16" role="doc-endnote"><p>If you don’t see why, don’t worry about it. You can ask if you really care. We only care about <span class="math inline">\(\bar t\)</span> for what follows anyway.<a href="#fnref16" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn17" role="doc-endnote"><p>We can’t say anything from allele frequencies alone. If we have DNA sequences for the alleles, which allows us to tell how closely related they are to one another, we can say something. We’ll get to this when we discuss phylogeography in a few weeks.<a href="#fnref17" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn18" role="doc-endnote"><p>Wakeley <span class="citation" data-cites="Wakeley-2010"></span> provides a reasonably accessible overview. Coop and Griffiths <span class="citation" data-cites="Coop-Griffiths-2004"></span> provide all of the gory details.<a href="#fnref18" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn19" role="doc-endnote"><p>There’s that phrase again.<a href="#fnref19" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>i.e., virtually everyone who is reading these notes.<a
+href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>That should sound familiar. We used this property when
+we developed the analogy between inbreeding and drift. I should also
+point out that it’s <span class="math inline">\(2N_e\)</span> because
+I’m implicitly assuming that we’re dealing with a diploid population,
+not a haploid one.<a href="#fnref2" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>I’m using the phrase “allele copy” here to refer to
+distinct physical alleles. Allele copies may or may not be identical by
+type or identical by descent. If a diploid population has effective size
+<span class="math inline">\(N_e\)</span>, then the number of allele
+<span><em>copies</em></span> is <span
+class="math inline">\(2N_e\)</span>. The number of allele types may be
+1, 2, or any other integer less than or equal to <span
+class="math inline">\(2N_e\)</span>. Similarly, the number of identity
+by descent categories among the alleles may be anything rom 1 to <span
+class="math inline">\(2N_e\)</span>.<a href="#fnref3"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>As you can see, it quickly becomes tedious to write
+“allele copies.” I’m going to write “allele” throughout the rest of this
+discussion. Just remember that when I do, I’m really referring to an
+allele copy.<a href="#fnref4" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>Remember, I’m talking about allele copies here.<a
+href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>An important assumption of the coalescent is that
+populations are large enough that we can ignore the possibility that
+there is more than one coalescent event in a single generation. That
+also means that we also only allow coalescence between a pair of
+alleles, not three or more. In both ways the mathematical model of the
+process differs from the diagram in Figure <a href="#fig:coalescent"
+data-reference-type="ref" data-reference="fig:coalescent">1</a>.<a
+href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>Though you may not remember it.<a href="#fnref7"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p>Remember that we’re counting generations backward in
+time, so when I say that a coalescent event occurred at time <span
+class="math inline">\(t\)</span> I mean that it occurred <span
+class="math inline">\(t\)</span> generations ago.<a href="#fnref8"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p>If you’ve had a little bit of probability theory, you’ll
+notice that equation <a href="#eq:two-allele" data-reference-type="ref"
+data-reference="eq:two-allele">[eq:two-allele]</a> shows that the
+coalescence time is a geometric random variable.<a href="#fnref9"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10"><p>The geometric distribution has a long tail to the
+right, and the median of the distribution is less than the mean.
+Specifically, the median is <span
+class="math inline">\(-\lceil\frac{\ln(2)}{\ln(1 -
+1/2N_e)}\rceil\)</span>, where those funny half brackets represent the
+“ceiling” function, meanting that you calculate what’s inside and take
+the smallest integer larger than that. If <span
+class="math inline">\(N_e = 50\)</span>, the average time to coalescence
+is 100 generations. The median time to coalescence is 69. Most
+coalescent events happen well before the mean coalescence time.<a
+href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn11"><p>Okay, okay. What I should really have said is “It’s not
+<span><em>too</em></span> hard to extend this approach to multiple
+alleles, if you are comfortable with probability thinking.” Remember: I
+don’t expect you to be able to derive these results on your own. Don’t
+worry if you can’t see how you could have come up with the mathematics
+that follow. Unless you want to make contributions to developing new
+theory in population genetics, you don’t need to do derivations like
+these. Nonetheless, I think it’s useful for you to see them. That way
+you have a better chance of understanding the limitations of coalescence
+approaches if you use them in analyzing your own data.<a href="#fnref11"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn12"><p>Where did I get that <span
+class="math inline">\(m(m-1)/2\)</span>? You can either take my word for
+it as “a well known fact,” or you can ask me about it, and I’ll show you
+where it comes from.<a href="#fnref12" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn13"><p>Using logic just like what we used in the two allele
+case.<a href="#fnref13" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn14"><p>If you don’t remember that, look back at the footnote
+at the end of the last section. You are reading these footnotes, aren’t
+you?<a href="#fnref14" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn15"><p>For anyone who cares, this is another example of the
+Markov property of genetic drift.<a href="#fnref15"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn16"><p>Remember, I’m using “alleles” as shorthand for “allele
+copies” (and wasting a lot more space with this footnote than I would
+have if I’d just written “allele copies” in the text).<a href="#fnref16"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn17"><p>That may seem like a pretty small sample to you, but
+the technology available to analyze genomes has advanced tremendously
+since Cann et al. did their work. To sequence a segment of DNA in 1987
+required, among other things, running four separate chemical reactions
+in test tubes, running samples on a polyacrylamide gel, producing an
+autoradiogram from the polyacrylamide, and manually reading the results.
+The process took about 2 weeks per sequence, and you could run only 3-4
+samples on any one gel.<a href="#fnref17" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn18"><p>Luo et al. <span class="citation"
+data-cites="Luo-etal-2018"></span> recently presented data suggesting
+that mitochondria may sometimes be biparentally inherited in humans and
+that whether or not biparental inheritance occurs seems to be determined
+by the nuclear genotype of the mother.<a href="#fnref18"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn19"><p>If you don’t see why, don’t worry about it. You can ask
+if you really care. We only care about <span class="math inline">\(\bar
+t\)</span> for what follows anyway.<a href="#fnref19"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn20"><p>We can’t say anything from allele frequencies alone. If
+we have DNA sequences for the alleles, which allow us to tell how
+closely related they are to one another, we can say something. We’ll get
+to this when we discuss phylogeography in a few weeks.<a href="#fnref20"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn21"><p>Wakeley <span class="citation"
+data-cites="Wakeley-2010"></span> provides a reasonably accessible
+overview. Coop and Griffiths <span class="citation"
+data-cites="Coop-Griffiths-2004"></span> provide all of the gory
+details.<a href="#fnref21" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn22"><p>There’s that phrase again.<a href="#fnref22"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
-</section>
+</aside>
 </body>
 </html>
