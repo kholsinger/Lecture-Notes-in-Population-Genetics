@@ -5,7 +5,7 @@
 \usepackage{graphics}
 \usepackage{epstopdf}
 
-\newcommand{\copyrightYears}{2001-2021}
+\newcommand{\copyrightYears}{2001-2023}
 
 \title{The Coalescent}
 
@@ -26,11 +26,11 @@ backwards is useful, as when you're trying to keep an eye on where
 you've been, not just where you're going. That's what we're about to
 do with genetic drift. So far we've been trying to predict what will
 happen in a population given a particular effective population
-size. But when we collect data we are often more interested in
-understanding the processes that produced the pattern we find than in
-predicting what will happen in the future. We're using data to provide
-insight about where we've been, not where we're going. So let's take a
-backward look at drift and see what we find.
+size. But when we collect data we are often more interested in using
+those data to understand the processes that produced the patterns we
+find in them than in predicting what will happen in the future. We're
+using data to provide insight about where we've been, not where we're
+going. So let's take a backward look at drift and see what we find.
 
 
 \section*{Reconstructing the genealogy of a sample of
@@ -39,7 +39,11 @@ backward look at drift and see what we find.
 Specifically, let's keep track of the genealogy of alleles. In a
 finite population, two randomly chosen alleles will be identical by
 descent with respect to the immediately preceding generation with
-probability $1/2N_e$. That means that there's a chance that two
+probability $1/2N_e$.\footnote{That should sound familiar. We used
+  this property when we developed the analogy between inbreeding and
+  drift. I should also point out that it's $2N_e$ because I'm
+  implicitly assuming that we're dealing with a diploid population,
+  not a haploid one.} That means that there's a chance that two
 alleles in generation $t$ are copies of the same allele in generation
 $t-1$. If the population size is constant, meaning that the number of
 allele copies\footnote{I'm using the phrase ``allele copy'' here to
@@ -155,7 +159,25 @@ in equation (\ref{eq:two-allele}), that the average time to
 coalescence for two randomly chosen alleles is $2N_e$.\footnote{If
   you've had a little bit of probability theory, you'll notice that
   equation~\ref{eq:two-allele} shows that the coalescence time is a
-  geometric random variable.}\index{coalescent!time to common ancestry}
+  geometric random variable.}\index{coalescent!time to common
+  ancestry}
+
+It's also not too hard to arrive at this conclusion intuitively. If I
+tell you, for example, that the probability that the UConn football
+team will win a football game is 10 percent, you'd probably guess
+that, on average, you'd have to wait 10 games before they won. Ten
+games is just one over the probability of winning any one game. In the
+case of the coalescent, the probability of a coalescent event in any
+generation is $1/2N_e$, so the average time to a coalescent event is
+$2N_e$.\footnote{The geometric distribution has a long tail to the
+  right, and the median of the distribution is less than the
+  mean. Specifically, the median is
+  $-\lceil\frac{\ln(2)}{\ln(1 - 1/2N_e)}\rceil$, where those funny
+  half brackets represent the ``ceiling'' function, meanting that you
+  calculate what's inside and take the smallest integer larger than
+  that. If $N_e = 50$, the average time to coalescence is 100
+  generations. The median time to coalescence is 69. Most coalescent
+  events happen well before the mean coalescence time.}
 
 \section*{Mathematics of the coalescent: multiple
   alleles}\index{coalescent!multiple alleles}
@@ -205,6 +227,10 @@ So the mean time back to the first coalescent event is
 \[
 \frac{2N_e}{m(m-1)/2} = \frac{4N_e}{m(m-1)} \hbox{ generations} \quad .
 \]
+Remember, though, that most coalescent events happen before the mean
+coalescence time.\footnote{If you don't remember that, look back at
+  the footnote at the end of the last section. You are reading these
+  footnotes, aren't you?}
 
 But this is, of course, only the first coalescent event. We were
 interested in how long we have to wait until {\it all\/} alleles are
@@ -225,6 +251,24 @@ as\index{coalescent!time to coalescence}
        &=& 4N_e\left(1 - \frac{1}{m}\right) \\
        &\approx& 4N_e
 \end{eqnarray*}
+
+When all alleles have coalesced, there's only one allele
+present. Since we haven't introduced mutation into the coalescent
+process yet, that's equivalent to saying that all of the $m$ alleles
+in our sample are identical by descent, i.e., that one particular
+allele that was present, on average, $4N_e$ generations ago is the
+ancestor of all of the alleles in our sample, i.e., it has been fixed.
+You're unlikely to remember this, since we didn't talk about it in
+lecture, but $4N_e$ as the time to coalescence may look vaguely
+familiar. Look at this formula for the time to fixation of one of two
+alleles present in a population from the notes on genetic drift:
+\[
+\bar t \approx -4N\left(p\log p + (1-p)\log(1-p)\right) \quad .
+\]
+Does it surprise you that the average time to fixation (going forward
+in time) looks a lot like the average time to coalescence (looking
+backward in time)? It shouldn't. They're opposite sides of the same
+coin. 
 
 \subsection*{A continuous time version of the coalescent}
 
@@ -266,24 +310,25 @@ here is the limit of the geometric distribution in
 
 Cann et al.~\cite{Cann-etal-1987} sampled mitochondrial DNA from 147
 humans of diverse racial and geographic origins.\footnote{That may
-  seem like a pretty small sample to you, but the technology
-  available to analyze genomes has advanced tremendously since Cann et
-  al. did their work. To sequence a segment of DNA for example,
-  required, among other things, running samples on a polyacrylamide
-  gel, producing an autoradiogram, and manually reading the
-  results. The process took about 2 weeks per sequence.}  Based on the
-amount of sequence divergence they found among genomes in their sample
-and independent estimates of the rate of sequence evolution, they
-inferred that the mitochondria in their sample had their most recent
-common ancestor about 200,000 years ago. Because all of the most
-ancient lineages in their sample were from individuals of African
-ancestry, they also suggested that mitochondrial Eve lived in
-Africa. They used these arguments as evidence for the ``Out of
-Africa'' hypothesis for modern human origins, i.e., the hypothesis
-that anatomically modern humans arose in Africa about 200,000 years
-ago and displaced other members of the genus {\it Homo\/} in Europe
-and Asia as they spread. What does the coalescent tell us about their
-conclusion?
+  seem like a pretty small sample to you, but the technology available
+  to analyze genomes has advanced tremendously since Cann et al. did
+  their work. To sequence a segment of DNA in 1987 required, among
+  other things, running four separate chemical reactions in test
+  tubes, running samples on a polyacrylamide gel, producing an
+  autoradiogram from the polyacrylamide, and manually reading the
+  results. The process took about 2 weeks per sequence, and you could
+  run only 3-4 samples on any one gel.}  Based on the amount of
+sequence divergence they found among genomes in their sample and
+independent estimates of the rate of sequence evolution, they inferred
+that the mitochondria in their sample had their most recent common
+ancestor about 200,000 years ago. Because all of the most ancient
+lineages in their sample were from individuals of African ancestry,
+they also suggested that mitochondrial Eve lived in Africa. They used
+these arguments as evidence for the ``Out of Africa'' hypothesis for
+modern human origins, i.e., the hypothesis that anatomically modern
+humans arose in Africa about 200,000 years ago and displaced other
+members of the genus {\it Homo\/} in Europe and Asia as they
+spread. What does the coalescent tell us about their conclusion?
 
 Well, we expect all mitochondrial genomes in the sample to have had a
 common ancestor about $2N_e$ generations ago. Why $2N_e$ rather than
@@ -339,7 +384,9 @@ Slatkin~\cite{Slatkin-1991} pointed out that $F_{st}$ bears a simple
 relationship to average coalescence times within and among
 populations. Given these definitions of $\bar t$ and $\bar t_0$,
 \begin{eqnarray*}
-  F_{st} &=& \frac{\bar t - \bar t_0}{\bar t} \quad .
+  F_{st} &=& \frac{\bar t - \bar t_0}{\bar t} \\
+         &=& \frac{\left(\frac{k-1}{k}\right)\bar t_1}{\bar t} \\
+         &\approx& \frac{\bar t_1}{\bar t} \quad .
 \end{eqnarray*}
 So another way to think about $F_{st}$ is as a measure of the
 proportional increase in coalescence time that is due to populations

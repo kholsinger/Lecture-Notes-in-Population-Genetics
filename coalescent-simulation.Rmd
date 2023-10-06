@@ -1,0 +1,64 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+## Illustrating the coalescent
+
+```{r}
+options(tidyverse.quiet = TRUE)
+library(tidyverse)
+library(phyclust)
+library(ape)
+
+n_sample <- 25
+ms_out <- ms(nsam = 2*n_sample, opts = "-T")
+ms_tree <- read.tree(text = ms_out)
+plot(ms_tree, show.tip.label = FALSE)
+```
+
+## Comparing the efficiency of coalescent simulation with direct simulation
+
+Here's a simple comparison of simulating drift directly and simulating it with the coalescent. I've set $N_e$ to 100 and $n_sample$ to 25.
+
+```{r}
+## These are the parameters you can play with
+##
+n_e <- 100
+n_sample <- 25
+
+## There's no easy way to tell when the forward simulation has run long enough 
+## to reach stationarity. I just fix the number of iterations to the expected
+## fixation time and hope that that's close enough
+##
+n_gen <- 4*n_e
+
+## The number of times to repeat each simulation
+##
+n_reps <- 10000
+
+## This is the forward simulation.
+##
+start_time <- Sys.time()
+for (rep in 1:n_reps) {
+  p <- numeric(n_gen)
+  p[1] <- 0.5
+  for (i in 2:n_gen) {
+    k <- rbinom(1, 2*n_e, p[i-1])
+    p[i] <- k/(2*n_e)
+  }
+  sample <- rbinom(1, 2*n_sample, p[n_gen])
+}
+end_time <- Sys.time()
+cat("Elapsed time for forward simulation:       ", round(end_time - start_time, 2))
+
+## Here's the coalescent simulation.
+##
+start_time <- Sys.time()
+for (rep in 1:n_reps) {
+  ms_out <- ms(nsam = 2*n_sample, opts = "-T")
+}
+end_time <- Sys.time()
+cat("\nElapsed time for coalescent simulation: ", round(end_time - start_time, 2))
+```
+
