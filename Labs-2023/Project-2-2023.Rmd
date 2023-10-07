@@ -1,0 +1,56 @@
+---
+title: "Project 2"
+output:
+  html_notebook:
+    toc: yes
+    toc_float: true
+---
+<style type="text/css">
+  .table {
+    width: 25%;
+  }
+</style>
+
+# Introduction
+
+A little over 30 years ago Waples and Teel^[Waples, R.S., and D.J. Teel.  1990.  Conservation Genetics of Pacific Salmon I. Temporal Changes in Allele Frequency. *Conservation Biology*  4:144-156 [https://doi.org/10.1111/j.1523-1739.1990.tb00103.x](https://doi.org/10.1111/j.1523-1739.1990.tb00103.x) ***NOTE*** You'll find a freely available version of the paper at [https://digitalcommons.unl.edu/cgi/viewcontent.cgi?article=1431&context=usdeptcommercepub](https://digitalcommons.unl.edu/cgi/viewcontent.cgi?article=1431&context=usdeptcommercepub).] reported a remarkable pattern in genetic samples of Pacific Coast salmon: 
+
+- In nine wild populations sampled in two different years, only 8 percent of allele frequency comparisons between years showed differences that were statistically significant - only a little more than what you'd expect given that they used a 5 percent threshold to determine statistical significance.
+
+- In eight of nine hatchery populations, on the other hand, the proportion of statisticaly significant changes ranged from 22-63 percent. Only in one was the fraction of statisticaly significant changes similar to that in wild populations.^[It's a little hard to be sure given the way that the data are summarize, but it appears that the hatchery where the proportion of significant tests is similar to wild population is Cole Rivers (spring), where there is a very small number of individuals in 1980 and the largest sample of all in 1984.]
+
+Their paper goes beyond simply noting that conservationists need to monitor the genetic impact of hatchery populations on wild populations. They construct a relatively simple model to explore the magnitude of allele frequency changes you'd expect to see as a result of genetic drift and they extend it to see whether natural selection in the hatchery environment could account for the large number of allele frequency changes observed there.^[If you attended Graham Coop's seminar on the 7th of September, this may sound a little familiar. The method Graham described was far more sophisticated than the one Waples and Teel used, but that's what happens after 30 years of progress.]
+
+# Problem #2
+
+This project will be different from any of the lab exercises you've done so far. I'm not going to ask you to analyze any data,^[I haven't looked really hard and I didn't contact Robin Waples, but I don't think the data underlying this paper is easily available.] and I'm not going to ask you to run any simulations.^[It would be fairly easy, however, to code up their simulation in `R` if you wanted to. I don't expect you to do so, though, and I won't even give you any extra credit if you do. You'd be doing it only for your own interest to see if you could get results comparable to those that Waples and Teel report. If you're interested in coding it up and need a little help, feel free to ask.] Instead, I want you to read Waples and Teel carefully and use what you've learned about how genetic drift and natural selection interact to answer the following questions. I'm not looking for lengthy answers - a paragraph, maybe two, for each will be sufficient. What I'm looking for is that you can can apply what you've learned to evaluate research done by a pair of very talented population geneticists.
+
+* Waples and Teel argue that "Temporally spaced samples will on average differ more than independent binomial samples drawn from the same population..." (p. 149). 
+
+* Waples and Teel show that the average magnitude of allele frequency change drops at year 4 and increases from there.^[They summarize the result differently. They write "[T]he change in allele frequencies over 10-25 years was not much larger than the change over shorter periods" (p. 149).] 
+
+* Waples and Teel note that the fraction of significant tests for comparisons of allele frequencies between samples taken at different times depends neither on the sample size, $S$, nor the effective number of breeders, $N_b$,^[$N_b$ is equivalent to the effective population size.], but on the ratio $S/N_b$ (see Figure 4, p. 149).
+
+* Waples and Teel used the following set of fitnesses in their simulation to study the effect of selection:
+
+<center>
+| $A_1A_1$ | $A_1A_2$ | $A_2A_2$ |
+|:--------:|:--------:|:--------:|
+| $1$      | $1 - s$  | $1 - 2s$ |
+</center>
+
+* They note that $s > 0.2$ would be necessary for 36 percent of allele frequency comparisons to be statistically significant after 4 years (Figure 5, p. 151). I agree that this magnitude of selection is unrealistic. They did not note that small populations show a higher proportion of significant tests than larger ones unless $s$ is very large.
+
+## Questions
+
+1. Why will independent samples from the same population taken at different times differ more, on average, than independent samples from the same population taken at the same time?
+
+2. What might explain the drop at year 4 and the increase from there. 
+  
+3. Why does the fraction of significant tests become so large when the sample size is large relative to the effective number of breeders, i.e., when $S/N_b$ is large?
+  
+4. Given what you know about drift and selection, why do you think there are fewer significant changes in allele frequency detected when populations are large than when they are small?
+  
+5. If you were extending this simulation study, do you think it would be more useful to (a) calculate the fraction of allele frequency comparisons that show statisticaly significant differences between time periods or (b) study how the mean and variance of allele frequency differences changes over time?
+  
+  
