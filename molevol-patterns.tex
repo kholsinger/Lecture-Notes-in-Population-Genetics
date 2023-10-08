@@ -4,7 +4,7 @@
 \usepackage{html}
 \usepackage{url}
 
-\newcommand{\copyrightYears}{2001-2021}
+\newcommand{\copyrightYears}{2001-2023}
 
 \title{Patterns of nucleotide and amino acid substitution}
 
@@ -19,7 +19,7 @@
 So, I've just suggested that the neutral theory of molecular evolution
 explains quite a bit, but it also ignores quite a bit. The derivations
 we did assumed that all substitutions are equally likely to occur,
-because they are selectively neutral. That isn't plausible. We need
+because they are effectively neutral. That isn't plausible. We need
 look no further than sickle cell anemia to see an example of a protein
 polymorphism in which a single nucleotide substitution and a single
 amino acid difference has a very large effect on fitness. Even
@@ -32,8 +32,9 @@ amino acid in a protein and substituting it with a different one will
 improve the function of the protein.\footnote{Obviously it happens
   sometimes. If it didn't, there wouldn't be any adaptive
   evolution. It's just that, on average, mutations are more likely to
-  decrease fitness than to increase it. }\index{sledgehammer
-  principle}
+  decrease fitness than to increase it. That's what I like to call the
+  ``sledgehammer principle of population
+  genetics.''}\index{sledgehammer principle}
 
 \section*{The genetic code}
 
@@ -124,12 +125,12 @@ AAG \\
 \section*{Rates of synonymous and non-synonymous substitution}
 
 By using a modification of the simple Jukes-Cantor model we
-encountered before, it is possible to make separate estimates of the
-number of synonymous substitutions and of the number of non-synonymous
-substitutions that have occurred since two sequences diverged from a
-common ancestor. If we combine an estimate of the {\it number\/} of
-differences with an estimate of the {\it time of divergence\/} we can
-estimate the rates of synonymous and non-synonymous
+encountered before, we can estimate both the number of synonymous
+substitutions and the number of non-synonymous substitutions that have
+occurred since two sequences diverged from a common ancestor. If we
+combine an estimate of the {\it number\/} of differences with an
+estimate of the {\it time of divergence\/} we can estimate the rates
+of synonymous and non-synonymous
 substitution~(number/time). Table~\ref{table:substitution-data} shows
 some representative estimates for the rates of synonymous and
 non-synonymous substitution in different genes studied in
@@ -168,18 +169,16 @@ Two very important observations emerge after you've looked at this
 table for awhile. The first won't come as any shock. The rate of
 non-synonymous substitution is generally lower than the rate of
 synonymous substitution. This is a result of the ``sledgehammer
-principle'' I mentioned earlier. Just as taking a sledgehammer to your
-car engine and making random changes is unlikely to make it run
-better, so making random changes to the amino acid composition of a
-protein is unlikely to make it function better. Mutations that change
-the amino acid sequence of a protein are more likely to reduce that
-protein's functionality than to increase it. As a result, they are
-likely to lower the fitness of individuals carrying them, and they
-will have a lower probability of being fixed than those mutations that
-do not change the amino acid sequence.\index{sledgehammer principle}\footnote{Remember 
-our discussion of the probability that disfavored mutations are fixed
-as a result of natural selection. They can be fixed, but they are less
-likely to be fixed than those that are neutral.}
+principle'' I mentioned earlier. Mutations that change the amino acid
+sequence of a protein are more likely to reduce that protein's
+functionality than to increase it. As a result, they are likely to
+lower the fitness of individuals carrying them, and they will have a
+lower probability of being fixed than those mutations that do not
+change the amino acid sequence.\index{sledgehammer
+  principle}\footnote{Remember our discussion of the probability that
+  disfavored mutations are fixed as a result of natural
+  selection. They can be fixed, but they are less likely to be fixed
+  than those that are neutral.}
   
 The second observation is more subtle. Rates of non-synonymous
 substitution vary by more than two orders of magnitude: 0.02
@@ -187,27 +186,28 @@ substitutions per nucleotide per billion years in ribosomal protein
 S14 to 3.06 substitutions per nucleotide per billion years in
 $\gamma$-interferon, while rates of synonymous substitution vary only
 by a factor of two (2.16 in ribosomal protein S14 to 5.50 in $\gamma$
-interferons. If synonymous substitutions are neutral, as they probably
-are to a first approximation,\footnote{We'll see that they may not be
-  completely neutral a little later, but at least it's reasonable to
-  believe that the intensity of selection to which they are subject is
-  a lot less than that to which non-synonymous substitutions are
-  subject.}  then the rate of synonymous substitution should equal the
-mutation rate. Thus, the rate of synonymous substitution should be
-approximately the same at every locus, which is roughly what we
-observe. But proteins differ in the degree to which their
-physiological function affects the performance and fitness of the
-organisms that carry them. Some, like histones and ribosomal proteins,
-are intimately involved with chromatin or translation of messenger RNA
-into protein. It's easy to imagine that just about any change in the
-amino acid sequence of such proteins will have a detrimental effect on
-their function. Others, like interferons, are involved in responses to
-viral or bacterial pathogens. It's easy to imagine not only that the
-selection on these proteins might be less intense, but that some amino
-acid substitutions might actually be favored by natural selection
-because they enhance resistance to certain strains of pathogens. Thus,
-the probability that a non-synonymous substitution will be fixed is
-likely to vary substantially among genes, just as we observe.
+interferons). If synonymous substitutions are neutral, as they
+probably are to a first approximation,\footnote{We'll see that they
+  may not be completely neutral a little later, but at least it's
+  reasonable to believe that the intensity of selection to which they
+  are subject is a lot less than that to which non-synonymous
+  substitutions are subject.}  then the rate of synonymous
+substitution should equal the mutation rate. Thus, the rate of
+synonymous substitution should be approximately the same at every
+locus, which is roughly what we observe. But proteins differ in the
+degree to which their physiological function affects the performance
+and fitness of the organisms that carry them. Some, like histones and
+ribosomal proteins, are intimately involved with the structure of
+chromatin or translation of messenger RNA into protein. It's easy to
+imagine that just about any change in the amino acid sequence of such
+proteins will have a detrimental effect on their function. Others,
+like interferons, are involved in responses to viral or bacterial
+pathogens. It's easy to imagine not only that the selection on these
+proteins might be less intense, but that some amino acid substitutions
+might actually be favored by natural selection because they enhance
+resistance to certain strains of pathogens. Thus, the probability that
+a non-synonymous substitution will be fixed is likely to vary
+substantially among genes, just as we observe.
 
 \section*{Revising the neutral theory}
 
@@ -234,7 +234,10 @@ accommodate these new observations.\index{neutral theory!modifications}
     on different alleles is less than one, meaning that the dynamics
     of allele frequency change are more similar to those of an allele
     that has no effects on fitness than to those of an allele with an
-    effect on fitness when we can neglect genetic drift.''}
+    effect on fitness when we can neglect genetic drift.'' It doesn't
+    mean that there aren't fitness differences among genotypes, only
+    that those differences are ``small'' given the effective
+    population size of the populations concerned.}
 
 \item {\it Natural selection is primarily purifying.} Although natural
   selection for variants that improve function is ultimately the
