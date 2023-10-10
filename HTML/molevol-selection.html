@@ -8,13 +8,24 @@
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
   </style>
   <link rel="stylesheet" href="pandoc.css" />
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
@@ -25,46 +36,165 @@
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
-<li><a href="#introduction">Introduction</a></li>
-<li><a href="#nucleotide-sequence-variation-at-the-adh-locus-in-drosophila-melanogaster">Nucleotide sequence variation at the <span><em>Adh</em></span> locus in <span><em>Drosophila melanogaster</em></span></a>
+<li><a href="#introduction" id="toc-introduction">Introduction</a></li>
+<li><a
+href="#nucleotide-sequence-variation-at-the-adh-locus-in-drosophila-melanogaster"
+id="toc-nucleotide-sequence-variation-at-the-adh-locus-in-drosophila-melanogaster">Nucleotide
+sequence variation at the <span><em>Adh</em></span> locus in
+<span><em>Drosophila melanogaster</em></span></a>
 <ul>
-<li><a href="#kreitman-and-aguadé">Kreitman and Aguad<span>é</span></a></li>
-<li><a href="#kreitman-and-hudson">Kreitman and Hudson</a></li>
+<li><a href="#kreitman-and-aguadé" id="toc-kreitman-and-aguadé">Kreitman
+and Aguad<span>é</span></a></li>
+<li><a href="#kreitman-and-hudson" id="toc-kreitman-and-hudson">Kreitman
+and Hudson</a></li>
 </ul></li>
-<li><a href="#detecting-selection-in-the-human-genome">Detecting selection in the human genome</a></li>
-<li><a href="#tajimas-d">Tajima’s <span class="math inline">\(D\)</span></a></li>
-<li><a href="#creative-commons-license">Creative Commons License</a></li>
+<li><a href="#detecting-selection-in-the-human-genome"
+id="toc-detecting-selection-in-the-human-genome">Detecting selection in
+the human genome</a></li>
+<li><a href="#tajimas-d" id="toc-tajimas-d">Tajima’s <span
+class="math inline">\(D\)</span></a></li>
+<li><a href="#how-much-genetic-change-is-due-to-selection"
+id="toc-how-much-genetic-change-is-due-to-selection">How much genetic
+change is due to selection?</a></li>
+<li><a href="#creative-commons-license"
+id="toc-creative-commons-license">Creative Commons License</a></li>
 </ul>
 </nav>
 <h1 class="unnumbered" id="introduction">Introduction</h1>
-<p>At this point, we’ve refined the neutral theory quite a bit. Our understanding of how molecules evolve now recognizes that some substitutions are more likely than others, but we’re still proceeding under the assumption that most nucleotide substitutions are neutral or detrimental. So far we’ve argued that variation like what Hubby and Lewontin <span class="citation" data-cites="Hubby-Lewontin66 Lewontin-Hubby66"></span> found is not likely to be maintained by natural selection. But we have strong evidence that heterozygotes for the sickle-cell allele are more fit than either homozygote in human populations where malaria is prevalent. That’s an example where selection is acting to maintain a polymorphism, not to eliminate it. Are there other examples? How could we detect them?</p>
-<p>In the 1970s a variety of studies suggested that a polymorphism in the locus coding for alcohol dehydrogenase in <span><em>Drosophila melanogaster</em></span> might not only be subject to selection but that selection may be acting to maintain the polymorphism. As DNA sequencing became more practical at about the same time,<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> population geneticists began to realize that comparative analyses of DNA sequences at protein-coding loci could provide a powerful tool for unraveling the action of natural selection. Synonymous sites within a protein-coding sequence provide a powerful standard of comparision. Regardless of</p>
+<p>At this point, we’ve refined the neutral theory quite a bit. Our
+understanding of how molecules evolve now recognizes that some
+substitutions are more likely than others, but we’re still proceeding
+under the assumption that most nucleotide substitutions are neutral or
+detrimental. So far we’ve argued that variation like what Hubby and
+Lewontin <span class="citation"
+data-cites="Hubby-Lewontin66 Lewontin-Hubby66"></span> found is not
+likely to be maintained by natural selection. But we have strong
+evidence that heterozygotes for the sickle-cell allele are more fit than
+either homozygote in human populations where malaria is prevalent.
+That’s an example where selection is acting to maintain a polymorphism,
+not to eliminate it. Are there other examples? How could we detect
+them?</p>
+<p>In the 1970s a variety of studies suggested that a polymorphism in
+the locus coding for alcohol dehydrogenase in <span><em>Drosophila
+melanogaster</em></span> might not only be subject to selection but that
+selection may be acting to maintain the polymorphism. As DNA sequencing
+became more practical at about the same time,<a href="#fn1"
+class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>
+population geneticists began to realize that comparative analyses of DNA
+sequences at protein-coding loci could provide a powerful tool for
+unraveling the action of natural selection. Synonymous sites within a
+protein-coding sequence provide a powerful standard of comparison.
+Regardless of</p>
 <ul>
-<li><p>the demographic history of the population from which the sequences were collected,</p></li>
-<li><p>the length of time that populations have been evolving under the sample conditions and whether it has been long enough for the population to have reached a drift-migration-mutation-selection equilibrium, or</p></li>
-<li><p>the actual magnitude of the mutation rate, the migration rate, or the selection coefficients</p></li>
+<li><p>the demographic history of the population from which the
+sequences were collected,</p></li>
+<li><p>the length of time that populations have been evolving under the
+sample conditions and whether it has been long enough for the population
+to have reached a drift-migration-mutation-selection equilibrium,
+or</p></li>
+<li><p>the actual magnitude of the mutation rate, the migration rate, or
+the selection coefficients</p></li>
 </ul>
-<p>the synonymous positions within the sequence provide an internal control on the amount and pattern of differentiation that should be expected when substitutions are neutral.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> Thus, if we see different patterns of nucleotide substitution at synonymous and non-synonymous sites, we can infer that selection is having an effect on amino acid substitutions.</p>
-<h1 class="unnumbered" id="nucleotide-sequence-variation-at-the-adh-locus-in-drosophila-melanogaster">Nucleotide sequence variation at the <span><em>Adh</em></span> locus in <span><em>Drosophila melanogaster</em></span></h1>
-<p>Kreitman <span class="citation" data-cites="Kreitman83"></span> took advantage of these ideas to provide additional insight into whether natural selection was likely to be involved in maintaining the polymorphism at <span><em>Adh</em></span> in <span> <em>Drosophila melanogaster</em></span>. He cloned and sequenced 11 alleles at this locus, each a little less than 2.4kb in length.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> If we restrict our attention to the coding region, a total of 765bp, there were 6 distinct sequences that differed from one another at between 1 and 13 sites. Given the observed level of polymorphism within the gene, there should be 9 or 10 amino acid differences observed as well, but only one of the nucleotide differences results in an amino acid difference, the amino acid difference associated with the already recognized electrophoretic polymorphsim. Thus, there is significantly less amino acid diversity than expected if nucleotide substitutions were neutral, consistent with my assertion that most mutations are deleterious and that natural selection will tend to eliminate them. In other words, another example of the “sledgehammer principle.”</p>
-<p>Does this settle the question? Is the <span><em>Adh</em></span> polymorphism another example of allelic variants being neutral or selected against? Would I be asking these questions if the answer were “Yes”?</p>
-<h2 class="unnumbered" id="kreitman-and-aguadé">Kreitman and Aguad<span>é</span></h2>
-<p>A few years after Kreitman <span class="citation" data-cites="Kreitman83"></span> appeared, Kreitman and Aguad<span>é</span> <span class="citation" data-cites="Kreitman-Aguade86"></span> published an analysis in which they looked at levels of nucleotide diversity in the <span><em>Adh</em></span> region, as revealed through analysis of RFLPs, in <span> <em>D. melanogaster</em></span> and the closely related <span><em>D. simulans</em></span>. Why the comparative approach? Well, Kreitman and Aguad<span>é</span> recognized that the neutral theory of molecular evolution makes two predictions that are related to the underlying mutation rate:</p>
+<p>the synonymous positions within the sequence provide an internal
+control on the amount and pattern of differentiation that should be
+expected when substitutions are neutral.<a href="#fn2"
+class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>
+Thus, if we see different patterns of nucleotide substitution at
+synonymous and non-synonymous sites, we can infer that selection is
+having an effect on amino acid substitutions.</p>
+<h1 class="unnumbered"
+id="nucleotide-sequence-variation-at-the-adh-locus-in-drosophila-melanogaster">Nucleotide
+sequence variation at the <span><em>Adh</em></span> locus in
+<span><em>Drosophila melanogaster</em></span></h1>
+<p>Kreitman <span class="citation" data-cites="Kreitman83"></span> took
+advantage of these ideas to provide additional insight into whether
+natural selection was likely to be involved in maintaining the
+polymorphism at <span><em>Adh</em></span> in <span> <em>Drosophila
+melanogaster</em></span>. He cloned and sequenced 11 alleles at this
+locus, each a little less than 2.4kb in length.<a href="#fn3"
+class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> If
+we restrict our attention to the coding region, a total of 765bp, there
+were 6 distinct sequences that differed from one another at between 1
+and 13 sites. Given the observed level of polymorphism within the gene,
+there should be 9 or 10 amino acid differences observed as well, but
+only one of the nucleotide differences results in an amino acid
+difference, the amino acid difference associated with the already
+recognized electrophoretic polymorphism. Thus, there is significantly
+less amino acid diversity than expected if nucleotide substitutions were
+neutral, consistent with my assertion that most mutations are
+deleterious and that natural selection will tend to eliminate them. In
+other words, another example of the “sledgehammer principle.”</p>
+<p>Does this settle the question? Is the <span><em>Adh</em></span>
+polymorphism another example of allelic variants being neutral or
+selected against? Would I be asking these questions if the answer were
+“Yes”?</p>
+<h2 class="unnumbered" id="kreitman-and-aguadé">Kreitman and
+Aguad<span>é</span></h2>
+<p>A few years after Kreitman <span class="citation"
+data-cites="Kreitman83"></span> appeared, Kreitman and
+Aguad<span>é</span> <span class="citation"
+data-cites="Kreitman-Aguade86"></span> published an analysis in which
+they looked at levels of nucleotide diversity in the
+<span><em>Adh</em></span> region, as revealed through analysis of RFLPs,
+in <span> <em>D. melanogaster</em></span> and the closely related
+<span><em>D. simulans</em></span>. Why the comparative approach? Well,
+Kreitman and Aguad<span>é</span> remembered that the neutral theory of
+molecular evolution makes two predictions that are related to the
+underlying mutation rate:</p>
 <ul>
-<li><p>If mutations are neutral, the substitution rate is equal to the mutation rate.</p></li>
-<li><p>If mutations are neutral, the diversity within populations should be about <span class="math inline">\(4N_e\mu/(4N_e\mu + 1)\)</span>.</p></li>
+<li><p>If mutations are neutral, the substitution rate is equal to the
+mutation rate.</p></li>
+<li><p>If mutations are neutral, the diversity within populations should
+be about <span class="math inline">\(4N_e\mu/(4N_e\mu +
+1)\)</span>.</p></li>
 </ul>
-<p>Thus, if variation at the <span><em>Adh</em></span> locus in <span> <em>D. melanogaster</em></span> is selectively neutral, the amount of divergence between <span><em>D. melanogaster</em></span> and <span><em>D. simulans</em></span> should be related to the amount of diversity within each. What they found instead is summarized in Table <a href="#table:ka" data-reference-type="ref" data-reference="table:ka">1</a>.</p>
-<p>The expected level of diversity in each part of the <span><em>Adh</em></span> locus is calculated assuming that the probability of polymorphism is independent of what position in the locus we are examining.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> Specifically, Kreitman and Aguad<span>é</span> calculated the expected polymorphism as follows:</p>
+<p>Thus, if variation at the <span><em>Adh</em></span> locus in <span>
+<em>D. melanogaster</em></span> is selectively neutral, the amount of
+divergence between <span><em>D. melanogaster</em></span> and
+<span><em>D. simulans</em></span> should be related to the amount of
+diversity within each. What they found instead is summarized in Table <a
+href="#table:ka" data-reference-type="ref"
+data-reference="table:ka">1</a>.</p>
+<p>The expected level of diversity in each part of the
+<span><em>Adh</em></span> locus is calculated assuming that the
+probability of polymorphism is independent of what position in the locus
+we are examining.<a href="#fn4" class="footnote-ref" id="fnref4"
+role="doc-noteref"><sup>4</sup></a> Specifically, Kreitman and
+Aguad<span>é</span> calculated the expected polymorphism as follows:</p>
 <ul>
-<li><p>They calculated the number of “site equivalents” in each region of the locus. A site equivalent is the actual length of the region (in number of nucleotides) times the fraction of changes within that sequence that would lead to gain or loss of a restriction site.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> There were 414 site equivalents in the 5’ flanking region, 411 site equivalents in the <span><em>Adh</em></span> locus, and 129 site equivalents in the 3’ flanking region.</p></li>
-<li><p>They calculated the fraction of site equivalents that were polymorphic across the entire locus: <span class="math display">\[\frac{25}{414+411+129} \approx 0.026 \quad .\]</span></p></li>
-<li><p>They calculated the expected number of polymorphic sites within a region as the product of the number of site equivalents and the fraction of polymorphic site equivalents.</p></li>
+<li><p>They calculated the number of “site equivalents” in each region
+of the locus. A site equivalent is the actual length of the region (in
+number of nucleotides) times the fraction of changes within that
+sequence that would lead to gain or loss of a restriction site.<a
+href="#fn5" class="footnote-ref" id="fnref5"
+role="doc-noteref"><sup>5</sup></a> There were 414 site equivalents in
+the 5’ flanking region, 411 site equivalents in the
+<span><em>Adh</em></span> locus, and 129 site equivalents in the 3’
+flanking region.</p></li>
+<li><p>They calculated the fraction of site equivalents that were
+polymorphic across the entire locus: <span
+class="math display">\[\frac{25}{414+411+129} \approx 0.026 \quad
+.\]</span></p></li>
+<li><p>They calculated the expected number of polymorphic sites within a
+region as the product of the number of site equivalents and the fraction
+of polymorphic site equivalents.</p></li>
 </ul>
-<p>They used the same approach to calculate the expected divergence between <span><em>D. melanogaster</em></span> and <span><em>D. simulans</em></span> with one important exception. They directly compared the nucleotide sequence of one <span><em>Adh</em></span> allele from <span><em>D. melanogaster</em></span> with one <span><em>Adh</em></span> allele from <span><em>D. simulans</em></span>.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> As a result, they didn’t have to use the site equivalent correction. They could directly use the number of nucleotides in each region of the gene.</p>
+<p>They used the same approach to calculate the expected divergence
+between <span><em>D. melanogaster</em></span> and <span><em>D.
+simulans</em></span> with one important exception. They directly
+compared the nucleotide sequence of one <span><em>Adh</em></span> allele
+from <span><em>D. melanogaster</em></span> with one
+<span><em>Adh</em></span> allele from <span><em>D.
+simulans</em></span>.<a href="#fn6" class="footnote-ref" id="fnref6"
+role="doc-noteref"><sup>6</sup></a> As a result, they didn’t have to use
+the site equivalent correction. They could directly use the number of
+nucleotides in each region of the gene.</p>
+<div class="center">
 <div id="table:ka">
 <table>
-<caption>Diversity and divergence in the <span><em>Adh</em></span> region of <span> <em>Drosophila</em></span> (from <span class="citation" data-cites="Kreitman-Aguade86"></span>).</caption>
+<caption>Diversity and divergence in the <span><em>Adh</em></span>
+region of <span> <em>Drosophila</em></span> (from <span class="citation"
+data-cites="Kreitman-Aguade86"></span>).</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;"></th>
@@ -75,7 +205,8 @@
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">Diversity<span class="math inline">\(^1\)</span></td>
+<td style="text-align: left;">Diversity<span
+class="math inline">\(^1\)</span></td>
 <td style="text-align: center;"></td>
 <td style="text-align: center;"></td>
 <td style="text-align: center;"></td>
@@ -93,7 +224,8 @@
 <td style="text-align: center;">3.4</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Divergence<span class="math inline">\(^2\)</span></td>
+<td style="text-align: left;">Divergence<span
+class="math inline">\(^2\)</span></td>
 <td style="text-align: center;"></td>
 <td style="text-align: center;"></td>
 <td style="text-align: center;"></td>
@@ -111,110 +243,461 @@
 <td style="text-align: center;">33.1</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
+<td colspan="4" style="text-align: left;"><span
+class="math inline">\(^1\)</span>Number of polymorphic sites within
+<span> <em>D. melanogaster</em></span></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
+<td colspan="4" style="text-align: left;"><span
+class="math inline">\(^2\)</span>Number of nucleotide differences
+between <span> <em>D. melanogaster</em></span> and <span><em>D.
+simulans</em></span></td>
 </tr>
 </tbody>
 </table>
 </div>
-<p>Notice that there is substantially less divergence between <span> <em>D. melanogaster</em></span> and <span><em>D. simulans</em></span> at the <span><em>Adh</em></span> locus than would be expected, based on the average level of divergence across the entire region. That’s consistent with the earlier observation that most amino acid substitutions are selected against. On the other hand, there is <span><em>more</em></span> nucleotide diversity within <span><em>D. melanogaster</em></span> than would be expected based on the levels of diversity seen in across the entire region. What gives?</p>
-<p>Time for a trip down memory lane. Remember something called “coalescent theory?” It told us that for a sample of neutral genes from a population, the expected time back to a common ancestor for all of them is about <span class="math inline">\(4N_e\)</span> for a nuclear gene in a diploid population. That means there’s been about <span class="math inline">\(4N_e\)</span> generations for mutations to occur. Suppose, however, that the electrophoretic polymorphism were being maintained by natural selection. Then we might well expect that it would be maintained for a lot longer than <span class="math inline">\(4N_e\)</span> generations. If so, there would be a lot more time for diversity to accumulate. Thus, the excess diversity could be accounted for if there is balancing selection at ADH.</p>
+</div>
+<p>Notice that there is substantially less divergence between <span>
+<em>D. melanogaster</em></span> and <span><em>D. simulans</em></span> at
+the <span><em>Adh</em></span> locus than would be expected, based on the
+average level of divergence across the entire region. That’s consistent
+with the earlier observation that most amino acid substitutions are
+selected against. On the other hand, there is <span><em>more</em></span>
+nucleotide diversity within <span><em>D. melanogaster</em></span> than
+would be expected based on the levels of diversity seen in across the
+entire region. What gives?</p>
+<p>Time for a trip down memory lane. Remember something called
+“coalescent theory?” It told us that for a sample of neutral genes from
+a population, the expected time back to a common ancestor for all of
+them is about <span class="math inline">\(4N_e\)</span> for a nuclear
+gene in a diploid population. That means there’s been about <span
+class="math inline">\(4N_e\)</span> generations for mutations to occur.
+Suppose, however, that the electrophoretic polymorphism were being
+maintained by natural selection. Then we might well expect that it would
+be maintained for a lot longer than <span
+class="math inline">\(4N_e\)</span> generations. If so, there would be a
+lot more time for diversity to accumulate. Thus, the excess diversity
+could be accounted for if there is balancing selection at ADH.</p>
 <h2 class="unnumbered" id="kreitman-and-hudson">Kreitman and Hudson</h2>
-<p>Kreitman and Hudson <span class="citation" data-cites="Kreitman-Hudson91"></span> extended this approach by looking more carefully within the region to see where they could find differences between observed and expected levels of nucleotide sequence diversity. They used a “sliding window” of 100 silent base pairs in their calculations. By “sliding window” what they mean is that first they calculate statistics for bases 1-100, then for bases 2-101, then for bases 3-102, and so on until they hit the end of the sequence (Figure <a href="#fig:kh" data-reference-type="ref" data-reference="fig:kh">1</a>).</p>
-<figure>
-<img src="kreitman-hudson.png" id="fig:kh" alt="" /><figcaption>Sliding window analysis of nucleotide diversity in the <span> <em>Adh</em></span>-<span><em>Adh-dup</em></span> region of <span><em>Drosophila melanogaster</em></span>. The arrow marks the position of the single nucleotide substitution that distinguishes <span><em>Adh-F</em></span> from <span> <em>Adh-S</em></span> (from <span class="citation" data-cites="Kreitman-Hudson91"></span>)</figcaption>
+<p>Kreitman and Hudson <span class="citation"
+data-cites="Kreitman-Hudson91"></span> extended this approach by looking
+more carefully within the region to see where they could find
+differences between observed and expected levels of nucleotide sequence
+diversity. They used a “sliding window” of 100 silent base pairs in
+their calculations. By “sliding window” what they mean is that first
+they calculate statistics for bases 1-100, then for bases 2-101, then
+for bases 3-102, and so on until they hit the end of the
+sequence (Figure <a href="#fig:kh" data-reference-type="ref"
+data-reference="fig:kh">1</a>).</p>
+<figure id="fig:kh">
+<div class="center">
+<img src="kreitman-hudson.png" />
+</div>
+<figcaption>Sliding window analysis of nucleotide diversity in the
+<span> <em>Adh</em></span>-<span><em>Adh-dup</em></span> region of
+<span><em>Drosophila melanogaster</em></span>. The arrow marks the
+position of the single nucleotide substitution that distinguishes
+<span><em>Adh-F</em></span> from <span>
+<em>Adh-S</em></span> (from <span class="citation"
+data-cites="Kreitman-Hudson91"></span>)</figcaption>
 </figure>
-<p>To me there are two particularly striking things about this figure. First, the position of the single nucleotide substitution responsible for the electrophoretic polymorphism is clearly evident. Second, the excess of polymorphism extends for only a 200-300 nucleotides in each direction. That means that the rate of recombination <span><em>within</em></span> the gene is high enough to randomize the nucleotide sequence variation farther away.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
-<h1 class="unnumbered" id="detecting-selection-in-the-human-genome">Detecting selection in the human genome</h1>
-<p>I’ve already mentioned the HapMap project <span class="citation" data-cites="HapMap-2007"></span>, a collection of genotype data at roughly 3.2M SNPs in the human genome. The data in phase II of the project were collected from four populations:</p>
+<p>To me there are two particularly striking things about this figure.
+First, the position of the single nucleotide substitution responsible
+for the electrophoretic polymorphism is clearly evident. Second, the
+excess of polymorphism extends for only a 200-300 nucleotides in each
+direction. That means that the rate of recombination
+<span><em>within</em></span> the gene is high enough to randomize the
+nucleotide sequence variation farther away.<a href="#fn7"
+class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
+<h1 class="unnumbered"
+id="detecting-selection-in-the-human-genome">Detecting selection in the
+human genome</h1>
+<p>I’ve already mentioned the HapMap project <span class="citation"
+data-cites="HapMap-2007"></span>, a collection of genotype data at
+roughly 3.2M SNPs in the human genome. The data in phase II of the
+project were collected from four populations:</p>
 <ul>
 <li><p>Yoruba (Ibadan, Nigeria)</p></li>
 <li><p>Japanese (Tokyo, Japan)</p></li>
 <li><p>Han Chinese (Beijing, China)</p></li>
 <li><p>ancestry from northern and western Europe (Utah, USA)</p></li>
 </ul>
-<p>We expect genetic drift to result in allele frequency differences among populations, and we can summarize the extent of that differentiation at each locus with <span class="math inline">\(F_{ST}\)</span>. If all HapMap SNPs are selectively neutral,<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> then all loci should have the same <span class="math inline">\(F_{ST}\)</span> within the bounds of statistical sampling error and the evolutionary sampling due to genetic drift. A scan of human chromosome 7 reveals both a lot of variation in individual-locus estimates of <span class="math inline">\(F_{ST}\)</span> and a number of loci where there is substantially more differentiation among populations than is expected by chance (Figure <a href="#fig:low-res-SNP" data-reference-type="ref" data-reference="fig:low-res-SNP">2</a>). At very fine genomic scales we can detect even more outliers (Figure <a href="#fig:high-res-SNP" data-reference-type="ref" data-reference="fig:high-res-SNP">3</a>), suggesting that human populations have been subject to divergent selection pressures at many different loci <span class="citation" data-cites="Guo-etal-2009"></span>.</p>
-<figure>
-<img src="outlier.png" id="fig:low-res-SNP" alt="" /><figcaption>Single-locus estimates of <span class="math inline">\(F_{ST}\)</span> along chromosome 7 in the HapMap data set. Blue dots denote outliers. Adjacent SNPs in this sample are separated, on average, by about 52kb. (from <span class="citation" data-cites="Guo-etal-2009"></span>)</figcaption>
+<p>We expect genetic drift to result in allele frequency differences
+among populations, and we can summarize the extent of that
+differentiation at each locus with <span
+class="math inline">\(F_{ST}\)</span>. If all HapMap SNPs are
+selectively neutral,<a href="#fn8" class="footnote-ref" id="fnref8"
+role="doc-noteref"><sup>8</sup></a> then all loci should have the same
+<span class="math inline">\(F_{ST}\)</span> within the bounds of
+statistical sampling error and the evolutionary sampling due to genetic
+drift. A scan of human chromosome 7 reveals both a lot of variation in
+individual-locus estimates of <span
+class="math inline">\(F_{ST}\)</span> and a number of loci where there
+is substantially more differentiation among populations than is expected
+by chance (Figure <a href="#fig:low-res-SNP" data-reference-type="ref"
+data-reference="fig:low-res-SNP">2</a>). At very fine genomic scales we
+can detect even more outliers (Figure <a href="#fig:high-res-SNP"
+data-reference-type="ref" data-reference="fig:high-res-SNP">3</a>),
+suggesting that human populations have been subject to divergent
+selection pressures at many different loci <span class="citation"
+data-cites="Guo-etal-2009"></span>.</p>
+<figure id="fig:low-res-SNP">
+<div class="center">
+<img src="outlier.png" />
+</div>
+<figcaption>Single-locus estimates of <span
+class="math inline">\(F_{ST}\)</span> along chromosome 7 in the HapMap
+data set. Blue dots denote outliers. Adjacent SNPs in this sample are
+separated, on average, by about 52kb. (from <span class="citation"
+data-cites="Guo-etal-2009"></span>)</figcaption>
 </figure>
-<figure>
-<img src="outlier-high.png" id="fig:high-res-SNP" alt="" /><figcaption>Single-locus estimates of <span class="math inline">\(F_{ST}\)</span> along a portion of chromosome 7 in the HapMap data set. Black dots denote outliers. Solid bars refert to previously identified genes. Adjacent SNPs in this sample are separated, on average, by about 1kb. (from <span class="citation" data-cites="Guo-etal-2009"></span>)</figcaption>
+<figure id="fig:high-res-SNP">
+<div class="center">
+<img src="outlier-high.png" />
+</div>
+<figcaption>Single-locus estimates of <span
+class="math inline">\(F_{ST}\)</span> along a portion of chromosome 7 in
+the HapMap data set. Black dots denote outliers. Solid bars refer to
+previously identified genes. Adjacent SNPs in this sample are separated,
+on average, by about 1kb. (from <span class="citation"
+data-cites="Guo-etal-2009"></span>)</figcaption>
 </figure>
-<h1 class="unnumbered" id="tajimas-d">Tajima’s <span class="math inline">\(D\)</span></h1>
-<p>So far we’ve been comparing rates of synonymous and non-synonymous substitution to detect the effects of natural selection on molecular polymorphisms. Tajima <span class="citation" data-cites="Tajima89"></span> proposed a method that builds on the foundation of the neutral theory of molecular evolution in a different way. I’ve already mentioned the infinite alleles model of mutation several times. When thinking about DNA sequences a closely related approximation is to imagine that every time a mutation occurs, it occurs at a different site.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> If we do that, we have an <span><em>infinite sites</em></span> model of mutation.</p>
-<p>When dealing with nucleotide sequences in a population context there are two statistics of potential interest:</p>
+<h1 class="unnumbered" id="tajimas-d">Tajima’s <span
+class="math inline">\(D\)</span></h1>
+<p>So far we’ve been comparing rates of synonymous and non-synonymous
+substitution to detect the effects of natural selection on molecular
+polymorphisms. Tajima <span class="citation"
+data-cites="Tajima89"></span> proposed a method that builds on the
+foundation of the neutral theory of molecular evolution in a different
+way. I’ve already mentioned the infinite alleles model of mutation
+several times. When thinking about DNA sequences a closely related
+approximation is to imagine that every time a mutation occurs, it occurs
+at a different site.<a href="#fn9" class="footnote-ref" id="fnref9"
+role="doc-noteref"><sup>9</sup></a> If we do that, we have an
+<span><em>infinite sites</em></span> model of mutation.</p>
+<p>When dealing with nucleotide sequences in a population context there
+are two statistics of potential interest:</p>
 <ul>
-<li><p>The <span><em>number</em></span> of nucleotide positions at which a polymorphism is found or, equivalently, the number of segregating sites, <span class="math inline">\(k\)</span>.</p></li>
-<li><p>The average number of nucleotide differences between two sequences, <span class="math inline">\(\pi\)</span>, where <span class="math inline">\(\pi\)</span> is estimated as <span class="math display">\[\pi = \sum x_ix_j\delta_{ij} \quad .\]</span> In this expression, <span class="math inline">\(x_i\)</span> is the frequency of the <span class="math inline">\(i\)</span>th haplotype and <span class="math inline">\(\delta_{ij}\)</span> is the number of nucleotide sequence differences between haplotypes <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>.<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a></p></li>
+<li><p>The <span><em>number</em></span> of nucleotide positions at which
+a polymorphism is found or, equivalently, the number of segregating
+sites, <span class="math inline">\(k\)</span>.</p></li>
+<li><p>The average number of nucleotide differences between two
+sequences, <span class="math inline">\(\pi\)</span>, where <span
+class="math inline">\(\pi\)</span> is estimated as <span
+class="math display">\[\pi = \sum x_ix_j\delta_{ij} \quad .\]</span> In
+this expression, <span class="math inline">\(x_i\)</span> is the
+frequency of the <span class="math inline">\(i\)</span>th haplotype and
+<span class="math inline">\(\delta_{ij}\)</span> is the number of
+nucleotide sequence differences between haplotypes <span
+class="math inline">\(i\)</span> and <span
+class="math inline">\(j\)</span>.<a href="#fn10" class="footnote-ref"
+id="fnref10" role="doc-noteref"><sup>10</sup></a></p></li>
 </ul>
-<p>The quantity <span class="math inline">\(4N_e\mu\)</span> comes up a lot in mathematical analyses of molecular evolution. Population geneticists, being a lazy bunch, get tired of writing that down all the time, so they invented the parameter <span class="math inline">\(\theta = 4N_e\mu\)</span> to save themselves a little time.<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a> Under the infinite-sites model of DNA sequence evolution, it can be shown that <span class="math display">\[\begin{aligned}
+<p>The quantity <span class="math inline">\(4N_e\mu\)</span> comes up a
+lot in mathematical analyses of molecular evolution. Population
+geneticists, being a lazy bunch, get tired of writing that down all the
+time, so they invented the parameter <span class="math inline">\(\theta
+= 4N_e\mu\)</span> to save themselves a little time.<a href="#fn11"
+class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a>
+Under the infinite-sites model of DNA sequence evolution, it can be
+shown that <span class="math display">\[\begin{aligned}
 \mbox{E}(\pi) &amp;=&amp; \theta \\
-\mbox{E}(k) &amp;=&amp; \theta\sum_i^{n-1} \frac{1}{i} \quad ,\end{aligned}\]</span> where <span class="math inline">\(n\)</span> is the number of haplotypes in your sample.<a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a> This suggests that there are two ways to estimate <span class="math inline">\(\theta\)</span>, namely <span class="math display">\[\begin{aligned}
+\mbox{E}(k) &amp;=&amp; \theta\sum_i^{n-1} \frac{1}{i} \quad ,
+\end{aligned}\]</span> where <span class="math inline">\(n\)</span> is
+the number of haplotypes in your sample.<a href="#fn12"
+class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a>
+This suggests that there are two ways to estimate <span
+class="math inline">\(\theta\)</span>, namely <span
+class="math display">\[\begin{aligned}
 \hat \theta_\pi &amp;=&amp; \hat \pi \\
-\hat \theta_k   &amp;=&amp; \frac{k}{\sum_i^{n-1}\frac{1}{i}} \quad ,\end{aligned}\]</span> where <span class="math inline">\(\hat\pi\)</span> is the average heterozygosity at nucleotide sites in our sample and <span class="math inline">\(k\)</span> is the observed number of segregating sites in our sample.<a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a> If the nucleotide sequence variation among our haplotypes is neutral and the population from which we sampled is in equilibrium with respect to drift and mutation, then <span class="math inline">\(\hat\theta_\pi\)</span> and <span class="math inline">\(\hat\theta_k\)</span> should be statistically indistinguishable from one another. In other words, <span class="math display">\[\hat D = \frac{\hat\theta_\pi -
-  \hat\theta_k}{\mbox{Var}(\hat\theta_\pi - \hat\theta_k)}\]</span> should be indistinguishable from zero.<a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a> If it is either negative or positive, we can infer that there’s some departure from the assumptions of neutrality and/or equilibrium. Thus, <span class="math inline">\(\hat D\)</span> can be used as a test statistic to assess whether the data are consistent with the population being at a neutral mutation-drift equilibrium. Consider the value of <span class="math inline">\(D\)</span> under following scenarios:</p>
+\hat \theta_k   &amp;=&amp; \frac{k}{\sum_i^{n-1}\frac{1}{i}} \quad ,
+\end{aligned}\]</span> where <span
+class="math inline">\(\hat\pi\)</span> is the average heterozygosity at
+nucleotide sites in our sample and <span
+class="math inline">\(k\)</span> is the observed number of segregating
+sites in our sample.<a href="#fn13" class="footnote-ref" id="fnref13"
+role="doc-noteref"><sup>13</sup></a> If the nucleotide sequence
+variation among our haplotypes is neutral and the population from which
+we sampled is in equilibrium with respect to drift and mutation, then
+<span class="math inline">\(\hat\theta_\pi\)</span> and <span
+class="math inline">\(\hat\theta_k\)</span> should be statistically
+indistinguishable from one another. In other words, <span
+class="math display">\[\hat D = \frac{\hat\theta_\pi -
+  \hat\theta_k}{\mbox{Var}(\hat\theta_\pi - \hat\theta_k)}\]</span>
+should be indistinguishable from zero.<a href="#fn14"
+class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a>
+If it is either negative or positive, we can infer that there’s some
+departure from the assumptions of neutrality and/or equilibrium. Thus,
+<span class="math inline">\(\hat D\)</span> can be used as a test
+statistic to assess whether the data are consistent with the population
+being at a neutral mutation-drift equilibrium. Consider the value of
+<span class="math inline">\(D\)</span> under following scenarios:</p>
 <dl>
 <dt>Neutral variation</dt>
-<dd><p>If the variation is neutral and the population is at a drift-mutation equilibrium, then <span class="math inline">\(\hat D\)</span> will be statistically indistinguishable from zero.</p>
+<dd>
+<p>If the variation is neutral and the population is at a drift-mutation
+equilibrium, then <span class="math inline">\(\hat D\)</span> will be
+statistically indistinguishable from zero.</p>
 </dd>
 <dt>Overdominant selection</dt>
-<dd><p>Overdominance will allow alleles beloning to the different classes to become quite divergent from one another. <span class="math inline">\(\delta_{ij}\)</span> within each class will be small, but <span class="math inline">\(\delta_{ij}\)</span> between classes will be large and both classes will be in intermediate frequency, leading to large values of <span class="math inline">\(\theta_\pi\)</span>. There won’t be a similar tendency for the <span> <em>number</em></span> of segregating sites to increase, so <span class="math inline">\(\theta_k\)</span> will be relatively unaffected. As a result, <span class="math inline">\(\hat D\)</span> will be positive.</p>
+<dd>
+<p>Overdominance will allow alleles belonging to the different classes
+to become quite divergent from one another. <span
+class="math inline">\(\delta_{ij}\)</span> within each class will be
+small, but <span class="math inline">\(\delta_{ij}\)</span> between
+classes will be large and both classes will be in intermediate
+frequency, leading to large values of <span
+class="math inline">\(\theta_\pi\)</span>. There won’t be a similar
+tendency for the <span> <em>number</em></span> of segregating sites to
+increase, so <span class="math inline">\(\theta_k\)</span> will be
+relatively unaffected. As a result, <span class="math inline">\(\hat
+D\)</span> will be positive.</p>
 </dd>
 <dt>Population bottleneck</dt>
-<dd><p>If the population has recently undergone a bottleneck, then <span class="math inline">\(\pi\)</span> will be little affected unless the bottleneck was prolonged and severe.<a href="#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a> <span class="math inline">\(k\)</span>, however, may be substantially reduced. Thus, <span class="math inline">\(\hat D\)</span> should be positive.</p>
+<dd>
+<p>If the population has recently undergone a bottleneck, then <span
+class="math inline">\(\pi\)</span> will be little affected unless the
+bottleneck was prolonged and severe.<a href="#fn15" class="footnote-ref"
+id="fnref15" role="doc-noteref"><sup>15</sup></a> <span
+class="math inline">\(k\)</span>, however, may be substantially reduced.
+Thus, <span class="math inline">\(\hat D\)</span> should be
+positive.</p>
 </dd>
 <dt>Purifying selection</dt>
-<dd><p>If there is purifying selection, mutations will occur and accumulate at silent sites, but they aren’t likely ever to become very common. Thus, there are likely to be lots of segregating sites, but not much heterozygosity, meaning that <span class="math inline">\(\hat\theta_k\)</span> will be large, <span class="math inline">\(\hat\theta_\pi\)</span> will be small, and <span class="math inline">\(\hat D\)</span> will be negative.</p>
+<dd>
+<p>If there is purifying selection, mutations will occur and accumulate
+at silent sites, but they aren’t likely ever to become very common.
+Thus, there are likely to be lots of segregating sites, but not much
+heterozygosity, meaning that <span
+class="math inline">\(\hat\theta_k\)</span> will be large, <span
+class="math inline">\(\hat\theta_\pi\)</span> will be small, and <span
+class="math inline">\(\hat D\)</span> will be negative.</p>
 </dd>
 <dt>Population expansion</dt>
-<dd><p>Similarly, if the population has recently begun to expand, mutations that occur are unlikely to be lost, increasing <span class="math inline">\(\hat\theta_k\)</span>, but it will take a long time before they contribute to heterozygosity, <span class="math inline">\(\hat\theta_\pi\)</span>. Thus, <span class="math inline">\(\hat D\)</span> will be negative.</p>
+<dd>
+<p>Similarly, if the population has recently begun to expand, mutations
+that occur are unlikely to be lost, increasing <span
+class="math inline">\(\hat\theta_k\)</span>, but it will take a long
+time before they contribute to heterozygosity, <span
+class="math inline">\(\hat\theta_\pi\)</span>. Thus, <span
+class="math inline">\(\hat D\)</span> will be negative.</p>
 </dd>
 </dl>
-<p>In short, <span class="math inline">\(\hat D\)</span> provides a different avenue for insight into the evolutionary history of a particular nucleotide sequence. But interpreting it can be a little tricky.</p>
+<p>In short, <span class="math inline">\(\hat D\)</span> provides a
+different avenue for insight into the evolutionary history of a
+particular nucleotide sequence. But interpreting it can be a little
+tricky.</p>
 <dl>
 <dt><span class="math inline">\(\hat D = 0\)</span>:</dt>
-<dd><p>We have no evidence for changes in population size or for any particular pattern of selection at the locus.<a href="#fn16" class="footnote-ref" id="fnref16" role="doc-noteref"><sup>16</sup></a></p>
+<dd>
+<p>We have no evidence for changes in population size or for any
+particular pattern of selection at the locus.<a href="#fn16"
+class="footnote-ref" id="fnref16"
+role="doc-noteref"><sup>16</sup></a></p>
 </dd>
 <dt><span class="math inline">\(\hat D &lt; 0\)</span>:</dt>
-<dd><p>The population size may be increasing or we may have evidence for purifying selection at this locus.</p>
+<dd>
+<p>The population size may be increasing or we may have evidence for
+purifying selection at this locus.</p>
 </dd>
 <dt><span class="math inline">\(\hat D &gt; 0\)</span>:</dt>
-<dd><p>The population may have suffered a recent bottleneck (or be decreaing) or we may have evidence for overdominant selection at this locus.</p>
+<dd>
+<p>The population may have suffered a recent bottleneck (or be
+decreasing) or we may have evidence for overdominant selection at this
+locus.</p>
 </dd>
 </dl>
-<p>If we have data available for more than one locus, we may be able to distinguish changes in population size from selection at any particular locus. After all, all loci will experience the same demographic effects, but we might expect selection to act differently at different loci, especially if we choose to analyze loci with different physiological function.</p>
-<p>A quick search in Google Scholar reveals that the paper in which Tajima described this approach <span class="citation" data-cites="Tajima89"></span> has been cited over 13,000 times.<a href="#fn17" class="footnote-ref" id="fnref17" role="doc-noteref"><sup>17</sup></a> Clearly it has been widely used for interpreting patterns of nucleotide sequence variation. Although it is a very useful statistic, Zeng et al. <span class="citation" data-cites="Zeng-etal-2006"></span> point out that there are important aspects of the data that Tajima’s <span class="math inline">\(D\)</span> does not consider. As a result, it may be less powerful, i.e., less able to detect departures from neutrality, than some alternatives.</p>
-<h1 class="unnumbered" id="creative-commons-license">Creative Commons License</h1>
-<p>These notes are licensed under the Creative Commons Attribution License. To view a copy of this license, visit https://creativecommons.org/licenses/by/4.0/ or send a letter to Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305, USA.</p>
-<section class="footnotes" role="doc-endnotes">
+<p>If we have data available for more than one locus, we may be able to
+distinguish changes in population size from selection at any particular
+locus. After all, all loci will experience the same demographic effects,
+but we might expect selection to act differently at different loci,
+especially if we choose to analyze loci with different physiological
+function.</p>
+<p>A quick search in Google Scholar reveals that the paper in which
+Tajima described this approach <span class="citation"
+data-cites="Tajima89"></span> has been cited over 15,000 times.<a
+href="#fn17" class="footnote-ref" id="fnref17"
+role="doc-noteref"><sup>17</sup></a> Clearly it has been widely used for
+interpreting patterns of nucleotide sequence variation. Although it is a
+very useful statistic, Zeng et al. <span class="citation"
+data-cites="Zeng-etal-2006"></span> point out that there are important
+aspects of the data that Tajima’s <span class="math inline">\(D\)</span>
+does not consider. As a result, it may be less powerful, i.e., less able
+to detect departures from neutrality, than some alternatives.</p>
+<h1 class="unnumbered"
+id="how-much-genetic-change-is-due-to-selection">How much genetic change
+is due to selection?</h1>
+<p>We’ve seen that both drift and natural selection can lead to allele
+frequency changes in a population. Is there any way to tell how much of
+the allele frequency change in a population is a result of natural
+selection?<a href="#fn18" class="footnote-ref" id="fnref18"
+role="doc-noteref"><sup>18</sup></a> Well, to do so we need a set of
+allele frequencies measured at many loci at several different time
+steps. With that we can define <span class="math display">\[\Delta p_{t}
+= p_{t+1} - p_{t} \quad ,\]</span> where <span
+class="math inline">\(p_{i,t}\)</span> is the frequency of one allele at
+time <span class="math inline">\(t\)</span><a href="#fn19"
+class="footnote-ref" id="fnref19" role="doc-noteref"><sup>19</sup></a>
+and <span class="math display">\[\mbox{Var}(\Delta p_{t})\]</span> is
+the variance of <span class="math inline">\(\Delta p_t\)</span> across
+loci. Buffalo and Coop <span class="citation"
+data-cites="Buffalo-Coop-2019"></span> point out that <span
+class="math display">\[\mbox{Var}(\Delta p_{t}) =
+\sum_{t=0}^{t-1}\mbox{Var}(p_i) +
+  \sum_{i \ne j}\mbox{Cov}(p_i,p_j) \quad .\]</span> If allele frequency
+changes are entirely neutral, then there won’t be any correlation
+between them at different time steps.<a href="#fn20"
+class="footnote-ref" id="fnref20" role="doc-noteref"><sup>20</sup></a>
+If have a way to estimate <span class="math inline">\(\mbox{Cov}(p_i,
+p_j)\)</span> and it turns out to be different from zero, then we have
+evidence of selection.<a href="#fn21" class="footnote-ref" id="fnref21"
+role="doc-noteref"><sup>21</sup></a> In a later paper Buffalo and Coop
+estimate that between 17 and 37 percent of the allele frequency changes
+seen in a 10-generation, high-temperature selection experiment with ten
+replication populations is due to natural selection <span
+class="citation" data-cites="Buffalo-Coop-2020"></span></p>
+<h1 class="unnumbered" id="creative-commons-license">Creative Commons
+License</h1>
+<p>These notes are licensed under the Creative Commons Attribution
+License. To view a copy of this license, visit or send a letter to
+Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305,
+USA.</p>
+<aside id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1" role="doc-endnote"><p>It was still <span><em>vastly</em></span> more laborious than it is now.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2" role="doc-endnote"><p>Ignoring, for the moment, the possibility that there may be selection on codon usage.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3" role="doc-endnote"><p>Think about how the technology has changed since then. This work represented a major part of his Ph.D. dissertation, and the results were published as an article in <span><em>Nature</em></span>. Now an undergraduate would do substantially more for an independent study project.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4" role="doc-endnote"><p>It’s important to note that what I’ve labeled as the <span><em>Adh</em></span> locus in Table <a href="#table:ka" data-reference-type="ref" data-reference="table:ka">1</a> is the region that contains the protein coding part of the locus. The 5’ and 3’ flanking regions are physically adjacent, but none of the nucleotides in these parts of the gene are translated into the <span> <em>Adh</em></span> enzyme.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5" role="doc-endnote"><p>Because sequencing was extremely time-consuming in the mid-1980s, it was impractical to sequence the <span><em>Adh</em></span> locus in all of the 81 lines they used in the analysis. Instead they used restriction enzymes to reveal some of the nucleotide sequence variation in the locus.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6" role="doc-endnote"><p>Can you explain why it’s reasonable to estimate divergence between alleles in these species using only one allele from each of them?<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn7" role="doc-endnote"><p>Remember this observation when we get to association mapping at the end of the course. In organisms with a large effective population size, associations due to physical linkage may fall off <span><em>very</em></span> rapidly, meaning that you would have to have a <span><em>very</em></span> dense map to have a hope of finding associations.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn8" role="doc-endnote"><p>And unlinked to sites that are under selection.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn9" role="doc-endnote"><p>Of course, we know this isn’t true. Multiple substitutions <span><em>can</em></span> occur at any site. That’s why the percent difference between two sequences isn’t equal to the number of substitutions that have happened at any particular site. We’re simply assuming that the sequences we’re comparing are closely enough related that nearly all mutations have occurred at different positions.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn10" role="doc-endnote"><p>I lied, but you must be getting used to that by now. This isn’t quite the way you estimate it. To get an unbiased estimate of <span class="math inline">\(\pi\)</span>, you have to multiply this equation by <span class="math inline">\(n/(n-1)\)</span>, where <span class="math inline">\(n\)</span> is the number of haplotypes in your sample. And, of course, if you’re Bayesian you’ll be even a little more careful. You’ll estimate <span class="math inline">\(x_i\)</span> using an appropriate prior on haplotype frequencies and you’ll estimate the probability that haplotypes <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> are different at a randomly chosen position given the observed number of differences and the sequence length and multiply that probability by the sequence length giving you the expected number of differences between those two haplotypes. The expected number of differences will be close <span class="math inline">\(\delta_{ij}\)</span>, but it won’t be identical and it won’t be a single number.<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn11" role="doc-endnote"><p>This is <span><em>not</em></span> the same <span class="math inline">\(\theta\)</span> we encountered when discussing <span class="math inline">\(F\)</span>-statistics. Weir and Cockerham’s <span class="math inline">\(\theta\)</span> is a different beast. I know it’s confusing, but that’s the way it is. When reading a paper, the context should make it clear which conception of <span class="math inline">\(\theta\)</span> is being used. Another thing to be careful of is that sometimes authors think of <span class="math inline">\(\theta\)</span> in terms of a haploid population. When they do, it’s <span class="math inline">\(2N_e\mu\)</span>. Usually the context makes it clear which definition is being used, but you have to remember to pay attention to be sure. If you follow population geneticists on Twitter, you’ll often see them complaining about “off by two” errors.<a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn12" role="doc-endnote"><p>The “E” refers to expectation. It is the average value of a random variable. <span class="math inline">\(\mbox{E}(\pi)\)</span> is read as “the expectation of <span class="math inline">\(\pi\)</span>.”<a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn13" role="doc-endnote"><p>If your memory is really good, you may recognize that those estimates are method of moments estimates, i.e., parameter estimates obtained by equating sample statistics with their expected values.<a href="#fnref13" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn14" role="doc-endnote"><p>Dividing the difference between <span class="math inline">\(\hat\theta_\pi\)</span> and <span class="math inline">\(\hat\theta_k\)</span> by its variance makes the expectation of <span class="math inline">\(\hat D\)</span> zero and gives it a variance of one. This allows us to construct a statistical test of the difference between the observed <span class="math inline">\(\hat D\)</span> and the expectation if sequences are evolving neutrally and if the population is at a drift-mutation equilibrium. See <span class="citation" data-cites="Tajima89"></span> for details.<a href="#fnref14" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn15" role="doc-endnote"><p>Why? Because most of the heterozygosity is due to alleles of moderate to high frequency, and those are not the ones likely to be lost in a bottleneck.<a href="#fnref15" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn16" role="doc-endnote"><p>Please remember that the failure to detect a difference from 0 could mean that your sample size is too small to detect an important effect. If you can’t detect a difference, you should try to assess what values of <span class="math inline">\(D\)</span> are consistent with your data and be appropriately circumspect in your conclusions.<a href="#fnref16" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn17" role="doc-endnote"><p><a href="https://scholar.google.com/scholar?hl=en&amp;as_sdt=0%2C7&amp;q=tajima+genetics+123%3A585-595%3B+1989&amp;btnG=">https://scholar.google.com/scholar?hl=en&amp;as_sdt=0%2C7&amp;q=tajima+genetics+123%3A585-595%3B+1989&amp;btnG=</a> Search on 30 July 2021.<a href="#fnref17" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>It was still <span><em>vastly</em></span> more laborious
+than it is now.<a href="#fnref1" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Ignoring, for the moment, the possibility that there may
+be selection on codon usage.<a href="#fnref2" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Think about how the technology has changed since then.
+This work represented a major part of his Ph.D. dissertation, and the
+results were published as an article in <span><em>Nature</em></span>.
+Now an undergraduate would do substantially more for an independent
+study project.<a href="#fnref3" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>It’s important to note that what I’ve labeled as the
+<span><em>Adh</em></span> locus in Table <a href="#table:ka"
+data-reference-type="ref" data-reference="table:ka">1</a> is the region
+that contains the protein coding part of the locus. The 5’ and 3’
+flanking regions are physically adjacent, but none of the nucleotides in
+these parts of the gene are translated into the <span>
+<em>Adh</em></span> enzyme.<a href="#fnref4" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>Because sequencing was extremely time-consuming in the
+mid-1980s, it was impractical to sequence the <span><em>Adh</em></span>
+locus in all of the 81 lines they used in the analysis. Instead they
+used restriction enzymes to reveal some of the nucleotide sequence
+variation in the locus.<a href="#fnref5" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>Can you explain why it’s reasonable to estimate
+divergence between alleles in these species using only one allele from
+each of them?<a href="#fnref6" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>Remember this observation when we get to association
+mapping at the end of the course. In organisms with a large effective
+population size, associations due to physical linkage may fall off
+<span><em>very</em></span> rapidly, meaning that you would have to have
+a <span><em>very</em></span> dense map to have a hope of finding
+associations.<a href="#fnref7" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p>And unlinked to sites that are under selection.<a
+href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p>Of course, we know this isn’t true. Multiple
+substitutions <span><em>can</em></span> occur at any site. That’s why
+the percent difference between two sequences isn’t equal to the number
+of substitutions that have happened at any particular site. We’re simply
+assuming that the sequences we’re comparing are closely enough related
+that nearly all mutations have occurred at different positions.<a
+href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10"><p>I lied, but you must be getting used to that by now.
+This isn’t quite the way you estimate it. To get an unbiased estimate of
+<span class="math inline">\(\pi\)</span>, you have to multiply this
+equation by <span class="math inline">\(n/(n-1)\)</span>, where <span
+class="math inline">\(n\)</span> is the number of haplotypes in your
+sample. And, of course, if you’re Bayesian you’ll be even a little more
+careful. You’ll estimate <span class="math inline">\(x_i\)</span> using
+an appropriate prior on haplotype frequencies and you’ll estimate the
+probability that haplotypes <span class="math inline">\(i\)</span> and
+<span class="math inline">\(j\)</span> are different at a randomly
+chosen position given the observed number of differences and the
+sequence length and multiply that probability by the sequence length
+giving you the expected number of differences between those two
+haplotypes. The expected number of differences will be close <span
+class="math inline">\(\delta_{ij}\)</span>, but it won’t be identical
+and it won’t be a single number.<a href="#fnref10" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn11"><p>This is <span><em>not</em></span> the same <span
+class="math inline">\(\theta\)</span> we encountered when discussing
+<span class="math inline">\(F\)</span>-statistics. Weir and Cockerham’s
+<span class="math inline">\(\theta\)</span> is a different beast. I know
+it’s confusing, but that’s the way it is. When reading a paper, the
+context should make it clear which conception of <span
+class="math inline">\(\theta\)</span> is being used. Another thing to be
+careful of is that sometimes authors think of <span
+class="math inline">\(\theta\)</span> in terms of a haploid population.
+When they do, it’s <span class="math inline">\(2N_e\mu\)</span>. Usually
+the context makes it clear which definition is being used, but you have
+to remember to pay attention to be sure. If you follow population
+geneticists on X/Twitter, you’ll often see them complaining about “off
+by two” errors.<a href="#fnref11" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn12"><p>The “E” refers to expectation. It is the average value
+of a random variable. <span class="math inline">\(\mbox{E}(\pi)\)</span>
+is read as “the expectation of <span
+class="math inline">\(\pi\)</span>.”<a href="#fnref12"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn13"><p>If your memory is really good, you may recognize that
+those estimates are method of moments estimates, i.e., parameter
+estimates obtained by equating sample statistics with their expected
+values.<a href="#fnref13" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn14"><p>Dividing the difference between <span
+class="math inline">\(\hat\theta_\pi\)</span> and <span
+class="math inline">\(\hat\theta_k\)</span> by its variance makes the
+expectation of <span class="math inline">\(\hat D\)</span> zero and
+gives it a variance of one. This allows us to construct a statistical
+test of the difference between the observed <span
+class="math inline">\(\hat D\)</span> and the expectation if sequences
+are evolving neutrally and if the population is at a drift-mutation
+equilibrium. See <span class="citation" data-cites="Tajima89"></span>
+for details.<a href="#fnref14" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn15"><p>Why? Because most of the heterozygosity is due to
+alleles of moderate to high frequency, and those are not the ones likely
+to be lost in a bottleneck.<a href="#fnref15" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn16"><p>Please remember that the failure to detect a difference
+from 0 could mean that your sample size is too small to detect an
+important effect. If you can’t detect a difference, you should try to
+assess what values of <span class="math inline">\(D\)</span> are
+consistent with your data and be appropriately circumspect in your
+conclusions.<a href="#fnref16" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn17"><p>Search on 8 October 2023.<a href="#fnref17"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn18"><p>Do I even need to say it anymore? Would I be asking
+this question if the answer were “No”?<a href="#fnref18"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn19"><p>Notice that I am implicitly assuming that we have only
+two alleles at each locus. This method will be useful with SNP data, but
+may not be useful for other data.<a href="#fnref19"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn20"><p>Remember that I told you drift has no memory. The
+probability of moving from <span class="math inline">\(p_t\)</span> to
+<span class="math inline">\(p_{t+1}\)</span> depends only on what <span
+class="math inline">\(p_t\)</span> is and how big the effective
+population size is. Not on the allele frequency trajectory leading to
+<span class="math inline">\(p_t\)</span>.<a href="#fnref20"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn21"><p>It’s actually a bit more complicated than that, because
+things other than selection can lead to a non-zero covariance.
+Read <span class="citation" data-cites="Buffalo-Coop-2019"></span> if
+you want all of the gory details.<a href="#fnref21"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
-</section>
+</aside>
 </body>
 </html>
