@@ -11,7 +11,7 @@ library(tidyverse)
 library(phyclust)
 library(ape)
 
-n_sample <- 25
+n_sample <- 100
 ms_out <- ms(nsam = 2*n_sample, opts = "-T")
 ms_tree <- read.tree(text = ms_out)
 plot(ms_tree, show.tip.label = FALSE)
@@ -24,7 +24,7 @@ Here's a simple comparison of simulating drift directly and simulating it with t
 ```{r}
 ## These are the parameters you can play with
 ##
-n_e <- 100
+n_e <- 1000
 n_sample <- 25
 
 ## There's no easy way to tell when the forward simulation has run long enough 
@@ -62,3 +62,20 @@ end_time <- Sys.time()
 cat("\nElapsed time for coalescent simulation: ", round(end_time - start_time, 2))
 ```
 
+## The coalescent with migration
+
+As you've seen in lab this week, `ms()` also allows you to simulate the coalescent with migration. What you didn't see was the actual call to `ms()` that does it. Here's an example with Wright's island model: 5 islands with a sample size of 25 from each island and $N_em = 0.1$.
+
+```{r}
+ms_out <- ms(nsam = 125, # The total number of alleles in the sample
+             nreps = 1,  # The number of coalescent samples to produce
+             opts = "-T -I 5 25 25 25 25 25 0.1",
+                         # -T produce a tree with coalescent times
+                         # -I migration follows Wright's island model
+                         # 5 populations
+                         # 25 the number of samples from each population
+                         # 0.1 Ne*m
+            )
+ms_tree <- read.tree(text = ms_out)
+plot(ms_tree, show.tip.label = FALSE)
+```

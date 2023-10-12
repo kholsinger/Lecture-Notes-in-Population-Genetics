@@ -240,7 +240,7 @@ Expectation
 }
 
 \myslide{
-\heading{Coalescent in structured populations}
+\heading{The coalescent in structured populations}
 
 {\small
 \begin{eqnarray*}
@@ -258,6 +258,62 @@ If mutation is rare,
 F_{st} = \frac{\bar t - \bar t_0}{\bar t} \quad .
 \]
 }
+
+
+\myslide{
+\heading{The coalescent in structured populations}
+
+Remember that in a single population
+\[
+P(t|k, N_e) = \left(\frac{k(k-1)}{4N_e}\right)\left(1-
+  \frac{k(k-1)}{4N_e}\right)^{t-1}
+\]
+
+\begin{eqnarray*}
+P_k(\mbox{coalescent}|n, N_e) &=& \frac{k(k-1)}{4N_e} \\
+P(\mbox{no coalescent}|k, N_e, K)
+                              &=&\left(1-\frac{k(k-1)}{4N_e}\right)^K \\
+P(\mbox{no migration}|k,m, K) &=& (1-m)^{kK}
+\end{eqnarray*}
+}
+
+\myslide{
+\heading{The coalescent in structured populations}
+
+
+{\small
+\[
+P(\mbox{event}|k, m, N_e, K) = 1 - P(\mbox{no coalescent}|k, N_e,
+K)P(\mbox{no migration}|k,m, K)
+\]
+}
+
+{\small
+\[
+P(\mbox{event at }t|k, m, N_e, K) = P(\mbox{event}|k, m, N_e,
+K)\left(1 - P(\mbox{event}|k, m, N_e, K)\right)^{t-1} 
+\]
+}
+
+{\small
+\[
+  P(\mbox{coalescent at }t | \mbox{event at }t) =
+  \frac{P(\mbox{coalescent})}{P(\mbox{coalescent} +
+    P\mbox{migration})}
+\]
+}
+
+{\small
+\[
+  P(\mbox{migration at }t | \mbox{event at }t) =
+  \frac{P(\mbox{migration})}{P(\mbox{coalescent} +
+    P\mbox{migration})}
+\]
+}
+
+}
+
+
 
 \myslide{
   \heading{The coalescent and natural selection}
