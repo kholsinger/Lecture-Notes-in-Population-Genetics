@@ -1,0 +1,62 @@
+---
+title: "Illustrating nucleotide sequence divergence under the Jukes-Cantor model"
+output: html_notebook
+---
+
+We start by loading the necessary libraries and defining the function to calculate the probability that two nucleotides are identical after $t$ generations under the Jukes-Cantor model.
+
+```{r}
+options(tidyverse.quiet = TRUE)
+library(tidyverse)
+library(ggplot2)
+
+jc <- function(lambda, t) {
+ return(1 - (3/4)*(1 - exp(-8*lambda*t/3)))
+}
+
+jc_dist <- function(q) {
+  return((-3/4)*log(1 - (4/3)*(1 - q)))
+}
+```
+
+Now we'll look at how the probability of identity decays over 10,000 generations when $\lambda = 0.0001$, 0.001, and 0.01.
+
+```{r}
+t <- seq(0, 10000, by = 1)
+dat <- tibble(lambda = NA, t = NA, q = NA)
+for (lambda in c(0.0001, 0.001, 0.01)) {
+  q <- jc(lambda, t)
+  tmp <- tibble(lambda = as.character(lambda),
+                t = t,
+                q = q)
+  dat <- rbind(dat, tmp)
+}
+dat <- dat %>% filter(!is.na(lambda))
+
+p <- ggplot(dat, aes(x = t, y = q, 
+                     fill = lambda, 
+                     color = lambda)) +
+  geom_line() +
+  theme_bw() +
+  ylim(0, 1) +
+  xlab("Generation") +
+  ylab("Probability nucleotides are identical") +
+  scale_color_brewer(type = "seq",
+                     palette = "YlGnBu")
+p
+```
+
+Notice that the probability of identity decreases to 0.25, but no further. Let's look at the complementary plot of evolutionary distance as a function of percent sequence similarity.
+
+```{r}
+q <- seq(1.0, 0.251, by = -0.001)
+d <- jc_dist(q)
+dat <- tibble(q = q, d = d)
+p <- ggplot(dat, aes(x = q, y = d)) +
+  geom_line() +
+  theme_bw() +
+  xlim(0.25, 1) +
+  xlab("Percent sequence similarity") +
+  ylab("Jukes-Cantor distance")
+p
+```

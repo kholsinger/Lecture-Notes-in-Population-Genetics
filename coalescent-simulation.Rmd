@@ -69,7 +69,7 @@ As you've seen in lab this week, `ms()` also allows you to simulate the coalesce
 ```{r}
 ms_out <- ms(nsam = 125, # The total number of alleles in the sample
              nreps = 1,  # The number of coalescent samples to produce
-             opts = "-T -I 5 25 25 25 25 25 0.1",
+             opts = "-T -I 5 25 25 25 25 25 10",
                          # -T produce a tree with coalescent times
                          # -I migration follows Wright's island model
                          # 5 populations
