@@ -1,0 +1,9 @@
+si <- read.nexus("http://darwin.eeb.uconn.edu/eeb348-resources/sRNase.clock.con.tre")
+result <- compare_coalescent(si)
+p <- ggplot(result, aes(x = Expected, y = Observed)) +
+     geom_point() +
+     geom_errorbar(aes(xmin = Lower_2.5, xmax = Upper_97.5, width = 0.02)) +
+     geom_abline(intercept = 0, slope = 1, linetype = "dashed", 
+                 color = "red") +
+     theme_bw()
+p
