@@ -5,7 +5,7 @@
 \usepackage{url}
 \usepackage{epstopdf}
 
-\newcommand{\copyrightYears}{2010--2021}
+\newcommand{\copyrightYears}{2010--2023}
 
 \title{Statistical phylogeography: Migrate-N, IMa, and ABC}
 
@@ -15,33 +15,44 @@
 
 \thispagestyle{first}
 
-Nested clade
-analysis~\cite{Templeton-2004,Templeton-2009,Templeton-etal-1995}
-represented the earliest attempt to develop a formal approach to using
-an estimate of phylogenetic relationships among haplotypes to infer
-something both about the biogeographic history of the populations in
-which they are contained and the evolutionary processes associated
-with the pattern of diversification implied by the phylogenetic
-relationships among haplotypes and their geographic distribution. The
-statistical parsimony part of NCA depends heavily on coalescent theory
-for calculating the ``limits'' of parsimony. As a result, NCA combines
-aspects of pure phylogenetic inference{\dash}parsimony{\dash}with
-aspects of pure population genetics{\dash}coalescent theory{\dash}to
-develop a set of inferences about the phylogeographic history of
-populations within species. NCA is now of primarily historical
-interest. So far as I am aware, no one uses it any more. Instead
-everyone uses methods based directly on coalescent theory or similar
-approaches. Before we get to that, though, I need to describe one
-complication that is taken for granted now that first became widely
-recognized in the late 1980s. Pekka Pamilo and Mashatoshi
-Nei~\cite{Pamilo-Nei-1988} pointed out that the phylogenetic
-relationships of a single gene might be different from those of the
-populations from which the samples were collected.
+As we've seen in our discussion of AMOVA, nucleotide sequence data
+seem to have the potential to help us make not only evolutionary
+inferences about the sequences, but also about the evolutionary
+history of the populations from which we've collected those
+sequences. In the mid-1990s Alan Templeton introduced nested clade
+analysis~\cite{Templeton-2004,Templeton-2009,Templeton-etal-1995} as a
+formal approach to using an estimate of phylogenetic relationships
+among haplotypes to infer something both about the biogeographic
+history of the populations in which they are contained and the
+evolutionary processes associated with the pattern of diversification
+implied by the phylogenetic relationships among haplotypes and their
+geographic distribution. The statistical parsimony part of NCA depends
+heavily on coalescent theory for calculating the ``limits'' of
+parsimony. As a result, NCA combines aspects of pure phylogenetic
+inference{\dash}parsimony{\dash}with aspects of pure population
+genetics{\dash}coalescent theory{\dash}to develop a set of inferences
+about the phylogeographic history of populations within species. So
+far as I am aware, no one uses NCA any more, but it is important to
+mention it as an early attempt to formalize the process of inferring
+the evolutionary history of populations from nucleotide sequence
+data. Prior to Templeton the process of inference was really just
+storytelling, storytelling that made a reasonablle amount of sense,
+but still storytelling. Now everyone uses methods based directly on
+coalescent theory or similar approaches. Before we get to that,
+though, I need to describe one complication that is taken for granted
+now that first became widely recognized in the late 1980s. Pekka
+Pamilo and Mashatoshi Nei~\cite{Pamilo-Nei-1988} pointed out that the
+phylogenetic relationships of a single gene might be different from
+those of the populations from which the samples were collected.
 
 \section*{Gene trees {\it versus\/} population trees}\index{gene tree}\index{population tree}
 
-There are several reasons why {\it gene trees\/} might not match {\it
-  population trees}.
+Gene trees describe the evolutionary relationships, i.e., the
+phylogeny of a set of genes. Population trees describe the phylogeny
+of a set of populations. We often want to infer the history of
+populations from a set of genes that we collect from those
+populations. There are several reasons why {\it gene trees\/} might
+not match {\it population trees}.
 
 \begin{itemize}
 

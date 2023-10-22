@@ -5,7 +5,7 @@
 \usepackage{url}
 \usepackage{epstopdf}
 
-\newcommand{\copyrightYears}{2001-2021}
+\newcommand{\copyrightYears}{2001-2023}
 
 \title{Analysis of molecular variance (AMOVA)}
 
@@ -28,19 +28,25 @@ differ.\footnote{When I introduced nucleotide diversity before, I
   defined $\delta_{ij}$ as the {\it number\/} of nucleotides that
   differ between haplotypes $i$ and $j$. It's a little easier for what
   follows if we think of it as the {\it fraction\/} of nucleotides at
-  which they differ instead.} It shouldn't come to any surprise to you
-that just as there is interest in partitioning diversity within and
-among populations when we're dealing with simple allelic variation,
-i.e., Wright's $F$-statistics, there is interest in partitioning
-diversity within and among populations when we're dealing with
-nucleotide sequence or other molecular data. The approach I'm going to
-describe is known as Analysis of Molecular VAriance
-(AMOVA)~\cite{Excoffier-etal92}. We'll see later that AMOVA can be
-used very generally to partition variation when there is a distance we
-can use to describe how different alleles are from one another, but
-for now, let's stick with nucleotide sequence data and think of
-$\delta_{ij}$ simply as the fraction of nucleotide sites at which two
-sequences differ.\index{nucleotide diversity}
+  which they differ instead. It's really easy to convert between
+  them. If $\delta^*_{ij}$ is the {\it number\/} of nucleotides that
+  differ between haplotypes $i$ and $j$, and $N$ is the length of the
+  haplotypes, then $\delta_{ij} = \delta^*_{ij}/N$. Of course, if we
+  wanted to get fancy, we could use a Bayesian approach to estimate
+  $\delta_{ij}$, but we'll avoid that complication in what
+  follows. Ask me about it if you're interested.} It shouldn't come to
+any surprise to you that just as there is interest in partitioning
+diversity within and among populations when we're dealing with simple
+allelic variation, i.e., Wright's $F$-statistics, there is interest in
+partitioning diversity within and among populations when we're dealing
+with nucleotide sequence or other molecular data. The approach I'm
+going to describe is known as {\bf A}nalysis of {\bf M}olecular {\bf
+  VA}riance (AMOVA)~\cite{Excoffier-etal92}. We'll see later that
+AMOVA can be used very generally to partition variation when there is
+a distance we can use to describe how different alleles are from one
+another, but for now, let's stick with nucleotide sequence data and
+think of $\delta_{ij}$ simply as the fraction of nucleotide sites at
+which two sequences differ.\index{nucleotide diversity}
 
 \section*{Analysis of molecular variance
   (AMOVA)}\index{AMOVA}\index{Analysis of molecular variance}
@@ -69,8 +75,9 @@ sequence diversity. Why? Well, that requires you to remember stuff we
 covered about two months ago.\index{Phi-st@$\Phi_{st}$}\index{AMOVA}
 
 To be a bit more specific, refer back to the 
-notes on $F_{ST}$.\footnote{You can find the online version here, if
-  you don't have them handy: \url{http://darwin.eeb.uconn.edu/eeb348-notes/genetic-structure.pdf}.}.
+notes on $F_{ST}$.\footnote{You can find the online version at
+  \url{http://darwin.eeb.uconn.edu/eeb348-notes/genetic-structure.pdf}
+  if you don't have them handy.}.
 When you do, you'll see that we defined
 \[
 F_{IT} = 1 - \frac{H_i}{H_t} \quad ,
@@ -91,7 +98,7 @@ $F_{IT}$ and $F_{IS}$.
 F_{ST} &=&
 \frac{\left(1-F_{IS}\right)-\left(1-F_{IT}\right)}{1-F_{IS}} \\
 &=& \frac{\left(H_i/H_s\right) - \left(H_i/H_t\right)}{H_i/H_s} \\
-&=& \frac{\left(1/H_S\right) - \left(1/H_t\right)}{1/H_s} \\
+&=& \frac{\left(1/H_s\right) - \left(1/H_t\right)}{1/H_s} \\
 &=& 1 - \frac{1/H_t}{1/H_S} \\  
 &=& 1 - \frac{H_s}{H_t} \quad .
 \end{eqnarray*}
@@ -125,7 +132,7 @@ $F$-statistics. With $F$-statistics we were thinking about diversity
 solely in terms of allele frequency differences. With AMOVA we're
 thinking about diversity in terms of a combination of haplotype
 frequency differences {\it and\/} a measure of how different{\dash}how
-distant{\dash} those haplotypes are from one another.
+distant{\dash} those haplotypes are from one another. 
 
 Once we have $\delta_{ij}$ for all pairs of haplotypes or alleles in
 our sample, we can use the ideas lying behind
@@ -206,7 +213,10 @@ differences, we mean that the evolutionary distance\footnote{Measured
   on the minimum spanning tree.} between any two haplotypes from
 populations within the same region is relatively small while the
 evolutionary distance between haplotypes from different regions is
-relatively large.
+relatively large. And by ``evolutionary distance'' we mean both the
+distance between haplotypes reflected in $\delta_{ij}$ and the
+distance due to the extra time it takes haplotypes from different
+populations to trace their ancestry back to the same population.
 
 Notice also that $\Phi$-statistics follow the same rules as Wright's
 $F$-statistics, namely
@@ -235,12 +245,13 @@ Among all populations            & $\Phi_{ST} = 0.246$ \\
 
 \section*{An extension}
 
-As you may recall,\footnote{Look back at our discussion of the
-  coalescent
+When we were discussing the coalescent in structured populations, you
+may recall that I pointed out that there is a relationship between
+$F_{ST}$ and coalescent times.\footnote{Look back at our discussion of
+  the coalescent
   (\url{http://darwin.eeb.uconn.edu/eeb348-notes/coalescent.pdf}) for
-  the details.}  Slatkin~\cite{Slatkin91-coalescence} pointed out that
-there is a relationship between coalescence time and $F_{st}$. Namely,
-if mutation is rare then
+  the details.}  Specifically, Slatkin~\cite{Slatkin91-coalescence}
+pointed out that if mutation is rare then
 \[
 F_{ST} \approx \frac{\bar t - \bar t_0}{\bar t} \quad ,
 \]
@@ -252,10 +263,15 @@ $\delta_{ij}$ is linearly proportional to the time since two sequences
 have diverged, $\Phi_{ST}$ is a good estimator of $F_{ST}$ when
 $F_{ST}$ is thought of as a measure of the relative excess of
 coalescence time resulting from dividing a species into several
-population. This observation suggests that the combination of
-haplotype frequency differences and evolutionary distances among
-haplotypes may provide insight into the evolutionary relationships
-among populations of the same species.
+population. In other words if $\delta_{ij}$ is a good measure of the
+evolutionary distance between sequences in the sense that it is
+directly proportional to the time since the sequences diverged, then
+the combination of haplotype frequency differences and evolutionary
+distances among haplotypes may provide insight into the evolutionary
+relationships among populations of the same species. For yet another
+way of saying it, if $\delta_{ij}$ is proportion to divergence time,
+then $\phi_{ST}$ tells us how much longer we have to wait for
+haplotypes to coalesce as a result of the population being~subdivided.
 
 \bibliography{popgen}
 \bibliographystyle{plain}

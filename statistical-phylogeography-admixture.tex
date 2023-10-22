@@ -5,7 +5,7 @@
 \usepackage{url}
 \usepackage{epstopdf}
 
-\newcommand{\copyrightYears}{2010--2021}
+\newcommand{\copyrightYears}{2010--2023}
 
 \title{Statistical phylogeography: Admixture graphs and {\tt sparg}}
 
@@ -51,21 +51,21 @@ that are admixed? Funny you should ask.
 Pickrell and Pritchard~\cite{Pickrell-Pritchard-2012} described the
 most widely used approach to estimating admixture graphs. It is
 implemented in {\tt TreeMix}.\index{TreeMix} At about the same time
-Patterson et al.~\cite{Patterson-etal-2012} described a related method
-at about the same time. I'm going to focus on the {\tt TreeMix}
-approach because I am more comfortable with the underlying
-model.\footnote{If you're curious about why I'm more comfortable with
-  the Pickrell and Pritchard approach, feel free to ask.}
-Unfortunately, if you want to use {\tt TreeMix}, you'll have to be comfortable
-with compiling C++ programs from source~(or find a friend who can help
-you or who can share a copy).\footnote{The most recent version of the
-  {\tt TreeMix} manual notes that ``TreeMix should run on any Unix or
-  Unix-like (e.g., Linux or Mac OS X) system. It may be more difficult
-  to get it compiled under Windows. Notice that regardless of
-  operating system, you'll also need to install the GNU Scientific
-  Library and the Boost Graph Library.''}
+Patterson et al.~\cite{Patterson-etal-2012} described a related
+method. I'm going to focus on the {\tt TreeMix} approach because I am
+more comfortable with the underlying model.\footnote{If you're curious
+  about why I'm more comfortable with the Pickrell and Pritchard
+  approach, feel free to ask.}  Unfortunately, if you want to use {\tt
+  TreeMix}, you'll have to be comfortable with compiling C++ programs
+from source~(or find a friend who can help you or who can share a
+copy).\footnote{The most recent version of the {\tt TreeMix} manual
+  notes that ``TreeMix should run on any Unix or Unix-like (e.g.,
+  Linux or Mac OS X) system. It may be more difficult to get it
+  compiled under Windows. Notice that regardless of operating system,
+  you'll also need to install the GNU Scientific Library and the Boost
+  Graph Library.''}
 
-The basic idea between {\tt Treemix} is not too complicated, although
+The basic idea behind {\tt Treemix} is not too complicated, although
 it would be a stretch to say that it's simple. We start by assuming
 that the allele frequencies are changing as a result of genetic
 drift. Results going back to Kimura~\cite{Kimura-1955} tell us that
@@ -135,7 +135,7 @@ same caveats as above about the normal distribution.
   \bf \Sigma) \quad ,
 \]
 where boldface refers to vectors, MVN refers to the multivariate
-normal distribution, and $\bf Sigma$ is the covariance matrix of
+normal distribution, and $\bf \Sigma$ is the covariance matrix of
 allele frequencies. Since we can write down that probability
 distribution, you can probably imagine that it's possible to estimate
 the likelihood of our data given a particular tree. To get a maximum
@@ -265,7 +265,7 @@ accessions derived from Eurasia and North Africa. Osmond and Coop used
 {\tt sparg} to explore historical patterns of dispersal and the
 geographical location of ancestors using this data set. They first
 estimated dispersal rates in both a one-epoch model and in multi-epoch
-models. As you can see in Figure~\ref{fig:arabidopsis-epochs}), the
+models. As you can see in Figure~\ref{fig:arabidopsis-epochs}, the
 estimates of dispersal rates are very similar across all of the
 loci. In addition, the per-generation rate of east-west dispersal
 ($\sigma^2_{long}$) is about 10 times higher than north-south
