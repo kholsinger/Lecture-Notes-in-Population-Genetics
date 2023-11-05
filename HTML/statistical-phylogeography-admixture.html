@@ -4,94 +4,376 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Statistical phylogeography: Admixture graphs ans sparg</title>
+  <title>Statistical phylogeography: Admixture graphs and sparg</title>
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
   </style>
   <link rel="stylesheet" href="pandoc.css" />
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
 </head>
 <body>
 <header id="title-block-header">
-<h1 class="title">Statistical phylogeography: Admixture graphs ans <span><code>sparg</code></span></h1>
+<h1 class="title">Statistical phylogeography: Admixture graphs and
+<span><code>sparg</code></span></h1>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
-<li><a href="#admixture-graphs">Admixture graphs</a></li>
-<li><a href="#estimating-dispersal-and-ancestral-geography">Estimating dispersal and ancestral geography</a>
+<li><a href="#admixture-graphs" id="toc-admixture-graphs">Admixture
+graphs</a></li>
+<li><a href="#estimating-dispersal-and-ancestral-geography"
+id="toc-estimating-dispersal-and-ancestral-geography">Estimating
+dispersal and ancestral geography</a>
 <ul>
-<li><a href="#an-example-from-arabidopsis">An example from <span><em>Arabidopsis</em></span></a></li>
+<li><a href="#an-example-from-arabidopsis"
+id="toc-an-example-from-arabidopsis">An example from
+<span><em>Arabidopsis</em></span></a></li>
 </ul></li>
-<li><a href="#creative-commons-license">Creative Commons License</a></li>
+<li><a href="#creative-commons-license"
+id="toc-creative-commons-license">Creative Commons License</a></li>
 </ul>
 </nav>
-<p>When I introduced the coalescent several weeks ago, I mentioned the “Out of Africa” hypothesisthe hypothesis that anatomically modern humans evolved in Africa and spread from there throughout the rest of the world. Three decades of research have strengthened support for that hypothesis, and it is now widely accepted that anatomically modern human populations left Africa and moved into other parts of the world about 50,000 years ago <span class="citation" data-cites="Karmin-etal-2015"></span>. As they expanded, they interacted with archaic human populations, e.g., Neanderthals and Denisovans. And when human populations interact, interbreeding often occurs. The result is that 1-3 percent of human genomes from outside of sub-Saharan Africa show evidence of Neanderthal ancestry <span class="citation" data-cites="Prufer-etal-2014"></span> and that as much as 5 or 6 percent of the human genomes from Oceania show evidence of ancestry from Denisovans <span class="citation" data-cites="Meyer-etal-2012"></span>. When we visualize these relationships (Figure <a href="#fig:human-neanderthal-denisovan" data-reference-type="ref" data-reference="fig:human-neanderthal-denisovan">1</a>), the result no longer looks like a simple tree. There are lines connecting different branches representing times when there was some degree of interbreeding among populations that had previously diverged. You may have encountered methods for inferring phylogenies in previous courses. In this course we saw how <span><code>STRUCTURE</code></span> can be used to estimate patterns of admixture. How do we go about estimating trees that are admixed? Funny you should ask.</p>
-<figure>
-<img src="human-neanderthal-denisovan.png" id="fig:human-neanderthal-denisovan" style="width:14cm" alt="" /><figcaption>Periods of introgression in humah history (from <span class="citation" data-cites="Ahlquist-etal-2021"></span>).</figcaption>
+<p>When I introduced the coalescent several weeks ago, I mentioned the
+“Out of Africa” hypothesisthe hypothesis that anatomically modern humans
+evolved in Africa and spread from there throughout the rest of the
+world. Three decades of research have strengthened support for that
+hypothesis, and it is now widely accepted that anatomically modern human
+populations left Africa and moved into other parts of the world about
+50,000 years ago <span class="citation"
+data-cites="Karmin-etal-2015"></span>. As they expanded, they interacted
+with archaic human populations, e.g., Neanderthals and Denisovans. And
+when human populations interact, interbreeding often occurs. The result
+is that 1-3 percent of human genomes from outside of sub-Saharan Africa
+show evidence of Neanderthal ancestry <span class="citation"
+data-cites="Prufer-etal-2014"></span> and that as much as 5 or 6 percent
+of the human genomes from Oceania show evidence of ancestry from
+Denisovans <span class="citation" data-cites="Meyer-etal-2012"></span>.
+When we visualize these relationships (Figure <a
+href="#fig:human-neanderthal-denisovan" data-reference-type="ref"
+data-reference="fig:human-neanderthal-denisovan">1</a>), the result no
+longer looks like a simple tree. There are lines connecting different
+branches representing times when there was some degree of interbreeding
+among populations that had previously diverged. You may have encountered
+methods for inferring phylogenies in previous courses. In this course we
+saw how <span><code>STRUCTURE</code></span> can be used to estimate
+patterns of admixture. How do we go about estimating trees that are
+admixed? Funny you should ask.</p>
+<figure id="fig:human-neanderthal-denisovan">
+<div class="center">
+<img src="human-neanderthal-denisovan.png" style="width:14cm" />
+</div>
+<figcaption>Periods of introgression in humah history (from <span
+class="citation" data-cites="Ahlquist-etal-2021"></span>).</figcaption>
 </figure>
 <h1 class="unnumbered" id="admixture-graphs">Admixture graphs</h1>
-<p>Pickrell and Pritchard <span class="citation" data-cites="Pickrell-Pritchard-2012"></span> described the most widely used approach to estimating admixture graphs. It is implemented in <span><code>TreeMix</code></span>. At about the same time Patterson et al. <span class="citation" data-cites="Patterson-etal-2012"></span> described a related method at about the same time. I’m going to focus on the <span><code>TreeMix</code></span> approach because I am more comfortable with the underlying model.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> Unfortunately, if you want to use <span><code>TreeMix</code></span>, you’ll have to be comfortable with compiling C++ programs from source (or find a friend who can help you or who can share a copy).<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
-<p>The basic idea between <span><code>Treemix</code></span> is not too complicated, although it would be a stretch to say that it’s simple. We start by assuming that the allele frequencies are changing as a result of genetic drift. Results going back to Kimura <span class="citation" data-cites="Kimura-1955"></span> tell us that the variance in allele frequency is <span class="math display">\[\mbox{Var}(p_t) = p_o(1-p_0)\left(1 - e^{-t/2N_e}\right) \quad ,\]</span> where <span class="math inline">\(p_t\)</span> is the allele frequency in the population at time <span class="math inline">\(t\)</span>, <span class="math inline">\(p_o\)</span> is the initial allele frequency, <span class="math inline">\(t\)</span> is the number of generations, and <span class="math inline">\(N_e\)</span> is the effective population size. So long as the effective population size is large enough that allele frequency changes are relatively small from generation to generation and so long as <span class="math inline">\(p_o\)</span> is not “too close” to 0 or 1, then we can approximate the probability distribution of allele frequencies at time <span class="math inline">\(t\)</span> with a normal distribution: <span class="math display">\[\mbox{P}(p_t|p_o,t,N_e) \sim \mbox{N}\left(p_o,
-    p_o(1-p_o)\left(\frac{t}{2N_e}\right)\right) \quad .\]</span> Now suppose we have a series of four populations related like those shown in Figure <a href="#fig:treemix-no-migration" data-reference-type="ref" data-reference="fig:treemix-no-migration">2</a>. As you can see, this example shows populations that have a simple tree-like relationship. Here’s where the fun starts.</p>
-<figure>
-<img src="treemix-no-migration.png" id="fig:treemix-no-migration" style="width:12cm" alt="" /><figcaption>A purely tree-like relationship among four hypothetical populations. The allele frequencies in each population are represented by <span class="math inline">\(X_i\)</span>. The drift parameter on the <span class="math inline">\(x\)</span>-axis is <span class="math inline">\(t/2N_e\)</span>, i.e., it’s measuring time from the root of the tree to the tips in units of <span class="math inline">\(1/2N_e\)</span>. A part of a figure in <span class="citation" data-cites="Pickrell-Pritchard-2012"></span>.</figcaption>
+<p>Pickrell and Pritchard <span class="citation"
+data-cites="Pickrell-Pritchard-2012"></span> described the most widely
+used approach to estimating admixture graphs. It is implemented in
+<span><code>TreeMix</code></span>. At about the same time Patterson et
+al. <span class="citation" data-cites="Patterson-etal-2012"></span>
+described a related method. I’m going to focus on the
+<span><code>TreeMix</code></span> approach because I am more comfortable
+with the underlying model.<a href="#fn1" class="footnote-ref"
+id="fnref1" role="doc-noteref"><sup>1</sup></a> Unfortunately, if you
+want to use <span><code> TreeMix</code></span>, you’ll have to be
+comfortable with compiling C++ programs from source (or find a friend
+who can help you or who can share a copy).<a href="#fn2"
+class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<p>The basic idea behind <span><code>Treemix</code></span> is not too
+complicated, although it would be a stretch to say that it’s simple. We
+start by assuming that the allele frequencies are changing as a result
+of genetic drift. Results going back to Kimura <span class="citation"
+data-cites="Kimura-1955"></span> tell us that the variance in allele
+frequency is <span class="math display">\[\mbox{Var}(p_t) =
+p_o(1-p_0)\left(1 - e^{-t/2N_e}\right) \quad ,\]</span> where <span
+class="math inline">\(p_t\)</span> is the allele frequency in the
+population at time <span class="math inline">\(t\)</span>, <span
+class="math inline">\(p_o\)</span> is the initial allele frequency,
+<span class="math inline">\(t\)</span> is the number of generations, and
+<span class="math inline">\(N_e\)</span> is the effective population
+size. So long as the effective population size is large enough that
+allele frequency changes are relatively small from generation to
+generation and so long as <span class="math inline">\(p_o\)</span> is
+not “too close” to 0 or 1, then we can approximate the probability
+distribution of allele frequencies at time <span
+class="math inline">\(t\)</span> with a normal distribution: <span
+class="math display">\[\mbox{P}(p_t|p_o,t,N_e) \sim \mbox{N}\left(p_o,
+    p_o(1-p_o)\left(\frac{t}{2N_e}\right)\right) \quad .\]</span> Now
+suppose we have a series of four populations related like those shown in
+Figure <a href="#fig:treemix-no-migration" data-reference-type="ref"
+data-reference="fig:treemix-no-migration">2</a>. As you can see, this
+example shows populations that have a simple tree-like relationship.
+Here’s where the fun starts.</p>
+<figure id="fig:treemix-no-migration">
+<div class="center">
+<img src="treemix-no-migration.png" style="width:12cm" />
+</div>
+<figcaption>A purely tree-like relationship among four hypothetical
+populations. The allele frequencies in each population are represented
+by <span class="math inline">\(X_i\)</span>. The drift parameter on the
+<span class="math inline">\(x\)</span>-axis is <span
+class="math inline">\(t/2N_e\)</span>, i.e., it’s measuring time from
+the root of the tree to the tips in units of <span
+class="math inline">\(1/2N_e\)</span>. A part of a figure in <span
+class="citation"
+data-cites="Pickrell-Pritchard-2012"></span>.</figcaption>
 </figure>
-<p>It’s a well known fact <span class="citation" data-cites="CavalliSforza-Edwards-1967"></span> that the variance in allele frequencies (<span class="math inline">\(X_i\)</span> in the figure) are simply <span class="math display">\[\begin{aligned}
+<p>It’s a well known fact <span class="citation"
+data-cites="CavalliSforza-Edwards-1967"></span> that the variance in
+allele frequencies (<span class="math inline">\(X_i\)</span> in the
+figure) are simply <span class="math display">\[\begin{aligned}
   \mbox{Var}(X_1) &amp;=&amp; (c_2 + c_6)X_A(1-X_A) \\
   \mbox{Var}(X_2) &amp;=&amp; (c_2 + c_5)X_A(1-X_A) \\
   \mbox{Var}(X_3) &amp;=&amp; (c_1 + c_3)X_A(1-X_A) \\
-  \mbox{Var}(X_4) &amp;=&amp; (c_1 + c_4)X_A(1-X_A) \quad ,\end{aligned}\]</span> where <span class="math inline">\(c_i = \frac{t_i}{2N_e^{(i)}}\)</span>, <span class="math inline">\(t_i\)</span> is the time associated with branch <span class="math inline">\(i\)</span> and <span class="math inline">\(N_e^{(i)}\)</span> is the effective size of the population associated with branch <span class="math inline">\(i\)</span>. It’s obvious from looking at the tree that populations 1 and 2 have been evolving independently from populations 3 and 4 from the start, while 1 and 2 have been evolving independently of one another for a shorter period of time. As a result, we expect allele frequencies in pouplations 1 and 2 to be more similar than those in populations 3 and 4. In fact, Pickrell and Pritchard point out that we can write the various covariances down pretty simply too: <span class="math display">\[\begin{aligned}
+  \mbox{Var}(X_4) &amp;=&amp; (c_1 + c_4)X_A(1-X_A) \quad ,
+\end{aligned}\]</span> where <span class="math inline">\(c_i =
+\frac{t_i}{2N_e^{(i)}}\)</span>, <span
+class="math inline">\(t_i\)</span> is the time associated with branch
+<span class="math inline">\(i\)</span> and <span
+class="math inline">\(N_e^{(i)}\)</span> is the effective size of the
+population associated with branch <span
+class="math inline">\(i\)</span>. It’s obvious from looking at the tree
+that populations 1 and 2 have been evolving independently from
+populations 3 and 4 from the start, while 1 and 2 have been evolving
+independently of one another for a shorter period of time. As a result,
+we expect allele frequencies in populations 1 and 2 to be more similar
+than those in populations 3 and 4. In fact, Pickrell and Pritchard point
+out that we can write the various covariances down pretty simply too:
+<span class="math display">\[\begin{aligned}
   \mbox{Cov}(X_1,X_2) &amp;=&amp; c_2X_A(1-X_A) \\
   \mbox{Cov}(X_1,X_3) &amp;=&amp; 0 \\
   \mbox{Cov}(X_1,X_4) &amp;=&amp; 0 \\
   \mbox{Cov}(X_2,X_3) &amp;=&amp; 0 \\
   \mbox{Cov}(X_2,X_4) &amp;=&amp; 0 \\
-  \mbox{Cov}(X_3,X_4) &amp;=&amp; c_1X_A(1-X_A) \quad .\end{aligned}\]</span> As a result, we can write down a multivariate probability distribution that describes all of the allele frequencies simultaneously, given the same caveats as above about the normal distribution. <span class="math display">\[\mbox{P}(\bf p_t|\bf p_0, \bf t, \bf N_e) \sim \mbox{MVN}(\bf p_0,
-  \bf \Sigma) \quad ,\]</span> where boldface refers to vectors, MVN refers to the multivariate normal distribution, and <span class="math inline">\(\bf Sigma\)</span> is the covariance matrix of allele frequencies. Since we can write down that probability distribution, you can probably imagine that it’s possible to estimate the likelihood of our data given a particular tree. To get a maximum likelihood estimate of how our populations are related, assuming there’s no migration, we simply have to compare the likelihoods across all possible trees and choose the one that’s most likely.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
-<p>Now suppose we allow migration from one of our populations into another. The simple example Pickrell and Pritchard provide (Figure <a href="#fig:treemix-figure" data-reference-type="ref" data-reference="fig:treemix-figure">3</a> shows a single migration from the lineage leading to population 2 into population 3, labeling the source population as <span class="math inline">\(Y\)</span> and the destination population as <span class="math inline">\(Z\)</span>. As you can see in Panel D of the figure, the migration event changes the structure of the covariance matrix. Since all the migration event does is to change the covariance matrix, we can once again explore parameter space and find the network that maximizes the likelihood. When we do so, not only do we have estimates for population relationships and effective population sizes but also for the timing and direction of migration events. Estimating admixture is, however, even more challenging than estimating a population phylogeny. The number of alternative configurations explodes rapidly with more than 4-5 populations, making heuristic searches necessary. Molloy et al. <span class="citation" data-cites="Molloy-etal-2021"></span> recently described a new approach that builds on <span><code>TreeMix</code></span> and seems to avoid getting stuck in a local optimum. Since the basic approach is the same and this isn’t a course in computational biology, we won’t discuss it further, but you should investigate it if you use admixture graphs in any of your work.</p>
-<figure>
-<img src="treemix-figure.png" id="fig:treemix-figure" style="width:14cm" alt="" /><figcaption>Illustrating the covariance matrices of admixed and unadmixed populations. From <span class="citation" data-cites="Pickrell-Pritchard-2012"></span>.</figcaption>
+  \mbox{Cov}(X_3,X_4) &amp;=&amp; c_1X_A(1-X_A) \quad .
+\end{aligned}\]</span> As a result, we can write down a multivariate
+probability distribution that describes all of the allele frequencies
+simultaneously, given the same caveats as above about the normal
+distribution. <span class="math display">\[\mbox{P}(\bf p_t|\bf p_0, \bf
+t, \bf N_e) \sim \mbox{MVN}(\bf p_0,
+  \bf \Sigma) \quad ,\]</span> where boldface refers to vectors, MVN
+refers to the multivariate normal distribution, and <span
+class="math inline">\(\bf \Sigma\)</span> is the covariance matrix of
+allele frequencies. Since we can write down that probability
+distribution, you can probably imagine that it’s possible to estimate
+the likelihood of our data given a particular tree. To get a maximum
+likelihood estimate of how our populations are related, assuming there’s
+no migration, we simply have to compare the likelihoods across all
+possible trees and choose the one that’s most likely.<a href="#fn3"
+class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
+<p>Now suppose we allow migration from one of our populations into
+another. The simple example Pickrell and Pritchard provide (Figure <a
+href="#fig:treemix-figure" data-reference-type="ref"
+data-reference="fig:treemix-figure">3</a> shows a single migration from
+the lineage leading to population 2 into population 3, labeling the
+source population as <span class="math inline">\(Y\)</span> and the
+destination population as <span class="math inline">\(Z\)</span>. As you
+can see in Panel D of the figure, the migration event changes the
+structure of the covariance matrix. Since all the migration event does
+is to change the covariance matrix, we can once again explore parameter
+space and find the network that maximizes the likelihood. When we do so,
+not only do we have estimates for population relationships and effective
+population sizes but also for the timing and direction of migration
+events. Estimating admixture is, however, even more challenging than
+estimating a population phylogeny. The number of alternative
+configurations explodes rapidly with more than 4-5 populations, making
+heuristic searches necessary. Molloy et al. <span class="citation"
+data-cites="Molloy-etal-2021"></span> recently described a new approach
+that builds on <span><code>TreeMix</code></span> and seems to avoid
+getting stuck in a local optimum. Since the basic approach is the same
+and this isn’t a course in computational biology, we won’t discuss it
+further, but you should investigate it if you use admixture graphs in
+any of your work.</p>
+<figure id="fig:treemix-figure">
+<div class="center">
+<img src="treemix-figure.png" style="width:14cm" />
+</div>
+<figcaption>Illustrating the covariance matrices of admixed and
+unadmixed populations. From <span class="citation"
+data-cites="Pickrell-Pritchard-2012"></span>.</figcaption>
 </figure>
-<h1 class="unnumbered" id="estimating-dispersal-and-ancestral-geography">Estimating dispersal and ancestral geography</h1>
-<p>As you can see, admixture graphs provide a very flexible approach to understanding the history of populations. But they do have one significant limitation. We have to know ahead of time which indivdiuals belong in which populations, just as we did with <span class="math inline">\(F\)</span>-statistics, and just as with <span><code>STRUCTURE</code></span> gave us a way to look at population structure without pre-assigning individuals to populations, there’s a way of looking at ancestry that uses individuals rather than pre-defined populations <span class="citation" data-cites="Osmond-Coop-2021"></span>. As with admixture graphs, the mathematics lying behind the approach gets pretty hairy, but the basic idea is pretty simple (Figure <a href="#fig:sparg-overview" data-reference-type="ref" data-reference="fig:sparg-overview">4</a>).</p>
-<figure>
-<img src="sparg-overview.png" id="fig:sparg-overview" style="width:14cm" alt="" /><figcaption>Conceptual overview of the process for estimating the spatial position of ancestors (from <span class="citation" data-cites="Osmond-Coop-2021"></span>).</figcaption>
+<h1 class="unnumbered"
+id="estimating-dispersal-and-ancestral-geography">Estimating dispersal
+and ancestral geography</h1>
+<p>As you can see, admixture graphs provide a very flexible approach to
+understanding the history of populations. But they do have one
+significant limitation. We have to know ahead of time which individuals
+belong in which populations, just as we did with <span
+class="math inline">\(F\)</span>-statistics, and just as with
+<span><code>STRUCTURE</code></span> gave us a way to look at population
+structure without pre-assigning individuals to populations, there’s a
+way of looking at ancestry that uses individuals rather than pre-defined
+populations <span class="citation"
+data-cites="Osmond-Coop-2021"></span>. As with admixture graphs, the
+mathematics lying behind the approach gets pretty hairy, but the basic
+idea is pretty simple (Figure <a href="#fig:sparg-overview"
+data-reference-type="ref"
+data-reference="fig:sparg-overview">4</a>).</p>
+<figure id="fig:sparg-overview">
+<div class="center">
+<img src="sparg-overview.png" style="width:14cm" />
+</div>
+<figcaption>Conceptual overview of the process for estimating the
+spatial position of ancestors (from <span class="citation"
+data-cites="Osmond-Coop-2021"></span>).</figcaption>
 </figure>
 <ul>
-<li><p>At any position along a genome, we can construct a phylogeneitc tree showing the genealogical relationship among all chromosomes in the sample at that location.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p></li>
-<li><p>Individuals disperse randomly through space with the distance of an offspring from its mother given by a bivariate normal distribution with a mean of 0 and a covariance matrix <span class="math inline">\(\bf\Sigma\)</span>. In any real sample, glacial migrations, barriers to dispersal, or the opening of new habitat will cause some aspects of the dispersal history not to be well approximated by this model of Brownian motion, so we only use parts of the tree from the first step that are more recent than these events to estimate dispersal parameters.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p></li>
-<li><p>Given the estimates of time to a common ancestor between two individuals, the spatial location of those individuals, and the dispersal rate, we can estimate the spatial location of the ancestor.</p></li>
+<li><p>At any position along a genome, we can construct a phylogenetic
+tree showing the genealogical relationship among all chromosomes in the
+sample at that location.<a href="#fn4" class="footnote-ref" id="fnref4"
+role="doc-noteref"><sup>4</sup></a></p></li>
+<li><p>Individuals disperse randomly through space with the distance of
+an offspring from its mother given by a bivariate normal distribution
+with a mean of 0 and a covariance matrix <span
+class="math inline">\(\bf\Sigma\)</span>. In any real sample, glacial
+migrations, barriers to dispersal, or the opening of new habitat will
+cause some aspects of the dispersal history not to be well approximated
+by this model of Brownian motion, so we only use parts of the tree from
+the first step that are more recent than these events to estimate
+dispersal parameters.<a href="#fn5" class="footnote-ref" id="fnref5"
+role="doc-noteref"><sup>5</sup></a></p></li>
+<li><p>Given the estimates of time to a common ancestor between two
+individuals, the spatial location of those individuals, and the
+dispersal rate, we can estimate the spatial location of the
+ancestor.</p></li>
 </ul>
-<p>This method implicitly assumes that differences are selectively neutral.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> Although we could try this approach with data from only one locus, the results are unlikely to be informative for two reasons. First, there is a lot of uncertainty associated with our estimate of phylogenetic relationships at one locus. Second, because the coalescent history of unlinked loci will differ even though the effective population size and the patterns of migration that affect different loci are the same. But since the patterns of migration <span><em>are</em></span> the same across different loci and since the effective population size <span><em>is</em></span> the same across loci, we can combine information across loci to get better estimates of the dispersal rates. Since we estimate the location of ancestors at every locus, we end up with a distribution of ancestral locations rather than a single estimate. Osmond and Coop also point out that we can define different “epochs” in which to estimate dispersal rates and ancestors. This allows the dispersal rate to vary over time. All of this is available in a Python package, <span><code>sparg</code></span>, which should run on any platfrom with phython3 (<a href="https://github.com/mmosmond/sparg">https://github.com/mmosmond/sparg</a>).</p>
-<h2 class="unnumbered" id="an-example-from-arabidopsis">An example from <span><em>Arabidopsis</em></span></h2>
-<p>Plant geneticists have studied <span><em>Arabidopsis thaliana</em></span> extensively. Alonso-Blanco et al. <span class="citation" data-cites="AlonsoBlanco-etal-2016"></span> reported results derived from sequencing 1135 different wild accessions derived from Eurasia and North Africa. Osmond and Coop used <span><code>sparg</code></span> to explore historical patterns of disperal and the geographical location of ancestors using this data set. They first estimated dispersal rates in both a one-epoch model and in multi-epoch models. As you can see in Figure <a href="#fig:arabidopsis-epochs" data-reference-type="ref" data-reference="fig:arabidopsis-epochs">5</a>), the estimates of dispersal rates are very similar across all of the loci. In addition, the per-generation rate of east-west dispersal (<span class="math inline">\(\sigma^2_{long}\)</span>) is about 10 times higher than north-sourth dispersal (<span class="math inline">\(\sigma^2_{lat}\)</span>), and the correlation between the two rates (<span class="math inline">\(\rho\)</span>) is relatively small. Comparison among the scenarios suggests that the 4-epoch model is the best fit to the data, suggesting that the rate of dispersal in the last 10 generations is substantially greater than it was earlier and that dispersal between 10 and 1000 generations ago is greater than it was more than 1000 generations ago.</p>
-<figure>
-<img src="arabidopsis-epochs.png" id="fig:arabidopsis-epochs" style="width:14cm" alt="" /><figcaption>Estimates of dispersal rates in <span><em>Arabidopsis thaliana</em></span> in both one-epoch (panel A) and multi-epoch (panel B) models (from <span class="citation" data-cites="Osmond-Coop-2021"></span>).</figcaption>
+<p>This method implicitly assumes that differences are selectively
+neutral.<a href="#fn6" class="footnote-ref" id="fnref6"
+role="doc-noteref"><sup>6</sup></a> Although we could try this approach
+with data from only one locus, the results are unlikely to be
+informative for two reasons. First, there is a lot of uncertainty
+associated with our estimate of phylogenetic relationships at one locus.
+Second, because the coalescent history of unlinked loci will differ even
+though the effective population size and the patterns of migration that
+affect different loci are the same. But since the patterns of migration
+<span><em>are</em></span> the same across different loci and since the
+effective population size <span><em>is</em></span> the same across loci,
+we can combine information across loci to get better estimates of the
+dispersal rates. Since we estimate the location of ancestors at every
+locus, we end up with a distribution of ancestral locations rather than
+a single estimate. Osmond and Coop also point out that we can define
+different “epochs” in which to estimate dispersal rates and ancestors.
+This allows the dispersal rate to vary over time. All of this is
+available in a Python package, <span><code>sparg</code></span>, which
+should run on any platform with phython3 (<a
+href="https://github.com/mmosmond/sparg"
+class="uri">https://github.com/mmosmond/sparg</a>).</p>
+<h2 class="unnumbered" id="an-example-from-arabidopsis">An example from
+<span><em>Arabidopsis</em></span></h2>
+<p>Plant geneticists have studied <span><em>Arabidopsis
+thaliana</em></span> extensively. Alonso-Blanco et al. <span
+class="citation" data-cites="AlonsoBlanco-etal-2016"></span> reported
+results derived from sequencing 1135 different wild accessions derived
+from Eurasia and North Africa. Osmond and Coop used
+<span><code>sparg</code></span> to explore historical patterns of
+dispersal and the geographical location of ancestors using this data
+set. They first estimated dispersal rates in both a one-epoch model and
+in multi-epoch models. As you can see in Figure <a
+href="#fig:arabidopsis-epochs" data-reference-type="ref"
+data-reference="fig:arabidopsis-epochs">5</a>, the estimates of
+dispersal rates are very similar across all of the loci. In addition,
+the per-generation rate of east-west dispersal (<span
+class="math inline">\(\sigma^2_{long}\)</span>) is about 10 times higher
+than north-south dispersal (<span
+class="math inline">\(\sigma^2_{lat}\)</span>), and the correlation
+between the two rates (<span class="math inline">\(\rho\)</span>) is
+relatively small. Comparison among the scenarios suggests that the
+4-epoch model is the best fit to the data, suggesting that the rate of
+dispersal in the last 10 generations is substantially greater than it
+was earlier and that dispersal between 10 and 1000 generations ago is
+greater than it was more than 1000 generations ago.</p>
+<figure id="fig:arabidopsis-epochs">
+<div class="center">
+<img src="arabidopsis-epochs.png" style="width:14cm" />
+</div>
+<figcaption>Estimates of dispersal rates in <span><em>Arabidopsis
+thaliana</em></span> in both one-epoch (panel A) and multi-epoch (panel
+B) models (from <span class="citation"
+data-cites="Osmond-Coop-2021"></span>).</figcaption>
 </figure>
-<p>Now that we have a good idea <span><em>when</em></span> dispersal happened, let’s see <span><em>where</em></span> it happened. As you can see in Figure <a href="#fig:arabidopsis-dispersal" data-reference-type="ref" data-reference="fig:arabidopsis-dispersal">6</a>, much of the estimated dispersal over the last 10-100 generations didn’t move individuals very far. In addition, it’s a little hard to see, but if you zoom in on the figure and focus on the purple colors, you’ll notice that most of the lines leading from the dots (current locations) point towards the center of Europe. This pattern is particularly clear in for the 100-generation ago ancestral location of samples from Scandinavia. There are, however, a few individuals that moved very long distances. Individual 9627, for example, seems to have an ancestor 10 generations ago that was more than 3000km to the east of its current location, and its ancestor seems to have been more than 4000km to the east 100 generations ago.</p>
-<figure>
-<img src="arabidopsis-dispersal.png" id="fig:arabidopsis-dispersal" style="width:14cm" alt="" /><figcaption>Estimates of the ancestral location of <span><em>Arabidopsis thaliana</em></span> accessions 10 and 100 generations ago (from <span class="citation" data-cites="Osmond-Coop-2021"></span>).</figcaption>
+<p>Now that we have a good idea <span><em>when</em></span> dispersal
+happened, let’s see <span><em>where</em></span> it happened. As you can
+see in Figure <a href="#fig:arabidopsis-dispersal"
+data-reference-type="ref"
+data-reference="fig:arabidopsis-dispersal">6</a>, much of the estimated
+dispersal over the last 10-100 generations didn’t move individuals very
+far. In addition, it’s a little hard to see, but if you zoom in on the
+figure and focus on the purple colors, you’ll notice that most of the
+lines leading from the dots (current locations) point towards the center
+of Europe. This pattern is particularly clear in for the 100-generation
+ago ancestral location of samples from Scandinavia. There are, however,
+a few individuals that moved very long distances. Individual 9627, for
+example, seems to have an ancestor 10 generations ago that was more than
+3000km to the east of its current location, and its ancestor seems to
+have been more than 4000km to the east 100 generations ago.</p>
+<figure id="fig:arabidopsis-dispersal">
+<div class="center">
+<img src="arabidopsis-dispersal.png" style="width:14cm" />
+</div>
+<figcaption>Estimates of the ancestral location of <span><em>Arabidopsis
+thaliana</em></span> accessions 10 and 100 generations ago (from <span
+class="citation" data-cites="Osmond-Coop-2021"></span>).</figcaption>
 </figure>
-<h1 class="unnumbered" id="creative-commons-license">Creative Commons License</h1>
-<p>These notes are licensed under the Creative Commons Attribution License. To view a copy of this license, visit https://creativecommons.org/licenses/by/4.0/ or send a letter to Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305, USA.</p>
-<section class="footnotes" role="doc-endnotes">
+<h1 class="unnumbered" id="creative-commons-license">Creative Commons
+License</h1>
+<p>These notes are licensed under the Creative Commons Attribution
+License. To view a copy of this license, visit or send a letter to
+Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305,
+USA.</p>
+<aside id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1" role="doc-endnote"><p>If you’re curious about why I’m more comfortable with the Pickrell and Pritchard approach, feel free to ask.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2" role="doc-endnote"><p>The most recent version of the <span><code>TreeMix</code></span> manual notes that “TreeMix should run on any Unix or Unix-like (e.g., Linux or Mac OS X) system. It may be more difficult to get it compiled under Windows. Notice that regardless of operating system, you’ll also need to install the GNU Scientific Library and the Boost Graph Library.”<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3" role="doc-endnote"><p>If you know anything about estimating phylogenies, you know there is tremendous complexity buried in that “simply have to compare.” Also notice that if we can get a maximum likelihood estimate, we can also get a full Bayesian posterior “simply” by providing the appropriate priors.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4" role="doc-endnote"><p>Notice that I wrote “chromosomes”, not individuals, because the different allele copies within an individual may have different genealogical histories.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5" role="doc-endnote"><p>Notice that while this approach means that the Brownian motion model for disperal is a better fit to the data, it also means that we can’t use this approach to study events that involve ancient dispersal, like early modern human movemeents out of Africa.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6" role="doc-endnote"><p>Remember: This doesn’t mean that there aren’t any fitness differences, only that the product of the selection coefficient associated with any of those differences and the population size is less than one, implying that the evolutionary dynamics are rougly similar to those of a purely neutral locus.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>If you’re curious about why I’m more comfortable with
+the Pickrell and Pritchard approach, feel free to ask.<a href="#fnref1"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>The most recent version of the
+<span><code>TreeMix</code></span> manual notes that “TreeMix should run
+on any Unix or Unix-like (e.g., Linux or Mac OS X) system. It may be
+more difficult to get it compiled under Windows. Notice that regardless
+of operating system, you’ll also need to install the GNU Scientific
+Library and the Boost Graph Library.”<a href="#fnref2"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>If you know anything about estimating phylogenies, you
+know there is tremendous complexity buried in that “simply have to
+compare.” Also notice that if we can get a maximum likelihood estimate,
+we can also get a full Bayesian posterior “simply” by providing the
+appropriate priors.<a href="#fnref3" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Notice that I wrote “chromosomes”, not individuals,
+because the different allele copies within an individual may have
+different genealogical histories.<a href="#fnref4" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>Notice that while this approach means that the Brownian
+motion model for dispersal is a better fit to the data, it also means
+that we can’t use this approach to study events that involve ancient
+dispersal, like early modern human movements out of Africa.<a
+href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>Remember: This doesn’t mean that there aren’t any
+fitness differences, only that the product of the selection coefficient
+associated with any of those differences and the population size is less
+than one, implying that the evolutionary dynamics are rougly similar to
+those of a purely neutral locus.<a href="#fnref6" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
 </ol>
-</section>
+</aside>
 </body>
 </html>

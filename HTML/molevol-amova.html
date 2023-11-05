@@ -8,13 +8,24 @@
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
   </style>
   <link rel="stylesheet" href="pandoc.css" />
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
@@ -25,91 +36,346 @@
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
-<li><a href="#introduction">Introduction</a></li>
-<li><a href="#analysis-of-molecular-variance-amova">Analysis of molecular variance (AMOVA)</a></li>
-<li><a href="#an-amova-example">An AMOVA example</a></li>
-<li><a href="#an-extension">An extension</a></li>
-<li><a href="#creative-commons-license">Creative Commons License</a></li>
+<li><a href="#introduction" id="toc-introduction">Introduction</a></li>
+<li><a href="#analysis-of-molecular-variance-amova"
+id="toc-analysis-of-molecular-variance-amova">Analysis of molecular
+variance (AMOVA)</a></li>
+<li><a href="#an-amova-example" id="toc-an-amova-example">An AMOVA
+example</a></li>
+<li><a href="#an-extension" id="toc-an-extension">An extension</a></li>
+<li><a href="#creative-commons-license"
+id="toc-creative-commons-license">Creative Commons License</a></li>
 </ul>
 </nav>
 <h1 class="unnumbered" id="introduction">Introduction</h1>
-<p>We’ve already encountered <span class="math inline">\(\pi\)</span>, the nucleotide diversity in a population, namely <span class="math display">\[\pi = \sum_{ij} x_ix_j \delta_{ij} \quad ,\]</span> where <span class="math inline">\(x_i\)</span> is the frequency of the <span class="math inline">\(i\)</span>th haplotype and <span class="math inline">\(\delta_{ij}\)</span> is the fraction of nucleotides at which haplotypes <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> differ.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> It shouldn’t come to any surprise to you that just as there is interest in partitioning diversity within and among populations when we’re dealing with simple allelic variation, i.e., Wright’s <span class="math inline">\(F\)</span>-statistics, there is interest in partitioning diversity within and among populations when we’re dealing with nucleotide sequence or other molecular data. The approach I’m going to describe is known as Analysis of Molecular VAriance (AMOVA) <span class="citation" data-cites="Excoffier-etal92"></span>. We’ll see later that AMOVA can be used very generally to partition variation when there is a distance we can use to describe how different alleles are from one another, but for now, let’s stick with nucleotide sequence data and think of <span class="math inline">\(\delta_{ij}\)</span> simply as the fraction of nucleotide sites at which two sequences differ.</p>
-<h1 class="unnumbered" id="analysis-of-molecular-variance-amova">Analysis of molecular variance (AMOVA)</h1>
-<p>The notation now becomes just a little bit more complicated. We will now use <span class="math inline">\(x_{ik}\)</span> to refer to the frequency of the <span class="math inline">\(i\)</span>th haplotype in the <span class="math inline">\(k\)</span>th population. Then <span class="math display">\[x_{i\cdot} = \frac{1}{K}\sum_{k=1}^K x_{ik}\]</span> is the mean frequency of haplotype <span class="math inline">\(i\)</span> across all populations, where <span class="math inline">\(K\)</span> is the number of populations. We can now define <span class="math display">\[\begin{aligned}
+<p>We’ve already encountered <span class="math inline">\(\pi\)</span>,
+the nucleotide diversity in a population, namely <span
+class="math display">\[\pi = \sum_{ij} x_ix_j \delta_{ij} \quad
+,\]</span> where <span class="math inline">\(x_i\)</span> is the
+frequency of the <span class="math inline">\(i\)</span>th haplotype and
+<span class="math inline">\(\delta_{ij}\)</span> is the fraction of
+nucleotides at which haplotypes <span class="math inline">\(i\)</span>
+and <span class="math inline">\(j\)</span> differ.<a href="#fn1"
+class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> It
+shouldn’t come to any surprise to you that just as there is interest in
+partitioning diversity within and among populations when we’re dealing
+with simple allelic variation, i.e., Wright’s <span
+class="math inline">\(F\)</span>-statistics, there is interest in
+partitioning diversity within and among populations when we’re dealing
+with nucleotide sequence or other molecular data. The approach I’m going
+to describe is known as <span><strong>A</strong></span>nalysis of
+<span><strong>M</strong></span>olecular <span>
+<strong>VA</strong></span>riance (AMOVA) <span class="citation"
+data-cites="Excoffier-etal92"></span>. We’ll see later that AMOVA can be
+used very generally to partition variation when there is a distance we
+can use to describe how different alleles are from one another, but for
+now, let’s stick with nucleotide sequence data and think of <span
+class="math inline">\(\delta_{ij}\)</span> simply as the fraction of
+nucleotide sites at which two sequences differ.</p>
+<h1 class="unnumbered"
+id="analysis-of-molecular-variance-amova">Analysis of molecular variance
+(AMOVA)</h1>
+<p>The notation now becomes just a little bit more complicated. We will
+now use <span class="math inline">\(x_{ik}\)</span> to refer to the
+frequency of the <span class="math inline">\(i\)</span>th haplotype in
+the <span class="math inline">\(k\)</span>th population. Then <span
+class="math display">\[x_{i\cdot} = \frac{1}{K}\sum_{k=1}^K
+x_{ik}\]</span> is the mean frequency of haplotype <span
+class="math inline">\(i\)</span> across all populations, where <span
+class="math inline">\(K\)</span> is the number of populations. We can
+now define <span class="math display">\[\begin{aligned}
 \pi_t &amp;=&amp; \sum_{ij} x_{i\cdot}x_{j\cdot} \delta_{ij} \\
-\pi_s &amp;=&amp; \frac{1}{K}\sum_{k=1}^K\sum_{ij} x_{ik}x_{jk}\delta_{ij} \quad ,\end{aligned}\]</span> where <span class="math inline">\(\pi_t\)</span> is the nucleotide sequence diversity across the entire set of populations and <span class="math inline">\(\pi_s\)</span> is the average nucleotide sequence diversity within populations. Then we can define <span class="math display">\[\Phi_{st} = \frac{\pi_t - \pi_s}{\pi_t} \quad ,
-\label{eq:phi-st}\]</span> which is the direct analog of Wright’s <span class="math inline">\(F_{st}\)</span> for nucleotide sequence diversity. Why? Well, that requires you to remember stuff we covered about two months ago.</p>
-<p>To be a bit more specific, refer back to the notes on <span class="math inline">\(F_{ST}\)</span>.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. When you do, you’ll see that we defined <span class="math display">\[F_{IT} = 1 - \frac{H_i}{H_t} \quad ,\]</span> where <span class="math inline">\(H_i\)</span> is the average heterozygosity in individuals and <span class="math inline">\(H_t\)</span> is the expected panmictic heterozygosity. Defining <span class="math inline">\(H_s\)</span> as the average panmictic heterozygosity within populations, we then observed that <span class="math display">\[\begin{aligned}
+\pi_s &amp;=&amp; \frac{1}{K}\sum_{k=1}^K\sum_{ij}
+x_{ik}x_{jk}\delta_{ij} \quad ,
+\end{aligned}\]</span> where <span class="math inline">\(\pi_t\)</span>
+is the nucleotide sequence diversity across the entire set of
+populations and <span class="math inline">\(\pi_s\)</span> is the
+average nucleotide sequence diversity within populations. Then we can
+define <span class="math display">\[\Phi_{st} = \frac{\pi_t -
+\pi_s}{\pi_t} \quad ,
+\label{eq:phi-st}\]</span> which is the direct analog of Wright’s <span
+class="math inline">\(F_{st}\)</span> for nucleotide sequence diversity.
+Why? Well, that requires you to remember stuff we covered about two
+months ago.</p>
+<p>To be a bit more specific, refer back to the notes on <span
+class="math inline">\(F_{ST}\)</span>.<a href="#fn2"
+class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.
+When you do, you’ll see that we defined <span
+class="math display">\[F_{IT} = 1 - \frac{H_i}{H_t} \quad ,\]</span>
+where <span class="math inline">\(H_i\)</span> is the average
+heterozygosity in individuals and <span
+class="math inline">\(H_t\)</span> is the expected panmictic
+heterozygosity. Defining <span class="math inline">\(H_s\)</span> as the
+average panmictic heterozygosity within populations, we then observed
+that <span class="math display">\[\begin{aligned}
 1 - F_{IT} &amp;=&amp; \frac{H_i}{H_t} \\
            &amp;=&amp; \frac{H_i}{H_s}\frac{H_s}{H_t} \\
-           &amp;=&amp; (1 - F_{IS})(1 - F_{ST}) \quad .\end{aligned}\]</span> We can rearrange that equation a bit to solve for <span class="math inline">\(F_{ST}\)</span> in terms of <span class="math inline">\(F_{IT}\)</span> and <span class="math inline">\(F_{IS}\)</span>.</p>
+           &amp;=&amp; (1 - F_{IS})(1 - F_{ST}) \quad .
+\end{aligned}\]</span> We can rearrange that equation a bit to solve for
+<span class="math inline">\(F_{ST}\)</span> in terms of <span
+class="math inline">\(F_{IT}\)</span> and <span
+class="math inline">\(F_{IS}\)</span>.</p>
 <p><span class="math display">\[\begin{aligned}
 1-F_{ST} &amp;=&amp; \frac{1-F_{IT}}{1-F_{IS}} \\
 F_{ST} &amp;=&amp;
 \frac{\left(1-F_{IS}\right)-\left(1-F_{IT}\right)}{1-F_{IS}} \\
-&amp;=&amp; \frac{\left(H_i/H_s\right) - \left(H_i/H_t\right)}{H_i/H_s} \\
-&amp;=&amp; \frac{\left(1/H_S\right) - \left(1/H_t\right)}{1/H_s} \\
+&amp;=&amp; \frac{\left(H_i/H_s\right) - \left(H_i/H_t\right)}{H_i/H_s}
+\\
+&amp;=&amp; \frac{\left(1/H_s\right) - \left(1/H_t\right)}{1/H_s} \\
 &amp;=&amp; 1 - \frac{1/H_t}{1/H_S} \\  
-&amp;=&amp; 1 - \frac{H_s}{H_t} \quad .\end{aligned}\]</span> In short, another way to think about <span class="math inline">\(F_{ST}\)</span> is <span class="math display">\[F_{ST} = \frac{H_t - H_s}{H_t} \quad .
-\label{eq:f-st}\]</span> Now if you compare equation (<a href="#eq:phi-st" data-reference-type="ref" data-reference="eq:phi-st">[eq:phi-st]</a>) and equation (<a href="#eq:f-st" data-reference-type="ref" data-reference="eq:f-st">[eq:f-st]</a>), you’ll see the analogy.</p>
-<p>So far I’ve motivated this approach by thinking about <span class="math inline">\(\delta_{ij}\)</span> as the fraction of sites at which two haplotypes differ and <span class="math inline">\(\pi_s\)</span> and <span class="math inline">\(\pi_t\)</span> as estimates of nucleotide diversity. But nothing in the algebra leading to equation (<a href="#eq:phi-st" data-reference-type="ref" data-reference="eq:phi-st">[eq:phi-st]</a>) requires that assumption. Excoffier et al. <span class="citation" data-cites="Excoffier-etal92"></span> pointed out that other types of molecular data can easily be fit into this framework. We simply need an appropriate measure of the “distance” between different haplotypes or alleles. Even with nucleotide sequences the appropriate <span class="math inline">\(\delta_{ij}\)</span> may reflect something about the mutational pathway likely to connect sequences rather than the raw number of differences between them. For example, the distance might be a Jukes-Cantor distance or a more general distance measure that accounts for more of the properties we know are associated with nucleotide substitution. The idea is illustrated in Figure <a href="#fig:amova-procedure" data-reference-type="ref" data-reference="fig:amova-procedure">1</a>.</p>
-<p>Notice that when we’re partitioning diversity with AMOVA, we’re using the word “diversity” in a different sense than we did with <span class="math inline">\(F\)</span>-statistics. With <span class="math inline">\(F\)</span>-statistics we were thinking about diversity solely in terms of allele frequency differences. With AMOVA we’re thinking about diversity in terms of a combination of haplotype frequency differences <span><em>and</em></span> a measure of how differenthow distant those haplotypes are from one another.</p>
-<p>Once we have <span class="math inline">\(\delta_{ij}\)</span> for all pairs of haplotypes or alleles in our sample, we can use the ideas lying behind equation (<a href="#eq:phi-st" data-reference-type="ref" data-reference="eq:phi-st">[eq:phi-st]</a>) to partition diversitythe average distance between randomly chosen haplotypes or allelesinto within and among population components.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> This procedure for partitioning diversity in molecular markers is referred to as an analysis of molecular variance or AMOVA (by analogy with the ubiquitous statistical procedure analysis of variance, ANOVA). Like Wright’s <span class="math inline">\(F\)</span>-statistics, the analysis can include several levels in the hierarchy.</p>
-<figure>
-<img src="amova-procedure.png" id="fig:amova-procedure" alt="" /><figcaption>Converting raw differences in sequence (or presence and absence of restriction sites) into a minimum spanning tree and a mutational measure of distance for an analysis of molecular variance (from <span class="citation" data-cites="Excoffier-etal92"></span>).</figcaption>
+&amp;=&amp; 1 - \frac{H_s}{H_t} \quad .
+\end{aligned}\]</span> In short, another way to think about <span
+class="math inline">\(F_{ST}\)</span> is <span
+class="math display">\[F_{ST} = \frac{H_t - H_s}{H_t} \quad .
+\label{eq:f-st}\]</span> Now if you compare equation (<a
+href="#eq:phi-st" data-reference-type="ref"
+data-reference="eq:phi-st">[eq:phi-st]</a>) and equation (<a
+href="#eq:f-st" data-reference-type="ref"
+data-reference="eq:f-st">[eq:f-st]</a>), you’ll see the analogy.</p>
+<p>So far I’ve motivated this approach by thinking about <span
+class="math inline">\(\delta_{ij}\)</span> as the fraction of sites at
+which two haplotypes differ and <span
+class="math inline">\(\pi_s\)</span> and <span
+class="math inline">\(\pi_t\)</span> as estimates of nucleotide
+diversity. But nothing in the algebra leading to equation (<a
+href="#eq:phi-st" data-reference-type="ref"
+data-reference="eq:phi-st">[eq:phi-st]</a>) requires that assumption.
+Excoffier et al. <span class="citation"
+data-cites="Excoffier-etal92"></span> pointed out that other types of
+molecular data can easily be fit into this framework. We simply need an
+appropriate measure of the “distance” between different haplotypes or
+alleles. Even with nucleotide sequences the appropriate <span
+class="math inline">\(\delta_{ij}\)</span> may reflect something about
+the mutational pathway likely to connect sequences rather than the raw
+number of differences between them. For example, the distance might be a
+Jukes-Cantor distance or a more general distance measure that accounts
+for more of the properties we know are associated with nucleotide
+substitution. The idea is illustrated in Figure <a
+href="#fig:amova-procedure" data-reference-type="ref"
+data-reference="fig:amova-procedure">1</a>.</p>
+<p>Notice that when we’re partitioning diversity with AMOVA, we’re using
+the word “diversity” in a different sense than we did with <span
+class="math inline">\(F\)</span>-statistics. With <span
+class="math inline">\(F\)</span>-statistics we were thinking about
+diversity solely in terms of allele frequency differences. With AMOVA
+we’re thinking about diversity in terms of a combination of haplotype
+frequency differences <span><em>and</em></span> a measure of how
+differenthow distant those haplotypes are from one another.</p>
+<p>Once we have <span class="math inline">\(\delta_{ij}\)</span> for all
+pairs of haplotypes or alleles in our sample, we can use the ideas lying
+behind equation (<a href="#eq:phi-st" data-reference-type="ref"
+data-reference="eq:phi-st">[eq:phi-st]</a>) to partition diversitythe
+average distance between randomly chosen haplotypes or allelesinto
+within and among population components.<a href="#fn3"
+class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>
+This procedure for partitioning diversity in molecular markers is
+referred to as an analysis of molecular variance or AMOVA (by analogy
+with the ubiquitous statistical procedure analysis of variance, ANOVA).
+Like Wright’s <span class="math inline">\(F\)</span>-statistics, the
+analysis can include several levels in the hierarchy.</p>
+<figure id="fig:amova-procedure">
+<div class="center">
+<img src="amova-procedure.png" />
+</div>
+<figcaption>Converting raw differences in sequence (or presence and
+absence of restriction sites) into a minimum spanning tree and a
+mutational measure of distance for an analysis of molecular
+variance (from <span class="citation"
+data-cites="Excoffier-etal92"></span>).</figcaption>
 </figure>
 <h1 class="unnumbered" id="an-amova-example">An AMOVA example</h1>
-<p>Excoffier et al. <span class="citation" data-cites="Excoffier-etal92"></span> illustrate the approach by presenting an analysis of restriction haplotypes in human mtDNA. They analyze a sample of 672 mitochondrial genomes representing two populations in each of five regional groups (Figure <a href="#fig:amova-sample-locations" data-reference-type="ref" data-reference="fig:amova-sample-locations">2</a>). They identified 56 haplotypes in that sample. A minimum spanning tree illustrating the relationships and the relative frequency of each haplotype is presented in Figure <a href="#fig:amova-haplotypes" data-reference-type="ref" data-reference="fig:amova-haplotypes">3</a>.</p>
-<figure>
-<img src="amova-sample-locations.png" id="fig:amova-sample-locations" alt="" /><figcaption>Locations of human mtDNA samples used in the example analysis (from <span class="citation" data-cites="Excoffier-etal92"></span>).</figcaption>
+<p>Excoffier et al. <span class="citation"
+data-cites="Excoffier-etal92"></span> illustrate the approach by
+presenting an analysis of restriction haplotypes in human mtDNA. They
+analyze a sample of 672 mitochondrial genomes representing two
+populations in each of five regional groups (Figure <a
+href="#fig:amova-sample-locations" data-reference-type="ref"
+data-reference="fig:amova-sample-locations">2</a>). They identified 56
+haplotypes in that sample. A minimum spanning tree illustrating the
+relationships and the relative frequency of each haplotype is presented
+in Figure <a href="#fig:amova-haplotypes" data-reference-type="ref"
+data-reference="fig:amova-haplotypes">3</a>.</p>
+<figure id="fig:amova-sample-locations">
+<div class="center">
+<img src="amova-sample-locations.png" />
+</div>
+<figcaption>Locations of human mtDNA samples used in the example
+analysis (from <span class="citation"
+data-cites="Excoffier-etal92"></span>).</figcaption>
 </figure>
-<figure>
-<img src="amova-haplotypes.png" id="fig:amova-haplotypes" alt="" /><figcaption>Minimum spanning network of human mtDNA samples in the example. The size of each circle is proportional to its frequency (from <span class="citation" data-cites="Excoffier-etal92"></span>).</figcaption>
+<figure id="fig:amova-haplotypes">
+<div class="center">
+<img src="amova-haplotypes.png" />
+</div>
+<figcaption>Minimum spanning network of human mtDNA samples in the
+example. The size of each circle is proportional to its
+frequency (from <span class="citation"
+data-cites="Excoffier-etal92"></span>).</figcaption>
 </figure>
-<p>It’s apparent from Figure <a href="#fig:amova-haplotypes" data-reference-type="ref" data-reference="fig:amova-haplotypes">3</a> that haplotype 1 is very common. In fact, it is present in substantial frequency in every sampled population. An AMOVA using the minimum spanning network in Figure <a href="#fig:amova-haplotypes" data-reference-type="ref" data-reference="fig:amova-haplotypes">3</a> to measure distance produces the results shown in Table <a href="#table:amova-results" data-reference-type="ref" data-reference="table:amova-results">1</a>. Notice that there is relatively little differentiation among populations within the same geographical region (<span class="math inline">\(\Phi_{SC} = 0.044\)</span>). There is, however, substantial differentiation among regions (<span class="math inline">\(\Phi_{CT} = 0.220\)</span>). In fact, differences among populations in different regions is responsible for nearly all of the differences among populations (<span class="math inline">\(\Phi_{ST} = 0.246\)</span>).</p>
-<p>Remembering that AMOVA partitions a combination of haplotype frequency differences and haplotye differences, the interpretation of the <span class="math inline">\(\Phi\)</span>-statistics is a little different from the interpretation of <span class="math inline">\(F\)</span>-statistics. When we say that there is relatively little differentiation among populations within regions and that differences among populations are responsible for most of the among population differences, we mean that the evolutionary distance<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> between any two haplotypes from populations within the same region is relatively small while the evolutionary distance between haplotypes from different regions is relatively large.</p>
-<p>Notice also that <span class="math inline">\(\Phi\)</span>-statistics follow the same rules as Wright’s <span class="math inline">\(F\)</span>-statistics, namely <span class="math display">\[\begin{aligned}
+<p>It’s apparent from Figure <a href="#fig:amova-haplotypes"
+data-reference-type="ref" data-reference="fig:amova-haplotypes">3</a>
+that haplotype 1 is very common. In fact, it is present in substantial
+frequency in every sampled population. An AMOVA using the minimum
+spanning network in Figure <a href="#fig:amova-haplotypes"
+data-reference-type="ref" data-reference="fig:amova-haplotypes">3</a> to
+measure distance produces the results shown in Table <a
+href="#table:amova-results" data-reference-type="ref"
+data-reference="table:amova-results">1</a>. Notice that there is
+relatively little differentiation among populations within the same
+geographical region (<span class="math inline">\(\Phi_{SC} =
+0.044\)</span>). There is, however, substantial differentiation among
+regions (<span class="math inline">\(\Phi_{CT} = 0.220\)</span>). In
+fact, differences among populations in different regions is responsible
+for nearly all of the differences among populations (<span
+class="math inline">\(\Phi_{ST} = 0.246\)</span>).</p>
+<p>Remembering that AMOVA partitions a combination of haplotype
+frequency differences and haplotype differences, the interpretation of
+the <span class="math inline">\(\Phi\)</span>-statistics is a little
+different from the interpretation of <span
+class="math inline">\(F\)</span>-statistics. When we say that there is
+relatively little differentiation among populations within regions and
+that differences among populations are responsible for most of the among
+population differences, we mean that the evolutionary distance<a
+href="#fn4" class="footnote-ref" id="fnref4"
+role="doc-noteref"><sup>4</sup></a> between any two haplotypes from
+populations within the same region is relatively small while the
+evolutionary distance between haplotypes from different regions is
+relatively large. And by “evolutionary distance” we mean both the
+distance between haplotypes reflected in <span
+class="math inline">\(\delta_{ij}\)</span> and the distance due to the
+extra time it takes haplotypes from different populations to trace their
+ancestry back to the same population.</p>
+<p>Notice also that <span class="math inline">\(\Phi\)</span>-statistics
+follow the same rules as Wright’s <span
+class="math inline">\(F\)</span>-statistics, namely <span
+class="math display">\[\begin{aligned}
 1 - \Phi_{ST} &amp;=&amp; (1 - \Phi_{SC})(1 - \Phi_{CT}) \\
-0.754 &amp;=&amp; (0.956)(0.78) \quad ,\end{aligned}\]</span> within the bounds of rounding error.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></p>
+0.754 &amp;=&amp; (0.956)(0.78) \quad ,
+\end{aligned}\]</span> within the bounds of rounding error.<a
+href="#fn5" class="footnote-ref" id="fnref5"
+role="doc-noteref"><sup>5</sup></a></p>
+<div class="center">
 <div id="table:amova-results">
 <table>
-<caption>AMOVA results for the human mtDNA sample (from <span class="citation" data-cites="Excoffier-etal92"></span>).</caption>
+<caption>AMOVA results for the human mtDNA sample (from <span
+class="citation" data-cites="Excoffier-etal92"></span>).</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Component of differentiation</th>
-<th style="text-align: center;"><span class="math inline">\(\Phi\)</span>-statistics</th>
+<th style="text-align: center;"><span
+class="math inline">\(\Phi\)</span>-statistics</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Among regions</td>
-<td style="text-align: center;"><span class="math inline">\(\Phi_{CT} = 0.220\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\Phi_{CT} =
+0.220\)</span></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Among populations within regions</td>
-<td style="text-align: center;"><span class="math inline">\(\Phi_{SC} = 0.044\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\Phi_{SC} =
+0.044\)</span></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Among all populations</td>
-<td style="text-align: center;"><span class="math inline">\(\Phi_{ST} = 0.246\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\Phi_{ST} =
+0.246\)</span></td>
 </tr>
 </tbody>
 </table>
 </div>
+</div>
 <h1 class="unnumbered" id="an-extension">An extension</h1>
-<p>As you may recall,<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> Slatkin <span class="citation" data-cites="Slatkin91-coalescence"></span> pointed out that there is a relationship between coalescence time and <span class="math inline">\(F_{st}\)</span>. Namely, if mutation is rare then <span class="math display">\[F_{ST} \approx \frac{\bar t - \bar t_0}{\bar t} \quad ,\]</span> where <span class="math inline">\(\bar t\)</span> is the average time to coalescence for two genes drawn at random without respect to population and <span class="math inline">\(\bar t_0\)</span> is the average time to coalescence for two genes drawn at random from the same populations. Results in <span class="citation" data-cites="Holsinger-MasonGamer96"></span> show that when <span class="math inline">\(\delta_{ij}\)</span> is linearly proportional to the time since two sequences have diverged, <span class="math inline">\(\Phi_{ST}\)</span> is a good estimator of <span class="math inline">\(F_{ST}\)</span> when <span class="math inline">\(F_{ST}\)</span> is thought of as a measure of the relative excess of coalescence time resulting from dividing a species into several population. This observation suggests that the combination of haplotype frequency differences and evolutionary distances among haplotypes may provide insight into the evolutionary relationships among populations of the same species.</p>
-<h1 class="unnumbered" id="creative-commons-license">Creative Commons License</h1>
-<p>These notes are licensed under the Creative Commons Attribution License. To view a copy of this license, visit https://creativecommons.org/licenses/by/4.0/ or send a letter to Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305, USA.</p>
-<section class="footnotes" role="doc-endnotes">
+<p>When we were discussing the coalescent in structured populations, you
+may recall that I pointed out that there is a relationship between <span
+class="math inline">\(F_{ST}\)</span> and coalescent times.<a
+href="#fn6" class="footnote-ref" id="fnref6"
+role="doc-noteref"><sup>6</sup></a> Specifically, Slatkin <span
+class="citation" data-cites="Slatkin91-coalescence"></span> pointed out
+that if mutation is rare then <span class="math display">\[F_{ST}
+\approx \frac{\bar t - \bar t_0}{\bar t} \quad ,\]</span> where <span
+class="math inline">\(\bar t\)</span> is the average time to coalescence
+for two genes drawn at random without respect to population and <span
+class="math inline">\(\bar t_0\)</span> is the average time to
+coalescence for two genes drawn at random from the same populations.
+Results in <span class="citation"
+data-cites="Holsinger-MasonGamer96"></span> show that when <span
+class="math inline">\(\delta_{ij}\)</span> is linearly proportional to
+the time since two sequences have diverged, <span
+class="math inline">\(\Phi_{ST}\)</span> is a good estimator of <span
+class="math inline">\(F_{ST}\)</span> when <span
+class="math inline">\(F_{ST}\)</span> is thought of as a measure of the
+relative excess of coalescence time resulting from dividing a species
+into several population. In other words if <span
+class="math inline">\(\delta_{ij}\)</span> is a good measure of the
+evolutionary distance between sequences in the sense that it is directly
+proportional to the time since the sequences diverged, then the
+combination of haplotype frequency differences and evolutionary
+distances among haplotypes may provide insight into the evolutionary
+relationships among populations of the same species. For yet another way
+of saying it, if <span class="math inline">\(\delta_{ij}\)</span> is
+proportion to divergence time, then <span
+class="math inline">\(\phi_{ST}\)</span> tells us how much longer we
+have to wait for haplotypes to coalesce as a result of the population
+being subdivided.</p>
+<h1 class="unnumbered" id="creative-commons-license">Creative Commons
+License</h1>
+<p>These notes are licensed under the Creative Commons Attribution
+License. To view a copy of this license, visit or send a letter to
+Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305,
+USA.</p>
+<aside id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1" role="doc-endnote"><p>When I introduced nucleotide diversity before, I defined <span class="math inline">\(\delta_{ij}\)</span> as the <span><em>number</em></span> of nucleotides that differ between haplotypes <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>. It’s a little easier for what follows if we think of it as the <span><em>fraction</em></span> of nucleotides at which they differ instead. It’s really easy to convert between the two. If <span class="math inline">\(\delta^*{ij}\)</span> is the <span><em>number</em></span> of nucleotides that differ between haplotypes <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> and <span class="math inline">\(N\)</span> is the length of the haplotype sequence, then <span class="math inline">\(\delta_{ij} = \delta^*{ij}/N\)</span>. Of course, if we wanted to get fancy we could use a Bayesian approach to estimate <span class="math inline">\(\delta_{ij}\)</span>, but we’ll avoid that complication in what follows.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2" role="doc-endnote"><p>You can find the online version here, if you don’t have them handy: <a href="http://darwin.eeb.uconn.edu/eeb348-notes/genetic-structure.pdf">http://darwin.eeb.uconn.edu/eeb348-notes/genetic-structure.pdf</a>.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3" role="doc-endnote"><p>As with <span class="math inline">\(F\)</span>-statistics, the actual estimation procedure is more complicated than I describe here. Standard approaches to AMOVA use method of moments calculations analogous to those introduced by Weir and Cockerham for <span class="math inline">\(F\)</span>-statistics <span class="citation" data-cites="WeirCockerham84"></span>. Bayesian approaches are possible, but they are not yet widely available (meaning, in part, that I know how to do it, but I haven’t written the necessary software yet). Gompert et al. <span class="citation" data-cites="Gompert-etal-2010"></span> describe one approach for Bayesian AMOVA from pooled DNA sequences obtained from high-throughput sequencing.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4" role="doc-endnote"><p>Measured on the minimum spanning tree.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5" role="doc-endnote"><p>There wouldn’t be any rounding error if we had access to the raw data.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6" role="doc-endnote"><p>Look back at our discussion of the coalescent (<a href="http://darwin.eeb.uconn.edu/eeb348-notes/coalescent.pdf">http://darwin.eeb.uconn.edu/eeb348-notes/coalescent.pdf</a>) for the details.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>When I introduced nucleotide diversity before, I defined
+<span class="math inline">\(\delta_{ij}\)</span> as the
+<span><em>number</em></span> of nucleotides that differ between
+haplotypes <span class="math inline">\(i\)</span> and <span
+class="math inline">\(j\)</span>. It’s a little easier for what follows
+if we think of it as the <span><em>fraction</em></span> of nucleotides
+at which they differ instead. It’s really easy to convert between them.
+If <span class="math inline">\(\delta^*_{ij}\)</span> is the
+<span><em>number</em></span> of nucleotides that differ between
+haplotypes <span class="math inline">\(i\)</span> and <span
+class="math inline">\(j\)</span>, and <span
+class="math inline">\(N\)</span> is the length of the haplotypes, then
+<span class="math inline">\(\delta_{ij} = \delta^*_{ij}/N\)</span>. Of
+course, if we wanted to get fancy, we could use a Bayesian approach to
+estimate <span class="math inline">\(\delta_{ij}\)</span>, but we’ll
+avoid that complication in what follows. Ask me about it if you’re
+interested.<a href="#fnref1" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>You can find the online version at <a
+href="http://darwin.eeb.uconn.edu/eeb348-notes/genetic-structure.pdf"
+class="uri">http://darwin.eeb.uconn.edu/eeb348-notes/genetic-structure.pdf</a>
+if you don’t have them handy.<a href="#fnref2" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>As with <span
+class="math inline">\(F\)</span>-statistics, the actual estimation
+procedure is more complicated than I describe here. Standard approaches
+to AMOVA use method of moments calculations analogous to those
+introduced by Weir and Cockerham for <span
+class="math inline">\(F\)</span>-statistics <span class="citation"
+data-cites="WeirCockerham84"></span>. Bayesian approaches are possible,
+but they are not yet widely available (meaning, in part, that I know how
+to do it, but I haven’t written the necessary software yet). Gompert et
+al. <span class="citation" data-cites="Gompert-etal-2010"></span>
+describe one approach for Bayesian AMOVA from pooled DNA sequences
+obtained from high-throughput sequencing.<a href="#fnref3"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Measured on the minimum spanning tree.<a href="#fnref4"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>There wouldn’t be any rounding error if we had access to
+the raw data.<a href="#fnref5" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>Look back at our discussion of the coalescent (<a
+href="http://darwin.eeb.uconn.edu/eeb348-notes/coalescent.pdf"
+class="uri">http://darwin.eeb.uconn.edu/eeb348-notes/coalescent.pdf</a>)
+for the details.<a href="#fnref6" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
 </ol>
-</section>
+</aside>
 </body>
 </html>

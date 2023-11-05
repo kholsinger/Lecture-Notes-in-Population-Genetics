@@ -5,7 +5,7 @@
 \usepackage{epstopdf}
 \usepackage{url}
 
-\newcommand{\copyrightYears}{2012-2021}
+\newcommand{\copyrightYears}{2012-2023}
 
 \title{Population genomics}
 
@@ -17,68 +17,72 @@
 
 \section*{Introduction}
 
-In the past decade, the development of high-throughput methods for
-genomic sequencing (next-generation sequencing: NGS) have
-revolutionized how many geneticists collect data. It is now possible
-to produce so much data so rapidly that simply storing and processing
-the data poses great challenges~\cite{Nekrutenko-Taylor-2012}. The
-Nekrutenko and Taylor review~\cite{Nekrutenko-Taylor-2012} doesn't
-even discuss the new challenges that face population geneticists and
-evolutionary biologists as they start to take advantage of those
-tools, nor did it discuss the promise these data hold for providing
-new insight into long-standing questions, but the challenges and the
-promise are at least as great as those they do
-describe.\index{next-generation sequencing}
+In the past 15 years, the development of high-throughput methods for
+genomic sequencing have revolutionized how geneticists collect
+data. It is now possible to produce so much data so rapidly that
+simply storing and processing the data poses great
+challenges~\cite{Nekrutenko-Taylor-2012}. Nekrutenko and
+Taylor~\cite{Nekrutenko-Taylor-2012} don't even discuss the new
+challenges that face population geneticists and evolutionary
+biologists as they start to take advantage of those tools, nor did it
+discuss the promise these data hold for providing new insight into
+long-standing questions, but the challenges and the promise are at
+least as great as those they do describe.\index{high-throughput sequencing}
 
-To some extent the most important opportunity provided by NGS
-sequencing is simply that we now have a lot more data to answer the
-same questions. For example, using a technique like RAD
+To some extent the most important opportunity provided by
+high-throughput sequencing is simply that we now have a lot more data
+to answer the same questions. For example, using a technique like RAD
 sequencing~\cite{Baird-etal-2008} or genotyping-by-sequencing
 (GBS:~\cite{Elshire-etal-2011}), it is now possible to identify
 thousands of polymorphic SNP markers in non-model organisms, even if
-you don't have a reference genome available. As we've seen several
-times this semester, the variance associated with drift is
-enormous. Many SNPs identified through RAD-Seq or GBS are likely to be
-independently inherited. Thus, the amount and pattern of variation at
-each locus will represent an independent sample from the underlying
-evolutionary process. As a result, we should be able to get much
-better estimates of fundamental parameters like $\theta=4N_e\mu$,
-$M=4N_em$, and $R=4N_er$ and to have much greater power to
-discriminate among different evolutionary scenarios. Willing et
+you don't have a reference genome available. And as the cost of
+sequencing continues to decline, low-coverage whole genome sequencing
+is becoming more widely used and providing even more detailed genomic
+data in those organisms with a reference genome
+available~\cite{Lou-etal-2021}. As we've seen several times this
+semester, the variance associated with drift is enormous. Many SNPs
+identified through RAD-Seq or GBS are likely to be independently
+inherited. Thus, the amount and pattern of variation at each locus
+will represent an independent sample from the underlying evolutionary
+process. As a result, we should be able to get much better estimates
+of fundamental parameters like $\theta=4N_e\mu$, $M=4N_em$, and
+$R=4N_er$ and to have much greater power to discriminate among
+different evolutionary scenarios. By averaging estimates across
+thosands of loci our estimates of $\theta = 4N_e\mu$ and $M = 4N_em$,
+for example, are likely to be much more precise, and because we have a
+(mostly) neutral background from which to make those estimates, we may
+be able to identify genetic markers with ``unusual'' patterns
+reflecting a unique history of selection. Willing et
 al.~\cite{Willing-etal-2012}, for example, present simulations
 suggesting that accurate estimates of $F_{ST}$ are possible with
 sample sizes as small as 4--6 individuals per population, so long as
 the number of markers used for inference is greater than
-1000.\index{RAD sequencing}\index{next-generation sequencing!estimating $F_{ST}$}\index{genotyping-by-sequencing}
+1000.\index{RAD sequencing}\index{next-generation
+  sequencing!estimating $F_{ST}$}\index{genotyping-by-sequencing}
 
-\section*{A quick overview of NGS methods}
+\section*{A quick overview of high-throughput sequencing methods}
 
-I won't review the chemistry used for next-generation sequencing. It
+I won't review the chemistry used for high-throughput sequencing. It
 changes very rapidly, and I can't keep up with it. Suffice it to say
-that 454 Life Sciences, Illumina, PacBio, and probably other companies
-I don't know about each have different approaches to very high
-throughput DNA sequencing. What they all have in common is that the
-whole genome is broken into small fragments and sequenced and that a
-single run through the machine produces an enormous amount of data,
-134-6000 Gb and up to 20 billion readsfrom a NovaSeq 600 for
-example~(\url{https://www.illumina.com/systems/sequencing-platforms/comparison-tool.html};
-accessed 30 December 2018).\footnote{In NGS applications for
-  phylogeny, a strategy of targeted enrichment is often used. In this
-  approach, pre-identified parts of the genome are ``baited'' using
-  primers and those parts of the genome are enriched through PCR
-  before the sequencing library is
-  constructed~\cite{Lemmon-etal-2012}. By the way, when I taught this
-  course two years ago the Illumina HiSeq X Ten produced the most data
-  from a single run, up to 1800 Gb and 3-6 billion reads. That means
-  the volume of sequence you can produce in a single run has tripled
-  in two years.}
+that 454 Life Sciences, Illumina, PacBio, and other companies I don't
+know about each have different approaches to very high throughput DNA
+sequencing. In particular there aare several reduced representation
+sequencing methods that are widely used in organisms without reference
+genomes. What they all have in common is that the whole genome is
+broken into small fragments, sequenced, and SNPs are called without
+aligning the reads to a reference. Whether using a reduced
+representation method or low-coverage whole genome sequencing, a
+tremendous amount of data is availalbe, up to 380Gb and up to 1.2
+billion reads from a single run on an Illumina NextSeq 2000 for
+example~(\url{https://www.illumina.com/systems/sequencing-platforms.html}
+; accessedd 5 Novembber 2023).
 
 \subsection*{RAD sequencing}\index{RAD sequencing}
 
-Baird et al.~\cite{Baird-etal-2008} introduced RAD a little over a
-decade ago. One of its great attractions for evolutionary geneticists
-is that RAD-seq can be used in any organism from which you can extract
-DNA and the laboratory manipulations are relatively straightforward.
+Baird et al.~\cite{Baird-etal-2008} introduced RAD about 15 years ago.
+One of its great attractions for evolutionary geneticists is that
+RAD-seq can be used in any organism from which you can extract DNA and
+the laboratory manipulations are relatively straightforward.
 
 \begin{itemize}
 
@@ -129,7 +133,7 @@ not going to discuss either of those processes, but you can imagine
 that there's a lot of bioinformatic processing going on. What I want
 to focus on is what you do with the data and how you interpret it.
 
-\section*{Next-generation phylogeography}\index{next-generation sequencing!phylogeography}
+\section*{High-resollutions phylogeography}\index{high-throughput sequencing!phylogeography}
 
 The American pitcher plant mosquito {\it Wyeomyia
   smithii\/} has been extensively studied for many years. It's a model
@@ -153,20 +157,21 @@ relationships.
 
 Using the same set of samples, the authors used RAD sequencing to
 identify 3741 SNPs. That's more than 20 times the number of variable
-sites found in {\it COI}, 167. Not surprisingly, the large number of
-additional sites allowed the authors to produce a much more highly
-resolved phylogeny~(Figure \ref{fig:wyeomyia-RAD}). With this
-phylogeny it's easy to see that southern populations are divided into
-two distinct groups, those from North Carolina and those from the Gulf
-Coast. Similarly, the northern group of populations is subdivided into
-those from the Appalachians in North Carolina, those from the
-mid-Atlantic coast, and those from further north. The glacial history
-of North America means that both the mid-Atlantic populations and the
-populations farther north must have been derived from one or more
-southern populations after the height of the last glaciation. Given
-the phylogenetic relationships recovered here, it seems clear that
-they are most closely related to populations in the Appalachians of
-North Carolina.
+sites found in {\it COI}.\footnote{And a pretty small number of SNPs
+  relative to the number commonly identified in studies these days.}
+Not surprisingly, the large number of additional sites allowed the
+authors to produce a much more highly resolved phylogeny~(Figure
+\ref{fig:wyeomyia-RAD}). With this phylogeny it's easy to see that
+southern populations are divided into two distinct groups, those from
+North Carolina and those from the Gulf Coast. Similarly, the northern
+group of populations is subdivided into those from the Appalachians in
+North Carolina, those from the mid-Atlantic coast, and those from
+further north. The glacial history of North America means that both
+the mid-Atlantic populations and the populations farther north must
+have been derived from one or more southern populations after the
+height of the last glaciation. Given the phylogenetic relationships
+recovered here, it seems clear that they are most closely related to
+populations in the Appalachians of North Carolina.
 
 \begin{figure}
 \begin{center}
@@ -176,10 +181,10 @@ North Carolina.
   analysis. B. Phylogenetic relationship of samples included in the analysis.}\label{fig:wyeomyia-RAD}
 \end{figure}
 
-That's the promise of NGS for population genetics. What are the
-challenges? Funny you should ask.
+That's the promise of high-throughput sequencing for population
+genetics. What are the challenges? Funny you should ask.
 
-\section*{Estimates of nucleotide diversity\footnote{This section draws heavily on~\cite{Lynch-2008}}}\index{next-generation sequencing!estimating nucleotide diversity}
+\section*{Estimates of nucleotide diversity\footnote{This section draws heavily on~\cite{Lynch-2008}}}\index{high-throughputsequencing!estimating nucleotide diversity}
 
 Beyond the simple challenge of dealing with all of the short DNA
 fragments that emerge from high-throughput sequencing, there are at
@@ -255,13 +260,15 @@ P(n_1,n_2,n_3,n_4|\mbox{homozygous},\epsilon)
 =
 \sum_{i=1}^4 \left(\frac{p_i^2}{\sum_{j=1}^4p_j^2}\right) 
 {n \choose n_i}(1-\epsilon)^{n_i}\epsilon^{n-n_i}
-\quad .
+\quad ,
 \]
+where $(p_1,\dots,p_4)$ is the frequency of A, C, G, or T.
 
 \item If the site in question were heterozygous, the probability of
-  getting our observed sequence profile is a bit more complicated. Let
-  $k_1$ be the number of reads from the first chromosome and $k_2$ be
-  the number of reads from the second chromosome ($n=k_1+k_2$). Then
+  getting our observed sequence profile is quite a bit more
+  complicated. Let $k_1$ be the number of reads from the first
+  chromosome and $k_2$ be the number of reads from the second
+  chromosome ($n=k_1+k_2$). Then
 \begin{eqnarray*}
 P(k_1,k_2)
 &=&
@@ -378,7 +385,7 @@ Taxon & $4N_e\mu$ & $4N_e\mu$ (low coverage) & $\epsilon$ \\
   from~\cite{Haubold-etal-2010}).}\label{table:NGS-results}
 \end{table}
 
-\section*{Next-generation AMOVA\footnote{This section depends heavily on~\cite{Gompert-Buerkle-2011}}}\index{next-generation sequencing!partitioning diversity}\index{BAMOVA}
+\section*{AMOVA from high-throughput sequencing\footnote{This section depends heavily on~\cite{Gompert-Buerkle-2011}}}\index{high-throughput sequencing!partitioning diversity}\index{BAMOVA}
 
 What we've discussed so far gets us estimates of some population
 parameters~($4N_e\mu$, $4N_er$), but they're derived from the
@@ -393,7 +400,7 @@ variance. They propose several related models.
 
 \begin{itemize}
 
-\item {\bf NGS-individual model}: This model assumes that sequencing
+\item {\bf Individual model}: This model assumes that sequencing
   errors are negligible.\footnote{Or that they've already been
     corrected. We don't care {\it how\/} they might have been
     corrected. We care only that we can assume that the reads we get
@@ -403,13 +410,13 @@ variance. They propose several related models.
   probability of not seeing both sequences in a heterozygote is
   related to the depth of coverage.
 
-\item {\bf NGS-population model}: In some NGS experiments,
-  investigators pool all of the samples from a population into a
-  single sample. Again, Gompert and Buerkle assume that sequencing
-  errors are negligible. Here we assume that the number of reads for
-  one of two alleles at a particular SNP site in a sample is related
-  to the underlying allele frequency at that site. Roughly speaking,
-  the likelihood of the data at that site is then
+\item {\bf Population model}: In some NGS experiments, investigators
+  pool all of the samples from a population into a single
+  sample. Again, Gompert and Buerkle assume that sequencing errors are
+  negligible. Here we assume that the number of reads for one of two
+  alleles at a particular SNP site in a sample is related to the
+  underlying allele frequency at that site. Roughly speaking, the
+  likelihood of the data at that site is then
 \[
 P(x_i|p_i,n_i, k_i) = {n_i \choose k_i}p_i^{k_i}(1-p_{i})^{n-k_i}
 \quad ,
@@ -422,14 +429,13 @@ likelihoods.\footnote{The actual model they use is a bit more
 
 \end{itemize}
 
-Then, as we did way back when we used a Bayesian approach to estimate
-$F_{ST}$~\cite{Holsinger-Wallace-2004}, we put a prior on the $p_i$
-and the parameters of this prior are defined in terms of
-$\Phi_{ST}$~(among other things).\footnote{Again, the actual model is
-  a bit more complicated than what I'm describing here, but the
-  principle is the same.} They also propose a method for detecting SNP
-loci\footnote{Or sets of SNP loci that are parts of a single contig.}
-that have unusually large or small values of $\Phi_{ST}$.
+Then, we put a prior on the $p_i$ and the parameters of this prior are
+defined in terms of $\Phi_{ST}$~(among other things).\footnote{Again,
+  the actual model is a bit more complicated than what I'm describing
+  here, but the principle is the same.} They also propose a method for
+detecting SNP loci\footnote{Or sets of SNP loci that are parts of a
+  single contig.}  that have unusually large or small values of
+$\Phi_{ST}$.
 
 \subsection*{BAMOVA example}\index{BAMOVA!example}
 
@@ -484,23 +490,23 @@ In addition to $F_{ST}$ we saw that a principal components analysis of
 genetic data might sometimes be useful. Fumagalli et
 al.~\cite{Fumagalli-etal-2013} develop a method for PCA that, like
 Lynch's~\cite{Lynch-2008} method for estimating nucleotide diversity,
-uses all of the information available in NGS data rather than imposing
-an artificial threshold for calling genotypes. They calculate the
-pairwise entries of the covariance matrix by integrating across the
-genotype probability at each site as part of the calculation and
-weighting the contribution of each site to the analysis by the
-probability that it is
+uses all of the information available in high-throughput sequencing
+data rather than imposing an artificial threshold for calling
+genotypes. They calculate the pairwise entries of the covariance
+matrix by integrating across the genotype probability at each site as
+part of the calculation and weighting the contribution of each site to
+the analysis by the probability that it is
 variable.\footnote{See~\cite{Fumagalli-etal-2013} for details.} As
 shown in Figure~\ref{fig:Fumagalli-PCA} this approach to PCA recovers
 the structure much better than approaches that simply call genotypes
 at each locus, whether or not outliers are excluded. The authors also
 describe approaches to estimating $F_{ST}$ that take account of the
-characteristics of NGS data. Their software ({\tt ANGSD}:
-\url{http://popgen.dk/wiki/index.php/ANGSD}) implements these and
-other useful statistical analysis tools for next-generation sequencing
-data, including Tajima's D. They also provide {\tt NgsAdmix} for {\tt
-  Structure}-like analyses of NGS
-data~(\url{http://www.popgen.dk/software/index.php/NgsAdmix}). 
+characteristics of high-throughput sequencing data. Their software
+({\tt ANGSD}: \url{http://www.popgen.dk/angsd/index.php/ANGSD})
+implements these and other useful statistical analysis tools for
+next-generation sequencing data, including Tajima's D. They also
+provide {\tt NgsAdmix} for {\tt Structure}-like analyses of NGS
+data~(\url{http://www.popgen.dk/software/index.php/NgsAdmix}).
 
 \begin{figure}
 \begin{center}
@@ -556,7 +562,7 @@ than treating each locus as being independently inherited. The
 analysis is on {\it haplotypes\/} rather than on alleles. In addition,
 it clusters populations
 hierarchically~(Figure~\ref{fig:fine-structure}\index{fineSTRUCTURE}\index{human
-  population genetics}
+  population genetics})
 
 \begin{figure}
 \begin{center}
