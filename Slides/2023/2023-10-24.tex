@@ -382,9 +382,45 @@ P(\mbox{data}|m, N_e) \propto f(n, m, N_e, K)
 
 }
 
+\myslide{
+  \heading{How much genetic change is due to selection?}
+
+  \begin{itemize}
+
+    \item Estimate allele frequencies at many loci at several
+      different time steps.
+
+    \item Define $\Delta p_t = p_{t+1} - p_t$.
+
+    \item Let $\mbox{Var}(\Delta p_t)$ be the variance of $\Delta p_t$
+      across loci.
+
+    \item Buffalo and Coop (2019) point out that
+
+      \[
+        \mbox{Var}(\Delta p_t) = \sum_{i=0}^{i-1}\mbox{Var}(\Delta
+        p_i) + \sum_{i \ne j} \mbox{Cov}(p_i, p_j)
+      \]
+
+    \item The covariance is due to selection causing correlated
+      changes in allele frequency at different loci.
+
+  \end{itemize}
+}
+
+\myslide{
+  \heading{How much genetic change is due to selection?}
+
+  \begin{itemize}
+
+  \item Selection for high temperature tolerance
+
+  \item 10 replicate populations, 10 generations
+
+  \item Between 17 and 37 percent of allele frequency changes are a
+    result of natural selection.
+
+  \end{itemize}
+}
+
 \end{document}
-
-
-
-\end{document}
-
