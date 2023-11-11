@@ -5,7 +5,7 @@
 \usepackage{html}
 \usepackage{url}
 
-\newcommand{\copyrightYears}{2001-2019}
+\newcommand{\copyrightYears}{2001-2023}
 
 \title{Evolution of quantitative traits}
 
@@ -78,10 +78,14 @@ $A_iA_j$ is\index{genotypic value}
 \[
 x_{ij} = \int_{-\infty}^\infty x \mbox{\rm dF}_{ij}(x)
 \]
-and the population mean phenotype is $p^2x_{11} + 2pqx_{12} +
-q^2x_{22}$.  If an individual with phenotype $x$ has fitness $w(x)$,
-then the fitness of an individual with genotype $A_iA_j$
-is\index{genotypic value!fitness}
+and the population mean phenotype is
+$p^2x_{11} + 2pqx_{12} + q^2x_{22}$.\footnote{I know that the integral
+  looks horrible, but that horrible looking integral is just a
+  mathematical way of saying what I've repeated for the last several
+  lectures: The genotypic value for a genotype is just the mean
+  phenotype associated with that genotype.}  If an individual with
+phenotype $x$ has fitness $w(x)$, then the fitness of an individual
+with genotype $A_iA_j$ is\index{genotypic value!fitness}
 \[
 w_{ij} = \int_{-\infty}^\infty w(x) \mbox{\rm dF}_{ij}(x)
 \]
@@ -94,17 +98,21 @@ theorem. It says that for any function\footnote{Actually there are
   those restrictions for our purposes.} $f(x)$
 \[
 f(x) = f(a) + \sum_{k=1}^\infty \left({{(x-a)^k} \over k!}\right)
-                                 f^{(k)}(a) \quad .
+                                 f^{(k)}(a) \quad .,
 \]
-Using this theorem we can produce an approximate expression describing
-how the mean phenotype in a population will change in response to
-selection. Remember that the mean phenotype, $\bar x$, depends both on
-the underlying genotypic values and on the allele frequency. So I'm
-going to write the mean phenotype as $\bar x(p)$ to remind us of that
-dependency. The phenotype changes from one generation to the next as a
-result of changes in the frequency of alleles that influence the
-phenotype, assuming that the environmental effects on phenotypes don't
-change.
+where $f^{(k)}(a)$ is the $k$th derivative of $f(x)$ evaluated at
+$a$.\footnote{If that mumbo jumbo doesn't mean anything to you, don't
+  worry about it. Just remember that what we're about to do relies on
+  an approximation and that the approximation works best with the
+  difference between $s$ and $a$ is small.}  Using this theorem we can
+produce an approximate expression describing how the mean phenotype in
+a population will change in response to selection. Remember that the
+mean phenotype, $\bar x$, depends both on the underlying genotypic
+values and on the allele frequency. So I'm going to write the mean
+phenotype as $\bar x(p)$ to remind us of that dependency. The
+phenotype changes from one generation to the next as a result of
+changes in the frequency of alleles that influence the phenotype,
+assuming that the environmental effects on phenotypes don't change.
 \begin{eqnarray*}
 {\bar x}(p') &=& {\bar x}(p) + (p' - p)\left({d{\bar x} \over dp}\right)
              + o(p^2) \\
@@ -122,6 +130,10 @@ change.
 \\
 \Delta{\bar x} &=& (\Delta p)\left(2(\alpha_1 - \alpha_2)\right)
 \end{eqnarray*}
+In other words, the change in mean phenotype from one generation to
+the next depends first on how much the frequency of the $A_1$ allele
+changes and second on the difference between the additive effect of
+$A_1$ and $A_2$.
 
 Now you need to remember (from lo those many weeks ago) that
 \[
@@ -381,6 +393,338 @@ intense.\footnote{Notice that it's exactly equal to 0 if the fitness
 \[
 \Delta {\bar w} \approx {V_a \over {\bar w}} \quad .
 \]
+
+
+\section*{Selection on multiple traits}
+
+So far we've studied only the evolution of a single trait, e.g.,
+height or weight. But organisms have many traits, and they evolve at
+the same time. How can we understand their simultaneous evolution? The
+basic framework of the quantitative genetic approach was first
+outlined by Russ Lande and Steve
+Arnold~\cite{Lande-Arnold-1983}.\index{response to selection}\index{selection differential}\index{breeders equation}
+
+Let $z_1$, $z_2$, \dots, $z_n$ be the phenotype of each character that
+we are studying. We'll use $\bar{\bf z}$ to denote the vector of these
+characters before selection and $\bar{\bf z}^*$ to denote the vector after
+selection. The selection differential, $\bf s$, is also a vector
+given~by
+\[
+{\bf s} = \bar{\bf z}^* - \bar{\bf z} \quad .
+\]
+Suppose $p({\bf z})$ is the probability that any individual has
+phenotype $\bf z$, and let $W({\bf z})$ be the fitness (absolute
+viability) of an individual with phenotype $\bf z$. Then the mean
+absolute fitness~is
+\[
+\bar W = \int W({\bf z})p({\bf z})d{\bf z} \quad .
+\]
+The relative fitness of an individual with phenotype $\bf z$ can be
+written~as
+\[
+w({\bf z}) = {W({\bf z}) \over \bar W} \quad .
+\]
+Using relative fitnesses the mean relative fitness, $\bar w$, is
+1. Now
+\[
+\bar{\bf z}^* = \int {\bf z}w({\bf z})p({\bf z})d{\bf z} \quad .
+\]
+Recall that $Cov(X,Y) = E(X - \mu_x)(Y - \mu_y) = E(XY) -
+\mu_x\mu_y$. Consider 
+\begin{eqnarray*}
+{\bf s} &=& \bar{\bf z}^* - \bar{\bf z} \\
+        &=& \int {\bf z}w({\bf z})p({\bf z})d{\bf z} - \bar {\bf z} \\
+        &=& E(w,z) - \bar w\bar {\bf z} \quad ,
+\end{eqnarray*}
+where the last step follows since $\bar w = 1$ meaning that $\bar
+w\bar{\bf z} = \bar{\bf z}$. In short, 
+\[
+{\bf s} = Cov(w,z) \quad .
+\]
+That should look familiar from our analysis of the evolution of a
+single phenotype.
+
+If we assume that all genetic effects are additive, then the phenotype
+of an individual can be written as
+\[
+{\bf z} = {\bf x} + {\bf e} \quad ,
+\]
+where $\bf x$ is the additive genotype and $\bf e$ is the
+environmental effect. We'll denote by $\bf G$ the matrix of genetic
+variances and covariances and by $\bf E$ the matrix of environmental
+variances and covariances. The matrix of phenotype variances and
+covariances, $\bf P$, is then given by\footnote{Assuming that there
+  are no genotype $\times$ environment interactions.}\index{G-matrix@$G$-matrix}\index{P-matrix@$P$-matrix}\index{E-matrix@$E$-matrix}
+\[
+{\bf P} = {\bf G} + {\bf E} \quad .
+\]
+Now, if we're willing to assume that the regression of additive
+genetic effects on phenotype is linear\footnote{And we were willing to
+do this when we were studying the evolution of only one trait, so why
+not do it now?} and that the environmental variance is the same for
+every genotype, then we can predict how phenotypes will change from
+one generation to the next
+\begin{eqnarray*}
+\bar{\bf x}^* - \bar{\bf x} &=& {\bf GP}^{-1}(\bar{\bf z}^* - \bar{\bf z}) \\
+\bar{\bf z}'  - \bar{\bf z} &=& {\bf GP}^{-1}(\bar{\bf z}^* - \bar{\bf z}) \\
+\Delta\bar{\bf z} &=& {\bf GP}^{-1}{\bf s}
+\end{eqnarray*}
+${\bf GP}^{-1}$ is the multivariate version of $h^2_N$. This equation
+is also the multivariate version of the breeders
+equation.\index{breeders equation}
+
+But we have already seen that ${\bf s} = Cov(w,z)$. Thus, 
+\[
+{\bf \beta} = {\bf P}^{-1}{\bf s}
+\]
+is a set of partial regression coefficients of relative fitness on the
+characters, i.e., the dependence of relative fitness on that character
+alone holding all others constant.
+
+Note:
+\begin{eqnarray*}
+s_i &=& \sum_{j=1}^n \beta_jP_{ij} \\
+    &=& \beta_1P_{i1} + \cdots + \beta_iP_{ii} + \cdots + \beta_nP_{in}
+\end{eqnarray*}
+is the total selective differential in character $i$, including the
+indirect effects of selection on other characters.
+
+\section*{An example: selection in a pentastomid bug}
+
+94 individuals were collected along shoreline of Lake Michigan in
+Parker County, Indiana after a storm. 39 were alive, 55 dead. The
+means of several characters before selection, the trait correlations,
+and the selection analysis are presented in
+Table~\ref{table:data}.\index{selection!multivariate example}
+
+\begin{table}
+\begin{center}
+\begin{tabular}{l|cc}
+\hline\hline
+Character & Mean before selection & standard deviation \\
+\hline
+head      & 0.880                 & 0.034 \\
+thorax    & 2.038                 & 0.049 \\
+scutellum & 1.526                 & 0.057 \\
+wing      & 2.337                 & 0.043 \\
+\hline
+\end{tabular}
+\vskip 4pt
+\begin{tabular}{l|cccc}
+\hline\hline
+          & head & thorax & scutellum & wing \\
+\hline
+head      & 1.00 & 0.72   & 0.50      & 0.60 \\
+thorax    &      & 1.00   & 0.59      & 0.71 \\
+scutellum &      &        & 1.00      & 0.62 \\
+wing      &      &        &           & 1.00 \\
+\hline
+\end{tabular}
+\vskip 4pt
+\begin{tabular}{l|cccc}
+\hline\hline
+Character & $s$    & $s'$  & $\beta$ & $\beta'$ \\
+\hline
+head      & -0.004 & -0.11 & -0.7 $\pm$ 4.9 & -0.03 $\pm$ 0.17 \\
+thorax    & -0.003 & -0.06 & 11.6 $\pm$ 3.9$^{**}$ & 0.58 $\pm$ 0.19$^{**}$
+\\
+scutellum & -0.16$^*$ & -0.28$^*$ & -2.8 $\pm$ 2.7 & -0.17 $\pm$ 0.15 \\
+wing      & -0.019$^{**}$ & -0.43$^{**}$ & -16.6 $\pm$ 4.0$^{**}$ & -0.74 $\pm$
+0.18$^{**}$ \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Selection analysis of pentastomid bugs on the shores of Lake
+Michigan.}\label{table:data}
+\end{table}
+
+The column labeled $s$ is the selective differential for each
+character. The column labeled $s'$ is the {\it standardized\/}
+selective differential, i.e., the change measured in units of standard
+deviation rather than on the original scale.\footnote{To measure on
+  this scale the data is simply transformed by setting $y_i = (x_i -
+  \bar x)/s$, where $x_i$ is the raw score for the $i$th individual,
+  $\bar x$ is the sample mean for the trait, and $s$ is its standard
+  deviation.} A multiple regression analysis of fitness versus
+phenotype on the original scale gives estimates of $\beta$, the direct
+effect of selection on that trait. A multiple regression analysis of
+fitness versus phenotype on the transformed scale gives the
+standardized direct effect of selection, $\beta'$, on that trait.
+
+Notice that the selective differential\footnote{The cumulative effect
+  of selection on the change in mean phenotype.} for the thorax
+measurement is negative, i.e., individuals that survived had smaller
+thoraces than those that died. But the {\it direct\/} effect of
+selection on thorax is strongly positive, i.e., all other things being
+equal, an individual with a large was more likely to survive than one
+with a small thorax. Why the apparent contradiction? Because the
+thorax measurement is positively correlated with the wing measurement,
+and there's strong selection for decreased values of the wing
+measurement.
+
+\section*{Cumulative selection gradients}\index{cumulative selection gradient}
+
+Arnold~\cite{Arnold-1988} suggested an extension of this approach to
+longer evolutionary time scales. Specifically, he studied variation in
+the number of body vertebrae and the number of tail vertebrae in
+populations of {\it Thamnophis elegans} from two regions of central
+California. He found relatively little vertebral variation within
+populations, but there were considerable differences in vertebral
+number between populations on the coast side of the Coast Ranges and
+populations on the Central Valley side of the Coast Ranges. The
+consistent difference suggested that selection might have produced
+these differences, and Arnold attempted to determine the amount of
+selection necessary to produce these~differences.
+
+\subsection*{The data}
+
+Arnold collected pregnant females from two local populations in each
+of two sites in northern California 282 km apart from one
+another. Females were collected over a ten-year period and returned to
+the University of Chicago. Dam-offspring regressions were used to
+estimate additive genetic variances and covariances of vertebral
+number.\footnote{1000 progeny from 100 dams.}  Mark-release-recapture
+experiments in the California populations showed that females with
+intermediate numbers of vertebrae grow at the fastest rate, at least
+at the inland site, although no such relationship was found in
+males. The genetic variance-covariance matrix he obtained is shown in
+Table~\ref{table:arnold-data}.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{l|cc}
+\hline\hline
+     & body    & tail \\
+\hline
+body & 35.4606 & 11.3530 \\
+tail & 11.3530 & 37.2973 \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Genetic variance-covariance matrix for vertebral number in
+central Californian garter snakes.}\label{table:arnold-data}
+\end{table}
+
+\subsection*{The method}
+
+We know from Lande and Arnold's results that the change in
+multivariate phenotype from one generation to the next,
+$\Delta\bar{\bf z}$, can be written~as
+\[
+\Delta\bar{\bf z} = {\bf G\beta} \quad ,
+\]
+where $\bf G$ is the genotypic variance-covariance matrix, ${\bf\beta}
+= {\bf P}^{-1}{\bf s}$ is the set of partial regression coefficients
+describing the direct effect of each character on relative
+fitness.\footnote{{\bf P} is the phenotypic variance-covariance matrix
+and {\bf s} is the vector of selection differentials.} If we are
+willing to assume that {\bf G} remains constant, then the total change
+in a character subject to selection for $n$ generations~is
+\[
+\sum_{k=1}^n \Delta\bar{\bf z} = {\bf G}\sum_{k=1}^n\beta \quad .
+\]
+Thus, $\sum_{k=1}^n\beta$ can be regarded as the cumulative selection
+differential associated with a particular observed change, and it can
+be estimated~as
+\[
+\sum_{k=1}^n\beta = {\bf G}^{-1}\sum_{k=1}^n \Delta\bar{\bf z}\quad .
+\]
+
+\subsection*{The results}
+
+The overall difference in vertebral number between inland and coastal
+populations can be summarized~as:
+\begin{eqnarray*}
+\mbox{body}_{\mbox{inland}} - \mbox{body}_{\mbox{coastal}} &=& 16.21 \\
+\mbox{tail}_{\mbox{inland}} - \mbox{tail}_{\mbox{coastal}} &=& 9.69
+\end{eqnarray*}
+Given the estimate of $\bf G$ already obtained, this corresponds to a
+cumulative selection gradient between inland and coastal
+populations~of
+\begin{eqnarray*}
+\beta_{\mbox{body}} &=& 0.414 \\
+\beta_{\mbox{tail}} &=& 0.134
+\end{eqnarray*}
+
+Applying the same technique to looking at the differences between
+populations within the inland site and within the coastal site we find
+cumulative selection gradients~of
+\begin{eqnarray*}
+\beta_{\mbox{body}} &=& 0.035 \\
+\beta_{\mbox{tail}} &=& 0.038
+\end{eqnarray*}
+for the coastal site~and
+\begin{eqnarray*}
+\beta_{\mbox{body}} &=& 0.035 \\
+\beta_{\mbox{tail}} &=& -0.004
+\end{eqnarray*}
+for the inland site.
+
+\subsection*{The conclusions}
+
+``To account for divergence between inland and coastal California, we
+must invoke cumulative forces of selection that are 7 to 11 times
+stronger than the forces needed to account for differentiation of
+local populations.''
+
+Furthermore, recall that the selection gradients can be used to
+partition the overall response to selection in a character into the
+portion due to the direct effects of that character alone and the
+portion due to the indirect effects of selection on a correlated
+character. In this case the overall response to selection in number of
+body vertebrae is given~by
+\[
+{\bf G}_{11}\beta_1 + {\bf G}_{12}\beta_2 \quad ,
+\]
+where ${\bf G}_{11}\beta_1$ is the direct effect of body vertebral
+number and ${\bf G}_{12}\beta_2$ is the indirect effect of tail
+vertebral number. Similarly, the overall response to selection in
+number of tail vertebrae is given~by
+\[
+{\bf G}_{12}\beta_1 + {\bf G}_{22}\beta_2 \quad ,
+\]
+where ${\bf G}_{22}\beta_2$ is the direct effect of tail vertebral
+number and ${\bf G}_{12}\beta_1$ is the indirect effect of body
+vertebral number. Using these equations it is straightforward to
+calculate that 91\% of the total divergence in number of body
+vertebrae is a result of direct selection on this character. In
+contrast, only 51\% of the total divergence in number of tail
+vertebrae is a result of direct selection on this character, i.e.,
+49\% of the difference in number of tail vertebrae is attributable to
+indirect selection as a result of its correlation with number of
+body~vertebrae.
+
+\subsection*{The caveats}\index{cumulative selection gradient!caveats}
+
+While the approach Arnold suggests is intriguing, there are a number
+of caveats that must be kept in mind in trying to apply it.
+
+\begin{itemize}
+
+\item This approach assumes that the $\bf G$ matrix remains constant.
+
+\item This approach cannot distinguish strong selection that happened
+over a short period of time from weak selection that happened over a
+long period of time.
+
+\item This approach {\it assumes\/} that the observed differences in
+populations are the result of selection, but populations isolated from
+one another will diverge from one another even in the absence of
+selection simply as a result of genetic~drift.
+
+\begin{itemize}
+
+\item Small amount of differentiation between populations within sites
+could reflect relatively recent divergence of those populations from a
+common ancestral~population.
+
+\item Large amount of differentiation between populations from inland
+versus coastal sites could reflect a more ancient divergence from a
+common ancestral~population.
+
+\end{itemize}
+
+\end{itemize}
 
 \bibliography{popgen}
 \bibliographystyle{plain}
