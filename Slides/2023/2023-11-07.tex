@@ -260,13 +260,13 @@ Results
   \heading{Quantitative genetics at UConn}
 
   \begin{center}
-  \resizebox(0.8\textwidth}{!}{UConn-1917.png}  
+  \includegraphics[width=4in]{UConn-1917.eps}
   \end{center}
 
   \vfil
   
   \begin{center}
-  \resizebox(0.8\textwidth}{!}{UConn-1996.png}  
+  \includegraphics[width=4in]{UConn-1996.eps}
   \end{center}
 
 }
@@ -376,9 +376,32 @@ px_{11} + qx_{12} &=& 2p\alpha_1 + q\alpha_1 + q\alpha_2 \\
 }
 
 \myslide{
+  \heading{Genetic variance}
 \begin{eqnarray*}
 V_g &=&\ p^2[x_{11} - {\bar x}]^2 + 2pq[x_{12} - {\bar x}]^2
-     + q^2[x_{22} - {\bar x}]^2 \label{eq:v-g} \\
+     + q^2[x_{22} - {\bar x}]^2 
+\end{eqnarray*}
+\vfill
+}
+
+\myslide{
+  \heading{Genetic variance}
+\begin{eqnarray*}
+V_g &=&\ p^2[x_{11} - {\bar x}]^2 + 2pq[x_{12} - {\bar x}]^2
+     + q^2[x_{22} - {\bar x}]^2 \\
+    &=&\ p^2[x_{11} - 2\alpha_1 + 2\alpha_1 - {\bar x}]^2
+     + 2pq[x_{12} - (\alpha_1 + \alpha_2) + (\alpha_1 + \alpha_2)
+                - {\bar x}]^2 \nonumber \\
+     &&\ \ + q^2[x_{22} - 2\alpha_2 + 2\alpha_2 - {\bar x}]^2
+     \nonumber \\
+\end{eqnarray*}
+}
+
+\myslide{
+  \heading{Genetic variance}
+\begin{eqnarray*}
+V_g &=&\ p^2[x_{11} - {\bar x}]^2 + 2pq[x_{12} - {\bar x}]^2
+     + q^2[x_{22} - {\bar x}]^2 \\
     &=&\ p^2[x_{11} - 2\alpha_1 + 2\alpha_1 - {\bar x}]^2
      + 2pq[x_{12} - (\alpha_1 + \alpha_2) + (\alpha_1 + \alpha_2)
                 - {\bar x}]^2 \nonumber \\
