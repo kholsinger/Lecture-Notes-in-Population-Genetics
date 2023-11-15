@@ -179,32 +179,15 @@ write_csv(as.data.frame(L),
 
 ## Trying with brms
 ```{r}
+options(tidyverse.quiet = TRUE)
+library(tidyverse)
+library(rstan)
 library(brms)
 library(popkin)
 
+rm(list = ls())
+
 options(mc.cores = parallel::detectCores())
-
-## get the relatedness matrix
-##
-genos <- dat %>% select(starts_with("X"))
-A <- popkin(t(as.matrix(genos)),
-            subpops = dat$pops)
-## identify the rows with the sample names
-##
-rownames(A) <- dat$sample
-
-## construct the model formula
-##
-formula_string <- paste("Mass", paste(colnames(genos), collapse = " + "), sep = " ~ ")
-formula_string <- paste(formula_string, "+ (1|gr(sample, cov = A))")
-## run the model
-##
-result_brms <- brm(formula_string,
-                   data = dat,
-                   data2 = list(A = A),
-                   family = gaussian(),
-                   prior = set_prior(horseshoe(), class = "b"),
-                   refresh = 0)
 
 summarize_analysis <- function(results_brms, n_report = 20) {
   results_dat <- as.data.frame(results_brms) %>%
@@ -226,7 +209,37 @@ summarize_analysis <- function(results_brms, n_report = 20) {
   }
 }
 
-summarize_analysis(result_brms)
-summary(result_brms, digits = 7)
+standardize <- function(x) {
+  return((x - mean(x, na.rm = TRUE))/sd(x, na.rm = TRUE))
+}
 
+
+dat <- read_csv("gypsymoth.csv",
+                show_col_types = FALSE)
+
+## get the relatedness matrix
+##
+genos <- dat %>% select(starts_with("X"))
+A <- popkin(t(as.matrix(genos)),
+            subpops = dat$pops)
+## identify the rows with the sample names
+##
+rownames(A) <- dat$sample
+
+n_loci <- ncol(genos)
+
+## construct the model formula
+##
+formula_string <- paste("standardize(Mass)", paste(colnames(genos), collapse = " + "), sep = " ~ ")
+formula_string <- paste(formula_string, "+ (1|gr(sample, cov = A))")
+## run the model
+##
+result_brms <- brm(formula_string,
+                   data = dat,
+                   data2 = list(A = A),
+                   family = gaussian(),
+                   prior = set_prior(horseshoe(par_ratio = 5/n_loci)),
+                   refresh = 100)
+
+summarize_analysis(result_brms)
 ```
