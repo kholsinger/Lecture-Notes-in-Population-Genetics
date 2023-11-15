@@ -1,0 +1,232 @@
+---
+title: "GWAS in gypsy moths"
+output: html_notebook
+---
+
+# GWAS with `Stan`
+
+Friedline et al.^[Friedline, C.J., T.M. Faske, B.M. Lind, E.M. Hobson, D. Parry, R.J. Dyer, D.M. Johnson, L.M. Thompson, K.L. Grayson, and A.J. Eckert.  2019.  Evolutionary genomics of gypsy moth populations sampled along a latitudinal gradient. _Molecular Ecology_ 28:2206-2223 doi: [https://doi.org/10.1111/mec.15069](https://doi.org/10.1111/mec.15069)] investigated the role of natural selection in the rapid spread of gypsy moth (_Lymantria dispar_) across Eastern North America. Their analysis focused on analysis of polymorphisms at 91,468 SNPs identified through double digest restriction-site associated DNA sequencing (ddRADseq). As part of their work, they also collected data on pupal mass (Mass), pupal development time (PD), and total development time (TDT). This allows us to perform a genome-wide association analysis that assesses the relationship, if any, between individual SNP loci and each of the phenotypes. You’ll find two data sets on the course web site:
+
+- gypsymoth.csv: A CSV file containing information about each individual in the sample (population of origin, sample label, phenotype, genotype at each SNP locus).
+- gypsymoth-relatedness.csv: A CSV file containing the relatedness matrix for indi- viduals included in the data set.
+
+The data set is a subset of the data included in the paper. Specifically, I filtered the data to include only (a) loci that were scored in more than 100 individuals, (b) individuals that had more than 4000 of the remaing SNP loci scored, and (c) loci that were scored in all of the remaining individuals. The resulting data set includes 141 individuals scored at 218 loci. Using these data, answer the following questions:
+
+1. What loci (if any) are associated with each of the three traits (pupal mass, pupal development time, and total development time)?
+
+IMPORTANT NOTE: The loci are ordered from the strongest estimated effect (mean) to the weakest, but loci showing a weaker estimated effect may have stronger evidence for them, i.e., the credible interval may not overlap zero. Because of the small sample size, I recommend considering both the 80% and the 95% credible intervals whenn answering these questions. 
+
+In the example below you'll see that X4293 has the largest estimated effect, 0.01318, but that both the 80% and the 95% credible intervals overlap zero, meaning that we the evidence supporting a positive effect at this locus is weak. In contrast, the magnitude of the estimated effect at X2841 is smaller, -0.00853,^[Note that we are comparing magnitudes, so take the absolute value of numbers before comparing them.] but the 80 percent credible interval, (0.00115,  0.02514), does not overlap zero. You're probably wondering why the mean isn't inside the credible interval. It's because the distribution is very skewed the median is 0.01325. Even though I've ordered the loci by the mean, it's probably better to focus on the median, i.e., the 50% quantile. If you do that, you can see that for X4293, the magnitude of the estimated effect, -0.00827, is smaller than for X2841, which is consistent with us having stronger evidence for an effect at X2841.
+
+2. Is there evidence that any of the SNP loci are associated with variation in more than one of the traits?
+
+3. Given your answer to #2, would you expect to see a change in pupal development time, total development time, or both if natural selection led to a change in pupal mass? Why or why not?
+
+# Short example of an analysis
+
+NOTE: To run this code you will also have to download [gwas.stan](http://darwin.eeb.uconn.edu/eeb348-resources/gwas.stan) from the course website using the link here. Save it in the same directory as you save the data files. Then run the code. Here are links to the files you'll need:
+
+- [gwas.stan](http://darwin.eeb.uconn.edu/eeb348-resources/gwas.stan)
+- [gypsymoth.csv](http://darwin.eeb.uconn.edu/eeb348-resources/gypsymoth.csv)
+- [gypsymoth_relatedness.csv](http://darwin.eeb.uconn.edu/eeb348-resources/gypsymoth_relatedness.csv)
+
+I suggest running the code below as is so that you get a sense of how long the analyses will take. Once you've run this code, you can run other analyses simply by running `analyze_trait()`. If you leave off the `num_loci` argument, it will perform an analysis for all of the loci in the data set. For example,
+
+```{r}
+results <- analyze_trait(dat, L, "Mass")
+```
+
+Will analyze the association between each of the 218 loci in the data set and Mass, and the results will be stored in `results`. Then if you
+
+```{r}
+summarize_analysis(results)
+```
+
+You'll get a report with the estimated effect at the 20 loci having the largest effect on the phenotype (sorted by largest effect to smallest). The first number is the posterior mean of the estimated effect and the numbers in parentheses are the 2.5%, 10%, 50%, 90%, and 97.5% quantiles. The lower bound of the 95% credible interval is given by the 2.5% quantile, and the upper bound is given by the 97.5% quantile. The lower bound of the 80% credible interval is given by the 10% quantile, and the upper bound is given by the 90% quantile.
+
+If you'd like to see the effects for all of the loci, simply use
+
+```{r}
+summarize_analysis(results, n_report = 218)
+```
+
+The `n_report` argument is the number of loci on which to report. With these data you can select any number between 1 and 218.
+
+```{r message = FALSE}
+options(tidyverse.quiet = TRUE)
+library(tidyverse)
+library(rstan)
+
+rm(list = ls())
+
+options(mc.cores = parallel::detectCores())
+
+dat <- read_csv("gypsymoth.csv",
+                show_col_types = FALSE)
+L <- read_csv("gypsymoth_relatedness.csv",
+                show_col_types = FALSE)
+
+analyze_trait <- function(dat, L, trait, n_loci = NA) {
+  ## convert dat to data frame for subscripting
+  ##
+  dat <- as.data.frame(dat)
+
+  if (is.na(n_loci)) {
+    n_loci <- ncol(dat) - 5
+  }
+  n_chains <- 4
+  n_iter <- 5000
+  n_samples <- n_iter*n_chains
+  p <- matrix(nrow = n_loci, ncol = n_samples)
+  mean_p <- numeric(n_loci)
+  mu <- array(dim = c(n_loci, n_samples, nrow(dat)))
+  for (i in 1:n_loci) {
+    cat("Checking locus ", i, "\n", sep = "")
+    stan_data <- list(n_indiv = nrow(dat),
+                      geno = dat[, i+5],
+                      pheno = dat[[trait]],
+                      L = L)
+    stan_pars <- c("p", "mu")
+    fit <- stan("gwas.stan",
+                data = stan_data,
+                pars = stan_pars,
+                iter = n_iter,
+                chains = n_chains,
+                refresh = 0)
+    x <- as.data.frame(fit)
+    p[i,] <- x$p
+    mean_p[i] <- mean(x$p)
+  }
+  loci <- data.frame(locus = colnames(dat)[(1:n_loci) + 5],
+                     p_mean = mean_p)
+  loci <- loci[order(abs(loci$p_mean), decreasing = TRUE), ]
+  rownames(p) <- loci$locus
+  return(list(loci = loci, p = p))
+}
+
+summarize_analysis <- function(results, n_report = 20) {
+  if (n_report > nrow(results$loci)) {
+    n_report <- nrow(results$loci)
+  }
+  cat(".          Mean: (    2.5%,      10%,      50%,      90%,    97.5%)\n")
+  for (i in 1:n_report) {
+    ci <- quantile(results$p[results$loci$locus[i], ],
+                   c(0.025, 0.1, 0.5, 0.9, 0.975))
+    output <- sprintf("%6s: %8.5f (%8.5f, %8.5f, %8.5f, %8.5f, %8.5f)\n",
+                      results$loci$locus[i],
+                      results$loci$p_mean[i],
+                      ci[1], ci[2], ci[3], ci[4], ci[5])
+    cat(output)
+  }
+}
+
+results <- analyze_trait(dat, L, "Mass", n_loci = 10)
+summarize_analysis(results)
+```
+
+# How I prepared the data for analysis
+
+If you're interested in seeing how I prepared the data from the version on Dryad. Here's what I did. 
+
+First, I downloaded the data from Dryad: [https://doi.org/10.5061/dryad.8ts2867](https://doi.org/10.5061/dryad.8ts2867). Then I renamed the phenotype filename so that it begins with `gm`. The rest is pretty straightforward, except that you haven't seen `popkin()` before, which produces the relatedness matrix. I also fiddle a bit with the results from `popkin()` to get them in the form that's most convenient for analysis in `Stan`.
+
+```{r}
+library(tidyverse)
+library(popkin)
+
+rm(list = ls())
+
+genos <- read_tsv("gm_genotypes_012_final_5122017.txt",
+                  col_names = FALSE,
+                  na = "-1",
+                  show_col_types = FALSE)
+phenos <- read_csv("gm_phenotypes.csv",
+                   show_col_types = FALSE)
+
+## keep only loci scored in more than 100 individuals
+##
+n_scored <- apply(genos, 2, sum, na.rm = TRUE)
+genos <- genos[, n_scored > 100]
+
+## keep only individuals scored at more than 4000 loci
+##
+n_scored <- apply(genos, 1, sum, na.rm = TRUE)
+genos <- genos[n_scored > 4000, ]
+phenos <- phenos[n_scored > 4000, ]
+## and exclude any remaining loci where one or more individuals isn't scored
+##
+genos <- genos[, !is.na(apply(genos, 2, sum))]
+
+## strip off the individual ids to identify populations
+##
+pops <- gsub("_.*", "", phenos$sample)
+
+## bind the poopulation, phenotype, and genotype information together and save it in a CSV file
+##
+dat <- cbind(pops, phenos, genos)
+write_csv(dat, 
+          file = "gypsymoth.csv")
+
+## estimate the kinship among individuals and save it in a CSV file
+##
+phi <- popkin(t(as.matrix(genos)), 
+              subpops = pops)
+L <- t(chol(phi))
+write_csv(as.data.frame(L),
+          file = "gypsymoth_relatedness.csv")
+```
+
+
+## Trying with brms
+```{r}
+library(brms)
+library(popkin)
+
+options(mc.cores = parallel::detectCores())
+
+## get the relatedness matrix
+##
+genos <- dat %>% select(starts_with("X"))
+A <- popkin(t(as.matrix(genos)),
+            subpops = dat$pops)
+## identify the rows with the sample names
+##
+rownames(A) <- dat$sample
+
+## construct the model formula
+##
+formula_string <- paste("Mass", paste(colnames(genos), collapse = " + "), sep = " ~ ")
+formula_string <- paste(formula_string, "+ (1|gr(sample, cov = A))")
+## run the model
+##
+result_brms <- brm(formula_string,
+                   data = dat,
+                   data2 = list(A = A),
+                   family = gaussian(),
+                   prior = set_prior(horseshoe(), class = "b"),
+                   refresh = 0)
+
+summarize_analysis <- function(results_brms, n_report = 20) {
+  results_dat <- as.data.frame(results_brms) %>%
+    select(starts_with("b_X"))
+  if (n_report > ncol(results_dat)) {
+    n_report <- ncol(results_dat)
+  }
+  cat(".            Mean: (    2.5%,      10%,      50%,      90%,    97.5%)\n")
+  locus_means <- apply(results_dat, 2, mean)
+  ordered_names <- names(sort(abs(locus_means), decreasing = TRUE))
+  for (i in 1:n_report) {
+    ci <- quantile(results_dat[[ordered_names[i]]],
+                   c(0.025, 0.1, 0.5, 0.9, 0.975))
+    output <- sprintf("%8s: %8.5f (%8.5f, %8.5f, %8.5f, %8.5f, %8.5f)\n",
+                      ordered_names[i],
+                      locus_means[[ordered_names[i]]],
+                      ci[1], ci[2], ci[3], ci[4], ci[5])
+    cat(output)
+  }
+}
+
+summarize_analysis(result_brms)
+summary(result_brms, digits = 7)
+
+```
