@@ -1,0 +1,108 @@
+---
+title: "Genomic prediction"
+output: html_notebook
+---
+
+## Genomic prediction
+
+This uses the full regression. So it's genomic prediction.
+
+```{r}
+options(tidyverse.quiet = TRUE)
+library(tidyverse)
+library(rstan)
+library(brms)
+library(popkin)
+
+rm(list = ls())
+
+options(mc.cores = parallel::detectCores())
+
+standardize <- function(x) {
+  return((x - mean(x, na.rm = TRUE))/sd(x, na.rm = TRUE))
+}
+
+summarize_analysis <- function(results_brms, n_report = 20) {
+  results_dat <- as.data.frame(results_brms) %>%
+    select(starts_with("b_X"))
+  if (n_report > ncol(results_dat)) {
+    n_report <- ncol(results_dat)
+  }
+  cat(".            Mean: (    2.5%,      10%,      50%,      90%,    97.5%)\n")
+  locus_means <- apply(results_dat, 2, mean)
+  ordered_names <- names(sort(abs(locus_means), decreasing = TRUE))
+  for (i in 1:n_report) {
+    ci <- quantile(results_dat[[ordered_names[i]]],
+                   c(0.025, 0.1, 0.5, 0.9, 0.975))
+    output <- sprintf("%8s: %8.5f (%8.5f, %8.5f, %8.5f, %8.5f, %8.5f)\n",
+                      ordered_names[i],
+                      locus_means[[ordered_names[i]]],
+                      ci[1], ci[2], ci[3], ci[4], ci[5])
+    cat(output)
+  }
+}
+
+## read the data
+##
+dat <- read_csv("gypsymoth.csv",
+                show_col_types = FALSE)
+## get the relatedness matrix
+##
+genos <- dat %>% select(starts_with("X"))
+A <- popkin(t(as.matrix(genos)),
+            subpops = dat$pops)
+## identify the rows with the sample names
+##
+rownames(A) <- dat$sample
+
+## construct the model formula
+##
+formula_string <- paste("standardize(Mass)", paste(colnames(genos), collapse = " + "), sep = " ~ ")
+formula_string <- paste(formula_string, "+ (1|gr(sample, cov = A))")
+## run the model
+##
+result_brms <- brm(formula_string,
+                   data = dat,
+                   data2 = list(A = A),
+                   family = gaussian(),
+                   prior = set_prior(horseshoe(par_ratio = 5/n_loci)),
+                   refresh = 100)
+
+summarize_analysis(result_brms)
+```
+
+Look more closely at the results
+
+```{r}
+plot_obs_vs_pred <- function(y, result) {
+  y_rep <- posterior_predict(result)
+  y_rep_mean <- apply(y_rep, 2, mean)
+  for_plot <- tibble(Observed = y, Predicted = y_rep_mean)
+  p <- ggplot(for_plot, aes(x = Predicted, y = Observed)) +
+    geom_point() +
+    geom_smooth(method = "lm", linetype = "solid", color = "salmon", se = FALSE) +
+    geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+    theme_bw()
+  p
+}
+```
+
+The R^2 for the regression of phenotype on all of the markers is 
+
+```{r}
+cat("R^2: ", round(bayes_R2(result_brms)[1], 3))
+```
+
+```{r}
+plot_obs_vs_pred(standardize(dat$Mass), result_brms)
+```
+
+The dashed line is the 1:1 line for a perfect fit. The red line is the regression line of observed on predicted. Here's the least-squares fit of Observed vs. Expected
+
+```{r}
+post_pred <- posterior_predict(result_brms)
+post_pred_mean <- apply(post_pred, 2, mean)
+
+fit_data <- tibble(Observed = standardize(dat$Mass), Predicted = post_pred_mean)
+summary(lm(Observed ~ Predicted, data = fit_data))
+```
