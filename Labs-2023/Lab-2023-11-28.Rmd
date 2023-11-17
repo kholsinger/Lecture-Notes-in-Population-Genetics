@@ -23,7 +23,7 @@ In the example below you'll see that X4293 has the largest estimated effect, 0.0
 
 # Short example of an analysis
 
-I use `set.seed(1234)` to ensure that when you run this example you get the same numbers I do.
+I use `set.seed(1234)` to ensure that when you run this example you get the same numbers I do. You'll need to change the second to last line to pick the trait and the range of loci that you've been assigned.
 
 ```{r message = FALSE}
 options(tidyverse.quiet = TRUE)
@@ -42,16 +42,14 @@ standardize <- function(x) {
   return((x - mean(x, na.rm = TRUE))/sd(x, na.rm = TRUE))
 }
 
-analyze_trait <- function(dat, A, trait, n_loci = NA, n_samples = 2000, n_chains = 4) {
-  if (is.na(n_loci)) {
-    n_loci <- ncol(dat) - 5
-  }
+analyze_trait <- function(dat, A, trait, loci, n_samples = 2000, n_chains = 4) {
+  n_loci <- length(loci)
   p_raw <- matrix(nrow = n_loci, ncol = n_chains*n_samples/2)
   mean_p <- numeric(n_loci)
   mu <- array(dim = c(n_loci, n_samples, nrow(dat)))
   for (i in 1:n_loci) {
-    locus <- colnames(dat)[i + 5]
-    cat("Checking locus ", i, " (", locus, ")\n", sep = "")
+    locus <- colnames(dat)[loci[i] + 5]
+    cat("Checking locus ", loci[i], " (", locus, ")\n", sep = "")
     fit <- brm(paste(trait, locus, sep = " ~ "),
                data = dat,
                data2 = list(A = A),
@@ -75,12 +73,17 @@ analyze_trait <- function(dat, A, trait, n_loci = NA, n_samples = 2000, n_chains
   return(list(loci = loci, p = p))
 }
 
-summarize_analysis <- function(results, n_report = 20) {
-  if (n_report > nrow(results$loci)) {
-    n_report <- nrow(results$loci)
-  }
+summarize_analysis <- function(results) {
+  n_report <- nrow(results$loci)
   cat("\n\n",
       "         Mean: (    2.5%,      10%,      50%,      90%,    97.5%)\n")
+  dat <- tibble(Locus = character(n_report),
+                Mean = numeric(n_report), 
+                `2.5%` = numeric(n_report), 
+                `10%` = numeric(n_report),
+                `50%` = numeric(n_report), 
+                `90%` = numeric(n_report), 
+                `97.5%` = numeric(n_report))
   for (i in 1:n_report) {
     ci <- quantile(results$p[results$loci$locus[i], ],
                    c(0.025, 0.1, 0.5, 0.9, 0.975))
@@ -89,7 +92,15 @@ summarize_analysis <- function(results, n_report = 20) {
                       results$loci$p_mean[i],
                       ci[1], ci[2], ci[3], ci[4], ci[5])
     cat(output)
+    dat$Locus[i] <- results$loci$locus[i]
+    dat$Mean[i] <- results$loci$p_mean[i]
+    dat$`2.5%`[i] <- ci[1]
+    dat$`10%`[i] <- ci[2]
+    dat$`50%`[i] <- ci[3]
+    dat$`90%`[i] <- ci[4]
+    dat$`97.5%`[i] <- ci[5]
   }
+  write_csv(dat, "GWAS-results.csv")
 }
 
 ## read the data
@@ -105,9 +116,11 @@ A <- popkin(t(as.matrix(genos)),
 ##
 rownames(A) <- dat$sample
 
-## This example analyzes only the first 10 loci
+## This example analyzes the first 10 loci.
+## Change 1:10 to match the range of loci you have been assigned and "Mass" to the 
+## trait you have been assigned 
 ##
-results <- analyze_trait(dat, A, "Mass", 10)
+results <- analyze_trait(dat, A, "Mass", 1:10)
 summarize_analysis(results)
 ```
 
