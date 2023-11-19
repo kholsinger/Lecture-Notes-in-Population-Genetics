@@ -3,9 +3,42 @@ title: "GWAS in gypsy moths"
 output: html_notebook
 ---
 
-# GWAS with `Stan`
+# Logistics for this lab exercise
 
-Friedline et al.^[Friedline, C.J., T.M. Faske, B.M. Lind, E.M. Hobson, D. Parry, R.J. Dyer, D.M. Johnson, L.M. Thompson, K.L. Grayson, and A.J. Eckert.  2019.  Evolutionary genomics of gypsy moth populations sampled along a latitudinal gradient. _Molecular Ecology_ 28:2206-2223 doi: [https://doi.org/10.1111/mec.15069](https://doi.org/10.1111/mec.15069)] investigated the role of natural selection in the rapid spread of gypsy moth (_Lymantria dispar_) across Eastern North America. Their analysis focused on analysis of polymorphisms at 91,468 SNPs identified through double digest restriction-site associated DNA sequencing (ddRADseq). As part of their work, they also collected data on pupal mass (Mass), pupal development time (PD), and total development time (TDT). This allows us to perform a genome-wide association analysis that assesses the relationship, if any, between individual SNP loci and each of the phenotypes. You’ll find the data set on the course web site:
+This lab exercise will be different from others we've had in the course in several ways:
+
+1. No one will analyze all of the data themselves. We're using a cheap form of parallelization. Rather than spreading the computational burden across different CPUs in a computational cluster, we're spreading it across the CPUs in your laptops. Each of you will be responsible for only part of the analysis.
+2. You will complete the exercise in stages.
+    a. Run the analysis for the specific combination of trait and loci to which you are assigned (see below).
+    b. Send the results of your analysis, i.e., the `GWAS-results.csv` file that is produced, to Nick by the end of the day on Friday.
+    c. By the end of the day Monday, Nick will compile the results of the separate analyses into three large results files (one for each trait) including all of the loci. By Tuesday morning, I'll have the results files posted on the course website.
+    d. Using the combined results from all traits and all loci you'll answer the questions posed below.
+  
+## Setting up for the analysis
+
+You'll be using a new `R` package for this lab exercise. Installing it is slightly more complicated than usual, because you first have to install a C/C++ compiler and a Fortran compiler in a place where `R` can find it. Fortunately there's a really good set of instructions at [https://learnb4ss.github.io/learnB4SS/articles/install-brms.html](https://learnb4ss.github.io/learnB4SS/articles/install-brms.html). If you follow those instructions, you should be all set.^[You'll find instructions for macOS, Windows, and Linux at that link.] We recommend that you install `brms` ***before*** lab on Tuesday so that you can try the example analysis together in lab and talk about how to interpret the results.
+
+## Individual assignments
+
+Note: We've assigned two people to loci 141:176 for all of the traits. There shouldn't be noticeable differences in the results, but this gives us a way of checking a few of the results to make sure that they are consistent.
+
+<table>
+Loci     Mass     PD       TDT
+-------- -------- -------  -------
+1:35     Isabelle Rowan    Akriti
+36:71    Emma     Agustin  Matthew
+71:106   Nora     Kaitlyn  Gaurav
+107:142  Henry    Cynthia
+143:178  Sophia   Fahad    Claire
+         Alyssa   Maya     Kyle
+179:218  Michelle Michelle Sanjay
+         McDonald Neitzey
+</table>
+
+
+# GWAS with `brms`
+
+Friedline et al.^[Friedline, C.J., T.M. Faske, B.M. Lind, E.M. Hobson, D. Parry, R.J. Dyer, D.M. Johnson, L.M. Thompson, K.L. Grayson, and A.J. Eckert.  2019.  Evolutionary genomics of gypsy moth populations sampled along a latitudinal gradient. _Molecular Ecology_ 28:2206-2223 doi: [https://doi.org/10.1111/mec.15069](https://doi.org/10.1111/mec.15069)] investigated the role of natural selection in the rapid spread of gypsy moth (_Lymantria dispar_) across Eastern North America. Their analysis focused on analysis of polymorphisms at 91,468 SNPs identified through double digest restriction-site associated DNA sequencing (ddRADseq). As part of their work, they also collected data on pupal mass (Mass), pupal development time (PD), and total development time (TDT). This allows us to perform a genome-wide association analysis that assesses the relationship, if any, between individual SNP loci and each of the phenotypes. You’ll find a smaller version of the data set on the course web site:
 
 - [gypsymoth.csv](http://darwin.eeb.uconn.edu/eeb348-resources/gypsymoth.csv) A CSV file containing information about each individual in the sample (population of origin, sample label, phenotype, genotype at each SNP locus).
 
@@ -13,9 +46,9 @@ The data set is a subset of the data included in the paper. Specifically, I filt
 
 1. What loci (if any) are associated with each of the three traits (pupal mass, pupal development time, and total development time)?
 
-IMPORTANT NOTE: The loci are ordered from the strongest estimated effect (mean) to the weakest, but loci showing a weaker estimated effect may have stronger evidence for them, i.e., the credible interval may not overlap zero. Because of the small sample size, I recommend considering both the 80% and the 95% credible intervals whenn answering these questions. 
+    IMPORTANT NOTE: In the output, the loci are ordered from the strongest estimated effect (mean) to the weakest, but loci showing a weaker estimated effect may have stronger evidence for them, i.e., the credible interval may not overlap zero. Because of the small sample size, I recommend considering both the 80% and the 95% credible intervals whenn answering these questions. 
 
-In the example below you'll see that X4293 has the largest estimated effect, 0.01434 and that that the 95% credible interval on this effect does not overlap zero. This suggests that genotypic differences at X4293 have an effect on pupal mass. Notice that the 80% credible intervals for X2840, X4680, X2841, and X5330 do not overlap zero, providing suggestive evidence that differences at these loci may also affect pupal mass. Estimated effects at remaining loci are smaller and the 80% credible intervals indicating that we cannot detect any effect differences at these loci have on pupal mass.^[It's important to be very careful in your conclusion here. We do ***not*** have evidence that differences at these loci have no effect. With a larger sample of individuals we might have detected an effect at any of these loci.]
+    In the example below you'll see that X4293 has the largest estimated effect, 0.01457 and that that the 95% credible interval on this effect does not overlap zero.^[You'll get slightly slightly different numbers than the ones below, because `brm` uses Monte-Carlo sampling to estimate the posterior distribution. The differences shouldn't affect the interpretation.] This suggests that genotypic differences at X4293 have an effect on pupal mass. Notice that the 80% credible intervals for X2840, X4680, X2841, and X5330 do not overlap zero, providing suggestive evidence that differences at these loci may also affect pupal mass. Estimated effects at remaining loci are smaller and the 80% credible intervals overlap zero indicating that we have very weak evidence that differences at these loci have an effect on pupal mass.^[It's important to be very careful in your conclusion here. We do ***not*** have evidence that differences at these loci have no effect. With a larger sample of individuals we might have detected an effect at any of these loci.]
 
 2. Is there evidence that any of the SNP loci are associated with variation in more than one of the traits?
 
@@ -23,7 +56,9 @@ In the example below you'll see that X4293 has the largest estimated effect, 0.0
 
 # Short example of an analysis
 
-I use `set.seed(1234)` to ensure that when you run this example you get the same numbers I do. You'll need to change the second to last line to pick the trait and the range of loci that you've been assigned.
+After reading in the data from `gypsymoth.csv`, we extract the genotype data,^[All of the columns with genotype information begin with "X", and none of the other columns do.] and use `popkin` to estimate the relatedness of all of the samples from the genotype data. Then we run the analysis, in this case using Mass as the trait and looking only at loci 1:10 and sending the relatedness matrix to the function that runs the analysis. You'll need to change the second to last line in this block of code to pick the trait and the range of loci that you've been assigned.
+
+You'll find `GWAS-results.csv` in the directory where you ran the analysis. The numbers you see in it will match those in the table that's displayed after the analysis.^[The results that are displayed are rounded to 5 digits. The numbers in the `GWAS-results.csv` include all digits found in the results.]
 
 ```{r message = FALSE}
 options(tidyverse.quiet = TRUE)
@@ -34,13 +69,7 @@ library(popkin)
 
 rm(list = ls())
 
-set.seed(1234)
-
 options(mc.cores = parallel::detectCores())
-
-standardize <- function(x) {
-  return((x - mean(x, na.rm = TRUE))/sd(x, na.rm = TRUE))
-}
 
 analyze_trait <- function(dat, A, trait, loci, n_samples = 2000, n_chains = 4) {
   n_loci <- length(loci)
@@ -116,7 +145,6 @@ A <- popkin(t(as.matrix(genos)),
 ##
 rownames(A) <- dat$sample
 
-## This example analyzes the first 10 loci.
 ## Change 1:10 to match the range of loci you have been assigned and "Mass" to the 
 ## trait you have been assigned 
 ##
@@ -128,7 +156,7 @@ summarize_analysis(results)
 
 If you're interested in seeing how I prepared the data from the version on Dryad. Here's what I did. 
 
-First, I downloaded the data from Dryad: [https://doi.org/10.5061/dryad.8ts2867](https://doi.org/10.5061/dryad.8ts2867). Then I renamed the phenotype filename so that it begins with `gm`. The rest is pretty straightforward, except that you haven't seen `popkin()` before, which produces the relatedness matrix. I also fiddle a bit with the results from `popkin()` to get them in the form that's most convenient for analysis in `Stan`.
+First, I downloaded the data from Dryad: [https://doi.org/10.5061/dryad.8ts2867](https://doi.org/10.5061/dryad.8ts2867). Then I renamed the phenotype filename so that it begins with `gm`. The rest is pretty straightforward.
 
 ```{r}
 library(tidyverse)
@@ -166,12 +194,4 @@ pops <- gsub("_.*", "", phenos$sample)
 dat <- cbind(pops, phenos, genos)
 write_csv(dat, 
           file = "gypsymoth.csv")
-
-## estimate the kinship among individuals and save it in a CSV file
-##
-phi <- popkin(t(as.matrix(genos)), 
-              subpops = pops)
-L <- t(chol(phi))
-write_csv(as.data.frame(L),
-          file = "gypsymoth_relatedness.csv")
 ```

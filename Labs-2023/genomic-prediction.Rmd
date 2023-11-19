@@ -5,9 +5,11 @@ output: html_notebook
 
 ## Genomic prediction
 
-This uses the full regression. So it's genomic prediction.
+The lab GWAS exercise examined the association between each locus and phenotype one at a time. For genomic prediction, we want to take account of differences at all loci simultaneously. The basic approach is the same, it's just that we now have a multiple regression instead of a simple regression on one genotype. We do, however, throw in one complication. In one analysis we include the population from which an individual was collected as an additional covariate to explain phenotype. In the other, we don't.
 
-```{r}
+This analysis will report estimates only for the 20 loci with the largest magnitude of effect.
+
+```{r message = FALSE, warning = FALSE}
 options(tidyverse.quiet = TRUE)
 library(tidyverse)
 library(rstan)
@@ -18,24 +20,27 @@ rm(list = ls())
 
 options(mc.cores = parallel::detectCores())
 
+## standardize observations to a mean of zero and a standard deviation of one
+##
 standardize <- function(x) {
   return((x - mean(x, na.rm = TRUE))/sd(x, na.rm = TRUE))
 }
 
-summarize_analysis <- function(results_brms, n_report = 20) {
+summarize_analysis <- function(results_brms, header, n_report = 20) {
   results_dat <- as.data.frame(results_brms) %>%
     select(starts_with("b_X"))
   if (n_report > ncol(results_dat)) {
     n_report <- ncol(results_dat)
   }
-  cat(".            Mean: (    2.5%,      10%,      50%,      90%,    97.5%)\n")
+  cat(header, "\n")
+  cat("             Mean: (    2.5%,      10%,      50%,      90%,    97.5%)\n")
   locus_means <- apply(results_dat, 2, mean)
   ordered_names <- names(sort(abs(locus_means), decreasing = TRUE))
   for (i in 1:n_report) {
     ci <- quantile(results_dat[[ordered_names[i]]],
                    c(0.025, 0.1, 0.5, 0.9, 0.975))
     output <- sprintf("%8s: %8.5f (%8.5f, %8.5f, %8.5f, %8.5f, %8.5f)\n",
-                      ordered_names[i],
+                      substring(ordered_names[i], 3),
                       locus_means[[ordered_names[i]]],
                       ci[1], ci[2], ci[3], ci[4], ci[5])
     cat(output)
@@ -54,24 +59,80 @@ A <- popkin(t(as.matrix(genos)),
 ## identify the rows with the sample names
 ##
 rownames(A) <- dat$sample
+n_loci <- ncol(genos)
 
-## construct the model formula
+## construct the model formula for Mass
 ##
 formula_string <- paste("standardize(Mass)", paste(colnames(genos), collapse = " + "), sep = " ~ ")
 formula_string <- paste(formula_string, "+ (1|gr(sample, cov = A))")
 ## run the model
 ##
-result_brms <- brm(formula_string,
+mass_wo_pop <- brm(formula_string,
                    data = dat,
                    data2 = list(A = A),
                    family = gaussian(),
-                   prior = set_prior(horseshoe(par_ratio = 5/n_loci)),
-                   refresh = 100)
+                   prior = set_prior(horseshoe(par_ratio = 20/n_loci)),
+                   refresh = 0)
 
-summarize_analysis(result_brms)
+## construct the model formula for Mass with population as a fixed effect
+##
+formula_string <- paste("standardize(Mass)", paste("pops + ", colnames(genos), collapse = " + "), sep = " ~ ")
+formula_string <- paste(formula_string, "+ (1|gr(sample, cov = A))")
+## run the model
+##
+mass_w_pop <- brm(formula_string,
+                  data = dat,
+                  data2 = list(A = A),
+                  family = gaussian(),
+                  prior = set_prior(horseshoe(par_ratio = 20/n_loci)),
+                  refresh = 0)
+
+summarize_analysis(mass_wo_pop, "Without population effect")
+cat("\n\n")
+summarize_analysis(mass_w_pop, "With population effect")
+```
+Notice that although the estimates for X34682 and X65887 aren't too different between the two analyses, different loci appear in the output after that. How can we tell which of these is best for prediction? There are two ways in which we can compare the models: (1) proportion of variance they explain, $R^2$ and (2) their ability to predict data that wasn't included in the analysis.
+
+## R^2
+
+$R^2$ is the easiest to get.
+
+```{r}
+R2_wo <- bayes_R2(mass_wo_pop)
+R2_w <- bayes_R2(mass_w_pop)
+cat("R^2 (without pop): ", round(R2_wo[1], 3), "\n", sep = "")
+cat("R^2 (with pop):    ", round(R2_w[1], 3), "\n", sep = "")
 ```
 
-Look more closely at the results
+The model including population has a slightly higher $R^2$, but it's only a tiny amount higher. 
+
+## Predicting data that wasn't in the analysis
+
+The best way to see how well a model predicts data is to have the model predict data. The way we'll do that is to leave one data point out of the model, fit the model, and predict the left out data point from the model. We'll do that for every data point we have and see how much difference there is between the predictions and the data. The model in which the difference is smaller is preferred. Fortunately there's a sneaky way to do this "leave one out cross validation" that doesn't require us to re-run the code 141 times with 141 different data sets.
+
+```{r}
+mass_wo_pop <- add_criterion(mass_wo_pop, "loo") 
+mass_w_pop <- add_criterion(mass_w_pop, "loo") 
+```
+
+Those warning messages mean that we have one observation that is a bit of an outlier. If we follow the advice, the warning messages disappear.
+
+```{r}
+mass_wo_pop <- add_criterion(mass_wo_pop, "loo", moment_match = TRUE) 
+mass_w_pop <- add_criterion(mass_w_pop, "loo", moment_match = TRUE) 
+```
+
+Now we can compare the two models.
+
+```{r}
+loo_compare(mass_wo_pop, mass_w_pop)
+```
+
+Again, the model that doesn't include population effects performs worse,^[It's elpd is 0.7 units smaller.] but the magnitude of the difference is less than twice the standard error, so the evidence that populations help the prediction is weak. We'll proceed without including population in the predictions.
+
+## Predicting mass
+
+Let's see how well we can predict phenotypes simply by knowing their genotype and the population to which they belong.
 
 ```{r}
 plot_obs_vs_pred <- function(y, result) {
@@ -80,29 +141,87 @@ plot_obs_vs_pred <- function(y, result) {
   for_plot <- tibble(Observed = y, Predicted = y_rep_mean)
   p <- ggplot(for_plot, aes(x = Predicted, y = Observed)) +
     geom_point() +
-    geom_smooth(method = "lm", linetype = "solid", color = "salmon", se = FALSE) +
     geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
     theme_bw()
   p
 }
 ```
 
-The R^2 for the regression of phenotype on all of the markers is 
 
 ```{r}
-cat("R^2: ", round(bayes_R2(result_brms)[1], 3))
+plot_obs_vs_pred(standardize(dat$Mass), mass_wo_pop)
 ```
 
-```{r}
-plot_obs_vs_pred(standardize(dat$Mass), result_brms)
+The dashed line is the 1:1 line for a perfect fit. The predictions look fairly reasonable.
+
+## PD
+
+```{r message = FALSE, warning = FALSE}
+## construct the model formula for PD
+##
+formula_string <- paste("standardize(PD)", paste(colnames(genos), collapse = " + "), sep = " ~ ")
+formula_string <- paste(formula_string, "+ (1|gr(sample, cov = A))")
+## run the model
+##
+pd <- brm(formula_string,
+          data = dat,
+          data2 = list(A = A),
+          family = gaussian(),
+          prior = set_prior(horseshoe(par_ratio = 20/n_loci)),
+          refresh = 0)
+summarize_analysis(pd, "")
+plot_obs_vs_pred(standardize(dat$PD), pd)
+cat("\n\n")
 ```
 
-The dashed line is the 1:1 line for a perfect fit. The red line is the regression line of observed on predicted. Here's the least-squares fit of Observed vs. Expected
 
-```{r}
-post_pred <- posterior_predict(result_brms)
-post_pred_mean <- apply(post_pred, 2, mean)
+## TDT
 
-fit_data <- tibble(Observed = standardize(dat$Mass), Predicted = post_pred_mean)
-summary(lm(Observed ~ Predicted, data = fit_data))
+```{r message = FALSE, warning = FALSE}
+## construct the model formula for PD
+##
+formula_string <- paste("standardize(PD)", paste(colnames(genos), collapse = " + "), sep = " ~ ")
+formula_string <- paste(formula_string, "+ (1|gr(sample, cov = A))")
+## run the model
+##
+tdt <- brm(formula_string,
+           data = dat,
+           data2 = list(A = A),
+           family = gaussian(),
+           prior = set_prior(horseshoe(par_ratio = 20/n_loci)),
+           refresh = 0)
+summarize_analysis(pd, "")
+plot_obs_vs_pred(standardize(dat$TDT), tdt)
 ```
+
+## Comparing the predictions
+
+Now that we have all of the predictions we can see whether the individuals with similar genomic predictions for one trait are also similar for another.
+
+```{r message. = FALSE, warning = FALSE}
+library(cowplot)
+
+mass_pred <- apply(posterior_predict(mass_wo_pop), 2, mean)
+pd_pred <- apply(posterior_predict(pd), 2, mean)
+tdt_pred <- apply(posterior_predict(tdt), 2, mean)
+
+panel <- function(trait_1, trait_2, pred_1, pred_2) {
+  for_plot <- tibble(Trait_1 = pred_1,
+                     Trait_2 = pred_2)
+  p <- ggplot(for_plot, aes(x = Trait_1,  y = Trait_2)) +
+    geom_point() +
+    geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+    xlab(trait_1) +
+    ylab(trait_2) +
+    theme_bw()
+  return(p)
+}
+
+mass_pd <- panel("Mass", "PD", mass_pred, pd_pred)
+mass_tdt <- panel("Mass", "TDT", mass_pred, tdt_pred)
+tdt_pd <- panel("TDT", "PD", tdt_pred, pd_pred)
+plot_grid(mass_pd, mass_tdt, tdt_pd,
+          nrows = 2)
+```
+
+The association between genomic values for Mass and either PD or TDT is pretty weak, suggesting that if selection were to lead to a change in body mass it would have little impact on either development time. The genomic values for PD and TDT, on the other hand, are strongly associated, suggesting that if selection were to lead to a change in one of these traits, the other would follow.
