@@ -156,8 +156,8 @@ Shortly after World War II, warfarin was introduced for use as a a rat
 poison. By the mid-1950s it was approved for medical use in the United
 States as a treatment for diseases in which blood clotting caused a
 significant threat of stroke. It is still in common use as a treatment
-for atrial fibrillation.\footnote{As it happens, my father has been
-  taking warfarin for nearly 20 years.} Currently, determining the
+for atrial fibrillation.\footnote{As it happens, my father took
+  warfarin for more than 20 years before his death.} Currently, determining the
 appropriate dose is done by closely monitoring the degree of
 anticoagulation, an INR of
 $2.5 \pm 0.5$~(\url{https://www.drugs.com/dosage/warfarin.html}). In
@@ -235,8 +235,8 @@ tightly linked, alleles at those loci are likely to be statistically
 associated with one another, but let's take a closer look at what
 being statistically associated means. We'll see that while tight
 physical linkage generally implies statistical association, the
-reverse isn't true{\dash}unless you have carefully controlled for
-other factors that can produce a statistical association.
+reverse isn't true. A statistical association can arise even if the
+loci are unlinked and independently inherited.
 
 One of the most important properties of a two-locus system is that it
 is no longer sufficient to talk about allele frequencies alone, even
@@ -346,17 +346,18 @@ locus and a phenotypic trait, it suggests that the marker locus and a
 locus influence expression of the trait are physically linked. {\it
   But\/} we have to account for the effect of population structure,
 {\it and\/} we have to account for the effect of {\it past\/}
-population structure. Notice also that if the effective population
-size is large, $D^2$ may be very small unless $r$ is very small,
-meaning that you may need to have a very dense genetic map to detect
-any association between any of your marker loci and loci that
-influence the trait you're studying. As shown in the Appendix, it
-takes a while for the statistical association between loci to decay
-after two distinct populations mix. So if we are dealing with
-populations having a history of hybridization, teasing apart physical
-linkage and statistical association can become very
-challenging.\footnote{Think about what this means for GWAS or
-  case-control studies in human populations.}
+population structure.\footnote{I haen't told you why we need to
+  account for population structure, but you'll see in just a moment.}
+Notice also that if the effective population size is large, $D^2$ may
+be very small unless $r$ is very small, meaning that you may need to
+have a very dense genetic map to detect any association between any of
+your marker loci and loci that influence the trait you're studying. As
+shown in the Appendix, it takes a while for the statistical
+association between loci to decay after two distinct populations
+mix. So if we are dealing with populations having a history of
+hybridization, teasing apart physical linkage and statistical
+association can become very challenging.\footnote{Think about what
+  this means for GWAS or case-control studies in human populations.}
 
 \section*{Population structure with two loci}
 
@@ -440,6 +441,25 @@ Returning to the example in Table~\ref{table:d-structure}
 \bar x_{22}          &=& (0.35)(0.70) - 0.005 \\
                      &=& 0.24 \quad .
 \end{eqnarray*}
+
+\subsection*{Implications for GWAS}
+
+For GWAS this means that we have to be very careful to account for
+{\it any\/} population structure within our data if we want to
+interpret a {\it statistical\/} association between a locus and a
+trait as indicating that the locus is {\it physically\/} associated
+with a locus influencing expression of the trait. In the example
+you'll work through in lab we do this by including an estimate of the
+genetic relatedness of individuals in our sample in the regression
+model. Specifically, in this regression equation
+\[
+  y_i = x_{ij}\beta_j + \phi_i + \epsilon_{ij} 
+\]
+$\epsilon$ is pure random error with a mean of 0 and a variance equal
+to the environmental variance. $\phi_i$ is a correlated error in which
+the residual for individual $i$ is correlated with the residual for
+individual $j$ and the degree of correlation is related to the degree
+of relationship between them.
 
 \bibliography{popgen}
 \bibliographystyle{plain}

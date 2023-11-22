@@ -15,26 +15,52 @@ This `R` notebook may be a simpler way to follow along with the lecture notes th
 
 The first step in exploring genomic prediction is to generate data where we know the answer so that we can compare our estimate from the data with the truth. `generate_data()` does this by following these steps.
 
-1. Generate an genotype at each locus for an individual. By default, `generate_data()` generates genotypes at 20 loci, but you can change that when you call it by changing `n_loci_total` in the call. The genotype at each locus is generated randomly assuming that the genotypes are in proportions 0.25, 0.5, and 0.25 for one homozygote, the heterozygote, and the other homozygote respectively.
+1. Generate genotype frequencies at each locus. By default, `generate_data()` generates genotypes at 20 loci, but you can change that when you call it by changing `n_loci_total` in the call. We generate the genotypes in such a way that they are correlated with one another.^[Here are the details, if you're interested: (a) Generate a sample from a multivariate normal distribution with a mean vector of zero and a covariance matrix where all of the variances are 1 and the correlation of each element of the vector is $\rho/2$ with the element just before it and the element just after it. Call the `n_loci` randomly generated numbers `logit_p`. (b) Convert the the `logit_p` to frequencies using $p = \frac{\mbox{exp}(\mbox{logit_p})}{1 + \mbox{exp}(\mbox{logit_p})}$. (c) Generate a matrix of genotype frequencies at each locus assuming genotypes are in Hardy-Weinberg at every locus. 
+2. Generate a genotype at random for an individual based on the genotype frequencies at each locus from #1
 
-2. Generate a phenotype for this individual.
+3. Generate a phenotype for this individual.
 
-    a. Calculate the genotypic mean at each locus from the specified allelic effect and the genotype at that locus. By default the allelic effects are 1.0, -1.0, 0.5, -0.5, and 0.25 at loci 1-5 and 0.0 at the remaining 15 loci. You can change that by changing `effect` when you call `generate_data()`.
-    b. Generate a phenotypic contribution each locus as a random variable having a normal distribution with the genotypic mean and a specified standard deviation. By default the standard deviation is 0.2. You can change that by changing `s_dev` when you call `generate_data()`.
+    a. Calculate the genotypic mean at each locus from the specified allelic effect and the genotype at that locus. By default the allelic effects are 1.0, -1.0, 0.5, -0.5, and 0.25 at loci 1-5 and 0.0 at the remaining 15 loci. You can change that by changing `effect` when you call `generate_data()`. The allelic affect is the effect of having 0, 1, or 2 copies of the allele, and there is no dominance.
+    b. Generate a phenotypic contribution at each locus as a random variable having a normal distribution with the genotypic mean and a specified standard deviation. By default the standard deviation is 0.2. You can change that by changing `s_dev` when you call `generate_data()`.
     c. Sum the phenotypic contribution across all of the loci.^[Since we're assuming that only loci 1-5 influence the phenotype, we only do this sum across loci 1-5.]
   
-3. Repeat #1 and #2 until you have the number of individuals in the sample data set that you want. By default that's 100, but you can change that by changing `n_indiv` when you call `generate_data`.
+4. Repeat #2 and #3 until you have the number of individuals in the sample data set that you want. By default that's 100, but you can change that by changing `n_indiv` when you call `generate_data`.
 
 `generate_data()` returns the results of the simulation as a data frame with each individual on a row and with the phenotype in the first column and the genotypes at each locus in the remaining columns.
 
 NOTE: I'm using `set.seed()` to ensure that you get the same sequence of random numbers that I do if you run this code on your own. You can delete that line or comment it out if you want to see what happens with different randomly generated data sets.
 
-```{r}
+```{r message = FALSE}
+library(MASS)
+
+rm(list = ls())
+
 set.seed(12345)
 
-generate_genotypes <- function(n) {
-  x <- rmultinom(n, 1, c(0.25, 0.5, 0.25))
-  return(apply(x == 1, 2, which) - 1)
+generate_frequencies <- function(n_loci, rho) {
+  Sigma <- diag(1, n_loci)
+  Sigma[1,2] <- rho
+  for (i in 2:(n_loci - 1)) {
+    Sigma[i, i - 1] <- rho/2
+    Sigma[i, i + 1] <- rho/2
+  }
+  Sigma[n_loci, n_loci - 1] <- rho
+  logit_p <- mvrnorm(n_loci, rep(0, n_loci), Sigma)
+  p <- exp(logit_p)/(1 + exp(logit_p))
+  x <- matrix(nrow = n_loci, ncol = 3)
+  for (i in 1:n_loci) {
+    x[i, ] <- c(p[i]^2, 2*p[i]*(1-p[i]), (1-p[i])^2)
+  }
+  return(x)
+}
+
+generate_genotypes <- function(freqs) {
+  x <- numeric(nrow(freqs))
+  n_loci <- nrow(freqs)
+  for (i in 1:n_loci) {
+    x[i] <- which(rmultinom(1, 1, freqs[i, ]) == 1) - 1
+  }
+  return(x)
 }
 
 generate_data <- function(n_indiv = 100,
@@ -44,9 +70,10 @@ generate_data <- function(n_indiv = 100,
 {
   pheno <- numeric(n_indiv)
   geno <- matrix(nrow = n_indiv, ncol = n_loci_total)
+  freqs <- generate_frequencies(n_loci_total, 0.2)
   for (i in 1:n_indiv) {
     for (j in 1:n_loci_total) {
-      x <- generate_genotypes(n_loci_total)
+      x <- generate_genotypes(freqs)
     }
     geno[i, ] <- x
     pheno[i] <- 0.0
@@ -56,7 +83,12 @@ generate_data <- function(n_indiv = 100,
     }
   }
   dat <- cbind(pheno, geno)
-  colnames(dat) <- c("pheno", paste("locus_", 1:n_loci_total, sep = ""))
+  ## remove any loci that happen to be monomorphic
+  ##
+  counts <- apply(dat[, -1], 2, sum)
+  remove <- (counts == 2*nrow(dat)) | (counts == 0)
+  dat <- dat[, c(TRUE, !remove)]
+  colnames(dat) <- c("pheno", paste("locus_", 1:length(counts), sep = ""))
   return(as.data.frame(dat))
 }
 
@@ -71,9 +103,10 @@ We generated the data assuming that the individuals are all part of one, very la
 
 ## Locus-by-locus GWAS
 
-We'll start with a locus-by-locus GWAS like the one in [Lab 13](http://darwin.eeb.uconn.edu/eeb348-resources/Lab13.nb.html). 
+We'll start with a locus-by-locus GWAS like the one in lab, except that we'll use `rstanarm` instead of `brms` and we'll ignore relatedness.^[Since the individuals were generated randomly, they are equally unrelated to one another.] 
 
-```{r}
+```{r message = FALSE, warning = FALSE}
+options(tidyverse.quiet = TRUE)
 library(tidyverse)
 library(rstanarm)
 
@@ -84,6 +117,7 @@ results <- tibble(Locus = NA,
                   `2.5%` = NA,
                   `97.5%` = NA)
 for (locus in 1:n_loci) {
+  cat("Locus ", locus, "\n", sep = "")
   fit <- stan_lm(paste("pheno ~ ", loci[locus], sep=""),
                  prior = R2(0.5, what = "mean"),
                  data = dat,
@@ -102,7 +136,7 @@ results %>%
   arrange(desc(abs(Mean)))
 ```
 
-Notice that locus 5, which we know has an allelic effect of 0.25 doesn't appear among the top 5 in this list. In fact, it has the *smallest* estimated effect. It comes in at number 20. Similarly, locus 15, which we know doesn't have an effect, appears in the top 5.
+While the five loci that we know have an effect came out with the five largest estimated effects in this analysis, locus 3 has a credible interval that does not overlap zero, locus 20 is very close to not overlapping zero, and all of the first ten loci have an estimated effect at least half as large as locus 5. Based on this analysis, it would be tempting to conclude that there are seven loci with a noticeable effect on the trait.
 
 ## Genomic prediction
 
@@ -151,9 +185,9 @@ results_gp %>%
   arrange(desc(abs(Mean)))
 ```
 
-Notice that with the genomic prediction approach we get the estimated allelic effects in the right order and roughly right in magnitude. This is only one example, and it is dangerous to extrapolate from one example, but if you're familiar with multiple regression and its advantages, you're probably wondering, "Why didn't we just go directly with genomic prediction in [Lab 13](http://darwin.eeb.uconn.edu/eeb348-resources/Lab13.nb.html)?" 
+Notice that with the genomic prediction approach we get the estimated allelic effects in the right order and roughly right in magnitude. In addition, all of the other loci have estimated allelic effects close to zero as they should. This is only one example, and it is dangerous to extrapolate from one example, but if you're familiar with multiple regression and its advantages, you're probably wondering, "Why didn't we just go directly with genomic prediction in the lab exercise?" Well, we could have, but it's useful to understand what GWAS is doing first, and it's useful to see how to include the effect of relatedness when making the estimates.^[That's why we used `brms` instead of `rstanarm` in lab. `rstanarm` doesn't have a way to include relatedness.] In addition, GWAS allows us to identify loci that ***may*** be associated with phenotypic predictions. This potentially allows us to examine the genetic architecture of a trait, e.g., the number of loci, distribution of allelic effects across loci, and interactions among loci. It may also allow us to identify loci that have an important influence on more than one trait. 
 
-Well, look at those data again. Even after severe filtering to remove loci that weren't scored in at least 100 individuals, keeping only individuals scored at more than 4000 of the remaining loci, and excluding any loci where one or more of the remaining individuals wasn't scored we had data from 218 loci and 141 individuals. That means we have 141 observations that we are trying to "predict" from 218 covariates. We have more covariates than observations, and for multiple linear regression to work we need more observations than covariates. To get good estimates of regression coefficients you need several observations per coefficient. Here we did pretty well with 5 observations per coefficient. You might want to try increasing the number of loci included in the data set to 50, keeping `effect` set at the default and tyring the simulation again to see what you get.
+All that being said, in a real GWAS analysis, you would want to include all of the loci in a multiple regression analysis. The difference between these results and those of the single locus analysis arise because I set up the simulated population in such a way that the genotypes are corrleated across loci.
 
 # Comparing one-locus GWAS and genomic predictions
 
@@ -165,10 +199,11 @@ for_plot <- tibble(GWAS = results$Mean,
   filter(!is.na(GWAS))
 p <- ggplot(for_plot, aes(x = GWAS, y = GP)) +
   geom_point() +
-  geom_abline(slope = 1, intercept = 0, color = "red",
+  geom_abline(slope = 1, intercept = 0, color = "salmon",
               linetype = "dashed") +
   theme_bw()
 p
+ggsave("gwas-vs-gp.eps")
 ```
 They are broadly similar, but there are also clearly some differences. Now let's see how well we can predict the phenotypes.
 
@@ -200,14 +235,13 @@ for (i in 1:nrow(dat)) {
 predictions <- filter(predictions, !is.na(Predicted))
 p <- ggplot(predictions, aes(x = Observed, y = Predicted)) +
   geom_point() +
-  geom_abline(slope = 1, intercept = 0, color = "red", 
+  geom_abline(slope = 1, intercept = 0, color = "salmon", 
               linetype = "dashed") +
   facet_wrap(~ Model) +
   theme_bw()
 p
+ggsave("gwas-obs-vs-predicted.eps")
 ```
-
-You can see that there's a cluster of points close to the 1:1 line with genomic prediction, and that the points seem to be a bit farther from the 1:1 line with the locus by locus GWAS. We can check that by calculating the mean squared error.
 
 ```{r}
 cat("Mean squared error:\n",
@@ -218,4 +252,4 @@ cat("Mean squared error:\n",
     sep = "")
 ```
 
-As you can see, our (or at least my) subjective impression was wrong. If we were to use all 20 loci, the locus by locus GWAS would, on average, be closer to the "truth" than the genomic prediction approach -- even though we know that it got the effects wrong.
+Again, this is only one example, but you can see that the genomic prediction (multiple regression) approach gives us a smaller mean error than the single locus GWAS approach..
