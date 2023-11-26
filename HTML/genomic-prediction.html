@@ -8,13 +8,24 @@
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
   </style>
   <link rel="stylesheet" href="pandoc.css" />
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
@@ -25,39 +36,203 @@
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
-<li><a href="#introduction">Introduction</a></li>
-<li><a href="#genetics-of-complex-traits">Genetics of complex traits</a>
+<li><a href="#introduction" id="toc-introduction">Introduction</a></li>
+<li><a href="#genetics-of-complex-traits"
+id="toc-genetics-of-complex-traits">Genetics of complex traits</a>
 <ul>
-<li><a href="#a-toy-example">A toy example</a></li>
+<li><a href="#a-toy-example" id="toc-a-toy-example">A toy
+example</a></li>
 </ul></li>
-<li><a href="#comparing-the-results">Comparing the results</a></li>
-<li><a href="#creative-commons-license">Creative Commons License</a></li>
+<li><a href="#comparing-the-results"
+id="toc-comparing-the-results">Comparing the results</a></li>
+<li><a href="#some-caveats-about-genomic-prediction"
+id="toc-some-caveats-about-genomic-prediction">Some caveats about
+genomic prediction</a>
+<ul>
+<li><a href="#allele-frequency-comparisons"
+id="toc-allele-frequency-comparisons">Allele frequency
+comparisons</a></li>
+</ul></li>
+<li><a href="#second-thoughts" id="toc-second-thoughts">Second
+thoughts</a>
+<ul>
+<li><a href="#within-sample-stratification"
+id="toc-within-sample-stratification">Within sample
+stratification</a></li>
+<li><a href="#difficulties-extrapolating-polygenic-scores"
+id="toc-difficulties-extrapolating-polygenic-scores">Difficulties
+extrapolating polygenic scores</a></li>
+</ul></li>
+<li><a href="#creative-commons-license"
+id="toc-creative-commons-license">Creative Commons License</a></li>
 </ul>
 </nav>
 <h1 class="unnumbered" id="introduction">Introduction</h1>
-<p>Let’s review the basic approach we use in genome-wide association mapping.</p>
+<p>Let’s review the basic approach we use in genome-wide association
+mapping.</p>
 <ul>
-<li><p>We measure both the phenotype, <span class="math inline">\(y_i\)</span>, of individual <span class="math inline">\(i\)</span> and its genotype at a large number of loci, where <span class="math inline">\(x_{ij}\)</span> is the individual’s genotype at locus <span class="math inline">\(j\)</span>.</p></li>
-<li><p>We regress phenotype on genotype one locus at a time, using a random effect to correct for phenotypic similarities that reflect relatedness rather than similarity in genotype. <span class="math display">\[y_i^{(k)} = x_{ij}\beta_j + \phi^{(k)} + \epsilon_i \quad .\]</span></p></li>
+<li><p>We measure both the phenotype, <span
+class="math inline">\(y_i\)</span>, of individual <span
+class="math inline">\(i\)</span> and its genotype at a large number of
+loci, where <span class="math inline">\(x_{ij}\)</span> is the
+individual’s genotype at locus <span
+class="math inline">\(j\)</span>.</p></li>
+<li><p>We regress phenotype on genotype one locus at a time, using a
+random effect to correct for phenotypic similarities that reflect
+relatedness rather than similarity in genotype. <span
+class="math display">\[y_i^{(k)} = x_{ij}\beta_j + \phi^{(k)} +
+\epsilon_i \quad .\]</span></p></li>
 </ul>
-<p>Keep in mind this is a highly idealized schematic of how GWAS analyses are actually done.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> If you want to do GWAS for real, you should take a look at GEMMA (<a href="http://www.xzlab.org/software.html">http://www.xzlab.org/software.html</a>) or TASSEL (<a href="https://www.maizegenetics.net/tassel">https://www.maizegenetics.net/tassel</a>). One important way in which what I’ve presented is a simplification is that in a real GWAS analysis, you’d estimate the effects of every locus simultaneously, which raises an interesting problem.</p>
-<p>In a typical GWAS analysis<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>, you will have measured the phenotype of a few thousand individuals, but you will have genotyped those individuals at several hundred thousand loci. Lango Allen et al. <span class="citation" data-cites="LangoAllen-etal-2010"></span>, for example, report results from a large analysis of height variation in humans, 183,727 individuals genotyped at 2,834,208 loci. What’s the problem here?</p>
-<p>There are more predictors (loci) than observations (individual phenotypes). If you remember some basic algebra, you’ll remember that you can’t solve a set of linear equations unless you have the same number of equations as unknowns. For example, you can’t solve a set of three equations that has five unknowns. There’s a similar phenomenon in statistics when we’re fitting a linear regression. In statistics we don’t “solve” an equation. We find the best fit in a regression, and we can do so in a reasonable way so long as the number of observations exceeds the number of variables included in our regression. To put a little mathematical notation to it, if <span class="math inline">\(n\)</span> is the number of observations and <span class="math inline">\(p\)</span> is the number of regression parameters we hope to estimate, life is good (meaning that we can estimate the regression parameters) so long as <span class="math inline">\(n &gt; p\)</span>.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> The typical situation we encounter in GWAS is that <span class="math inline">\(n &lt; p\)</span>, which means we have to be really sneaky. Essentially what we do is that we find a way for the data to tell us that a lot of the parameters don’t matter and we fit a regression only to the ones that do, <span><em>and</em></span> we set things up so that the remaining number of parameters is less than <span class="math inline">\(n\)</span>. If that all sounds a little hoky, trust me it isn’t. There are good ways to do it and good statistical justification for doing it<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>, but the mathematics behind it gets pretty hairy, which is why you want to use GEMMA or TASSEL for a real GWAS. We’ll ignore this part of the challenge associated with GWAS and focus on another one: complex traits often are influenced by a very large nubmer of loci. That is, after all, why we started studying quantitative genetics in the first place.</p>
-<h1 class="unnumbered" id="genetics-of-complex-traits">Genetics of complex traits</h1>
-<p>Let’s return to that Lango Allen et al. <span class="citation" data-cites="LangoAllen-etal-2010"></span> GWAS on height in humans. They identified at least 180 loci associated with differences in height. Moreover, many of the variants are closely associated with genes that are part of previously identified pathways, e.g., Hedgehog signaling,<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> or that were previously identified as being involved in skeletal growth defects. A more recent study by Wood et al. <span class="citation" data-cites="Wood-etal-2014"></span> synthesized results from 79 studies involving 253,288 individuals and identified 697 variants that were clustered into 423 loci affecting differences in height.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> Think about what that means. If you know my genotype at only one of those 697 variants, you know next to nothing about how tall I am. But what if you knew my genotype for all of those variants? Then you should be able to do better.</p>
-<p>The basic idea is fairly simple. When you do a full GWAS and estimate the effects at every locus simultaneously, you are essentially performing a multiple regression of phenotype on all of the loci you’ve scored simultaenously instead of looking at them one at a time. In equation-speak, <span class="math display">\[y_i^{(k)} = \sum_j x_{ij}\beta_j + \phi^{(k)} + \epsilon_i \quad .\]</span> Now think a bit more about what that equation means. The <span class="math inline">\(\phi^{(k)}\)</span> and <span class="math inline">\(\epsilon_i\)</span> terms represent random variation, in the first case variation that is correlated among individuals depending on how closely related they are and in the second case variation that is purely random. The term <span class="math inline">\(\sum_j x_{ij}\beta_j\)</span> reflects systematic effects associated with the genotype of individual <span class="math inline">\(i\)</span>. In other words, if we know individual <span class="math inline">\(i\)</span>’s genotype, i.e., if we know <span class="math inline">\(x_{ij}\)</span> we can predict what phenotype it will have, namely <span class="math inline">\(\mu_i = \sum_j x_{ij}\beta_j\)</span>. Although we know there will be uncertainty associated with this prediction, <span class="math inline">\(\mu_i\)</span> is our best guess of the phenotype for that individual, i.e., our genomic prediction or polygenic score. In the case of height in human beings, it turns out that the loci identified in Wood et al. <span class="citation" data-cites="Wood-etal-2014"></span> account for about 16 percent of variation in height.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> If we don’t have too many groups, we could refine our estimate a bit further by adding in the group-specific estimate, <span class="math inline">\(\phi^{(k)}\)</span>. Of course when we do so, our prediction is no longer a <span><em>genomic</em></span> predictiion, <span><em>per se</em></span>. It’s a genomic prediction enhanced by non-genetic group information.</p>
+<p>Keep in mind this is a highly idealized schematic of how GWAS
+analyses are actually done.<a href="#fn1" class="footnote-ref"
+id="fnref1" role="doc-noteref"><sup>1</sup></a> If you want to do GWAS
+for real, you should take a look at GEMMA (<a
+href="http://www.xzlab.org/software.html"
+class="uri">http://www.xzlab.org/software.html</a>) or TASSEL (<a
+href="https://www.maizegenetics.net/tassel"
+class="uri">https://www.maizegenetics.net/tassel</a>). One important way
+in which what I’ve presented is a simplification is that in a real GWAS
+analysis, you’d estimate the effects of every locus simultaneously,
+which raises an interesting problem.</p>
+<p>In a typical GWAS analysis<a href="#fn2" class="footnote-ref"
+id="fnref2" role="doc-noteref"><sup>2</sup></a>, you will have measured
+the phenotype of a few thousand individuals, but you will have genotyped
+those individuals at several hundred thousand loci. Lango Allen et
+al. <span class="citation" data-cites="LangoAllen-etal-2010"></span>,
+for example, report results from a large analysis of height variation in
+humans, 183,727 individuals genotyped at 2,834,208 loci. What’s the
+problem here?</p>
+<p>There are more predictors (loci) than observations (individual
+phenotypes). If you remember some basic algebra, you’ll remember that
+you can’t solve a set of linear equations unless you have the same
+number of equations as unknowns. For example, you can’t solve a set of
+three equations that has five unknowns. There’s a similar phenomenon in
+statistics when we’re fitting a linear regression. In statistics we
+don’t “solve” an equation. We find the best fit in a regression, and we
+can do so in a reasonable way so long as the number of observations
+exceeds the number of variables included in our regression. To put a
+little mathematical notation to it, if <span
+class="math inline">\(n\)</span> is the number of observations and <span
+class="math inline">\(p\)</span> is the number of regression parameters
+we hope to estimate, life is good (meaning that we can estimate the
+regression parameters) so long as <span class="math inline">\(n &gt;
+p\)</span>.<a href="#fn3" class="footnote-ref" id="fnref3"
+role="doc-noteref"><sup>3</sup></a> The typical situation we encounter
+in GWAS is that <span class="math inline">\(n &lt; p\)</span>, which
+means we have to be really sneaky. Essentially what we do is that we
+find a way for the data to tell us that a lot of the parameters don’t
+matter and we fit a regression only to the ones that do,
+<span><em>and</em></span> we set things up so that the remaining number
+of parameters is less than <span class="math inline">\(n\)</span>. If
+that all sounds a little hoky, trust me it isn’t. There are good ways to
+do it and good statistical justification for doing it<a href="#fn4"
+class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>,
+but the mathematics behind it gets pretty hairy, which is why you want
+to use GEMMA or TASSEL for a real GWAS. We’ll ignore this part of the
+challenge associated with GWAS and focus on another one: complex traits
+often are influenced by a very large nubmer of loci. That is, after all,
+why we started studying quantitative genetics in the first place.</p>
+<h1 class="unnumbered" id="genetics-of-complex-traits">Genetics of
+complex traits</h1>
+<p>Let’s return to that Lango Allen et al. <span class="citation"
+data-cites="LangoAllen-etal-2010"></span> GWAS on height in humans. They
+identified at least 180 loci associated with differences in height.
+Moreover, many of the variants are closely associated with genes that
+are part of previously identified pathways, e.g., Hedgehog signaling,<a
+href="#fn5" class="footnote-ref" id="fnref5"
+role="doc-noteref"><sup>5</sup></a> or that were previously identified
+as being involved in skeletal growth defects. A more recent study by
+Wood et al. <span class="citation" data-cites="Wood-etal-2014"></span>
+synthesized results from 79 studies involving 253,288 individuals and
+identified 697 variants that were clustered into 423 loci affecting
+differences in height.<a href="#fn6" class="footnote-ref" id="fnref6"
+role="doc-noteref"><sup>6</sup></a> Think about what that means. If you
+know my genotype at only one of those 697 variants, you know next to
+nothing about how tall I am (Figure <a href="#fig:GWAS-small-effect"
+data-reference-type="ref" data-reference="fig:GWAS-small-effect">1</a>).
+But what if you knew my genotype for all of those variants? Then you
+should be able to do better.</p>
+<figure id="fig:GWAS-small-effect">
+<div class="center">
+<img src="GWAS-small-effect.png" style="height:6cm" />
+</div>
+<figcaption>If a trait is influenced by a large number of genes, the
+effect of any one of them is likely to be very small.</figcaption>
+</figure>
+<p>The basic idea is fairly simple. When you do a full GWAS and estimate
+the effects at every locus simultaneously, you are essentially
+performing a multiple regression of phenotype on all of the loci you’ve
+scored simultaenously instead of looking at them one at a time. In
+equation-speak, <span class="math display">\[y_i^{(k)} = \sum_j
+x_{ij}\beta_j + \phi^{(k)} + \epsilon_i \quad .\]</span> Now think a bit
+more about what that equation means. The <span
+class="math inline">\(\phi^{(k)}\)</span> and <span
+class="math inline">\(\epsilon_i\)</span> terms represent random
+variation, in the first case variation that is correlated among
+individuals depending on how closely related they are and in the second
+case variation that is purely random. The term <span
+class="math inline">\(\sum_j x_{ij}\beta_j\)</span> reflects systematic
+effects associated with the genotype of individual <span
+class="math inline">\(i\)</span>. In other words, if we know individual
+<span class="math inline">\(i\)</span>’s genotype, i.e., if we know
+<span class="math inline">\(x_{ij}\)</span> we can predict what
+phenotype it will have, namely <span class="math inline">\(\mu_i =
+\sum_j x_{ij}\beta_j\)</span>. Although we know there will be
+uncertainty associated with this prediction, <span
+class="math inline">\(\mu_i\)</span> is our best guess of the phenotype
+for that individual, i.e., our genomic prediction or polygenic score. In
+the case of height in human beings, it turns out that the loci
+identified in Wood et al. <span class="citation"
+data-cites="Wood-etal-2014"></span> account for about 16 percent of
+variation in height.<a href="#fn7" class="footnote-ref" id="fnref7"
+role="doc-noteref"><sup>7</sup></a> If we don’t have too many groups, we
+could refine our estimate a bit further by adding in the group-specific
+estimate, <span class="math inline">\(\phi^{(k)}\)</span>. Of course
+when we do so, our prediction is no longer a
+<span><em>genomic</em></span> predictiion, <span><em>per se</em></span>.
+It’s a genomic prediction enhanced by non-genetic group information.</p>
 <h2 class="unnumbered" id="a-toy-example">A toy example</h2>
-<p>To make all of this more concrete, we’ll explore a toy example using the highly simplified one locus at a time approach to GWAS with a highly simplified example of the multiple regression approach to GWAS. You’ll find an <span><code>R</code></span> notebook that implements all of these analyses at <a href="http://darwin.eeb.uconn.edu/eeb348-notes/Exploring-genomic-prediction.nb.html">http://darwin.eeb.uconn.edu/eeb348-notes/Exploring-genomic-prediction.nb.html</a>. I encourage you to download the notebook as you follow along. You will find it especially useful if you try some different scenarios by changing <span><code>nloci</code></span> and <span><code>effect</code></span> when you generate the data that you later analyze locus by locus or with genomic prediction. Here’s what the code as written does:</p>
+<p>To make all of this more concrete, we’ll explore a toy example using
+the highly simplified one locus at a time approach to GWAS with a highly
+simplified example of the multiple regression approach to GWAS. You’ll
+find an <span><code>R</code></span> notebook that implements all of
+these analyses at <a
+href="http://darwin.eeb.uconn.edu/eeb348-notes/Exploring-genomic-prediction.nb.html"
+class="uri">http://darwin.eeb.uconn.edu/eeb348-notes/Exploring-genomic-prediction.nb.html</a>.
+I encourage you to download the notebook as you follow along. You will
+find it especially useful if you try some different scenarios by
+changing <span><code>nloci</code></span> and
+<span><code>effect</code></span> when you generate the data that you
+later analyze locus by locus or with genomic prediction. Here’s what the
+code as written does:</p>
 <ul>
-<li><p>Generate a random dataset with 100 individuals and 20 loci, 5 of which influence the phenotype. The effect of one “1” allele at locus 1 is 1, at locus 2 -1, at locus 3 0.5, at locus 4 -0.5, and at locus 5 0.25. The standard deviation of the phenotype around the predicted mean is 0.2.</p></li>
-<li><p>Run the locus-by-locus regression for each locus and store the results (mean and 95% credible interval) in <span><code>results</code></span>. <span><code> results</code></span> is sorted in by the magnitude of the posterior mean, so that loci with the largest estimated effect occur at the top and loci with the smallest effect occur at the bottom.</p></li>
-<li><p>Run the multiple regression and store the results in <span><code> results_gp</code></span>.</p></li>
+<li><p>Generate a random dataset with 100 individuals and 20 loci, 5 of
+which influence the phenotype. The simulation is structured so that
+allele frequencies are correlated across the loci. The effect of one “1”
+allele at locus 1 is 1, at locus 2 -1, at locus 3 0.5, at locus 4 -0.5,
+and at locus 5 0.25. The standard deviation of the phenotype around the
+predicted mean is 0.2.</p></li>
+<li><p>Run the locus-by-locus regression for each locus and store the
+results (mean and 95% credible interval) in
+<span><code>results</code></span>. <span><code> results</code></span> is
+sorted in by the magnitude of the posterior mean, so that loci with the
+largest estimated effect occur at the top and loci with the smallest
+effect occur at the bottom.</p></li>
+<li><p>Run the multiple regression and store the results in
+<span><code> results_gp</code></span>.</p></li>
 </ul>
-<p>If you look at the code, you’ll see that I use <span><code>stan_lm()</code></span> rather than using <span><code>stan_lmer()</code></span>. That’s because I simulate the data without family structure, so there’s no need to include the family random effect.</p>
-<p>Table <a href="#table:single" data-reference-type="ref" data-reference="table:single">1</a> shows results of the locus by locus analysis.</p>
+<p>If you look at the code, you’ll see that I use
+<span><code>stan_lm()</code></span> rather than using
+<span><code>brm</code></span>. That’s because I simulate the data
+without family structure, so there’s no need to include the family
+random effect.</p>
+<p>Table <a href="#table:single" data-reference-type="ref"
+data-reference="table:single">1</a> shows results of the locus by locus
+analysis.</p>
 <div id="table:single">
 <table>
-<caption>Sample results for locus by locus analysis of genetic associations using <span><code>genomic-prediction.R</code></span></caption>
+<caption>Sample results for locus by locus analysis of genetic
+associations</caption>
 <thead>
 <tr class="header">
 <th style="text-align: right;"></th>
@@ -69,132 +244,149 @@
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">locus_2</td>
-<td style="text-align: right;">-0.939</td>
-<td style="text-align: right;">-1.185</td>
-<td style="text-align: right;">-0.695</td>
+<td style="text-align: right;">-1.013</td>
+<td style="text-align: right;">-1.184</td>
+<td style="text-align: right;">-0.800</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">locus_1</td>
-<td style="text-align: right;">0.747</td>
-<td style="text-align: right;">0.491</td>
-<td style="text-align: right;">0.951</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">locus_3</td>
-<td style="text-align: right;">0.395</td>
-<td style="text-align: right;">0.097</td>
-<td style="text-align: right;">0.696</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">locus_15</td>
-<td style="text-align: right;">0.312</td>
-<td style="text-align: right;">0.031</td>
-<td style="text-align: right;">0.587</td>
+<td style="text-align: right;">0.979</td>
+<td style="text-align: right;">0.687</td>
+<td style="text-align: right;">1.270</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">locus_4</td>
-<td style="text-align: right;">-0.206</td>
-<td style="text-align: right;">-0.497</td>
-<td style="text-align: right;">0.086</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">locus_11</td>
-<td style="text-align: right;">-0.182</td>
-<td style="text-align: right;">-0.494</td>
-<td style="text-align: right;">0.136</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">locus_7</td>
-<td style="text-align: right;">-0.149</td>
-<td style="text-align: right;">-0.445</td>
-<td style="text-align: right;">0.136</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">locus_12</td>
-<td style="text-align: right;">-0.123</td>
-<td style="text-align: right;">-0.439</td>
-<td style="text-align: right;">0.176</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">locus_6</td>
-<td style="text-align: right;">-0.102</td>
-<td style="text-align: right;">-0.362</td>
-<td style="text-align: right;">0.169</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">locus_19</td>
-<td style="text-align: right;">-0.086</td>
-<td style="text-align: right;">-0.379</td>
-<td style="text-align: right;">0.214</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">locus_13</td>
-<td style="text-align: right;">-0.073</td>
-<td style="text-align: right;">-0.369</td>
-<td style="text-align: right;">0.229</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">locus_17</td>
-<td style="text-align: right;">-0.072</td>
-<td style="text-align: right;">-0.397</td>
-<td style="text-align: right;">0.264</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">locus_14</td>
-<td style="text-align: right;">0.068</td>
-<td style="text-align: right;">-0.230</td>
-<td style="text-align: right;">0.359</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">locus_10</td>
-<td style="text-align: right;">-0.065</td>
-<td style="text-align: right;">-0.334</td>
-<td style="text-align: right;">0.208</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">locus_20</td>
-<td style="text-align: right;">-0.053</td>
-<td style="text-align: right;">-0.334</td>
-<td style="text-align: right;">0.231</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">locus_18</td>
-<td style="text-align: right;">0.040</td>
-<td style="text-align: right;">-0.261</td>
-<td style="text-align: right;">0.337</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">locus_8</td>
-<td style="text-align: right;">0.017</td>
-<td style="text-align: right;">-0.257</td>
-<td style="text-align: right;">0.309</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">locus_9</td>
-<td style="text-align: right;">-0.010</td>
-<td style="text-align: right;">-0.310</td>
-<td style="text-align: right;">0.302</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">locus_16</td>
-<td style="text-align: right;">-0.006</td>
-<td style="text-align: right;">-0.275</td>
-<td style="text-align: right;">0.274</td>
+<td style="text-align: right;">-0.743</td>
+<td style="text-align: right;">-1.086</td>
+<td style="text-align: right;">-0.406</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">locus_5</td>
-<td style="text-align: right;">-0.005</td>
-<td style="text-align: right;">-0.315</td>
-<td style="text-align: right;">0.28</td>
+<td style="text-align: right;">0.462</td>
+<td style="text-align: right;">0.027</td>
+<td style="text-align: right;">0.906</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">locus_3</td>
+<td style="text-align: right;">0.390</td>
+<td style="text-align: right;">0.039</td>
+<td style="text-align: right;">0.742</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">locus_20</td>
+<td style="text-align: right;">-0.382</td>
+<td style="text-align: right;">-0.857</td>
+<td style="text-align: right;">0.081</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">locus_8</td>
+<td style="text-align: right;">0.374</td>
+<td style="text-align: right;">-0.001</td>
+<td style="text-align: right;">0.764</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">locus_7</td>
+<td style="text-align: right;">-0.327</td>
+<td style="text-align: right;">-0.681</td>
+<td style="text-align: right;">0.052</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">locus_12</td>
+<td style="text-align: right;">0.271</td>
+<td style="text-align: right;">-0.144</td>
+<td style="text-align: right;">0.671</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">locus_6</td>
+<td style="text-align: right;">0.235</td>
+<td style="text-align: right;">-0.220</td>
+<td style="text-align: right;">0.691</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">locus_11</td>
+<td style="text-align: right;">0.191</td>
+<td style="text-align: right;">-0.391</td>
+<td style="text-align: right;">0.784</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">locus_13</td>
+<td style="text-align: right;">-0.173</td>
+<td style="text-align: right;">-0.557</td>
+<td style="text-align: right;">0.209</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">locus_10</td>
+<td style="text-align: right;">-0.113</td>
+<td style="text-align: right;">-0.490</td>
+<td style="text-align: right;">0.258</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">locus_19</td>
+<td style="text-align: right;">-0.106</td>
+<td style="text-align: right;">-0.437</td>
+<td style="text-align: right;">0.239</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">locus_14</td>
+<td style="text-align: right;">-0.093</td>
+<td style="text-align: right;">-0.555</td>
+<td style="text-align: right;">0.347</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">locus_15</td>
+<td style="text-align: right;">0.075</td>
+<td style="text-align: right;">-0.280</td>
+<td style="text-align: right;">0.421</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">locus_18</td>
+<td style="text-align: right;">-0.061</td>
+<td style="text-align: right;">-0.434</td>
+<td style="text-align: right;">0.308</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">locus_17</td>
+<td style="text-align: right;">0.050</td>
+<td style="text-align: right;">-0.362</td>
+<td style="text-align: right;">0.458</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">locus_16</td>
+<td style="text-align: right;">-0.009</td>
+<td style="text-align: right;">-0.350</td>
+<td style="text-align: right;">0.331</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">locus_9</td>
+<td style="text-align: right;">0.007</td>
+<td style="text-align: right;">-0.370</td>
+<td style="text-align: right;">0.396</td>
 </tr>
 </tbody>
 </table>
 </div>
-<p>For this simulated data set 4 of the 5 loci with the largest estimated effect are the 5 loci for which I specified an effect, one of them (locus 15) did not have a specified effect and locus 5, which had a specified effect, has the lowest estimated effect of all.</p>
-<p>What about the multiple regression approach? First, take a look at the estimated effects (Table <a href="#table:multiple" data-reference-type="ref" data-reference="table:multiple">2</a>). Not only does this approach pick out the right loci, the first five, none of the other loci have particularly large estimated effects. The largest, <span><code> locus_17</code></span> is only about 0.07, about the same as in the locus by locus analysis. It would take much more extensive simulation to demonstrate the advantage empirically, but it is clear from first principles that multiple regression analyses will be more reliable than locus by locus analyses because a multiple regression analysis takes account of random associations among loci.</p>
+<p>For this simulated data set the five loci with the largest estimated
+effect are the same five loci for which the simulation specified an
+effect, but notice the locus 20 and locus 8 have estimated allelic
+effects almost as large as the top five and that the estimate for locus
+8 barely overlaps zero. Given only these results it would be reasonable
+to conclude that we have evidence for an effect of locus 20 and locus 8,
+although the evidence is weak.</p>
+<p>What about the multiple regression approach? First, take a look at
+the estimated effects (Table <a href="#table:multiple"
+data-reference-type="ref" data-reference="table:multiple">2</a>). Not
+only does this approach pick out the right loci, the first five, none of
+the other loci have particularly large estimated effects. The largest,
+<span><code> locus_17</code></span> is only about -0.08. It would take
+much more extensive simulation to demonstrate the advantage empirically,
+but it is clear from first principles that multiple regression analyses
+will generally be more reliable than locus by locus analyses because a
+multiple regression analysis takes account of random associations among
+loci.</p>
 <div id="table:multiple">
 <table>
-<caption>Results from multiple regression analysis of simulated data.</caption>
+<caption>Results from multiple regression analysis of simulated
+data.</caption>
 <thead>
 <tr class="header">
 <th style="text-align: right;"></th>
@@ -206,149 +398,445 @@
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">locus_1</td>
-<td style="text-align: right;">0.979</td>
-<td style="text-align: right;">0.840</td>
-<td style="text-align: right;">1.116</td>
+<td style="text-align: right;">1.039</td>
+<td style="text-align: right;">0.898</td>
+<td style="text-align: right;">1.175</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">locus_2</td>
-<td style="text-align: right;">-0.882</td>
-<td style="text-align: right;">-1.016</td>
-<td style="text-align: right;">-0.742</td>
+<td style="text-align: right;">-0.971</td>
+<td style="text-align: right;">-1.120</td>
+<td style="text-align: right;">-0.820</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">locus_3</td>
-<td style="text-align: right;">0.614</td>
-<td style="text-align: right;">0.465</td>
-<td style="text-align: right;">0.762</td>
+<td style="text-align: right;">0.586</td>
+<td style="text-align: right;">0.441</td>
+<td style="text-align: right;">0.724</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">locus_4</td>
-<td style="text-align: right;">-0.514</td>
-<td style="text-align: right;">-0.656</td>
-<td style="text-align: right;">-0.373</td>
+<td style="text-align: right;">-0.521</td>
+<td style="text-align: right;">-0.667</td>
+<td style="text-align: right;">-0.369</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">locus_5</td>
-<td style="text-align: right;">0.246</td>
-<td style="text-align: right;">0.086</td>
-<td style="text-align: right;">0.389</td>
+<td style="text-align: right;">0.353</td>
+<td style="text-align: right;">0.153</td>
+<td style="text-align: right;">0.538</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">locus_17</td>
-<td style="text-align: right;">-0.070</td>
-<td style="text-align: right;">-0.217</td>
+<td style="text-align: right;">-0.082</td>
+<td style="text-align: right;">-0.254</td>
 <td style="text-align: right;">0.028</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">locus_7</td>
-<td style="text-align: right;">-0.058</td>
-<td style="text-align: right;">-0.198</td>
-<td style="text-align: right;">0.031</td>
+<td style="text-align: right;">locus_13</td>
+<td style="text-align: right;">0.062</td>
+<td style="text-align: right;">-0.037</td>
+<td style="text-align: right;">0.208</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">locus_18</td>
-<td style="text-align: right;">0.053</td>
-<td style="text-align: right;">-0.037</td>
-<td style="text-align: right;">0.196</td>
+<td style="text-align: right;">locus_7</td>
+<td style="text-align: right;">-0.058</td>
+<td style="text-align: right;">-0.205</td>
+<td style="text-align: right;">0.038</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">locus_6</td>
-<td style="text-align: right;">0.052</td>
+<td style="text-align: right;">locus_10</td>
+<td style="text-align: right;">0.047</td>
+<td style="text-align: right;">-0.047</td>
+<td style="text-align: right;">0.196</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">locus_9</td>
 <td style="text-align: right;">-0.030</td>
-<td style="text-align: right;">0.176</td>
+<td style="text-align: right;">-0.166</td>
+<td style="text-align: right;">0.062</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">locus_14</td>
+<td style="text-align: right;">0.020</td>
+<td style="text-align: right;">-0.089</td>
+<td style="text-align: right;">0.166</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">locus_8</td>
-<td style="text-align: right;">0.042</td>
-<td style="text-align: right;">-0.037</td>
-<td style="text-align: right;">0.159</td>
+<td style="text-align: right;">0.018</td>
+<td style="text-align: right;">-0.078</td>
+<td style="text-align: right;">0.149</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">locus_16</td>
-<td style="text-align: right;">0.039</td>
-<td style="text-align: right;">-0.038</td>
-<td style="text-align: right;">0.156</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">locus_10</td>
-<td style="text-align: right;">-0.034</td>
-<td style="text-align: right;">-0.147</td>
-<td style="text-align: right;">0.044</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">locus_9</td>
-<td style="text-align: right;">0.013</td>
+<td style="text-align: right;">locus_18</td>
+<td style="text-align: right;">0.016</td>
 <td style="text-align: right;">-0.076</td>
-<td style="text-align: right;">0.126</td>
+<td style="text-align: right;">0.128</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">locus_11</td>
-<td style="text-align: right;">-0.010</td>
-<td style="text-align: right;">-0.119</td>
-<td style="text-align: right;">0.082</td>
+<td style="text-align: right;">locus_16</td>
+<td style="text-align: right;">0.014</td>
+<td style="text-align: right;">-0.076</td>
+<td style="text-align: right;">0.123</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">locus_15</td>
-<td style="text-align: right;">0.006</td>
-<td style="text-align: right;">-0.080</td>
+<td style="text-align: right;">locus_20</td>
+<td style="text-align: right;">0.011</td>
+<td style="text-align: right;">-0.100</td>
+<td style="text-align: right;">0.142</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">locus_6</td>
+<td style="text-align: right;">-0.009</td>
+<td style="text-align: right;">-0.136</td>
 <td style="text-align: right;">0.107</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">locus_11</td>
+<td style="text-align: right;">-0.008</td>
+<td style="text-align: right;">-0.159</td>
+<td style="text-align: right;">0.121</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">locus_12</td>
-<td style="text-align: right;">0.005</td>
-<td style="text-align: right;">-0.086</td>
-<td style="text-align: right;">0.106</td>
+<td style="text-align: right;">0.008</td>
+<td style="text-align: right;">-0.097</td>
+<td style="text-align: right;">0.123</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">locus_19</td>
-<td style="text-align: right;">-0.005</td>
-<td style="text-align: right;">-0.104</td>
-<td style="text-align: right;">0.083</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">locus_20</td>
+<td style="text-align: right;">locus_15</td>
 <td style="text-align: right;">0.003</td>
-<td style="text-align: right;">-0.082</td>
-<td style="text-align: right;">0.095</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">locus_13</td>
-<td style="text-align: right;">-0.001</td>
-<td style="text-align: right;">-0.093</td>
-<td style="text-align: right;">0.086</td>
+<td style="text-align: right;">-0.090</td>
+<td style="text-align: right;">0.103</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">locus_14</td>
-<td style="text-align: right;">0.001</td>
+<td style="text-align: right;">locus_19</td>
+<td style="text-align: right;">0.000</td>
 <td style="text-align: right;">-0.091</td>
-<td style="text-align: right;">0.093</td>
+<td style="text-align: right;">0.094</td>
 </tr>
 </tbody>
 </table>
 </div>
-<h1 class="unnumbered" id="comparing-the-results">Comparing the results</h1>
-<p>Let’s see what other differences we find when we compare the two approaches more directly. First, let’s look at the estimated allelic effects themselves (Figure <a href="#fig:gwas-vs-gp" data-reference-type="ref" data-reference="fig:gwas-vs-gp">1</a>). As you can see, they are broadly similar, but if you look closely, they are most similar when the estimated allelic effects are small.</p>
-<figure>
-<img src="gwas-vs-gp.png" id="fig:gwas-vs-gp" style="width:10cm" alt="" /><figcaption>Estimated allelic effects from locus-by-locus GWAS (x-axis) and genomic prediction (y-axis).</figcaption>
+<h1 class="unnumbered" id="comparing-the-results">Comparing the
+results</h1>
+<p>Let’s see what other differences we find when we compare the two
+approaches more directly. First, let’s look at the estimated allelic
+effects themselves (Figure <a href="#fig:gwas-vs-gp"
+data-reference-type="ref" data-reference="fig:gwas-vs-gp">2</a>). As you
+can see, they are broadly similar, but if you look closely, they are
+most similar when the estimated allelic effects are small.</p>
+<figure id="fig:gwas-vs-gp">
+<div class="center">
+<img src="gwas-vs-gp.png" style="width:10cm" />
+</div>
+<figcaption>Estimated allelic effects from locus-by-locus GWAS (x-axis)
+and genomic prediction (y-axis).</figcaption>
 </figure>
-<p>More interesting than whether the estimated allelic effects are similar is whether the predicted phenotypes are similar to the observed phenotypes (Figure ref<span>fig:gwas-obs-vs-predicted</span>). As you can see, in this simple simulated data set both approaches work reasonably well, even though the estimated allelic effects are rather different. In fact, the estimated mean squared error of the locus-by-locus prediction is actually smaller than for the genomic prediction (6.02 vs. 8.02).</p>
-<figure>
-<img src="gwas-obs-vs-predicted.png" id="fig:gwas-obs-vs-predicted" style="width:10cm" alt="" /><figcaption>Predicted phenotypes <span><em>versus</em></span> observed phenotypes for locus-by-locus GWAS and genomic prediction.</figcaption>
+<p>More interesting than whether the estimated allelic effects are
+similar is whether the predicted phenotypes are similar to the observed
+phenotypes (Figure ref<span>fig:gwas-obs-vs-predicted</span>). As you
+can see, in this simple simulated data set both approaches work
+reasonably well, even though the estimated allelic effects are rather
+different. As expected, though, the multiple regression approach has
+less error than the locus-by-locus approach, an <span
+class="math inline">\(R^2\)</span> of 11.1 vs. 14.2.</p>
+<figure id="fig:gwas-obs-vs-predicted">
+<div class="center">
+<img src="gwas-obs-vs-predicted.png" style="width:10cm" />
+</div>
+<figcaption>Predicted phenotypes <span><em>versus</em></span> observed
+phenotypes for locus-by-locus GWAS and genomic prediction.</figcaption>
 </figure>
-<h1 class="unnumbered" id="creative-commons-license">Creative Commons License</h1>
-<p>These notes are licensed under the Creative Commons Attribution License. To view a copy of this license, visit https://creativecommons.org/licenses/by/4.0/ or send a letter to Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305, USA.</p>
-<section class="footnotes" role="doc-endnotes">
+<h1 class="unnumbered" id="some-caveats-about-genomic-prediction">Some
+caveats about genomic prediction</h1>
+<p>In the early 2010s, Turchin and colleagues <span class="citation"
+data-cites="Turchin-etal-2012"></span><a href="#fn8"
+class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a>
+studied the association between variation at SNP loci and height in
+humans. They showed that both individual alleles known to be associated
+with increased height and in genome-wide analysis are elevated in
+northern European populations compared to populations from southern
+Europe. They argued that these differences were consistent with weak
+selection at each of the loci (<span class="math inline">\(s \approx
+[10^{-3}, 10^{-5}]\)</span>) rather than genetic drift alone.</p>
+<h2 class="unnumbered" id="allele-frequency-comparisons">Allele
+frequency comparisons</h2>
+<p>Turchin et al. used allele frequency estimates from the Myocardial
+Infarction Genetics consortium (MIGen) <span class="citation"
+data-cites="MIGen-2009"></span> and the Population Reference
+Sample (POPRES) <span class="citation"
+data-cites="Nelson-etal-2008"></span>. For the MIGen analysis, they
+compared allele frequencies in 257 US individuals of northern European
+ancestry with those in 254 Spanish individuals at loci that are known to
+be associated with height based on GWAS analysis<a href="#fn9"
+class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> and
+found differences greater than those expected based on 10,000 SNPs drawn
+at random and matched to allele frequencies at the target loci in each
+population. They performed a similar analysis with the POPRES sample and
+found similar results.</p>
+<p>Turchin et al. were aware that the association could be spurious if
+ancestry was not fully accounted for in these analyses, so they also
+used data collected by the Genetic Investigation of ANthropometric
+Traits consortium (GIANT) <span class="citation"
+data-cites="LangoAllen-etal-2010"></span>.<a href="#fn10"
+class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a>
+They noted that “control” SNPs used in the preceding analysis, i.e., the
+10,000 SNPs drawn at random from the genome, with a tendency to increase
+height in the GIANT analysis also tended to be more frequent in the
+northern European sample.</p>
+<p>They compared the magnitude of the observed differences at the most
+strongly associated 1400 SNPs with what would be expected if they were
+due entirely to drift and what would be expected if they were due to a
+combination of drift and selection. A likelihood-ratio test of the drift
+alone model <span><em>versus</em></span> the drift-selection model
+provided strong support for the drift-model.</p>
+<h1 class="unnumbered" id="second-thoughts">Second thoughts</h1>
+<h2 class="unnumbered" id="within-sample-stratification">Within sample
+stratification</h2>
+<p>This all seems very promising, but a word of caution is in order.
+Berg et al. <span class="citation" data-cites="Berg-etal-2018"></span>
+re-examined these claims using new data available from the UK
+Biobank (<a href="https://www.bdi.ox.ac.uk/research/uk-biobank"
+class="uri">https://www.bdi.ox.ac.uk/research/uk-biobank</a>), which
+includes a host of information on individual phenotypes as well as
+genome-wide genotypes for the 500,000 individuals included in the
+sample.<a href="#fn11" class="footnote-ref" id="fnref11"
+role="doc-noteref"><sup>11</sup></a> They failed to detect evidence of a
+cline in polygenic scores in their analysis (Figure <a
+href="#fig:UK-biobank" data-reference-type="ref"
+data-reference="fig:UK-biobank">4</a>).</p>
+<figure id="fig:UK-biobank">
+<div class="center">
+<img src="UK-biobank.png" />
+</div>
+<figcaption>Polygenic score as a function of latitude and longitude for
+several different GWAS data sets. Each vertical column corresponds to a
+different data source. Notice that all of the UK Biobank samples fail to
+show either a latitudinal or a longitudinal cline in polygenic height
+score (from <span class="citation"
+data-cites="Berg-etal-2018"></span>).</figcaption>
+</figure>
+<p>In thinking about this result, it’s important to understand that Berg
+et al. <span class="citation" data-cites="Berg-etal-2018"></span> did
+something a bit different from what we did, but it’s exactly what you’d
+want to do if polygenic scores worked. They estimated polygenic scores
+from each of the data sets identified in the figure. Then they used
+those scores to estimate polygenic scores for a new set of samples
+derived from the 1000 Genomes and Human Origins projects.<a href="#fn12"
+class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a>
+Since they did the same thing with all of the data sets, this difference
+from what we did doesn’t account for the differences among data sets. As
+Berg et al. dug more deeply into the data, they concluded that all of
+the data sets “primarily capture real signals of association with
+height” but that the GIANT and R-15 sibs data sets, the ones that show
+the latitudinal (and longitudinal in the case of GIANT) associations do
+so because the estimated allelic effects in those data sets failed to
+fully remove confounding variation along the major geographic axes in
+Europe.</p>
+<p>The Berg et al. analysis illustrates how difficult it is to remove
+confounding factors from GWAS and genomic prediction analyses. Turchin
+et al. are highly skilled population geneticists. If they weren’t able
+to recognize the problem with stratification in the GIANT consortium
+data set, all of us should be concerned about recognizing it in our own.
+Indeed, I wonder whether the stratification within GIANT would ever have
+come to light had Berg et al. not had additional large data sets at
+their disposal in which they could try to replicate the results.</p>
+<h2 class="unnumbered"
+id="difficulties-extrapolating-polygenic-scores">Difficulties
+extrapolating polygenic scores</h2>
+<p>In one way the Berg et al. results are actually encouraging. They
+estimated effects in one set of data and used the genomic regressions
+estimated from those data to predict polygenic scores in a new data set
+pretty successfully. Maybe it’s difficult to be sure that the polygenic
+scores we estimate are useful for inferring anything about natural
+selection on the traits they predict, but if we could be sure that they
+allow us to predict phenotypes in populations we haven’t studied yet,
+they could still be very useful. Can we trust them that far?</p>
+<p>Unfortunately, the answer appears to be “No.” Yair and Coop <span
+class="citation" data-cites="Yair-Coop-2022"></span> recently studied
+the relationship between phenotypic stabilizing selection and genetic
+differentiation in isolated populations. They showed that even in a very
+simple model in which allelic effects at each locus are the same in both
+populations, polygenic scores estimated from one population may not
+perform very well in the other. Interestingly, as you can see in
+Figure <a href="#fig:yair-coop-predictions" data-reference-type="ref"
+data-reference="fig:yair-coop-predictions">5</a>, the stronger the
+selection and the more strongly allelic differences influence the
+phenotype, the less well genomic predictions in one population work in
+the other.</p>
+<figure id="fig:yair-coop-predictions">
+<div class="center">
+<img src="yair-coop-predictions.png" />
+</div>
+<figcaption>Extrapolations of polygenic scores from one population to
+another decrease in effectiveness the longer populations have been
+separated, even if the trait is subject to uniform stabilizing
+selection. (from <span class="citation"
+data-cites="Yair-Coop-2021"></span>).</figcaption>
+</figure>
+<p>That seems paradoxical, but interestingly it’s not too difficult to
+understand if we think about what happens when we combine stabilizing
+selection with geographical isolation.<a href="#fn13"
+class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a>
+First, let’s remind ourselves of a fundamental property of polygenic
+variation: Different genotypes can produce the same phenotype. Figure <a
+href="#fig:redundancy" data-reference-type="ref"
+data-reference="fig:redundancy">6</a>, which you’ve seen before,
+illustrates this when three loci influence the trait. While there is
+only one genotype that produces the dark red phenotype and only one that
+produces the white phenotype, there are four genotypes that produce the
+light red phenotype, four that produce the medium dark red phenotype,
+and six that produce the medium red phenotype. Goldstein and
+Holsinger <span class="citation"
+data-cites="Goldstein-Holsinger-1992"></span> called this phenomenon
+<span><em>genetic redundancy</em></span>. As you can imagine, the number
+of redundant genotypes increases dramatically as the number of loci
+involved increases.<a href="#fn14" class="footnote-ref" id="fnref14"
+role="doc-noteref"><sup>14</sup></a></p>
+<figure id="fig:redundancy">
+<div class="center">
+<img src="Nilsson-Ehle.png" style="width:10cm" />
+</div>
+<figcaption>Results from one of Nilsson-Ehle’s crosses illustrating
+polygenic inheritance of kernel color in wheat (from
+<span><code> http://www.biology-pages.info/Q/QTL.html</code></span>,
+accessed 9 April 2017).</figcaption>
+</figure>
+<p>Why does this redundancy matter? Let’s consider what happens when we
+impose stabilizing selection on a polygenic trait, where <span
+class="math display">\[w(z) = \mbox{exp}\left(\frac{-(z -
+z_0)^2}{2V_s}\right) \quad ,\]</span> where <span
+class="math inline">\(z_0\)</span> is the intermediate phenotype favored
+by selection, <span class="math inline">\(z\)</span> is the phenotype of
+a particular individual, and <span class="math inline">\(V_s\)</span> is
+the variance of the fitness function. If selection is weak (<span
+class="math inline">\(V_s = 115.2\)</span>), then the relative fitness
+of a genotype 1 unit away from the optimum is 0.9957 while that of a
+genotype 8 units away is only 0.7575. If 16 loci influence the trait,
+there are 601,080,390 genotypes that produce the optimum phenotype and
+have the same fitness. There are another 1,131,445,440 genotypes whose
+fitness within one percent of the optimum. Not only are there a lot of
+different genotypes with roughly the same fitness, the selection at any
+one locus is very weak.</p>
+<p>Now suppose these genotypes are distributed in a large, continuous
+population. Because selection is pretty weak and because mating is
+primarily with close neighbors, allele frequency changes at each locus
+will be close to what they would be if the loci were neutral. The result
+is that the genetic correlation between individuals drops off rapidly as
+a function of the distance between them (Figure <a
+href="#fig:isolation-by-distance" data-reference-type="ref"
+data-reference="fig:isolation-by-distance">7</a>). Notice that in the
+simulation illustrated individuals separated by more than about 20
+distance units are effectively uncorrelated. That means that their
+genotypes are essentially random with respect to one another, even
+though their phenotypes are similar because of the stabilizing
+selection.</p>
+<figure id="fig:isolation-by-distance">
+<div class="center">
+<img src="isolation-by-distance.png" />
+</div>
+<figcaption>Isolation by distance with weak selection (from <span
+class="citation"
+data-cites="Goldstein-Holsinger-1992"></span>).</figcaption>
+</figure>
+<p>Now think about what that means for polygenic scores. Imagine that we
+sampled two ends of a large, continuously distributed population. To
+make things concrete, let’s imagine that the population is distributed
+primarily North-South so that our samples come from a northern
+population and a southern one. Now imagine that we’ve done a GWAS in the
+northern population and we want to use the genomic predictions from that
+population to predict phenotypes in the southern population. What’s
+going to happen?</p>
+<p>The genotypes in the southern population will be a random sample from
+all of the possible genotypes that could produce the same optimal
+phenotype (or something close to the optimum) and that sample will be
+independent of the sample of genotypes represented in our northern
+population. As a result, there are sure to be loci that are useful for
+predicting phenotype in the northern population that aren’t variable in
+the southern population, which will reduce the accuracy of our genomic
+prediction. That’s precisely what Yair and Coop show.<a href="#fn15"
+class="footnote-ref" id="fnref15"
+role="doc-noteref"><sup>15</sup></a></p>
+<p>In short, it’s to be expected that genomic predictions will be useful
+only within the population for which they are constructed. They can be
+very useful in plant and animal breeding, for example, but any attempt
+to use them in other contexts must be alert to the ways in which
+extrapolation from one population to another will be problematic.</p>
+<h1 class="unnumbered" id="creative-commons-license">Creative Commons
+License</h1>
+<p>These notes are licensed under the Creative Commons Attribution
+License. To view a copy of this license, visit or send a letter to
+Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305,
+USA.</p>
+<aside id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1" role="doc-endnote"><p>Remember, also, that in analyses of human disease, a case-control approach is often used rather than the regression approach I’ve been focusing on.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2" role="doc-endnote"><p>In humans at least<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3" role="doc-endnote"><p>And the more that <span class="math inline">\(n\)</span> exceeds <span class="math inline">\(p\)</span> the better, the more accurate our estimates of the regression parameters will be.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4" role="doc-endnote"><p>And biological justification for doing it in GWAS.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5" role="doc-endnote"><p>“The Hedgehog signaling pathway is a signaling pathway that transmits information to embryonic cells required for proper cell differentiation.” <a href="https://en.wikipedia.org/wiki/Hedgehog_signaling_pathway">https://en.wikipedia.org/wiki/Hedgehog_signaling_pathway</a>, accessed 14 August 2021.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6" role="doc-endnote"><p>It’s worth noting that even this is likely to be an underestimate of the number of loci associated with height variation in humans because all of the individuals included in the analysis were of European ancestry.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn7" role="doc-endnote"><p>In Europe the heritability of height at age 20 is about 80 percent <span class="citation" data-cites="Jelenkovic-etal-2016"></span>.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>Remember, also, that in analyses of human disease, a
+case-control approach is often used rather than the regression approach
+I’ve been focusing on.<a href="#fnref1" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>In humans at least<a href="#fnref2"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>And the more that <span class="math inline">\(n\)</span>
+exceeds <span class="math inline">\(p\)</span> the better, the more
+accurate our estimates of the regression parameters will be.<a
+href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>And biological justification for doing it in GWAS.<a
+href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>“The Hedgehog signaling pathway is a signaling pathway
+that transmits information to embryonic cells required for proper cell
+differentiation.” <a
+href="https://en.wikipedia.org/wiki/Hedgehog_signaling_pathway"
+class="uri">https://en.wikipedia.org/wiki/Hedgehog_signaling_pathway</a>,
+accessed 14 August 2021.<a href="#fnref5" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>It’s worth noting that even this is likely to be an
+underestimate of the number of loci associated with height variation in
+humans because all of the individuals included in the analysis were of
+European ancestry.<a href="#fnref6" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>In Europe the heritability of height at age 20 is about
+80 percent <span class="citation"
+data-cites="Jelenkovic-etal-2016"></span>.<a href="#fnref7"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p><span><em>Michael</em></span> Turchin, not
+<span><em>Peter</em></span> Turchin of UConn’s EEB department.<a
+href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p>See Turchin et al. for details.<a href="#fnref9"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10"><p>This includes the GWAS on height that I mentioned in
+the last lecture.<a href="#fnref10" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn11"><p>Although all of the samples are from the UK, one of the
+data sets Berg et al. <span class="citation"
+data-cites="Berg-etal-2018"></span> studied included individuals of
+European, but non-UK, ancestry.<a href="#fnref11" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn12"><p>See Berg et al. <span class="citation"
+data-cites="Berg-etal-2018"></span> for details.<a href="#fnref12"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn13"><p>And the fun thing for me about this is that we get to
+finish out the course by returning to a paper I wrote with my first
+master’s student more than 30 years ago.<a href="#fnref13"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn14"><p>If the allelic effects are strictly additive, the
+number of genotypes corresponding to the intermediate phenotype is <span
+class="math inline">\(2N \choose N\)</span> where <span
+class="math inline">\(N\)</span> is the number of loci. For <span
+class="math inline">\(N=10\)</span>, <span class="math inline">\({2N
+\choose N} = 184,756\)</span>. For <span
+class="math inline">\(N=100\)</span>, <span class="math inline">\({2N
+\choose
+  N} = 9.05 \times 10^{58}\)</span>.<a href="#fnref14"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn15"><p>Although their results go much farther than Goldstein
+and Holsinger who did their simulations long before anyone was thinking
+about GWAS, much less genomic prediction and polygenic scores.<a
+href="#fnref15" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
-</section>
+</aside>
 </body>
 </html>

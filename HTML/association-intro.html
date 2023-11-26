@@ -8,13 +8,24 @@
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
   </style>
   <link rel="stylesheet" href="pandoc.css" />
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+  type="text/javascript"></script>
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
@@ -25,139 +36,444 @@
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
-<li><a href="#introduction">Introduction</a></li>
-<li><a href="#association-mapping">Association mapping</a>
+<li><a href="#introduction" id="toc-introduction">Introduction</a></li>
+<li><a href="#association-mapping"
+id="toc-association-mapping">Association mapping</a>
 <ul>
-<li><a href="#genome-wide-association-study">Genome-wide association study</a>
+<li><a href="#genome-wide-association-study"
+id="toc-genome-wide-association-study">Genome-wide association study</a>
 <ul>
-<li><a href="#principles">Principles</a></li>
-<li><a href="#an-example-warfarin-maintenance-dose">An example: warfarin maintenance dose</a></li>
+<li><a href="#principles" id="toc-principles">Principles</a></li>
+<li><a href="#an-example-warfarin-maintenance-dose"
+id="toc-an-example-warfarin-maintenance-dose">An example: warfarin
+maintenance dose</a></li>
 </ul></li>
-<li><a href="#case-control-study">Case-control study</a></li>
+<li><a href="#case-control-study"
+id="toc-case-control-study">Case-control study</a></li>
 </ul></li>
-<li><a href="#a-digression-into-two-locus-population-genetics">A digression into two-locus population genetics</a>
+<li><a href="#a-digression-into-two-locus-population-genetics"
+id="toc-a-digression-into-two-locus-population-genetics">A digression
+into two-locus population genetics</a>
 <ul>
-<li><a href="#a-little-diversion">A little diversion</a></li>
-<li><a href="#d-in-a-finite-population"><span class="math inline">\(D\)</span> in a finite population</a></li>
+<li><a href="#a-little-diversion" id="toc-a-little-diversion">A little
+diversion</a></li>
+<li><a href="#d-in-a-finite-population"
+id="toc-d-in-a-finite-population"><span class="math inline">\(D\)</span>
+in a finite population</a></li>
 </ul></li>
-<li><a href="#population-structure-with-two-loci">Population structure with two loci</a>
+<li><a href="#population-structure-with-two-loci"
+id="toc-population-structure-with-two-loci">Population structure with
+two loci</a>
 <ul>
-<li><a href="#the-gory-details">The gory details</a></li>
+<li><a href="#the-gory-details" id="toc-the-gory-details">The gory
+details</a></li>
+<li><a href="#implications-for-gwas"
+id="toc-implications-for-gwas">Implications for GWAS</a></li>
 </ul></li>
-<li><a href="#appendix-transmission-genetics-with-two-loci">Appendix: Transmission genetics with two loci</a>
+<li><a href="#appendix-transmission-genetics-with-two-loci"
+id="toc-appendix-transmission-genetics-with-two-loci">Appendix:
+Transmission genetics with two loci</a>
 <ul>
-<li><a href="#where-do-frac1-r2-and-fracr2-come-from">Where do <span class="math inline">\(\frac{1-r}{2}\)</span> and <span class="math inline">\(\frac{r}{2}\)</span> come from?</a></li>
-<li><a href="#changes-in-gamete-frequency">Changes in gamete frequency</a></li>
-<li><a href="#no-changes-in-allele-frequency">No changes in allele frequency</a></li>
-<li><a href="#changes-in-d">Changes in <span class="math inline">\(D\)</span></a></li>
+<li><a href="#where-do-frac1-r2-and-fracr2-come-from"
+id="toc-where-do-frac1-r2-and-fracr2-come-from">Where do <span
+class="math inline">\(\frac{1-r}{2}\)</span> and <span
+class="math inline">\(\frac{r}{2}\)</span> come from?</a></li>
+<li><a href="#changes-in-gamete-frequency"
+id="toc-changes-in-gamete-frequency">Changes in gamete
+frequency</a></li>
+<li><a href="#no-changes-in-allele-frequency"
+id="toc-no-changes-in-allele-frequency">No changes in allele
+frequency</a></li>
+<li><a href="#changes-in-d" id="toc-changes-in-d">Changes in <span
+class="math inline">\(D\)</span></a></li>
 </ul></li>
-<li><a href="#creative-commons-license">Creative Commons License</a></li>
+<li><a href="#creative-commons-license"
+id="toc-creative-commons-license">Creative Commons License</a></li>
 </ul>
 </nav>
 <h1 class="unnumbered" id="introduction">Introduction</h1>
-<p>One approach to understanding more about the genetics of quantitative traits takes advantage of the increasing number of genetic markers available as a result of recent advances in molecular genetics. Suppose you have two inbred lines that differ in a trait that interests you, say body weight or leaf width. Call one of them the “high” line and the other the “low” line.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> Further suppose that you have a whole bunch of molecular markers that differ between the two lines, and designate the genotype in the “high” line <span class="math inline">\(A_1A_1\)</span> and the genotype in the low line <span class="math inline">\(A_2A_2\)</span>.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> One last supposition: Suppose that at loci influencing the phenotype you’re studying the genotype in the “high” line is <span class="math inline">\(Q_1Q_1\)</span> and the genotype in the “low” line is <span class="math inline">\(Q_2Q_2\)</span>. Each of these loci is what we call a <span><em>quantitative trait locus</em></span> or QTL. Now do the following experiment:</p>
+<p>One approach to understanding more about the genetics of quantitative
+traits takes advantage of the increasing number of genetic markers
+available as a result of recent advances in molecular genetics. Suppose
+you have two inbred lines that differ in a trait that interests you, say
+body weight or leaf width. Call one of them the “high” line and the
+other the “low” line.<a href="#fn1" class="footnote-ref" id="fnref1"
+role="doc-noteref"><sup>1</sup></a> Further suppose that you have a
+whole bunch of molecular markers that differ between the two lines, and
+designate the genotype in the “high” line <span
+class="math inline">\(A_1A_1\)</span> and the genotype in the low line
+<span class="math inline">\(A_2A_2\)</span>.<a href="#fn2"
+class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> One
+last supposition: Suppose that at loci influencing the phenotype you’re
+studying the genotype in the “high” line is <span
+class="math inline">\(Q_1Q_1\)</span> and the genotype in the “low” line
+is <span class="math inline">\(Q_2Q_2\)</span>. Each of these loci is
+what we call a <span><em>quantitative trait locus</em></span> or QTL.
+Now do the following experiment:</p>
 <ul>
-<li><p>Cross the “high” line and the “low” line to construct an <span class="math inline">\(F_1\)</span>.</p></li>
-<li><p>Intercross individuals in the <span class="math inline">\(F_1\)</span> generation to form an <span class="math inline">\(F_2\)</span>.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p></li>
-<li><p>“Walk” through the genome<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> calculating a likelihood score for a QTL at a particular map position, using what we know about the mathematics of recombination rates and Mendelian genetics. In calculating the likelihood score we maximize the likelihood of the data assuming that there is a QTL at this position and estimating the corresponding additive and dominance effects of the allele. We then identify QTLs as those loci where there are “significant” peaks in the map of likelihood scores.</p></li>
+<li><p>Cross the “high” line and the “low” line to construct an <span
+class="math inline">\(F_1\)</span>.</p></li>
+<li><p>Intercross individuals in the <span
+class="math inline">\(F_1\)</span> generation to form an <span
+class="math inline">\(F_2\)</span>.<a href="#fn3" class="footnote-ref"
+id="fnref3" role="doc-noteref"><sup>3</sup></a></p></li>
+<li><p>“Walk” through the genome<a href="#fn4" class="footnote-ref"
+id="fnref4" role="doc-noteref"><sup>4</sup></a> calculating a likelihood
+score for a QTL at a particular map position, using what we know about
+the mathematics of recombination rates and Mendelian genetics. In
+calculating the likelihood score we maximize the likelihood of the data
+assuming that there is a QTL at this position and estimating the
+corresponding additive and dominance effects of the allele. We then
+identify QTLs as those loci where there are “significant” peaks in the
+map of likelihood scores.</p></li>
 </ul>
-<p>The result is a genetic map showing where QTLs are in the genome and indicating the magnitude of their additive and dominance effects.</p>
-<p>QTL mapping is wonderfulprovided that you’re working with an organism where it’s possible to design a breeding program and where the information derived from that breeding program is relevant to variation in natural populations. Think about it. If we do a QTL analysis based on segregation in an <span class="math inline">\(F_2\)</span> population derived from two inbred lines, all we really know is which loci are associated with phenotypic differences <span><em>between those two lines</em></span>. Typically what we really want to know, if we’re evolutionary biologists, is which loci are associated with phenotypic differences <span><em>between individuals in the population we’re studying</em></span>. That’s where association mapping comes in. We look for statistical associations between phenotypes and genotypes across a whole population. We expect there to be such associations, if we have a dense enough map, because some of our marker loci will be closely linked to loci responsible for phenotypic variation.</p>
+<p>The result is a genetic map showing where QTLs are in the genome and
+indicating the magnitude of their additive and dominance effects.</p>
+<p>QTL mapping is wonderfulprovided that you’re working with an organism
+where it’s possible to design a breeding program and where the
+information derived from that breeding program is relevant to variation
+in natural populations. Think about it. If we do a QTL analysis based on
+segregation in an <span class="math inline">\(F_2\)</span> population
+derived from two inbred lines, all we really know is which loci are
+associated with phenotypic differences <span><em>between those two
+lines</em></span>. Typically what we really want to know, if we’re
+evolutionary biologists, is which loci are associated with phenotypic
+differences <span><em>between individuals in the population we’re
+studying</em></span>. That’s where association mapping comes in. We look
+for statistical associations between phenotypes and genotypes across a
+whole population. We expect there to be such associations, if we have a
+dense enough map, because some of our marker loci will be closely linked
+to loci responsible for phenotypic variation.</p>
 <h1 class="unnumbered" id="association-mapping">Association mapping</h1>
-<p>So how does association mapping work? There are two broad approaches, one that is used in genome-wide association studies (GWAS) that is analogous to QTL mapping and one that looks for differences between “cases,” those that exhibit a particular phenotype of interest (e.g., a disease state in humans), and “controls,” those that don’t exhibit the phenotype of interest. Let’s talk about GWAS first.</p>
-<h2 class="unnumbered" id="genome-wide-association-study">Genome-wide association study</h2>
+<p>So how does association mapping work? There are two broad approaches,
+one that is used in genome-wide association studies (GWAS) that is
+analogous to QTL mapping and one that looks for differences between
+“cases,” those that exhibit a particular phenotype of interest (e.g., a
+disease state in humans), and “controls,” those that don’t exhibit the
+phenotype of interest. Let’s talk about GWAS first.</p>
+<h2 class="unnumbered" id="genome-wide-association-study">Genome-wide
+association study</h2>
 <h3 class="unnumbered" id="principles">Principles</h3>
-<p>Imagine that we have a well-mixed population segregating both for a lot of molecular markers spread throughout the genome and for loci influencing a trait we’re interested in, like body weight or leaf width. Let’s call our measurement of that trait <span class="math inline">\(z_i\)</span> in the <span class="math inline">\(i\)</span>th individual. Let <span class="math inline">\(x_{ij}\)</span> be the genotype of individual <span class="math inline">\(i\)</span> at the <span class="math inline">\(j\)</span>th locus.<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> Then to do association mapping, we simply fit the following regression model: <span class="math display">\[y_i = x_{ij}\beta_j + \epsilon_{ij} \quad ,\]</span> where <span class="math inline">\(\epsilon_{ij}\)</span> is the residual error in our regression estimate and <span class="math inline">\(\beta_j\)</span> is our estimate of the effect of substituting one allele for another at locus <span class="math inline">\(j\)</span>, i.e., the additive effect of an allele at locus <span class="math inline">\(j\)</span>.<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> If <span class="math inline">\(\beta_j\)</span> is significantly different from 0, we have evidence that there is a locus linked to this marker that influences the phenotype we’re interested in, and we have an estimate of the additive effect of the alleles at that locus.</p>
-<p>Notice that I claimed we have evidence that the locus is linked. That’s a bit of sleight of hand. I’ve glossed over something very important. What we have direct evidence for is only that the locus is <span><em>associated</em></span> with the phenotype differences. As we’ll see in just a bit, the observed association <span><em>might</em></span> reflect physical linkage between the marker locus and a locus influencing the phenotype or it could reflect a statistical association that arises for other reasons, including population structure. So in practice the regression model we fit is a more complicated than the one I just described. The simplest case is when individuals fall into obvious groups, e.g., samples from different populations. Then <span class="math inline">\(y_i^{(k)}\)</span> is the trait value for individual <span class="math inline">\(i\)</span>. The superscript <span class="math inline">\((k)\)</span> indicates that this individual belongs to group <span class="math inline">\(k\)</span>. <span class="math display">\[y_i^{(k)} = x_{ij}\beta_j + \phi^{(k)} + \epsilon_{ij} \quad .\]</span> The difference between this model and the one above is that we include a random effect of group, <span class="math inline">\(\phi^{(k)}\)</span>, to account for the fact that individuals may have similar phenotypes not because of similarity in genotypes at loci close to those we’ve scored but because of their similarity at other loci that differ among groups. More generally, the model looks like <span class="math display">\[y_i = x_{ij}\beta_j + \phi_i + \epsilon_{ij} \quad .\]</span> where <span class="math inline">\(\phi_i\)</span> is an individual random effect where the correlation between <span class="math inline">\(\phi_i\)</span> and <span class="math inline">\(\phi_j\)</span> for individuals <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>, i.e., <span class="math inline">\(\rho_{ij}\)</span>, is determined by how closely related they are. The degree of relationship might be inferred from a pedigree, if one is known, or from coefficients of kinship estimated from a large suite of genetic markers.</p>
-<h3 class="unnumbered" id="an-example-warfarin-maintenance-dose">An example: warfarin maintenance dose</h3>
-<p>Shortly after World War II, warfarin was introduced for use as a a rat poison. By the mid-1950s it was approved for medical use in the United States as a treatment for diseases in which blood clotting caused a significant threat of stroke. It is still in common use as a treatment for atrial fibrillation.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> Currently, determining the appropriate dose is done by closely monitoring the degree of anticoagulation, an INR of <span class="math inline">\(2.5 \pm 0.5\)</span> (<a href="https://www.drugs.com/dosage/warfarin.html">https://www.drugs.com/dosage/warfarin.html</a>). In an effort to identify genetic markers that could be used to choose an appropriate dosage, investigators at the University of Washington studied the relationship between the dose of warfarin patients were receiving and their genotype at 550,000 SNP loci <span class="citation" data-cites="Cooper-etal-2008"></span>.<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> They identified two loci, <span><em>VKORC1</em></span> and <span><em>CYP2C9</em></span>, that were consistently associated with warfarin dose. <span><em>VKORC1</em></span> encodes the vitamin K epoxide reductaxe complex 1 enzyme, and <span><em>CYP2C9</em></span> encodes a cytochrome P450 (Figure <a href="#fig:GWAS-warfarin" data-reference-type="ref" data-reference="fig:GWAS-warfarin">1</a>). Differences at <span><em>VKORC1</em></span> account for approximately 25% of the variance in stabilized dose.<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a></p>
-<figure>
-<img src="GWAS-warfarin.png" id="fig:GWAS-warfarin" style="height:8cm" alt="" /><figcaption><span class="math inline">\(P\)</span>-values from a genome-wide analysis of the association between SNP genotype and warfarin dose. The black line is the genome-wide level for statistical significance, <span class="math inline">\(10^{-7}\)</span>, and the brown line is the level, <span class="math inline">\(10^{-4}\)</span> at which SNPs identified in the index population were investigated in replicate populations (from <span class="citation" data-cites="Cooper-etal-2008"></span>).</figcaption>
+<p>Imagine that we have a well-mixed population segregating both for a
+lot of molecular markers spread throughout the genome and for loci
+influencing a trait we’re interested in, like body weight or leaf width.
+Let’s call our measurement of that trait <span
+class="math inline">\(z_i\)</span> in the <span
+class="math inline">\(i\)</span>th individual. Let <span
+class="math inline">\(x_{ij}\)</span> be the genotype of individual
+<span class="math inline">\(i\)</span> at the <span
+class="math inline">\(j\)</span>th locus.<a href="#fn5"
+class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>
+Then to do association mapping, we simply fit the following regression
+model: <span class="math display">\[y_i = x_{ij}\beta_j + \epsilon_{ij}
+\quad ,\]</span> where <span
+class="math inline">\(\epsilon_{ij}\)</span> is the residual error in
+our regression estimate and <span class="math inline">\(\beta_j\)</span>
+is our estimate of the effect of substituting one allele for another at
+locus <span class="math inline">\(j\)</span>, i.e., the additive effect
+of an allele at locus <span class="math inline">\(j\)</span>.<a
+href="#fn6" class="footnote-ref" id="fnref6"
+role="doc-noteref"><sup>6</sup></a> If <span
+class="math inline">\(\beta_j\)</span> is significantly different from
+0, we have evidence that there is a locus linked to this marker that
+influences the phenotype we’re interested in, and we have an estimate of
+the additive effect of the alleles at that locus.</p>
+<p>Notice that I claimed we have evidence that the locus is linked.
+That’s a bit of sleight of hand. I’ve glossed over something very
+important. What we have direct evidence for is only that the locus is
+<span><em>associated</em></span> with the phenotype differences. As
+we’ll see in just a bit, the observed association
+<span><em>might</em></span> reflect physical linkage between the marker
+locus and a locus influencing the phenotype or it could reflect a
+statistical association that arises for other reasons, including
+population structure. So in practice the regression model we fit is a
+more complicated than the one I just described. The simplest case is
+when individuals fall into obvious groups, e.g., samples from different
+populations. Then <span class="math inline">\(y_i^{(k)}\)</span> is the
+trait value for individual <span class="math inline">\(i\)</span>. The
+superscript <span class="math inline">\((k)\)</span> indicates that this
+individual belongs to group <span class="math inline">\(k\)</span>.
+<span class="math display">\[y_i^{(k)} = x_{ij}\beta_j + \phi^{(k)} +
+\epsilon_{ij} \quad .\]</span> The difference between this model and the
+one above is that we include a random effect of group, <span
+class="math inline">\(\phi^{(k)}\)</span>, to account for the fact that
+individuals may have similar phenotypes not because of similarity in
+genotypes at loci close to those we’ve scored but because of their
+similarity at other loci that differ among groups. More generally, the
+model looks like <span class="math display">\[y_i = x_{ij}\beta_j +
+\phi_i + \epsilon_{ij} \quad .\]</span> where <span
+class="math inline">\(\phi_i\)</span> is an individual random effect
+where the correlation between <span
+class="math inline">\(\phi_i\)</span> and <span
+class="math inline">\(\phi_j\)</span> for individuals <span
+class="math inline">\(i\)</span> and <span
+class="math inline">\(j\)</span>, i.e., <span
+class="math inline">\(\rho_{ij}\)</span>, is determined by how closely
+related they are. The degree of relationship might be inferred from a
+pedigree, if one is known, or from coefficients of kinship estimated
+from a large suite of genetic markers.</p>
+<h3 class="unnumbered" id="an-example-warfarin-maintenance-dose">An
+example: warfarin maintenance dose</h3>
+<p>Shortly after World War II, warfarin was introduced for use as a a
+rat poison. By the mid-1950s it was approved for medical use in the
+United States as a treatment for diseases in which blood clotting caused
+a significant threat of stroke. It is still in common use as a treatment
+for atrial fibrillation.<a href="#fn7" class="footnote-ref" id="fnref7"
+role="doc-noteref"><sup>7</sup></a> Currently, determining the
+appropriate dose is done by closely monitoring the degree of
+anticoagulation, an INR of <span class="math inline">\(2.5 \pm
+0.5\)</span> (<a href="https://www.drugs.com/dosage/warfarin.html"
+class="uri">https://www.drugs.com/dosage/warfarin.html</a>). In an
+effort to identify genetic markers that could be used to choose an
+appropriate dosage, investigators at the University of Washington
+studied the relationship between the dose of warfarin patients were
+receiving and their genotype at 550,000 SNP loci <span class="citation"
+data-cites="Cooper-etal-2008"></span>.<a href="#fn8"
+class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a>
+They identified two loci, <span><em>VKORC1</em></span> and
+<span><em>CYP2C9</em></span>, that were consistently associated with
+warfarin dose. <span><em>VKORC1</em></span> encodes the vitamin K
+epoxide reductaxe complex 1 enzyme, and <span><em>CYP2C9</em></span>
+encodes a cytochrome P450 (Figure <a href="#fig:GWAS-warfarin"
+data-reference-type="ref" data-reference="fig:GWAS-warfarin">1</a>).
+Differences at <span><em>VKORC1</em></span> account for approximately
+25% of the variance in stabilized dose.<a href="#fn9"
+class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a></p>
+<figure id="fig:GWAS-warfarin">
+<div class="center">
+<img src="GWAS-warfarin.png" style="height:8cm" />
+</div>
+<figcaption><span class="math inline">\(P\)</span>-values from a
+genome-wide analysis of the association between SNP genotype and
+warfarin dose. The black line is the genome-wide level for statistical
+significance, <span class="math inline">\(10^{-7}\)</span>, and the
+brown line is the level, <span class="math inline">\(10^{-4}\)</span> at
+which SNPs identified in the index population were investigated in
+replicate populations (from <span class="citation"
+data-cites="Cooper-etal-2008"></span>).</figcaption>
 </figure>
 <h2 class="unnumbered" id="case-control-study">Case-control study</h2>
-<p>The GWAS approach I just described works well if the trait we’re studying is continuous,<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a> but what do we do if the trait we’re interested occurs in only two states, e.g., diseased vs. healthy? Let’s suppose we have a set of “candidate” loci, i.e., loci that we have some reason to suspect might be related to expression of the trait. Now let’s suppose we divide our population sample into two different sets: the “cases,” i.e., those that have the disease,<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a> and the “controls,” i.e., those that don’t have the disease. Let’s further assume that each of our candidate loci has only two alleles.<a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a> Then for each of our candidate loci we can estimate the allele frequency for the population of cases, <span class="math inline">\(p_{case}\)</span>, and for the population of controls, <span class="math inline">\(p_{control}\)</span>. Then we simply ask, do we have evidence that <span class="math inline">\(p_{case}\)</span> is different from <span class="math inline">\(p_{control}\)</span>. If so, we have evidence that allelic differences at this locus are associated with different probabilities of falling into the case category, i.e., allelic differences at this locus are associated with a gene that influences development of the phenotype. As with our GWAS analysis, we have to be careful in interpreting this association. It <span><em>might</em></span> reflect physical linkage between the candidate locus and the gene influencing phenotypic development or it might reflect nothing more than a statistical association.</p>
-<h1 class="unnumbered" id="a-digression-into-two-locus-population-genetics">A digression into two-locus population genetics<a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a></h1>
-<p>It’s pretty obvious that if two loci are on the same chromosome and tightly linked, alleles at those loci are likely to be statistically associated with one another, but let’s take a closer look at what being statistically associated means. We’ll see that while tight physical linkage generally implies statistical association, the reverse isn’t trueunless you have carefully controlled for other factors that can produce a statistical association.</p>
-<p>One of the most important properties of a two-locus system is that it is no longer sufficient to talk about allele frequencies alone, even in a population that satisfies all of the assumptions necessary for genotypes to be in Hardy-Weinberg proportions at each locus. To see why consider this. With two loci and two alleles there are four possible gametes:<a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a></p>
+<p>The GWAS approach I just described works well if the trait we’re
+studying is continuous,<a href="#fn10" class="footnote-ref" id="fnref10"
+role="doc-noteref"><sup>10</sup></a> but what do we do if the trait
+we’re interested occurs in only two states, e.g., diseased vs. healthy?
+Let’s suppose we have a set of “candidate” loci, i.e., loci that we have
+some reason to suspect might be related to expression of the trait. Now
+let’s suppose we divide our population sample into two different sets:
+the “cases,” i.e., those that have the disease,<a href="#fn11"
+class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a>
+and the “controls,” i.e., those that don’t have the disease. Let’s
+further assume that each of our candidate loci has only two alleles.<a
+href="#fn12" class="footnote-ref" id="fnref12"
+role="doc-noteref"><sup>12</sup></a> Then for each of our candidate loci
+we can estimate the allele frequency for the population of cases, <span
+class="math inline">\(p_{case}\)</span>, and for the population of
+controls, <span class="math inline">\(p_{control}\)</span>. Then we
+simply ask, do we have evidence that <span
+class="math inline">\(p_{case}\)</span> is different from <span
+class="math inline">\(p_{control}\)</span>. If so, we have evidence that
+allelic differences at this locus are associated with different
+probabilities of falling into the case category, i.e., allelic
+differences at this locus are associated with a gene that influences
+development of the phenotype. As with our GWAS analysis, we have to be
+careful in interpreting this association. It <span><em>might</em></span>
+reflect physical linkage between the candidate locus and the gene
+influencing phenotypic development or it might reflect nothing more than
+a statistical association.</p>
+<h1 class="unnumbered"
+id="a-digression-into-two-locus-population-genetics">A digression into
+two-locus population genetics<a href="#fn13" class="footnote-ref"
+id="fnref13" role="doc-noteref"><sup>13</sup></a></h1>
+<p>It’s pretty obvious that if two loci are on the same chromosome and
+tightly linked, alleles at those loci are likely to be statistically
+associated with one another, but let’s take a closer look at what being
+statistically associated means. We’ll see that while tight physical
+linkage generally implies statistical association, the reverse isn’t
+true. A statistical association can arise even if the loci are unlinked
+and independently inherited.</p>
+<p>One of the most important properties of a two-locus system is that it
+is no longer sufficient to talk about allele frequencies alone, even in
+a population that satisfies all of the assumptions necessary for
+genotypes to be in Hardy-Weinberg proportions at each locus. To see why
+consider this. With two loci and two alleles there are four possible
+gametes:<a href="#fn14" class="footnote-ref" id="fnref14"
+role="doc-noteref"><sup>14</sup></a></p>
+<div class="center">
 <table>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Gamete</td>
-<td style="text-align: center;"><span class="math inline">\(A_1B_1\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(A_1B_2\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(A_2B_1\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(A_2B_2\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(A_1B_1\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(A_1B_2\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(A_2B_1\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(A_2B_2\)</span></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Frequency</td>
-<td style="text-align: center;"><span class="math inline">\(x_{11}\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(x_{12}\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(x_{21}\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(x_{22}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(x_{11}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(x_{12}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(x_{21}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(x_{22}\)</span></td>
 </tr>
 </tbody>
 </table>
-<p>If alleles are arranged randomly into gametes then, <span class="math display">\[\begin{aligned}
+</div>
+<p>If alleles are arranged randomly into gametes then, <span
+class="math display">\[\begin{aligned}
 x_{11} &amp;=&amp; p_1p_2 \\
 x_{12} &amp;=&amp; p_1q_2 \\
 x_{21} &amp;=&amp; q_1p_2 \\
-x_{22} &amp;=&amp; q_1q_2 \quad ,\end{aligned}\]</span> where <span class="math inline">\(p_1 = \hbox{freq}(A_1)\)</span> and <span class="math inline">\(p_2 = \hbox{freq}(A_2)\)</span>. But alleles need not be arranged randomly into gametes. They may covary so that when a gamete contains <span class="math inline">\(A_1\)</span> it is more likely to contain <span class="math inline">\(B_1\)</span> than a randomly chosen gamete, or they may covary so that a gamete containing <span class="math inline">\(A_1\)</span> is less likely to contain <span class="math inline">\(B_1\)</span> than a randomly chosen gamete. This covariance could be the result of the two loci being in close physical association, but as we’ll see in a little bit, it doesn’t have to be. Whenever the alleles covary within gametes <span class="math display">\[\begin{aligned}
+x_{22} &amp;=&amp; q_1q_2 \quad ,
+\end{aligned}\]</span> where <span class="math inline">\(p_1 =
+\hbox{freq}(A_1)\)</span> and <span class="math inline">\(p_2 =
+\hbox{freq}(A_2)\)</span>. But alleles need not be arranged randomly
+into gametes. They may covary so that when a gamete contains <span
+class="math inline">\(A_1\)</span> it is more likely to contain <span
+class="math inline">\(B_1\)</span> than a randomly chosen gamete, or
+they may covary so that a gamete containing <span
+class="math inline">\(A_1\)</span> is less likely to contain <span
+class="math inline">\(B_1\)</span> than a randomly chosen gamete. This
+covariance could be the result of the two loci being in close physical
+association, but as we’ll see in a little bit, it doesn’t have to be.
+Whenever the alleles covary within gametes <span
+class="math display">\[\begin{aligned}
 x_{11} &amp;=&amp; p_1p_2 + D \\
 x_{12} &amp;=&amp; p_1q_2 - D \\
 x_{21} &amp;=&amp; q_1p_2 - D \\
-x_{22} &amp;=&amp; q_1q_2 + D \quad ,\end{aligned}\]</span> where <span class="math inline">\(D = x_{11}x_{22} - x_{12}x_{22}\)</span> is known as the <span><em>gametic disequilibrium</em></span>.<a href="#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a> When <span class="math inline">\(D \ne 0\)</span> the alleles within gametes covary, and <span class="math inline">\(D\)</span> measures <span><em>statistical</em></span> association between them. It does not (directly) measure the <span><em>physical</em></span> association. Similarly, <span class="math inline">\(D = 0\)</span> does not imply that the loci are unlinked, only that the alleles at the two loci are arranged into gametes independently of one another.</p>
+x_{22} &amp;=&amp; q_1q_2 + D \quad ,
+\end{aligned}\]</span> where <span class="math inline">\(D =
+x_{11}x_{22} - x_{12}x_{22}\)</span> is known as the <span><em>gametic
+disequilibrium</em></span>.<a href="#fn15" class="footnote-ref"
+id="fnref15" role="doc-noteref"><sup>15</sup></a> When <span
+class="math inline">\(D \ne 0\)</span> the alleles within gametes
+covary, and <span class="math inline">\(D\)</span> measures
+<span><em>statistical</em></span> association between them. It does not
+(directly) measure the <span><em>physical</em></span> association.
+Similarly, <span class="math inline">\(D = 0\)</span> does not imply
+that the loci are unlinked, only that the alleles at the two loci are
+arranged into gametes independently of one another.</p>
 <h2 class="unnumbered" id="a-little-diversion">A little diversion</h2>
-<p>It probably isn’t obvious why we can get away with only one <span class="math inline">\(D\)</span> for all of the gamete frequencies. The short answer is:</p>
+<p>It probably isn’t obvious why we can get away with only one <span
+class="math inline">\(D\)</span> for all of the gamete frequencies. The
+short answer is:</p>
 <blockquote>
-<p>There are four gametes. That means we need three parameters to describe the four frequencies. <span class="math inline">\(p_1\)</span> and <span class="math inline">\(p_2\)</span> are two. <span class="math inline">\(D\)</span> is the third.</p>
+<p>There are four gametes. That means we need three parameters to
+describe the four frequencies. <span class="math inline">\(p_1\)</span>
+and <span class="math inline">\(p_2\)</span> are two. <span
+class="math inline">\(D\)</span> is the third.</p>
 </blockquote>
-<p>Another way is to do a little algebra to verify that the definition is self-consistent. <span class="math display">\[\begin{aligned}
+<p>Another way is to do a little algebra to verify that the definition
+is self-consistent. <span class="math display">\[\begin{aligned}
 D &amp;=&amp; x_{11}x_{22} - x_{12}x_{21} \\
   &amp;=&amp; (p_1p_2 + D)(q_1q_2 + D) - (p_1q_2 - D)(q_1p_2 - D) \\
   &amp;=&amp; \left(p_1q_1p_2q_2 + D(p_1p_2 + q_1q_2) + D^2\right) \\
-  &amp;&amp; \quad - \left(p_1q_1p_2q_2 - D(p_1q_2 + q_1p_2) + D^2\right) \\
+  &amp;&amp; \quad - \left(p_1q_1p_2q_2 - D(p_1q_2 + q_1p_2) +
+D^2\right) \\
   &amp;=&amp; D(p_1p_2 + q_1q_2 + p_1q_2 + q_1p_2) \\
   &amp;=&amp; D\left(p_1(p_2 + q_2) + q_1(q_2 + p_2)\right) \\
   &amp;=&amp; D(p_1 + q_1) \\
-  &amp;=&amp; D \quad.\end{aligned}\]</span></p>
-<h2 class="unnumbered" id="d-in-a-finite-population"><span class="math inline">\(D\)</span> in a finite population</h2>
-<p>In the absence of mutation, <span class="math inline">\(D\)</span> will eventually decay to 0, although the course of that decay isn’t as regular as what is shown in the Appendix <span class="citation" data-cites="Hill-Robertson-1968"></span>. If we allow recurrent mutation at both loci, however, where <span class="math display">\[\begin{array}{ccccccc}
+  &amp;=&amp; D \quad.
+\end{aligned}\]</span></p>
+<h2 class="unnumbered" id="d-in-a-finite-population"><span
+class="math inline">\(D\)</span> in a finite population</h2>
+<p>In the absence of mutation, <span class="math inline">\(D\)</span>
+will eventually decay to 0, although the course of that decay isn’t as
+regular as what is shown in the Appendix <span class="citation"
+data-cites="Hill-Robertson-1968"></span>. If we allow recurrent mutation
+at both loci, however, where <span
+class="math display">\[\begin{array}{ccccccc}
     &amp;\mu_1            &amp;     &amp;      &amp;     &amp;\mu_2 \\
-A_1 &amp;\rightleftharpoons&amp; A_2 &amp;\qquad&amp; B_1 &amp;\rightleftharpoons&amp; B_2
+A_1 &amp;\rightleftharpoons&amp; A_2 &amp;\qquad&amp; B_1
+&amp;\rightleftharpoons&amp; B_2
 \quad , \\
     &amp;\nu_1            &amp;     &amp;      &amp;     &amp;\nu_2
-\end{array}\]</span> then it can be shown <span class="citation" data-cites="Ohta-Kimura-1969"></span> that the expected value of <span class="math inline">\(D^2/p_1(1-p_1)p_2(1-p_2)\)</span> is <span> <span class="math display">\[\begin{aligned}
+\end{array}\]</span> then it can be shown <span class="citation"
+data-cites="Ohta-Kimura-1969"></span> that the expected value of <span
+class="math inline">\(D^2/p_1(1-p_1)p_2(1-p_2)\)</span> is <span> <span
+class="math display">\[\begin{aligned}
 \frac{\mbox{E}(D^2)}{\mbox{E}(p_1(1-p_1)p_2(1-p_2))}
 &amp;=&amp; \frac{1}{3 + 4N_e(r+\mu_1+\nu_1+\mu_2+\nu_2)
-                           - \frac{2}{(2.5 + N_e(r+\mu_1+\nu_1+\mu_2+\nu_2)
+                           - \frac{2}{(2.5 +
+N_e(r+\mu_1+\nu_1+\mu_2+\nu_2)
                               + N_e(\mu_1+\nu_1+\mu_2+\nu_2))}} \\
-&amp;\approx&amp; \frac{1}{3 + 4N_er} \quad .\end{aligned}\]</span></span> Bottom line: In a finite population, we don’t expect <span class="math inline">\(D\)</span> to go to 0, and the magnitude of <span class="math inline">\(D^2\)</span> is inversely related to amount of recombination between the two loci. The less recombination there is between two loci, i.e., the smaller <span class="math inline">\(r\)</span> is, the larger the value of <span class="math inline">\(D^2\)</span> we expect.</p>
-<p>This has all been a long way<a href="#fn16" class="footnote-ref" id="fnref16" role="doc-noteref"><sup>16</sup></a> of showing that our initial intuition is correct. If we can detect a statistical association between a marker locus and a phenotypic trait, it suggests that the marker locus and a locus influence expression of the trait are physically linked. <span> <em>But</em></span> we have to account for the effect of population structure, <span><em>and</em></span> we have to account for the effect of <span><em>past</em></span> population structure. Notice also that if the effective population size is large, <span class="math inline">\(D^2\)</span> may be very small unless <span class="math inline">\(r\)</span> is very small, meaning that you may need to have a very dense genetic map to detect any association between any of your marker loci and loci that influence the trait you’re studying. As shown in the Appendix, it takes a while for the statistical association between loci to decay after two distinct populations mix. So if we are dealing with populations having a history of hybridization, teasing apart physical linkage and statistical association can become very challenging.<a href="#fn17" class="footnote-ref" id="fnref17" role="doc-noteref"><sup>17</sup></a></p>
-<h1 class="unnumbered" id="population-structure-with-two-loci">Population structure with two loci</h1>
-<p>You can probably guess where this is going. With one locus I showed you that there’s a deficiency of heterozygotes in a combined sample even if there’s random mating within all populations of which the sample is composed. The two-locus analog is that you can have gametic disequilibrium in your combined sample even if the gametic disequilibrium is zero in all of your constituent populations. Table <a href="#table:d-structure" data-reference-type="ref" data-reference="table:d-structure">1</a> provides a simple numerical example involving just two populations in which the combined sample has equal proportions from each population.</p>
+&amp;\approx&amp; \frac{1}{3 + 4N_er} \quad .
+\end{aligned}\]</span></span> Bottom line: In a finite population, we
+don’t expect <span class="math inline">\(D\)</span> to go to 0, and the
+magnitude of <span class="math inline">\(D^2\)</span> is inversely
+related to amount of recombination between the two loci. The less
+recombination there is between two loci, i.e., the smaller <span
+class="math inline">\(r\)</span> is, the larger the value of <span
+class="math inline">\(D^2\)</span> we expect.</p>
+<p>This has all been a long way<a href="#fn16" class="footnote-ref"
+id="fnref16" role="doc-noteref"><sup>16</sup></a> of showing that our
+initial intuition is correct. If we can detect a statistical association
+between a marker locus and a phenotypic trait, it suggests that the
+marker locus and a locus influence expression of the trait are
+physically linked. <span> <em>But</em></span> we have to account for the
+effect of population structure, <span><em>and</em></span> we have to
+account for the effect of <span><em>past</em></span> population
+structure.<a href="#fn17" class="footnote-ref" id="fnref17"
+role="doc-noteref"><sup>17</sup></a> Notice also that if the effective
+population size is large, <span class="math inline">\(D^2\)</span> may
+be very small unless <span class="math inline">\(r\)</span> is very
+small, meaning that you may need to have a very dense genetic map to
+detect any association between any of your marker loci and loci that
+influence the trait you’re studying. As shown in the Appendix, it takes
+a while for the statistical association between loci to decay after two
+distinct populations mix. So if we are dealing with populations having a
+history of hybridization, teasing apart physical linkage and statistical
+association can become very challenging.<a href="#fn18"
+class="footnote-ref" id="fnref18"
+role="doc-noteref"><sup>18</sup></a></p>
+<h1 class="unnumbered"
+id="population-structure-with-two-loci">Population structure with two
+loci</h1>
+<p>You can probably guess where this is going. With one locus I showed
+you that there’s a deficiency of heterozygotes in a combined sample even
+if there’s random mating within all populations of which the sample is
+composed. The two-locus analog is that you can have gametic
+disequilibrium in your combined sample even if the gametic
+disequilibrium is zero in all of your constituent populations. Table <a
+href="#table:d-structure" data-reference-type="ref"
+data-reference="table:d-structure">1</a> provides a simple numerical
+example involving just two populations in which the combined sample has
+equal proportions from each population.</p>
+<div class="center">
 <div id="table:d-structure">
 <table>
-<caption>Gametic disequilibrium in a combined population sample.</caption>
+<caption>Gametic disequilibrium in a combined population
+sample.</caption>
 <tbody>
 <tr class="odd">
 <td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
+<td colspan="4" style="text-align: center;">Gamete frequencies</td>
+<td colspan="2" style="text-align: center;">Allele frequencies</td>
 <td style="text-align: center;"></td>
 </tr>
 <tr class="even">
 <td style="text-align: center;">Population</td>
-<td style="text-align: center;"><span class="math inline">\(A_1B_1\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(A_1B_2\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(A_2B_1\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(A_2B_2\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(p_{i1}\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(p_{i2}\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(D\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(A_1B_1\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(A_1B_2\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(A_2B_1\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(A_2B_2\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(p_{i1}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(p_{i2}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(D\)</span></td>
 </tr>
 <tr class="odd">
 <td style="text-align: center;">1</td>
@@ -192,21 +508,49 @@ A_1 &amp;\rightleftharpoons&amp; A_2 &amp;\qquad&amp; B_1 &amp;\rightleftharpoon
 </tbody>
 </table>
 </div>
+</div>
 <h2 class="unnumbered" id="the-gory-details">The gory details</h2>
-<p>You knew that I wouldn’t be satisfied with a numerical example, didn’t you? You knew there had to be some algebra coming, right? Well, here it is. Let <span class="math display">\[\begin{aligned}
+<p>You knew that I wouldn’t be satisfied with a numerical example,
+didn’t you? You knew there had to be some algebra coming, right? Well,
+here it is. Let <span class="math display">\[\begin{aligned}
 D_i &amp;=&amp; x_{11,i} - p_{1i}p_{2i} \\
-D_t &amp;=&amp; \bar x_{11} - \bar p_1\bar p_2 \quad ,\end{aligned}\]</span> where <span class="math inline">\(\bar x_{11} = \frac{1}{K} \sum_{k=1}^K x_{11,k}\)</span>, <span class="math inline">\(\bar p_1 =
-\frac{1}{K} \sum_{k=1}^K p_{1k}\)</span>, and <span class="math inline">\(\bar p_2 = \frac{1}{K}
-\sum_{k=1}^K p_{2k}\)</span>. Given these definitions, we can now calculate <span class="math inline">\(D_t\)</span>. <span class="math display">\[\begin{aligned}
+D_t &amp;=&amp; \bar x_{11} - \bar p_1\bar p_2 \quad ,
+\end{aligned}\]</span> where <span class="math inline">\(\bar x_{11} =
+\frac{1}{K} \sum_{k=1}^K x_{11,k}\)</span>, <span
+class="math inline">\(\bar p_1 =
+\frac{1}{K} \sum_{k=1}^K p_{1k}\)</span>, and <span
+class="math inline">\(\bar p_2 = \frac{1}{K}
+\sum_{k=1}^K p_{2k}\)</span>. Given these definitions, we can now
+calculate <span class="math inline">\(D_t\)</span>. <span
+class="math display">\[\begin{aligned}
 D_t &amp;=&amp; \bar x_{11} - \bar p_1\bar p_2 \\
     &amp;=&amp; \frac{1}{K} \sum_{k=1}^K x_{11,k} - \bar p_1\bar p_2 \\
-    &amp;=&amp; \frac{1}{K} \sum_{k=1}^K (p_{1k}p_{2k} + D_k) - \bar p_1\bar p_2 \\
-    &amp;=&amp; \frac{1}{K} \sum_{k=1}^K (p_{1k}p_{2k} - \bar p_1\bar p_2) + \bar D \\
-    &amp;=&amp; \mbox{Cov}(p_1, p_2) + \bar D \quad ,\end{aligned}\]</span> where <span class="math inline">\(\mbox{Cov}(p_1, p_2)\)</span> is the covariance in allele frequencies across populations and <span class="math inline">\(\bar D\)</span> is the mean within-population gametic disequilibrium. Suppose <span class="math inline">\(D_i = 0\)</span> for all subpopulations. Then <span class="math inline">\(\bar D
-= 0\)</span>, too (obviously). But that means that <span class="math display">\[\begin{aligned}
-D_t &amp;=&amp; \hbox{Cov}(p_1, p_2) \quad .\end{aligned}\]</span> So if allele frequencies covary across populations, i.e., <span class="math inline">\(\mbox{Cov}(p_1, p_2) \ne 0\)</span>, then there will be non-random association of alleles into gametes in the sample, i.e., <span class="math inline">\(D_t \ne 0\)</span>, even if there is random association alleles into gametes within each population.<a href="#fn18" class="footnote-ref" id="fnref18" role="doc-noteref"><sup>18</sup></a></p>
-<p>Returning to the example in Table <a href="#table:d-structure" data-reference-type="ref" data-reference="table:d-structure">1</a> <span class="math display">\[\begin{aligned}
-\mbox{Cov}(p_1, p_2) &amp;=&amp; 0.5(0.6-0.65)(0.4-0.3) + 0.5(0.7-0.65)(0.2-0.3) \\
+    &amp;=&amp; \frac{1}{K} \sum_{k=1}^K (p_{1k}p_{2k} + D_k) - \bar
+p_1\bar p_2 \\
+    &amp;=&amp; \frac{1}{K} \sum_{k=1}^K (p_{1k}p_{2k} - \bar p_1\bar
+p_2) + \bar D \\
+    &amp;=&amp; \mbox{Cov}(p_1, p_2) + \bar D \quad ,
+\end{aligned}\]</span> where <span class="math inline">\(\mbox{Cov}(p_1,
+p_2)\)</span> is the covariance in allele frequencies across populations
+and <span class="math inline">\(\bar D\)</span> is the mean
+within-population gametic disequilibrium. Suppose <span
+class="math inline">\(D_i = 0\)</span> for all subpopulations. Then
+<span class="math inline">\(\bar D
+= 0\)</span>, too (obviously). But that means that <span
+class="math display">\[\begin{aligned}
+D_t &amp;=&amp; \hbox{Cov}(p_1, p_2) \quad .
+\end{aligned}\]</span> So if allele frequencies covary across
+populations, i.e., <span class="math inline">\(\mbox{Cov}(p_1, p_2) \ne
+0\)</span>, then there will be non-random association of alleles into
+gametes in the sample, i.e., <span class="math inline">\(D_t \ne
+0\)</span>, even if there is random association alleles into gametes
+within each population.<a href="#fn19" class="footnote-ref" id="fnref19"
+role="doc-noteref"><sup>19</sup></a></p>
+<p>Returning to the example in Table <a href="#table:d-structure"
+data-reference-type="ref" data-reference="table:d-structure">1</a> <span
+class="math display">\[\begin{aligned}
+\mbox{Cov}(p_1, p_2) &amp;=&amp; 0.5(0.6-0.65)(0.4-0.3) +
+0.5(0.7-0.65)(0.2-0.3) \\
                      &amp;=&amp; -0.005 \\
 \bar x_{11}          &amp;=&amp; (0.65)(0.30) - 0.005 \\
                      &amp;=&amp; 0.19 \\
@@ -215,102 +559,171 @@ D_t &amp;=&amp; \hbox{Cov}(p_1, p_2) \quad .\end{aligned}\]</span> So if allele 
 \bar x_{21}          &amp;=&amp; (0.35)(0.30) + 0.005 \\
                      &amp;=&amp; 0.11 \\
 \bar x_{22}          &amp;=&amp; (0.35)(0.70) - 0.005 \\
-                     &amp;=&amp; 0.24 \quad .\end{aligned}\]</span></p>
-<h1 class="unnumbered" id="appendix-transmission-genetics-with-two-loci">Appendix: Transmission genetics with two loci</h1>
-<p>I’m going to construct a reduced version of a mating table to see how gamete frequencies change from one generation to the next. There are ten different two-locus genotypes (if we distinguish coupling, <span class="math inline">\(A_1B_1/A_2B_2\)</span>, from repulsion, <span class="math inline">\(A_1B_2/A_2B_1\)</span>, heterozygotes as we must for these purposes). So a full mating table would have 100 rows. If we assume all the conditions necessary for genotypes to be in Hardy-Weinberg proportions apply, however, we can get away with just calculating the frequency with which any one genotype will produce a particular gamete.<a href="#fn19" class="footnote-ref" id="fnref19" role="doc-noteref"><sup>19</sup></a></p>
+                     &amp;=&amp; 0.24 \quad .
+\end{aligned}\]</span></p>
+<h2 class="unnumbered" id="implications-for-gwas">Implications for
+GWAS</h2>
+<p>For GWAS this means that we have to be very careful to account for
+<span><em>any</em></span> population structure within our data if we
+want to interpret a <span><em>statistical</em></span> association
+between a locus and a trait as indicating that the locus is
+<span><em>physically</em></span> associated with a locus influencing
+expression of the trait. In the example you’ll work through in lab we do
+this by including an estimate of the genetic relatedness of individuals
+in our sample in the regression model. Specifically, in this regression
+equation <span class="math display">\[y_i = x_{ij}\beta_j + \phi_i +
+\epsilon_{ij}\]</span> <span class="math inline">\(\epsilon\)</span> is
+pure random error with a mean of 0 and a variance equal to the
+environmental variance. <span class="math inline">\(\phi_i\)</span> is a
+correlated error in which the residual for individual <span
+class="math inline">\(i\)</span> is correlated with the residual for
+individual <span class="math inline">\(j\)</span> and the degree of
+correlation is related to the degree of relationship between them.</p>
+<h1 class="unnumbered"
+id="appendix-transmission-genetics-with-two-loci">Appendix: Transmission
+genetics with two loci</h1>
+<p>I’m going to construct a reduced version of a mating table to see how
+gamete frequencies change from one generation to the next. There are ten
+different two-locus genotypes (if we distinguish coupling, <span
+class="math inline">\(A_1B_1/A_2B_2\)</span>, from repulsion, <span
+class="math inline">\(A_1B_2/A_2B_1\)</span>, heterozygotes as we must
+for these purposes). So a full mating table would have 100 rows. If we
+assume all the conditions necessary for genotypes to be in
+Hardy-Weinberg proportions apply, however, we can get away with just
+calculating the frequency with which any one genotype will produce a
+particular gamete.<a href="#fn20" class="footnote-ref" id="fnref20"
+role="doc-noteref"><sup>20</sup></a></p>
+<div class="center">
 <table>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"></td>
 <td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
+<td colspan="4" style="text-align: center;">Gametes</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Genotype</td>
 <td style="text-align: center;">Frequency</td>
-<td style="text-align: center;"><span class="math inline">\(A_1B_1\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(A_1B_2\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(A_2B_1\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(A_2B_2\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(A_1B_1\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(A_1B_2\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(A_2B_1\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(A_2B_2\)</span></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><span class="math inline">\(A_1B_1/A_1B_1\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(x_{11}^2\)</span></td>
+<td style="text-align: left;"><span
+class="math inline">\(A_1B_1/A_1B_1\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(x_{11}^2\)</span></td>
 <td style="text-align: center;">1</td>
 <td style="text-align: center;">0</td>
 <td style="text-align: center;">0</td>
 <td style="text-align: center;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><span class="math inline">\(A_1B_1/A_1B_2\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(2x_{11}x_{12}\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(\frac{1}{2}\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(\frac{1}{2}\)</span></td>
+<td style="text-align: left;"><span
+class="math inline">\(A_1B_1/A_1B_2\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(2x_{11}x_{12}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(\frac{1}{2}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(\frac{1}{2}\)</span></td>
 <td style="text-align: center;">0</td>
 <td style="text-align: center;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><span class="math inline">\(A_1B_1/A_2B_1\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(2x_{11}x_{21}\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(\frac{1}{2}\)</span></td>
+<td style="text-align: left;"><span
+class="math inline">\(A_1B_1/A_2B_1\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(2x_{11}x_{21}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(\frac{1}{2}\)</span></td>
 <td style="text-align: center;">0</td>
-<td style="text-align: center;"><span class="math inline">\(\frac{1}{2}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(\frac{1}{2}\)</span></td>
 <td style="text-align: center;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><span class="math inline">\(A_1B_1/A_2B_2\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(2x_{11}x_{22}\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(\frac{1-r}{2}\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(\frac{r}{2}\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(\frac{r}{2}\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(\frac{1-r}{2}\)</span></td>
+<td style="text-align: left;"><span
+class="math inline">\(A_1B_1/A_2B_2\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(2x_{11}x_{22}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(\frac{1-r}{2}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(\frac{r}{2}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(\frac{r}{2}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(\frac{1-r}{2}\)</span></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><span class="math inline">\(A_1B_2/A_1B_2\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(x_{12}^2\)</span></td>
+<td style="text-align: left;"><span
+class="math inline">\(A_1B_2/A_1B_2\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(x_{12}^2\)</span></td>
 <td style="text-align: center;">0</td>
 <td style="text-align: center;">1</td>
 <td style="text-align: center;">0</td>
 <td style="text-align: center;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><span class="math inline">\(A_1B_2/A_2B_1\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(2x_{12}x_{21}\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(\frac{r}{2}\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(\frac{1-r}{2}\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(\frac{1-r}{2}\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(\frac{r}{2}\)</span></td>
+<td style="text-align: left;"><span
+class="math inline">\(A_1B_2/A_2B_1\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(2x_{12}x_{21}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(\frac{r}{2}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(\frac{1-r}{2}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(\frac{1-r}{2}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(\frac{r}{2}\)</span></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><span class="math inline">\(A_1B_2/A_2B_2\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(2x_{12}x_{22}\)</span></td>
+<td style="text-align: left;"><span
+class="math inline">\(A_1B_2/A_2B_2\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(2x_{12}x_{22}\)</span></td>
 <td style="text-align: center;">0</td>
-<td style="text-align: center;"><span class="math inline">\(\frac{1}{2}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(\frac{1}{2}\)</span></td>
 <td style="text-align: center;">0</td>
-<td style="text-align: center;"><span class="math inline">\(\frac{1}{2}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(\frac{1}{2}\)</span></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><span class="math inline">\(A_2B_1/A_2B_1\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(x_{21}^2\)</span></td>
+<td style="text-align: left;"><span
+class="math inline">\(A_2B_1/A_2B_1\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(x_{21}^2\)</span></td>
 <td style="text-align: center;">0</td>
 <td style="text-align: center;">0</td>
 <td style="text-align: center;">1</td>
 <td style="text-align: center;">0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><span class="math inline">\(A_2B_1/A_2B_2\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(2x_{21}x_{22}\)</span></td>
+<td style="text-align: left;"><span
+class="math inline">\(A_2B_1/A_2B_2\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(2x_{21}x_{22}\)</span></td>
 <td style="text-align: center;">0</td>
 <td style="text-align: center;">0</td>
-<td style="text-align: center;"><span class="math inline">\(\frac{1}{2}\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(\frac{1}{2}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(\frac{1}{2}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(\frac{1}{2}\)</span></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><span class="math inline">\(A_2B_2/A_2B_2\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(x_{22}^2\)</span></td>
+<td style="text-align: left;"><span
+class="math inline">\(A_2B_2/A_2B_2\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(x_{22}^2\)</span></td>
 <td style="text-align: center;">0</td>
 <td style="text-align: center;">0</td>
 <td style="text-align: center;">0</td>
@@ -318,102 +731,251 @@ D_t &amp;=&amp; \hbox{Cov}(p_1, p_2) \quad .\end{aligned}\]</span> So if allele 
 </tr>
 </tbody>
 </table>
-<h2 class="unnumbered" id="where-do-frac1-r2-and-fracr2-come-from">Where do <span class="math inline">\(\frac{1-r}{2}\)</span> and <span class="math inline">\(\frac{r}{2}\)</span> come from?</h2>
-<p>Consider the coupling double heterozygote, <span class="math inline">\(A_1B_1/A_2B_2\)</span>. When recombination doesn’t happen, <span class="math inline">\(A_1B_1\)</span> and <span class="math inline">\(A_2B_2\)</span> occur in equal frequency (<span class="math inline">\(1/2\)</span>), and <span class="math inline">\(A_1B_2\)</span> and <span class="math inline">\(A_2B_1\)</span> don’t occur at all. When recombination happens, the four possible gametes occur in equal frequency (<span class="math inline">\(1/4\)</span>). So the recombination frequency,<a href="#fn20" class="footnote-ref" id="fnref20" role="doc-noteref"><sup>20</sup></a> <span class="math inline">\(r\)</span>, is half the crossover frequency,<a href="#fn21" class="footnote-ref" id="fnref21" role="doc-noteref"><sup>21</sup></a> <span class="math inline">\(c\)</span>, i.e., <span class="math inline">\(r = c/2\)</span>. Now the results of crossing over can be expressed in this table:</p>
+</div>
+<h2 class="unnumbered" id="where-do-frac1-r2-and-fracr2-come-from">Where
+do <span class="math inline">\(\frac{1-r}{2}\)</span> and <span
+class="math inline">\(\frac{r}{2}\)</span> come from?</h2>
+<p>Consider the coupling double heterozygote, <span
+class="math inline">\(A_1B_1/A_2B_2\)</span>. When recombination doesn’t
+happen, <span class="math inline">\(A_1B_1\)</span> and <span
+class="math inline">\(A_2B_2\)</span> occur in equal frequency (<span
+class="math inline">\(1/2\)</span>), and <span
+class="math inline">\(A_1B_2\)</span> and <span
+class="math inline">\(A_2B_1\)</span> don’t occur at all. When
+recombination happens, the four possible gametes occur in equal
+frequency (<span class="math inline">\(1/4\)</span>). So the
+recombination frequency,<a href="#fn21" class="footnote-ref"
+id="fnref21" role="doc-noteref"><sup>21</sup></a> <span
+class="math inline">\(r\)</span>, is half the crossover frequency,<a
+href="#fn22" class="footnote-ref" id="fnref22"
+role="doc-noteref"><sup>22</sup></a> <span
+class="math inline">\(c\)</span>, i.e., <span class="math inline">\(r =
+c/2\)</span>. Now the results of crossing over can be expressed in this
+table:</p>
+<div class="center">
 <table>
 <thead>
 <tr class="header">
 <th style="text-align: center;">Frequency</th>
-<th style="text-align: center;"><span class="math inline">\(A_1B_1\)</span></th>
-<th style="text-align: center;"><span class="math inline">\(A_1B_2\)</span></th>
-<th style="text-align: center;"><span class="math inline">\(A_2B_1\)</span></th>
-<th style="text-align: center;"><span class="math inline">\(A_2B_2\)</span></th>
+<th style="text-align: center;"><span
+class="math inline">\(A_1B_1\)</span></th>
+<th style="text-align: center;"><span
+class="math inline">\(A_1B_2\)</span></th>
+<th style="text-align: center;"><span
+class="math inline">\(A_2B_1\)</span></th>
+<th style="text-align: center;"><span
+class="math inline">\(A_2B_2\)</span></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: center;"><span class="math inline">\(1-c\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(\frac{1}{2}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(1-c\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(\frac{1}{2}\)</span></td>
 <td style="text-align: center;">0</td>
 <td style="text-align: center;">0</td>
-<td style="text-align: center;"><span class="math inline">\(\frac{1}{2}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(\frac{1}{2}\)</span></td>
 </tr>
 <tr class="even">
-<td style="text-align: center;"><span class="math inline">\(c\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(\frac{1}{4}\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(\frac{1}{4}\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(\frac{1}{4}\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(\frac{1}{4}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(c\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(\frac{1}{4}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(\frac{1}{4}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(\frac{1}{4}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(\frac{1}{4}\)</span></td>
 </tr>
 <tr class="odd">
 <td style="text-align: center;">Total</td>
-<td style="text-align: center;"><span class="math inline">\(\frac{2-c}{4}\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(\frac{c}{4}\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(\frac{c}{4}\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(\frac{2-c}{4}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(\frac{2-c}{4}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(\frac{c}{4}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(\frac{c}{4}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(\frac{2-c}{4}\)</span></td>
 </tr>
 <tr class="even">
 <td style="text-align: center;"></td>
-<td style="text-align: center;"><span class="math inline">\(\frac{1-r}{2}\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(\frac{r}{2}\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(\frac{r}{2}\)</span></td>
-<td style="text-align: center;"><span class="math inline">\(\frac{1-r}{2}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(\frac{1-r}{2}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(\frac{r}{2}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(\frac{r}{2}\)</span></td>
+<td style="text-align: center;"><span
+class="math inline">\(\frac{1-r}{2}\)</span></td>
 </tr>
 </tbody>
 </table>
-<h2 class="unnumbered" id="changes-in-gamete-frequency">Changes in gamete frequency</h2>
-<p>We can use the mating table table as we did earlier to calculate the frequency of each gamete in the next generation. Specifically, <span class="math display">\[\begin{aligned}
-x_{11}&#39; &amp;=&amp; x_{11}^2 + x_{11}x_{12} + x_{11}x_{21} + (1-r)x_{11}x_{22}
+</div>
+<h2 class="unnumbered" id="changes-in-gamete-frequency">Changes in
+gamete frequency</h2>
+<p>We can use the mating table table as we did earlier to calculate the
+frequency of each gamete in the next generation. Specifically, <span
+class="math display">\[\begin{aligned}
+x_{11}&#39; &amp;=&amp; x_{11}^2 + x_{11}x_{12} + x_{11}x_{21} +
+(1-r)x_{11}x_{22}
             + rx_{12}x_{21} \\
         &amp;=&amp; x_{11}(x_{11} + x_{12} + x_{21} + x_{22})
             - r(x_{11}x_{22} - x_{12}x_{21}) \\
         &amp;=&amp; x_{11} - rD \\
 x_{12}&#39; &amp;=&amp; x_{12} + rD \\
 x_{21}&#39; &amp;=&amp; x_{21} + rD \\
-x_{22}&#39; &amp;=&amp; x_{22} - rD \quad .\end{aligned}\]</span></p>
-<h2 class="unnumbered" id="no-changes-in-allele-frequency">No changes in allele frequency</h2>
-<p>We can also calculate the frequencies of <span class="math inline">\(A_1\)</span> and <span class="math inline">\(B_1\)</span> after this whole process: <span class="math display">\[\begin{aligned}
+x_{22}&#39; &amp;=&amp; x_{22} - rD \quad .
+\end{aligned}\]</span></p>
+<h2 class="unnumbered" id="no-changes-in-allele-frequency">No changes in
+allele frequency</h2>
+<p>We can also calculate the frequencies of <span
+class="math inline">\(A_1\)</span> and <span
+class="math inline">\(B_1\)</span> after this whole process: <span
+class="math display">\[\begin{aligned}
 p_1&#39; &amp;=&amp; x_{11}&#39; + x_{12}&#39; \\
      &amp;=&amp; x_{11} - rD + x_{12} + rD \\
      &amp;=&amp; x_{11} + x_{12} \\
      &amp;=&amp; p_1 \\
-p_2&#39; &amp;=&amp; p_2 \quad .\end{aligned}\]</span> Since each locus is subject to all of the conditions necessary for Hardy-Weinberg to apply at a single locus, allele frequencies don’t change at either locus. Furthermore, genotype frequencies at each locus will be in Hardy-Weinberg proportions. But the two-locus gamete frequencies change from one generation to the next.</p>
-<h2 class="unnumbered" id="changes-in-d">Changes in <span class="math inline">\(D\)</span></h2>
-<p>You can probably figure out that <span class="math inline">\(D\)</span> will eventually become zero, and you can probably even guess that how quickly it becomes zero depends on how frequent recombination is. But I’d be astonished if you could guess exactly how rapidly <span class="math inline">\(D\)</span> decays as a function of <span class="math inline">\(r\)</span>. It takes a little more algebra, but we can say precisely how rapid the decay will be. <span class="math display">\[\begin{aligned}
+p_2&#39; &amp;=&amp; p_2 \quad .
+\end{aligned}\]</span> Since each locus is subject to all of the
+conditions necessary for Hardy-Weinberg to apply at a single locus,
+allele frequencies don’t change at either locus. Furthermore, genotype
+frequencies at each locus will be in Hardy-Weinberg proportions. But the
+two-locus gamete frequencies change from one generation to the next.</p>
+<h2 class="unnumbered" id="changes-in-d">Changes in <span
+class="math inline">\(D\)</span></h2>
+<p>You can probably figure out that <span
+class="math inline">\(D\)</span> will eventually become zero, and you
+can probably even guess that how quickly it becomes zero depends on how
+frequent recombination is. But I’d be astonished if you could guess
+exactly how rapidly <span class="math inline">\(D\)</span> decays as a
+function of <span class="math inline">\(r\)</span>. It takes a little
+more algebra, but we can say precisely how rapid the decay will be.
+<span class="math display">\[\begin{aligned}
 D&#39; &amp;=&amp; x_{11}&#39;x_{22}&#39; - x_{12}&#39;x_{21}&#39; \\
-   &amp;=&amp; (x_{11} - rD)(x_{22} - rD) - (x_{12} + rD)(x_{21} + rD) \\
+   &amp;=&amp; (x_{11} - rD)(x_{22} - rD) - (x_{12} + rD)(x_{21} + rD)
+\\
    &amp;=&amp; x_{11}x_{22} - rD(x_{11} + x_{12}) + r^2D^2
        - (x_{12}x_{21} + rD(x_{12} + x_{21}) + r^2D^2) \\
-   &amp;=&amp; x_{11}x_{22} - x_{12}x_{21} - rD(x_{11} + x_{12} + x_{21} + x_{22}) \\
+   &amp;=&amp; x_{11}x_{22} - x_{12}x_{21} - rD(x_{11} + x_{12} + x_{21}
++ x_{22}) \\
    &amp;=&amp; D - rD \\
-   &amp;=&amp; D(1-r)\end{aligned}\]</span> Notice that even if loci are unlinked, meaning that <span class="math inline">\(r = 1/2\)</span>, <span class="math inline">\(D\)</span> does not reach 0 immediately. That state is reached only asymptotically. The two-locus analogue of Hardy-Weinberg is that gamete frequencies will <span><em>eventually</em></span> be equal to the product of their constituent allele frequencies.</p>
-<h1 class="unnumbered" id="creative-commons-license">Creative Commons License</h1>
-<p>These notes are licensed under the Creative Commons Attribution License. To view a copy of this license, visit https://creativecommons.org/licenses/by/4.0/ or send a letter to Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305, USA.</p>
-<section class="footnotes" role="doc-endnotes">
+   &amp;=&amp; D(1-r)
+\end{aligned}\]</span> Notice that even if loci are unlinked, meaning
+that <span class="math inline">\(r = 1/2\)</span>, <span
+class="math inline">\(D\)</span> does not reach 0 immediately. That
+state is reached only asymptotically. The two-locus analogue of
+Hardy-Weinberg is that gamete frequencies will
+<span><em>eventually</em></span> be equal to the product of their
+constituent allele frequencies.</p>
+<h1 class="unnumbered" id="creative-commons-license">Creative Commons
+License</h1>
+<p>These notes are licensed under the Creative Commons Attribution
+License. To view a copy of this license, visit or send a letter to
+Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305,
+USA.</p>
+<aside id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1" role="doc-endnote"><p>Corresponding to whether the body weight or leaf width is large or small.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2" role="doc-endnote"><p>Since these are inbred lines, I can assume that they are homozygous at the marker loci I’ve chosen.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3" role="doc-endnote"><p>Note: You could also backcross to either or both of the parental inbred lines. Producing an <span class="math inline">\(F_2\)</span>, however, allows you to estimate both the additive and dominance effects associated with each QTL.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4" role="doc-endnote"><p>I forgot to mention another supposition. I am supposing that you either have already constructed a genetic map using your markers, or that you will construct a genetic map using segregation in the <span class="math inline">\(F_2\)</span> before you start looking for QTL loci.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5" role="doc-endnote"><p>To keep things simple I’m assuming that we’re dealing with biallelic loci, e.g., SNPs, and we can then order the genotypes as 0, 1, 2 depending on how many copies of the most frequent allele they carry. So <span class="math inline">\(x_{ij}\)</span> is the number of copies of <span class="math inline">\(A_1\)</span> individual <span class="math inline">\(i\)</span> carries at locus <span class="math inline">\(j\)</span>.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6" role="doc-endnote"><p>We can generalize the regression to allow us to estimate dominance effects too, but doing so only complicates the algebra without providing any additional insight.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn7" role="doc-endnote"><p>As it happens, my father has been taking warfarin for nearly 20 years.<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn8" role="doc-endnote"><p>They log transformed warfarin dose (measured in milligrams per day) before the analysis.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn9" role="doc-endnote"><p>If you remembera a little human physiology, vitamin K may ring a bell. “The name vitamin K comes from the German word ‘Koagulationsvitamin.’” (<a href="https://www.webmd.com/vitamins/ai/ingredientmono-983/vitamin-k">https://www.webmd.com/vitamins/ai/ingredientmono-983/vitamin-k</a>, accessed 19 January 2019). Vitamin K plays an important role in blood clotting, so it makes sense that a locus encoding an enzyme related to vitamin K metabolism would have a strong association with the dose of warfarin needed to safely reduce blood clotting.<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn10" role="doc-endnote"><p>With the caveats about interpreting the association that I mentioned earlier.<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn11" role="doc-endnote"><p>Please note that I’m using the phrase “have the disease” merely because it’s convenient. Most of the applications of this approach have involved investigations of human disease, but the approach can be used for <span><em>any</em></span> binary phenotype, in which case the phrase “have the disease” can be replaced with the phrase “have the phenotype of interest.”<a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn12" role="doc-endnote"><p>Just as with GWAS, this is a reasonable assumption, since we are probably dealing with SNP markers.<a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn13" role="doc-endnote"><p><span><strong>Note</strong></span>: We’ll go over only a small part of this section in lecture. I’m providing all the details here so you can find them in the future if you ever need them.<a href="#fnref13" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn14" role="doc-endnote"><p>Think of drawing the Punnett square for a dihybrid cross, if you want.<a href="#fnref14" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn15" role="doc-endnote"><p>You will usually see <span class="math inline">\(D\)</span> referred to as the linkage disequilibrium. I think that’s misleading. Alleles at different loci may be non-randomly associated even when they are not physically linked.<a href="#fnref15" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn16" role="doc-endnote"><p>OK. You can say it. A <span> <strong><em>very</em></strong></span> long way.<a href="#fnref16" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn17" role="doc-endnote"><p>Think about what this means for GWAS or case-control studies in human populations.<a href="#fnref17" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn18" role="doc-endnote"><p>Well, duh! Covariation of allele frequencies across populations means that alleles are non-randomly associated across populations. What other result could you possibly expect?<a href="#fnref18" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn19" role="doc-endnote"><p>We’re assuming random union of <span> <em>gametes</em></span> rather than random mating of <span> <em>genotypes</em></span>.<a href="#fnref19" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn20" role="doc-endnote"><p>The frequency of recombinant gametes in double heterozygotes.<a href="#fnref20" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn21" role="doc-endnote"><p>The frequency of cytological crossover during meiosis.<a href="#fnref21" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>Corresponding to whether the body weight or leaf width
+is large or small.<a href="#fnref1" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Since these are inbred lines, I can assume that they are
+homozygous at the marker loci I’ve chosen.<a href="#fnref2"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Note: You could also backcross to either or both of the
+parental inbred lines. Producing an <span
+class="math inline">\(F_2\)</span>, however, allows you to estimate both
+the additive and dominance effects associated with each QTL.<a
+href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>I forgot to mention another supposition. I am supposing
+that you either have already constructed a genetic map using your
+markers, or that you will construct a genetic map using segregation in
+the <span class="math inline">\(F_2\)</span> before you start looking
+for QTL loci.<a href="#fnref4" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>To keep things simple I’m assuming that we’re dealing
+with biallelic loci, e.g., SNPs, and we can then order the genotypes as
+0, 1, 2 depending on how many copies of the most frequent allele they
+carry. So <span class="math inline">\(x_{ij}\)</span> is the number of
+copies of <span class="math inline">\(A_1\)</span> individual <span
+class="math inline">\(i\)</span> carries at locus <span
+class="math inline">\(j\)</span>.<a href="#fnref5" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>We can generalize the regression to allow us to estimate
+dominance effects too, but doing so only complicates the algebra without
+providing any additional insight.<a href="#fnref6" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>As it happens, my father took warfarin for more than 20
+years before his death.<a href="#fnref7" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p>They log transformed warfarin dose (measured in
+milligrams per day) before the analysis.<a href="#fnref8"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p>If you remembera a little human physiology, vitamin K
+may ring a bell. “The name vitamin K comes from the German word
+‘Koagulationsvitamin.’” (<a
+href="https://www.webmd.com/vitamins/ai/ingredientmono-983/vitamin-k"
+class="uri">https://www.webmd.com/vitamins/ai/ingredientmono-983/vitamin-k</a>,
+accessed 19 January 2019). Vitamin K plays an important role in blood
+clotting, so it makes sense that a locus encoding an enzyme related to
+vitamin K metabolism would have a strong association with the dose of
+warfarin needed to safely reduce blood clotting.<a href="#fnref9"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10"><p>With the caveats about interpreting the association
+that I mentioned earlier.<a href="#fnref10" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn11"><p>Please note that I’m using the phrase “have the
+disease” merely because it’s convenient. Most of the applications of
+this approach have involved investigations of human disease, but the
+approach can be used for <span><em>any</em></span> binary phenotype, in
+which case the phrase “have the disease” can be replaced with the phrase
+“have the phenotype of interest.”<a href="#fnref11"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn12"><p>Just as with GWAS, this is a reasonable assumption,
+since we are probably dealing with SNP markers.<a href="#fnref12"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn13"><p><span><strong>Note</strong></span>: We’ll go over only
+a small part of this section in lecture. I’m providing all the details
+here so you can find them in the future if you ever need them.<a
+href="#fnref13" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn14"><p>Think of drawing the Punnett square for a dihybrid
+cross, if you want.<a href="#fnref14" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn15"><p>You will usually see <span
+class="math inline">\(D\)</span> referred to as the linkage
+disequilibrium. I think that’s misleading. Alleles at different loci may
+be non-randomly associated even when they are not physically linked.<a
+href="#fnref15" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn16"><p>OK. You can say it. A <span>
+<strong><em>very</em></strong></span> long way.<a href="#fnref16"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn17"><p>I haen’t told you why we need to account for population
+structure, but you’ll see in just a moment.<a href="#fnref17"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn18"><p>Think about what this means for GWAS or case-control
+studies in human populations.<a href="#fnref18" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn19"><p>Well, duh! Covariation of allele frequencies across
+populations means that alleles are non-randomly associated across
+populations. What other result could you possibly expect?<a
+href="#fnref19" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn20"><p>We’re assuming random union of <span>
+<em>gametes</em></span> rather than random mating of <span>
+<em>genotypes</em></span>.<a href="#fnref20" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn21"><p>The frequency of recombinant gametes in double
+heterozygotes.<a href="#fnref21" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn22"><p>The frequency of cytological crossover during
+meiosis.<a href="#fnref22" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
 </ol>
-</section>
+</aside>
 </body>
 </html>
