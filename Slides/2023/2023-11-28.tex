@@ -351,6 +351,32 @@ wing      & -0.019$^{**}$ & -0.43$^{**}$ & -16.6 $\pm$ 4.0$^{**}$ & -0.74 $\pm$
 }
 
 \myslide{
+  \heading{Warfarin resistance}
+
+  \vfill
+\begin{center}
+\includegraphics[width=0.9\textwidth]{GWAS-warfarin.eps}
+\end{center}
+\vfill
+25\% of variance in dose associated with {\it VVKORC1}
+}
+
+\myslide{
+  \heading{Significance vs. effect size}
+
+  At least 400 loci associated with differences in height in
+  humans. How much effect can any one locus have?
+}
+
+\myslide{
+  \heading{Significance vs. effect size}
+
+  \begin{center}
+    \includegraphics[height = 0.9\textheight]{GWAS-small-effect.eps}
+  \end{center}
+}
+
+\myslide{
   \heading{Two-locus population genetics}
 \begin{center}
 \begin{tabular}{lcccc}
@@ -475,8 +501,8 @@ D_t &=& \bar x_{11} - \bar p_1\bar p_2 \\
   \heading{Association mapping}
 
   \noindent Better approach. Regression of phenotype on genotype with
-  a random effect reflecting genetic similarity at markers not
-  included in the analysis
+  a random effect reflecting genetic similarity estimated from genetic
+  markers 
 
   \[
     y_i^{(k)} = x_{ij}\beta_j + \phi^{(k)} + \epsilon_{ij}
@@ -484,6 +510,10 @@ D_t &=& \bar x_{11} - \bar p_1\bar p_2 \\
 
   In general $\phi^{(k)}$ may reflect a general measure of
   relatedness, usually estimated from SNPs.
+
+  But even with a measure of relatedness the association between a
+  locus and a phenotype might still reflect population structure, not
+  a causal relationship.
 }
 
 \myslide{
@@ -497,6 +527,9 @@ D_t &=& \bar x_{11} - \bar p_1\bar p_2 \\
   \]
 
   \noindent Use $\sum_j x_{ij}\beta_j$ as a {\it polygenic score}.
+
+  Note: The same caveat about causal interpretation applies here as
+  with causal interpretation of a measure of association.
 }
 
 \myslide{
