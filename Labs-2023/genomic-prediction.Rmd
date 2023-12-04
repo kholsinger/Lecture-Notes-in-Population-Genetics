@@ -87,24 +87,23 @@ mass_w_pop <- brm(formula_string,
                   prior = set_prior(horseshoe(par_ratio = 20/n_loci)),
                   refresh = 0)
 
-summarize_analysis(mass_wo_pop, "Without population effect")
-cat("\n\n")
-summarize_analysis(mass_w_pop, "With population effect")
+summarize_analysis(mass_wo_pop, " Without population effect")
+summarize_analysis(mass_w_pop, "\n\n With population effect")
 ```
-Notice that although the estimates for X34682 and X65887 aren't too different between the two analyses, different loci appear in the output after that. How can we tell which of these is best for prediction? There are two ways in which we can compare the models: (1) proportion of variance they explain, $R^2$ and (2) their ability to predict data that wasn't included in the analysis.
+Notice that although the first four loci are the same in the two analyses, different loci appear in the output after that. How can we tell which of these models is best for prediction? There are two ways in which we can compare the models: (1) proportion of variance they explain, $R^2$ and (2) their ability to predict data that wasn't included in the analysis.
 
-## R^2
+## $R^2$
 
 $R^2$ is the easiest to get.
 
 ```{r}
 R2_wo <- bayes_R2(mass_wo_pop)
 R2_w <- bayes_R2(mass_w_pop)
-cat("R^2 (without pop): ", round(R2_wo[1], 3), "\n", sep = "")
-cat("R^2 (with pop):    ", round(R2_w[1], 3), "\n", sep = "")
+cat("R^2 (without pop): ", round(R2_wo[1], 3), "\n", 
+    "R^2 (with pop):    ", round(R2_w[1], 3), "\n", sep = "")
 ```
 
-The model including population has a slightly higher $R^2$, but it's only a tiny amount higher. 
+The model including population has a slightly lower $R^2$, but it's only a tiny amount lower. 
 
 ## Predicting data that wasn't in the analysis
 
@@ -115,7 +114,7 @@ mass_wo_pop <- add_criterion(mass_wo_pop, "loo")
 mass_w_pop <- add_criterion(mass_w_pop, "loo") 
 ```
 
-Those warning messages mean that we have one observation that is a bit of an outlier. If we follow the advice, the warning messages disappear.
+Those warning messages mean that we have one or two observations that are a bit of an outlier. If we follow the advice, the warning messages disappear.
 
 ```{r}
 mass_wo_pop <- add_criterion(mass_wo_pop, "loo", moment_match = TRUE) 
@@ -128,11 +127,11 @@ Now we can compare the two models.
 loo_compare(mass_wo_pop, mass_w_pop)
 ```
 
-Again, the model that doesn't include population effects performs worse,^[It's elpd is 0.7 units smaller.] but the magnitude of the difference is less than twice the standard error, so the evidence that populations help the prediction is weak. We'll proceed without including population in the predictions.
+Again, the model that doesn't include population effects performs slightly better,^[It's elpd is 0.2 units smaller.] but the magnitude of the difference is less than twice the standard error, so we don't have a good reason to prefer one to the other. We'll proceed without including population in the predictions. Feel free to run through the examples below with population included to see if it makes a difference.
 
 ## Predicting mass
 
-Let's see how well we can predict phenotypes simply by knowing their genotype and the population to which they belong.
+Let's see how well we can predict phenotypes simply by knowing their genotype.
 
 ```{r}
 plot_obs_vs_pred <- function(y, result) {
@@ -152,7 +151,7 @@ plot_obs_vs_pred <- function(y, result) {
 plot_obs_vs_pred(standardize(dat$Mass), mass_wo_pop)
 ```
 
-The dashed line is the 1:1 line for a perfect fit. The predictions look fairly reasonable.
+The dashed line is the 1:1 line for a perfect fit. The predictions look fairly reasonable.^[There is one outlier, which is precisely what we'd expect from the `loo()` analysis.]
 
 ## PD
 
@@ -171,7 +170,6 @@ pd <- brm(formula_string,
           refresh = 0)
 summarize_analysis(pd, "")
 plot_obs_vs_pred(standardize(dat$PD), pd)
-cat("\n\n")
 ```
 
 
@@ -180,7 +178,7 @@ cat("\n\n")
 ```{r message = FALSE, warning = FALSE}
 ## construct the model formula for PD
 ##
-formula_string <- paste("standardize(PD)", paste(colnames(genos), collapse = " + "), sep = " ~ ")
+formula_string <- paste("standardize(TDT)", paste(colnames(genos), collapse = " + "), sep = " ~ ")
 formula_string <- paste(formula_string, "+ (1|gr(sample, cov = A))")
 ## run the model
 ##
@@ -190,7 +188,7 @@ tdt <- brm(formula_string,
            family = gaussian(),
            prior = set_prior(horseshoe(par_ratio = 20/n_loci)),
            refresh = 0)
-summarize_analysis(pd, "")
+summarize_analysis(tdt, "")
 plot_obs_vs_pred(standardize(dat$TDT), tdt)
 ```
 
@@ -224,4 +222,4 @@ plot_grid(mass_pd, mass_tdt, tdt_pd,
           nrows = 2)
 ```
 
-The association between genomic values for Mass and either PD or TDT is pretty weak, suggesting that if selection were to lead to a change in body mass it would have little impact on either development time. The genomic values for PD and TDT, on the other hand, are strongly associated, suggesting that if selection were to lead to a change in one of these traits, the other would follow.
+The association among genomic values fairly weak. Just eyeballing the relationships, it appears that selection on body mass (Mass) might lead to a change in total development time (TDT), because of the positive association between the genomic values. 
